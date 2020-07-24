@@ -34,21 +34,39 @@ export class WorkspaceAadAdmins {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceAadAdminsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceAadAdminsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspaceAadAdminsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>): void;
-  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>, callback?: msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>): Promise<Models.WorkspaceAadAdminsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>,
+    callback?: msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>
+  ): Promise<Models.WorkspaceAadAdminsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class WorkspaceAadAdmins {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WorkspaceAadAdminsGetResponse>;
+      callback
+    ) as Promise<Models.WorkspaceAadAdminsGetResponse>;
   }
 
   /**
@@ -67,9 +86,20 @@ export class WorkspaceAadAdmins {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceAadAdminsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, aadAdminInfo: Models.WorkspaceAadAdminInfo, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceAadAdminsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,workspaceName,aadAdminInfo,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WorkspaceAadAdminsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    aadAdminInfo: Models.WorkspaceAadAdminInfo,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspaceAadAdminsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      workspaceName,
+      aadAdminInfo,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.WorkspaceAadAdminsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -79,9 +109,14 @@ export class WorkspaceAadAdmins {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,workspaceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, workspaceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -92,7 +127,12 @@ export class WorkspaceAadAdmins {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, aadAdminInfo: Models.WorkspaceAadAdminInfo, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    aadAdminInfo: Models.WorkspaceAadAdminInfo,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -101,7 +141,8 @@ export class WorkspaceAadAdmins {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -111,7 +152,11 @@ export class WorkspaceAadAdmins {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -119,7 +164,8 @@ export class WorkspaceAadAdmins {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -127,18 +173,15 @@ export class WorkspaceAadAdmins {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkspaceAadAdminInfo
@@ -152,18 +195,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "aadAdminInfo",
     mapper: {
@@ -187,18 +227,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/administrators/activeDirectory",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

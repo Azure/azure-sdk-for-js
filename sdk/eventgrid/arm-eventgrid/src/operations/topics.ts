@@ -35,21 +35,39 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsGetResponse>
    */
-  get(resourceGroupName: string, topicName: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicsGetResponse>;
+  get(
+    resourceGroupName: string,
+    topicName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopicsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param topicName Name of the topic.
    * @param callback The callback
    */
-  get(resourceGroupName: string, topicName: string, callback: msRest.ServiceCallback<Models.Topic>): void;
+  get(
+    resourceGroupName: string,
+    topicName: string,
+    callback: msRest.ServiceCallback<Models.Topic>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param topicName Name of the topic.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, topicName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Topic>): void;
-  get(resourceGroupName: string, topicName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Topic>, callback?: msRest.ServiceCallback<Models.Topic>): Promise<Models.TopicsGetResponse> {
+  get(
+    resourceGroupName: string,
+    topicName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Topic>
+  ): void;
+  get(
+    resourceGroupName: string,
+    topicName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Topic>,
+    callback?: msRest.ServiceCallback<Models.Topic>
+  ): Promise<Models.TopicsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -57,7 +75,8 @@ export class Topics {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TopicsGetResponse>;
+      callback
+    ) as Promise<Models.TopicsGetResponse>;
   }
 
   /**
@@ -69,9 +88,20 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, topicName: string, topicInfo: Models.Topic, options?: msRest.RequestOptionsBase): Promise<Models.TopicsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,topicName,topicInfo,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TopicsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    topicName: string,
+    topicInfo: Models.Topic,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopicsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      topicName,
+      topicInfo,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.TopicsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -82,9 +112,14 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, topicName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,topicName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    topicName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, topicName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -96,9 +131,18 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsUpdateResponse>
    */
-  update(resourceGroupName: string, topicName: string, topicUpdateParameters: Models.TopicUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.TopicsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,topicName,topicUpdateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TopicsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    topicName: string,
+    topicUpdateParameters: Models.TopicUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopicsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      topicName,
+      topicUpdateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.TopicsUpdateResponse>;
   }
 
   /**
@@ -107,7 +151,9 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListBySubscriptionResponse>
    */
-  listBySubscription(options?: Models.TopicsListBySubscriptionOptionalParams): Promise<Models.TopicsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: Models.TopicsListBySubscriptionOptionalParams
+  ): Promise<Models.TopicsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -116,14 +162,23 @@ export class Topics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: Models.TopicsListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.TopicsListResult>): void;
-  listBySubscription(options?: Models.TopicsListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.TopicsListResult>, callback?: msRest.ServiceCallback<Models.TopicsListResult>): Promise<Models.TopicsListBySubscriptionResponse> {
+  listBySubscription(
+    options: Models.TopicsListBySubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.TopicsListResult>
+  ): void;
+  listBySubscription(
+    options?:
+      | Models.TopicsListBySubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.TopicsListResult>,
+    callback?: msRest.ServiceCallback<Models.TopicsListResult>
+  ): Promise<Models.TopicsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.TopicsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.TopicsListBySubscriptionResponse>;
   }
 
   /**
@@ -133,26 +188,43 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.TopicsListByResourceGroupOptionalParams): Promise<Models.TopicsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.TopicsListByResourceGroupOptionalParams
+  ): Promise<Models.TopicsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.TopicsListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.TopicsListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.TopicsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.TopicsListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.TopicsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.TopicsListResult>, callback?: msRest.ServiceCallback<Models.TopicsListResult>): Promise<Models.TopicsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.TopicsListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.TopicsListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.TopicsListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.TopicsListResult>,
+    callback?: msRest.ServiceCallback<Models.TopicsListResult>
+  ): Promise<Models.TopicsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.TopicsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.TopicsListByResourceGroupResponse>;
   }
 
   /**
@@ -163,21 +235,39 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListSharedAccessKeysResponse>
    */
-  listSharedAccessKeys(resourceGroupName: string, topicName: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicsListSharedAccessKeysResponse>;
+  listSharedAccessKeys(
+    resourceGroupName: string,
+    topicName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopicsListSharedAccessKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param topicName Name of the topic.
    * @param callback The callback
    */
-  listSharedAccessKeys(resourceGroupName: string, topicName: string, callback: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): void;
+  listSharedAccessKeys(
+    resourceGroupName: string,
+    topicName: string,
+    callback: msRest.ServiceCallback<Models.TopicSharedAccessKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param topicName Name of the topic.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSharedAccessKeys(resourceGroupName: string, topicName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): void;
-  listSharedAccessKeys(resourceGroupName: string, topicName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicSharedAccessKeys>, callback?: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): Promise<Models.TopicsListSharedAccessKeysResponse> {
+  listSharedAccessKeys(
+    resourceGroupName: string,
+    topicName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopicSharedAccessKeys>
+  ): void;
+  listSharedAccessKeys(
+    resourceGroupName: string,
+    topicName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicSharedAccessKeys>,
+    callback?: msRest.ServiceCallback<Models.TopicSharedAccessKeys>
+  ): Promise<Models.TopicsListSharedAccessKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +275,8 @@ export class Topics {
         options
       },
       listSharedAccessKeysOperationSpec,
-      callback) as Promise<Models.TopicsListSharedAccessKeysResponse>;
+      callback
+    ) as Promise<Models.TopicsListSharedAccessKeysResponse>;
   }
 
   /**
@@ -197,14 +288,24 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsRegenerateKeyResponse>
    */
-  regenerateKey(resourceGroupName: string, topicName: string, regenerateKeyRequest: Models.TopicRegenerateKeyRequest, options?: msRest.RequestOptionsBase): Promise<Models.TopicsRegenerateKeyResponse>;
+  regenerateKey(
+    resourceGroupName: string,
+    topicName: string,
+    regenerateKeyRequest: Models.TopicRegenerateKeyRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopicsRegenerateKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param topicName Name of the topic.
    * @param regenerateKeyRequest Request body to regenerate key.
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, topicName: string, regenerateKeyRequest: Models.TopicRegenerateKeyRequest, callback: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): void;
+  regenerateKey(
+    resourceGroupName: string,
+    topicName: string,
+    regenerateKeyRequest: Models.TopicRegenerateKeyRequest,
+    callback: msRest.ServiceCallback<Models.TopicSharedAccessKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param topicName Name of the topic.
@@ -212,8 +313,20 @@ export class Topics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, topicName: string, regenerateKeyRequest: Models.TopicRegenerateKeyRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): void;
-  regenerateKey(resourceGroupName: string, topicName: string, regenerateKeyRequest: Models.TopicRegenerateKeyRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicSharedAccessKeys>, callback?: msRest.ServiceCallback<Models.TopicSharedAccessKeys>): Promise<Models.TopicsRegenerateKeyResponse> {
+  regenerateKey(
+    resourceGroupName: string,
+    topicName: string,
+    regenerateKeyRequest: Models.TopicRegenerateKeyRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopicSharedAccessKeys>
+  ): void;
+  regenerateKey(
+    resourceGroupName: string,
+    topicName: string,
+    regenerateKeyRequest: Models.TopicRegenerateKeyRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicSharedAccessKeys>,
+    callback?: msRest.ServiceCallback<Models.TopicSharedAccessKeys>
+  ): Promise<Models.TopicsRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -222,7 +335,8 @@ export class Topics {
         options
       },
       regenerateKeyOperationSpec,
-      callback) as Promise<Models.TopicsRegenerateKeyResponse>;
+      callback
+    ) as Promise<Models.TopicsRegenerateKeyResponse>;
   }
 
   /**
@@ -235,7 +349,13 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListEventTypesResponse>
    */
-  listEventTypes(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicsListEventTypesResponse>;
+  listEventTypes(
+    resourceGroupName: string,
+    providerNamespace: string,
+    resourceTypeName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopicsListEventTypesResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param providerNamespace Namespace of the provider of the topic.
@@ -243,7 +363,13 @@ export class Topics {
    * @param resourceName Name of the topic.
    * @param callback The callback
    */
-  listEventTypes(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, callback: msRest.ServiceCallback<Models.EventTypesListResult>): void;
+  listEventTypes(
+    resourceGroupName: string,
+    providerNamespace: string,
+    resourceTypeName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.EventTypesListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param providerNamespace Namespace of the provider of the topic.
@@ -252,8 +378,22 @@ export class Topics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listEventTypes(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventTypesListResult>): void;
-  listEventTypes(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventTypesListResult>, callback?: msRest.ServiceCallback<Models.EventTypesListResult>): Promise<Models.TopicsListEventTypesResponse> {
+  listEventTypes(
+    resourceGroupName: string,
+    providerNamespace: string,
+    resourceTypeName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventTypesListResult>
+  ): void;
+  listEventTypes(
+    resourceGroupName: string,
+    providerNamespace: string,
+    resourceTypeName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventTypesListResult>,
+    callback?: msRest.ServiceCallback<Models.EventTypesListResult>
+  ): Promise<Models.TopicsListEventTypesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -263,7 +403,8 @@ export class Topics {
         options
       },
       listEventTypesOperationSpec,
-      callback) as Promise<Models.TopicsListEventTypesResponse>;
+      callback
+    ) as Promise<Models.TopicsListEventTypesResponse>;
   }
 
   /**
@@ -275,7 +416,12 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, topicName: string, topicInfo: Models.Topic, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    topicName: string,
+    topicInfo: Models.Topic,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -284,7 +430,8 @@ export class Topics {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -295,7 +442,11 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, topicName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    topicName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -303,7 +454,8 @@ export class Topics {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -315,7 +467,12 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, topicName: string, topicUpdateParameters: Models.TopicUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    topicName: string,
+    topicUpdateParameters: Models.TopicUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -324,7 +481,8 @@ export class Topics {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -334,26 +492,41 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopicsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TopicsListResult>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.TopicsListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopicsListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicsListResult>, callback?: msRest.ServiceCallback<Models.TopicsListResult>): Promise<Models.TopicsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopicsListResult>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicsListResult>,
+    callback?: msRest.ServiceCallback<Models.TopicsListResult>
+  ): Promise<Models.TopicsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.TopicsListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.TopicsListBySubscriptionNextResponse>;
   }
 
   /**
@@ -363,26 +536,41 @@ export class Topics {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopicsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TopicsListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.TopicsListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopicsListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicsListResult>, callback?: msRest.ServiceCallback<Models.TopicsListResult>): Promise<Models.TopicsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopicsListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicsListResult>,
+    callback?: msRest.ServiceCallback<Models.TopicsListResult>
+  ): Promise<Models.TopicsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.TopicsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.TopicsListByResourceGroupNextResponse>;
   }
 }
 
@@ -390,18 +578,11 @@ export class Topics {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.topicName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.topicName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Topic
@@ -416,17 +597,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/topics",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopicsListResult
@@ -440,19 +613,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopicsListResult
@@ -466,18 +631,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listSharedAccessKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}/listKeys",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.topicName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}/listKeys",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.topicName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopicSharedAccessKeys
@@ -491,18 +649,11 @@ const listSharedAccessKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}/regenerateKey",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.topicName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}/regenerateKey",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.topicName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "regenerateKeyRequest",
     mapper: {
@@ -523,7 +674,8 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
 
 const listEventTypesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{providerNamespace}/{resourceTypeName}/{resourceName}/providers/Microsoft.EventGrid/eventTypes",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{providerNamespace}/{resourceTypeName}/{resourceName}/providers/Microsoft.EventGrid/eventTypes",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -531,12 +683,8 @@ const listEventTypesOperationSpec: msRest.OperationSpec = {
     Parameters.resourceTypeName,
     Parameters.resourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventTypesListResult
@@ -550,18 +698,11 @@ const listEventTypesOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.topicName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.topicName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "topicInfo",
     mapper: {
@@ -582,18 +723,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.topicName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.topicName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -606,18 +740,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.topicName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.topicName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "topicUpdateParameters",
     mapper: {
@@ -641,12 +768,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopicsListResult
@@ -662,12 +785,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopicsListResult

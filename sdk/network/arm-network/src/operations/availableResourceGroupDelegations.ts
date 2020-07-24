@@ -33,21 +33,39 @@ export class AvailableResourceGroupDelegations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailableResourceGroupDelegationsListResponse>
    */
-  list(location: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailableResourceGroupDelegationsListResponse>;
+  list(
+    location: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailableResourceGroupDelegationsListResponse>;
   /**
    * @param location The location of the domain name.
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(location: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
+  list(
+    location: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>
+  ): void;
   /**
    * @param location The location of the domain name.
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
-  list(location: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableResourceGroupDelegationsListResponse> {
+  list(
+    location: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>
+  ): void;
+  list(
+    location: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>,
+    callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>
+  ): Promise<Models.AvailableResourceGroupDelegationsListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -55,7 +73,8 @@ export class AvailableResourceGroupDelegations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AvailableResourceGroupDelegationsListResponse>;
+      callback
+    ) as Promise<Models.AvailableResourceGroupDelegationsListResponse>;
   }
 
   /**
@@ -64,26 +83,41 @@ export class AvailableResourceGroupDelegations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailableResourceGroupDelegationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailableResourceGroupDelegationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailableResourceGroupDelegationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableResourceGroupDelegationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>,
+    callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>
+  ): Promise<Models.AvailableResourceGroupDelegationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AvailableResourceGroupDelegationsListNextResponse>;
+      callback
+    ) as Promise<Models.AvailableResourceGroupDelegationsListNextResponse>;
   }
 }
 
@@ -91,18 +125,11 @@ export class AvailableResourceGroupDelegations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableDelegations",
-  urlParameters: [
-    Parameters.location0,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableDelegations",
+  urlParameters: [Parameters.location0, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailableDelegationsResult
@@ -118,12 +145,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailableDelegationsResult

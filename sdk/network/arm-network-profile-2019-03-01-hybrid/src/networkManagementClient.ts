@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { NetworkManagementClientContext } from "./networkManagementClientContext";
 
-
 class NetworkManagementClient extends NetworkManagementClientContext {
   // Operation groups
   loadBalancers: operations.LoadBalancers;
@@ -48,11 +47,17 @@ class NetworkManagementClient extends NetworkManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.NetworkManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.NetworkManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.loadBalancers = new operations.LoadBalancers(this);
     this.loadBalancerBackendAddressPools = new operations.LoadBalancerBackendAddressPools(this);
-    this.loadBalancerFrontendIPConfigurations = new operations.LoadBalancerFrontendIPConfigurations(this);
+    this.loadBalancerFrontendIPConfigurations = new operations.LoadBalancerFrontendIPConfigurations(
+      this
+    );
     this.inboundNatRules = new operations.InboundNatRules(this);
     this.loadBalancerLoadBalancingRules = new operations.LoadBalancerLoadBalancingRules(this);
     this.loadBalancerNetworkInterfaces = new operations.LoadBalancerNetworkInterfaces(this);

@@ -34,14 +34,20 @@ export class Subscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionsListQuotasResponse>
    */
-  listQuotas(location: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsListQuotasResponse>;
+  listQuotas(
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubscriptionsListQuotasResponse>;
   /**
    * @param location The region in which to retrieve the subscription's quota information. You can
    * find out which regions Azure Stream Analytics is supported in here:
    * https://azure.microsoft.com/en-us/regions/
    * @param callback The callback
    */
-  listQuotas(location: string, callback: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>): void;
+  listQuotas(
+    location: string,
+    callback: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>
+  ): void;
   /**
    * @param location The region in which to retrieve the subscription's quota information. You can
    * find out which regions Azure Stream Analytics is supported in here:
@@ -49,15 +55,26 @@ export class Subscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQuotas(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>): void;
-  listQuotas(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionQuotasListResult>, callback?: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>): Promise<Models.SubscriptionsListQuotasResponse> {
+  listQuotas(
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>
+  ): void;
+  listQuotas(
+    location: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SubscriptionQuotasListResult>,
+    callback?: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>
+  ): Promise<Models.SubscriptionsListQuotasResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listQuotasOperationSpec,
-      callback) as Promise<Models.SubscriptionsListQuotasResponse>;
+      callback
+    ) as Promise<Models.SubscriptionsListQuotasResponse>;
   }
 }
 
@@ -65,17 +82,11 @@ export class Subscriptions {
 const serializer = new msRest.Serializer(Mappers);
 const listQuotasOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.StreamAnalytics/locations/{location}/quotas",
-  urlParameters: [
-    Parameters.location,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.StreamAnalytics/locations/{location}/quotas",
+  urlParameters: [Parameters.location, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SubscriptionQuotasListResult

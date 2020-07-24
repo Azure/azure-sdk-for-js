@@ -36,7 +36,13 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceInfo: Models.ServiceResource, options?: msRest.RequestOptionsBase): Promise<Models.ServicesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceInfo: Models.ServiceResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
@@ -44,7 +50,13 @@ export class Services {
    * @param serviceInfo The service object
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceInfo: Models.ServiceResource, callback: msRest.ServiceCallback<Models.ServiceResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceInfo: Models.ServiceResource,
+    callback: msRest.ServiceCallback<Models.ServiceResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
@@ -53,8 +65,22 @@ export class Services {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceInfo: Models.ServiceResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResource>): void;
-  createOrUpdate(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceInfo: Models.ServiceResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResource>, callback?: msRest.ServiceCallback<Models.ServiceResource>): Promise<Models.ServicesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceInfo: Models.ServiceResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceInfo: Models.ServiceResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResource>,
+    callback?: msRest.ServiceCallback<Models.ServiceResource>
+  ): Promise<Models.ServicesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,7 +90,8 @@ export class Services {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ServicesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ServicesCreateOrUpdateResponse>;
   }
 
   /**
@@ -75,14 +102,24 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesGetResponse>
    */
-  get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServicesGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
    * @param serviceName The name of the service resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ServiceResource>): void;
+  get(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.ServiceResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
@@ -90,8 +127,20 @@ export class Services {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResource>): void;
-  get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResource>, callback?: msRest.ServiceCallback<Models.ServiceResource>): Promise<Models.ServicesGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResource>,
+    callback?: msRest.ServiceCallback<Models.ServiceResource>
+  ): Promise<Models.ServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +149,8 @@ export class Services {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServicesGetResponse>;
+      callback
+    ) as Promise<Models.ServicesGetResponse>;
   }
 
   /**
@@ -111,14 +161,24 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
    * @param serviceName The name of the service resource.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
@@ -126,8 +186,20 @@ export class Services {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +208,8 @@ export class Services {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -146,21 +219,39 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesListResponse>
    */
-  list(resourceGroupName: string, serviceTopologyName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServicesListResponse>;
+  list(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceTopologyName: string, callback: msRest.ServiceCallback<Models.ServiceResource[]>): void;
+  list(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    callback: msRest.ServiceCallback<Models.ServiceResource[]>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceTopologyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResource[]>): void;
-  list(resourceGroupName: string, serviceTopologyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResource[]>, callback?: msRest.ServiceCallback<Models.ServiceResource[]>): Promise<Models.ServicesListResponse> {
+  list(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceResource[]>
+  ): void;
+  list(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResource[]>,
+    callback?: msRest.ServiceCallback<Models.ServiceResource[]>
+  ): Promise<Models.ServicesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -168,7 +259,8 @@ export class Services {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ServicesListResponse>;
+      callback
+    ) as Promise<Models.ServicesListResponse>;
   }
 }
 
@@ -176,19 +268,16 @@ export class Services {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceTopologyName,
     Parameters.serviceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "serviceInfo",
     mapper: {
@@ -209,19 +298,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceTopologyName,
     Parameters.serviceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceResource
@@ -235,19 +321,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceTopologyName,
     Parameters.serviceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -260,18 +343,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceTopologyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {

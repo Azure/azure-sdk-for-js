@@ -1920,7 +1920,8 @@ export const AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionPara
   serializedName: "Microsoft.MachineLearning/WebService",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: FunctionRetrieveDefaultDefinitionParameters.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      FunctionRetrieveDefaultDefinitionParameters.type.polymorphicDiscriminator,
     uberParent: "FunctionRetrieveDefaultDefinitionParameters",
     className: "AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters",
     modelProperties: {
@@ -1935,9 +1936,7 @@ export const AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionPara
         serializedName: "bindingRetrievalProperties.udfType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Scalar"
-          ]
+          allowedValues: ["Scalar"]
         }
       }
     }
@@ -1948,7 +1947,8 @@ export const JavaScriptFunctionRetrieveDefaultDefinitionParameters: msRest.Compo
   serializedName: "Microsoft.StreamAnalytics/JavascriptUdf",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: FunctionRetrieveDefaultDefinitionParameters.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      FunctionRetrieveDefaultDefinitionParameters.type.polymorphicDiscriminator,
     uberParent: "FunctionRetrieveDefaultDefinitionParameters",
     className: "JavaScriptFunctionRetrieveDefaultDefinitionParameters",
     modelProperties: {
@@ -1963,9 +1963,7 @@ export const JavaScriptFunctionRetrieveDefaultDefinitionParameters: msRest.Compo
         serializedName: "bindingRetrievalProperties.udfType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Scalar"
-          ]
+          allowedValues: ["Scalar"]
         }
       }
     }
@@ -2411,36 +2409,35 @@ export const FunctionListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'Serialization' : Serialization,
-  'InputProperties' : InputProperties,
-  'OutputDataSource' : OutputDataSource,
-  'FunctionProperties' : FunctionProperties,
-  'FunctionBinding.Microsoft.StreamAnalytics/JavascriptUdf' : JavaScriptFunctionBinding,
-  'FunctionBinding.Microsoft.MachineLearning/WebService' : AzureMachineLearningWebServiceFunctionBinding,
-  'FunctionBinding' : FunctionBinding,
-  'FunctionProperties.Scalar' : ScalarFunctionProperties,
-  'Serialization.Avro' : AvroSerialization,
-  'Serialization.Json' : JsonSerialization,
-  'Serialization.Csv' : CsvSerialization,
-  'OutputDataSource.Microsoft.DataLake/Accounts' : AzureDataLakeStoreOutputDataSource,
-  'OutputDataSource.PowerBI' : PowerBIOutputDataSource,
-  'OutputDataSource.Microsoft.ServiceBus/Topic' : ServiceBusTopicOutputDataSource,
-  'OutputDataSource.Microsoft.ServiceBus/Queue' : ServiceBusQueueOutputDataSource,
-  'OutputDataSource.Microsoft.Storage/DocumentDB' : DocumentDbOutputDataSource,
-  'OutputDataSource.Microsoft.Sql/Server/Database' : AzureSqlDatabaseOutputDataSource,
-  'OutputDataSource.Microsoft.ServiceBus/EventHub' : EventHubOutputDataSource,
-  'OutputDataSource.Microsoft.Storage/Table' : AzureTableOutputDataSource,
-  'OutputDataSource.Microsoft.Storage/Blob' : BlobOutputDataSource,
-  'ReferenceInputDataSource.Microsoft.Storage/Blob' : BlobReferenceInputDataSource,
-  'ReferenceInputDataSource' : ReferenceInputDataSource,
-  'InputProperties.Reference' : ReferenceInputProperties,
-  'StreamInputDataSource.Microsoft.Devices/IotHubs' : IoTHubStreamInputDataSource,
-  'StreamInputDataSource.Microsoft.ServiceBus/EventHub' : EventHubStreamInputDataSource,
-  'StreamInputDataSource.Microsoft.Storage/Blob' : BlobStreamInputDataSource,
-  'StreamInputDataSource' : StreamInputDataSource,
-  'InputProperties.Stream' : StreamInputProperties,
-  'FunctionRetrieveDefaultDefinitionParameters' : FunctionRetrieveDefaultDefinitionParameters,
-  'FunctionRetrieveDefaultDefinitionParameters.Microsoft.MachineLearning/WebService' : AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters,
-  'FunctionRetrieveDefaultDefinitionParameters.Microsoft.StreamAnalytics/JavascriptUdf' : JavaScriptFunctionRetrieveDefaultDefinitionParameters
-
+  Serialization: Serialization,
+  InputProperties: InputProperties,
+  OutputDataSource: OutputDataSource,
+  FunctionProperties: FunctionProperties,
+  "FunctionBinding.Microsoft.StreamAnalytics/JavascriptUdf": JavaScriptFunctionBinding,
+  "FunctionBinding.Microsoft.MachineLearning/WebService": AzureMachineLearningWebServiceFunctionBinding,
+  FunctionBinding: FunctionBinding,
+  "FunctionProperties.Scalar": ScalarFunctionProperties,
+  "Serialization.Avro": AvroSerialization,
+  "Serialization.Json": JsonSerialization,
+  "Serialization.Csv": CsvSerialization,
+  "OutputDataSource.Microsoft.DataLake/Accounts": AzureDataLakeStoreOutputDataSource,
+  "OutputDataSource.PowerBI": PowerBIOutputDataSource,
+  "OutputDataSource.Microsoft.ServiceBus/Topic": ServiceBusTopicOutputDataSource,
+  "OutputDataSource.Microsoft.ServiceBus/Queue": ServiceBusQueueOutputDataSource,
+  "OutputDataSource.Microsoft.Storage/DocumentDB": DocumentDbOutputDataSource,
+  "OutputDataSource.Microsoft.Sql/Server/Database": AzureSqlDatabaseOutputDataSource,
+  "OutputDataSource.Microsoft.ServiceBus/EventHub": EventHubOutputDataSource,
+  "OutputDataSource.Microsoft.Storage/Table": AzureTableOutputDataSource,
+  "OutputDataSource.Microsoft.Storage/Blob": BlobOutputDataSource,
+  "ReferenceInputDataSource.Microsoft.Storage/Blob": BlobReferenceInputDataSource,
+  ReferenceInputDataSource: ReferenceInputDataSource,
+  "InputProperties.Reference": ReferenceInputProperties,
+  "StreamInputDataSource.Microsoft.Devices/IotHubs": IoTHubStreamInputDataSource,
+  "StreamInputDataSource.Microsoft.ServiceBus/EventHub": EventHubStreamInputDataSource,
+  "StreamInputDataSource.Microsoft.Storage/Blob": BlobStreamInputDataSource,
+  StreamInputDataSource: StreamInputDataSource,
+  "InputProperties.Stream": StreamInputProperties,
+  FunctionRetrieveDefaultDefinitionParameters: FunctionRetrieveDefaultDefinitionParameters,
+  "FunctionRetrieveDefaultDefinitionParameters.Microsoft.MachineLearning/WebService": AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters,
+  "FunctionRetrieveDefaultDefinitionParameters.Microsoft.StreamAnalytics/JavascriptUdf": JavaScriptFunctionRetrieveDefaultDefinitionParameters
 };

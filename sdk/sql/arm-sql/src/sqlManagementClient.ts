@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { SqlManagementClientContext } from "./sqlManagementClientContext";
 
-
 class SqlManagementClient extends SqlManagementClientContext {
   // Operation groups
   recoverableDatabases: operations.RecoverableDatabases;
@@ -110,7 +109,11 @@ class SqlManagementClient extends SqlManagementClientContext {
    * @param subscriptionId The subscription ID that identifies an Azure subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SqlManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.SqlManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.recoverableDatabases = new operations.RecoverableDatabases(this);
     this.restorableDroppedDatabases = new operations.RestorableDroppedDatabases(this);
@@ -132,7 +135,9 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.elasticPoolDatabaseActivities = new operations.ElasticPoolDatabaseActivities(this);
     this.serviceTierAdvisors = new operations.ServiceTierAdvisors(this);
     this.transparentDataEncryptions = new operations.TransparentDataEncryptions(this);
-    this.transparentDataEncryptionActivities = new operations.TransparentDataEncryptionActivities(this);
+    this.transparentDataEncryptionActivities = new operations.TransparentDataEncryptionActivities(
+      this
+    );
     this.serverUsages = new operations.ServerUsages(this);
     this.databaseUsages = new operations.DatabaseUsages(this);
     this.databaseAutomaticTuning = new operations.DatabaseAutomaticTuningOperations(this);
@@ -146,11 +151,17 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.subscriptionUsages = new operations.SubscriptionUsages(this);
     this.virtualClusters = new operations.VirtualClusters(this);
     this.virtualNetworkRules = new operations.VirtualNetworkRules(this);
-    this.extendedDatabaseBlobAuditingPolicies = new operations.ExtendedDatabaseBlobAuditingPolicies(this);
-    this.extendedServerBlobAuditingPolicies = new operations.ExtendedServerBlobAuditingPolicies(this);
+    this.extendedDatabaseBlobAuditingPolicies = new operations.ExtendedDatabaseBlobAuditingPolicies(
+      this
+    );
+    this.extendedServerBlobAuditingPolicies = new operations.ExtendedServerBlobAuditingPolicies(
+      this
+    );
     this.serverBlobAuditingPolicies = new operations.ServerBlobAuditingPolicies(this);
     this.databaseBlobAuditingPolicies = new operations.DatabaseBlobAuditingPolicies(this);
-    this.databaseVulnerabilityAssessmentRuleBaselines = new operations.DatabaseVulnerabilityAssessmentRuleBaselines(this);
+    this.databaseVulnerabilityAssessmentRuleBaselines = new operations.DatabaseVulnerabilityAssessmentRuleBaselines(
+      this
+    );
     this.databaseVulnerabilityAssessments = new operations.DatabaseVulnerabilityAssessments(this);
     this.jobAgents = new operations.JobAgents(this);
     this.jobCredentials = new operations.JobCredentials(this);
@@ -163,32 +174,52 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.jobVersions = new operations.JobVersions(this);
     this.longTermRetentionBackups = new operations.LongTermRetentionBackups(this);
     this.backupLongTermRetentionPolicies = new operations.BackupLongTermRetentionPolicies(this);
-    this.managedBackupShortTermRetentionPolicies = new operations.ManagedBackupShortTermRetentionPolicies(this);
-    this.managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies = new operations.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies(this);
+    this.managedBackupShortTermRetentionPolicies = new operations.ManagedBackupShortTermRetentionPolicies(
+      this
+    );
+    this.managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies = new operations.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies(
+      this
+    );
     this.serverAutomaticTuning = new operations.ServerAutomaticTuningOperations(this);
     this.serverDnsAliases = new operations.ServerDnsAliases(this);
     this.serverSecurityAlertPolicies = new operations.ServerSecurityAlertPolicies(this);
     this.restorableDroppedManagedDatabases = new operations.RestorableDroppedManagedDatabases(this);
     this.restorePoints = new operations.RestorePoints(this);
-    this.managedDatabaseSecurityAlertPolicies = new operations.ManagedDatabaseSecurityAlertPolicies(this);
-    this.managedServerSecurityAlertPolicies = new operations.ManagedServerSecurityAlertPolicies(this);
+    this.managedDatabaseSecurityAlertPolicies = new operations.ManagedDatabaseSecurityAlertPolicies(
+      this
+    );
+    this.managedServerSecurityAlertPolicies = new operations.ManagedServerSecurityAlertPolicies(
+      this
+    );
     this.sensitivityLabels = new operations.SensitivityLabels(this);
     this.managedInstanceAdministrators = new operations.ManagedInstanceAdministrators(this);
     this.databaseOperations = new operations.DatabaseOperations(this);
     this.elasticPoolOperations = new operations.ElasticPoolOperations(this);
     this.capabilities = new operations.Capabilities(this);
-    this.databaseVulnerabilityAssessmentScans = new operations.DatabaseVulnerabilityAssessmentScans(this);
-    this.managedDatabaseVulnerabilityAssessmentRuleBaselines = new operations.ManagedDatabaseVulnerabilityAssessmentRuleBaselines(this);
-    this.managedDatabaseVulnerabilityAssessmentScans = new operations.ManagedDatabaseVulnerabilityAssessmentScans(this);
-    this.managedDatabaseVulnerabilityAssessments = new operations.ManagedDatabaseVulnerabilityAssessments(this);
+    this.databaseVulnerabilityAssessmentScans = new operations.DatabaseVulnerabilityAssessmentScans(
+      this
+    );
+    this.managedDatabaseVulnerabilityAssessmentRuleBaselines = new operations.ManagedDatabaseVulnerabilityAssessmentRuleBaselines(
+      this
+    );
+    this.managedDatabaseVulnerabilityAssessmentScans = new operations.ManagedDatabaseVulnerabilityAssessmentScans(
+      this
+    );
+    this.managedDatabaseVulnerabilityAssessments = new operations.ManagedDatabaseVulnerabilityAssessments(
+      this
+    );
     this.instanceFailoverGroups = new operations.InstanceFailoverGroups(this);
     this.backupShortTermRetentionPolicies = new operations.BackupShortTermRetentionPolicies(this);
     this.tdeCertificates = new operations.TdeCertificates(this);
     this.managedInstanceTdeCertificates = new operations.ManagedInstanceTdeCertificates(this);
     this.managedInstanceKeys = new operations.ManagedInstanceKeys(this);
-    this.managedInstanceEncryptionProtectors = new operations.ManagedInstanceEncryptionProtectors(this);
+    this.managedInstanceEncryptionProtectors = new operations.ManagedInstanceEncryptionProtectors(
+      this
+    );
     this.recoverableManagedDatabases = new operations.RecoverableManagedDatabases(this);
-    this.managedInstanceVulnerabilityAssessments = new operations.ManagedInstanceVulnerabilityAssessments(this);
+    this.managedInstanceVulnerabilityAssessments = new operations.ManagedInstanceVulnerabilityAssessments(
+      this
+    );
     this.serverVulnerabilityAssessments = new operations.ServerVulnerabilityAssessments(this);
     this.managedDatabaseSensitivityLabels = new operations.ManagedDatabaseSensitivityLabels(this);
     this.instancePools = new operations.InstancePools(this);

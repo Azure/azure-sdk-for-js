@@ -34,21 +34,39 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansGetResponse>
    */
-  get(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansGetResponse>;
+  get(
+    resourceGroupName: string,
+    virtualWANName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualWansGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param virtualWANName The name of the VirtualWAN being retrieved.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualWANName: string, callback: msRest.ServiceCallback<Models.VirtualWAN>): void;
+  get(
+    resourceGroupName: string,
+    virtualWANName: string,
+    callback: msRest.ServiceCallback<Models.VirtualWAN>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param virtualWANName The name of the VirtualWAN being retrieved.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualWANName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualWAN>): void;
-  get(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualWAN>, callback?: msRest.ServiceCallback<Models.VirtualWAN>): Promise<Models.VirtualWansGetResponse> {
+  get(
+    resourceGroupName: string,
+    virtualWANName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualWAN>
+  ): void;
+  get(
+    resourceGroupName: string,
+    virtualWANName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualWAN>,
+    callback?: msRest.ServiceCallback<Models.VirtualWAN>
+  ): Promise<Models.VirtualWansGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class VirtualWans {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VirtualWansGetResponse>;
+      callback
+    ) as Promise<Models.VirtualWansGetResponse>;
   }
 
   /**
@@ -67,9 +86,20 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualWANName: string, wANParameters: Models.VirtualWAN, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,virtualWANName,wANParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualWansCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    virtualWANName: string,
+    wANParameters: Models.VirtualWAN,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualWansCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      virtualWANName,
+      wANParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.VirtualWansCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -80,14 +110,24 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    virtualWANName: string,
+    wANParameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualWansUpdateTagsResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param virtualWANName The name of the VirtualWAN being updated.
    * @param wANParameters Parameters supplied to Update VirtualWAN tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.VirtualWAN>): void;
+  updateTags(
+    resourceGroupName: string,
+    virtualWANName: string,
+    wANParameters: Models.TagsObject,
+    callback: msRest.ServiceCallback<Models.VirtualWAN>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param virtualWANName The name of the VirtualWAN being updated.
@@ -95,8 +135,20 @@ export class VirtualWans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualWAN>): void;
-  updateTags(resourceGroupName: string, virtualWANName: string, wANParameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualWAN>, callback?: msRest.ServiceCallback<Models.VirtualWAN>): Promise<Models.VirtualWansUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    virtualWANName: string,
+    wANParameters: Models.TagsObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualWAN>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    virtualWANName: string,
+    wANParameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualWAN>,
+    callback?: msRest.ServiceCallback<Models.VirtualWAN>
+  ): Promise<Models.VirtualWansUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +157,8 @@ export class VirtualWans {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.VirtualWansUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.VirtualWansUpdateTagsResponse>;
   }
 
   /**
@@ -115,9 +168,14 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,virtualWANName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    virtualWANName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, virtualWANName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -126,26 +184,41 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualWansListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualWan.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>,
+    callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>
+  ): Promise<Models.VirtualWansListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.VirtualWansListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.VirtualWansListByResourceGroupResponse>;
   }
 
   /**
@@ -162,14 +235,21 @@ export class VirtualWans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>,
+    callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>
+  ): Promise<Models.VirtualWansListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.VirtualWansListResponse>;
+      callback
+    ) as Promise<Models.VirtualWansListResponse>;
   }
 
   /**
@@ -180,7 +260,12 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualWANName: string, wANParameters: Models.VirtualWAN, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    virtualWANName: string,
+    wANParameters: Models.VirtualWAN,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -189,7 +274,8 @@ export class VirtualWans {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -199,7 +285,11 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualWANName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    virtualWANName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -207,7 +297,8 @@ export class VirtualWans {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -216,26 +307,41 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualWansListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>,
+    callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>
+  ): Promise<Models.VirtualWansListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.VirtualWansListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.VirtualWansListByResourceGroupNextResponse>;
   }
 
   /**
@@ -244,26 +350,41 @@ export class VirtualWans {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualWansListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualWansListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualWansListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>, callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>): Promise<Models.VirtualWansListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListVirtualWANsResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVirtualWANsResult>,
+    callback?: msRest.ServiceCallback<Models.ListVirtualWANsResult>
+  ): Promise<Models.VirtualWansListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.VirtualWansListNextResponse>;
+      callback
+    ) as Promise<Models.VirtualWansListNextResponse>;
   }
 }
 
@@ -271,18 +392,15 @@ export class VirtualWans {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualWANName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualWAN
@@ -296,18 +414,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualWANName1
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "wANParameters",
     mapper: {
@@ -328,17 +443,11 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListVirtualWANsResult
@@ -353,15 +462,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualWans",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListVirtualWANsResult
@@ -375,18 +478,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualWANName1
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "wANParameters",
     mapper: {
@@ -410,18 +510,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualWANName1
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -437,12 +534,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListVirtualWANsResult
@@ -458,12 +551,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListVirtualWANsResult

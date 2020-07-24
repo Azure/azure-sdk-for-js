@@ -6,10 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  discriminators,
-  CloudError,
-  ListUsagesResult,
-  Usage,
-  UsageName
-} from "../models/mappers";
+export { discriminators, CloudError, ListUsagesResult, Usage, UsageName } from "../models/mappers";

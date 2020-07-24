@@ -31,7 +31,9 @@ export class MetricAlerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricAlertsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.MetricAlertsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MetricAlertsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,23 @@ export class MetricAlerts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricAlertResourceCollection>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResourceCollection>, callback?: msRest.ServiceCallback<Models.MetricAlertResourceCollection>): Promise<Models.MetricAlertsListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricAlertResourceCollection>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.MetricAlertResourceCollection>,
+    callback?: msRest.ServiceCallback<Models.MetricAlertResourceCollection>
+  ): Promise<Models.MetricAlertsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.MetricAlertsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.MetricAlertsListBySubscriptionResponse>;
   }
 
   /**
@@ -56,26 +67,43 @@ export class MetricAlerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricAlertsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.MetricAlertsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MetricAlertsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.MetricAlertResourceCollection>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.MetricAlertResourceCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricAlertResourceCollection>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResourceCollection>, callback?: msRest.ServiceCallback<Models.MetricAlertResourceCollection>): Promise<Models.MetricAlertsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricAlertResourceCollection>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.MetricAlertResourceCollection>,
+    callback?: msRest.ServiceCallback<Models.MetricAlertResourceCollection>
+  ): Promise<Models.MetricAlertsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.MetricAlertsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.MetricAlertsListByResourceGroupResponse>;
   }
 
   /**
@@ -85,21 +113,39 @@ export class MetricAlerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricAlertsGetResponse>
    */
-  get(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<Models.MetricAlertsGetResponse>;
+  get(
+    resourceGroupName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MetricAlertsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param callback The callback
    */
-  get(resourceGroupName: string, ruleName: string, callback: msRest.ServiceCallback<Models.MetricAlertResource>): void;
+  get(
+    resourceGroupName: string,
+    ruleName: string,
+    callback: msRest.ServiceCallback<Models.MetricAlertResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricAlertResource>): void;
-  get(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResource>, callback?: msRest.ServiceCallback<Models.MetricAlertResource>): Promise<Models.MetricAlertsGetResponse> {
+  get(
+    resourceGroupName: string,
+    ruleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricAlertResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResource>,
+    callback?: msRest.ServiceCallback<Models.MetricAlertResource>
+  ): Promise<Models.MetricAlertsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +153,8 @@ export class MetricAlerts {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MetricAlertsGetResponse>;
+      callback
+    ) as Promise<Models.MetricAlertsGetResponse>;
   }
 
   /**
@@ -118,14 +165,24 @@ export class MetricAlerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricAlertsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResource, options?: msRest.RequestOptionsBase): Promise<Models.MetricAlertsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.MetricAlertResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MetricAlertsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param parameters The parameters of the rule to create or update.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResource, callback: msRest.ServiceCallback<Models.MetricAlertResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.MetricAlertResource,
+    callback: msRest.ServiceCallback<Models.MetricAlertResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
@@ -133,8 +190,20 @@ export class MetricAlerts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricAlertResource>): void;
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResource>, callback?: msRest.ServiceCallback<Models.MetricAlertResource>): Promise<Models.MetricAlertsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.MetricAlertResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricAlertResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.MetricAlertResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResource>,
+    callback?: msRest.ServiceCallback<Models.MetricAlertResource>
+  ): Promise<Models.MetricAlertsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,7 +212,8 @@ export class MetricAlerts {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.MetricAlertsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.MetricAlertsCreateOrUpdateResponse>;
   }
 
   /**
@@ -154,14 +224,24 @@ export class MetricAlerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricAlertsUpdateResponse>
    */
-  update(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResourcePatch, options?: msRest.RequestOptionsBase): Promise<Models.MetricAlertsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.MetricAlertResourcePatch,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MetricAlertsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param parameters The parameters of the rule to update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResourcePatch, callback: msRest.ServiceCallback<Models.MetricAlertResource>): void;
+  update(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.MetricAlertResourcePatch,
+    callback: msRest.ServiceCallback<Models.MetricAlertResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
@@ -169,8 +249,20 @@ export class MetricAlerts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResourcePatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricAlertResource>): void;
-  update(resourceGroupName: string, ruleName: string, parameters: Models.MetricAlertResourcePatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResource>, callback?: msRest.ServiceCallback<Models.MetricAlertResource>): Promise<Models.MetricAlertsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.MetricAlertResourcePatch,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricAlertResource>
+  ): void;
+  update(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.MetricAlertResourcePatch,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricAlertResource>,
+    callback?: msRest.ServiceCallback<Models.MetricAlertResource>
+  ): Promise<Models.MetricAlertsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -179,7 +271,8 @@ export class MetricAlerts {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.MetricAlertsUpdateResponse>;
+      callback
+    ) as Promise<Models.MetricAlertsUpdateResponse>;
   }
 
   /**
@@ -189,21 +282,39 @@ export class MetricAlerts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, ruleName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    ruleName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    ruleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -211,7 +322,8 @@ export class MetricAlerts {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -220,15 +332,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Insights/metricAlerts",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricAlertResourceCollection
@@ -242,17 +348,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricAlertResourceCollection
@@ -266,18 +366,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.ruleName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.ruleName],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricAlertResource
@@ -291,18 +384,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.ruleName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.ruleName],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -323,18 +409,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.ruleName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.ruleName],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -355,18 +434,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.ruleName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.ruleName],
+  queryParameters: [Parameters.apiVersion8],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},

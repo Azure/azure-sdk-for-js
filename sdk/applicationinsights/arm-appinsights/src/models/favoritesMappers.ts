@@ -8,8 +8,4 @@
  * regenerated.
  */
 
-export {
-  ApplicationInsightsComponentFavorite,
-  CloudError
-} from "../models/mappers";
-
+export { ApplicationInsightsComponentFavorite, CloudError } from "../models/mappers";

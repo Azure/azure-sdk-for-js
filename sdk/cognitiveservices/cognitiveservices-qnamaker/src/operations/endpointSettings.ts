@@ -31,7 +31,9 @@ export class EndpointSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.EndpointSettingsGetSettingsResponse>
    */
-  getSettings(options?: msRest.RequestOptionsBase): Promise<Models.EndpointSettingsGetSettingsResponse>;
+  getSettings(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EndpointSettingsGetSettingsResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,21 @@ export class EndpointSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSettings(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EndpointSettingsDTO>): void;
-  getSettings(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EndpointSettingsDTO>, callback?: msRest.ServiceCallback<Models.EndpointSettingsDTO>): Promise<Models.EndpointSettingsGetSettingsResponse> {
+  getSettings(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EndpointSettingsDTO>
+  ): void;
+  getSettings(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EndpointSettingsDTO>,
+    callback?: msRest.ServiceCallback<Models.EndpointSettingsDTO>
+  ): Promise<Models.EndpointSettingsGetSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getSettingsOperationSpec,
-      callback) as Promise<Models.EndpointSettingsGetSettingsResponse>;
+      callback
+    ) as Promise<Models.EndpointSettingsGetSettingsResponse>;
   }
 
   /**
@@ -56,26 +65,41 @@ export class EndpointSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.EndpointSettingsUpdateSettingsResponse>
    */
-  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, options?: msRest.RequestOptionsBase): Promise<Models.EndpointSettingsUpdateSettingsResponse>;
+  updateSettings(
+    endpointSettingsPayload: Models.EndpointSettingsDTO,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EndpointSettingsUpdateSettingsResponse>;
   /**
    * @param endpointSettingsPayload Post body of the request.
    * @param callback The callback
    */
-  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, callback: msRest.ServiceCallback<string>): void;
+  updateSettings(
+    endpointSettingsPayload: Models.EndpointSettingsDTO,
+    callback: msRest.ServiceCallback<string>
+  ): void;
   /**
    * @param endpointSettingsPayload Post body of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  updateSettings(endpointSettingsPayload: Models.EndpointSettingsDTO, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.EndpointSettingsUpdateSettingsResponse> {
+  updateSettings(
+    endpointSettingsPayload: Models.EndpointSettingsDTO,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<string>
+  ): void;
+  updateSettings(
+    endpointSettingsPayload: Models.EndpointSettingsDTO,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>,
+    callback?: msRest.ServiceCallback<string>
+  ): Promise<Models.EndpointSettingsUpdateSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         endpointSettingsPayload,
         options
       },
       updateSettingsOperationSpec,
-      callback) as Promise<Models.EndpointSettingsUpdateSettingsResponse>;
+      callback
+    ) as Promise<Models.EndpointSettingsUpdateSettingsResponse>;
   }
 }
 
@@ -84,9 +108,7 @@ const serializer = new msRest.Serializer(Mappers);
 const getSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "endpointSettings",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   responses: {
     200: {
       bodyMapper: Mappers.EndpointSettingsDTO
@@ -101,9 +123,7 @@ const getSettingsOperationSpec: msRest.OperationSpec = {
 const updateSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "endpointSettings",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: "endpointSettingsPayload",
     mapper: {

@@ -34,21 +34,39 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesListByIotHubResponse>
    */
-  listByIotHub(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificatesListByIotHubResponse>;
+  listByIotHub(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CertificatesListByIotHubResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
    * @param callback The callback
    */
-  listByIotHub(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.CertificateListDescription>): void;
+  listByIotHub(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.CertificateListDescription>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByIotHub(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateListDescription>): void;
-  listByIotHub(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListDescription>, callback?: msRest.ServiceCallback<Models.CertificateListDescription>): Promise<Models.CertificatesListByIotHubResponse> {
+  listByIotHub(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateListDescription>
+  ): void;
+  listByIotHub(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListDescription>,
+    callback?: msRest.ServiceCallback<Models.CertificateListDescription>
+  ): Promise<Models.CertificatesListByIotHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class Certificates {
         options
       },
       listByIotHubOperationSpec,
-      callback) as Promise<Models.CertificatesListByIotHubResponse>;
+      callback
+    ) as Promise<Models.CertificatesListByIotHubResponse>;
   }
 
   /**
@@ -68,14 +87,24 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificatesGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CertificatesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
    * @param certificateName The name of the certificate
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, certificateName: string, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.CertificateDescription>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
@@ -83,8 +112,20 @@ export class Certificates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
-  get(resourceGroupName: string, resourceName: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateDescription>, callback?: msRest.ServiceCallback<Models.CertificateDescription>): Promise<Models.CertificatesGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateDescription>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateDescription>,
+    callback?: msRest.ServiceCallback<Models.CertificateDescription>
+  ): Promise<Models.CertificatesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -93,7 +134,8 @@ export class Certificates {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CertificatesGetResponse>;
+      callback
+    ) as Promise<Models.CertificatesGetResponse>;
   }
 
   /**
@@ -105,14 +147,24 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, options?: Models.CertificatesCreateOrUpdateOptionalParams): Promise<Models.CertificatesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    options?: Models.CertificatesCreateOrUpdateOptionalParams
+  ): Promise<Models.CertificatesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
    * @param certificateName The name of the certificate
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.CertificateDescription>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
@@ -120,8 +172,22 @@ export class Certificates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, options: Models.CertificatesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
-  createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, options?: Models.CertificatesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.CertificateDescription>, callback?: msRest.ServiceCallback<Models.CertificateDescription>): Promise<Models.CertificatesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    options: Models.CertificatesCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.CertificateDescription>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    options?:
+      | Models.CertificatesCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.CertificateDescription>,
+    callback?: msRest.ServiceCallback<Models.CertificateDescription>
+  ): Promise<Models.CertificatesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,7 +196,8 @@ export class Certificates {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.CertificatesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.CertificatesCreateOrUpdateResponse>;
   }
 
   /**
@@ -143,7 +210,13 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
@@ -151,7 +224,13 @@ export class Certificates {
    * @param ifMatch ETag of the Certificate.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
@@ -160,8 +239,22 @@ export class Certificates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +264,8 @@ export class Certificates {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -185,7 +279,13 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesGenerateVerificationCodeResponse>
    */
-  generateVerificationCode(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificatesGenerateVerificationCodeResponse>;
+  generateVerificationCode(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CertificatesGenerateVerificationCodeResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
@@ -193,7 +293,13 @@ export class Certificates {
    * @param ifMatch ETag of the Certificate.
    * @param callback The callback
    */
-  generateVerificationCode(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, callback: msRest.ServiceCallback<Models.CertificateWithNonceDescription>): void;
+  generateVerificationCode(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<Models.CertificateWithNonceDescription>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
@@ -202,8 +308,24 @@ export class Certificates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  generateVerificationCode(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateWithNonceDescription>): void;
-  generateVerificationCode(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateWithNonceDescription>, callback?: msRest.ServiceCallback<Models.CertificateWithNonceDescription>): Promise<Models.CertificatesGenerateVerificationCodeResponse> {
+  generateVerificationCode(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateWithNonceDescription>
+  ): void;
+  generateVerificationCode(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    ifMatch: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CertificateWithNonceDescription>,
+    callback?: msRest.ServiceCallback<Models.CertificateWithNonceDescription>
+  ): Promise<Models.CertificatesGenerateVerificationCodeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -213,7 +335,8 @@ export class Certificates {
         options
       },
       generateVerificationCodeOperationSpec,
-      callback) as Promise<Models.CertificatesGenerateVerificationCodeResponse>;
+      callback
+    ) as Promise<Models.CertificatesGenerateVerificationCodeResponse>;
   }
 
   /**
@@ -227,7 +350,13 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesVerifyResponse>
    */
-  verify(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: Models.CertificatesVerifyOptionalParams): Promise<Models.CertificatesVerifyResponse>;
+  verify(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    ifMatch: string,
+    options?: Models.CertificatesVerifyOptionalParams
+  ): Promise<Models.CertificatesVerifyResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
@@ -235,7 +364,13 @@ export class Certificates {
    * @param ifMatch ETag of the Certificate.
    * @param callback The callback
    */
-  verify(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
+  verify(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<Models.CertificateDescription>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
@@ -244,8 +379,24 @@ export class Certificates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  verify(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options: Models.CertificatesVerifyOptionalParams, callback: msRest.ServiceCallback<Models.CertificateDescription>): void;
-  verify(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: Models.CertificatesVerifyOptionalParams | msRest.ServiceCallback<Models.CertificateDescription>, callback?: msRest.ServiceCallback<Models.CertificateDescription>): Promise<Models.CertificatesVerifyResponse> {
+  verify(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    ifMatch: string,
+    options: Models.CertificatesVerifyOptionalParams,
+    callback: msRest.ServiceCallback<Models.CertificateDescription>
+  ): void;
+  verify(
+    resourceGroupName: string,
+    resourceName: string,
+    certificateName: string,
+    ifMatch: string,
+    options?:
+      | Models.CertificatesVerifyOptionalParams
+      | msRest.ServiceCallback<Models.CertificateDescription>,
+    callback?: msRest.ServiceCallback<Models.CertificateDescription>
+  ): Promise<Models.CertificatesVerifyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -255,7 +406,8 @@ export class Certificates {
         options
       },
       verifyOperationSpec,
-      callback) as Promise<Models.CertificatesVerifyResponse>;
+      callback
+    ) as Promise<Models.CertificatesVerifyResponse>;
   }
 }
 
@@ -263,18 +415,11 @@ export class Certificates {
 const serializer = new msRest.Serializer(Mappers);
 const listByIotHubOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListDescription
@@ -288,19 +433,16 @@ const listByIotHubOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.certificateName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateDescription
@@ -314,26 +456,19 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.certificateName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      certificate: [
-        "options",
-        "certificate"
-      ]
+      certificate: ["options", "certificate"]
     },
     mapper: {
       ...Mappers.CertificateBodyDescription,
@@ -356,20 +491,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.certificateName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -382,20 +513,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const generateVerificationCodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}/generateVerificationCode",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}/generateVerificationCode",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.certificateName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateWithNonceDescription
@@ -409,26 +536,19 @@ const generateVerificationCodeOperationSpec: msRest.OperationSpec = {
 
 const verifyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}/verify",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}/verify",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.certificateName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      certificate: [
-        "options",
-        "certificate"
-      ]
+      certificate: ["options", "certificate"]
     },
     mapper: {
       ...Mappers.CertificateVerificationDescription,

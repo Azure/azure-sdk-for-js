@@ -35,21 +35,41 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceGetResponse>
    */
-  get(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceGetResponse>;
+  get(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceGetResponse>;
   /**
    * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param resourceGroupName Resource group name.
    * @param callback The callback
    */
-  get(provisioningServiceName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescription>): void;
+  get(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ProvisioningServiceDescription>
+  ): void;
   /**
    * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param resourceGroupName Resource group name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(provisioningServiceName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescription>): void;
-  get(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProvisioningServiceDescription>, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescription>): Promise<Models.IotDpsResourceGetResponse> {
+  get(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProvisioningServiceDescription>
+  ): void;
+  get(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ProvisioningServiceDescription>,
+    callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescription>
+  ): Promise<Models.IotDpsResourceGetResponse> {
     return this.client.sendOperationRequest(
       {
         provisioningServiceName,
@@ -57,7 +77,8 @@ export class IotDpsResource {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IotDpsResourceGetResponse>;
+      callback
+    ) as Promise<Models.IotDpsResourceGetResponse>;
   }
 
   /**
@@ -71,9 +92,20 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, provisioningServiceName: string, iotDpsDescription: Models.ProvisioningServiceDescription, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,provisioningServiceName,iotDpsDescription,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IotDpsResourceCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    iotDpsDescription: Models.ProvisioningServiceDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      provisioningServiceName,
+      iotDpsDescription,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.IotDpsResourceCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -87,9 +119,20 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceUpdateResponse>
    */
-  update(resourceGroupName: string, provisioningServiceName: string, provisioningServiceTags: Models.TagsResource, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,provisioningServiceName,provisioningServiceTags,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IotDpsResourceUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    provisioningServiceTags: Models.TagsResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      provisioningServiceName,
+      provisioningServiceTags,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.IotDpsResourceUpdateResponse
+    >;
   }
 
   /**
@@ -100,9 +143,16 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(provisioningServiceName,resourceGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      provisioningServiceName,
+      resourceGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -111,23 +161,36 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): void;
+  listBySubscription(
+    callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): Promise<Models.IotDpsResourceListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>,
+    callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>
+  ): Promise<Models.IotDpsResourceListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.IotDpsResourceListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.IotDpsResourceListBySubscriptionResponse>;
   }
 
   /**
@@ -136,26 +199,43 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Resource group identifier.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>
+  ): void;
   /**
    * @param resourceGroupName Resource group identifier.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): Promise<Models.IotDpsResourceListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>,
+    callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>
+  ): Promise<Models.IotDpsResourceListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.IotDpsResourceListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.IotDpsResourceListByResourceGroupResponse>;
   }
 
   /**
@@ -170,7 +250,13 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceGetOperationResultResponse>
    */
-  getOperationResult(operationId: string, resourceGroupName: string, provisioningServiceName: string, asyncinfo: string, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceGetOperationResultResponse>;
+  getOperationResult(
+    operationId: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    asyncinfo: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceGetOperationResultResponse>;
   /**
    * @param operationId Operation id corresponding to long running operation. Use this to poll for
    * the status.
@@ -180,7 +266,13 @@ export class IotDpsResource {
    * creating the long running operation.
    * @param callback The callback
    */
-  getOperationResult(operationId: string, resourceGroupName: string, provisioningServiceName: string, asyncinfo: string, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
+  getOperationResult(
+    operationId: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    asyncinfo: string,
+    callback: msRest.ServiceCallback<Models.AsyncOperationResult>
+  ): void;
   /**
    * @param operationId Operation id corresponding to long running operation. Use this to poll for
    * the status.
@@ -191,8 +283,22 @@ export class IotDpsResource {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOperationResult(operationId: string, resourceGroupName: string, provisioningServiceName: string, asyncinfo: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AsyncOperationResult>): void;
-  getOperationResult(operationId: string, resourceGroupName: string, provisioningServiceName: string, asyncinfo: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>, callback?: msRest.ServiceCallback<Models.AsyncOperationResult>): Promise<Models.IotDpsResourceGetOperationResultResponse> {
+  getOperationResult(
+    operationId: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    asyncinfo: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AsyncOperationResult>
+  ): void;
+  getOperationResult(
+    operationId: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    asyncinfo: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AsyncOperationResult>,
+    callback?: msRest.ServiceCallback<Models.AsyncOperationResult>
+  ): Promise<Models.IotDpsResourceGetOperationResultResponse> {
     return this.client.sendOperationRequest(
       {
         operationId,
@@ -202,7 +308,8 @@ export class IotDpsResource {
         options
       },
       getOperationResultOperationSpec,
-      callback) as Promise<Models.IotDpsResourceGetOperationResultResponse>;
+      callback
+    ) as Promise<Models.IotDpsResourceGetOperationResultResponse>;
   }
 
   /**
@@ -213,21 +320,41 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceListValidSkusResponse>
    */
-  listValidSkus(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceListValidSkusResponse>;
+  listValidSkus(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceListValidSkusResponse>;
   /**
    * @param provisioningServiceName Name of provisioning service.
    * @param resourceGroupName Name of resource group.
    * @param callback The callback
    */
-  listValidSkus(provisioningServiceName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>): void;
+  listValidSkus(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>
+  ): void;
   /**
    * @param provisioningServiceName Name of provisioning service.
    * @param resourceGroupName Name of resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listValidSkus(provisioningServiceName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>): void;
-  listValidSkus(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>, callback?: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>): Promise<Models.IotDpsResourceListValidSkusResponse> {
+  listValidSkus(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>
+  ): void;
+  listValidSkus(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>
+  ): Promise<Models.IotDpsResourceListValidSkusResponse> {
     return this.client.sendOperationRequest(
       {
         provisioningServiceName,
@@ -235,7 +362,8 @@ export class IotDpsResource {
         options
       },
       listValidSkusOperationSpec,
-      callback) as Promise<Models.IotDpsResourceListValidSkusResponse>;
+      callback
+    ) as Promise<Models.IotDpsResourceListValidSkusResponse>;
   }
 
   /**
@@ -247,28 +375,43 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse>
    */
-  checkProvisioningServiceNameAvailability(argumentsParameter: Models.OperationInputs, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse>;
+  checkProvisioningServiceNameAvailability(
+    argumentsParameter: Models.OperationInputs,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse>;
   /**
    * @param argumentsParameter Set the name parameter in the OperationInputs structure to the name of
    * the provisioning service to check.
    * @param callback The callback
    */
-  checkProvisioningServiceNameAvailability(argumentsParameter: Models.OperationInputs, callback: msRest.ServiceCallback<Models.NameAvailabilityInfo>): void;
+  checkProvisioningServiceNameAvailability(
+    argumentsParameter: Models.OperationInputs,
+    callback: msRest.ServiceCallback<Models.NameAvailabilityInfo>
+  ): void;
   /**
    * @param argumentsParameter Set the name parameter in the OperationInputs structure to the name of
    * the provisioning service to check.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkProvisioningServiceNameAvailability(argumentsParameter: Models.OperationInputs, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameAvailabilityInfo>): void;
-  checkProvisioningServiceNameAvailability(argumentsParameter: Models.OperationInputs, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityInfo>, callback?: msRest.ServiceCallback<Models.NameAvailabilityInfo>): Promise<Models.IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse> {
+  checkProvisioningServiceNameAvailability(
+    argumentsParameter: Models.OperationInputs,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NameAvailabilityInfo>
+  ): void;
+  checkProvisioningServiceNameAvailability(
+    argumentsParameter: Models.OperationInputs,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityInfo>,
+    callback?: msRest.ServiceCallback<Models.NameAvailabilityInfo>
+  ): Promise<Models.IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         argumentsParameter,
         options
       },
       checkProvisioningServiceNameAvailabilityOperationSpec,
-      callback) as Promise<Models.IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse>;
   }
 
   /**
@@ -279,21 +422,41 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceListKeysResponse>
    */
-  listKeys(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceListKeysResponse>;
+  listKeys(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceListKeysResponse>;
   /**
    * @param provisioningServiceName The provisioning service name to get the shared access keys for.
    * @param resourceGroupName resource group name
    * @param callback The callback
    */
-  listKeys(provisioningServiceName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): void;
+  listKeys(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>
+  ): void;
   /**
    * @param provisioningServiceName The provisioning service name to get the shared access keys for.
    * @param resourceGroupName resource group name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(provisioningServiceName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): void;
-  listKeys(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): Promise<Models.IotDpsResourceListKeysResponse> {
+  listKeys(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>
+  ): void;
+  listKeys(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>
+  ): Promise<Models.IotDpsResourceListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         provisioningServiceName,
@@ -301,7 +464,8 @@ export class IotDpsResource {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.IotDpsResourceListKeysResponse>;
+      callback
+    ) as Promise<Models.IotDpsResourceListKeysResponse>;
   }
 
   /**
@@ -313,14 +477,26 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceListKeysForKeyNameResponse>
    */
-  listKeysForKeyName(provisioningServiceName: string, keyName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceListKeysForKeyNameResponse>;
+  listKeysForKeyName(
+    provisioningServiceName: string,
+    keyName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceListKeysForKeyNameResponse>;
   /**
    * @param provisioningServiceName Name of the provisioning service.
    * @param keyName Logical key name to get key-values for.
    * @param resourceGroupName The name of the resource group that contains the provisioning service.
    * @param callback The callback
    */
-  listKeysForKeyName(provisioningServiceName: string, keyName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription>): void;
+  listKeysForKeyName(
+    provisioningServiceName: string,
+    keyName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<
+      Models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription
+    >
+  ): void;
   /**
    * @param provisioningServiceName Name of the provisioning service.
    * @param keyName Logical key name to get key-values for.
@@ -328,8 +504,28 @@ export class IotDpsResource {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeysForKeyName(provisioningServiceName: string, keyName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription>): void;
-  listKeysForKeyName(provisioningServiceName: string, keyName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription>, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription>): Promise<Models.IotDpsResourceListKeysForKeyNameResponse> {
+  listKeysForKeyName(
+    provisioningServiceName: string,
+    keyName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<
+      Models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription
+    >
+  ): void;
+  listKeysForKeyName(
+    provisioningServiceName: string,
+    keyName: string,
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<
+          Models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription
+        >,
+    callback?: msRest.ServiceCallback<
+      Models.SharedAccessSignatureAuthorizationRuleAccessRightsDescription
+    >
+  ): Promise<Models.IotDpsResourceListKeysForKeyNameResponse> {
     return this.client.sendOperationRequest(
       {
         provisioningServiceName,
@@ -338,7 +534,8 @@ export class IotDpsResource {
         options
       },
       listKeysForKeyNameOperationSpec,
-      callback) as Promise<Models.IotDpsResourceListKeysForKeyNameResponse>;
+      callback
+    ) as Promise<Models.IotDpsResourceListKeysForKeyNameResponse>;
   }
 
   /**
@@ -352,7 +549,12 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, provisioningServiceName: string, iotDpsDescription: Models.ProvisioningServiceDescription, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    iotDpsDescription: Models.ProvisioningServiceDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -361,7 +563,8 @@ export class IotDpsResource {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -375,7 +578,12 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, provisioningServiceName: string, provisioningServiceTags: Models.TagsResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    provisioningServiceTags: Models.TagsResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -384,7 +592,8 @@ export class IotDpsResource {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -395,7 +604,11 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(provisioningServiceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    provisioningServiceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         provisioningServiceName,
@@ -403,7 +616,8 @@ export class IotDpsResource {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -413,26 +627,43 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): Promise<Models.IotDpsResourceListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>,
+    callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>
+  ): Promise<Models.IotDpsResourceListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.IotDpsResourceListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.IotDpsResourceListBySubscriptionNextResponse>;
   }
 
   /**
@@ -441,26 +672,43 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>, callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>): Promise<Models.IotDpsResourceListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>,
+    callback?: msRest.ServiceCallback<Models.ProvisioningServiceDescriptionListResult>
+  ): Promise<Models.IotDpsResourceListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.IotDpsResourceListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.IotDpsResourceListByResourceGroupNextResponse>;
   }
 
   /**
@@ -470,26 +718,43 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceListValidSkusNextResponse>
    */
-  listValidSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceListValidSkusNextResponse>;
+  listValidSkusNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceListValidSkusNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listValidSkusNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>): void;
+  listValidSkusNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listValidSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>): void;
-  listValidSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>, callback?: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>): Promise<Models.IotDpsResourceListValidSkusNextResponse> {
+  listValidSkusNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>
+  ): void;
+  listValidSkusNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.IotDpsSkuDefinitionListResult>
+  ): Promise<Models.IotDpsResourceListValidSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listValidSkusNextOperationSpec,
-      callback) as Promise<Models.IotDpsResourceListValidSkusNextResponse>;
+      callback
+    ) as Promise<Models.IotDpsResourceListValidSkusNextResponse>;
   }
 
   /**
@@ -499,26 +764,43 @@ export class IotDpsResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotDpsResourceListKeysNextResponse>
    */
-  listKeysNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IotDpsResourceListKeysNextResponse>;
+  listKeysNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotDpsResourceListKeysNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listKeysNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): void;
+  listKeysNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeysNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): void;
-  listKeysNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>): Promise<Models.IotDpsResourceListKeysNextResponse> {
+  listKeysNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>
+  ): void;
+  listKeysNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.SharedAccessSignatureAuthorizationRuleListResult>
+  ): Promise<Models.IotDpsResourceListKeysNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listKeysNextOperationSpec,
-      callback) as Promise<Models.IotDpsResourceListKeysNextResponse>;
+      callback
+    ) as Promise<Models.IotDpsResourceListKeysNextResponse>;
   }
 }
 
@@ -526,18 +808,15 @@ export class IotDpsResource {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
   urlParameters: [
     Parameters.provisioningServiceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProvisioningServiceDescription
@@ -552,15 +831,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Devices/provisioningServices",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProvisioningServiceDescriptionListResult
@@ -574,17 +847,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProvisioningServiceDescriptionListResult
@@ -598,20 +865,16 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationResultOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/operationresults/{operationId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/operationresults/{operationId}",
   urlParameters: [
     Parameters.operationId,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.provisioningServiceName
   ],
-  queryParameters: [
-    Parameters.asyncinfo,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.asyncinfo, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AsyncOperationResult
@@ -625,18 +888,15 @@ const getOperationResultOperationSpec: msRest.OperationSpec = {
 
 const listValidSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/skus",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/skus",
   urlParameters: [
     Parameters.provisioningServiceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotDpsSkuDefinitionListResult
@@ -650,16 +910,11 @@ const listValidSkusOperationSpec: msRest.OperationSpec = {
 
 const checkProvisioningServiceNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Devices/checkProvisioningServiceNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Devices/checkProvisioningServiceNameAvailability",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "argumentsParameter",
     mapper: {
@@ -680,18 +935,15 @@ const checkProvisioningServiceNameAvailabilityOperationSpec: msRest.OperationSpe
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/listkeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/listkeys",
   urlParameters: [
     Parameters.provisioningServiceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SharedAccessSignatureAuthorizationRuleListResult
@@ -705,19 +957,16 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const listKeysForKeyNameOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/keys/{keyName}/listkeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/keys/{keyName}/listkeys",
   urlParameters: [
     Parameters.provisioningServiceName,
     Parameters.keyName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SharedAccessSignatureAuthorizationRuleAccessRightsDescription
@@ -731,18 +980,15 @@ const listKeysForKeyNameOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.provisioningServiceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "iotDpsDescription",
     mapper: {
@@ -766,18 +1012,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.provisioningServiceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "provisioningServiceTags",
     mapper: {
@@ -798,18 +1041,15 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
   urlParameters: [
     Parameters.provisioningServiceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -826,12 +1066,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProvisioningServiceDescriptionListResult
@@ -847,12 +1083,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProvisioningServiceDescriptionListResult
@@ -868,12 +1100,8 @@ const listValidSkusNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IotDpsSkuDefinitionListResult
@@ -889,12 +1117,8 @@ const listKeysNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SharedAccessSignatureAuthorizationRuleListResult

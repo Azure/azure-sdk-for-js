@@ -35,7 +35,10 @@ export class Local {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocalSearchResponse>
    */
-  search(query: string, options?: Models.LocalSearchOptionalParams): Promise<Models.LocalSearchResponse>;
+  search(
+    query: string,
+    options?: Models.LocalSearchOptionalParams
+  ): Promise<Models.LocalSearchResponse>;
   /**
    * @param query The user's search term.
    * @param callback The callback
@@ -46,15 +49,24 @@ export class Local {
    * @param options The optional parameters
    * @param callback The callback
    */
-  search(query: string, options: Models.LocalSearchOptionalParams, callback: msRest.ServiceCallback<Models.SearchResponse>): void;
-  search(query: string, options?: Models.LocalSearchOptionalParams | msRest.ServiceCallback<Models.SearchResponse>, callback?: msRest.ServiceCallback<Models.SearchResponse>): Promise<Models.LocalSearchResponse> {
+  search(
+    query: string,
+    options: Models.LocalSearchOptionalParams,
+    callback: msRest.ServiceCallback<Models.SearchResponse>
+  ): void;
+  search(
+    query: string,
+    options?: Models.LocalSearchOptionalParams | msRest.ServiceCallback<Models.SearchResponse>,
+    callback?: msRest.ServiceCallback<Models.SearchResponse>
+  ): Promise<Models.LocalSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
         options
       },
       searchOperationSpec,
-      callback) as Promise<Models.LocalSearchResponse>;
+      callback
+    ) as Promise<Models.LocalSearchResponse>;
   }
 }
 

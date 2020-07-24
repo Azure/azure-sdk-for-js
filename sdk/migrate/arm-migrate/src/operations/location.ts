@@ -33,21 +33,41 @@ export class Location {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase): Promise<Models.LocationCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    locationName: string,
+    parameters: Models.CheckNameAvailabilityParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocationCheckNameAvailabilityResponse>;
   /**
    * @param locationName The desired region for the name check.
    * @param parameters Properties needed to check the availability of a name.
    * @param callback The callback
    */
-  checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityParameters, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
+  checkNameAvailability(
+    locationName: string,
+    parameters: Models.CheckNameAvailabilityParameters,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
   /**
    * @param locationName The desired region for the name check.
    * @param parameters Properties needed to check the availability of a name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.LocationCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    locationName: string,
+    parameters: Models.CheckNameAvailabilityParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
+  checkNameAvailability(
+    locationName: string,
+    parameters: Models.CheckNameAvailabilityParameters,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): Promise<Models.LocationCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -55,7 +75,8 @@ export class Location {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.LocationCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.LocationCheckNameAvailabilityResponse>;
   }
 }
 
@@ -63,17 +84,11 @@ export class Location {
 const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Migrate/locations/{locationName}/checkNameAvailability",
-  urlParameters: [
-    Parameters.locationName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Migrate/locations/{locationName}/checkNameAvailability",
+  urlParameters: [Parameters.locationName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

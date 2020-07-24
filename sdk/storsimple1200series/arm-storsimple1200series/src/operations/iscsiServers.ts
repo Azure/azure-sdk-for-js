@@ -35,14 +35,24 @@ export class IscsiServers {
    * @param [options] The optional parameters
    * @returns Promise<Models.IscsiServersListByDeviceResponse>
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiServersListByDeviceResponse>;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IscsiServersListByDeviceResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.ISCSIServerList>): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.ISCSIServerList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
@@ -50,8 +60,20 @@ export class IscsiServers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ISCSIServerList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIServerList>, callback?: msRest.ServiceCallback<Models.ISCSIServerList>): Promise<Models.IscsiServersListByDeviceResponse> {
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ISCSIServerList>
+  ): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIServerList>,
+    callback?: msRest.ServiceCallback<Models.ISCSIServerList>
+  ): Promise<Models.IscsiServersListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -60,7 +82,8 @@ export class IscsiServers {
         options
       },
       listByDeviceOperationSpec,
-      callback) as Promise<Models.IscsiServersListByDeviceResponse>;
+      callback
+    ) as Promise<Models.IscsiServersListByDeviceResponse>;
   }
 
   /**
@@ -72,7 +95,13 @@ export class IscsiServers {
    * @param [options] The optional parameters
    * @returns Promise<Models.IscsiServersGetResponse>
    */
-  get(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiServersGetResponse>;
+  get(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IscsiServersGetResponse>;
   /**
    * @param deviceName The device name.
    * @param iscsiServerName The iscsi server name.
@@ -80,7 +109,13 @@ export class IscsiServers {
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.ISCSIServer>): void;
+  get(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.ISCSIServer>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param iscsiServerName The iscsi server name.
@@ -89,8 +124,22 @@ export class IscsiServers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ISCSIServer>): void;
-  get(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIServer>, callback?: msRest.ServiceCallback<Models.ISCSIServer>): Promise<Models.IscsiServersGetResponse> {
+  get(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ISCSIServer>
+  ): void;
+  get(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIServer>,
+    callback?: msRest.ServiceCallback<Models.ISCSIServer>
+  ): Promise<Models.IscsiServersGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -100,7 +149,8 @@ export class IscsiServers {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IscsiServersGetResponse>;
+      callback
+    ) as Promise<Models.IscsiServersGetResponse>;
   }
 
   /**
@@ -113,9 +163,24 @@ export class IscsiServers {
    * @param [options] The optional parameters
    * @returns Promise<Models.IscsiServersCreateOrUpdateResponse>
    */
-  createOrUpdate(deviceName: string, iscsiServerName: string, iscsiServer: Models.ISCSIServer, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiServersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(deviceName,iscsiServerName,iscsiServer,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IscsiServersCreateOrUpdateResponse>;
+  createOrUpdate(
+    deviceName: string,
+    iscsiServerName: string,
+    iscsiServer: Models.ISCSIServer,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IscsiServersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      deviceName,
+      iscsiServerName,
+      iscsiServer,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.IscsiServersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -127,9 +192,20 @@ export class IscsiServers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(deviceName,iscsiServerName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      deviceName,
+      iscsiServerName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -141,9 +217,20 @@ export class IscsiServers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  backupNow(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginBackupNow(deviceName,iscsiServerName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  backupNow(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginBackupNow(
+      deviceName,
+      iscsiServerName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -155,7 +242,13 @@ export class IscsiServers {
    * @param [options] The optional parameters
    * @returns Promise<Models.IscsiServersListMetricsResponse>
    */
-  listMetrics(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: Models.IscsiServersListMetricsOptionalParams): Promise<Models.IscsiServersListMetricsResponse>;
+  listMetrics(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.IscsiServersListMetricsOptionalParams
+  ): Promise<Models.IscsiServersListMetricsResponse>;
   /**
    * @param deviceName The devie name.
    * @param iscsiServerName The iscsi server name.
@@ -163,7 +256,13 @@ export class IscsiServers {
    * @param managerName The manager name
    * @param callback The callback
    */
-  listMetrics(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricList>): void;
+  listMetrics(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
   /**
    * @param deviceName The devie name.
    * @param iscsiServerName The iscsi server name.
@@ -172,8 +271,24 @@ export class IscsiServers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options: Models.IscsiServersListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: Models.IscsiServersListMetricsOptionalParams | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.IscsiServersListMetricsResponse> {
+  listMetrics(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.IscsiServersListMetricsOptionalParams,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
+  listMetrics(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?:
+      | Models.IscsiServersListMetricsOptionalParams
+      | msRest.ServiceCallback<Models.MetricList>,
+    callback?: msRest.ServiceCallback<Models.MetricList>
+  ): Promise<Models.IscsiServersListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -183,7 +298,8 @@ export class IscsiServers {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.IscsiServersListMetricsResponse>;
+      callback
+    ) as Promise<Models.IscsiServersListMetricsResponse>;
   }
 
   /**
@@ -195,7 +311,13 @@ export class IscsiServers {
    * @param [options] The optional parameters
    * @returns Promise<Models.IscsiServersListMetricDefinitionResponse>
    */
-  listMetricDefinition(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiServersListMetricDefinitionResponse>;
+  listMetricDefinition(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IscsiServersListMetricDefinitionResponse>;
   /**
    * @param deviceName The devie name.
    * @param iscsiServerName The iscsi server name.
@@ -203,7 +325,13 @@ export class IscsiServers {
    * @param managerName The manager name
    * @param callback The callback
    */
-  listMetricDefinition(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
+  listMetricDefinition(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
   /**
    * @param deviceName The devie name.
    * @param iscsiServerName The iscsi server name.
@@ -212,8 +340,22 @@ export class IscsiServers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetricDefinition(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.IscsiServersListMetricDefinitionResponse> {
+  listMetricDefinition(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
+  listMetricDefinition(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): Promise<Models.IscsiServersListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -223,7 +365,8 @@ export class IscsiServers {
         options
       },
       listMetricDefinitionOperationSpec,
-      callback) as Promise<Models.IscsiServersListMetricDefinitionResponse>;
+      callback
+    ) as Promise<Models.IscsiServersListMetricDefinitionResponse>;
   }
 
   /**
@@ -233,21 +376,39 @@ export class IscsiServers {
    * @param [options] The optional parameters
    * @returns Promise<Models.IscsiServersListByManagerResponse>
    */
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiServersListByManagerResponse>;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IscsiServersListByManagerResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.ISCSIServerList>): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.ISCSIServerList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ISCSIServerList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIServerList>, callback?: msRest.ServiceCallback<Models.ISCSIServerList>): Promise<Models.IscsiServersListByManagerResponse> {
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ISCSIServerList>
+  ): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIServerList>,
+    callback?: msRest.ServiceCallback<Models.ISCSIServerList>
+  ): Promise<Models.IscsiServersListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -255,7 +416,8 @@ export class IscsiServers {
         options
       },
       listByManagerOperationSpec,
-      callback) as Promise<Models.IscsiServersListByManagerResponse>;
+      callback
+    ) as Promise<Models.IscsiServersListByManagerResponse>;
   }
 
   /**
@@ -268,7 +430,14 @@ export class IscsiServers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(deviceName: string, iscsiServerName: string, iscsiServer: Models.ISCSIServer, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    deviceName: string,
+    iscsiServerName: string,
+    iscsiServer: Models.ISCSIServer,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -279,7 +448,8 @@ export class IscsiServers {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -291,7 +461,13 @@ export class IscsiServers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -301,7 +477,8 @@ export class IscsiServers {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -313,7 +490,13 @@ export class IscsiServers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginBackupNow(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginBackupNow(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -323,7 +506,8 @@ export class IscsiServers {
         options
       },
       beginBackupNowOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -331,19 +515,16 @@ export class IscsiServers {
 const serializer = new msRest.Serializer(Mappers);
 const listByDeviceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ISCSIServerList
@@ -357,7 +538,8 @@ const listByDeviceOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.iscsiServerName,
@@ -365,12 +547,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ISCSIServer
@@ -384,7 +562,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/metrics",
   urlParameters: [
     Parameters.deviceName,
     Parameters.iscsiServerName,
@@ -392,13 +571,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricList
@@ -412,7 +586,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
 
 const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/metricsDefinitions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/metricsDefinitions",
   urlParameters: [
     Parameters.deviceName,
     Parameters.iscsiServerName,
@@ -420,12 +595,8 @@ const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricDefinitionList
@@ -439,18 +610,11 @@ const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
 
 const listByManagerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/iscsiservers",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/iscsiservers",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ISCSIServerList
@@ -464,7 +628,8 @@ const listByManagerOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.iscsiServerName,
@@ -472,12 +637,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "iscsiServer",
     mapper: {
@@ -499,7 +660,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.iscsiServerName,
@@ -507,12 +669,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -525,7 +683,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginBackupNowOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/backup",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/backup",
   urlParameters: [
     Parameters.deviceName,
     Parameters.iscsiServerName,
@@ -533,12 +692,8 @@ const beginBackupNowOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},

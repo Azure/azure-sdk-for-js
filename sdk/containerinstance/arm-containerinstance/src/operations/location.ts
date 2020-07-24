@@ -32,7 +32,10 @@ export class Location {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationListUsageResponse>
    */
-  listUsage(location: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationListUsageResponse>;
+  listUsage(
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocationListUsageResponse>;
   /**
    * @param location The identifier for the physical azure location.
    * @param callback The callback
@@ -43,15 +46,24 @@ export class Location {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUsage(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
-  listUsage(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageListResult>, callback?: msRest.ServiceCallback<Models.UsageListResult>): Promise<Models.LocationListUsageResponse> {
+  listUsage(
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UsageListResult>
+  ): void;
+  listUsage(
+    location: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageListResult>,
+    callback?: msRest.ServiceCallback<Models.UsageListResult>
+  ): Promise<Models.LocationListUsageResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listUsageOperationSpec,
-      callback) as Promise<Models.LocationListUsageResponse>;
+      callback
+    ) as Promise<Models.LocationListUsageResponse>;
   }
 
   /**
@@ -61,26 +73,41 @@ export class Location {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationListCachedImagesResponse>
    */
-  listCachedImages(location: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationListCachedImagesResponse>;
+  listCachedImages(
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocationListCachedImagesResponse>;
   /**
    * @param location The identifier for the physical azure location.
    * @param callback The callback
    */
-  listCachedImages(location: string, callback: msRest.ServiceCallback<Models.CachedImagesListResult>): void;
+  listCachedImages(
+    location: string,
+    callback: msRest.ServiceCallback<Models.CachedImagesListResult>
+  ): void;
   /**
    * @param location The identifier for the physical azure location.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCachedImages(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CachedImagesListResult>): void;
-  listCachedImages(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachedImagesListResult>, callback?: msRest.ServiceCallback<Models.CachedImagesListResult>): Promise<Models.LocationListCachedImagesResponse> {
+  listCachedImages(
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CachedImagesListResult>
+  ): void;
+  listCachedImages(
+    location: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachedImagesListResult>,
+    callback?: msRest.ServiceCallback<Models.CachedImagesListResult>
+  ): Promise<Models.LocationListCachedImagesResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listCachedImagesOperationSpec,
-      callback) as Promise<Models.LocationListCachedImagesResponse>;
+      callback
+    ) as Promise<Models.LocationListCachedImagesResponse>;
   }
 
   /**
@@ -90,26 +117,41 @@ export class Location {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationListCapabilitiesResponse>
    */
-  listCapabilities(location: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationListCapabilitiesResponse>;
+  listCapabilities(
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocationListCapabilitiesResponse>;
   /**
    * @param location The identifier for the physical azure location.
    * @param callback The callback
    */
-  listCapabilities(location: string, callback: msRest.ServiceCallback<Models.CapabilitiesListResult>): void;
+  listCapabilities(
+    location: string,
+    callback: msRest.ServiceCallback<Models.CapabilitiesListResult>
+  ): void;
   /**
    * @param location The identifier for the physical azure location.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCapabilities(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapabilitiesListResult>): void;
-  listCapabilities(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapabilitiesListResult>, callback?: msRest.ServiceCallback<Models.CapabilitiesListResult>): Promise<Models.LocationListCapabilitiesResponse> {
+  listCapabilities(
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CapabilitiesListResult>
+  ): void;
+  listCapabilities(
+    location: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapabilitiesListResult>,
+    callback?: msRest.ServiceCallback<Models.CapabilitiesListResult>
+  ): Promise<Models.LocationListCapabilitiesResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listCapabilitiesOperationSpec,
-      callback) as Promise<Models.LocationListCapabilitiesResponse>;
+      callback
+    ) as Promise<Models.LocationListCapabilitiesResponse>;
   }
 
   /**
@@ -119,26 +161,41 @@ export class Location {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationListCachedImagesNextResponse>
    */
-  listCachedImagesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationListCachedImagesNextResponse>;
+  listCachedImagesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocationListCachedImagesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listCachedImagesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CachedImagesListResult>): void;
+  listCachedImagesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CachedImagesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCachedImagesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CachedImagesListResult>): void;
-  listCachedImagesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachedImagesListResult>, callback?: msRest.ServiceCallback<Models.CachedImagesListResult>): Promise<Models.LocationListCachedImagesNextResponse> {
+  listCachedImagesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CachedImagesListResult>
+  ): void;
+  listCachedImagesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachedImagesListResult>,
+    callback?: msRest.ServiceCallback<Models.CachedImagesListResult>
+  ): Promise<Models.LocationListCachedImagesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listCachedImagesNextOperationSpec,
-      callback) as Promise<Models.LocationListCachedImagesNextResponse>;
+      callback
+    ) as Promise<Models.LocationListCachedImagesNextResponse>;
   }
 
   /**
@@ -148,26 +205,41 @@ export class Location {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationListCapabilitiesNextResponse>
    */
-  listCapabilitiesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationListCapabilitiesNextResponse>;
+  listCapabilitiesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocationListCapabilitiesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listCapabilitiesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CapabilitiesListResult>): void;
+  listCapabilitiesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CapabilitiesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCapabilitiesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapabilitiesListResult>): void;
-  listCapabilitiesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapabilitiesListResult>, callback?: msRest.ServiceCallback<Models.CapabilitiesListResult>): Promise<Models.LocationListCapabilitiesNextResponse> {
+  listCapabilitiesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CapabilitiesListResult>
+  ): void;
+  listCapabilitiesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapabilitiesListResult>,
+    callback?: msRest.ServiceCallback<Models.CapabilitiesListResult>
+  ): Promise<Models.LocationListCapabilitiesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listCapabilitiesNextOperationSpec,
-      callback) as Promise<Models.LocationListCapabilitiesNextResponse>;
+      callback
+    ) as Promise<Models.LocationListCapabilitiesNextResponse>;
   }
 }
 
@@ -175,17 +247,11 @@ export class Location {
 const serializer = new msRest.Serializer(Mappers);
 const listUsageOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/usages",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/usages",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UsageListResult
@@ -199,17 +265,11 @@ const listUsageOperationSpec: msRest.OperationSpec = {
 
 const listCachedImagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/cachedImages",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/cachedImages",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CachedImagesListResult
@@ -223,17 +283,11 @@ const listCachedImagesOperationSpec: msRest.OperationSpec = {
 
 const listCapabilitiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/capabilities",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/capabilities",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CapabilitiesListResult
@@ -249,12 +303,8 @@ const listCachedImagesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CachedImagesListResult
@@ -270,12 +320,8 @@ const listCapabilitiesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CapabilitiesListResult

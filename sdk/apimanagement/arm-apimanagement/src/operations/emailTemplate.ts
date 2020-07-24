@@ -33,21 +33,41 @@ export class EmailTemplate {
    * @param [options] The optional parameters
    * @returns Promise<Models.EmailTemplateListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.EmailTemplateListByServiceOptionalParams): Promise<Models.EmailTemplateListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: Models.EmailTemplateListByServiceOptionalParams
+  ): Promise<Models.EmailTemplateListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.EmailTemplateCollection>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.EmailTemplateCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.EmailTemplateListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.EmailTemplateCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.EmailTemplateListByServiceOptionalParams | msRest.ServiceCallback<Models.EmailTemplateCollection>, callback?: msRest.ServiceCallback<Models.EmailTemplateCollection>): Promise<Models.EmailTemplateListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options: Models.EmailTemplateListByServiceOptionalParams,
+    callback: msRest.ServiceCallback<Models.EmailTemplateCollection>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?:
+      | Models.EmailTemplateListByServiceOptionalParams
+      | msRest.ServiceCallback<Models.EmailTemplateCollection>,
+    callback?: msRest.ServiceCallback<Models.EmailTemplateCollection>
+  ): Promise<Models.EmailTemplateListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class EmailTemplate {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.EmailTemplateListByServiceResponse>;
+      callback
+    ) as Promise<Models.EmailTemplateListByServiceResponse>;
   }
 
   /**
@@ -73,7 +94,12 @@ export class EmailTemplate {
    * @param [options] The optional parameters
    * @returns Promise<Models.EmailTemplateGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, options?: msRest.RequestOptionsBase): Promise<Models.EmailTemplateGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EmailTemplateGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -87,7 +113,12 @@ export class EmailTemplate {
    * 'requestDeveloperNotificationMessage'
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -102,8 +133,20 @@ export class EmailTemplate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.EmailTemplateGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.EmailTemplateGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +155,8 @@ export class EmailTemplate {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.EmailTemplateGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.EmailTemplateGetEntityTagResponse>;
   }
 
   /**
@@ -130,7 +174,12 @@ export class EmailTemplate {
    * @param [options] The optional parameters
    * @returns Promise<Models.EmailTemplateGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, options?: msRest.RequestOptionsBase): Promise<Models.EmailTemplateGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EmailTemplateGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -144,7 +193,12 @@ export class EmailTemplate {
    * 'requestDeveloperNotificationMessage'
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, callback: msRest.ServiceCallback<Models.EmailTemplateContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    callback: msRest.ServiceCallback<Models.EmailTemplateContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -159,8 +213,20 @@ export class EmailTemplate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EmailTemplateContract>): void;
-  get(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EmailTemplateContract>, callback?: msRest.ServiceCallback<Models.EmailTemplateContract>): Promise<Models.EmailTemplateGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EmailTemplateContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EmailTemplateContract>,
+    callback?: msRest.ServiceCallback<Models.EmailTemplateContract>
+  ): Promise<Models.EmailTemplateGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +235,8 @@ export class EmailTemplate {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.EmailTemplateGetResponse>;
+      callback
+    ) as Promise<Models.EmailTemplateGetResponse>;
   }
 
   /**
@@ -188,7 +255,13 @@ export class EmailTemplate {
    * @param [options] The optional parameters
    * @returns Promise<Models.EmailTemplateCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, options?: Models.EmailTemplateCreateOrUpdateOptionalParams): Promise<Models.EmailTemplateCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    parameters: Models.EmailTemplateUpdateParameters,
+    options?: Models.EmailTemplateCreateOrUpdateOptionalParams
+  ): Promise<Models.EmailTemplateCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -203,7 +276,13 @@ export class EmailTemplate {
    * @param parameters Email Template update parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, callback: msRest.ServiceCallback<Models.EmailTemplateContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    parameters: Models.EmailTemplateUpdateParameters,
+    callback: msRest.ServiceCallback<Models.EmailTemplateContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -219,8 +298,24 @@ export class EmailTemplate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, options: Models.EmailTemplateCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.EmailTemplateContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, options?: Models.EmailTemplateCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.EmailTemplateContract>, callback?: msRest.ServiceCallback<Models.EmailTemplateContract>): Promise<Models.EmailTemplateCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    parameters: Models.EmailTemplateUpdateParameters,
+    options: Models.EmailTemplateCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.EmailTemplateContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    parameters: Models.EmailTemplateUpdateParameters,
+    options?:
+      | Models.EmailTemplateCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.EmailTemplateContract>,
+    callback?: msRest.ServiceCallback<Models.EmailTemplateContract>
+  ): Promise<Models.EmailTemplateCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -230,7 +325,8 @@ export class EmailTemplate {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.EmailTemplateCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.EmailTemplateCreateOrUpdateResponse>;
   }
 
   /**
@@ -251,7 +347,14 @@ export class EmailTemplate {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    parameters: Models.EmailTemplateUpdateParameters,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -268,7 +371,14 @@ export class EmailTemplate {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    parameters: Models.EmailTemplateUpdateParameters,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -286,8 +396,24 @@ export class EmailTemplate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, parameters: Models.EmailTemplateUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    parameters: Models.EmailTemplateUpdateParameters,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    parameters: Models.EmailTemplateUpdateParameters,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -298,7 +424,8 @@ export class EmailTemplate {
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -318,7 +445,13 @@ export class EmailTemplate {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -334,7 +467,13 @@ export class EmailTemplate {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -351,8 +490,22 @@ export class EmailTemplate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, templateName: Models.TemplateName, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    templateName: Models.TemplateName,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -362,7 +515,8 @@ export class EmailTemplate {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -371,26 +525,41 @@ export class EmailTemplate {
    * @param [options] The optional parameters
    * @returns Promise<Models.EmailTemplateListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EmailTemplateListByServiceNextResponse>;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EmailTemplateListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EmailTemplateCollection>): void;
+  listByServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.EmailTemplateCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EmailTemplateCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EmailTemplateCollection>, callback?: msRest.ServiceCallback<Models.EmailTemplateCollection>): Promise<Models.EmailTemplateListByServiceNextResponse> {
+  listByServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EmailTemplateCollection>
+  ): void;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EmailTemplateCollection>,
+    callback?: msRest.ServiceCallback<Models.EmailTemplateCollection>
+  ): Promise<Models.EmailTemplateListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.EmailTemplateListByServiceNextResponse>;
+      callback
+    ) as Promise<Models.EmailTemplateListByServiceNextResponse>;
   }
 }
 
@@ -398,21 +567,11 @@ export class EmailTemplate {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.filter0, Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EmailTemplateCollection
@@ -426,19 +585,16 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.templateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.EmailTemplateGetEntityTagHeaders
@@ -452,19 +608,16 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.templateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EmailTemplateContract,
@@ -479,20 +632,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.templateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -516,20 +665,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.templateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -548,20 +693,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/templates/{templateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.templateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -576,12 +717,8 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EmailTemplateCollection

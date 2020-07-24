@@ -21,20 +21,12 @@ export const apiVersion: coreHttp.OperationQueryParameter = {
   }
 };
 export const autocompleteMode: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "autocompleteOptions",
-    "autocompleteMode"
-  ],
+  parameterPath: ["options", "autocompleteOptions", "autocompleteMode"],
   mapper: {
     serializedName: "autocompleteMode",
     type: {
       name: "Enum",
-      allowedValues: [
-        "oneTerm",
-        "twoTerms",
-        "oneTermWithContext"
-      ]
+      allowedValues: ["oneTerm", "twoTerms", "oneTermWithContext"]
     }
   }
 };
@@ -43,7 +35,7 @@ export const endpoint: coreHttp.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -51,11 +43,7 @@ export const endpoint: coreHttp.OperationURLParameter = {
   skipEncoding: true
 };
 export const facets: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "facets"
-  ],
+  parameterPath: ["options", "searchOptions", "facets"],
   mapper: {
     serializedName: "facet",
     type: {
@@ -70,11 +58,7 @@ export const facets: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Multi
 };
 export const filter0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "filter"
-  ],
+  parameterPath: ["options", "searchOptions", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -83,11 +67,7 @@ export const filter0: coreHttp.OperationQueryParameter = {
   }
 };
 export const filter1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "suggestOptions",
-    "filter"
-  ],
+  parameterPath: ["options", "suggestOptions", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -96,11 +76,7 @@ export const filter1: coreHttp.OperationQueryParameter = {
   }
 };
 export const filter2: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "autocompleteOptions",
-    "filter"
-  ],
+  parameterPath: ["options", "autocompleteOptions", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -109,11 +85,7 @@ export const filter2: coreHttp.OperationQueryParameter = {
   }
 };
 export const highlightFields: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "highlightFields"
-  ],
+  parameterPath: ["options", "searchOptions", "highlightFields"],
   mapper: {
     serializedName: "highlight",
     type: {
@@ -128,11 +100,7 @@ export const highlightFields: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const highlightPostTag0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "highlightPostTag"
-  ],
+  parameterPath: ["options", "searchOptions", "highlightPostTag"],
   mapper: {
     serializedName: "highlightPostTag",
     type: {
@@ -141,11 +109,7 @@ export const highlightPostTag0: coreHttp.OperationQueryParameter = {
   }
 };
 export const highlightPostTag1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "suggestOptions",
-    "highlightPostTag"
-  ],
+  parameterPath: ["options", "suggestOptions", "highlightPostTag"],
   mapper: {
     serializedName: "highlightPostTag",
     type: {
@@ -154,11 +118,7 @@ export const highlightPostTag1: coreHttp.OperationQueryParameter = {
   }
 };
 export const highlightPostTag2: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "autocompleteOptions",
-    "highlightPostTag"
-  ],
+  parameterPath: ["options", "autocompleteOptions", "highlightPostTag"],
   mapper: {
     serializedName: "highlightPostTag",
     type: {
@@ -167,11 +127,7 @@ export const highlightPostTag2: coreHttp.OperationQueryParameter = {
   }
 };
 export const highlightPreTag0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "highlightPreTag"
-  ],
+  parameterPath: ["options", "searchOptions", "highlightPreTag"],
   mapper: {
     serializedName: "highlightPreTag",
     type: {
@@ -180,11 +136,7 @@ export const highlightPreTag0: coreHttp.OperationQueryParameter = {
   }
 };
 export const highlightPreTag1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "suggestOptions",
-    "highlightPreTag"
-  ],
+  parameterPath: ["options", "suggestOptions", "highlightPreTag"],
   mapper: {
     serializedName: "highlightPreTag",
     type: {
@@ -193,11 +145,7 @@ export const highlightPreTag1: coreHttp.OperationQueryParameter = {
   }
 };
 export const highlightPreTag2: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "autocompleteOptions",
-    "highlightPreTag"
-  ],
+  parameterPath: ["options", "autocompleteOptions", "highlightPreTag"],
   mapper: {
     serializedName: "highlightPreTag",
     type: {
@@ -206,11 +154,7 @@ export const highlightPreTag2: coreHttp.OperationQueryParameter = {
   }
 };
 export const includeTotalResultCount: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "includeTotalResultCount"
-  ],
+  parameterPath: ["options", "searchOptions", "includeTotalResultCount"],
   mapper: {
     serializedName: "$count",
     type: {
@@ -223,7 +167,7 @@ export const indexName: coreHttp.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "indexName",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -240,11 +184,7 @@ export const key: coreHttp.OperationURLParameter = {
   }
 };
 export const minimumCoverage0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "minimumCoverage"
-  ],
+  parameterPath: ["options", "searchOptions", "minimumCoverage"],
   mapper: {
     serializedName: "minimumCoverage",
     type: {
@@ -253,11 +193,7 @@ export const minimumCoverage0: coreHttp.OperationQueryParameter = {
   }
 };
 export const minimumCoverage1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "suggestOptions",
-    "minimumCoverage"
-  ],
+  parameterPath: ["options", "suggestOptions", "minimumCoverage"],
   mapper: {
     serializedName: "minimumCoverage",
     type: {
@@ -266,11 +202,7 @@ export const minimumCoverage1: coreHttp.OperationQueryParameter = {
   }
 };
 export const minimumCoverage2: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "autocompleteOptions",
-    "minimumCoverage"
-  ],
+  parameterPath: ["options", "autocompleteOptions", "minimumCoverage"],
   mapper: {
     serializedName: "minimumCoverage",
     type: {
@@ -279,11 +211,7 @@ export const minimumCoverage2: coreHttp.OperationQueryParameter = {
   }
 };
 export const orderBy0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "orderBy"
-  ],
+  parameterPath: ["options", "searchOptions", "orderBy"],
   mapper: {
     serializedName: "$orderby",
     type: {
@@ -298,11 +226,7 @@ export const orderBy0: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const orderBy1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "suggestOptions",
-    "orderBy"
-  ],
+  parameterPath: ["options", "suggestOptions", "orderBy"],
   mapper: {
     serializedName: "$orderby",
     type: {
@@ -317,28 +241,17 @@ export const orderBy1: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const queryType: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "queryType"
-  ],
+  parameterPath: ["options", "searchOptions", "queryType"],
   mapper: {
     serializedName: "queryType",
     type: {
       name: "Enum",
-      allowedValues: [
-        "simple",
-        "full"
-      ]
+      allowedValues: ["simple", "full"]
     }
   }
 };
 export const scoringParameters: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "scoringParameters"
-  ],
+  parameterPath: ["options", "searchOptions", "scoringParameters"],
   mapper: {
     serializedName: "scoringParameter",
     type: {
@@ -353,11 +266,7 @@ export const scoringParameters: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Multi
 };
 export const scoringProfile: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "scoringProfile"
-  ],
+  parameterPath: ["options", "searchOptions", "scoringProfile"],
   mapper: {
     serializedName: "scoringProfile",
     type: {
@@ -366,11 +275,7 @@ export const scoringProfile: coreHttp.OperationQueryParameter = {
   }
 };
 export const searchFields0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "searchFields"
-  ],
+  parameterPath: ["options", "searchOptions", "searchFields"],
   mapper: {
     serializedName: "searchFields",
     type: {
@@ -385,11 +290,7 @@ export const searchFields0: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const searchFields1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "suggestOptions",
-    "searchFields"
-  ],
+  parameterPath: ["options", "suggestOptions", "searchFields"],
   mapper: {
     serializedName: "searchFields",
     type: {
@@ -404,11 +305,7 @@ export const searchFields1: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const searchFields2: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "autocompleteOptions",
-    "searchFields"
-  ],
+  parameterPath: ["options", "autocompleteOptions", "searchFields"],
   mapper: {
     serializedName: "searchFields",
     type: {
@@ -423,27 +320,17 @@ export const searchFields2: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const searchMode: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "searchMode"
-  ],
+  parameterPath: ["options", "searchOptions", "searchMode"],
   mapper: {
     serializedName: "searchMode",
     type: {
       name: "Enum",
-      allowedValues: [
-        "any",
-        "all"
-      ]
+      allowedValues: ["any", "all"]
     }
   }
 };
 export const searchText0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchText"
-  ],
+  parameterPath: ["options", "searchText"],
   mapper: {
     serializedName: "search",
     type: {
@@ -462,11 +349,7 @@ export const searchText1: coreHttp.OperationQueryParameter = {
   }
 };
 export const select0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "select"
-  ],
+  parameterPath: ["options", "searchOptions", "select"],
   mapper: {
     serializedName: "$select",
     type: {
@@ -481,11 +364,7 @@ export const select0: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const select1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "suggestOptions",
-    "select"
-  ],
+  parameterPath: ["options", "suggestOptions", "select"],
   mapper: {
     serializedName: "$select",
     type: {
@@ -500,10 +379,7 @@ export const select1: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const selectedFields: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "selectedFields"
-  ],
+  parameterPath: ["options", "selectedFields"],
   mapper: {
     serializedName: "$select",
     type: {
@@ -518,11 +394,7 @@ export const selectedFields: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const skip: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "skip"
-  ],
+  parameterPath: ["options", "searchOptions", "skip"],
   mapper: {
     serializedName: "$skip",
     type: {
@@ -541,11 +413,7 @@ export const suggesterName: coreHttp.OperationQueryParameter = {
   }
 };
 export const top0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "searchOptions",
-    "top"
-  ],
+  parameterPath: ["options", "searchOptions", "top"],
   mapper: {
     serializedName: "$top",
     type: {
@@ -554,11 +422,7 @@ export const top0: coreHttp.OperationQueryParameter = {
   }
 };
 export const top1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "suggestOptions",
-    "top"
-  ],
+  parameterPath: ["options", "suggestOptions", "top"],
   mapper: {
     serializedName: "$top",
     type: {
@@ -567,11 +431,7 @@ export const top1: coreHttp.OperationQueryParameter = {
   }
 };
 export const top2: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "autocompleteOptions",
-    "top"
-  ],
+  parameterPath: ["options", "autocompleteOptions", "top"],
   mapper: {
     serializedName: "$top",
     type: {
@@ -580,11 +440,7 @@ export const top2: coreHttp.OperationQueryParameter = {
   }
 };
 export const useFuzzyMatching0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "suggestOptions",
-    "useFuzzyMatching"
-  ],
+  parameterPath: ["options", "suggestOptions", "useFuzzyMatching"],
   mapper: {
     serializedName: "fuzzy",
     type: {
@@ -593,11 +449,7 @@ export const useFuzzyMatching0: coreHttp.OperationQueryParameter = {
   }
 };
 export const useFuzzyMatching1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "autocompleteOptions",
-    "useFuzzyMatching"
-  ],
+  parameterPath: ["options", "autocompleteOptions", "useFuzzyMatching"],
   mapper: {
     serializedName: "fuzzy",
     type: {

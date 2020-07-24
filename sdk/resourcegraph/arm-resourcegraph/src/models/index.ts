@@ -322,8 +322,7 @@ export interface ResourceGraphClientOptions extends AzureServiceClientOptions {
  * URL link to get the next set of results.
  * @extends Array<Operation>
  */
-export interface OperationListResult extends Array<Operation> {
-}
+export interface OperationListResult extends Array<Operation> {}
 
 /**
  * Defines values for ResultFormat.
@@ -331,7 +330,7 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type ResultFormat = 'table' | 'objectArray';
+export type ResultFormat = "table" | "objectArray";
 
 /**
  * Defines values for FacetSortOrder.
@@ -339,7 +338,7 @@ export type ResultFormat = 'table' | 'objectArray';
  * @readonly
  * @enum {string}
  */
-export type FacetSortOrder = 'asc' | 'desc';
+export type FacetSortOrder = "asc" | "desc";
 
 /**
  * Defines values for ResultTruncated.
@@ -347,7 +346,7 @@ export type FacetSortOrder = 'asc' | 'desc';
  * @readonly
  * @enum {string}
  */
-export type ResultTruncated = 'true' | 'false';
+export type ResultTruncated = "true" | "false";
 
 /**
  * Defines values for ColumnDataType.
@@ -355,7 +354,7 @@ export type ResultTruncated = 'true' | 'false';
  * @readonly
  * @enum {string}
  */
-export type ColumnDataType = 'string' | 'integer' | 'number' | 'boolean' | 'object';
+export type ColumnDataType = "string" | "integer" | "number" | "boolean" | "object";
 
 /**
  * Contains response data for the resources operation.
@@ -365,16 +364,16 @@ export type ResourcesResponse = QueryResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QueryResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QueryResponse;
+  };
 };
 
 /**
@@ -385,14 +384,14 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

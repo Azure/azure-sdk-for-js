@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing ErrorDetail.
@@ -60,8 +59,7 @@ export interface ErrorModel {
  * @interface
  * An interface representing AzureSku.
  */
-export interface AzureSku {
-}
+export interface AzureSku {}
 
 /**
  * @interface
@@ -305,22 +303,19 @@ export interface PowerBIEmbeddedManagementClientOptions extends AzureServiceClie
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the WorkspaceCollectionList.
  * @extends Array<WorkspaceCollection>
  */
-export interface WorkspaceCollectionList extends Array<WorkspaceCollection> {
-}
+export interface WorkspaceCollectionList extends Array<WorkspaceCollection> {}
 
 /**
  * @interface
  * An interface representing the WorkspaceList.
  * @extends Array<Workspace>
  */
-export interface WorkspaceList extends Array<Workspace> {
-}
+export interface WorkspaceList extends Array<Workspace> {}
 
 /**
  * Defines values for AccessKeyName.
@@ -328,7 +323,7 @@ export interface WorkspaceList extends Array<Workspace> {
  * @readonly
  * @enum {string}
  */
-export type AccessKeyName = 'key1' | 'key2';
+export type AccessKeyName = "key1" | "key2";
 
 /**
  * Defines values for CheckNameReason.
@@ -336,7 +331,7 @@ export type AccessKeyName = 'key1' | 'key2';
  * @readonly
  * @enum {string}
  */
-export type CheckNameReason = 'Unavailable' | 'Invalid';
+export type CheckNameReason = "Unavailable" | "Invalid";
 
 /**
  * Contains response data for the getByName operation.
@@ -346,15 +341,15 @@ export type WorkspaceCollectionsGetByNameResponse = WorkspaceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceCollection;
+  };
 };
 
 /**
@@ -365,15 +360,15 @@ export type WorkspaceCollectionsCreateResponse = WorkspaceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceCollection;
+  };
 };
 
 /**
@@ -384,15 +379,15 @@ export type WorkspaceCollectionsUpdateResponse = WorkspaceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceCollection;
+  };
 };
 
 /**
@@ -403,15 +398,15 @@ export type WorkspaceCollectionsCheckNameAvailabilityResponse = CheckNameRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameResponse;
+  };
 };
 
 /**
@@ -422,15 +417,15 @@ export type WorkspaceCollectionsListByResourceGroupResponse = WorkspaceCollectio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceCollectionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceCollectionList;
+  };
 };
 
 /**
@@ -441,15 +436,15 @@ export type WorkspaceCollectionsListBySubscriptionResponse = WorkspaceCollection
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceCollectionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceCollectionList;
+  };
 };
 
 /**
@@ -460,15 +455,15 @@ export type WorkspaceCollectionsGetAccessKeysResponse = WorkspaceCollectionAcces
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceCollectionAccessKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceCollectionAccessKeys;
+  };
 };
 
 /**
@@ -479,15 +474,15 @@ export type WorkspaceCollectionsRegenerateKeyResponse = WorkspaceCollectionAcces
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceCollectionAccessKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceCollectionAccessKeys;
+  };
 };
 
 /**
@@ -498,15 +493,15 @@ export type GetAvailableOperationsResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -517,13 +512,13 @@ export type WorkspacesListResponse = WorkspaceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceList;
+  };
 };

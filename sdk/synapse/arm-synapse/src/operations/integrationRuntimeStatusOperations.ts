@@ -35,14 +35,24 @@ export class IntegrationRuntimeStatusOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeStatusGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeStatusGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationRuntimeStatusGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    callback: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -50,8 +60,22 @@ export class IntegrationRuntimeStatusOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): void;
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): Promise<Models.IntegrationRuntimeStatusGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>,
+    callback?: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>
+  ): Promise<Models.IntegrationRuntimeStatusGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +84,8 @@ export class IntegrationRuntimeStatusOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IntegrationRuntimeStatusGetResponse>;
+      callback
+    ) as Promise<Models.IntegrationRuntimeStatusGetResponse>;
   }
 }
 
@@ -68,19 +93,16 @@ export class IntegrationRuntimeStatusOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/getStatus",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/getStatus",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.integrationRuntimeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IntegrationRuntimeStatusResponse

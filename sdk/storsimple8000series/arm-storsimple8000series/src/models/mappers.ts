@@ -45,9 +45,7 @@ export const BaseModel: msRest.CompositeMapper = {
         serializedName: "kind",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Series8000"
-          ]
+          allowedValues: ["Series8000"]
         }
       }
     }
@@ -132,10 +130,7 @@ export const AlertSource: msRest.CompositeMapper = {
         serializedName: "alertSourceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Resource",
-            "Device"
-          ]
+          allowedValues: ["Resource", "Device"]
         }
       }
     }
@@ -189,10 +184,7 @@ export const Alert: msRest.CompositeMapper = {
         serializedName: "properties.scope",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Resource",
-            "Device"
-          ]
+          allowedValues: ["Resource", "Device"]
         }
       },
       alertType: {
@@ -253,11 +245,7 @@ export const Alert: msRest.CompositeMapper = {
         serializedName: "properties.severity",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Informational",
-            "Warning",
-            "Critical"
-          ]
+          allowedValues: ["Informational", "Warning", "Critical"]
         }
       },
       status: {
@@ -265,10 +253,7 @@ export const Alert: msRest.CompositeMapper = {
         serializedName: "properties.status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Active",
-            "Cleared"
-          ]
+          allowedValues: ["Active", "Cleared"]
         }
       },
       errorDetails: {
@@ -303,31 +288,21 @@ export const AlertFilter: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Active",
-            "Cleared"
-          ]
+          allowedValues: ["Active", "Cleared"]
         }
       },
       severity: {
         serializedName: "severity",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Informational",
-            "Warning",
-            "Critical"
-          ]
+          allowedValues: ["Informational", "Warning", "Critical"]
         }
       },
       sourceType: {
         serializedName: "sourceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Resource",
-            "Device"
-          ]
+          allowedValues: ["Resource", "Device"]
         }
       },
       sourceName: {
@@ -358,10 +333,7 @@ export const AlertSettings: msRest.CompositeMapper = {
         serializedName: "properties.emailNotification",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       alertNotificationCulture: {
@@ -374,10 +346,7 @@ export const AlertSettings: msRest.CompositeMapper = {
         serializedName: "properties.notificationToServiceOwners",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       additionalRecipientEmailList: {
@@ -419,11 +388,7 @@ export const AsymmetricEncryptedSecret: msRest.CompositeMapper = {
         serializedName: "encryptionAlgorithm",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "AES256",
-            "RSAES_PKCS1_v_1_5"
-          ]
+          allowedValues: ["None", "AES256", "RSAES_PKCS1_v_1_5"]
         }
       }
     }
@@ -551,11 +516,7 @@ export const BackupElement: msRest.CompositeMapper = {
         serializedName: "volumeType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Tiered",
-            "Archival",
-            "LocallyPinned"
-          ]
+          allowedValues: ["Tiered", "Archival", "LocallyPinned"]
         }
       }
     }
@@ -587,21 +548,14 @@ export const Backup: msRest.CompositeMapper = {
         serializedName: "properties.backupType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "LocalSnapshot",
-            "CloudSnapshot"
-          ]
+          allowedValues: ["LocalSnapshot", "CloudSnapshot"]
         }
       },
       backupJobCreationType: {
         serializedName: "properties.backupJobCreationType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Adhoc",
-            "BySchedule",
-            "BySSM"
-          ]
+          allowedValues: ["Adhoc", "BySchedule", "BySSM"]
         }
       },
       backupPolicyId: {
@@ -706,10 +660,7 @@ export const BackupPolicy: msRest.CompositeMapper = {
         serializedName: "properties.scheduledBackupStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Disabled",
-            "Enabled"
-          ]
+          allowedValues: ["Disabled", "Enabled"]
         }
       },
       backupPolicyCreationType: {
@@ -717,10 +668,7 @@ export const BackupPolicy: msRest.CompositeMapper = {
         serializedName: "properties.backupPolicyCreationType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "BySaaS",
-            "BySSM"
-          ]
+          allowedValues: ["BySaaS", "BySSM"]
         }
       },
       ssmHostName: {
@@ -745,12 +693,7 @@ export const ScheduleRecurrence: msRest.CompositeMapper = {
         serializedName: "recurrenceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Minutes",
-            "Hourly",
-            "Daily",
-            "Weekly"
-          ]
+          allowedValues: ["Minutes", "Hourly", "Daily", "Weekly"]
         }
       },
       recurrenceValue: {
@@ -804,10 +747,7 @@ export const BackupSchedule: msRest.CompositeMapper = {
         serializedName: "properties.backupType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "LocalSnapshot",
-            "CloudSnapshot"
-          ]
+          allowedValues: ["LocalSnapshot", "CloudSnapshot"]
         }
       },
       retentionCount: {
@@ -829,10 +769,7 @@ export const BackupSchedule: msRest.CompositeMapper = {
         serializedName: "properties.scheduleStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       lastSuccessfulRun: {
@@ -1412,11 +1349,7 @@ export const ControllerPowerStateChangeRequest: msRest.CompositeMapper = {
         serializedName: "properties.action",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Start",
-            "Restart",
-            "Shutdown"
-          ]
+          allowedValues: ["Start", "Restart", "Shutdown"]
         }
       },
       activeController: {
@@ -1424,12 +1357,7 @@ export const ControllerPowerStateChangeRequest: msRest.CompositeMapper = {
         serializedName: "properties.activeController",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "None",
-            "Controller0",
-            "Controller1"
-          ]
+          allowedValues: ["Unknown", "None", "Controller0", "Controller1"]
         }
       },
       controller0State: {
@@ -1437,14 +1365,7 @@ export const ControllerPowerStateChangeRequest: msRest.CompositeMapper = {
         serializedName: "properties.controller0State",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotPresent",
-            "PoweredOff",
-            "Ok",
-            "Recovering",
-            "Warning",
-            "Failure"
-          ]
+          allowedValues: ["NotPresent", "PoweredOff", "Ok", "Recovering", "Warning", "Failure"]
         }
       },
       controller1State: {
@@ -1452,14 +1373,7 @@ export const ControllerPowerStateChangeRequest: msRest.CompositeMapper = {
         serializedName: "properties.controller1State",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotPresent",
-            "PoweredOff",
-            "Ok",
-            "Recovering",
-            "Warning",
-            "Failure"
-          ]
+          allowedValues: ["NotPresent", "PoweredOff", "Ok", "Recovering", "Warning", "Failure"]
         }
       }
     }
@@ -1532,31 +1446,21 @@ export const DeviceRolloverDetails: msRest.CompositeMapper = {
         serializedName: "authorizationEligibility",
         type: {
           name: "Enum",
-          allowedValues: [
-            "InEligible",
-            "Eligible"
-          ]
+          allowedValues: ["InEligible", "Eligible"]
         }
       },
       authorizationStatus: {
         serializedName: "authorizationStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Disabled",
-            "Enabled"
-          ]
+          allowedValues: ["Disabled", "Enabled"]
         }
       },
       inEligibilityReason: {
         serializedName: "inEligibilityReason",
         type: {
           name: "Enum",
-          allowedValues: [
-            "DeviceNotOnline",
-            "NotSupportedAppliance",
-            "RolloverPending"
-          ]
+          allowedValues: ["DeviceNotOnline", "NotSupportedAppliance", "RolloverPending"]
         }
       }
     }
@@ -1616,10 +1520,7 @@ export const Device: msRest.CompositeMapper = {
         serializedName: "properties.deviceConfigurationStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Complete",
-            "Pending"
-          ]
+          allowedValues: ["Complete", "Pending"]
         }
       },
       targetIqn: {
@@ -1668,11 +1569,7 @@ export const Device: msRest.CompositeMapper = {
         serializedName: "properties.deviceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "Series8000VirtualAppliance",
-            "Series8000PhysicalAppliance"
-          ]
+          allowedValues: ["Invalid", "Series8000VirtualAppliance", "Series8000PhysicalAppliance"]
         }
       },
       activeController: {
@@ -1680,12 +1577,7 @@ export const Device: msRest.CompositeMapper = {
         serializedName: "properties.activeController",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "None",
-            "Controller0",
-            "Controller1"
-          ]
+          allowedValues: ["Unknown", "None", "Controller0", "Controller1"]
         }
       },
       friendlySoftwareVersion: {
@@ -1760,10 +1652,7 @@ export const Device: msRest.CompositeMapper = {
         serializedName: "properties.virtualMachineApiType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Classic",
-            "Arm"
-          ]
+          allowedValues: ["Classic", "Arm"]
         }
       },
       details: {
@@ -1878,10 +1767,7 @@ export const EncryptionSettings: msRest.CompositeMapper = {
         serializedName: "properties.encryptionStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       keyRolloverStatus: {
@@ -1889,10 +1775,7 @@ export const EncryptionSettings: msRest.CompositeMapper = {
         serializedName: "properties.keyRolloverStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Required",
-            "NotRequired"
-          ]
+          allowedValues: ["Required", "NotRequired"]
         }
       }
     }
@@ -1942,11 +1825,7 @@ export const VolumeFailoverMetadata: msRest.CompositeMapper = {
         serializedName: "volumeType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Tiered",
-            "Archival",
-            "LocallyPinned"
-          ]
+          allowedValues: ["Tiered", "Archival", "LocallyPinned"]
         }
       },
       sizeInBytes: {
@@ -2109,10 +1988,7 @@ export const TargetEligibilityResult: msRest.CompositeMapper = {
         serializedName: "eligibilityStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotEligible",
-            "Eligible"
-          ]
+          allowedValues: ["NotEligible", "Eligible"]
         }
       },
       messages: {
@@ -2239,11 +2115,7 @@ export const Feature: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotAvailable",
-            "UnsupportedDeviceVersion",
-            "Supported"
-          ]
+          allowedValues: ["NotAvailable", "UnsupportedDeviceVersion", "Supported"]
         }
       }
     }
@@ -2439,12 +2311,7 @@ export const JobStage: msRest.CompositeMapper = {
         serializedName: "stageStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Running",
-            "Succeeded",
-            "Failed",
-            "Canceled"
-          ]
+          allowedValues: ["Running", "Succeeded", "Failed", "Canceled"]
         }
       },
       detail: {
@@ -2475,12 +2342,7 @@ export const Job: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Running",
-            "Succeeded",
-            "Failed",
-            "Canceled"
-          ]
+          allowedValues: ["Running", "Succeeded", "Failed", "Canceled"]
         }
       },
       startTime: {
@@ -2575,10 +2437,7 @@ export const Job: msRest.CompositeMapper = {
         serializedName: "properties.backupType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "LocalSnapshot",
-            "CloudSnapshot"
-          ]
+          allowedValues: ["LocalSnapshot", "CloudSnapshot"]
         }
       },
       sourceDeviceId: {
@@ -2674,10 +2533,7 @@ export const ManagerIntrinsicSettings: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "GardaV1",
-            "HelsinkiV1"
-          ]
+          allowedValues: ["GardaV1", "HelsinkiV1"]
         }
       }
     }
@@ -2694,7 +2550,7 @@ export const ManagerSku: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "name",
-        defaultValue: 'Standard',
+        defaultValue: "Standard",
         type: {
           name: "String"
         }
@@ -3010,14 +2866,7 @@ export const MetricDefinition: msRest.CompositeMapper = {
         serializedName: "primaryAggregationType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Average",
-            "Last",
-            "Maximum",
-            "Minimum",
-            "None",
-            "Total"
-          ]
+          allowedValues: ["Average", "Last", "Maximum", "Minimum", "None", "Total"]
         }
       },
       resourceId: {
@@ -3165,14 +3014,7 @@ export const Metrics: msRest.CompositeMapper = {
         serializedName: "primaryAggregation",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Average",
-            "Last",
-            "Maximum",
-            "Minimum",
-            "None",
-            "Total"
-          ]
+          allowedValues: ["Average", "Last", "Maximum", "Minimum", "None", "Total"]
         }
       },
       name: {
@@ -3321,15 +3163,7 @@ export const NetworkAdapters: msRest.CompositeMapper = {
         serializedName: "interfaceId",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "Data0",
-            "Data1",
-            "Data2",
-            "Data3",
-            "Data4",
-            "Data5"
-          ]
+          allowedValues: ["Invalid", "Data0", "Data1", "Data2", "Data3", "Data4", "Data5"]
         }
       },
       netInterfaceStatus: {
@@ -3337,10 +3171,7 @@ export const NetworkAdapters: msRest.CompositeMapper = {
         serializedName: "netInterfaceStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       isDefault: {
@@ -3354,12 +3185,7 @@ export const NetworkAdapters: msRest.CompositeMapper = {
         serializedName: "iscsiAndCloudStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Disabled",
-            "IscsiEnabled",
-            "CloudEnabled",
-            "IscsiAndCloudEnabled"
-          ]
+          allowedValues: ["Disabled", "IscsiEnabled", "CloudEnabled", "IscsiAndCloudEnabled"]
         }
       },
       speed: {
@@ -3373,12 +3199,7 @@ export const NetworkAdapters: msRest.CompositeMapper = {
         serializedName: "mode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "IPV4",
-            "IPV6",
-            "BOTH"
-          ]
+          allowedValues: ["Invalid", "IPV4", "IPV6", "BOTH"]
         }
       },
       nicIpv4Settings: {
@@ -3439,12 +3260,7 @@ export const WebproxySettings: msRest.CompositeMapper = {
         serializedName: "authentication",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "None",
-            "Basic",
-            "NTLM"
-          ]
+          allowedValues: ["Invalid", "None", "Basic", "NTLM"]
         }
       },
       username: {
@@ -3545,12 +3361,7 @@ export const RemoteManagementSettings: msRest.CompositeMapper = {
         serializedName: "remoteManagementMode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "Disabled",
-            "HttpsEnabled",
-            "HttpsAndHttpEnabled"
-          ]
+          allowedValues: ["Unknown", "Disabled", "HttpsEnabled", "HttpsAndHttpEnabled"]
         }
       },
       remoteManagementCertificate: {
@@ -3574,12 +3385,7 @@ export const RemoteManagementSettingsPatch: msRest.CompositeMapper = {
         serializedName: "remoteManagementMode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "Disabled",
-            "HttpsEnabled",
-            "HttpsAndHttpEnabled"
-          ]
+          allowedValues: ["Unknown", "Disabled", "HttpsEnabled", "HttpsAndHttpEnabled"]
         }
       }
     }
@@ -3699,10 +3505,7 @@ export const StorageAccountCredential: msRest.CompositeMapper = {
         serializedName: "properties.sslStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       accessKey: {
@@ -3747,11 +3550,7 @@ export const SymmetricEncryptedSecret: msRest.CompositeMapper = {
         serializedName: "encryptionAlgorithm",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "AES256",
-            "RSAES_PKCS1_v_1_5"
-          ]
+          allowedValues: ["None", "AES256", "RSAES_PKCS1_v_1_5"]
         }
       }
     }
@@ -3847,11 +3646,7 @@ export const Volume: msRest.CompositeMapper = {
         serializedName: "properties.volumeType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Tiered",
-            "Archival",
-            "LocallyPinned"
-          ]
+          allowedValues: ["Tiered", "Archival", "LocallyPinned"]
         }
       },
       volumeContainerId: {
@@ -3878,10 +3673,7 @@ export const Volume: msRest.CompositeMapper = {
         serializedName: "properties.volumeStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Online",
-            "Offline"
-          ]
+          allowedValues: ["Online", "Offline"]
         }
       },
       operationStatus: {
@@ -3889,12 +3681,7 @@ export const Volume: msRest.CompositeMapper = {
         serializedName: "properties.operationStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Updating",
-            "Deleting",
-            "Restoring"
-          ]
+          allowedValues: ["None", "Updating", "Deleting", "Restoring"]
         }
       },
       backupStatus: {
@@ -3902,10 +3689,7 @@ export const Volume: msRest.CompositeMapper = {
         serializedName: "properties.backupStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       monitoringStatus: {
@@ -3913,10 +3697,7 @@ export const Volume: msRest.CompositeMapper = {
         serializedName: "properties.monitoringStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       backupPolicyIds: {
@@ -3954,10 +3735,7 @@ export const VolumeContainer: msRest.CompositeMapper = {
         serializedName: "properties.encryptionStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       volumeCount: {
@@ -3979,10 +3757,7 @@ export const VolumeContainer: msRest.CompositeMapper = {
         serializedName: "properties.ownerShipStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Owned",
-            "NotOwned"
-          ]
+          allowedValues: ["Owned", "NotOwned"]
         }
       },
       bandWidthRateInMbps: {

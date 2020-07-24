@@ -33,21 +33,39 @@ export class NodeCountInformation {
    * @param [options] The optional parameters
    * @returns Promise<Models.NodeCountInformationGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.NodeCountInformationGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NodeCountInformationGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.NodeCounts>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.NodeCounts>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NodeCounts>): void;
-  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NodeCounts>, callback?: msRest.ServiceCallback<Models.NodeCounts>): Promise<Models.NodeCountInformationGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NodeCounts>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NodeCounts>,
+    callback?: msRest.ServiceCallback<Models.NodeCounts>
+  ): Promise<Models.NodeCountInformationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class NodeCountInformation {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.NodeCountInformationGetResponse>;
+      callback
+    ) as Promise<Models.NodeCountInformationGetResponse>;
   }
 }
 
@@ -63,19 +82,16 @@ export class NodeCountInformation {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodecounts/{countType}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodecounts/{countType}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.countType,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NodeCounts

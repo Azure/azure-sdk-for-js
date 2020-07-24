@@ -38,9 +38,24 @@ export class VirtualMachineScaleSetVMExtensions {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: Models.VirtualMachineExtension, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,vmScaleSetName,instanceId,vmExtensionName,extensionParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    vmExtensionName: string,
+    extensionParameters: Models.VirtualMachineExtension,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      vmExtensionName,
+      extensionParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -54,9 +69,24 @@ export class VirtualMachineScaleSetVMExtensions {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetVMExtensionsUpdateResponse>
    */
-  update(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: Models.VirtualMachineExtensionUpdate, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetVMExtensionsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,vmScaleSetName,instanceId,vmExtensionName,extensionParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachineScaleSetVMExtensionsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    vmExtensionName: string,
+    extensionParameters: Models.VirtualMachineExtensionUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineScaleSetVMExtensionsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      vmExtensionName,
+      extensionParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.VirtualMachineScaleSetVMExtensionsUpdateResponse
+    >;
   }
 
   /**
@@ -68,9 +98,20 @@ export class VirtualMachineScaleSetVMExtensions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,vmScaleSetName,instanceId,vmExtensionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    vmExtensionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      vmExtensionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -82,7 +123,13 @@ export class VirtualMachineScaleSetVMExtensions {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetVMExtensionsGetResponse>
    */
-  get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, options?: Models.VirtualMachineScaleSetVMExtensionsGetOptionalParams): Promise<Models.VirtualMachineScaleSetVMExtensionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    vmExtensionName: string,
+    options?: Models.VirtualMachineScaleSetVMExtensionsGetOptionalParams
+  ): Promise<Models.VirtualMachineScaleSetVMExtensionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -90,7 +137,13 @@ export class VirtualMachineScaleSetVMExtensions {
    * @param vmExtensionName The name of the virtual machine extension.
    * @param callback The callback
    */
-  get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, callback: msRest.ServiceCallback<Models.VirtualMachineExtension>): void;
+  get(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    vmExtensionName: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineExtension>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -99,8 +152,24 @@ export class VirtualMachineScaleSetVMExtensions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, options: Models.VirtualMachineScaleSetVMExtensionsGetOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineExtension>): void;
-  get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, options?: Models.VirtualMachineScaleSetVMExtensionsGetOptionalParams | msRest.ServiceCallback<Models.VirtualMachineExtension>, callback?: msRest.ServiceCallback<Models.VirtualMachineExtension>): Promise<Models.VirtualMachineScaleSetVMExtensionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    vmExtensionName: string,
+    options: Models.VirtualMachineScaleSetVMExtensionsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.VirtualMachineExtension>
+  ): void;
+  get(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    vmExtensionName: string,
+    options?:
+      | Models.VirtualMachineScaleSetVMExtensionsGetOptionalParams
+      | msRest.ServiceCallback<Models.VirtualMachineExtension>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineExtension>
+  ): Promise<Models.VirtualMachineScaleSetVMExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -110,7 +179,8 @@ export class VirtualMachineScaleSetVMExtensions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VirtualMachineScaleSetVMExtensionsGetResponse>;
+      callback
+    ) as Promise<Models.VirtualMachineScaleSetVMExtensionsGetResponse>;
   }
 
   /**
@@ -121,14 +191,24 @@ export class VirtualMachineScaleSetVMExtensions {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetVMExtensionsListResponse>
    */
-  list(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: Models.VirtualMachineScaleSetVMExtensionsListOptionalParams): Promise<Models.VirtualMachineScaleSetVMExtensionsListResponse>;
+  list(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: Models.VirtualMachineScaleSetVMExtensionsListOptionalParams
+  ): Promise<Models.VirtualMachineScaleSetVMExtensionsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param callback The callback
    */
-  list(resourceGroupName: string, vmScaleSetName: string, instanceId: string, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>): void;
+  list(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -136,8 +216,22 @@ export class VirtualMachineScaleSetVMExtensions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options: Models.VirtualMachineScaleSetVMExtensionsListOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>): void;
-  list(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: Models.VirtualMachineScaleSetVMExtensionsListOptionalParams | msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>, callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>): Promise<Models.VirtualMachineScaleSetVMExtensionsListResponse> {
+  list(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options: Models.VirtualMachineScaleSetVMExtensionsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?:
+      | Models.VirtualMachineScaleSetVMExtensionsListOptionalParams
+      | msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineExtensionsListResult>
+  ): Promise<Models.VirtualMachineScaleSetVMExtensionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,7 +240,8 @@ export class VirtualMachineScaleSetVMExtensions {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.VirtualMachineScaleSetVMExtensionsListResponse>;
+      callback
+    ) as Promise<Models.VirtualMachineScaleSetVMExtensionsListResponse>;
   }
 
   /**
@@ -160,7 +255,14 @@ export class VirtualMachineScaleSetVMExtensions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: Models.VirtualMachineExtension, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    vmExtensionName: string,
+    extensionParameters: Models.VirtualMachineExtension,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -171,7 +273,8 @@ export class VirtualMachineScaleSetVMExtensions {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -185,7 +288,14 @@ export class VirtualMachineScaleSetVMExtensions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, extensionParameters: Models.VirtualMachineExtensionUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    vmExtensionName: string,
+    extensionParameters: Models.VirtualMachineExtensionUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -196,7 +306,8 @@ export class VirtualMachineScaleSetVMExtensions {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -208,7 +319,13 @@ export class VirtualMachineScaleSetVMExtensions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, vmScaleSetName: string, instanceId: string, vmExtensionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    vmExtensionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -218,7 +335,8 @@ export class VirtualMachineScaleSetVMExtensions {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -226,7 +344,8 @@ export class VirtualMachineScaleSetVMExtensions {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
@@ -234,13 +353,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.vmExtensionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.expand0,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand0, Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineExtension
@@ -254,20 +368,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
     Parameters.instanceId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.expand0,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand0, Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineExtensionsListResult
@@ -281,7 +391,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
@@ -289,12 +400,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.vmExtensionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "extensionParameters",
     mapper: {
@@ -318,7 +425,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
@@ -326,12 +434,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.vmExtensionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "extensionParameters",
     mapper: {
@@ -352,7 +456,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
@@ -360,12 +465,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.vmExtensionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

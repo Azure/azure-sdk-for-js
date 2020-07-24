@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { MonitorManagementClientContext } from "./monitorManagementClientContext";
 
-
 class MonitorManagementClient extends MonitorManagementClientContext {
   // Operation groups
   metricDefinitions: operations.MetricDefinitions;
@@ -29,7 +28,10 @@ class MonitorManagementClient extends MonitorManagementClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.MonitorManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.MonitorManagementClientOptions
+  ) {
     super(credentials, options);
     this.metricDefinitions = new operations.MetricDefinitions(this);
     this.metrics = new operations.Metrics(this);

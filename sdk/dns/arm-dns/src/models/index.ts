@@ -578,7 +578,7 @@ export interface ZoneListResult extends Array<Zone> {
  * @readonly
  * @enum {string}
  */
-export type ZoneType = 'Public' | 'Private';
+export type ZoneType = "Public" | "Private";
 
 /**
  * Defines values for RecordType.
@@ -586,7 +586,17 @@ export type ZoneType = 'Public' | 'Private';
  * @readonly
  * @enum {string}
  */
-export type RecordType = 'A' | 'AAAA' | 'CAA' | 'CNAME' | 'MX' | 'NS' | 'PTR' | 'SOA' | 'SRV' | 'TXT';
+export type RecordType =
+  | "A"
+  | "AAAA"
+  | "CAA"
+  | "CNAME"
+  | "MX"
+  | "NS"
+  | "PTR"
+  | "SOA"
+  | "SRV"
+  | "TXT";
 
 /**
  * Contains response data for the update operation.
@@ -596,16 +606,16 @@ export type RecordSetsUpdateResponse = RecordSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSet;
+  };
 };
 
 /**
@@ -616,16 +626,16 @@ export type RecordSetsCreateOrUpdateResponse = RecordSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSet;
+  };
 };
 
 /**
@@ -636,16 +646,16 @@ export type RecordSetsGetResponse = RecordSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSet;
+  };
 };
 
 /**
@@ -656,16 +666,16 @@ export type RecordSetsListByTypeResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -676,16 +686,16 @@ export type RecordSetsListByDnsZoneResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -696,16 +706,16 @@ export type RecordSetsListAllByDnsZoneResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -716,16 +726,16 @@ export type RecordSetsListByTypeNextResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -736,16 +746,16 @@ export type RecordSetsListByDnsZoneNextResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -756,16 +766,16 @@ export type RecordSetsListAllByDnsZoneNextResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -776,16 +786,16 @@ export type ZonesCreateOrUpdateResponse = Zone & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Zone;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Zone;
+  };
 };
 
 /**
@@ -796,16 +806,16 @@ export type ZonesGetResponse = Zone & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Zone;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Zone;
+  };
 };
 
 /**
@@ -816,16 +826,16 @@ export type ZonesUpdateResponse = Zone & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Zone;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Zone;
+  };
 };
 
 /**
@@ -836,16 +846,16 @@ export type ZonesListByResourceGroupResponse = ZoneListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ZoneListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ZoneListResult;
+  };
 };
 
 /**
@@ -856,16 +866,16 @@ export type ZonesListResponse = ZoneListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ZoneListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ZoneListResult;
+  };
 };
 
 /**
@@ -876,16 +886,16 @@ export type ZonesListByResourceGroupNextResponse = ZoneListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ZoneListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ZoneListResult;
+  };
 };
 
 /**
@@ -896,16 +906,16 @@ export type ZonesListNextResponse = ZoneListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ZoneListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ZoneListResult;
+  };
 };
 
 /**
@@ -916,14 +926,14 @@ export type DnsResourceReferenceGetByTargetResourcesResponse = DnsResourceRefere
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DnsResourceReferenceResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DnsResourceReferenceResult;
+  };
 };

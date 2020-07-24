@@ -36,7 +36,13 @@ export class MeshCodePackage {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshCodePackageGetContainerLogsResponse>
    */
-  getContainerLogs(applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, options?: Models.MeshCodePackageGetContainerLogsOptionalParams): Promise<Models.MeshCodePackageGetContainerLogsResponse>;
+  getContainerLogs(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    codePackageName: string,
+    options?: Models.MeshCodePackageGetContainerLogsOptionalParams
+  ): Promise<Models.MeshCodePackageGetContainerLogsResponse>;
   /**
    * @param applicationResourceName The identity of the application.
    * @param serviceResourceName The identity of the service.
@@ -44,7 +50,13 @@ export class MeshCodePackage {
    * @param codePackageName The name of code package of the service.
    * @param callback The callback
    */
-  getContainerLogs(applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, callback: msRest.ServiceCallback<Models.ContainerLogs>): void;
+  getContainerLogs(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    codePackageName: string,
+    callback: msRest.ServiceCallback<Models.ContainerLogs>
+  ): void;
   /**
    * @param applicationResourceName The identity of the application.
    * @param serviceResourceName The identity of the service.
@@ -53,8 +65,24 @@ export class MeshCodePackage {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getContainerLogs(applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, options: Models.MeshCodePackageGetContainerLogsOptionalParams, callback: msRest.ServiceCallback<Models.ContainerLogs>): void;
-  getContainerLogs(applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, options?: Models.MeshCodePackageGetContainerLogsOptionalParams | msRest.ServiceCallback<Models.ContainerLogs>, callback?: msRest.ServiceCallback<Models.ContainerLogs>): Promise<Models.MeshCodePackageGetContainerLogsResponse> {
+  getContainerLogs(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    codePackageName: string,
+    options: Models.MeshCodePackageGetContainerLogsOptionalParams,
+    callback: msRest.ServiceCallback<Models.ContainerLogs>
+  ): void;
+  getContainerLogs(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    codePackageName: string,
+    options?:
+      | Models.MeshCodePackageGetContainerLogsOptionalParams
+      | msRest.ServiceCallback<Models.ContainerLogs>,
+    callback?: msRest.ServiceCallback<Models.ContainerLogs>
+  ): Promise<Models.MeshCodePackageGetContainerLogsResponse> {
     return this.client.sendOperationRequest(
       {
         applicationResourceName,
@@ -64,7 +92,8 @@ export class MeshCodePackage {
         options
       },
       getContainerLogsOperationSpec,
-      callback) as Promise<Models.MeshCodePackageGetContainerLogsResponse>;
+      callback
+    ) as Promise<Models.MeshCodePackageGetContainerLogsResponse>;
   }
 }
 
@@ -72,17 +101,15 @@ export class MeshCodePackage {
 const serializer = new msRest.Serializer(Mappers);
 const getContainerLogsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Resources/Applications/{applicationResourceName}/Services/{serviceResourceName}/Replicas/{replicaName}/CodePackages/{codePackageName}/Logs",
+  path:
+    "Resources/Applications/{applicationResourceName}/Services/{serviceResourceName}/Replicas/{replicaName}/CodePackages/{codePackageName}/Logs",
   urlParameters: [
     Parameters.applicationResourceName,
     Parameters.serviceResourceName,
     Parameters.replicaName,
     Parameters.codePackageName2
   ],
-  queryParameters: [
-    Parameters.apiVersion8,
-    Parameters.tail
-  ],
+  queryParameters: [Parameters.apiVersion8, Parameters.tail],
   responses: {
     200: {
       bodyMapper: Mappers.ContainerLogs

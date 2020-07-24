@@ -408,10 +408,7 @@ export const LinkedStorageAccountsResource: msRest.CompositeMapper = {
         serializedName: "properties.dataSourceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "CustomLogs",
-            "AzureWatson"
-          ]
+          allowedValues: ["CustomLogs", "AzureWatson"]
         }
       },
       storageAccountIds: {
@@ -817,14 +814,14 @@ export const Workspace: msRest.CompositeMapper = {
       },
       publicNetworkAccessForIngestion: {
         serializedName: "properties.publicNetworkAccessForIngestion",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
       },
       publicNetworkAccessForQuery: {
         serializedName: "properties.publicNetworkAccessForQuery",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -898,14 +895,14 @@ export const WorkspacePatch: msRest.CompositeMapper = {
       },
       publicNetworkAccessForIngestion: {
         serializedName: "properties.publicNetworkAccessForIngestion",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
       },
       publicNetworkAccessForQuery: {
         serializedName: "properties.publicNetworkAccessForQuery",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -1065,10 +1062,7 @@ export const Identity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "None"]
         }
       }
     }

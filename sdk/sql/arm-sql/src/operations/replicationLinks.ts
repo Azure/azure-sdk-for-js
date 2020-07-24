@@ -37,7 +37,13 @@ export class ReplicationLinks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -46,7 +52,13 @@ export class ReplicationLinks {
    * @param linkId The ID of the replication link to be deleted.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -56,8 +68,22 @@ export class ReplicationLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +93,8 @@ export class ReplicationLinks {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -80,7 +107,13 @@ export class ReplicationLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationLinksGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationLinksGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationLinksGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -89,7 +122,13 @@ export class ReplicationLinks {
    * @param linkId The replication link ID to be retrieved.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, callback: msRest.ServiceCallback<Models.ReplicationLink>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    callback: msRest.ServiceCallback<Models.ReplicationLink>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -99,8 +138,22 @@ export class ReplicationLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationLink>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationLink>, callback?: msRest.ServiceCallback<Models.ReplicationLink>): Promise<Models.ReplicationLinksGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReplicationLink>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationLink>,
+    callback?: msRest.ServiceCallback<Models.ReplicationLink>
+  ): Promise<Models.ReplicationLinksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -110,7 +163,8 @@ export class ReplicationLinks {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReplicationLinksGetResponse>;
+      callback
+    ) as Promise<Models.ReplicationLinksGetResponse>;
   }
 
   /**
@@ -124,9 +178,20 @@ export class ReplicationLinks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  failover(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginFailover(resourceGroupName,serverName,databaseName,linkId,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  failover(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginFailover(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      linkId,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -140,9 +205,20 @@ export class ReplicationLinks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  failoverAllowDataLoss(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginFailoverAllowDataLoss(resourceGroupName,serverName,databaseName,linkId,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  failoverAllowDataLoss(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginFailoverAllowDataLoss(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      linkId,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -154,7 +230,12 @@ export class ReplicationLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationLinksListByDatabaseResponse>
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationLinksListByDatabaseResponse>;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationLinksListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -162,7 +243,12 @@ export class ReplicationLinks {
    * @param databaseName The name of the database to retrieve links for.
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ReplicationLinkListResult>): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.ReplicationLinkListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -171,8 +257,20 @@ export class ReplicationLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationLinkListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationLinkListResult>, callback?: msRest.ServiceCallback<Models.ReplicationLinkListResult>): Promise<Models.ReplicationLinksListByDatabaseResponse> {
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReplicationLinkListResult>
+  ): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationLinkListResult>,
+    callback?: msRest.ServiceCallback<Models.ReplicationLinkListResult>
+  ): Promise<Models.ReplicationLinksListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -181,7 +279,8 @@ export class ReplicationLinks {
         options
       },
       listByDatabaseOperationSpec,
-      callback) as Promise<Models.ReplicationLinksListByDatabaseResponse>;
+      callback
+    ) as Promise<Models.ReplicationLinksListByDatabaseResponse>;
   }
 
   /**
@@ -195,7 +294,13 @@ export class ReplicationLinks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginFailover(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginFailover(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -205,7 +310,8 @@ export class ReplicationLinks {
         options
       },
       beginFailoverOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -219,7 +325,13 @@ export class ReplicationLinks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginFailoverAllowDataLoss(resourceGroupName: string, serverName: string, databaseName: string, linkId: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginFailoverAllowDataLoss(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -229,7 +341,8 @@ export class ReplicationLinks {
         options
       },
       beginFailoverAllowDataLossOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -237,7 +350,8 @@ export class ReplicationLinks {
 const serializer = new msRest.Serializer(Mappers);
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -245,12 +359,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.linkId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -263,7 +373,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -271,12 +382,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.linkId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationLink
@@ -290,19 +397,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationLinkListResult
@@ -316,7 +420,8 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
 
 const beginFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}/failover",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}/failover",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -324,12 +429,8 @@ const beginFailoverOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.linkId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -342,7 +443,8 @@ const beginFailoverOperationSpec: msRest.OperationSpec = {
 
 const beginFailoverAllowDataLossOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}/forceFailoverAllowDataLoss",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}/forceFailoverAllowDataLoss",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -350,12 +452,8 @@ const beginFailoverAllowDataLossOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.linkId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},

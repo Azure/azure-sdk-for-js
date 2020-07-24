@@ -41,14 +41,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  download(options: Models.BlobDownloadOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  download(options?: Models.BlobDownloadOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobDownloadResponse> {
+  download(
+    options: Models.BlobDownloadOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  download(
+    options?: Models.BlobDownloadOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobDownloadResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       downloadOperationSpec,
-      callback) as Promise<Models.BlobDownloadResponse>;
+      callback
+    ) as Promise<Models.BlobDownloadResponse>;
   }
 
   /**
@@ -57,7 +64,9 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobGetPropertiesResponse>
    */
-  getProperties(options?: Models.BlobGetPropertiesOptionalParams): Promise<Models.BlobGetPropertiesResponse>;
+  getProperties(
+    options?: Models.BlobGetPropertiesOptionalParams
+  ): Promise<Models.BlobGetPropertiesResponse>;
   /**
    * @param callback The callback
    */
@@ -66,14 +75,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.BlobGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  getProperties(options?: Models.BlobGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobGetPropertiesResponse> {
+  getProperties(
+    options: Models.BlobGetPropertiesOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  getProperties(
+    options?: Models.BlobGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getPropertiesOperationSpec,
-      callback) as Promise<Models.BlobGetPropertiesResponse>;
+      callback
+    ) as Promise<Models.BlobGetPropertiesResponse>;
   }
 
   /**
@@ -101,14 +117,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(options: Models.BlobDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.BlobDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobDeleteResponse> {
+  deleteMethod(
+    options: Models.BlobDeleteMethodOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    options?: Models.BlobDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.BlobDeleteResponse>;
+      callback
+    ) as Promise<Models.BlobDeleteResponse>;
   }
 
   /**
@@ -116,7 +139,9 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobSetAccessControlResponse>
    */
-  setAccessControl(options?: Models.BlobSetAccessControlOptionalParams): Promise<Models.BlobSetAccessControlResponse>;
+  setAccessControl(
+    options?: Models.BlobSetAccessControlOptionalParams
+  ): Promise<Models.BlobSetAccessControlResponse>;
   /**
    * @param callback The callback
    */
@@ -125,14 +150,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setAccessControl(options: Models.BlobSetAccessControlOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setAccessControl(options?: Models.BlobSetAccessControlOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobSetAccessControlResponse> {
+  setAccessControl(
+    options: Models.BlobSetAccessControlOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setAccessControl(
+    options?: Models.BlobSetAccessControlOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobSetAccessControlResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setAccessControlOperationSpec,
-      callback) as Promise<Models.BlobSetAccessControlResponse>;
+      callback
+    ) as Promise<Models.BlobSetAccessControlResponse>;
   }
 
   /**
@@ -140,7 +172,9 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobGetAccessControlResponse>
    */
-  getAccessControl(options?: Models.BlobGetAccessControlOptionalParams): Promise<Models.BlobGetAccessControlResponse>;
+  getAccessControl(
+    options?: Models.BlobGetAccessControlOptionalParams
+  ): Promise<Models.BlobGetAccessControlResponse>;
   /**
    * @param callback The callback
    */
@@ -149,14 +183,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAccessControl(options: Models.BlobGetAccessControlOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  getAccessControl(options?: Models.BlobGetAccessControlOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobGetAccessControlResponse> {
+  getAccessControl(
+    options: Models.BlobGetAccessControlOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  getAccessControl(
+    options?: Models.BlobGetAccessControlOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobGetAccessControlResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getAccessControlOperationSpec,
-      callback) as Promise<Models.BlobGetAccessControlResponse>;
+      callback
+    ) as Promise<Models.BlobGetAccessControlResponse>;
   }
 
   /**
@@ -171,7 +212,10 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobRenameResponse>
    */
-  rename(renameSource: string, options?: Models.BlobRenameOptionalParams): Promise<Models.BlobRenameResponse>;
+  rename(
+    renameSource: string,
+    options?: Models.BlobRenameOptionalParams
+  ): Promise<Models.BlobRenameResponse>;
   /**
    * @param renameSource The file or directory to be renamed. The value must have the following
    * format: "/{filesysystem}/{path}".  If "x-ms-properties" is specified, the properties will
@@ -186,15 +230,24 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  rename(renameSource: string, options: Models.BlobRenameOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  rename(renameSource: string, options?: Models.BlobRenameOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobRenameResponse> {
+  rename(
+    renameSource: string,
+    options: Models.BlobRenameOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  rename(
+    renameSource: string,
+    options?: Models.BlobRenameOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobRenameResponse> {
     return this.client.sendOperationRequest(
       {
         renameSource,
         options
       },
       renameOperationSpec,
-      callback) as Promise<Models.BlobRenameResponse>;
+      callback
+    ) as Promise<Models.BlobRenameResponse>;
   }
 
   /**
@@ -211,14 +264,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  undelete(options: Models.BlobUndeleteOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  undelete(options?: Models.BlobUndeleteOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobUndeleteResponse> {
+  undelete(
+    options: Models.BlobUndeleteOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  undelete(
+    options?: Models.BlobUndeleteOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobUndeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       undeleteOperationSpec,
-      callback) as Promise<Models.BlobUndeleteResponse>;
+      callback
+    ) as Promise<Models.BlobUndeleteResponse>;
   }
 
   /**
@@ -228,28 +288,43 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobSetExpiryResponse>
    */
-  setExpiry(expiryOptions: Models.BlobExpiryOptions, options?: Models.BlobSetExpiryOptionalParams): Promise<Models.BlobSetExpiryResponse>;
+  setExpiry(
+    expiryOptions: Models.BlobExpiryOptions,
+    options?: Models.BlobSetExpiryOptionalParams
+  ): Promise<Models.BlobSetExpiryResponse>;
   /**
    * @param expiryOptions Required. Indicates mode of the expiry time. Possible values include:
    * 'NeverExpire', 'RelativeToCreation', 'RelativeToNow', 'Absolute'
    * @param callback The callback
    */
-  setExpiry(expiryOptions: Models.BlobExpiryOptions, callback: coreHttp.ServiceCallback<void>): void;
+  setExpiry(
+    expiryOptions: Models.BlobExpiryOptions,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param expiryOptions Required. Indicates mode of the expiry time. Possible values include:
    * 'NeverExpire', 'RelativeToCreation', 'RelativeToNow', 'Absolute'
    * @param options The optional parameters
    * @param callback The callback
    */
-  setExpiry(expiryOptions: Models.BlobExpiryOptions, options: Models.BlobSetExpiryOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setExpiry(expiryOptions: Models.BlobExpiryOptions, options?: Models.BlobSetExpiryOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobSetExpiryResponse> {
+  setExpiry(
+    expiryOptions: Models.BlobExpiryOptions,
+    options: Models.BlobSetExpiryOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setExpiry(
+    expiryOptions: Models.BlobExpiryOptions,
+    options?: Models.BlobSetExpiryOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobSetExpiryResponse> {
     return this.client.sendOperationRequest(
       {
         expiryOptions,
         options
       },
       setExpiryOperationSpec,
-      callback) as Promise<Models.BlobSetExpiryResponse>;
+      callback
+    ) as Promise<Models.BlobSetExpiryResponse>;
   }
 
   /**
@@ -257,7 +332,9 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobSetHTTPHeadersResponse>
    */
-  setHTTPHeaders(options?: Models.BlobSetHTTPHeadersOptionalParams): Promise<Models.BlobSetHTTPHeadersResponse>;
+  setHTTPHeaders(
+    options?: Models.BlobSetHTTPHeadersOptionalParams
+  ): Promise<Models.BlobSetHTTPHeadersResponse>;
   /**
    * @param callback The callback
    */
@@ -266,14 +343,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setHTTPHeaders(options: Models.BlobSetHTTPHeadersOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setHTTPHeaders(options?: Models.BlobSetHTTPHeadersOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobSetHTTPHeadersResponse> {
+  setHTTPHeaders(
+    options: Models.BlobSetHTTPHeadersOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setHTTPHeaders(
+    options?: Models.BlobSetHTTPHeadersOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobSetHTTPHeadersResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setHTTPHeadersOperationSpec,
-      callback) as Promise<Models.BlobSetHTTPHeadersResponse>;
+      callback
+    ) as Promise<Models.BlobSetHTTPHeadersResponse>;
   }
 
   /**
@@ -282,7 +366,9 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobSetMetadataResponse>
    */
-  setMetadata(options?: Models.BlobSetMetadataOptionalParams): Promise<Models.BlobSetMetadataResponse>;
+  setMetadata(
+    options?: Models.BlobSetMetadataOptionalParams
+  ): Promise<Models.BlobSetMetadataResponse>;
   /**
    * @param callback The callback
    */
@@ -291,14 +377,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setMetadata(options: Models.BlobSetMetadataOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setMetadata(options?: Models.BlobSetMetadataOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobSetMetadataResponse> {
+  setMetadata(
+    options: Models.BlobSetMetadataOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setMetadata(
+    options?: Models.BlobSetMetadataOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setMetadataOperationSpec,
-      callback) as Promise<Models.BlobSetMetadataResponse>;
+      callback
+    ) as Promise<Models.BlobSetMetadataResponse>;
   }
 
   /**
@@ -307,7 +400,9 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobAcquireLeaseResponse>
    */
-  acquireLease(options?: Models.BlobAcquireLeaseOptionalParams): Promise<Models.BlobAcquireLeaseResponse>;
+  acquireLease(
+    options?: Models.BlobAcquireLeaseOptionalParams
+  ): Promise<Models.BlobAcquireLeaseResponse>;
   /**
    * @param callback The callback
    */
@@ -316,14 +411,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  acquireLease(options: Models.BlobAcquireLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  acquireLease(options?: Models.BlobAcquireLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobAcquireLeaseResponse> {
+  acquireLease(
+    options: Models.BlobAcquireLeaseOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  acquireLease(
+    options?: Models.BlobAcquireLeaseOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobAcquireLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       acquireLeaseOperationSpec,
-      callback) as Promise<Models.BlobAcquireLeaseResponse>;
+      callback
+    ) as Promise<Models.BlobAcquireLeaseResponse>;
   }
 
   /**
@@ -333,7 +435,10 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobReleaseLeaseResponse>
    */
-  releaseLease(leaseId: string, options?: Models.BlobReleaseLeaseOptionalParams): Promise<Models.BlobReleaseLeaseResponse>;
+  releaseLease(
+    leaseId: string,
+    options?: Models.BlobReleaseLeaseOptionalParams
+  ): Promise<Models.BlobReleaseLeaseResponse>;
   /**
    * @param leaseId Specifies the current lease ID on the resource.
    * @param callback The callback
@@ -344,15 +449,24 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  releaseLease(leaseId: string, options: Models.BlobReleaseLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  releaseLease(leaseId: string, options?: Models.BlobReleaseLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobReleaseLeaseResponse> {
+  releaseLease(
+    leaseId: string,
+    options: Models.BlobReleaseLeaseOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  releaseLease(
+    leaseId: string,
+    options?: Models.BlobReleaseLeaseOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobReleaseLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         options
       },
       releaseLeaseOperationSpec,
-      callback) as Promise<Models.BlobReleaseLeaseResponse>;
+      callback
+    ) as Promise<Models.BlobReleaseLeaseResponse>;
   }
 
   /**
@@ -362,7 +476,10 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobRenewLeaseResponse>
    */
-  renewLease(leaseId: string, options?: Models.BlobRenewLeaseOptionalParams): Promise<Models.BlobRenewLeaseResponse>;
+  renewLease(
+    leaseId: string,
+    options?: Models.BlobRenewLeaseOptionalParams
+  ): Promise<Models.BlobRenewLeaseResponse>;
   /**
    * @param leaseId Specifies the current lease ID on the resource.
    * @param callback The callback
@@ -373,15 +490,24 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  renewLease(leaseId: string, options: Models.BlobRenewLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  renewLease(leaseId: string, options?: Models.BlobRenewLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobRenewLeaseResponse> {
+  renewLease(
+    leaseId: string,
+    options: Models.BlobRenewLeaseOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  renewLease(
+    leaseId: string,
+    options?: Models.BlobRenewLeaseOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobRenewLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         options
       },
       renewLeaseOperationSpec,
-      callback) as Promise<Models.BlobRenewLeaseResponse>;
+      callback
+    ) as Promise<Models.BlobRenewLeaseResponse>;
   }
 
   /**
@@ -394,7 +520,11 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobChangeLeaseResponse>
    */
-  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.BlobChangeLeaseOptionalParams): Promise<Models.BlobChangeLeaseResponse>;
+  changeLease(
+    leaseId: string,
+    proposedLeaseId: string,
+    options?: Models.BlobChangeLeaseOptionalParams
+  ): Promise<Models.BlobChangeLeaseResponse>;
   /**
    * @param leaseId Specifies the current lease ID on the resource.
    * @param proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service returns 400
@@ -402,7 +532,11 @@ export class Blob {
    * (String) for a list of valid GUID string formats.
    * @param callback The callback
    */
-  changeLease(leaseId: string, proposedLeaseId: string, callback: coreHttp.ServiceCallback<void>): void;
+  changeLease(
+    leaseId: string,
+    proposedLeaseId: string,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param leaseId Specifies the current lease ID on the resource.
    * @param proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service returns 400
@@ -411,8 +545,18 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  changeLease(leaseId: string, proposedLeaseId: string, options: Models.BlobChangeLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.BlobChangeLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobChangeLeaseResponse> {
+  changeLease(
+    leaseId: string,
+    proposedLeaseId: string,
+    options: Models.BlobChangeLeaseOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  changeLease(
+    leaseId: string,
+    proposedLeaseId: string,
+    options?: Models.BlobChangeLeaseOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobChangeLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
@@ -420,7 +564,8 @@ export class Blob {
         options
       },
       changeLeaseOperationSpec,
-      callback) as Promise<Models.BlobChangeLeaseResponse>;
+      callback
+    ) as Promise<Models.BlobChangeLeaseResponse>;
   }
 
   /**
@@ -438,14 +583,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  breakLease(options: Models.BlobBreakLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  breakLease(options?: Models.BlobBreakLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobBreakLeaseResponse> {
+  breakLease(
+    options: Models.BlobBreakLeaseOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  breakLease(
+    options?: Models.BlobBreakLeaseOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobBreakLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       breakLeaseOperationSpec,
-      callback) as Promise<Models.BlobBreakLeaseResponse>;
+      callback
+    ) as Promise<Models.BlobBreakLeaseResponse>;
   }
 
   /**
@@ -453,7 +605,9 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobCreateSnapshotResponse>
    */
-  createSnapshot(options?: Models.BlobCreateSnapshotOptionalParams): Promise<Models.BlobCreateSnapshotResponse>;
+  createSnapshot(
+    options?: Models.BlobCreateSnapshotOptionalParams
+  ): Promise<Models.BlobCreateSnapshotResponse>;
   /**
    * @param callback The callback
    */
@@ -462,14 +616,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createSnapshot(options: Models.BlobCreateSnapshotOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  createSnapshot(options?: Models.BlobCreateSnapshotOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobCreateSnapshotResponse> {
+  createSnapshot(
+    options: Models.BlobCreateSnapshotOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  createSnapshot(
+    options?: Models.BlobCreateSnapshotOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobCreateSnapshotResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       createSnapshotOperationSpec,
-      callback) as Promise<Models.BlobCreateSnapshotResponse>;
+      callback
+    ) as Promise<Models.BlobCreateSnapshotResponse>;
   }
 
   /**
@@ -481,7 +642,10 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobStartCopyFromURLResponse>
    */
-  startCopyFromURL(copySource: string, options?: Models.BlobStartCopyFromURLOptionalParams): Promise<Models.BlobStartCopyFromURLResponse>;
+  startCopyFromURL(
+    copySource: string,
+    options?: Models.BlobStartCopyFromURLOptionalParams
+  ): Promise<Models.BlobStartCopyFromURLResponse>;
   /**
    * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
    * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
@@ -498,15 +662,24 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  startCopyFromURL(copySource: string, options: Models.BlobStartCopyFromURLOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  startCopyFromURL(copySource: string, options?: Models.BlobStartCopyFromURLOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobStartCopyFromURLResponse> {
+  startCopyFromURL(
+    copySource: string,
+    options: Models.BlobStartCopyFromURLOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  startCopyFromURL(
+    copySource: string,
+    options?: Models.BlobStartCopyFromURLOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobStartCopyFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         copySource,
         options
       },
       startCopyFromURLOperationSpec,
-      callback) as Promise<Models.BlobStartCopyFromURLResponse>;
+      callback
+    ) as Promise<Models.BlobStartCopyFromURLResponse>;
   }
 
   /**
@@ -519,7 +692,10 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobCopyFromURLResponse>
    */
-  copyFromURL(copySource: string, options?: Models.BlobCopyFromURLOptionalParams): Promise<Models.BlobCopyFromURLResponse>;
+  copyFromURL(
+    copySource: string,
+    options?: Models.BlobCopyFromURLOptionalParams
+  ): Promise<Models.BlobCopyFromURLResponse>;
   /**
    * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
    * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
@@ -536,15 +712,24 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  copyFromURL(copySource: string, options: Models.BlobCopyFromURLOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  copyFromURL(copySource: string, options?: Models.BlobCopyFromURLOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobCopyFromURLResponse> {
+  copyFromURL(
+    copySource: string,
+    options: Models.BlobCopyFromURLOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  copyFromURL(
+    copySource: string,
+    options?: Models.BlobCopyFromURLOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobCopyFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         copySource,
         options
       },
       copyFromURLOperationSpec,
-      callback) as Promise<Models.BlobCopyFromURLResponse>;
+      callback
+    ) as Promise<Models.BlobCopyFromURLResponse>;
   }
 
   /**
@@ -555,7 +740,10 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobAbortCopyFromURLResponse>
    */
-  abortCopyFromURL(copyId: string, options?: Models.BlobAbortCopyFromURLOptionalParams): Promise<Models.BlobAbortCopyFromURLResponse>;
+  abortCopyFromURL(
+    copyId: string,
+    options?: Models.BlobAbortCopyFromURLOptionalParams
+  ): Promise<Models.BlobAbortCopyFromURLResponse>;
   /**
    * @param copyId The copy identifier provided in the x-ms-copy-id header of the original Copy Blob
    * operation.
@@ -568,15 +756,24 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  abortCopyFromURL(copyId: string, options: Models.BlobAbortCopyFromURLOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  abortCopyFromURL(copyId: string, options?: Models.BlobAbortCopyFromURLOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobAbortCopyFromURLResponse> {
+  abortCopyFromURL(
+    copyId: string,
+    options: Models.BlobAbortCopyFromURLOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  abortCopyFromURL(
+    copyId: string,
+    options?: Models.BlobAbortCopyFromURLOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobAbortCopyFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         copyId,
         options
       },
       abortCopyFromURLOperationSpec,
-      callback) as Promise<Models.BlobAbortCopyFromURLResponse>;
+      callback
+    ) as Promise<Models.BlobAbortCopyFromURLResponse>;
   }
 
   /**
@@ -590,7 +787,10 @@ export class Blob {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobSetTierResponse>
    */
-  setTier(tier: Models.AccessTier, options?: Models.BlobSetTierOptionalParams): Promise<Models.BlobSetTierResponse>;
+  setTier(
+    tier: Models.AccessTier,
+    options?: Models.BlobSetTierOptionalParams
+  ): Promise<Models.BlobSetTierResponse>;
   /**
    * @param tier Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
    * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
@@ -603,15 +803,24 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setTier(tier: Models.AccessTier, options: Models.BlobSetTierOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setTier(tier: Models.AccessTier, options?: Models.BlobSetTierOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobSetTierResponse> {
+  setTier(
+    tier: Models.AccessTier,
+    options: Models.BlobSetTierOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setTier(
+    tier: Models.AccessTier,
+    options?: Models.BlobSetTierOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobSetTierResponse> {
     return this.client.sendOperationRequest(
       {
         tier,
         options
       },
       setTierOperationSpec,
-      callback) as Promise<Models.BlobSetTierResponse>;
+      callback
+    ) as Promise<Models.BlobSetTierResponse>;
   }
 
   /**
@@ -628,14 +837,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAccountInfo(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
-  getAccountInfo(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobGetAccountInfoResponse> {
+  getAccountInfo(
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  getAccountInfo(
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobGetAccountInfoResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getAccountInfoOperationSpec,
-      callback) as Promise<Models.BlobGetAccountInfoResponse>;
+      callback
+    ) as Promise<Models.BlobGetAccountInfoResponse>;
   }
 
   /**
@@ -654,13 +870,17 @@ export class Blob {
    * @param callback The callback
    */
   query(options: Models.BlobQueryOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  query(options?: Models.BlobQueryOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobQueryResponse> {
+  query(
+    options?: Models.BlobQueryOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobQueryResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       queryOperationSpec,
-      callback) as Promise<Models.BlobQueryResponse>;
+      callback
+    ) as Promise<Models.BlobQueryResponse>;
   }
 
   /**
@@ -677,14 +897,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getTags(options: Models.BlobGetTagsOptionalParams, callback: coreHttp.ServiceCallback<Models.BlobTags>): void;
-  getTags(options?: Models.BlobGetTagsOptionalParams | coreHttp.ServiceCallback<Models.BlobTags>, callback?: coreHttp.ServiceCallback<Models.BlobTags>): Promise<Models.BlobGetTagsResponse> {
+  getTags(
+    options: Models.BlobGetTagsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.BlobTags>
+  ): void;
+  getTags(
+    options?: Models.BlobGetTagsOptionalParams | coreHttp.ServiceCallback<Models.BlobTags>,
+    callback?: coreHttp.ServiceCallback<Models.BlobTags>
+  ): Promise<Models.BlobGetTagsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getTagsOperationSpec,
-      callback) as Promise<Models.BlobGetTagsResponse>;
+      callback
+    ) as Promise<Models.BlobGetTagsResponse>;
   }
 
   /**
@@ -701,14 +928,21 @@ export class Blob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setTags(options: Models.BlobSetTagsOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setTags(options?: Models.BlobSetTagsOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlobSetTagsResponse> {
+  setTags(
+    options: Models.BlobSetTagsOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setTags(
+    options?: Models.BlobSetTagsOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.BlobSetTagsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setTagsOperationSpec,
-      callback) as Promise<Models.BlobSetTagsResponse>;
+      callback
+    ) as Promise<Models.BlobSetTagsResponse>;
   }
 }
 
@@ -717,14 +951,8 @@ const serializer = new coreHttp.Serializer(Mappers, true);
 const downloadOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.snapshot,
-    Parameters.versionId,
-    Parameters.timeoutInSeconds
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.snapshot, Parameters.versionId, Parameters.timeoutInSeconds],
   headerParameters: [
     Parameters.range0,
     Parameters.rangeGetContentMD5,
@@ -772,14 +1000,8 @@ const downloadOperationSpec: coreHttp.OperationSpec = {
 const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.snapshot,
-    Parameters.versionId,
-    Parameters.timeoutInSeconds
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.snapshot, Parameters.versionId, Parameters.timeoutInSeconds],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
@@ -809,14 +1031,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
 const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.snapshot,
-    Parameters.versionId,
-    Parameters.timeoutInSeconds
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.snapshot, Parameters.versionId, Parameters.timeoutInSeconds],
   headerParameters: [
     Parameters.deleteSnapshots,
     Parameters.version,
@@ -844,13 +1060,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
 const setAccessControlOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.action5
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.action5],
   headerParameters: [
     Parameters.owner,
     Parameters.group,
@@ -880,14 +1091,8 @@ const setAccessControlOperationSpec: coreHttp.OperationSpec = {
 const getAccessControlOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.upn,
-    Parameters.action6
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.upn, Parameters.action6],
   headerParameters: [
     Parameters.requestId,
     Parameters.version,
@@ -913,13 +1118,8 @@ const getAccessControlOperationSpec: coreHttp.OperationSpec = {
 const renameOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.pathRenameMode
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.pathRenameMode],
   headerParameters: [
     Parameters.renameSource,
     Parameters.directoryProperties,
@@ -959,17 +1159,9 @@ const renameOperationSpec: coreHttp.OperationSpec = {
 const undeleteOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp8
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp8],
+  headerParameters: [Parameters.version, Parameters.requestId],
   responses: {
     200: {
       headersMapper: Mappers.BlobUndeleteHeaders
@@ -986,13 +1178,8 @@ const undeleteOperationSpec: coreHttp.OperationSpec = {
 const setExpiryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp10
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp10],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
@@ -1015,13 +1202,8 @@ const setExpiryOperationSpec: coreHttp.OperationSpec = {
 const setHTTPHeadersOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp0
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp0],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
@@ -1054,13 +1236,8 @@ const setHTTPHeadersOperationSpec: coreHttp.OperationSpec = {
 const setMetadataOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp6
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp6],
   headerParameters: [
     Parameters.metadata,
     Parameters.encryptionScope,
@@ -1092,13 +1269,8 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
 const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp9
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp9],
   headerParameters: [
     Parameters.duration,
     Parameters.proposedLeaseId0,
@@ -1127,13 +1299,8 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
 const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp9
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp9],
   headerParameters: [
     Parameters.leaseId1,
     Parameters.version,
@@ -1161,13 +1328,8 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
 const renewLeaseOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp9
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp9],
   headerParameters: [
     Parameters.leaseId1,
     Parameters.version,
@@ -1195,13 +1357,8 @@ const renewLeaseOperationSpec: coreHttp.OperationSpec = {
 const changeLeaseOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp9
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp9],
   headerParameters: [
     Parameters.leaseId1,
     Parameters.proposedLeaseId1,
@@ -1230,13 +1387,8 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
 const breakLeaseOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp9
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp9],
   headerParameters: [
     Parameters.breakPeriod,
     Parameters.version,
@@ -1264,13 +1416,8 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
 const createSnapshotOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp11
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp11],
   headerParameters: [
     Parameters.metadata,
     Parameters.encryptionScope,
@@ -1302,12 +1449,8 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
 const startCopyFromURLOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds],
   headerParameters: [
     Parameters.metadata,
     Parameters.tier0,
@@ -1345,12 +1488,8 @@ const startCopyFromURLOperationSpec: coreHttp.OperationSpec = {
 const copyFromURLOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds],
   headerParameters: [
     Parameters.metadata,
     Parameters.tier0,
@@ -1388,14 +1527,8 @@ const copyFromURLOperationSpec: coreHttp.OperationSpec = {
 const abortCopyFromURLOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.copyId,
-    Parameters.timeoutInSeconds,
-    Parameters.comp12
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.copyId, Parameters.timeoutInSeconds, Parameters.comp12],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
@@ -1418,9 +1551,7 @@ const abortCopyFromURLOperationSpec: coreHttp.OperationSpec = {
 const setTierOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.snapshot,
     Parameters.versionId,
@@ -1453,16 +1584,9 @@ const setTierOperationSpec: coreHttp.OperationSpec = {
 const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.restype1,
-    Parameters.comp0
-  ],
-  headerParameters: [
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.restype1, Parameters.comp0],
+  headerParameters: [Parameters.version],
   responses: {
     200: {
       headersMapper: Mappers.BlobGetAccountInfoHeaders
@@ -1479,14 +1603,8 @@ const getAccountInfoOperationSpec: coreHttp.OperationSpec = {
 const queryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.snapshot,
-    Parameters.timeoutInSeconds,
-    Parameters.comp14
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.snapshot, Parameters.timeoutInSeconds, Parameters.comp14],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
@@ -1500,10 +1618,7 @@ const queryOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifNoneMatch
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "queryRequest"
-    ],
+    parameterPath: ["options", "queryRequest"],
     mapper: Mappers.QueryRequest
   },
   contentType: "application/xml; charset=utf-8",
@@ -1538,20 +1653,14 @@ const queryOperationSpec: coreHttp.OperationSpec = {
 const getTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.snapshot,
     Parameters.versionId,
     Parameters.comp15
   ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.ifTags
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId, Parameters.ifTags],
   responses: {
     200: {
       bodyMapper: Mappers.BlobTags,
@@ -1569,14 +1678,8 @@ const getTagsOperationSpec: coreHttp.OperationSpec = {
 const setTagsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.versionId,
-    Parameters.comp15
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.versionId, Parameters.comp15],
   headerParameters: [
     Parameters.version,
     Parameters.transactionalContentMD5,
@@ -1585,10 +1688,7 @@ const setTagsOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifTags
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "tags"
-    ],
+    parameterPath: ["options", "tags"],
     mapper: Mappers.BlobTags
   },
   contentType: "application/xml; charset=utf-8",

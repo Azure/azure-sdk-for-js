@@ -23,8 +23,8 @@ export class HttpSender implements Sender {
       method: "POST",
       withCredentials: false,
       headers: <{ [key: string]: string }>{
-        "Content-Type": "application/x-json-stream",
-      },
+        "Content-Type": "application/x-json-stream"
+      }
     };
 
     zlib.gzip(payload, (err, buffer) => {

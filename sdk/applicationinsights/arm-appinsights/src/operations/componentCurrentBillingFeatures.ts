@@ -33,21 +33,41 @@ export class ComponentCurrentBillingFeatures {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentCurrentBillingFeaturesGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ComponentCurrentBillingFeaturesGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComponentCurrentBillingFeaturesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): Promise<Models.ComponentCurrentBillingFeaturesGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>
+  ): Promise<Models.ComponentCurrentBillingFeaturesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class ComponentCurrentBillingFeatures {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ComponentCurrentBillingFeaturesGetResponse>;
+      callback
+    ) as Promise<Models.ComponentCurrentBillingFeaturesGetResponse>;
   }
 
   /**
@@ -67,7 +88,12 @@ export class ComponentCurrentBillingFeatures {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentCurrentBillingFeaturesUpdateResponse>
    */
-  update(resourceGroupName: string, resourceName: string, billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures, options?: msRest.RequestOptionsBase): Promise<Models.ComponentCurrentBillingFeaturesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComponentCurrentBillingFeaturesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -75,7 +101,12 @@ export class ComponentCurrentBillingFeatures {
    * for an Application Insights component.
    * @param callback The callback
    */
-  update(resourceGroupName: string, resourceName: string, billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): void;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -84,8 +115,22 @@ export class ComponentCurrentBillingFeatures {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, resourceName: string, billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): void;
-  update(resourceGroupName: string, resourceName: string, billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>): Promise<Models.ComponentCurrentBillingFeaturesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>
+  ): void;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    billingFeaturesProperties: Models.ApplicationInsightsComponentBillingFeatures,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentBillingFeatures>
+  ): Promise<Models.ComponentCurrentBillingFeaturesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +139,8 @@ export class ComponentCurrentBillingFeatures {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ComponentCurrentBillingFeaturesUpdateResponse>;
+      callback
+    ) as Promise<Models.ComponentCurrentBillingFeaturesUpdateResponse>;
   }
 }
 
@@ -102,18 +148,11 @@ export class ComponentCurrentBillingFeatures {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/currentbillingfeatures",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/currentbillingfeatures",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentBillingFeatures
@@ -127,18 +166,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/currentbillingfeatures",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/currentbillingfeatures",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "billingFeaturesProperties",
     mapper: {

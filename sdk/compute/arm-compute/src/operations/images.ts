@@ -35,9 +35,20 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImagesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, imageName: string, parameters: Models.Image, options?: msRest.RequestOptionsBase): Promise<Models.ImagesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,imageName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ImagesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    imageName: string,
+    parameters: Models.Image,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ImagesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      imageName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ImagesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -48,9 +59,15 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImagesUpdateResponse>
    */
-  update(resourceGroupName: string, imageName: string, parameters: Models.ImageUpdate, options?: msRest.RequestOptionsBase): Promise<Models.ImagesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,imageName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ImagesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    imageName: string,
+    parameters: Models.ImageUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ImagesUpdateResponse> {
+    return this.beginUpdate(resourceGroupName, imageName, parameters, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ImagesUpdateResponse>;
   }
 
   /**
@@ -60,9 +77,14 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, imageName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,imageName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    imageName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, imageName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -72,21 +94,39 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImagesGetResponse>
    */
-  get(resourceGroupName: string, imageName: string, options?: Models.ImagesGetOptionalParams): Promise<Models.ImagesGetResponse>;
+  get(
+    resourceGroupName: string,
+    imageName: string,
+    options?: Models.ImagesGetOptionalParams
+  ): Promise<Models.ImagesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param imageName The name of the image.
    * @param callback The callback
    */
-  get(resourceGroupName: string, imageName: string, callback: msRest.ServiceCallback<Models.Image>): void;
+  get(
+    resourceGroupName: string,
+    imageName: string,
+    callback: msRest.ServiceCallback<Models.Image>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param imageName The name of the image.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, imageName: string, options: Models.ImagesGetOptionalParams, callback: msRest.ServiceCallback<Models.Image>): void;
-  get(resourceGroupName: string, imageName: string, options?: Models.ImagesGetOptionalParams | msRest.ServiceCallback<Models.Image>, callback?: msRest.ServiceCallback<Models.Image>): Promise<Models.ImagesGetResponse> {
+  get(
+    resourceGroupName: string,
+    imageName: string,
+    options: Models.ImagesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.Image>
+  ): void;
+  get(
+    resourceGroupName: string,
+    imageName: string,
+    options?: Models.ImagesGetOptionalParams | msRest.ServiceCallback<Models.Image>,
+    callback?: msRest.ServiceCallback<Models.Image>
+  ): Promise<Models.ImagesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +134,8 @@ export class Images {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ImagesGetResponse>;
+      callback
+    ) as Promise<Models.ImagesGetResponse>;
   }
 
   /**
@@ -103,26 +144,41 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImagesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ImagesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ImagesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ImageListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ImageListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageListResult>, callback?: msRest.ServiceCallback<Models.ImageListResult>): Promise<Models.ImagesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ImageListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageListResult>,
+    callback?: msRest.ServiceCallback<Models.ImageListResult>
+  ): Promise<Models.ImagesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ImagesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ImagesListByResourceGroupResponse>;
   }
 
   /**
@@ -140,14 +196,21 @@ export class Images {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageListResult>, callback?: msRest.ServiceCallback<Models.ImageListResult>): Promise<Models.ImagesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ImageListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageListResult>,
+    callback?: msRest.ServiceCallback<Models.ImageListResult>
+  ): Promise<Models.ImagesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ImagesListResponse>;
+      callback
+    ) as Promise<Models.ImagesListResponse>;
   }
 
   /**
@@ -158,7 +221,12 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, imageName: string, parameters: Models.Image, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    imageName: string,
+    parameters: Models.Image,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -167,7 +235,8 @@ export class Images {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -178,7 +247,12 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, imageName: string, parameters: Models.ImageUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    imageName: string,
+    parameters: Models.ImageUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -187,7 +261,8 @@ export class Images {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -197,7 +272,11 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, imageName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    imageName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -205,7 +284,8 @@ export class Images {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -214,26 +294,41 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImagesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ImagesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ImagesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ImageListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ImageListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageListResult>, callback?: msRest.ServiceCallback<Models.ImageListResult>): Promise<Models.ImagesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ImageListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageListResult>,
+    callback?: msRest.ServiceCallback<Models.ImageListResult>
+  ): Promise<Models.ImagesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ImagesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ImagesListByResourceGroupNextResponse>;
   }
 
   /**
@@ -243,7 +338,10 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImagesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ImagesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ImagesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -254,15 +352,24 @@ export class Images {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageListResult>, callback?: msRest.ServiceCallback<Models.ImageListResult>): Promise<Models.ImagesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ImageListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageListResult>,
+    callback?: msRest.ServiceCallback<Models.ImageListResult>
+  ): Promise<Models.ImagesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ImagesListNextResponse>;
+      callback
+    ) as Promise<Models.ImagesListNextResponse>;
   }
 }
 
@@ -270,19 +377,11 @@ export class Images {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.imageName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.expand0,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.imageName, Parameters.subscriptionId],
+  queryParameters: [Parameters.expand0, Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Image
@@ -296,17 +395,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ImageListResult
@@ -321,15 +414,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/images",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ImageListResult
@@ -343,18 +430,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.imageName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.imageName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -378,18 +458,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.imageName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.imageName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -413,18 +486,11 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.imageName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.imageName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -440,12 +506,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ImageListResult
@@ -461,12 +523,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ImageListResult

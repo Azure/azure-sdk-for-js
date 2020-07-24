@@ -33,21 +33,41 @@ export class ExportConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExportConfigurationsListResponse>
    */
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExportConfigurationsListResponse>;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExportConfigurationsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>): void;
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>): Promise<Models.ExportConfigurationsListResponse> {
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>
+  ): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>
+  ): Promise<Models.ExportConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class ExportConfigurations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ExportConfigurationsListResponse>;
+      callback
+    ) as Promise<Models.ExportConfigurationsListResponse>;
   }
 
   /**
@@ -67,7 +88,12 @@ export class ExportConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExportConfigurationsCreateResponse>
    */
-  create(resourceGroupName: string, resourceName: string, exportProperties: Models.ApplicationInsightsComponentExportRequest, options?: msRest.RequestOptionsBase): Promise<Models.ExportConfigurationsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    exportProperties: Models.ApplicationInsightsComponentExportRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExportConfigurationsCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -75,7 +101,12 @@ export class ExportConfigurations {
    * configuration of a Application Insights component.
    * @param callback The callback
    */
-  create(resourceGroupName: string, resourceName: string, exportProperties: Models.ApplicationInsightsComponentExportRequest, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>): void;
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    exportProperties: Models.ApplicationInsightsComponentExportRequest,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -84,8 +115,22 @@ export class ExportConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, resourceName: string, exportProperties: Models.ApplicationInsightsComponentExportRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>): void;
-  create(resourceGroupName: string, resourceName: string, exportProperties: Models.ApplicationInsightsComponentExportRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>): Promise<Models.ExportConfigurationsCreateResponse> {
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    exportProperties: Models.ApplicationInsightsComponentExportRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>
+  ): void;
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    exportProperties: Models.ApplicationInsightsComponentExportRequest,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>
+  ): Promise<Models.ExportConfigurationsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +139,8 @@ export class ExportConfigurations {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.ExportConfigurationsCreateResponse>;
+      callback
+    ) as Promise<Models.ExportConfigurationsCreateResponse>;
   }
 
   /**
@@ -106,7 +152,12 @@ export class ExportConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExportConfigurationsDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, exportId: string, options?: msRest.RequestOptionsBase): Promise<Models.ExportConfigurationsDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    exportId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExportConfigurationsDeleteMethodResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -114,7 +165,12 @@ export class ExportConfigurations {
    * Insights component.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, exportId: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    exportId: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -123,8 +179,22 @@ export class ExportConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, exportId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, exportId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>): Promise<Models.ExportConfigurationsDeleteMethodResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    exportId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    exportId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>
+  ): Promise<Models.ExportConfigurationsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +203,8 @@ export class ExportConfigurations {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.ExportConfigurationsDeleteMethodResponse>;
+      callback
+    ) as Promise<Models.ExportConfigurationsDeleteMethodResponse>;
   }
 
   /**
@@ -145,7 +216,12 @@ export class ExportConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExportConfigurationsGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, exportId: string, options?: msRest.RequestOptionsBase): Promise<Models.ExportConfigurationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    exportId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExportConfigurationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -153,7 +229,12 @@ export class ExportConfigurations {
    * Insights component.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, exportId: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    exportId: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -162,8 +243,22 @@ export class ExportConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, exportId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>): void;
-  get(resourceGroupName: string, resourceName: string, exportId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>): Promise<Models.ExportConfigurationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    exportId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    exportId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>
+  ): Promise<Models.ExportConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -172,7 +267,8 @@ export class ExportConfigurations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ExportConfigurationsGetResponse>;
+      callback
+    ) as Promise<Models.ExportConfigurationsGetResponse>;
   }
 
   /**
@@ -186,7 +282,13 @@ export class ExportConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExportConfigurationsUpdateResponse>
    */
-  update(resourceGroupName: string, resourceName: string, exportId: string, exportProperties: Models.ApplicationInsightsComponentExportRequest, options?: msRest.RequestOptionsBase): Promise<Models.ExportConfigurationsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    exportId: string,
+    exportProperties: Models.ApplicationInsightsComponentExportRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExportConfigurationsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -196,7 +298,13 @@ export class ExportConfigurations {
    * configuration.
    * @param callback The callback
    */
-  update(resourceGroupName: string, resourceName: string, exportId: string, exportProperties: Models.ApplicationInsightsComponentExportRequest, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>): void;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    exportId: string,
+    exportProperties: Models.ApplicationInsightsComponentExportRequest,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -207,8 +315,24 @@ export class ExportConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, resourceName: string, exportId: string, exportProperties: Models.ApplicationInsightsComponentExportRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>): void;
-  update(resourceGroupName: string, resourceName: string, exportId: string, exportProperties: Models.ApplicationInsightsComponentExportRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>): Promise<Models.ExportConfigurationsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    exportId: string,
+    exportProperties: Models.ApplicationInsightsComponentExportRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>
+  ): void;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    exportId: string,
+    exportProperties: Models.ApplicationInsightsComponentExportRequest,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>
+  ): Promise<Models.ExportConfigurationsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -218,7 +342,8 @@ export class ExportConfigurations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ExportConfigurationsUpdateResponse>;
+      callback
+    ) as Promise<Models.ExportConfigurationsUpdateResponse>;
   }
 }
 
@@ -226,18 +351,11 @@ export class ExportConfigurations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -262,18 +380,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "exportProperties",
     mapper: {
@@ -305,19 +416,16 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.exportId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentExportConfiguration
@@ -331,19 +439,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.exportId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentExportConfiguration
@@ -357,19 +462,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/exportconfiguration/{exportId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.exportId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "exportProperties",
     mapper: {

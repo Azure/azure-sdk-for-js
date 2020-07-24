@@ -36,7 +36,13 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the machine learning team
    * account belongs.
@@ -45,7 +51,13 @@ export class Projects {
    * @param projectName The name of the machine learning project under a team account workspace.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, callback: msRest.ServiceCallback<Models.Project>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    callback: msRest.ServiceCallback<Models.Project>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the machine learning team
    * account belongs.
@@ -55,8 +67,22 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  get(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Project>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>,
+    callback?: msRest.ServiceCallback<Models.Project>
+  ): Promise<Models.ProjectsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +92,8 @@ export class Projects {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ProjectsGetResponse>;
+      callback
+    ) as Promise<Models.ProjectsGetResponse>;
   }
 
   /**
@@ -80,7 +107,14 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, parameters: Models.Project, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    parameters: Models.Project,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the machine learning team
    * account belongs.
@@ -90,7 +124,14 @@ export class Projects {
    * @param parameters The parameters for creating or updating a project.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, parameters: Models.Project, callback: msRest.ServiceCallback<Models.Project>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    parameters: Models.Project,
+    callback: msRest.ServiceCallback<Models.Project>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the machine learning team
    * account belongs.
@@ -101,8 +142,24 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, parameters: Models.Project, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, parameters: Models.Project, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    parameters: Models.Project,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Project>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    parameters: Models.Project,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>,
+    callback?: msRest.ServiceCallback<Models.Project>
+  ): Promise<Models.ProjectsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +170,8 @@ export class Projects {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ProjectsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ProjectsCreateOrUpdateResponse>;
   }
 
   /**
@@ -126,7 +184,13 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the machine learning team
    * account belongs.
@@ -135,7 +199,13 @@ export class Projects {
    * @param projectName The name of the machine learning project under a team account workspace.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the machine learning team
    * account belongs.
@@ -145,8 +215,22 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -156,7 +240,8 @@ export class Projects {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -170,7 +255,14 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, parameters: Models.ProjectUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    parameters: Models.ProjectUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the machine learning team
    * account belongs.
@@ -180,7 +272,14 @@ export class Projects {
    * @param parameters The parameters for updating a machine learning team account.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, parameters: Models.ProjectUpdateParameters, callback: msRest.ServiceCallback<Models.Project>): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    parameters: Models.ProjectUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Project>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the machine learning team
    * account belongs.
@@ -191,8 +290,24 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, parameters: Models.ProjectUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  update(resourceGroupName: string, accountName: string, workspaceName: string, projectName: string, parameters: Models.ProjectUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    parameters: Models.ProjectUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Project>
+  ): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    workspaceName: string,
+    projectName: string,
+    parameters: Models.ProjectUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>,
+    callback?: msRest.ServiceCallback<Models.Project>
+  ): Promise<Models.ProjectsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +318,8 @@ export class Projects {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ProjectsUpdateResponse>;
+      callback
+    ) as Promise<Models.ProjectsUpdateResponse>;
   }
 
   /**
@@ -215,7 +331,12 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsListByWorkspaceResponse>
    */
-  listByWorkspace(accountName: string, workspaceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsListByWorkspaceResponse>;
+  listByWorkspace(
+    accountName: string,
+    workspaceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsListByWorkspaceResponse>;
   /**
    * @param accountName The name of the machine learning team account.
    * @param workspaceName The name of the machine learning team account workspace.
@@ -223,7 +344,12 @@ export class Projects {
    * account belongs.
    * @param callback The callback
    */
-  listByWorkspace(accountName: string, workspaceName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.ProjectListResult>): void;
+  listByWorkspace(
+    accountName: string,
+    workspaceName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ProjectListResult>
+  ): void;
   /**
    * @param accountName The name of the machine learning team account.
    * @param workspaceName The name of the machine learning team account workspace.
@@ -232,8 +358,20 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(accountName: string, workspaceName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectListResult>): void;
-  listByWorkspace(accountName: string, workspaceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectListResult>, callback?: msRest.ServiceCallback<Models.ProjectListResult>): Promise<Models.ProjectsListByWorkspaceResponse> {
+  listByWorkspace(
+    accountName: string,
+    workspaceName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProjectListResult>
+  ): void;
+  listByWorkspace(
+    accountName: string,
+    workspaceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectListResult>,
+    callback?: msRest.ServiceCallback<Models.ProjectListResult>
+  ): Promise<Models.ProjectsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         accountName,
@@ -242,7 +380,8 @@ export class Projects {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.ProjectsListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.ProjectsListByWorkspaceResponse>;
   }
 
   /**
@@ -251,26 +390,41 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsListByWorkspaceNextResponse>
    */
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsListByWorkspaceNextResponse>;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsListByWorkspaceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProjectListResult>): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ProjectListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectListResult>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectListResult>, callback?: msRest.ServiceCallback<Models.ProjectListResult>): Promise<Models.ProjectsListByWorkspaceNextResponse> {
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProjectListResult>
+  ): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectListResult>,
+    callback?: msRest.ServiceCallback<Models.ProjectListResult>
+  ): Promise<Models.ProjectsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByWorkspaceNextOperationSpec,
-      callback) as Promise<Models.ProjectsListByWorkspaceNextResponse>;
+      callback
+    ) as Promise<Models.ProjectsListByWorkspaceNextResponse>;
   }
 }
 
@@ -278,7 +432,8 @@ export class Projects {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningExperimentation/accounts/{accountName}/workspaces/{workspaceName}/projects/{projectName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningExperimentation/accounts/{accountName}/workspaces/{workspaceName}/projects/{projectName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -286,12 +441,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.workspaceName,
     Parameters.projectName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Project
@@ -305,7 +456,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningExperimentation/accounts/{accountName}/workspaces/{workspaceName}/projects/{projectName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningExperimentation/accounts/{accountName}/workspaces/{workspaceName}/projects/{projectName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -313,12 +465,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.workspaceName,
     Parameters.projectName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -342,7 +490,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningExperimentation/accounts/{accountName}/workspaces/{workspaceName}/projects/{projectName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningExperimentation/accounts/{accountName}/workspaces/{workspaceName}/projects/{projectName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -350,12 +499,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.workspaceName,
     Parameters.projectName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -368,7 +513,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningExperimentation/accounts/{accountName}/workspaces/{workspaceName}/projects/{projectName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningExperimentation/accounts/{accountName}/workspaces/{workspaceName}/projects/{projectName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -376,12 +522,8 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.workspaceName,
     Parameters.projectName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -402,19 +544,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningExperimentation/accounts/{accountName}/workspaces{workspaceName}/projects",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningExperimentation/accounts/{accountName}/workspaces{workspaceName}/projects",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.accountName,
     Parameters.workspaceName,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProjectListResult
@@ -430,12 +569,8 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProjectListResult

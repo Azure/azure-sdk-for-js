@@ -1370,7 +1370,7 @@ export const CheckNameAvailabilityParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.Migrate/projects',
+        defaultValue: "Microsoft.Migrate/projects",
         type: {
           name: "String"
         }
@@ -1397,11 +1397,7 @@ export const CheckNameAvailabilityResult: msRest.CompositeMapper = {
         serializedName: "reason",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Available",
-            "Invalid",
-            "AlreadyExists"
-          ]
+          allowedValues: ["Available", "Invalid", "AlreadyExists"]
         }
       },
       message: {

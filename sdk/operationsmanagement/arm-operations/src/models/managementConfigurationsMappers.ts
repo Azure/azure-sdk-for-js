@@ -22,4 +22,3 @@ export {
   SolutionPlan,
   ManagementAssociation
 } from "../models/mappers";
-

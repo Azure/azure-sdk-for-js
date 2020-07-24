@@ -37,7 +37,13 @@ export class DatabaseAccountRegion {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountRegionListMetricsResponse>
    */
-  listMetrics(resourceGroupName: string, accountName: string, region: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountRegionListMetricsResponse>;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    region: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAccountRegionListMetricsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -47,7 +53,13 @@ export class DatabaseAccountRegion {
    * names), startTime, endTime, and timeGrain. The supported operator is eq.
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, region: string, filter: string, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    region: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.MetricListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -58,8 +70,22 @@ export class DatabaseAccountRegion {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, region: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, region: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.DatabaseAccountRegionListMetricsResponse> {
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    region: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricListResult>
+  ): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    region: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>,
+    callback?: msRest.ServiceCallback<Models.MetricListResult>
+  ): Promise<Models.DatabaseAccountRegionListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -69,7 +95,8 @@ export class DatabaseAccountRegion {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.DatabaseAccountRegionListMetricsResponse>;
+      callback
+    ) as Promise<Models.DatabaseAccountRegionListMetricsResponse>;
   }
 }
 
@@ -77,20 +104,16 @@ export class DatabaseAccountRegion {
 const serializer = new msRest.Serializer(Mappers);
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/metrics",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.region
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricListResult

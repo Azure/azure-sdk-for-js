@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { MachineLearningComputeManagementClientContext } from "./machineLearningComputeManagementClientContext";
 
-
 class MachineLearningComputeManagementClient extends MachineLearningComputeManagementClientContext {
   // Operation groups
   operationalizationClusters: operations.OperationalizationClusters;
@@ -26,7 +25,11 @@ class MachineLearningComputeManagementClient extends MachineLearningComputeManag
    * @param subscriptionId The Azure subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MachineLearningComputeManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.MachineLearningComputeManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operationalizationClusters = new operations.OperationalizationClusters(this);
     this.machineLearningCompute = new operations.MachineLearningCompute(this);

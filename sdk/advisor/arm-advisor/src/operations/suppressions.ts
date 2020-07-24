@@ -35,7 +35,12 @@ export class Suppressions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SuppressionsGetResponse>
    */
-  get(resourceUri: string, recommendationId: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.SuppressionsGetResponse>;
+  get(
+    resourceUri: string,
+    recommendationId: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SuppressionsGetResponse>;
   /**
    * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to
    * which the recommendation applies.
@@ -43,7 +48,12 @@ export class Suppressions {
    * @param name The name of the suppression.
    * @param callback The callback
    */
-  get(resourceUri: string, recommendationId: string, name: string, callback: msRest.ServiceCallback<Models.SuppressionContract>): void;
+  get(
+    resourceUri: string,
+    recommendationId: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.SuppressionContract>
+  ): void;
   /**
    * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to
    * which the recommendation applies.
@@ -52,8 +62,20 @@ export class Suppressions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceUri: string, recommendationId: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SuppressionContract>): void;
-  get(resourceUri: string, recommendationId: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SuppressionContract>, callback?: msRest.ServiceCallback<Models.SuppressionContract>): Promise<Models.SuppressionsGetResponse> {
+  get(
+    resourceUri: string,
+    recommendationId: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SuppressionContract>
+  ): void;
+  get(
+    resourceUri: string,
+    recommendationId: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SuppressionContract>,
+    callback?: msRest.ServiceCallback<Models.SuppressionContract>
+  ): Promise<Models.SuppressionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -62,7 +84,8 @@ export class Suppressions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SuppressionsGetResponse>;
+      callback
+    ) as Promise<Models.SuppressionsGetResponse>;
   }
 
   /**
@@ -77,7 +100,13 @@ export class Suppressions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SuppressionsCreateResponse>
    */
-  create(resourceUri: string, recommendationId: string, name: string, suppressionContract: Models.SuppressionContract, options?: msRest.RequestOptionsBase): Promise<Models.SuppressionsCreateResponse>;
+  create(
+    resourceUri: string,
+    recommendationId: string,
+    name: string,
+    suppressionContract: Models.SuppressionContract,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SuppressionsCreateResponse>;
   /**
    * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to
    * which the recommendation applies.
@@ -86,7 +115,13 @@ export class Suppressions {
    * @param suppressionContract The snoozed or dismissed attribute; for example, the snooze duration.
    * @param callback The callback
    */
-  create(resourceUri: string, recommendationId: string, name: string, suppressionContract: Models.SuppressionContract, callback: msRest.ServiceCallback<Models.SuppressionContract>): void;
+  create(
+    resourceUri: string,
+    recommendationId: string,
+    name: string,
+    suppressionContract: Models.SuppressionContract,
+    callback: msRest.ServiceCallback<Models.SuppressionContract>
+  ): void;
   /**
    * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to
    * which the recommendation applies.
@@ -96,8 +131,22 @@ export class Suppressions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceUri: string, recommendationId: string, name: string, suppressionContract: Models.SuppressionContract, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SuppressionContract>): void;
-  create(resourceUri: string, recommendationId: string, name: string, suppressionContract: Models.SuppressionContract, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SuppressionContract>, callback?: msRest.ServiceCallback<Models.SuppressionContract>): Promise<Models.SuppressionsCreateResponse> {
+  create(
+    resourceUri: string,
+    recommendationId: string,
+    name: string,
+    suppressionContract: Models.SuppressionContract,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SuppressionContract>
+  ): void;
+  create(
+    resourceUri: string,
+    recommendationId: string,
+    name: string,
+    suppressionContract: Models.SuppressionContract,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SuppressionContract>,
+    callback?: msRest.ServiceCallback<Models.SuppressionContract>
+  ): Promise<Models.SuppressionsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -107,7 +156,8 @@ export class Suppressions {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.SuppressionsCreateResponse>;
+      callback
+    ) as Promise<Models.SuppressionsCreateResponse>;
   }
 
   /**
@@ -120,7 +170,12 @@ export class Suppressions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceUri: string, recommendationId: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceUri: string,
+    recommendationId: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to
    * which the recommendation applies.
@@ -128,7 +183,12 @@ export class Suppressions {
    * @param name The name of the suppression.
    * @param callback The callback
    */
-  deleteMethod(resourceUri: string, recommendationId: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceUri: string,
+    recommendationId: string,
+    name: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to
    * which the recommendation applies.
@@ -137,8 +197,20 @@ export class Suppressions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceUri: string, recommendationId: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceUri: string, recommendationId: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceUri: string,
+    recommendationId: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceUri: string,
+    recommendationId: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -147,7 +219,8 @@ export class Suppressions {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -165,14 +238,23 @@ export class Suppressions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.SuppressionsListOptionalParams, callback: msRest.ServiceCallback<Models.SuppressionContractListResult>): void;
-  list(options?: Models.SuppressionsListOptionalParams | msRest.ServiceCallback<Models.SuppressionContractListResult>, callback?: msRest.ServiceCallback<Models.SuppressionContractListResult>): Promise<Models.SuppressionsListResponse> {
+  list(
+    options: Models.SuppressionsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.SuppressionContractListResult>
+  ): void;
+  list(
+    options?:
+      | Models.SuppressionsListOptionalParams
+      | msRest.ServiceCallback<Models.SuppressionContractListResult>,
+    callback?: msRest.ServiceCallback<Models.SuppressionContractListResult>
+  ): Promise<Models.SuppressionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SuppressionsListResponse>;
+      callback
+    ) as Promise<Models.SuppressionsListResponse>;
   }
 
   /**
@@ -182,26 +264,43 @@ export class Suppressions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SuppressionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SuppressionsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SuppressionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SuppressionContractListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SuppressionContractListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SuppressionContractListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SuppressionContractListResult>, callback?: msRest.ServiceCallback<Models.SuppressionContractListResult>): Promise<Models.SuppressionsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SuppressionContractListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SuppressionContractListResult>,
+    callback?: msRest.ServiceCallback<Models.SuppressionContractListResult>
+  ): Promise<Models.SuppressionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SuppressionsListNextResponse>;
+      callback
+    ) as Promise<Models.SuppressionsListNextResponse>;
   }
 }
 
@@ -209,18 +308,11 @@ export class Suppressions {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
-  urlParameters: [
-    Parameters.resourceUri,
-    Parameters.recommendationId,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+  urlParameters: [Parameters.resourceUri, Parameters.recommendationId, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SuppressionContract
@@ -234,18 +326,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
-  urlParameters: [
-    Parameters.resourceUri,
-    Parameters.recommendationId,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+  urlParameters: [Parameters.resourceUri, Parameters.recommendationId, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "suppressionContract",
     mapper: {
@@ -266,18 +351,11 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
-  urlParameters: [
-    Parameters.resourceUri,
-    Parameters.recommendationId,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+  urlParameters: [Parameters.resourceUri, Parameters.recommendationId, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -290,17 +368,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Advisor/suppressions",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SuppressionContractListResult
@@ -316,12 +386,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SuppressionContractListResult

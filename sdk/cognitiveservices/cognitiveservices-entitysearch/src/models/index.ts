@@ -658,7 +658,9 @@ export interface SearchResponse {
 /**
  * Contains the possible cases for ContractualRulesContractualRule.
  */
-export type ContractualRulesContractualRuleUnion = ContractualRulesContractualRule | ContractualRulesAttributionUnion;
+export type ContractualRulesContractualRuleUnion =
+  | ContractualRulesContractualRule
+  | ContractualRulesAttributionUnion;
 
 /**
  * An interface representing ContractualRulesContractualRule.
@@ -1105,7 +1107,11 @@ export interface Organization {
 /**
  * Contains the possible cases for LocalBusiness.
  */
-export type LocalBusinessUnion = LocalBusiness | EntertainmentBusinessUnion | FoodEstablishmentUnion | LodgingBusinessUnion;
+export type LocalBusinessUnion =
+  | LocalBusiness
+  | EntertainmentBusinessUnion
+  | FoodEstablishmentUnion
+  | LodgingBusinessUnion;
 
 /**
  * An interface representing LocalBusiness.
@@ -1368,7 +1374,12 @@ export interface MovieTheater {
 /**
  * Contains the possible cases for ContractualRulesAttribution.
  */
-export type ContractualRulesAttributionUnion = ContractualRulesAttribution | ContractualRulesLicenseAttribution | ContractualRulesLinkAttribution | ContractualRulesMediaAttribution | ContractualRulesTextAttribution;
+export type ContractualRulesAttributionUnion =
+  | ContractualRulesAttribution
+  | ContractualRulesLicenseAttribution
+  | ContractualRulesLinkAttribution
+  | ContractualRulesMediaAttribution
+  | ContractualRulesTextAttribution;
 
 /**
  * An interface representing ContractualRulesAttribution.
@@ -2349,7 +2360,12 @@ export interface EntitiesSearchOptionalParams extends msRest.RequestOptionsBase 
  * @readonly
  * @enum {string}
  */
-export type EntityQueryScenario = 'DominantEntity' | 'DominantEntityWithDisambiguation' | 'Disambiguation' | 'List' | 'ListWithPivot';
+export type EntityQueryScenario =
+  | "DominantEntity"
+  | "DominantEntityWithDisambiguation"
+  | "Disambiguation"
+  | "List"
+  | "ListWithPivot";
 
 /**
  * Defines values for EntityScenario.
@@ -2357,7 +2373,7 @@ export type EntityQueryScenario = 'DominantEntity' | 'DominantEntityWithDisambig
  * @readonly
  * @enum {string}
  */
-export type EntityScenario = 'DominantEntity' | 'DisambiguationItem' | 'ListItem';
+export type EntityScenario = "DominantEntity" | "DisambiguationItem" | "ListItem";
 
 /**
  * Defines values for EntityType.
@@ -2371,7 +2387,56 @@ export type EntityScenario = 'DominantEntity' | 'DisambiguationItem' | 'ListItem
  * @readonly
  * @enum {string}
  */
-export type EntityType = 'Generic' | 'Person' | 'Place' | 'Media' | 'Organization' | 'LocalBusiness' | 'Restaurant' | 'Hotel' | 'TouristAttraction' | 'Travel' | 'City' | 'Country' | 'Attraction' | 'House' | 'State' | 'RadioStation' | 'StreetAddress' | 'Neighborhood' | 'Locality' | 'PostalCode' | 'Region' | 'SubRegion' | 'MinorRegion' | 'Continent' | 'PointOfInterest' | 'Other' | 'Movie' | 'Book' | 'TelevisionShow' | 'TelevisionSeason' | 'VideoGame' | 'MusicAlbum' | 'MusicRecording' | 'MusicGroup' | 'Composition' | 'TheaterPlay' | 'Event' | 'Actor' | 'Artist' | 'Attorney' | 'Speciality' | 'CollegeOrUniversity' | 'School' | 'Food' | 'Drug' | 'Animal' | 'SportsTeam' | 'Product' | 'Car';
+export type EntityType =
+  | "Generic"
+  | "Person"
+  | "Place"
+  | "Media"
+  | "Organization"
+  | "LocalBusiness"
+  | "Restaurant"
+  | "Hotel"
+  | "TouristAttraction"
+  | "Travel"
+  | "City"
+  | "Country"
+  | "Attraction"
+  | "House"
+  | "State"
+  | "RadioStation"
+  | "StreetAddress"
+  | "Neighborhood"
+  | "Locality"
+  | "PostalCode"
+  | "Region"
+  | "SubRegion"
+  | "MinorRegion"
+  | "Continent"
+  | "PointOfInterest"
+  | "Other"
+  | "Movie"
+  | "Book"
+  | "TelevisionShow"
+  | "TelevisionSeason"
+  | "VideoGame"
+  | "MusicAlbum"
+  | "MusicRecording"
+  | "MusicGroup"
+  | "Composition"
+  | "TheaterPlay"
+  | "Event"
+  | "Actor"
+  | "Artist"
+  | "Attorney"
+  | "Speciality"
+  | "CollegeOrUniversity"
+  | "School"
+  | "Food"
+  | "Drug"
+  | "Animal"
+  | "SportsTeam"
+  | "Product"
+  | "Car";
 
 /**
  * Defines values for ErrorCode.
@@ -2380,7 +2445,13 @@ export type EntityType = 'Generic' | 'Person' | 'Place' | 'Media' | 'Organizatio
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export type ErrorCode =
+  | "None"
+  | "ServerError"
+  | "InvalidRequest"
+  | "RateLimitExceeded"
+  | "InvalidAuthorization"
+  | "InsufficientAuthorization";
 
 /**
  * Defines values for ErrorSubCode.
@@ -2391,7 +2462,18 @@ export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitEx
  * @readonly
  * @enum {string}
  */
-export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
+export type ErrorSubCode =
+  | "UnexpectedError"
+  | "ResourceError"
+  | "NotImplemented"
+  | "ParameterMissing"
+  | "ParameterInvalidValue"
+  | "HttpNotAllowed"
+  | "Blocked"
+  | "AuthorizationMissing"
+  | "AuthorizationRedundancy"
+  | "AuthorizationDisabled"
+  | "AuthorizationExpired";
 
 /**
  * Defines values for AnswerType.
@@ -2399,7 +2481,7 @@ export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented
  * @readonly
  * @enum {string}
  */
-export type AnswerType = 'Entities' | 'Places';
+export type AnswerType = "Entities" | "Places";
 
 /**
  * Defines values for ResponseFormat.
@@ -2407,7 +2489,7 @@ export type AnswerType = 'Entities' | 'Places';
  * @readonly
  * @enum {string}
  */
-export type ResponseFormat = 'Json' | 'JsonLd';
+export type ResponseFormat = "Json" | "JsonLd";
 
 /**
  * Defines values for SafeSearch.
@@ -2415,7 +2497,7 @@ export type ResponseFormat = 'Json' | 'JsonLd';
  * @readonly
  * @enum {string}
  */
-export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
+export type SafeSearch = "Off" | "Moderate" | "Strict";
 
 /**
  * Contains response data for the search operation.
@@ -2425,14 +2507,14 @@ export type EntitiesSearchResponse = SearchResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SearchResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchResponse;
+  };
 };

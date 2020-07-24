@@ -33,21 +33,39 @@ export class LinkedWorkspaceOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedWorkspaceGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.LinkedWorkspaceGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LinkedWorkspaceGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.LinkedWorkspace>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.LinkedWorkspace>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedWorkspace>): void;
-  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedWorkspace>, callback?: msRest.ServiceCallback<Models.LinkedWorkspace>): Promise<Models.LinkedWorkspaceGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LinkedWorkspace>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedWorkspace>,
+    callback?: msRest.ServiceCallback<Models.LinkedWorkspace>
+  ): Promise<Models.LinkedWorkspaceGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class LinkedWorkspaceOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.LinkedWorkspaceGetResponse>;
+      callback
+    ) as Promise<Models.LinkedWorkspaceGetResponse>;
   }
 }
 
@@ -63,18 +82,15 @@ export class LinkedWorkspaceOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/linkedWorkspace",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/linkedWorkspace",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LinkedWorkspace

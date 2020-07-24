@@ -111,22 +111,14 @@ export const SBSku: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Basic",
-            "Standard",
-            "Premium"
-          ]
+          allowedValues: ["Basic", "Standard", "Premium"]
         }
       },
       tier: {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Basic",
-            "Standard",
-            "Premium"
-          ]
+          allowedValues: ["Basic", "Standard", "Premium"]
         }
       },
       capacity: {
@@ -256,13 +248,7 @@ export const SBNamespaceMigrate: msRest.CompositeMapper = {
         serializedName: "targetNamespaceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Messaging",
-            "NotificationHub",
-            "Mixed",
-            "EventHub",
-            "Relay"
-          ]
+          allowedValues: ["Messaging", "NotificationHub", "Mixed", "EventHub", "Relay"]
         }
       }
     }
@@ -284,11 +270,7 @@ export const SBAuthorizationRule: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Manage",
-                "Send",
-                "Listen"
-              ]
+              allowedValues: ["Manage", "Send", "Listen"]
             }
           }
         }
@@ -311,11 +293,7 @@ export const AuthorizationRuleProperties: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Manage",
-                "Send",
-                "Listen"
-              ]
+              allowedValues: ["Manage", "Send", "Listen"]
             }
           }
         }
@@ -394,10 +372,7 @@ export const RegenerateAccessKeyParameters: msRest.CompositeMapper = {
         serializedName: "keyType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "PrimaryKey",
-            "SecondaryKey"
-          ]
+          allowedValues: ["PrimaryKey", "SecondaryKey"]
         }
       },
       key: {
@@ -1150,10 +1125,7 @@ export const Rule: msRest.CompositeMapper = {
         serializedName: "properties.filterType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SqlFilter",
-            "CorrelationFilter"
-          ]
+          allowedValues: ["SqlFilter", "CorrelationFilter"]
         }
       },
       sqlFilter: {
@@ -1277,10 +1249,7 @@ export const CaptureDescription: msRest.CompositeMapper = {
         serializedName: "encoding",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Avro",
-            "AvroDeflate"
-          ]
+          allowedValues: ["Avro", "AvroDeflate"]
         }
       },
       intervalInSeconds: {
@@ -1407,11 +1376,7 @@ export const ArmDisasterRecovery: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Accepted",
-            "Succeeded",
-            "Failed"
-          ]
+          allowedValues: ["Accepted", "Succeeded", "Failed"]
         }
       },
       pendingReplicationOperationsCount: {
@@ -1438,11 +1403,7 @@ export const ArmDisasterRecovery: msRest.CompositeMapper = {
         serializedName: "properties.role",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Primary",
-            "PrimaryNotReplicating",
-            "Secondary"
-          ]
+          allowedValues: ["Primary", "PrimaryNotReplicating", "Secondary"]
         }
       }
     }
@@ -1526,7 +1487,7 @@ export const NWRuleSetIpRules: msRest.CompositeMapper = {
       },
       action: {
         serializedName: "action",
-        defaultValue: 'Allow',
+        defaultValue: "Allow",
         type: {
           name: "String"
         }

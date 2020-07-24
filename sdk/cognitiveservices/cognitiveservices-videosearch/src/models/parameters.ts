@@ -11,10 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "acceptLanguage"
-  ],
+  parameterPath: ["options", "acceptLanguage"],
   mapper: {
     serializedName: "Accept-Language",
     type: {
@@ -23,10 +20,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   }
 };
 export const clientId: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "clientId"
-  ],
+  parameterPath: ["options", "clientId"],
   mapper: {
     serializedName: "X-MSEdge-ClientID",
     type: {
@@ -35,10 +29,7 @@ export const clientId: msRest.OperationParameter = {
   }
 };
 export const clientIp: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "clientIp"
-  ],
+  parameterPath: ["options", "clientIp"],
   mapper: {
     serializedName: "X-MSEdge-ClientIP",
     type: {
@@ -47,10 +38,7 @@ export const clientIp: msRest.OperationParameter = {
   }
 };
 export const count: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "count"
-  ],
+  parameterPath: ["options", "count"],
   mapper: {
     serializedName: "count",
     type: {
@@ -59,10 +47,7 @@ export const count: msRest.OperationQueryParameter = {
   }
 };
 export const countryCode: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "countryCode"
-  ],
+  parameterPath: ["options", "countryCode"],
   mapper: {
     serializedName: "cc",
     type: {
@@ -75,7 +60,7 @@ export const endpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: 'https://api.cognitive.microsoft.com',
+    defaultValue: "https://api.cognitive.microsoft.com",
     type: {
       name: "String"
     }
@@ -83,27 +68,17 @@ export const endpoint: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const freshness: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "freshness"
-  ],
+  parameterPath: ["options", "freshness"],
   mapper: {
     serializedName: "freshness",
     type: {
       name: "Enum",
-      allowedValues: [
-        "Day",
-        "Week",
-        "Month"
-      ]
+      allowedValues: ["Day", "Week", "Month"]
     }
   }
 };
 export const id: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "id"
-  ],
+  parameterPath: ["options", "id"],
   mapper: {
     serializedName: "id",
     type: {
@@ -112,28 +87,17 @@ export const id: msRest.OperationQueryParameter = {
   }
 };
 export const length: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "length"
-  ],
+  parameterPath: ["options", "length"],
   mapper: {
     serializedName: "length",
     type: {
       name: "Enum",
-      allowedValues: [
-        "All",
-        "Short",
-        "Medium",
-        "Long"
-      ]
+      allowedValues: ["All", "Short", "Medium", "Long"]
     }
   }
 };
 export const location: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "location"
-  ],
+  parameterPath: ["options", "location"],
   mapper: {
     serializedName: "X-Search-Location",
     type: {
@@ -142,10 +106,7 @@ export const location: msRest.OperationParameter = {
   }
 };
 export const market: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "market"
-  ],
+  parameterPath: ["options", "market"],
   mapper: {
     serializedName: "mkt",
     type: {
@@ -154,10 +115,7 @@ export const market: msRest.OperationQueryParameter = {
   }
 };
 export const modules: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "modules"
-  ],
+  parameterPath: ["options", "modules"],
   mapper: {
     serializedName: "modules",
     type: {
@@ -165,11 +123,7 @@ export const modules: msRest.OperationQueryParameter = {
       element: {
         type: {
           name: "Enum",
-          allowedValues: [
-            "All",
-            "RelatedVideos",
-            "VideoResult"
-          ]
+          allowedValues: ["All", "RelatedVideos", "VideoResult"]
         }
       }
     }
@@ -177,10 +131,7 @@ export const modules: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const offset: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "offset"
-  ],
+  parameterPath: ["options", "offset"],
   mapper: {
     serializedName: "offset",
     type: {
@@ -189,19 +140,12 @@ export const offset: msRest.OperationQueryParameter = {
   }
 };
 export const pricing: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "pricing"
-  ],
+  parameterPath: ["options", "pricing"],
   mapper: {
     serializedName: "pricing",
     type: {
       name: "Enum",
-      allowedValues: [
-        "All",
-        "Free",
-        "Paid"
-      ]
+      allowedValues: ["All", "Free", "Paid"]
     }
   }
 };
@@ -216,45 +160,27 @@ export const query: msRest.OperationQueryParameter = {
   }
 };
 export const resolution: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "resolution"
-  ],
+  parameterPath: ["options", "resolution"],
   mapper: {
     serializedName: "resolution",
     type: {
       name: "Enum",
-      allowedValues: [
-        "All",
-        "SD480p",
-        "HD720p",
-        "HD1080p"
-      ]
+      allowedValues: ["All", "SD480p", "HD720p", "HD1080p"]
     }
   }
 };
 export const safeSearch: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "safeSearch"
-  ],
+  parameterPath: ["options", "safeSearch"],
   mapper: {
     serializedName: "safeSearch",
     type: {
       name: "Enum",
-      allowedValues: [
-        "Off",
-        "Moderate",
-        "Strict"
-      ]
+      allowedValues: ["Off", "Moderate", "Strict"]
     }
   }
 };
 export const setLang: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "setLang"
-  ],
+  parameterPath: ["options", "setLang"],
   mapper: {
     serializedName: "setLang",
     type: {
@@ -263,10 +189,7 @@ export const setLang: msRest.OperationQueryParameter = {
   }
 };
 export const textDecorations: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "textDecorations"
-  ],
+  parameterPath: ["options", "textDecorations"],
   mapper: {
     serializedName: "textDecorations",
     type: {
@@ -275,26 +198,17 @@ export const textDecorations: msRest.OperationQueryParameter = {
   }
 };
 export const textFormat: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "textFormat"
-  ],
+  parameterPath: ["options", "textFormat"],
   mapper: {
     serializedName: "textFormat",
     type: {
       name: "Enum",
-      allowedValues: [
-        "Raw",
-        "Html"
-      ]
+      allowedValues: ["Raw", "Html"]
     }
   }
 };
 export const userAgent: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "userAgent"
-  ],
+  parameterPath: ["options", "userAgent"],
   mapper: {
     serializedName: "User-Agent",
     type: {
@@ -308,7 +222,7 @@ export const xBingApisSDK: msRest.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "X-BingApis-SDK",
-    defaultValue: 'true',
+    defaultValue: "true",
     type: {
       name: "String"
     }

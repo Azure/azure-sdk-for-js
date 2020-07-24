@@ -35,7 +35,13 @@ export class VariableOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.VariableCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, variableName: string, parameters: Models.VariableCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.VariableCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    parameters: Models.VariableCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VariableCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -43,7 +49,13 @@ export class VariableOperations {
    * @param parameters The parameters supplied to the create or update variable operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, variableName: string, parameters: Models.VariableCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.Variable>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    parameters: Models.VariableCreateOrUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Variable>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -52,8 +64,22 @@ export class VariableOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, variableName: string, parameters: Models.VariableCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Variable>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, variableName: string, parameters: Models.VariableCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Variable>, callback?: msRest.ServiceCallback<Models.Variable>): Promise<Models.VariableCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    parameters: Models.VariableCreateOrUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Variable>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    parameters: Models.VariableCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Variable>,
+    callback?: msRest.ServiceCallback<Models.Variable>
+  ): Promise<Models.VariableCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class VariableOperations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.VariableCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.VariableCreateOrUpdateResponse>;
   }
 
   /**
@@ -75,7 +102,13 @@ export class VariableOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.VariableUpdateResponse>
    */
-  update(resourceGroupName: string, automationAccountName: string, variableName: string, parameters: Models.VariableUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.VariableUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    parameters: Models.VariableUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VariableUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -83,7 +116,13 @@ export class VariableOperations {
    * @param parameters The parameters supplied to the update variable operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, variableName: string, parameters: Models.VariableUpdateParameters, callback: msRest.ServiceCallback<Models.Variable>): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    parameters: Models.VariableUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Variable>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -92,8 +131,22 @@ export class VariableOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, variableName: string, parameters: Models.VariableUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Variable>): void;
-  update(resourceGroupName: string, automationAccountName: string, variableName: string, parameters: Models.VariableUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Variable>, callback?: msRest.ServiceCallback<Models.Variable>): Promise<Models.VariableUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    parameters: Models.VariableUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Variable>
+  ): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    parameters: Models.VariableUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Variable>,
+    callback?: msRest.ServiceCallback<Models.Variable>
+  ): Promise<Models.VariableUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +156,8 @@ export class VariableOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.VariableUpdateResponse>;
+      callback
+    ) as Promise<Models.VariableUpdateResponse>;
   }
 
   /**
@@ -114,14 +168,24 @@ export class VariableOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, variableName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param variableName The name of variable.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, variableName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -129,8 +193,20 @@ export class VariableOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, variableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, variableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,7 +215,8 @@ export class VariableOperations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -150,14 +227,24 @@ export class VariableOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.VariableGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, variableName: string, options?: msRest.RequestOptionsBase): Promise<Models.VariableGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VariableGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param variableName The name of variable.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, variableName: string, callback: msRest.ServiceCallback<Models.Variable>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    callback: msRest.ServiceCallback<Models.Variable>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -165,8 +252,20 @@ export class VariableOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, variableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Variable>): void;
-  get(resourceGroupName: string, automationAccountName: string, variableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Variable>, callback?: msRest.ServiceCallback<Models.Variable>): Promise<Models.VariableGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Variable>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    variableName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Variable>,
+    callback?: msRest.ServiceCallback<Models.Variable>
+  ): Promise<Models.VariableGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,7 +274,8 @@ export class VariableOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VariableGetResponse>;
+      callback
+    ) as Promise<Models.VariableGetResponse>;
   }
 
   /**
@@ -185,21 +285,39 @@ export class VariableOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.VariableListByAutomationAccountResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.VariableListByAutomationAccountResponse>;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VariableListByAutomationAccountResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.VariableListResult>): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.VariableListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VariableListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VariableListResult>, callback?: msRest.ServiceCallback<Models.VariableListResult>): Promise<Models.VariableListByAutomationAccountResponse> {
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VariableListResult>
+  ): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VariableListResult>,
+    callback?: msRest.ServiceCallback<Models.VariableListResult>
+  ): Promise<Models.VariableListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +325,8 @@ export class VariableOperations {
         options
       },
       listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.VariableListByAutomationAccountResponse>;
+      callback
+    ) as Promise<Models.VariableListByAutomationAccountResponse>;
   }
 
   /**
@@ -216,26 +335,41 @@ export class VariableOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.VariableListByAutomationAccountNextResponse>
    */
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VariableListByAutomationAccountNextResponse>;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VariableListByAutomationAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VariableListResult>): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VariableListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VariableListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VariableListResult>, callback?: msRest.ServiceCallback<Models.VariableListResult>): Promise<Models.VariableListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VariableListResult>
+  ): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VariableListResult>,
+    callback?: msRest.ServiceCallback<Models.VariableListResult>
+  ): Promise<Models.VariableListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAutomationAccountNextOperationSpec,
-      callback) as Promise<Models.VariableListByAutomationAccountNextResponse>;
+      callback
+    ) as Promise<Models.VariableListByAutomationAccountNextResponse>;
   }
 }
 
@@ -243,19 +377,16 @@ export class VariableOperations {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.variableName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -279,19 +410,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.variableName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -312,19 +440,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.variableName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -336,19 +461,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables/{variableName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.variableName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Variable
@@ -362,18 +484,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/variables",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VariableListResult
@@ -389,12 +508,8 @@ const listByAutomationAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VariableListResult

@@ -1737,16 +1737,15 @@ export const EnterpriseChannelResponseList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'Channel' : Channel,
-  'Channel.FacebookChannel' : FacebookChannel,
-  'Channel.EmailChannel' : EmailChannel,
-  'Channel.MsTeamsChannel' : MsTeamsChannel,
-  'Channel.SkypeChannel' : SkypeChannel,
-  'Channel.KikChannel' : KikChannel,
-  'Channel.WebChatChannel' : WebChatChannel,
-  'Channel.DirectLineChannel' : DirectLineChannel,
-  'Channel.TelegramChannel' : TelegramChannel,
-  'Channel.SmsChannel' : SmsChannel,
-  'Channel.SlackChannel' : SlackChannel
-
+  Channel: Channel,
+  "Channel.FacebookChannel": FacebookChannel,
+  "Channel.EmailChannel": EmailChannel,
+  "Channel.MsTeamsChannel": MsTeamsChannel,
+  "Channel.SkypeChannel": SkypeChannel,
+  "Channel.KikChannel": KikChannel,
+  "Channel.WebChatChannel": WebChatChannel,
+  "Channel.DirectLineChannel": DirectLineChannel,
+  "Channel.TelegramChannel": TelegramChannel,
+  "Channel.SmsChannel": SmsChannel,
+  "Channel.SlackChannel": SlackChannel
 };

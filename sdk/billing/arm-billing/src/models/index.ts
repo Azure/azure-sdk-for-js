@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing Resource.
@@ -315,7 +314,6 @@ export interface BillingManagementClientOptions extends AzureServiceClientOption
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the EnrollmentAccountListResult.
@@ -392,15 +390,15 @@ export type EnrollmentAccountsListResponse = EnrollmentAccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnrollmentAccountListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnrollmentAccountListResult;
+  };
 };
 
 /**
@@ -411,15 +409,15 @@ export type EnrollmentAccountsGetResponse = EnrollmentAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnrollmentAccount;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnrollmentAccount;
+  };
 };
 
 /**
@@ -430,15 +428,15 @@ export type EnrollmentAccountsListNextResponse = EnrollmentAccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnrollmentAccountListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnrollmentAccountListResult;
+  };
 };
 
 /**
@@ -449,15 +447,15 @@ export type BillingPeriodsListResponse = BillingPeriodsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BillingPeriodsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BillingPeriodsListResult;
+  };
 };
 
 /**
@@ -468,15 +466,15 @@ export type BillingPeriodsGetResponse = BillingPeriod & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BillingPeriod;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BillingPeriod;
+  };
 };
 
 /**
@@ -487,15 +485,15 @@ export type BillingPeriodsListNextResponse = BillingPeriodsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BillingPeriodsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BillingPeriodsListResult;
+  };
 };
 
 /**
@@ -506,15 +504,15 @@ export type InvoicesListResponse = InvoicesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: InvoicesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: InvoicesListResult;
+  };
 };
 
 /**
@@ -525,15 +523,15 @@ export type InvoicesGetResponse = Invoice & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Invoice;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Invoice;
+  };
 };
 
 /**
@@ -544,15 +542,15 @@ export type InvoicesGetLatestResponse = Invoice & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Invoice;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Invoice;
+  };
 };
 
 /**
@@ -563,15 +561,15 @@ export type InvoicesListNextResponse = InvoicesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: InvoicesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: InvoicesListResult;
+  };
 };
 
 /**
@@ -582,15 +580,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -601,13 +599,13 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

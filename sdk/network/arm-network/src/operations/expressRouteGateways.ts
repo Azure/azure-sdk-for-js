@@ -32,7 +32,9 @@ export class ExpressRouteGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteGatewaysListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteGatewaysListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteGatewaysListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -41,14 +43,21 @@ export class ExpressRouteGateways {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteGatewayList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteGatewayList>, callback?: msRest.ServiceCallback<Models.ExpressRouteGatewayList>): Promise<Models.ExpressRouteGatewaysListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteGatewayList>
+  ): void;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteGatewayList>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteGatewayList>
+  ): Promise<Models.ExpressRouteGatewaysListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.ExpressRouteGatewaysListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteGatewaysListBySubscriptionResponse>;
   }
 
   /**
@@ -57,26 +66,41 @@ export class ExpressRouteGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteGatewaysListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteGatewaysListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteGatewaysListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ExpressRouteGatewayList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteGatewayList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteGatewayList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteGatewayList>, callback?: msRest.ServiceCallback<Models.ExpressRouteGatewayList>): Promise<Models.ExpressRouteGatewaysListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteGatewayList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteGatewayList>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteGatewayList>
+  ): Promise<Models.ExpressRouteGatewaysListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ExpressRouteGatewaysListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteGatewaysListByResourceGroupResponse>;
   }
 
   /**
@@ -88,9 +112,20 @@ export class ExpressRouteGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteGatewaysCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, expressRouteGatewayName: string, putExpressRouteGatewayParameters: Models.ExpressRouteGateway, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteGatewaysCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,expressRouteGatewayName,putExpressRouteGatewayParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteGatewaysCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    expressRouteGatewayName: string,
+    putExpressRouteGatewayParameters: Models.ExpressRouteGateway,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteGatewaysCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      expressRouteGatewayName,
+      putExpressRouteGatewayParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ExpressRouteGatewaysCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -100,21 +135,39 @@ export class ExpressRouteGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteGatewaysGetResponse>
    */
-  get(resourceGroupName: string, expressRouteGatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteGatewaysGetResponse>;
+  get(
+    resourceGroupName: string,
+    expressRouteGatewayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteGatewaysGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRouteGatewayName The name of the ExpressRoute gateway.
    * @param callback The callback
    */
-  get(resourceGroupName: string, expressRouteGatewayName: string, callback: msRest.ServiceCallback<Models.ExpressRouteGateway>): void;
+  get(
+    resourceGroupName: string,
+    expressRouteGatewayName: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteGateway>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRouteGatewayName The name of the ExpressRoute gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, expressRouteGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteGateway>): void;
-  get(resourceGroupName: string, expressRouteGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteGateway>, callback?: msRest.ServiceCallback<Models.ExpressRouteGateway>): Promise<Models.ExpressRouteGatewaysGetResponse> {
+  get(
+    resourceGroupName: string,
+    expressRouteGatewayName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteGateway>
+  ): void;
+  get(
+    resourceGroupName: string,
+    expressRouteGatewayName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteGateway>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteGateway>
+  ): Promise<Models.ExpressRouteGatewaysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +175,8 @@ export class ExpressRouteGateways {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ExpressRouteGatewaysGetResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteGatewaysGetResponse>;
   }
 
   /**
@@ -133,9 +187,16 @@ export class ExpressRouteGateways {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, expressRouteGatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,expressRouteGatewayName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    expressRouteGatewayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      expressRouteGatewayName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -147,7 +208,12 @@ export class ExpressRouteGateways {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, expressRouteGatewayName: string, putExpressRouteGatewayParameters: Models.ExpressRouteGateway, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    expressRouteGatewayName: string,
+    putExpressRouteGatewayParameters: Models.ExpressRouteGateway,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -156,7 +222,8 @@ export class ExpressRouteGateways {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -167,7 +234,11 @@ export class ExpressRouteGateways {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, expressRouteGatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    expressRouteGatewayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -175,7 +246,8 @@ export class ExpressRouteGateways {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -184,15 +256,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteGateways",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteGatewayList
@@ -206,17 +272,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteGatewayList
@@ -230,18 +290,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.expressRouteGatewayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteGateway
@@ -255,18 +312,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.expressRouteGatewayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "putExpressRouteGatewayParameters",
     mapper: {
@@ -290,18 +344,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.expressRouteGatewayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

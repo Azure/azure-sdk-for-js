@@ -33,21 +33,41 @@ export class WorkspaceManagedIdentitySqlControlSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedIdentitySqlControlSettingsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedIdentitySqlControlSettingsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspaceManagedIdentitySqlControlSettingsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>): void;
-  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>, callback?: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>): Promise<Models.WorkspaceManagedIdentitySqlControlSettingsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>,
+    callback?: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>
+  ): Promise<Models.WorkspaceManagedIdentitySqlControlSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class WorkspaceManagedIdentitySqlControlSettings {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WorkspaceManagedIdentitySqlControlSettingsGetResponse>;
+      callback
+    ) as Promise<Models.WorkspaceManagedIdentitySqlControlSettingsGetResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class WorkspaceManagedIdentitySqlControlSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param managedIdentitySqlControlSettings Managed Identity Sql Control Settings
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel, callback: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel,
+    callback: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -81,8 +112,22 @@ export class WorkspaceManagedIdentitySqlControlSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>, callback?: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>): Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>,
+    callback?: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>
+  ): Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +136,8 @@ export class WorkspaceManagedIdentitySqlControlSettings {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>;
   }
 }
 
@@ -99,18 +145,15 @@ export class WorkspaceManagedIdentitySqlControlSettings {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/managedIdentitySqlControlSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/managedIdentitySqlControlSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel
@@ -124,18 +167,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/managedIdentitySqlControlSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/managedIdentitySqlControlSettings/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "managedIdentitySqlControlSettings",
     mapper: {

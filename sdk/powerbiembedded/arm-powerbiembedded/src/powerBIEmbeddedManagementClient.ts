@@ -15,7 +15,6 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { PowerBIEmbeddedManagementClientContext } from "./powerBIEmbeddedManagementClientContext";
 
-
 class PowerBIEmbeddedManagementClient extends PowerBIEmbeddedManagementClientContext {
   // Operation groups
   workspaceCollections: operations.WorkspaceCollections;
@@ -28,7 +27,11 @@ class PowerBIEmbeddedManagementClient extends PowerBIEmbeddedManagementClientCon
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PowerBIEmbeddedManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.PowerBIEmbeddedManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.workspaceCollections = new operations.WorkspaceCollections(this);
     this.workspaces = new operations.Workspaces(this);
@@ -39,7 +42,9 @@ class PowerBIEmbeddedManagementClient extends PowerBIEmbeddedManagementClientCon
    * @param [options] The optional parameters
    * @returns Promise<Models.GetAvailableOperationsResponse>
    */
-  getAvailableOperations(options?: msRest.RequestOptionsBase): Promise<Models.GetAvailableOperationsResponse>;
+  getAvailableOperations(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetAvailableOperationsResponse>;
   /**
    * @param callback The callback
    */
@@ -48,14 +53,21 @@ class PowerBIEmbeddedManagementClient extends PowerBIEmbeddedManagementClientCon
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAvailableOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationList>): void;
-  getAvailableOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationList>, callback?: msRest.ServiceCallback<Models.OperationList>): Promise<Models.GetAvailableOperationsResponse> {
+  getAvailableOperations(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationList>
+  ): void;
+  getAvailableOperations(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationList>,
+    callback?: msRest.ServiceCallback<Models.OperationList>
+  ): Promise<Models.GetAvailableOperationsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       getAvailableOperationsOperationSpec,
-      callback) as Promise<Models.GetAvailableOperationsResponse>;
+      callback
+    ) as Promise<Models.GetAvailableOperationsResponse>;
   }
 }
 
@@ -64,12 +76,8 @@ const serializer = new msRest.Serializer(Mappers);
 const getAvailableOperationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.PowerBI/operations",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationList

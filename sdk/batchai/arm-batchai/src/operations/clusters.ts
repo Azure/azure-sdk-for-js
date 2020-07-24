@@ -40,9 +40,20 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersCreateResponse>
    */
-  create(resourceGroupName: string, workspaceName: string, clusterName: string, parameters: Models.ClusterCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ClustersCreateResponse> {
-    return this.beginCreate(resourceGroupName,workspaceName,clusterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ClustersCreateResponse>;
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    parameters: Models.ClusterCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      workspaceName,
+      clusterName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.ClustersCreateResponse>;
   }
 
   /**
@@ -57,7 +68,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersUpdateResponse>
    */
-  update(resourceGroupName: string, workspaceName: string, clusterName: string, options?: Models.ClustersUpdateOptionalParams): Promise<Models.ClustersUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    options?: Models.ClustersUpdateOptionalParams
+  ): Promise<Models.ClustersUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -68,7 +84,12 @@ export class Clusters {
    * (_). The name must be from 1 through 64 characters long.
    * @param callback The callback
    */
-  update(resourceGroupName: string, workspaceName: string, clusterName: string, callback: msRest.ServiceCallback<Models.Cluster>): void;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.Cluster>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -80,8 +101,20 @@ export class Clusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, workspaceName: string, clusterName: string, options: Models.ClustersUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Cluster>): void;
-  update(resourceGroupName: string, workspaceName: string, clusterName: string, options?: Models.ClustersUpdateOptionalParams | msRest.ServiceCallback<Models.Cluster>, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    options: Models.ClustersUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.Cluster>
+  ): void;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    options?: Models.ClustersUpdateOptionalParams | msRest.ServiceCallback<Models.Cluster>,
+    callback?: msRest.ServiceCallback<Models.Cluster>
+  ): Promise<Models.ClustersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +123,8 @@ export class Clusters {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ClustersUpdateResponse>;
+      callback
+    ) as Promise<Models.ClustersUpdateResponse>;
   }
 
   /**
@@ -105,9 +139,18 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,workspaceName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      workspaceName,
+      clusterName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -122,7 +165,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -133,7 +181,12 @@ export class Clusters {
    * (_). The name must be from 1 through 64 characters long.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, clusterName: string, callback: msRest.ServiceCallback<Models.Cluster>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.Cluster>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -145,8 +198,20 @@ export class Clusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Cluster>): void;
-  get(resourceGroupName: string, workspaceName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Cluster>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>,
+    callback?: msRest.ServiceCallback<Models.Cluster>
+  ): Promise<Models.ClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +220,8 @@ export class Clusters {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ClustersGetResponse>;
+      callback
+    ) as Promise<Models.ClustersGetResponse>;
   }
 
   /**
@@ -170,7 +236,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListRemoteLoginInformationResponse>
    */
-  listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListRemoteLoginInformationResponse>;
+  listRemoteLoginInformation(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersListRemoteLoginInformationResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -181,7 +252,12 @@ export class Clusters {
    * (_). The name must be from 1 through 64 characters long.
    * @param callback The callback
    */
-  listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, clusterName: string, callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): void;
+  listRemoteLoginInformation(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -193,8 +269,22 @@ export class Clusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): void;
-  listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteLoginInformationListResult>, callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): Promise<Models.ClustersListRemoteLoginInformationResponse> {
+  listRemoteLoginInformation(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>
+  ): void;
+  listRemoteLoginInformation(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RemoteLoginInformationListResult>,
+    callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>
+  ): Promise<Models.ClustersListRemoteLoginInformationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +293,8 @@ export class Clusters {
         options
       },
       listRemoteLoginInformationOperationSpec,
-      callback) as Promise<Models.ClustersListRemoteLoginInformationResponse>;
+      callback
+    ) as Promise<Models.ClustersListRemoteLoginInformationResponse>;
   }
 
   /**
@@ -215,7 +306,11 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.ClustersListByWorkspaceOptionalParams): Promise<Models.ClustersListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: Models.ClustersListByWorkspaceOptionalParams
+  ): Promise<Models.ClustersListByWorkspaceResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -223,7 +318,11 @@ export class Clusters {
    * through 64 characters long.
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -232,8 +331,20 @@ export class Clusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: Models.ClustersListByWorkspaceOptionalParams, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.ClustersListByWorkspaceOptionalParams | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: Models.ClustersListByWorkspaceOptionalParams,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?:
+      | Models.ClustersListByWorkspaceOptionalParams
+      | msRest.ServiceCallback<Models.ClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.ClusterListResult>
+  ): Promise<Models.ClustersListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -241,7 +352,8 @@ export class Clusters {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.ClustersListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.ClustersListByWorkspaceResponse>;
   }
 
   /**
@@ -257,7 +369,13 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, workspaceName: string, clusterName: string, parameters: Models.ClusterCreateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    parameters: Models.ClusterCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -267,7 +385,8 @@ export class Clusters {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -282,7 +401,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, workspaceName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -291,7 +415,8 @@ export class Clusters {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -300,26 +425,43 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListRemoteLoginInformationNextResponse>
    */
-  listRemoteLoginInformationNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListRemoteLoginInformationNextResponse>;
+  listRemoteLoginInformationNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersListRemoteLoginInformationNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listRemoteLoginInformationNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): void;
+  listRemoteLoginInformationNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRemoteLoginInformationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): void;
-  listRemoteLoginInformationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteLoginInformationListResult>, callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): Promise<Models.ClustersListRemoteLoginInformationNextResponse> {
+  listRemoteLoginInformationNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>
+  ): void;
+  listRemoteLoginInformationNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RemoteLoginInformationListResult>,
+    callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>
+  ): Promise<Models.ClustersListRemoteLoginInformationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listRemoteLoginInformationNextOperationSpec,
-      callback) as Promise<Models.ClustersListRemoteLoginInformationNextResponse>;
+      callback
+    ) as Promise<Models.ClustersListRemoteLoginInformationNextResponse>;
   }
 
   /**
@@ -328,26 +470,41 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListByWorkspaceNextResponse>
    */
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListByWorkspaceNextResponse>;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersListByWorkspaceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByWorkspaceNextResponse> {
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.ClusterListResult>
+  ): Promise<Models.ClustersListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByWorkspaceNextOperationSpec,
-      callback) as Promise<Models.ClustersListByWorkspaceNextResponse>;
+      callback
+    ) as Promise<Models.ClustersListByWorkspaceNextResponse>;
   }
 }
 
@@ -355,25 +512,19 @@ export class Clusters {
 const serializer = new msRest.Serializer(Mappers);
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.clusterName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      scaleSettings: [
-        "options",
-        "scaleSettings"
-      ]
+      scaleSettings: ["options", "scaleSettings"]
     },
     mapper: {
       ...Mappers.ClusterUpdateParameters,
@@ -393,19 +544,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.clusterName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Cluster
@@ -419,19 +567,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listRemoteLoginInformationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}/listRemoteLoginInformation",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}/listRemoteLoginInformation",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.clusterName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RemoteLoginInformationListResult
@@ -445,19 +590,15 @@ const listRemoteLoginInformationOperationSpec: msRest.OperationSpec = {
 
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxResults6
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxResults6],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterListResult
@@ -471,19 +612,16 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.clusterName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -505,19 +643,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/clusters/{clusterName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.clusterName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -533,12 +668,8 @@ const listRemoteLoginInformationNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RemoteLoginInformationListResult
@@ -554,12 +685,8 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterListResult

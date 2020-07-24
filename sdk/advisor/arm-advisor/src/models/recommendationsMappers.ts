@@ -18,4 +18,3 @@ export {
   ShortDescription,
   SuppressionContract
 } from "../models/mappers";
-

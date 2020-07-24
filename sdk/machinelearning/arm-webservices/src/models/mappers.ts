@@ -251,7 +251,7 @@ export const TableSpecification: msRest.CompositeMapper = {
       type: {
         required: true,
         serializedName: "type",
-        defaultValue: 'object',
+        defaultValue: "object",
         type: {
           name: "String"
         }
@@ -299,7 +299,7 @@ export const ServiceInputOutputSpecification: msRest.CompositeMapper = {
       type: {
         required: true,
         serializedName: "type",
-        defaultValue: 'object',
+        defaultValue: "object",
         type: {
           name: "String"
         }
@@ -394,7 +394,7 @@ export const InputPort: msRest.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
-        defaultValue: 'Dataset',
+        defaultValue: "Dataset",
         type: {
           name: "String"
         }
@@ -411,7 +411,7 @@ export const OutputPort: msRest.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
-        defaultValue: 'Dataset',
+        defaultValue: "Dataset",
         type: {
           name: "String"
         }
@@ -1200,6 +1200,6 @@ export const PaginatedWebServicesList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'WebServiceProperties' : WebServiceProperties,
-  'WebServiceProperties.Graph' : WebServicePropertiesForGraph
+  WebServiceProperties: WebServiceProperties,
+  "WebServiceProperties.Graph": WebServicePropertiesForGraph
 };

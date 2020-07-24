@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const APIError: msRest.CompositeMapper = {
   serializedName: "APIError",
   type: {
@@ -79,14 +78,7 @@ export const Request: msRest.CompositeMapper = {
         serializedName: "granularity",
         type: {
           name: "Enum",
-          allowedValues: [
-            "yearly",
-            "monthly",
-            "weekly",
-            "daily",
-            "hourly",
-            "minutely"
-          ]
+          allowedValues: ["yearly", "monthly", "weekly", "daily", "hourly", "minutely"]
         }
       },
       customInterval: {

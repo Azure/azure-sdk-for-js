@@ -31,7 +31,9 @@ export class GeographicHierarchies {
    * @param [options] The optional parameters
    * @returns Promise<Models.GeographicHierarchiesGetDefaultResponse>
    */
-  getDefault(options?: msRest.RequestOptionsBase): Promise<Models.GeographicHierarchiesGetDefaultResponse>;
+  getDefault(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GeographicHierarchiesGetDefaultResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,23 @@ export class GeographicHierarchies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDefault(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TrafficManagerGeographicHierarchy>): void;
-  getDefault(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrafficManagerGeographicHierarchy>, callback?: msRest.ServiceCallback<Models.TrafficManagerGeographicHierarchy>): Promise<Models.GeographicHierarchiesGetDefaultResponse> {
+  getDefault(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TrafficManagerGeographicHierarchy>
+  ): void;
+  getDefault(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.TrafficManagerGeographicHierarchy>,
+    callback?: msRest.ServiceCallback<Models.TrafficManagerGeographicHierarchy>
+  ): Promise<Models.GeographicHierarchiesGetDefaultResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getDefaultOperationSpec,
-      callback) as Promise<Models.GeographicHierarchiesGetDefaultResponse>;
+      callback
+    ) as Promise<Models.GeographicHierarchiesGetDefaultResponse>;
   }
 }
 
@@ -56,12 +67,8 @@ const serializer = new msRest.Serializer(Mappers);
 const getDefaultOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Network/trafficManagerGeographicHierarchies/default",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TrafficManagerGeographicHierarchy

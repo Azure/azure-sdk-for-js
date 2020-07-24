@@ -92,7 +92,7 @@ export const AzureSku: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "name",
-        defaultValue: 'S1',
+        defaultValue: "S1",
         type: {
           name: "String"
         }
@@ -101,7 +101,7 @@ export const AzureSku: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "tier",
-        defaultValue: 'Standard',
+        defaultValue: "Standard",
         type: {
           name: "String"
         }
@@ -321,10 +321,7 @@ export const WorkspaceCollectionAccessKey: msRest.CompositeMapper = {
         serializedName: "keyName",
         type: {
           name: "Enum",
-          allowedValues: [
-            "key1",
-            "key2"
-          ]
+          allowedValues: ["key1", "key2"]
         }
       }
     }
@@ -411,7 +408,7 @@ export const CheckNameRequest: msRest.CompositeMapper = {
       },
       type: {
         serializedName: "type",
-        defaultValue: 'Microsoft.PowerBI/workspaceCollections',
+        defaultValue: "Microsoft.PowerBI/workspaceCollections",
         type: {
           name: "String"
         }

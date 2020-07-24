@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  SearchIndexerClient,
-  AzureKeyCredential,
-  SearchIndexer
-} from "@azure/search-documents";
+import { SearchIndexerClient, AzureKeyCredential, SearchIndexer } from "@azure/search-documents";
 import * as dotenv from "dotenv";
 dotenv.config();
 

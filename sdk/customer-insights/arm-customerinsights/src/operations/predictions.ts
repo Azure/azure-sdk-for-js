@@ -36,9 +36,22 @@ export class Predictions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PredictionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, predictionName: string, parameters: Models.PredictionResourceFormat, options?: msRest.RequestOptionsBase): Promise<Models.PredictionsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,hubName,predictionName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PredictionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    parameters: Models.PredictionResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PredictionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      hubName,
+      predictionName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PredictionsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -49,14 +62,24 @@ export class Predictions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PredictionsGetResponse>
    */
-  get(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PredictionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PredictionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param predictionName The name of the Prediction.
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, predictionName: string, callback: msRest.ServiceCallback<Models.PredictionResourceFormat>): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    callback: msRest.ServiceCallback<Models.PredictionResourceFormat>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -64,8 +87,20 @@ export class Predictions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, predictionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PredictionResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionResourceFormat>, callback?: msRest.ServiceCallback<Models.PredictionResourceFormat>): Promise<Models.PredictionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PredictionResourceFormat>
+  ): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionResourceFormat>,
+    callback?: msRest.ServiceCallback<Models.PredictionResourceFormat>
+  ): Promise<Models.PredictionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +109,8 @@ export class Predictions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PredictionsGetResponse>;
+      callback
+    ) as Promise<Models.PredictionsGetResponse>;
   }
 
   /**
@@ -85,9 +121,18 @@ export class Predictions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,hubName,predictionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      hubName,
+      predictionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -98,14 +143,24 @@ export class Predictions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PredictionsGetTrainingResultsResponse>
    */
-  getTrainingResults(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PredictionsGetTrainingResultsResponse>;
+  getTrainingResults(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PredictionsGetTrainingResultsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param predictionName The name of the Prediction.
    * @param callback The callback
    */
-  getTrainingResults(resourceGroupName: string, hubName: string, predictionName: string, callback: msRest.ServiceCallback<Models.PredictionTrainingResults>): void;
+  getTrainingResults(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    callback: msRest.ServiceCallback<Models.PredictionTrainingResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -113,8 +168,20 @@ export class Predictions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getTrainingResults(resourceGroupName: string, hubName: string, predictionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PredictionTrainingResults>): void;
-  getTrainingResults(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionTrainingResults>, callback?: msRest.ServiceCallback<Models.PredictionTrainingResults>): Promise<Models.PredictionsGetTrainingResultsResponse> {
+  getTrainingResults(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PredictionTrainingResults>
+  ): void;
+  getTrainingResults(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionTrainingResults>,
+    callback?: msRest.ServiceCallback<Models.PredictionTrainingResults>
+  ): Promise<Models.PredictionsGetTrainingResultsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -123,7 +190,8 @@ export class Predictions {
         options
       },
       getTrainingResultsOperationSpec,
-      callback) as Promise<Models.PredictionsGetTrainingResultsResponse>;
+      callback
+    ) as Promise<Models.PredictionsGetTrainingResultsResponse>;
   }
 
   /**
@@ -134,14 +202,24 @@ export class Predictions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PredictionsGetModelStatusResponse>
    */
-  getModelStatus(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PredictionsGetModelStatusResponse>;
+  getModelStatus(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PredictionsGetModelStatusResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param predictionName The name of the Prediction.
    * @param callback The callback
    */
-  getModelStatus(resourceGroupName: string, hubName: string, predictionName: string, callback: msRest.ServiceCallback<Models.PredictionModelStatus>): void;
+  getModelStatus(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    callback: msRest.ServiceCallback<Models.PredictionModelStatus>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -149,8 +227,20 @@ export class Predictions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getModelStatus(resourceGroupName: string, hubName: string, predictionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PredictionModelStatus>): void;
-  getModelStatus(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionModelStatus>, callback?: msRest.ServiceCallback<Models.PredictionModelStatus>): Promise<Models.PredictionsGetModelStatusResponse> {
+  getModelStatus(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PredictionModelStatus>
+  ): void;
+  getModelStatus(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionModelStatus>,
+    callback?: msRest.ServiceCallback<Models.PredictionModelStatus>
+  ): Promise<Models.PredictionsGetModelStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +249,8 @@ export class Predictions {
         options
       },
       getModelStatusOperationSpec,
-      callback) as Promise<Models.PredictionsGetModelStatusResponse>;
+      callback
+    ) as Promise<Models.PredictionsGetModelStatusResponse>;
   }
 
   /**
@@ -171,7 +262,13 @@ export class Predictions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  modelStatus(resourceGroupName: string, hubName: string, predictionName: string, parameters: Models.PredictionModelStatus, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  modelStatus(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    parameters: Models.PredictionModelStatus,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -179,7 +276,13 @@ export class Predictions {
    * @param parameters Parameters supplied to the create/update prediction model status operation.
    * @param callback The callback
    */
-  modelStatus(resourceGroupName: string, hubName: string, predictionName: string, parameters: Models.PredictionModelStatus, callback: msRest.ServiceCallback<void>): void;
+  modelStatus(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    parameters: Models.PredictionModelStatus,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -188,8 +291,22 @@ export class Predictions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  modelStatus(resourceGroupName: string, hubName: string, predictionName: string, parameters: Models.PredictionModelStatus, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  modelStatus(resourceGroupName: string, hubName: string, predictionName: string, parameters: Models.PredictionModelStatus, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  modelStatus(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    parameters: Models.PredictionModelStatus,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  modelStatus(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    parameters: Models.PredictionModelStatus,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,7 +316,8 @@ export class Predictions {
         options
       },
       modelStatusOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -209,21 +327,39 @@ export class Predictions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PredictionsListByHubResponse>
    */
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase): Promise<Models.PredictionsListByHubResponse>;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PredictionsListByHubResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, callback: msRest.ServiceCallback<Models.PredictionListResult>): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    callback: msRest.ServiceCallback<Models.PredictionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PredictionListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionListResult>, callback?: msRest.ServiceCallback<Models.PredictionListResult>): Promise<Models.PredictionsListByHubResponse> {
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PredictionListResult>
+  ): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionListResult>,
+    callback?: msRest.ServiceCallback<Models.PredictionListResult>
+  ): Promise<Models.PredictionsListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -231,7 +367,8 @@ export class Predictions {
         options
       },
       listByHubOperationSpec,
-      callback) as Promise<Models.PredictionsListByHubResponse>;
+      callback
+    ) as Promise<Models.PredictionsListByHubResponse>;
   }
 
   /**
@@ -243,7 +380,13 @@ export class Predictions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, hubName: string, predictionName: string, parameters: Models.PredictionResourceFormat, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    parameters: Models.PredictionResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -253,7 +396,8 @@ export class Predictions {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -264,7 +408,12 @@ export class Predictions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, hubName: string, predictionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    predictionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -273,7 +422,8 @@ export class Predictions {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -282,26 +432,41 @@ export class Predictions {
    * @param [options] The optional parameters
    * @returns Promise<Models.PredictionsListByHubNextResponse>
    */
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PredictionsListByHubNextResponse>;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PredictionsListByHubNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PredictionListResult>): void;
+  listByHubNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PredictionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PredictionListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionListResult>, callback?: msRest.ServiceCallback<Models.PredictionListResult>): Promise<Models.PredictionsListByHubNextResponse> {
+  listByHubNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PredictionListResult>
+  ): void;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PredictionListResult>,
+    callback?: msRest.ServiceCallback<Models.PredictionListResult>
+  ): Promise<Models.PredictionsListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByHubNextOperationSpec,
-      callback) as Promise<Models.PredictionsListByHubNextResponse>;
+      callback
+    ) as Promise<Models.PredictionsListByHubNextResponse>;
   }
 }
 
@@ -309,19 +474,16 @@ export class Predictions {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions/{predictionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions/{predictionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.predictionName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PredictionResourceFormat
@@ -335,19 +497,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const getTrainingResultsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions/{predictionName}/getTrainingResults",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions/{predictionName}/getTrainingResults",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.predictionName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PredictionTrainingResults
@@ -361,19 +520,16 @@ const getTrainingResultsOperationSpec: msRest.OperationSpec = {
 
 const getModelStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions/{predictionName}/getModelStatus",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions/{predictionName}/getModelStatus",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.predictionName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PredictionModelStatus
@@ -387,19 +543,16 @@ const getModelStatusOperationSpec: msRest.OperationSpec = {
 
 const modelStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions/{predictionName}/modelStatus",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions/{predictionName}/modelStatus",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.predictionName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -418,18 +571,11 @@ const modelStatusOperationSpec: msRest.OperationSpec = {
 
 const listByHubOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.hubName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions",
+  urlParameters: [Parameters.resourceGroupName, Parameters.hubName1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PredictionListResult
@@ -443,19 +589,16 @@ const listByHubOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions/{predictionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions/{predictionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.predictionName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -477,19 +620,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions/{predictionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/predictions/{predictionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.predictionName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -504,12 +644,8 @@ const listByHubNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PredictionListResult

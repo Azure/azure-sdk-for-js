@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as msRest from "@azure/ms-rest-js";
 
 /**
@@ -1390,7 +1389,8 @@ export interface TrainingAPIClientGetImagesOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface TrainingAPIClientCreateImagesFromDataOptionalParams extends msRest.RequestOptionsBase {
+export interface TrainingAPIClientCreateImagesFromDataOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The tags ids with which to tag each image. Limited to 20.
    */
@@ -1488,7 +1488,8 @@ export interface TrainingAPIClientGetTaggedImagesOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface TrainingAPIClientGetTaggedImageCountOptionalParams extends msRest.RequestOptionsBase {
+export interface TrainingAPIClientGetTaggedImageCountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The iteration id. Defaults to workspace.
    */
@@ -1502,7 +1503,8 @@ export interface TrainingAPIClientGetTaggedImageCountOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface TrainingAPIClientGetUntaggedImagesOptionalParams extends msRest.RequestOptionsBase {
+export interface TrainingAPIClientGetUntaggedImagesOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The iteration id. Defaults to workspace.
    */
@@ -1524,7 +1526,8 @@ export interface TrainingAPIClientGetUntaggedImagesOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface TrainingAPIClientGetUntaggedImageCountOptionalParams extends msRest.RequestOptionsBase {
+export interface TrainingAPIClientGetUntaggedImageCountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The iteration id. Defaults to workspace.
    */
@@ -1545,7 +1548,8 @@ export interface TrainingAPIClientExportIterationOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface TrainingAPIClientGetIterationPerformanceOptionalParams extends msRest.RequestOptionsBase {
+export interface TrainingAPIClientGetIterationPerformanceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The threshold used to determine true predictions.
    */
@@ -1559,7 +1563,8 @@ export interface TrainingAPIClientGetIterationPerformanceOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface TrainingAPIClientGetImagePerformancesOptionalParams extends msRest.RequestOptionsBase {
+export interface TrainingAPIClientGetImagePerformancesOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of tags ids to filter the images. Defaults to all tagged images when null. Limited to
    * 20.
@@ -1582,7 +1587,8 @@ export interface TrainingAPIClientGetImagePerformancesOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface TrainingAPIClientGetImagePerformanceCountOptionalParams extends msRest.RequestOptionsBase {
+export interface TrainingAPIClientGetImagePerformanceCountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of tags ids to filter the images to count. Defaults to all tags when null.
    */
@@ -1618,7 +1624,8 @@ export interface TrainingAPIClientQuickTestImageOptionalParams extends msRest.Re
 /**
  * Optional Parameters.
  */
-export interface TrainingAPIClientQuickTestImageUrlOptionalParams extends msRest.RequestOptionsBase {
+export interface TrainingAPIClientQuickTestImageUrlOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Optional. Specifies the id of a particular iteration to evaluate against.
    * The default iteration for the project will be used when not specified.
@@ -1763,7 +1770,137 @@ export interface TrainingAPIClientImportProjectOptionalParams extends msRest.Req
  * @readonly
  * @enum {string}
  */
-export type CustomVisionErrorCodes = 'NoError' | 'BadRequest' | 'BadRequestExceededBatchSize' | 'BadRequestNotSupported' | 'BadRequestInvalidIds' | 'BadRequestProjectName' | 'BadRequestProjectNameNotUnique' | 'BadRequestProjectDescription' | 'BadRequestProjectUnknownDomain' | 'BadRequestProjectUnknownClassification' | 'BadRequestProjectUnsupportedDomainTypeChange' | 'BadRequestProjectUnsupportedExportPlatform' | 'BadRequestProjectImagePreprocessingSettings' | 'BadRequestProjectDuplicated' | 'BadRequestIterationName' | 'BadRequestIterationNameNotUnique' | 'BadRequestIterationDescription' | 'BadRequestIterationIsNotTrained' | 'BadRequestIterationValidationFailed' | 'BadRequestWorkspaceCannotBeModified' | 'BadRequestWorkspaceNotDeletable' | 'BadRequestTagName' | 'BadRequestTagNameNotUnique' | 'BadRequestTagDescription' | 'BadRequestTagType' | 'BadRequestMultipleNegativeTag' | 'BadRequestMultipleGeneralProductTag' | 'BadRequestImageTags' | 'BadRequestImageRegions' | 'BadRequestNegativeAndRegularTagOnSameImage' | 'BadRequestUnsupportedDomain' | 'BadRequestRequiredParamIsNull' | 'BadRequestIterationIsPublished' | 'BadRequestInvalidPublishName' | 'BadRequestInvalidPublishTarget' | 'BadRequestUnpublishFailed' | 'BadRequestIterationNotPublished' | 'BadRequestSubscriptionApi' | 'BadRequestExceedProjectLimit' | 'BadRequestExceedIterationPerProjectLimit' | 'BadRequestExceedTagPerProjectLimit' | 'BadRequestExceedTagPerImageLimit' | 'BadRequestExceededQuota' | 'BadRequestCannotMigrateProjectWithName' | 'BadRequestNotLimitedTrial' | 'BadRequestImageBatch' | 'BadRequestImageStream' | 'BadRequestImageUrl' | 'BadRequestImageFormat' | 'BadRequestImageSizeBytes' | 'BadRequestImageDimensions' | 'BadRequestImageExceededCount' | 'BadRequestTrainingNotNeeded' | 'BadRequestTrainingNotNeededButTrainingPipelineUpdated' | 'BadRequestTrainingValidationFailed' | 'BadRequestClassificationTrainingValidationFailed' | 'BadRequestMultiClassClassificationTrainingValidationFailed' | 'BadRequestMultiLabelClassificationTrainingValidationFailed' | 'BadRequestDetectionTrainingValidationFailed' | 'BadRequestTrainingAlreadyInProgress' | 'BadRequestDetectionTrainingNotAllowNegativeTag' | 'BadRequestInvalidEmailAddress' | 'BadRequestDomainNotSupportedForAdvancedTraining' | 'BadRequestExportPlatformNotSupportedForAdvancedTraining' | 'BadRequestReservedBudgetInHoursNotEnoughForAdvancedTraining' | 'BadRequestExportValidationFailed' | 'BadRequestExportAlreadyInProgress' | 'BadRequestPredictionIdsMissing' | 'BadRequestPredictionIdsExceededCount' | 'BadRequestPredictionTagsExceededCount' | 'BadRequestPredictionResultsExceededCount' | 'BadRequestPredictionInvalidApplicationName' | 'BadRequestPredictionInvalidQueryParameters' | 'BadRequestInvalidImportToken' | 'BadRequestExportWhileTraining' | 'BadRequestImageMetadataKey' | 'BadRequestImageMetadataValue' | 'BadRequestOperationNotSupported' | 'BadRequestInvalidArtifactUri' | 'BadRequestCustomerManagedKeyRevoked' | 'BadRequestInvalid' | 'UnsupportedMediaType' | 'Forbidden' | 'ForbiddenUser' | 'ForbiddenUserResource' | 'ForbiddenUserSignupDisabled' | 'ForbiddenUserSignupAllowanceExceeded' | 'ForbiddenUserDoesNotExist' | 'ForbiddenUserDisabled' | 'ForbiddenUserInsufficientCapability' | 'ForbiddenDRModeEnabled' | 'ForbiddenInvalid' | 'NotFound' | 'NotFoundProject' | 'NotFoundProjectDefaultIteration' | 'NotFoundIteration' | 'NotFoundIterationPerformance' | 'NotFoundTag' | 'NotFoundImage' | 'NotFoundDomain' | 'NotFoundApimSubscription' | 'NotFoundInvalid' | 'Conflict' | 'ConflictInvalid' | 'ErrorUnknown' | 'ErrorIterationCopyFailed' | 'ErrorPreparePerformanceMigrationFailed' | 'ErrorProjectInvalidWorkspace' | 'ErrorProjectInvalidPipelineConfiguration' | 'ErrorProjectInvalidDomain' | 'ErrorProjectTrainingRequestFailed' | 'ErrorProjectImportRequestFailed' | 'ErrorProjectExportRequestFailed' | 'ErrorFeaturizationServiceUnavailable' | 'ErrorFeaturizationQueueTimeout' | 'ErrorFeaturizationInvalidFeaturizer' | 'ErrorFeaturizationAugmentationUnavailable' | 'ErrorFeaturizationUnrecognizedJob' | 'ErrorFeaturizationAugmentationError' | 'ErrorExporterInvalidPlatform' | 'ErrorExporterInvalidFeaturizer' | 'ErrorExporterInvalidClassifier' | 'ErrorPredictionServiceUnavailable' | 'ErrorPredictionModelNotFound' | 'ErrorPredictionModelNotCached' | 'ErrorPrediction' | 'ErrorPredictionStorage' | 'ErrorRegionProposal' | 'ErrorUnknownBaseModel' | 'ErrorInvalid';
+export type CustomVisionErrorCodes =
+  | "NoError"
+  | "BadRequest"
+  | "BadRequestExceededBatchSize"
+  | "BadRequestNotSupported"
+  | "BadRequestInvalidIds"
+  | "BadRequestProjectName"
+  | "BadRequestProjectNameNotUnique"
+  | "BadRequestProjectDescription"
+  | "BadRequestProjectUnknownDomain"
+  | "BadRequestProjectUnknownClassification"
+  | "BadRequestProjectUnsupportedDomainTypeChange"
+  | "BadRequestProjectUnsupportedExportPlatform"
+  | "BadRequestProjectImagePreprocessingSettings"
+  | "BadRequestProjectDuplicated"
+  | "BadRequestIterationName"
+  | "BadRequestIterationNameNotUnique"
+  | "BadRequestIterationDescription"
+  | "BadRequestIterationIsNotTrained"
+  | "BadRequestIterationValidationFailed"
+  | "BadRequestWorkspaceCannotBeModified"
+  | "BadRequestWorkspaceNotDeletable"
+  | "BadRequestTagName"
+  | "BadRequestTagNameNotUnique"
+  | "BadRequestTagDescription"
+  | "BadRequestTagType"
+  | "BadRequestMultipleNegativeTag"
+  | "BadRequestMultipleGeneralProductTag"
+  | "BadRequestImageTags"
+  | "BadRequestImageRegions"
+  | "BadRequestNegativeAndRegularTagOnSameImage"
+  | "BadRequestUnsupportedDomain"
+  | "BadRequestRequiredParamIsNull"
+  | "BadRequestIterationIsPublished"
+  | "BadRequestInvalidPublishName"
+  | "BadRequestInvalidPublishTarget"
+  | "BadRequestUnpublishFailed"
+  | "BadRequestIterationNotPublished"
+  | "BadRequestSubscriptionApi"
+  | "BadRequestExceedProjectLimit"
+  | "BadRequestExceedIterationPerProjectLimit"
+  | "BadRequestExceedTagPerProjectLimit"
+  | "BadRequestExceedTagPerImageLimit"
+  | "BadRequestExceededQuota"
+  | "BadRequestCannotMigrateProjectWithName"
+  | "BadRequestNotLimitedTrial"
+  | "BadRequestImageBatch"
+  | "BadRequestImageStream"
+  | "BadRequestImageUrl"
+  | "BadRequestImageFormat"
+  | "BadRequestImageSizeBytes"
+  | "BadRequestImageDimensions"
+  | "BadRequestImageExceededCount"
+  | "BadRequestTrainingNotNeeded"
+  | "BadRequestTrainingNotNeededButTrainingPipelineUpdated"
+  | "BadRequestTrainingValidationFailed"
+  | "BadRequestClassificationTrainingValidationFailed"
+  | "BadRequestMultiClassClassificationTrainingValidationFailed"
+  | "BadRequestMultiLabelClassificationTrainingValidationFailed"
+  | "BadRequestDetectionTrainingValidationFailed"
+  | "BadRequestTrainingAlreadyInProgress"
+  | "BadRequestDetectionTrainingNotAllowNegativeTag"
+  | "BadRequestInvalidEmailAddress"
+  | "BadRequestDomainNotSupportedForAdvancedTraining"
+  | "BadRequestExportPlatformNotSupportedForAdvancedTraining"
+  | "BadRequestReservedBudgetInHoursNotEnoughForAdvancedTraining"
+  | "BadRequestExportValidationFailed"
+  | "BadRequestExportAlreadyInProgress"
+  | "BadRequestPredictionIdsMissing"
+  | "BadRequestPredictionIdsExceededCount"
+  | "BadRequestPredictionTagsExceededCount"
+  | "BadRequestPredictionResultsExceededCount"
+  | "BadRequestPredictionInvalidApplicationName"
+  | "BadRequestPredictionInvalidQueryParameters"
+  | "BadRequestInvalidImportToken"
+  | "BadRequestExportWhileTraining"
+  | "BadRequestImageMetadataKey"
+  | "BadRequestImageMetadataValue"
+  | "BadRequestOperationNotSupported"
+  | "BadRequestInvalidArtifactUri"
+  | "BadRequestCustomerManagedKeyRevoked"
+  | "BadRequestInvalid"
+  | "UnsupportedMediaType"
+  | "Forbidden"
+  | "ForbiddenUser"
+  | "ForbiddenUserResource"
+  | "ForbiddenUserSignupDisabled"
+  | "ForbiddenUserSignupAllowanceExceeded"
+  | "ForbiddenUserDoesNotExist"
+  | "ForbiddenUserDisabled"
+  | "ForbiddenUserInsufficientCapability"
+  | "ForbiddenDRModeEnabled"
+  | "ForbiddenInvalid"
+  | "NotFound"
+  | "NotFoundProject"
+  | "NotFoundProjectDefaultIteration"
+  | "NotFoundIteration"
+  | "NotFoundIterationPerformance"
+  | "NotFoundTag"
+  | "NotFoundImage"
+  | "NotFoundDomain"
+  | "NotFoundApimSubscription"
+  | "NotFoundInvalid"
+  | "Conflict"
+  | "ConflictInvalid"
+  | "ErrorUnknown"
+  | "ErrorIterationCopyFailed"
+  | "ErrorPreparePerformanceMigrationFailed"
+  | "ErrorProjectInvalidWorkspace"
+  | "ErrorProjectInvalidPipelineConfiguration"
+  | "ErrorProjectInvalidDomain"
+  | "ErrorProjectTrainingRequestFailed"
+  | "ErrorProjectImportRequestFailed"
+  | "ErrorProjectExportRequestFailed"
+  | "ErrorFeaturizationServiceUnavailable"
+  | "ErrorFeaturizationQueueTimeout"
+  | "ErrorFeaturizationInvalidFeaturizer"
+  | "ErrorFeaturizationAugmentationUnavailable"
+  | "ErrorFeaturizationUnrecognizedJob"
+  | "ErrorFeaturizationAugmentationError"
+  | "ErrorExporterInvalidPlatform"
+  | "ErrorExporterInvalidFeaturizer"
+  | "ErrorExporterInvalidClassifier"
+  | "ErrorPredictionServiceUnavailable"
+  | "ErrorPredictionModelNotFound"
+  | "ErrorPredictionModelNotCached"
+  | "ErrorPrediction"
+  | "ErrorPredictionStorage"
+  | "ErrorRegionProposal"
+  | "ErrorUnknownBaseModel"
+  | "ErrorInvalid";
 
 /**
  * Defines values for DomainType.
@@ -1771,7 +1908,7 @@ export type CustomVisionErrorCodes = 'NoError' | 'BadRequest' | 'BadRequestExcee
  * @readonly
  * @enum {string}
  */
-export type DomainType = 'Classification' | 'ObjectDetection';
+export type DomainType = "Classification" | "ObjectDetection";
 
 /**
  * Defines values for ExportPlatform.
@@ -1779,7 +1916,7 @@ export type DomainType = 'Classification' | 'ObjectDetection';
  * @readonly
  * @enum {string}
  */
-export type ExportPlatform = 'CoreML' | 'TensorFlow' | 'DockerFile' | 'ONNX' | 'VAIDK';
+export type ExportPlatform = "CoreML" | "TensorFlow" | "DockerFile" | "ONNX" | "VAIDK";
 
 /**
  * Defines values for ExportStatus.
@@ -1787,7 +1924,7 @@ export type ExportPlatform = 'CoreML' | 'TensorFlow' | 'DockerFile' | 'ONNX' | '
  * @readonly
  * @enum {string}
  */
-export type ExportStatus = 'Exporting' | 'Failed' | 'Done';
+export type ExportStatus = "Exporting" | "Failed" | "Done";
 
 /**
  * Defines values for ExportFlavor.
@@ -1796,7 +1933,14 @@ export type ExportStatus = 'Exporting' | 'Failed' | 'Done';
  * @readonly
  * @enum {string}
  */
-export type ExportFlavor = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12' | 'ARM' | 'TensorFlowNormal' | 'TensorFlowLite';
+export type ExportFlavor =
+  | "Linux"
+  | "Windows"
+  | "ONNX10"
+  | "ONNX12"
+  | "ARM"
+  | "TensorFlowNormal"
+  | "TensorFlowLite";
 
 /**
  * Defines values for ImageCreateStatus.
@@ -1806,7 +1950,18 @@ export type ExportFlavor = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12' | 'ARM' | '
  * @readonly
  * @enum {string}
  */
-export type ImageCreateStatus = 'OK' | 'OKDuplicate' | 'ErrorSource' | 'ErrorImageFormat' | 'ErrorImageSize' | 'ErrorStorage' | 'ErrorLimitExceed' | 'ErrorTagLimitExceed' | 'ErrorRegionLimitExceed' | 'ErrorUnknown' | 'ErrorNegativeAndRegularTagOnSameImage';
+export type ImageCreateStatus =
+  | "OK"
+  | "OKDuplicate"
+  | "ErrorSource"
+  | "ErrorImageFormat"
+  | "ErrorImageSize"
+  | "ErrorStorage"
+  | "ErrorLimitExceed"
+  | "ErrorTagLimitExceed"
+  | "ErrorRegionLimitExceed"
+  | "ErrorUnknown"
+  | "ErrorNegativeAndRegularTagOnSameImage";
 
 /**
  * Defines values for ImageMetadataUpdateStatus.
@@ -1814,7 +1969,11 @@ export type ImageCreateStatus = 'OK' | 'OKDuplicate' | 'ErrorSource' | 'ErrorIma
  * @readonly
  * @enum {string}
  */
-export type ImageMetadataUpdateStatus = 'OK' | 'ErrorImageNotFound' | 'ErrorLimitExceed' | 'ErrorUnknown';
+export type ImageMetadataUpdateStatus =
+  | "OK"
+  | "ErrorImageNotFound"
+  | "ErrorLimitExceed"
+  | "ErrorUnknown";
 
 /**
  * Defines values for TagType.
@@ -1822,7 +1981,7 @@ export type ImageMetadataUpdateStatus = 'OK' | 'ErrorImageNotFound' | 'ErrorLimi
  * @readonly
  * @enum {string}
  */
-export type TagType = 'Regular' | 'Negative' | 'GeneralProduct';
+export type TagType = "Regular" | "Negative" | "GeneralProduct";
 
 /**
  * Defines values for Classifier.
@@ -1830,7 +1989,7 @@ export type TagType = 'Regular' | 'Negative' | 'GeneralProduct';
  * @readonly
  * @enum {string}
  */
-export type Classifier = 'Multiclass' | 'Multilabel';
+export type Classifier = "Multiclass" | "Multilabel";
 
 /**
  * Defines values for TrainingType.
@@ -1838,7 +1997,7 @@ export type Classifier = 'Multiclass' | 'Multilabel';
  * @readonly
  * @enum {string}
  */
-export type TrainingType = 'Regular' | 'Advanced';
+export type TrainingType = "Regular" | "Advanced";
 
 /**
  * Defines values for OrderBy.
@@ -1846,7 +2005,7 @@ export type TrainingType = 'Regular' | 'Advanced';
  * @readonly
  * @enum {string}
  */
-export type OrderBy = 'Newest' | 'Oldest' | 'Suggested';
+export type OrderBy = "Newest" | "Oldest" | "Suggested";
 
 /**
  * Defines values for ProjectStatus.
@@ -1854,7 +2013,7 @@ export type OrderBy = 'Newest' | 'Oldest' | 'Suggested';
  * @readonly
  * @enum {string}
  */
-export type ProjectStatus = 'Succeeded' | 'Importing' | 'Failed';
+export type ProjectStatus = "Succeeded" | "Importing" | "Failed";
 
 /**
  * Defines values for SortBy.
@@ -1862,7 +2021,7 @@ export type ProjectStatus = 'Succeeded' | 'Importing' | 'Failed';
  * @readonly
  * @enum {string}
  */
-export type SortBy = 'UncertaintyAscending' | 'UncertaintyDescending';
+export type SortBy = "UncertaintyAscending" | "UncertaintyDescending";
 
 /**
  * Defines values for ClassificationType.
@@ -1870,7 +2029,7 @@ export type SortBy = 'UncertaintyAscending' | 'UncertaintyDescending';
  * @readonly
  * @enum {string}
  */
-export type ClassificationType = 'Multiclass' | 'Multilabel';
+export type ClassificationType = "Multiclass" | "Multilabel";
 
 /**
  * Defines values for TaggingStatus.
@@ -1878,7 +2037,7 @@ export type ClassificationType = 'Multiclass' | 'Multilabel';
  * @readonly
  * @enum {string}
  */
-export type TaggingStatus = 'All' | 'Tagged' | 'Untagged';
+export type TaggingStatus = "All" | "Tagged" | "Untagged";
 
 /**
  * Defines values for OrderBy1.
@@ -1886,7 +2045,7 @@ export type TaggingStatus = 'All' | 'Tagged' | 'Untagged';
  * @readonly
  * @enum {string}
  */
-export type OrderBy1 = 'Newest' | 'Oldest';
+export type OrderBy1 = "Newest" | "Oldest";
 
 /**
  * Defines values for TaggingStatus1.
@@ -1894,7 +2053,7 @@ export type OrderBy1 = 'Newest' | 'Oldest';
  * @readonly
  * @enum {string}
  */
-export type TaggingStatus1 = 'All' | 'Tagged' | 'Untagged';
+export type TaggingStatus1 = "All" | "Tagged" | "Untagged";
 
 /**
  * Defines values for OrderBy2.
@@ -1902,7 +2061,7 @@ export type TaggingStatus1 = 'All' | 'Tagged' | 'Untagged';
  * @readonly
  * @enum {string}
  */
-export type OrderBy2 = 'Newest' | 'Oldest';
+export type OrderBy2 = "Newest" | "Oldest";
 
 /**
  * Defines values for OrderBy3.
@@ -1910,7 +2069,7 @@ export type OrderBy2 = 'Newest' | 'Oldest';
  * @readonly
  * @enum {string}
  */
-export type OrderBy3 = 'Newest' | 'Oldest';
+export type OrderBy3 = "Newest" | "Oldest";
 
 /**
  * Defines values for Flavor.
@@ -1919,7 +2078,14 @@ export type OrderBy3 = 'Newest' | 'Oldest';
  * @readonly
  * @enum {string}
  */
-export type Flavor = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12' | 'ARM' | 'TensorFlowNormal' | 'TensorFlowLite';
+export type Flavor =
+  | "Linux"
+  | "Windows"
+  | "ONNX10"
+  | "ONNX12"
+  | "ARM"
+  | "TensorFlowNormal"
+  | "TensorFlowLite";
 
 /**
  * Defines values for OrderBy4.
@@ -1927,7 +2093,7 @@ export type Flavor = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12' | 'ARM' | 'Tensor
  * @readonly
  * @enum {string}
  */
-export type OrderBy4 = 'Newest' | 'Oldest';
+export type OrderBy4 = "Newest" | "Oldest";
 
 /**
  * Defines values for Type.
@@ -1935,7 +2101,7 @@ export type OrderBy4 = 'Newest' | 'Oldest';
  * @readonly
  * @enum {string}
  */
-export type Type = 'Regular' | 'Negative' | 'GeneralProduct';
+export type Type = "Regular" | "Negative" | "GeneralProduct";
 
 /**
  * Defines values for TrainingType1.
@@ -1943,7 +2109,7 @@ export type Type = 'Regular' | 'Negative' | 'GeneralProduct';
  * @readonly
  * @enum {string}
  */
-export type TrainingType1 = 'Regular' | 'Advanced';
+export type TrainingType1 = "Regular" | "Advanced";
 
 /**
  * Defines values for Platform.
@@ -1951,7 +2117,7 @@ export type TrainingType1 = 'Regular' | 'Advanced';
  * @readonly
  * @enum {string}
  */
-export type Platform = 'CoreML' | 'TensorFlow' | 'DockerFile' | 'ONNX' | 'VAIDK';
+export type Platform = "CoreML" | "TensorFlow" | "DockerFile" | "ONNX" | "VAIDK";
 
 /**
  * Contains response data for the getDomains operation.
@@ -1961,16 +2127,16 @@ export type GetDomainsResponse = Array<Domain> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Domain[];
+  };
 };
 
 /**
@@ -1981,16 +2147,16 @@ export type GetDomainResponse = Domain & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Domain;
+  };
 };
 
 /**
@@ -2001,16 +2167,16 @@ export type GetProjectsResponse = Array<Project> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Project[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Project[];
+  };
 };
 
 /**
@@ -2021,16 +2187,16 @@ export type CreateProjectResponse = Project & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Project;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Project;
+  };
 };
 
 /**
@@ -2041,16 +2207,16 @@ export type GetProjectResponse = Project & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Project;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Project;
+  };
 };
 
 /**
@@ -2061,16 +2227,16 @@ export type UpdateProjectResponse = Project & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Project;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Project;
+  };
 };
 
 /**
@@ -2107,16 +2273,16 @@ export type ExportProjectResponse = ProjectExport & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectExport;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectExport;
+  };
 };
 
 /**
@@ -2127,16 +2293,16 @@ export type GetImagesResponse = Array<Image> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image[];
+  };
 };
 
 /**
@@ -2147,16 +2313,16 @@ export type CreateImagesFromDataResponse = ImageCreateSummary & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageCreateSummary;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageCreateSummary;
+  };
 };
 
 /**
@@ -2167,16 +2333,16 @@ export type GetImageRegionProposalsResponse = ImageRegionProposal & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageRegionProposal;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageRegionProposal;
+  };
 };
 
 /**
@@ -2192,16 +2358,16 @@ export type GetImageCountResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: number;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: number;
+  };
 };
 
 /**
@@ -2212,16 +2378,16 @@ export type CreateImagesFromFilesResponse = ImageCreateSummary & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageCreateSummary;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageCreateSummary;
+  };
 };
 
 /**
@@ -2232,16 +2398,16 @@ export type GetImagesByIdsResponse = Array<Image> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image[];
+  };
 };
 
 /**
@@ -2252,16 +2418,16 @@ export type UpdateImageMetadataResponse = ImageMetadataUpdateSummary & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageMetadataUpdateSummary;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageMetadataUpdateSummary;
+  };
 };
 
 /**
@@ -2272,16 +2438,16 @@ export type CreateImagesFromPredictionsResponse = ImageCreateSummary & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageCreateSummary;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageCreateSummary;
+  };
 };
 
 /**
@@ -2292,16 +2458,16 @@ export type CreateImageRegionsResponse = ImageRegionCreateSummary & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageRegionCreateSummary;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageRegionCreateSummary;
+  };
 };
 
 /**
@@ -2312,16 +2478,16 @@ export type QuerySuggestedImagesResponse = SuggestedTagAndRegionQuery & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SuggestedTagAndRegionQuery;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SuggestedTagAndRegionQuery;
+  };
 };
 
 /**
@@ -2337,16 +2503,16 @@ export type QuerySuggestedImageCountResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: { [propertyName: string]: number };
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: { [propertyName: string]: number };
+  };
 };
 
 /**
@@ -2357,16 +2523,16 @@ export type GetTaggedImagesResponse = Array<Image> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image[];
+  };
 };
 
 /**
@@ -2382,16 +2548,16 @@ export type GetTaggedImageCountResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: number;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: number;
+  };
 };
 
 /**
@@ -2402,16 +2568,16 @@ export type CreateImageTagsResponse = ImageTagCreateSummary & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageTagCreateSummary;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageTagCreateSummary;
+  };
 };
 
 /**
@@ -2422,16 +2588,16 @@ export type GetUntaggedImagesResponse = Array<Image> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image[];
+  };
 };
 
 /**
@@ -2447,16 +2613,16 @@ export type GetUntaggedImageCountResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: number;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: number;
+  };
 };
 
 /**
@@ -2467,16 +2633,16 @@ export type CreateImagesFromUrlsResponse = ImageCreateSummary & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageCreateSummary;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageCreateSummary;
+  };
 };
 
 /**
@@ -2487,16 +2653,16 @@ export type GetIterationsResponse = Array<Iteration> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Iteration[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Iteration[];
+  };
 };
 
 /**
@@ -2507,16 +2673,16 @@ export type GetIterationResponse = Iteration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Iteration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Iteration;
+  };
 };
 
 /**
@@ -2527,16 +2693,16 @@ export type UpdateIterationResponse = Iteration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Iteration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Iteration;
+  };
 };
 
 /**
@@ -2547,16 +2713,16 @@ export type GetExportsResponse = Array<ExportModel> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExportModel[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExportModel[];
+  };
 };
 
 /**
@@ -2567,16 +2733,16 @@ export type ExportIterationResponse = ExportModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExportModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExportModel;
+  };
 };
 
 /**
@@ -2587,16 +2753,16 @@ export type GetIterationPerformanceResponse = IterationPerformance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IterationPerformance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IterationPerformance;
+  };
 };
 
 /**
@@ -2607,16 +2773,16 @@ export type GetImagePerformancesResponse = Array<ImagePerformance> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePerformance[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImagePerformance[];
+  };
 };
 
 /**
@@ -2632,16 +2798,16 @@ export type GetImagePerformanceCountResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: number;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: number;
+  };
 };
 
 /**
@@ -2657,16 +2823,16 @@ export type PublishIterationResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: boolean;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: boolean;
+  };
 };
 
 /**
@@ -2677,16 +2843,16 @@ export type QueryPredictionsResponse = PredictionQueryResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PredictionQueryResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PredictionQueryResult;
+  };
 };
 
 /**
@@ -2697,16 +2863,16 @@ export type QuickTestImageResponse = ImagePrediction & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePrediction;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImagePrediction;
+  };
 };
 
 /**
@@ -2717,16 +2883,16 @@ export type QuickTestImageUrlResponse = ImagePrediction & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePrediction;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImagePrediction;
+  };
 };
 
 /**
@@ -2737,16 +2903,16 @@ export type GetTagsResponse = Array<Tag> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Tag[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Tag[];
+  };
 };
 
 /**
@@ -2757,16 +2923,16 @@ export type CreateTagResponse = Tag & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Tag;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Tag;
+  };
 };
 
 /**
@@ -2777,16 +2943,16 @@ export type GetTagResponse = Tag & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Tag;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Tag;
+  };
 };
 
 /**
@@ -2797,16 +2963,16 @@ export type UpdateTagResponse = Tag & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Tag;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Tag;
+  };
 };
 
 /**
@@ -2817,16 +2983,16 @@ export type SuggestTagsAndRegionsResponse = Array<SuggestedTagAndRegion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SuggestedTagAndRegion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SuggestedTagAndRegion[];
+  };
 };
 
 /**
@@ -2837,16 +3003,16 @@ export type TrainProjectResponse = Iteration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Iteration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Iteration;
+  };
 };
 
 /**
@@ -2857,14 +3023,14 @@ export type ImportProjectResponse = Project & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Project;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Project;
+  };
 };

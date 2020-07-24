@@ -44,14 +44,21 @@ export class Invoices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.InvoicesListOptionalParams, callback: msRest.ServiceCallback<Models.InvoicesListResult>): void;
-  list(options?: Models.InvoicesListOptionalParams | msRest.ServiceCallback<Models.InvoicesListResult>, callback?: msRest.ServiceCallback<Models.InvoicesListResult>): Promise<Models.InvoicesListResponse> {
+  list(
+    options: Models.InvoicesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.InvoicesListResult>
+  ): void;
+  list(
+    options?: Models.InvoicesListOptionalParams | msRest.ServiceCallback<Models.InvoicesListResult>,
+    callback?: msRest.ServiceCallback<Models.InvoicesListResult>
+  ): Promise<Models.InvoicesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.InvoicesListResponse>;
+      callback
+    ) as Promise<Models.InvoicesListResponse>;
   }
 
   /**
@@ -63,7 +70,10 @@ export class Invoices {
    * @param [options] The optional parameters
    * @returns Promise<Models.InvoicesGetResponse>
    */
-  get(invoiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicesGetResponse>;
+  get(
+    invoiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InvoicesGetResponse>;
   /**
    * @param invoiceName The name of an invoice resource.
    * @param callback The callback
@@ -74,15 +84,24 @@ export class Invoices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(invoiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Invoice>): void;
-  get(invoiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Invoice>, callback?: msRest.ServiceCallback<Models.Invoice>): Promise<Models.InvoicesGetResponse> {
+  get(
+    invoiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Invoice>
+  ): void;
+  get(
+    invoiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Invoice>,
+    callback?: msRest.ServiceCallback<Models.Invoice>
+  ): Promise<Models.InvoicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         invoiceName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.InvoicesGetResponse>;
+      callback
+    ) as Promise<Models.InvoicesGetResponse>;
   }
 
   /**
@@ -102,14 +121,21 @@ export class Invoices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getLatest(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Invoice>): void;
-  getLatest(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Invoice>, callback?: msRest.ServiceCallback<Models.Invoice>): Promise<Models.InvoicesGetLatestResponse> {
+  getLatest(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Invoice>
+  ): void;
+  getLatest(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Invoice>,
+    callback?: msRest.ServiceCallback<Models.Invoice>
+  ): Promise<Models.InvoicesGetLatestResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getLatestOperationSpec,
-      callback) as Promise<Models.InvoicesGetLatestResponse>;
+      callback
+    ) as Promise<Models.InvoicesGetLatestResponse>;
   }
 
   /**
@@ -122,7 +148,10 @@ export class Invoices {
    * @param [options] The optional parameters
    * @returns Promise<Models.InvoicesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InvoicesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -133,15 +162,24 @@ export class Invoices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InvoicesListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InvoicesListResult>, callback?: msRest.ServiceCallback<Models.InvoicesListResult>): Promise<Models.InvoicesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.InvoicesListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InvoicesListResult>,
+    callback?: msRest.ServiceCallback<Models.InvoicesListResult>
+  ): Promise<Models.InvoicesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.InvoicesListNextResponse>;
+      callback
+    ) as Promise<Models.InvoicesListNextResponse>;
   }
 }
 
@@ -150,9 +188,7 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Billing/invoices",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.subscriptionId],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.expand,
@@ -160,9 +196,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.skiptoken,
     Parameters.top
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InvoicesListResult
@@ -177,16 +211,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Billing/invoices/{invoiceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.invoiceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.invoiceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Invoice
@@ -201,15 +228,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const getLatestOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Billing/invoices/latest",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Invoice
@@ -225,12 +246,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InvoicesListResult

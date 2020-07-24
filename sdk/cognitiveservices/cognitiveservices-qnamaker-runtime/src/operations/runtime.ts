@@ -33,21 +33,39 @@ export class Runtime {
    * @param [options] The optional parameters
    * @returns Promise<Models.RuntimeGenerateAnswerResponse>
    */
-  generateAnswer(kbId: string, generateAnswerPayload: Models.QueryDTO, options?: msRest.RequestOptionsBase): Promise<Models.RuntimeGenerateAnswerResponse>;
+  generateAnswer(
+    kbId: string,
+    generateAnswerPayload: Models.QueryDTO,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RuntimeGenerateAnswerResponse>;
   /**
    * @param kbId Knowledgebase id.
    * @param generateAnswerPayload Post body of the request.
    * @param callback The callback
    */
-  generateAnswer(kbId: string, generateAnswerPayload: Models.QueryDTO, callback: msRest.ServiceCallback<Models.QnASearchResultList>): void;
+  generateAnswer(
+    kbId: string,
+    generateAnswerPayload: Models.QueryDTO,
+    callback: msRest.ServiceCallback<Models.QnASearchResultList>
+  ): void;
   /**
    * @param kbId Knowledgebase id.
    * @param generateAnswerPayload Post body of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  generateAnswer(kbId: string, generateAnswerPayload: Models.QueryDTO, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QnASearchResultList>): void;
-  generateAnswer(kbId: string, generateAnswerPayload: Models.QueryDTO, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QnASearchResultList>, callback?: msRest.ServiceCallback<Models.QnASearchResultList>): Promise<Models.RuntimeGenerateAnswerResponse> {
+  generateAnswer(
+    kbId: string,
+    generateAnswerPayload: Models.QueryDTO,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.QnASearchResultList>
+  ): void;
+  generateAnswer(
+    kbId: string,
+    generateAnswerPayload: Models.QueryDTO,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QnASearchResultList>,
+    callback?: msRest.ServiceCallback<Models.QnASearchResultList>
+  ): Promise<Models.RuntimeGenerateAnswerResponse> {
     return this.client.sendOperationRequest(
       {
         kbId,
@@ -55,7 +73,8 @@ export class Runtime {
         options
       },
       generateAnswerOperationSpec,
-      callback) as Promise<Models.RuntimeGenerateAnswerResponse>;
+      callback
+    ) as Promise<Models.RuntimeGenerateAnswerResponse>;
   }
 
   /**
@@ -65,21 +84,39 @@ export class Runtime {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  train(kbId: string, trainPayload: Models.FeedbackRecordsDTO, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  train(
+    kbId: string,
+    trainPayload: Models.FeedbackRecordsDTO,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param kbId Knowledgebase id.
    * @param trainPayload Post body of the request.
    * @param callback The callback
    */
-  train(kbId: string, trainPayload: Models.FeedbackRecordsDTO, callback: msRest.ServiceCallback<void>): void;
+  train(
+    kbId: string,
+    trainPayload: Models.FeedbackRecordsDTO,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param kbId Knowledgebase id.
    * @param trainPayload Post body of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  train(kbId: string, trainPayload: Models.FeedbackRecordsDTO, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  train(kbId: string, trainPayload: Models.FeedbackRecordsDTO, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  train(
+    kbId: string,
+    trainPayload: Models.FeedbackRecordsDTO,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  train(
+    kbId: string,
+    trainPayload: Models.FeedbackRecordsDTO,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         kbId,
@@ -87,7 +124,8 @@ export class Runtime {
         options
       },
       trainOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -96,10 +134,7 @@ const serializer = new msRest.Serializer(Mappers);
 const generateAnswerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "knowledgebases/{kbId}/generateAnswer",
-  urlParameters: [
-    Parameters.runtimeEndpoint,
-    Parameters.kbId
-  ],
+  urlParameters: [Parameters.runtimeEndpoint, Parameters.kbId],
   requestBody: {
     parameterPath: "generateAnswerPayload",
     mapper: {
@@ -121,10 +156,7 @@ const generateAnswerOperationSpec: msRest.OperationSpec = {
 const trainOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "knowledgebases/{kbId}/train",
-  urlParameters: [
-    Parameters.runtimeEndpoint,
-    Parameters.kbId
-  ],
+  urlParameters: [Parameters.runtimeEndpoint, Parameters.kbId],
   requestBody: {
     parameterPath: "trainPayload",
     mapper: {

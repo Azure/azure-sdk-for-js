@@ -172,11 +172,7 @@ export const AvailabilityStatusProperties: msRest.CompositeMapper = {
         serializedName: "availabilityState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Available",
-            "Unavailable",
-            "Unknown"
-          ]
+          allowedValues: ["Available", "Unavailable", "Unknown"]
         }
       },
       summary: {
@@ -243,10 +239,7 @@ export const AvailabilityStatusProperties: msRest.CompositeMapper = {
         serializedName: "reasonChronicity",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Transient",
-            "Persistent"
-          ]
+          allowedValues: ["Transient", "Persistent"]
         }
       },
       reportedTime: {

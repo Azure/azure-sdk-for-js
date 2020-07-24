@@ -41,14 +41,21 @@ export class Locations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocationsResponse>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocationsResponse>, callback?: msRest.ServiceCallback<Models.LocationsResponse>): Promise<Models.LocationsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LocationsResponse>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocationsResponse>,
+    callback?: msRest.ServiceCallback<Models.LocationsResponse>
+  ): Promise<Models.LocationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.LocationsListResponse>;
+      callback
+    ) as Promise<Models.LocationsListResponse>;
   }
 
   /**
@@ -58,7 +65,10 @@ export class Locations {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationsGetResponse>
    */
-  get(locationName: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationsGetResponse>;
+  get(
+    locationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocationsGetResponse>;
   /**
    * @param locationName The name of the location. For example, West US or westus.
    * @param callback The callback
@@ -69,15 +79,24 @@ export class Locations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Location>): void;
-  get(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Location>, callback?: msRest.ServiceCallback<Models.Location>): Promise<Models.LocationsGetResponse> {
+  get(
+    locationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Location>
+  ): void;
+  get(
+    locationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Location>,
+    callback?: msRest.ServiceCallback<Models.Location>
+  ): Promise<Models.LocationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.LocationsGetResponse>;
+      callback
+    ) as Promise<Models.LocationsGetResponse>;
   }
 }
 
@@ -86,12 +105,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.ImportExport/locations",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LocationsResponse
@@ -106,15 +121,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.ImportExport/locations/{locationName}",
-  urlParameters: [
-    Parameters.locationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.locationName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Location

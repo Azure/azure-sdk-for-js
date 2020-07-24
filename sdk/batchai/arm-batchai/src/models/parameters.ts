@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -46,13 +46,10 @@ export const clusterName: msRest.OperationURLParameter = {
   }
 };
 export const directory: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "jobsListOutputFilesOptions",
-    "directory"
-  ],
+  parameterPath: ["jobsListOutputFilesOptions", "directory"],
   mapper: {
     serializedName: "directory",
-    defaultValue: '.',
+    defaultValue: ".",
     type: {
       name: "String"
     }
@@ -104,10 +101,7 @@ export const jobName: msRest.OperationURLParameter = {
   }
 };
 export const linkexpiryinminutes: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "jobsListOutputFilesOptions",
-    "linkexpiryinminutes"
-  ],
+  parameterPath: ["jobsListOutputFilesOptions", "linkexpiryinminutes"],
   mapper: {
     serializedName: "linkexpiryinminutes",
     defaultValue: 60,
@@ -134,11 +128,7 @@ export const location: msRest.OperationURLParameter = {
   }
 };
 export const maxResults0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "workspacesListOptions",
-    "maxResults"
-  ],
+  parameterPath: ["options", "workspacesListOptions", "maxResults"],
   mapper: {
     serializedName: "maxresults",
     defaultValue: 1000,
@@ -152,11 +142,7 @@ export const maxResults0: msRest.OperationQueryParameter = {
   }
 };
 export const maxResults1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "workspacesListByResourceGroupOptions",
-    "maxResults"
-  ],
+  parameterPath: ["options", "workspacesListByResourceGroupOptions", "maxResults"],
   mapper: {
     serializedName: "maxresults",
     defaultValue: 1000,
@@ -170,11 +156,7 @@ export const maxResults1: msRest.OperationQueryParameter = {
   }
 };
 export const maxResults2: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "experimentsListByWorkspaceOptions",
-    "maxResults"
-  ],
+  parameterPath: ["options", "experimentsListByWorkspaceOptions", "maxResults"],
   mapper: {
     serializedName: "maxresults",
     defaultValue: 1000,
@@ -188,11 +170,7 @@ export const maxResults2: msRest.OperationQueryParameter = {
   }
 };
 export const maxResults3: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "jobsListByExperimentOptions",
-    "maxResults"
-  ],
+  parameterPath: ["options", "jobsListByExperimentOptions", "maxResults"],
   mapper: {
     serializedName: "maxresults",
     defaultValue: 1000,
@@ -206,10 +184,7 @@ export const maxResults3: msRest.OperationQueryParameter = {
   }
 };
 export const maxResults4: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "jobsListOutputFilesOptions",
-    "maxResults"
-  ],
+  parameterPath: ["jobsListOutputFilesOptions", "maxResults"],
   mapper: {
     serializedName: "maxresults",
     defaultValue: 1000,
@@ -223,11 +198,7 @@ export const maxResults4: msRest.OperationQueryParameter = {
   }
 };
 export const maxResults5: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "fileServersListByWorkspaceOptions",
-    "maxResults"
-  ],
+  parameterPath: ["options", "fileServersListByWorkspaceOptions", "maxResults"],
   mapper: {
     serializedName: "maxresults",
     defaultValue: 1000,
@@ -241,11 +212,7 @@ export const maxResults5: msRest.OperationQueryParameter = {
   }
 };
 export const maxResults6: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "clustersListByWorkspaceOptions",
-    "maxResults"
-  ],
+  parameterPath: ["options", "clustersListByWorkspaceOptions", "maxResults"],
   mapper: {
     serializedName: "maxresults",
     defaultValue: 1000,
@@ -270,10 +237,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const outputdirectoryid: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "jobsListOutputFilesOptions",
-    "outputdirectoryid"
-  ],
+  parameterPath: ["jobsListOutputFilesOptions", "outputdirectoryid"],
   mapper: {
     required: true,
     serializedName: "outputdirectoryid",

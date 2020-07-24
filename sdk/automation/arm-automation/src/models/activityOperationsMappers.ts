@@ -17,4 +17,3 @@ export {
   ErrorResponse,
   ActivityListResult
 } from "../models/mappers";
-

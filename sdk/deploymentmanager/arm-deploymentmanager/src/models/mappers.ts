@@ -630,10 +630,7 @@ export const ServiceUnitProperties: msRest.CompositeMapper = {
         serializedName: "deploymentMode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Incremental",
-            "Complete"
-          ]
+          allowedValues: ["Incremental", "Complete"]
         }
       },
       artifacts: {
@@ -937,10 +934,7 @@ export const ServiceUnitResource: msRest.CompositeMapper = {
         serializedName: "properties.deploymentMode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Incremental",
-            "Complete"
-          ]
+          allowedValues: ["Incremental", "Complete"]
         }
       },
       artifacts: {
@@ -1210,10 +1204,7 @@ export const RestRequest: msRest.CompositeMapper = {
         serializedName: "method",
         type: {
           name: "Enum",
-          allowedValues: [
-            "GET",
-            "POST"
-          ]
+          allowedValues: ["GET", "POST"]
         }
       },
       uri: {
@@ -1256,10 +1247,7 @@ export const RestResponseRegex: msRest.CompositeMapper = {
         serializedName: "matchQuantifier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "All",
-            "Any"
-          ]
+          allowedValues: ["All", "Any"]
         }
       }
     }
@@ -1386,10 +1374,7 @@ export const ApiKeyAuthentication: msRest.CompositeMapper = {
         serializedName: "in",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Query",
-            "Header"
-          ]
+          allowedValues: ["Query", "Header"]
         }
       },
       value: {
@@ -1503,15 +1488,14 @@ export const RolloutsCreateOrUpdateHeaders: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'Authentication' : Authentication,
-  'Authentication.Sas' : SasAuthentication,
-  'StepProperties' : StepProperties,
-  'HealthCheckStepAttributes' : HealthCheckStepAttributes,
-  'StepProperties.HealthCheck' : HealthCheckStepProperties,
-  'RestRequestAuthentication' : RestRequestAuthentication,
-  'HealthCheckStepAttributes.REST' : RestHealthCheckStepAttributes,
-  'RestRequestAuthentication.RolloutIdentity' : RolloutIdentityAuthentication,
-  'RestRequestAuthentication.ApiKey' : ApiKeyAuthentication,
-  'StepProperties.Wait' : WaitStepProperties
-
+  Authentication: Authentication,
+  "Authentication.Sas": SasAuthentication,
+  StepProperties: StepProperties,
+  HealthCheckStepAttributes: HealthCheckStepAttributes,
+  "StepProperties.HealthCheck": HealthCheckStepProperties,
+  RestRequestAuthentication: RestRequestAuthentication,
+  "HealthCheckStepAttributes.REST": RestHealthCheckStepAttributes,
+  "RestRequestAuthentication.RolloutIdentity": RolloutIdentityAuthentication,
+  "RestRequestAuthentication.ApiKey": ApiKeyAuthentication,
+  "StepProperties.Wait": WaitStepProperties
 };

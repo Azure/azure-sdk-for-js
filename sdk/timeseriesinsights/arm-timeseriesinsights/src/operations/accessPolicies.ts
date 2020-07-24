@@ -36,7 +36,13 @@ export class AccessPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccessPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, environmentName: string, accessPolicyName: string, parameters: Models.AccessPolicyCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.AccessPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    parameters: Models.AccessPolicyCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccessPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -45,7 +51,13 @@ export class AccessPolicies {
    * @param parameters Parameters for creating an access policy.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, environmentName: string, accessPolicyName: string, parameters: Models.AccessPolicyCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.AccessPolicyResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    parameters: Models.AccessPolicyCreateOrUpdateParameters,
+    callback: msRest.ServiceCallback<Models.AccessPolicyResource>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -55,8 +67,22 @@ export class AccessPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, environmentName: string, accessPolicyName: string, parameters: Models.AccessPolicyCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessPolicyResource>): void;
-  createOrUpdate(resourceGroupName: string, environmentName: string, accessPolicyName: string, parameters: Models.AccessPolicyCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyResource>, callback?: msRest.ServiceCallback<Models.AccessPolicyResource>): Promise<Models.AccessPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    parameters: Models.AccessPolicyCreateOrUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessPolicyResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    parameters: Models.AccessPolicyCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyResource>,
+    callback?: msRest.ServiceCallback<Models.AccessPolicyResource>
+  ): Promise<Models.AccessPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +92,8 @@ export class AccessPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.AccessPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.AccessPoliciesCreateOrUpdateResponse>;
   }
 
   /**
@@ -79,7 +106,12 @@ export class AccessPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccessPoliciesGetResponse>
    */
-  get(resourceGroupName: string, environmentName: string, accessPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccessPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccessPoliciesGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -88,7 +120,12 @@ export class AccessPolicies {
    * specified environment.
    * @param callback The callback
    */
-  get(resourceGroupName: string, environmentName: string, accessPolicyName: string, callback: msRest.ServiceCallback<Models.AccessPolicyResource>): void;
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    callback: msRest.ServiceCallback<Models.AccessPolicyResource>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -98,8 +135,20 @@ export class AccessPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, environmentName: string, accessPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessPolicyResource>): void;
-  get(resourceGroupName: string, environmentName: string, accessPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyResource>, callback?: msRest.ServiceCallback<Models.AccessPolicyResource>): Promise<Models.AccessPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessPolicyResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyResource>,
+    callback?: msRest.ServiceCallback<Models.AccessPolicyResource>
+  ): Promise<Models.AccessPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +157,8 @@ export class AccessPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AccessPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.AccessPoliciesGetResponse>;
   }
 
   /**
@@ -124,7 +174,13 @@ export class AccessPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccessPoliciesUpdateResponse>
    */
-  update(resourceGroupName: string, environmentName: string, accessPolicyName: string, accessPolicyUpdateParameters: Models.AccessPolicyUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.AccessPoliciesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    accessPolicyUpdateParameters: Models.AccessPolicyUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccessPoliciesUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -135,7 +191,13 @@ export class AccessPolicies {
    * access policy.
    * @param callback The callback
    */
-  update(resourceGroupName: string, environmentName: string, accessPolicyName: string, accessPolicyUpdateParameters: Models.AccessPolicyUpdateParameters, callback: msRest.ServiceCallback<Models.AccessPolicyResource>): void;
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    accessPolicyUpdateParameters: Models.AccessPolicyUpdateParameters,
+    callback: msRest.ServiceCallback<Models.AccessPolicyResource>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -147,8 +209,22 @@ export class AccessPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, environmentName: string, accessPolicyName: string, accessPolicyUpdateParameters: Models.AccessPolicyUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessPolicyResource>): void;
-  update(resourceGroupName: string, environmentName: string, accessPolicyName: string, accessPolicyUpdateParameters: Models.AccessPolicyUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyResource>, callback?: msRest.ServiceCallback<Models.AccessPolicyResource>): Promise<Models.AccessPoliciesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    accessPolicyUpdateParameters: Models.AccessPolicyUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessPolicyResource>
+  ): void;
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    accessPolicyUpdateParameters: Models.AccessPolicyUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyResource>,
+    callback?: msRest.ServiceCallback<Models.AccessPolicyResource>
+  ): Promise<Models.AccessPoliciesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +234,8 @@ export class AccessPolicies {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.AccessPoliciesUpdateResponse>;
+      callback
+    ) as Promise<Models.AccessPoliciesUpdateResponse>;
   }
 
   /**
@@ -172,7 +249,12 @@ export class AccessPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, environmentName: string, accessPolicyName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -181,7 +263,12 @@ export class AccessPolicies {
    * specified environment.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, environmentName: string, accessPolicyName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -191,8 +278,20 @@ export class AccessPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, environmentName: string, accessPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, environmentName: string, accessPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    accessPolicyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -201,7 +300,8 @@ export class AccessPolicies {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -212,14 +312,22 @@ export class AccessPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccessPoliciesListByEnvironmentResponse>
    */
-  listByEnvironment(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccessPoliciesListByEnvironmentResponse>;
+  listByEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccessPoliciesListByEnvironmentResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
    * specified resource group.
    * @param callback The callback
    */
-  listByEnvironment(resourceGroupName: string, environmentName: string, callback: msRest.ServiceCallback<Models.AccessPolicyListResponse>): void;
+  listByEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    callback: msRest.ServiceCallback<Models.AccessPolicyListResponse>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -227,8 +335,18 @@ export class AccessPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByEnvironment(resourceGroupName: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessPolicyListResponse>): void;
-  listByEnvironment(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyListResponse>, callback?: msRest.ServiceCallback<Models.AccessPolicyListResponse>): Promise<Models.AccessPoliciesListByEnvironmentResponse> {
+  listByEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessPolicyListResponse>
+  ): void;
+  listByEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessPolicyListResponse>,
+    callback?: msRest.ServiceCallback<Models.AccessPolicyListResponse>
+  ): Promise<Models.AccessPoliciesListByEnvironmentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -236,7 +354,8 @@ export class AccessPolicies {
         options
       },
       listByEnvironmentOperationSpec,
-      callback) as Promise<Models.AccessPoliciesListByEnvironmentResponse>;
+      callback
+    ) as Promise<Models.AccessPoliciesListByEnvironmentResponse>;
   }
 }
 
@@ -244,19 +363,16 @@ export class AccessPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/accessPolicies/{accessPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/accessPolicies/{accessPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1,
     Parameters.accessPolicyName0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -280,19 +396,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/accessPolicies/{accessPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/accessPolicies/{accessPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1,
     Parameters.accessPolicyName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccessPolicyResource
@@ -306,19 +419,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/accessPolicies/{accessPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/accessPolicies/{accessPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1,
     Parameters.accessPolicyName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "accessPolicyUpdateParameters",
     mapper: {
@@ -339,19 +449,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/accessPolicies/{accessPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/accessPolicies/{accessPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1,
     Parameters.accessPolicyName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -364,18 +471,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/accessPolicies",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/accessPolicies",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccessPolicyListResponse

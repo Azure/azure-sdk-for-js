@@ -24,7 +24,11 @@ export class QnAMakerRuntimeClientContext extends msRest.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, runtimeEndpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    runtimeEndpoint: string,
+    options?: msRest.ServiceClientOptions
+  ) {
     if (runtimeEndpoint == undefined) {
       throw new Error("'runtimeEndpoint' cannot be null.");
     }

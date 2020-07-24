@@ -36,7 +36,13 @@ export class GeoBackupPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.GeoBackupPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.GeoBackupPolicy, options?: msRest.RequestOptionsBase): Promise<Models.GeoBackupPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.GeoBackupPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GeoBackupPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -45,7 +51,13 @@ export class GeoBackupPolicies {
    * @param parameters The required parameters for creating or updating the geo backup policy.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.GeoBackupPolicy, callback: msRest.ServiceCallback<Models.GeoBackupPolicy>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.GeoBackupPolicy,
+    callback: msRest.ServiceCallback<Models.GeoBackupPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -55,8 +67,22 @@ export class GeoBackupPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.GeoBackupPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GeoBackupPolicy>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.GeoBackupPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GeoBackupPolicy>, callback?: msRest.ServiceCallback<Models.GeoBackupPolicy>): Promise<Models.GeoBackupPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.GeoBackupPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GeoBackupPolicy>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.GeoBackupPolicy,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GeoBackupPolicy>,
+    callback?: msRest.ServiceCallback<Models.GeoBackupPolicy>
+  ): Promise<Models.GeoBackupPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +92,8 @@ export class GeoBackupPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.GeoBackupPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.GeoBackupPoliciesCreateOrUpdateResponse>;
   }
 
   /**
@@ -78,7 +105,12 @@ export class GeoBackupPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.GeoBackupPoliciesGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.GeoBackupPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GeoBackupPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -86,7 +118,12 @@ export class GeoBackupPolicies {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.GeoBackupPolicy>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.GeoBackupPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -95,8 +132,20 @@ export class GeoBackupPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GeoBackupPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GeoBackupPolicy>, callback?: msRest.ServiceCallback<Models.GeoBackupPolicy>): Promise<Models.GeoBackupPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GeoBackupPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GeoBackupPolicy>,
+    callback?: msRest.ServiceCallback<Models.GeoBackupPolicy>
+  ): Promise<Models.GeoBackupPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +154,8 @@ export class GeoBackupPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.GeoBackupPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.GeoBackupPoliciesGetResponse>;
   }
 
   /**
@@ -117,7 +167,12 @@ export class GeoBackupPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.GeoBackupPoliciesListByDatabaseResponse>
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.GeoBackupPoliciesListByDatabaseResponse>;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GeoBackupPoliciesListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -125,7 +180,12 @@ export class GeoBackupPolicies {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -134,8 +194,20 @@ export class GeoBackupPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GeoBackupPolicyListResult>, callback?: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>): Promise<Models.GeoBackupPoliciesListByDatabaseResponse> {
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>
+  ): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GeoBackupPolicyListResult>,
+    callback?: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>
+  ): Promise<Models.GeoBackupPoliciesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,7 +216,8 @@ export class GeoBackupPolicies {
         options
       },
       listByDatabaseOperationSpec,
-      callback) as Promise<Models.GeoBackupPoliciesListByDatabaseResponse>;
+      callback
+    ) as Promise<Models.GeoBackupPoliciesListByDatabaseResponse>;
   }
 }
 
@@ -152,7 +225,8 @@ export class GeoBackupPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -160,12 +234,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.geoBackupPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -189,7 +259,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies/{geoBackupPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -197,12 +268,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.geoBackupPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GeoBackupPolicy
@@ -216,19 +283,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/geoBackupPolicies",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GeoBackupPolicyListResult

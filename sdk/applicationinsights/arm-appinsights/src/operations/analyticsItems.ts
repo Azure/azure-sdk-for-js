@@ -36,7 +36,12 @@ export class AnalyticsItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.AnalyticsItemsListResponse>
    */
-  list(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsListOptionalParams): Promise<Models.AnalyticsItemsListResponse>;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    options?: Models.AnalyticsItemsListOptionalParams
+  ): Promise<Models.AnalyticsItemsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -45,7 +50,12 @@ export class AnalyticsItems {
    * include: 'analyticsItems', 'myanalyticsItems'
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -55,8 +65,22 @@ export class AnalyticsItems {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options: Models.AnalyticsItemsListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>): void;
-  list(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsListOptionalParams | msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>): Promise<Models.AnalyticsItemsListResponse> {
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    options: Models.AnalyticsItemsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>
+  ): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    options?:
+      | Models.AnalyticsItemsListOptionalParams
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>
+  ): Promise<Models.AnalyticsItemsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -65,7 +89,8 @@ export class AnalyticsItems {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AnalyticsItemsListResponse>;
+      callback
+    ) as Promise<Models.AnalyticsItemsListResponse>;
   }
 
   /**
@@ -78,7 +103,12 @@ export class AnalyticsItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.AnalyticsItemsGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsGetOptionalParams): Promise<Models.AnalyticsItemsGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    options?: Models.AnalyticsItemsGetOptionalParams
+  ): Promise<Models.AnalyticsItemsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -87,7 +117,12 @@ export class AnalyticsItems {
    * include: 'analyticsItems', 'myanalyticsItems'
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -97,8 +132,22 @@ export class AnalyticsItems {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options: Models.AnalyticsItemsGetOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): void;
-  get(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsGetOptionalParams | msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): Promise<Models.AnalyticsItemsGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    options: Models.AnalyticsItemsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    options?:
+      | Models.AnalyticsItemsGetOptionalParams
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>
+  ): Promise<Models.AnalyticsItemsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +156,8 @@ export class AnalyticsItems {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AnalyticsItemsGetResponse>;
+      callback
+    ) as Promise<Models.AnalyticsItemsGetResponse>;
   }
 
   /**
@@ -122,7 +172,13 @@ export class AnalyticsItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.AnalyticsItemsPutResponse>
    */
-  put(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, itemProperties: Models.ApplicationInsightsComponentAnalyticsItem, options?: Models.AnalyticsItemsPutOptionalParams): Promise<Models.AnalyticsItemsPutResponse>;
+  put(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    itemProperties: Models.ApplicationInsightsComponentAnalyticsItem,
+    options?: Models.AnalyticsItemsPutOptionalParams
+  ): Promise<Models.AnalyticsItemsPutResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -133,7 +189,13 @@ export class AnalyticsItems {
    * Application Insights component.
    * @param callback The callback
    */
-  put(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, itemProperties: Models.ApplicationInsightsComponentAnalyticsItem, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): void;
+  put(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    itemProperties: Models.ApplicationInsightsComponentAnalyticsItem,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -145,8 +207,24 @@ export class AnalyticsItems {
    * @param options The optional parameters
    * @param callback The callback
    */
-  put(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, itemProperties: Models.ApplicationInsightsComponentAnalyticsItem, options: Models.AnalyticsItemsPutOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): void;
-  put(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, itemProperties: Models.ApplicationInsightsComponentAnalyticsItem, options?: Models.AnalyticsItemsPutOptionalParams | msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): Promise<Models.AnalyticsItemsPutResponse> {
+  put(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    itemProperties: Models.ApplicationInsightsComponentAnalyticsItem,
+    options: Models.AnalyticsItemsPutOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>
+  ): void;
+  put(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    itemProperties: Models.ApplicationInsightsComponentAnalyticsItem,
+    options?:
+      | Models.AnalyticsItemsPutOptionalParams
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>
+  ): Promise<Models.AnalyticsItemsPutResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -156,7 +234,8 @@ export class AnalyticsItems {
         options
       },
       putOperationSpec,
-      callback) as Promise<Models.AnalyticsItemsPutResponse>;
+      callback
+    ) as Promise<Models.AnalyticsItemsPutResponse>;
   }
 
   /**
@@ -169,7 +248,12 @@ export class AnalyticsItems {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    options?: Models.AnalyticsItemsDeleteMethodOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -178,7 +262,12 @@ export class AnalyticsItems {
    * include: 'analyticsItems', 'myanalyticsItems'
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -188,8 +277,20 @@ export class AnalyticsItems {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options: Models.AnalyticsItemsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    options: Models.AnalyticsItemsDeleteMethodOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    scopePath: Models.ItemScopePath,
+    options?: Models.AnalyticsItemsDeleteMethodOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -198,7 +299,8 @@ export class AnalyticsItems {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -206,7 +308,8 @@ export class AnalyticsItems {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -219,9 +322,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.type,
     Parameters.includeContent
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -246,21 +347,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.scopePath
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.id,
-    Parameters.name
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.id, Parameters.name],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentAnalyticsItem
@@ -274,20 +370,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const putOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.scopePath
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.overrideItem
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.overrideItem],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "itemProperties",
     mapper: {
@@ -308,21 +400,16 @@ const putOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/{scopePath}/item",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.scopePath
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.id,
-    Parameters.name
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.id, Parameters.name],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {

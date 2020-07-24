@@ -665,7 +665,7 @@ export interface CustomerSubscriptionList extends Array<CustomerSubscription> {
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Creating' | 'Failed' | 'Succeeded' | 'Canceled';
+export type ProvisioningState = "Creating" | "Failed" | "Succeeded" | "Canceled";
 
 /**
  * Defines values for ComputeRole.
@@ -673,7 +673,7 @@ export type ProvisioningState = 'Creating' | 'Failed' | 'Succeeded' | 'Canceled'
  * @readonly
  * @enum {string}
  */
-export type ComputeRole = 'None' | 'IaaS' | 'PaaS';
+export type ComputeRole = "None" | "IaaS" | "PaaS";
 
 /**
  * Defines values for OperatingSystem.
@@ -681,7 +681,7 @@ export type ComputeRole = 'None' | 'IaaS' | 'PaaS';
  * @readonly
  * @enum {string}
  */
-export type OperatingSystem = 'None' | 'Windows' | 'Linux';
+export type OperatingSystem = "None" | "Windows" | "Linux";
 
 /**
  * Defines values for CompatibilityIssue.
@@ -693,7 +693,17 @@ export type OperatingSystem = 'None' | 'Windows' | 'Linux';
  * @readonly
  * @enum {string}
  */
-export type CompatibilityIssue = 'HigherDeviceVersionRequired' | 'LowerDeviceVersionRequired' | 'CapacityBillingModelRequired' | 'PayAsYouGoBillingModelRequired' | 'DevelopmentBillingModelRequired' | 'AzureADIdentitySystemRequired' | 'ADFSIdentitySystemRequired' | 'ConnectionToInternetRequired' | 'ConnectionToAzureRequired' | 'DisconnectedEnvironmentRequired';
+export type CompatibilityIssue =
+  | "HigherDeviceVersionRequired"
+  | "LowerDeviceVersionRequired"
+  | "CapacityBillingModelRequired"
+  | "PayAsYouGoBillingModelRequired"
+  | "DevelopmentBillingModelRequired"
+  | "AzureADIdentitySystemRequired"
+  | "ADFSIdentitySystemRequired"
+  | "ConnectionToInternetRequired"
+  | "ConnectionToAzureRequired"
+  | "DisconnectedEnvironmentRequired";
 
 /**
  * Defines values for Category.
@@ -701,7 +711,7 @@ export type CompatibilityIssue = 'HigherDeviceVersionRequired' | 'LowerDeviceVer
  * @readonly
  * @enum {string}
  */
-export type Category = 'AzureAD' | 'ADFS';
+export type Category = "AzureAD" | "ADFS";
 
 /**
  * Defines values for Location.
@@ -709,7 +719,7 @@ export type Category = 'AzureAD' | 'ADFS';
  * @readonly
  * @enum {string}
  */
-export type Location = 'global';
+export type Location = "global";
 
 /**
  * Contains response data for the list operation.
@@ -719,16 +729,16 @@ export type OperationsListResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -739,16 +749,16 @@ export type OperationsListNextResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -759,16 +769,16 @@ export type ProductsListResponse = ProductList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProductList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProductList;
+  };
 };
 
 /**
@@ -779,16 +789,16 @@ export type ProductsGetResponse = Product & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Product;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Product;
+  };
 };
 
 /**
@@ -799,16 +809,16 @@ export type ProductsListDetailsResponse = ExtendedProduct & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtendedProduct;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExtendedProduct;
+  };
 };
 
 /**
@@ -819,16 +829,16 @@ export type ProductsGetProductsResponse = ProductList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProductList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProductList;
+  };
 };
 
 /**
@@ -839,16 +849,16 @@ export type ProductsGetProductResponse = Product & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Product;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Product;
+  };
 };
 
 /**
@@ -859,16 +869,16 @@ export type ProductsUploadLogResponse = ProductLog & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProductLog;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProductLog;
+  };
 };
 
 /**
@@ -879,16 +889,16 @@ export type ProductsListNextResponse = ProductList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProductList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProductList;
+  };
 };
 
 /**
@@ -899,16 +909,16 @@ export type RegistrationsListResponse = RegistrationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistrationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegistrationList;
+  };
 };
 
 /**
@@ -919,16 +929,16 @@ export type RegistrationsGetResponse = Registration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Registration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Registration;
+  };
 };
 
 /**
@@ -939,16 +949,16 @@ export type RegistrationsCreateOrUpdateResponse = Registration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Registration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Registration;
+  };
 };
 
 /**
@@ -959,16 +969,16 @@ export type RegistrationsUpdateResponse = Registration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Registration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Registration;
+  };
 };
 
 /**
@@ -979,16 +989,16 @@ export type RegistrationsGetActivationKeyResponse = ActivationKeyResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ActivationKeyResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ActivationKeyResult;
+  };
 };
 
 /**
@@ -999,16 +1009,16 @@ export type RegistrationsListNextResponse = RegistrationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistrationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegistrationList;
+  };
 };
 
 /**
@@ -1019,16 +1029,16 @@ export type CustomerSubscriptionsListResponse = CustomerSubscriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomerSubscriptionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CustomerSubscriptionList;
+  };
 };
 
 /**
@@ -1039,16 +1049,16 @@ export type CustomerSubscriptionsGetResponse = CustomerSubscription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomerSubscription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CustomerSubscription;
+  };
 };
 
 /**
@@ -1059,16 +1069,16 @@ export type CustomerSubscriptionsCreateResponse = CustomerSubscription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomerSubscription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CustomerSubscription;
+  };
 };
 
 /**
@@ -1079,14 +1089,14 @@ export type CustomerSubscriptionsListNextResponse = CustomerSubscriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomerSubscriptionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CustomerSubscriptionList;
+  };
 };

@@ -34,21 +34,39 @@ export class IpGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpGroupsGetResponse>
    */
-  get(resourceGroupName: string, ipGroupsName: string, options?: Models.IpGroupsGetOptionalParams): Promise<Models.IpGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    ipGroupsName: string,
+    options?: Models.IpGroupsGetOptionalParams
+  ): Promise<Models.IpGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ipGroupsName The name of the ipGroups.
    * @param callback The callback
    */
-  get(resourceGroupName: string, ipGroupsName: string, callback: msRest.ServiceCallback<Models.IpGroup>): void;
+  get(
+    resourceGroupName: string,
+    ipGroupsName: string,
+    callback: msRest.ServiceCallback<Models.IpGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ipGroupsName The name of the ipGroups.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, ipGroupsName: string, options: Models.IpGroupsGetOptionalParams, callback: msRest.ServiceCallback<Models.IpGroup>): void;
-  get(resourceGroupName: string, ipGroupsName: string, options?: Models.IpGroupsGetOptionalParams | msRest.ServiceCallback<Models.IpGroup>, callback?: msRest.ServiceCallback<Models.IpGroup>): Promise<Models.IpGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    ipGroupsName: string,
+    options: Models.IpGroupsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.IpGroup>
+  ): void;
+  get(
+    resourceGroupName: string,
+    ipGroupsName: string,
+    options?: Models.IpGroupsGetOptionalParams | msRest.ServiceCallback<Models.IpGroup>,
+    callback?: msRest.ServiceCallback<Models.IpGroup>
+  ): Promise<Models.IpGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class IpGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IpGroupsGetResponse>;
+      callback
+    ) as Promise<Models.IpGroupsGetResponse>;
   }
 
   /**
@@ -67,9 +86,20 @@ export class IpGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, ipGroupsName: string, parameters: Models.IpGroup, options?: msRest.RequestOptionsBase): Promise<Models.IpGroupsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,ipGroupsName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IpGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    ipGroupsName: string,
+    parameters: Models.IpGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpGroupsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      ipGroupsName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.IpGroupsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -80,14 +110,24 @@ export class IpGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpGroupsUpdateGroupsResponse>
    */
-  updateGroups(resourceGroupName: string, ipGroupsName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.IpGroupsUpdateGroupsResponse>;
+  updateGroups(
+    resourceGroupName: string,
+    ipGroupsName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpGroupsUpdateGroupsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ipGroupsName The name of the ipGroups.
    * @param parameters Parameters supplied to the update ipGroups operation.
    * @param callback The callback
    */
-  updateGroups(resourceGroupName: string, ipGroupsName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.IpGroup>): void;
+  updateGroups(
+    resourceGroupName: string,
+    ipGroupsName: string,
+    parameters: Models.TagsObject,
+    callback: msRest.ServiceCallback<Models.IpGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ipGroupsName The name of the ipGroups.
@@ -95,8 +135,20 @@ export class IpGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateGroups(resourceGroupName: string, ipGroupsName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpGroup>): void;
-  updateGroups(resourceGroupName: string, ipGroupsName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpGroup>, callback?: msRest.ServiceCallback<Models.IpGroup>): Promise<Models.IpGroupsUpdateGroupsResponse> {
+  updateGroups(
+    resourceGroupName: string,
+    ipGroupsName: string,
+    parameters: Models.TagsObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpGroup>
+  ): void;
+  updateGroups(
+    resourceGroupName: string,
+    ipGroupsName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpGroup>,
+    callback?: msRest.ServiceCallback<Models.IpGroup>
+  ): Promise<Models.IpGroupsUpdateGroupsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +157,8 @@ export class IpGroups {
         options
       },
       updateGroupsOperationSpec,
-      callback) as Promise<Models.IpGroupsUpdateGroupsResponse>;
+      callback
+    ) as Promise<Models.IpGroupsUpdateGroupsResponse>;
   }
 
   /**
@@ -115,9 +168,14 @@ export class IpGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, ipGroupsName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,ipGroupsName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    ipGroupsName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, ipGroupsName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -126,26 +184,41 @@ export class IpGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpGroupsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.IpGroupsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpGroupsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.IpGroupListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.IpGroupListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpGroupListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpGroupListResult>, callback?: msRest.ServiceCallback<Models.IpGroupListResult>): Promise<Models.IpGroupsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpGroupListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.IpGroupListResult>
+  ): Promise<Models.IpGroupsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.IpGroupsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.IpGroupsListByResourceGroupResponse>;
   }
 
   /**
@@ -162,14 +235,21 @@ export class IpGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpGroupListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpGroupListResult>, callback?: msRest.ServiceCallback<Models.IpGroupListResult>): Promise<Models.IpGroupsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpGroupListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.IpGroupListResult>
+  ): Promise<Models.IpGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IpGroupsListResponse>;
+      callback
+    ) as Promise<Models.IpGroupsListResponse>;
   }
 
   /**
@@ -180,7 +260,12 @@ export class IpGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, ipGroupsName: string, parameters: Models.IpGroup, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    ipGroupsName: string,
+    parameters: Models.IpGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -189,7 +274,8 @@ export class IpGroups {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -199,7 +285,11 @@ export class IpGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, ipGroupsName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    ipGroupsName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -207,7 +297,8 @@ export class IpGroups {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -216,26 +307,41 @@ export class IpGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpGroupsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IpGroupsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpGroupsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IpGroupListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IpGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpGroupListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpGroupListResult>, callback?: msRest.ServiceCallback<Models.IpGroupListResult>): Promise<Models.IpGroupsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpGroupListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.IpGroupListResult>
+  ): Promise<Models.IpGroupsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.IpGroupsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.IpGroupsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -244,7 +350,10 @@ export class IpGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpGroupsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IpGroupsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpGroupsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -255,15 +364,24 @@ export class IpGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpGroupListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpGroupListResult>, callback?: msRest.ServiceCallback<Models.IpGroupListResult>): Promise<Models.IpGroupsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpGroupListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.IpGroupListResult>
+  ): Promise<Models.IpGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.IpGroupsListNextResponse>;
+      callback
+    ) as Promise<Models.IpGroupsListNextResponse>;
   }
 }
 
@@ -271,19 +389,11 @@ export class IpGroups {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.ipGroupsName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.ipGroupsName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpGroup
@@ -297,18 +407,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateGroupsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.ipGroupsName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.ipGroupsName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -329,17 +432,11 @@ const updateGroupsOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpGroupListResult
@@ -354,15 +451,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/ipGroups",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpGroupListResult
@@ -376,18 +467,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.ipGroupsName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.ipGroupsName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -411,18 +495,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.ipGroupsName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.ipGroupsName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -438,12 +515,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpGroupListResult
@@ -459,12 +532,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpGroupListResult

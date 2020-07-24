@@ -35,7 +35,12 @@ export class GatewayHostnameConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayHostnameConfigurationListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, gatewayId: string, options?: Models.GatewayHostnameConfigurationListByServiceOptionalParams): Promise<Models.GatewayHostnameConfigurationListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options?: Models.GatewayHostnameConfigurationListByServiceOptionalParams
+  ): Promise<Models.GatewayHostnameConfigurationListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -43,7 +48,12 @@ export class GatewayHostnameConfiguration {
    * instance. Must not have value 'managed'
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, gatewayId: string, callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -52,8 +62,22 @@ export class GatewayHostnameConfiguration {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, gatewayId: string, options: Models.GatewayHostnameConfigurationListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, gatewayId: string, options?: Models.GatewayHostnameConfigurationListByServiceOptionalParams | msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>, callback?: msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>): Promise<Models.GatewayHostnameConfigurationListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options: Models.GatewayHostnameConfigurationListByServiceOptionalParams,
+    callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options?:
+      | Models.GatewayHostnameConfigurationListByServiceOptionalParams
+      | msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>,
+    callback?: msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>
+  ): Promise<Models.GatewayHostnameConfigurationListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +86,8 @@ export class GatewayHostnameConfiguration {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.GatewayHostnameConfigurationListByServiceResponse>;
+      callback
+    ) as Promise<Models.GatewayHostnameConfigurationListByServiceResponse>;
   }
 
   /**
@@ -77,7 +102,13 @@ export class GatewayHostnameConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayHostnameConfigurationGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, options?: msRest.RequestOptionsBase): Promise<Models.GatewayHostnameConfigurationGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GatewayHostnameConfigurationGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -87,7 +118,13 @@ export class GatewayHostnameConfiguration {
    * Gateway entity.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -98,8 +135,22 @@ export class GatewayHostnameConfiguration {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.GatewayHostnameConfigurationGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.GatewayHostnameConfigurationGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -109,7 +160,8 @@ export class GatewayHostnameConfiguration {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.GatewayHostnameConfigurationGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.GatewayHostnameConfigurationGetEntityTagResponse>;
   }
 
   /**
@@ -123,7 +175,13 @@ export class GatewayHostnameConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayHostnameConfigurationGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, options?: msRest.RequestOptionsBase): Promise<Models.GatewayHostnameConfigurationGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GatewayHostnameConfigurationGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -133,7 +191,13 @@ export class GatewayHostnameConfiguration {
    * Gateway entity.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -144,8 +208,24 @@ export class GatewayHostnameConfiguration {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>): void;
-  get(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>, callback?: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>): Promise<Models.GatewayHostnameConfigurationGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>,
+    callback?: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>
+  ): Promise<Models.GatewayHostnameConfigurationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +235,8 @@ export class GatewayHostnameConfiguration {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.GatewayHostnameConfigurationGetResponse>;
+      callback
+    ) as Promise<Models.GatewayHostnameConfigurationGetResponse>;
   }
 
   /**
@@ -170,7 +251,14 @@ export class GatewayHostnameConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayHostnameConfigurationCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, parameters: Models.GatewayHostnameConfigurationContract, options?: msRest.RequestOptionsBase): Promise<Models.GatewayHostnameConfigurationCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    parameters: Models.GatewayHostnameConfigurationContract,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GatewayHostnameConfigurationCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -181,7 +269,14 @@ export class GatewayHostnameConfiguration {
    * @param parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, parameters: Models.GatewayHostnameConfigurationContract, callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    parameters: Models.GatewayHostnameConfigurationContract,
+    callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -193,8 +288,26 @@ export class GatewayHostnameConfiguration {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, parameters: Models.GatewayHostnameConfigurationContract, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, parameters: Models.GatewayHostnameConfigurationContract, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>, callback?: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>): Promise<Models.GatewayHostnameConfigurationCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    parameters: Models.GatewayHostnameConfigurationContract,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    parameters: Models.GatewayHostnameConfigurationContract,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>,
+    callback?: msRest.ServiceCallback<Models.GatewayHostnameConfigurationContract>
+  ): Promise<Models.GatewayHostnameConfigurationCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -205,7 +318,8 @@ export class GatewayHostnameConfiguration {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.GatewayHostnameConfigurationCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.GatewayHostnameConfigurationCreateOrUpdateResponse>;
   }
 
   /**
@@ -219,7 +333,13 @@ export class GatewayHostnameConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -229,7 +349,13 @@ export class GatewayHostnameConfiguration {
    * Gateway entity.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -240,8 +366,22 @@ export class GatewayHostnameConfiguration {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, hcId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    hcId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -251,7 +391,8 @@ export class GatewayHostnameConfiguration {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -260,26 +401,43 @@ export class GatewayHostnameConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayHostnameConfigurationListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GatewayHostnameConfigurationListByServiceNextResponse>;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GatewayHostnameConfigurationListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>): void;
+  listByServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>, callback?: msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>): Promise<Models.GatewayHostnameConfigurationListByServiceNextResponse> {
+  listByServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>
+  ): void;
+  listByServiceNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>,
+    callback?: msRest.ServiceCallback<Models.GatewayHostnameConfigurationCollection>
+  ): Promise<Models.GatewayHostnameConfigurationListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.GatewayHostnameConfigurationListByServiceNextResponse>;
+      callback
+    ) as Promise<Models.GatewayHostnameConfigurationListByServiceNextResponse>;
   }
 }
 
@@ -287,21 +445,16 @@ export class GatewayHostnameConfiguration {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.gatewayId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GatewayHostnameConfigurationCollection
@@ -315,7 +468,8 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -323,12 +477,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
     Parameters.hcId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.GatewayHostnameConfigurationGetEntityTagHeaders
@@ -342,7 +492,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -350,12 +501,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.hcId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GatewayHostnameConfigurationContract,
@@ -370,7 +517,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -378,12 +526,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.hcId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -409,7 +553,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/hostnameConfigurations/{hcId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -417,12 +562,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.hcId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -437,12 +578,8 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GatewayHostnameConfigurationCollection

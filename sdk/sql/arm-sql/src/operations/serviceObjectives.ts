@@ -35,7 +35,12 @@ export class ServiceObjectives {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceObjectivesGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, serviceObjectiveName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceObjectivesGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    serviceObjectiveName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceObjectivesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -43,7 +48,12 @@ export class ServiceObjectives {
    * @param serviceObjectiveName The name of the service objective to retrieve.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, serviceObjectiveName: string, callback: msRest.ServiceCallback<Models.ServiceObjective>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    serviceObjectiveName: string,
+    callback: msRest.ServiceCallback<Models.ServiceObjective>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -52,8 +62,20 @@ export class ServiceObjectives {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, serviceObjectiveName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceObjective>): void;
-  get(resourceGroupName: string, serverName: string, serviceObjectiveName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceObjective>, callback?: msRest.ServiceCallback<Models.ServiceObjective>): Promise<Models.ServiceObjectivesGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    serviceObjectiveName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceObjective>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    serviceObjectiveName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceObjective>,
+    callback?: msRest.ServiceCallback<Models.ServiceObjective>
+  ): Promise<Models.ServiceObjectivesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +84,8 @@ export class ServiceObjectives {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServiceObjectivesGetResponse>;
+      callback
+    ) as Promise<Models.ServiceObjectivesGetResponse>;
   }
 
   /**
@@ -73,14 +96,22 @@ export class ServiceObjectives {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceObjectivesListByServerResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceObjectivesListByServerResponse>;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceObjectivesListByServerResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ServiceObjectiveListResult>): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.ServiceObjectiveListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -88,8 +119,18 @@ export class ServiceObjectives {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceObjectiveListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceObjectiveListResult>, callback?: msRest.ServiceCallback<Models.ServiceObjectiveListResult>): Promise<Models.ServiceObjectivesListByServerResponse> {
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceObjectiveListResult>
+  ): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceObjectiveListResult>,
+    callback?: msRest.ServiceCallback<Models.ServiceObjectiveListResult>
+  ): Promise<Models.ServiceObjectivesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +138,8 @@ export class ServiceObjectives {
         options
       },
       listByServerOperationSpec,
-      callback) as Promise<Models.ServiceObjectivesListByServerResponse>;
+      callback
+    ) as Promise<Models.ServiceObjectivesListByServerResponse>;
   }
 }
 
@@ -105,19 +147,16 @@ export class ServiceObjectives {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/serviceObjectives/{serviceObjectiveName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/serviceObjectives/{serviceObjectiveName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.serviceObjectiveName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceObjective
@@ -131,18 +170,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/serviceObjectives",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/serviceObjectives",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.serverName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceObjectiveListResult

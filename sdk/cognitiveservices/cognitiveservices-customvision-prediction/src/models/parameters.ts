@@ -11,10 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 export const application: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "application"
-  ],
+  parameterPath: ["options", "application"],
   mapper: {
     serializedName: "application",
     type: {
@@ -27,7 +24,7 @@ export const endpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }

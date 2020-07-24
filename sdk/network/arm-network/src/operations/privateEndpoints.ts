@@ -34,9 +34,16 @@ export class PrivateEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, privateEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,privateEndpointName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      privateEndpointName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -46,21 +53,41 @@ export class PrivateEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointsGetResponse>
    */
-  get(resourceGroupName: string, privateEndpointName: string, options?: Models.PrivateEndpointsGetOptionalParams): Promise<Models.PrivateEndpointsGetResponse>;
+  get(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    options?: Models.PrivateEndpointsGetOptionalParams
+  ): Promise<Models.PrivateEndpointsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateEndpointName The name of the private endpoint.
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateEndpointName: string, callback: msRest.ServiceCallback<Models.PrivateEndpoint>): void;
+  get(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpoint>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateEndpointName The name of the private endpoint.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateEndpointName: string, options: Models.PrivateEndpointsGetOptionalParams, callback: msRest.ServiceCallback<Models.PrivateEndpoint>): void;
-  get(resourceGroupName: string, privateEndpointName: string, options?: Models.PrivateEndpointsGetOptionalParams | msRest.ServiceCallback<Models.PrivateEndpoint>, callback?: msRest.ServiceCallback<Models.PrivateEndpoint>): Promise<Models.PrivateEndpointsGetResponse> {
+  get(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    options: Models.PrivateEndpointsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.PrivateEndpoint>
+  ): void;
+  get(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    options?:
+      | Models.PrivateEndpointsGetOptionalParams
+      | msRest.ServiceCallback<Models.PrivateEndpoint>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpoint>
+  ): Promise<Models.PrivateEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +95,8 @@ export class PrivateEndpoints {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateEndpointsGetResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointsGetResponse>;
   }
 
   /**
@@ -79,9 +107,20 @@ export class PrivateEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, privateEndpointName: string, parameters: Models.PrivateEndpoint, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,privateEndpointName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateEndpointsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    parameters: Models.PrivateEndpoint,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      privateEndpointName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PrivateEndpointsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -90,26 +129,41 @@ export class PrivateEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointsListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointsListResponse>;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>): void;
+  list(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointListResult>): Promise<Models.PrivateEndpointsListResponse> {
+  list(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointListResult>
+  ): Promise<Models.PrivateEndpointsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateEndpointsListResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointsListResponse>;
   }
 
   /**
@@ -117,7 +171,9 @@ export class PrivateEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -126,14 +182,21 @@ export class PrivateEndpoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointListResult>): Promise<Models.PrivateEndpointsListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>
+  ): void;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointListResult>
+  ): Promise<Models.PrivateEndpointsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.PrivateEndpointsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointsListBySubscriptionResponse>;
   }
 
   /**
@@ -143,7 +206,11 @@ export class PrivateEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, privateEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -151,7 +218,8 @@ export class PrivateEndpoints {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -162,7 +230,12 @@ export class PrivateEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, privateEndpointName: string, parameters: Models.PrivateEndpoint, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    parameters: Models.PrivateEndpoint,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -171,7 +244,8 @@ export class PrivateEndpoints {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -180,26 +254,41 @@ export class PrivateEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointListResult>): Promise<Models.PrivateEndpointsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointListResult>
+  ): Promise<Models.PrivateEndpointsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PrivateEndpointsListNextResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointsListNextResponse>;
   }
 
   /**
@@ -208,26 +297,41 @@ export class PrivateEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointListResult>): Promise<Models.PrivateEndpointsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointListResult>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointListResult>
+  ): Promise<Models.PrivateEndpointsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.PrivateEndpointsListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointsListBySubscriptionNextResponse>;
   }
 }
 
@@ -235,19 +339,15 @@ export class PrivateEndpoints {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateEndpointName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpoint
@@ -261,17 +361,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointListResult
@@ -286,15 +380,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/privateEndpoints",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointListResult
@@ -308,18 +396,15 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateEndpointName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -333,18 +418,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateEndpointName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -370,12 +452,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointListResult
@@ -391,12 +469,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointListResult

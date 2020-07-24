@@ -34,14 +34,24 @@ export class CredentialOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, credentialName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param credentialName The name of credential.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, credentialName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -49,8 +59,20 @@ export class CredentialOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, credentialName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, credentialName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class CredentialOperations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -70,14 +93,24 @@ export class CredentialOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CredentialGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, credentialName: string, options?: msRest.RequestOptionsBase): Promise<Models.CredentialGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CredentialGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param credentialName The name of credential.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, credentialName: string, callback: msRest.ServiceCallback<Models.Credential>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    callback: msRest.ServiceCallback<Models.Credential>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -85,8 +118,20 @@ export class CredentialOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, credentialName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Credential>): void;
-  get(resourceGroupName: string, automationAccountName: string, credentialName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Credential>, callback?: msRest.ServiceCallback<Models.Credential>): Promise<Models.CredentialGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Credential>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Credential>,
+    callback?: msRest.ServiceCallback<Models.Credential>
+  ): Promise<Models.CredentialGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +140,8 @@ export class CredentialOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CredentialGetResponse>;
+      callback
+    ) as Promise<Models.CredentialGetResponse>;
   }
 
   /**
@@ -107,7 +153,13 @@ export class CredentialOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CredentialCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: Models.CredentialCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.CredentialCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    parameters: Models.CredentialCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CredentialCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -115,7 +167,13 @@ export class CredentialOperations {
    * @param parameters The parameters supplied to the create or update credential operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: Models.CredentialCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.Credential>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    parameters: Models.CredentialCreateOrUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Credential>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -124,8 +182,22 @@ export class CredentialOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: Models.CredentialCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Credential>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: Models.CredentialCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Credential>, callback?: msRest.ServiceCallback<Models.Credential>): Promise<Models.CredentialCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    parameters: Models.CredentialCreateOrUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Credential>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    parameters: Models.CredentialCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Credential>,
+    callback?: msRest.ServiceCallback<Models.Credential>
+  ): Promise<Models.CredentialCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +207,8 @@ export class CredentialOperations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.CredentialCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.CredentialCreateOrUpdateResponse>;
   }
 
   /**
@@ -147,7 +220,13 @@ export class CredentialOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CredentialUpdateResponse>
    */
-  update(resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: Models.CredentialUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.CredentialUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    parameters: Models.CredentialUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CredentialUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -155,7 +234,13 @@ export class CredentialOperations {
    * @param parameters The parameters supplied to the Update credential operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: Models.CredentialUpdateParameters, callback: msRest.ServiceCallback<Models.Credential>): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    parameters: Models.CredentialUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Credential>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -164,8 +249,22 @@ export class CredentialOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: Models.CredentialUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Credential>): void;
-  update(resourceGroupName: string, automationAccountName: string, credentialName: string, parameters: Models.CredentialUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Credential>, callback?: msRest.ServiceCallback<Models.Credential>): Promise<Models.CredentialUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    parameters: Models.CredentialUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Credential>
+  ): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    credentialName: string,
+    parameters: Models.CredentialUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Credential>,
+    callback?: msRest.ServiceCallback<Models.Credential>
+  ): Promise<Models.CredentialUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,7 +274,8 @@ export class CredentialOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.CredentialUpdateResponse>;
+      callback
+    ) as Promise<Models.CredentialUpdateResponse>;
   }
 
   /**
@@ -185,21 +285,39 @@ export class CredentialOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CredentialListByAutomationAccountResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.CredentialListByAutomationAccountResponse>;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CredentialListByAutomationAccountResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.CredentialListResult>): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.CredentialListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialListResult>, callback?: msRest.ServiceCallback<Models.CredentialListResult>): Promise<Models.CredentialListByAutomationAccountResponse> {
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CredentialListResult>
+  ): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialListResult>,
+    callback?: msRest.ServiceCallback<Models.CredentialListResult>
+  ): Promise<Models.CredentialListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +325,8 @@ export class CredentialOperations {
         options
       },
       listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.CredentialListByAutomationAccountResponse>;
+      callback
+    ) as Promise<Models.CredentialListByAutomationAccountResponse>;
   }
 
   /**
@@ -216,26 +335,41 @@ export class CredentialOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CredentialListByAutomationAccountNextResponse>
    */
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CredentialListByAutomationAccountNextResponse>;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CredentialListByAutomationAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CredentialListResult>): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CredentialListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialListResult>, callback?: msRest.ServiceCallback<Models.CredentialListResult>): Promise<Models.CredentialListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CredentialListResult>
+  ): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialListResult>,
+    callback?: msRest.ServiceCallback<Models.CredentialListResult>
+  ): Promise<Models.CredentialListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAutomationAccountNextOperationSpec,
-      callback) as Promise<Models.CredentialListByAutomationAccountNextResponse>;
+      callback
+    ) as Promise<Models.CredentialListByAutomationAccountNextResponse>;
   }
 }
 
@@ -243,19 +377,16 @@ export class CredentialOperations {
 const serializer = new msRest.Serializer(Mappers);
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.credentialName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -267,19 +398,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.credentialName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Credential
@@ -293,19 +421,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.credentialName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -329,19 +454,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.credentialName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -362,18 +484,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CredentialListResult
@@ -389,12 +508,8 @@ const listByAutomationAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CredentialListResult

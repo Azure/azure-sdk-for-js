@@ -307,7 +307,7 @@ export const AcsClusterProperties: msRest.CompositeMapper = {
       },
       agentVmSize: {
         serializedName: "agentVmSize",
-        defaultValue: 'Standard_D3_v2',
+        defaultValue: "Standard_D3_v2",
         type: {
           name: "String"
         }
@@ -340,7 +340,7 @@ export const SslConfiguration: msRest.CompositeMapper = {
     modelProperties: {
       status: {
         serializedName: "status",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -399,7 +399,7 @@ export const AutoScaleConfiguration: msRest.CompositeMapper = {
     modelProperties: {
       status: {
         serializedName: "status",
-        defaultValue: 'Disabled',
+        defaultValue: "Disabled",
         type: {
           name: "String"
         }

@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing ErrorMesssage.
@@ -687,7 +686,8 @@ export interface DpsCertificateDeleteMethodOptionalParams extends msRest.Request
  *
  * @extends RequestOptionsBase
  */
-export interface DpsCertificateGenerateVerificationCodeOptionalParams extends msRest.RequestOptionsBase {
+export interface DpsCertificateGenerateVerificationCodeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [certificatename] Common Name for the certificate.
    */
@@ -786,7 +786,6 @@ export interface IotDpsClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the OperationListResult.
@@ -812,7 +811,8 @@ export interface OperationListResult extends Array<Operation> {
  *
  * @extends Array<ProvisioningServiceDescription>
  */
-export interface ProvisioningServiceDescriptionListResult extends Array<ProvisioningServiceDescription> {
+export interface ProvisioningServiceDescriptionListResult
+  extends Array<ProvisioningServiceDescription> {
   /**
    * @member {string} [nextLink] the next link
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -844,7 +844,8 @@ export interface IotDpsSkuDefinitionListResult extends Array<IotDpsSkuDefinition
  *
  * @extends Array<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>
  */
-export interface SharedAccessSignatureAuthorizationRuleListResult extends Array<SharedAccessSignatureAuthorizationRuleAccessRightsDescription> {
+export interface SharedAccessSignatureAuthorizationRuleListResult
+  extends Array<SharedAccessSignatureAuthorizationRuleAccessRightsDescription> {
   /**
    * @member {string} [nextLink] The next link.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -859,7 +860,7 @@ export interface SharedAccessSignatureAuthorizationRuleListResult extends Array<
  * @readonly
  * @enum {string}
  */
-export type IotDpsSku = 'S1';
+export type IotDpsSku = "S1";
 
 /**
  * Defines values for State.
@@ -869,7 +870,19 @@ export type IotDpsSku = 'S1';
  * @readonly
  * @enum {string}
  */
-export type State = 'Activating' | 'Active' | 'Deleting' | 'Deleted' | 'ActivationFailed' | 'DeletionFailed' | 'Transitioning' | 'Suspending' | 'Suspended' | 'Resuming' | 'FailingOver' | 'FailoverFailed';
+export type State =
+  | "Activating"
+  | "Active"
+  | "Deleting"
+  | "Deleted"
+  | "ActivationFailed"
+  | "DeletionFailed"
+  | "Transitioning"
+  | "Suspending"
+  | "Suspended"
+  | "Resuming"
+  | "FailingOver"
+  | "FailoverFailed";
 
 /**
  * Defines values for AllocationPolicy.
@@ -877,7 +890,7 @@ export type State = 'Activating' | 'Active' | 'Deleting' | 'Deleted' | 'Activati
  * @readonly
  * @enum {string}
  */
-export type AllocationPolicy = 'Hashed' | 'GeoLatency' | 'Static';
+export type AllocationPolicy = "Hashed" | "GeoLatency" | "Static";
 
 /**
  * Defines values for AccessRightsDescription.
@@ -886,7 +899,13 @@ export type AllocationPolicy = 'Hashed' | 'GeoLatency' | 'Static';
  * @readonly
  * @enum {string}
  */
-export type AccessRightsDescription = 'ServiceConfig' | 'EnrollmentRead' | 'EnrollmentWrite' | 'DeviceConnect' | 'RegistrationStatusRead' | 'RegistrationStatusWrite';
+export type AccessRightsDescription =
+  | "ServiceConfig"
+  | "EnrollmentRead"
+  | "EnrollmentWrite"
+  | "DeviceConnect"
+  | "RegistrationStatusRead"
+  | "RegistrationStatusWrite";
 
 /**
  * Defines values for NameUnavailabilityReason.
@@ -894,7 +913,7 @@ export type AccessRightsDescription = 'ServiceConfig' | 'EnrollmentRead' | 'Enro
  * @readonly
  * @enum {string}
  */
-export type NameUnavailabilityReason = 'Invalid' | 'AlreadyExists';
+export type NameUnavailabilityReason = "Invalid" | "AlreadyExists";
 
 /**
  * Defines values for CertificatePurpose.
@@ -902,7 +921,7 @@ export type NameUnavailabilityReason = 'Invalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type CertificatePurpose = 'clientAuthentication' | 'serverAuthentication';
+export type CertificatePurpose = "clientAuthentication" | "serverAuthentication";
 
 /**
  * Contains response data for the list operation.
@@ -912,15 +931,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -931,15 +950,15 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -950,15 +969,15 @@ export type DpsCertificateGetResponse = CertificateResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateResponse;
+  };
 };
 
 /**
@@ -969,15 +988,15 @@ export type DpsCertificateCreateOrUpdateResponse = CertificateResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateResponse;
+  };
 };
 
 /**
@@ -988,15 +1007,15 @@ export type DpsCertificateListResponse = CertificateListDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateListDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateListDescription;
+  };
 };
 
 /**
@@ -1007,15 +1026,15 @@ export type DpsCertificateGenerateVerificationCodeResponse = VerificationCodeRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VerificationCodeResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VerificationCodeResponse;
+  };
 };
 
 /**
@@ -1026,15 +1045,15 @@ export type DpsCertificateVerifyCertificateResponse = CertificateResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateResponse;
+  };
 };
 
 /**
@@ -1045,15 +1064,15 @@ export type IotDpsResourceGetResponse = ProvisioningServiceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProvisioningServiceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProvisioningServiceDescription;
+  };
 };
 
 /**
@@ -1064,15 +1083,15 @@ export type IotDpsResourceCreateOrUpdateResponse = ProvisioningServiceDescriptio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProvisioningServiceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProvisioningServiceDescription;
+  };
 };
 
 /**
@@ -1083,15 +1102,15 @@ export type IotDpsResourceUpdateResponse = ProvisioningServiceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProvisioningServiceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProvisioningServiceDescription;
+  };
 };
 
 /**
@@ -1102,15 +1121,15 @@ export type IotDpsResourceListBySubscriptionResponse = ProvisioningServiceDescri
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProvisioningServiceDescriptionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProvisioningServiceDescriptionListResult;
+  };
 };
 
 /**
@@ -1121,15 +1140,15 @@ export type IotDpsResourceListByResourceGroupResponse = ProvisioningServiceDescr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProvisioningServiceDescriptionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProvisioningServiceDescriptionListResult;
+  };
 };
 
 /**
@@ -1140,15 +1159,15 @@ export type IotDpsResourceGetOperationResultResponse = AsyncOperationResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AsyncOperationResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AsyncOperationResult;
+  };
 };
 
 /**
@@ -1159,15 +1178,15 @@ export type IotDpsResourceListValidSkusResponse = IotDpsSkuDefinitionListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotDpsSkuDefinitionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotDpsSkuDefinitionListResult;
+  };
 };
 
 /**
@@ -1178,15 +1197,15 @@ export type IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse = Nam
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NameAvailabilityInfo;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NameAvailabilityInfo;
+  };
 };
 
 /**
@@ -1197,15 +1216,15 @@ export type IotDpsResourceListKeysResponse = SharedAccessSignatureAuthorizationR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessSignatureAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessSignatureAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -1216,15 +1235,15 @@ export type IotDpsResourceListKeysForKeyNameResponse = SharedAccessSignatureAuth
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessSignatureAuthorizationRuleAccessRightsDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessSignatureAuthorizationRuleAccessRightsDescription;
+  };
 };
 
 /**
@@ -1235,15 +1254,15 @@ export type IotDpsResourceBeginCreateOrUpdateResponse = ProvisioningServiceDescr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProvisioningServiceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProvisioningServiceDescription;
+  };
 };
 
 /**
@@ -1254,15 +1273,15 @@ export type IotDpsResourceBeginUpdateResponse = ProvisioningServiceDescription &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProvisioningServiceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProvisioningServiceDescription;
+  };
 };
 
 /**
@@ -1273,15 +1292,15 @@ export type IotDpsResourceListBySubscriptionNextResponse = ProvisioningServiceDe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProvisioningServiceDescriptionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProvisioningServiceDescriptionListResult;
+  };
 };
 
 /**
@@ -1292,15 +1311,15 @@ export type IotDpsResourceListByResourceGroupNextResponse = ProvisioningServiceD
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProvisioningServiceDescriptionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProvisioningServiceDescriptionListResult;
+  };
 };
 
 /**
@@ -1311,15 +1330,15 @@ export type IotDpsResourceListValidSkusNextResponse = IotDpsSkuDefinitionListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IotDpsSkuDefinitionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IotDpsSkuDefinitionListResult;
+  };
 };
 
 /**
@@ -1330,13 +1349,13 @@ export type IotDpsResourceListKeysNextResponse = SharedAccessSignatureAuthorizat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessSignatureAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessSignatureAuthorizationRuleListResult;
+  };
 };

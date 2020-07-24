@@ -34,21 +34,39 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesResponse>
    */
-  listHostingEnvironmentDetectorResponses(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesResponse>;
+  listHostingEnvironmentDetectorResponses(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site Name
    * @param callback The callback
    */
-  listHostingEnvironmentDetectorResponses(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
+  listHostingEnvironmentDetectorResponses(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site Name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHostingEnvironmentDetectorResponses(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
-  listHostingEnvironmentDetectorResponses(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>, callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>): Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesResponse> {
+  listHostingEnvironmentDetectorResponses(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): void;
+  listHostingEnvironmentDetectorResponses(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>,
+    callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class Diagnostics {
         options
       },
       listHostingEnvironmentDetectorResponsesOperationSpec,
-      callback) as Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesResponse>;
   }
 
   /**
@@ -68,14 +87,24 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsGetHostingEnvironmentDetectorResponseResponse>
    */
-  getHostingEnvironmentDetectorResponse(resourceGroupName: string, name: string, detectorName: string, options?: Models.DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams): Promise<Models.DiagnosticsGetHostingEnvironmentDetectorResponseResponse>;
+  getHostingEnvironmentDetectorResponse(
+    resourceGroupName: string,
+    name: string,
+    detectorName: string,
+    options?: Models.DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams
+  ): Promise<Models.DiagnosticsGetHostingEnvironmentDetectorResponseResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name App Service Environment Name
    * @param detectorName Detector Resource Name
    * @param callback The callback
    */
-  getHostingEnvironmentDetectorResponse(resourceGroupName: string, name: string, detectorName: string, callback: msRest.ServiceCallback<Models.DetectorResponse>): void;
+  getHostingEnvironmentDetectorResponse(
+    resourceGroupName: string,
+    name: string,
+    detectorName: string,
+    callback: msRest.ServiceCallback<Models.DetectorResponse>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name App Service Environment Name
@@ -83,8 +112,22 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHostingEnvironmentDetectorResponse(resourceGroupName: string, name: string, detectorName: string, options: Models.DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams, callback: msRest.ServiceCallback<Models.DetectorResponse>): void;
-  getHostingEnvironmentDetectorResponse(resourceGroupName: string, name: string, detectorName: string, options?: Models.DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams | msRest.ServiceCallback<Models.DetectorResponse>, callback?: msRest.ServiceCallback<Models.DetectorResponse>): Promise<Models.DiagnosticsGetHostingEnvironmentDetectorResponseResponse> {
+  getHostingEnvironmentDetectorResponse(
+    resourceGroupName: string,
+    name: string,
+    detectorName: string,
+    options: Models.DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams,
+    callback: msRest.ServiceCallback<Models.DetectorResponse>
+  ): void;
+  getHostingEnvironmentDetectorResponse(
+    resourceGroupName: string,
+    name: string,
+    detectorName: string,
+    options?:
+      | Models.DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams
+      | msRest.ServiceCallback<Models.DetectorResponse>,
+    callback?: msRest.ServiceCallback<Models.DetectorResponse>
+  ): Promise<Models.DiagnosticsGetHostingEnvironmentDetectorResponseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -93,7 +136,8 @@ export class Diagnostics {
         options
       },
       getHostingEnvironmentDetectorResponseOperationSpec,
-      callback) as Promise<Models.DiagnosticsGetHostingEnvironmentDetectorResponseResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsGetHostingEnvironmentDetectorResponseResponse>;
   }
 
   /**
@@ -104,21 +148,39 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteDetectorResponsesResponse>
    */
-  listSiteDetectorResponses(resourceGroupName: string, siteName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteDetectorResponsesResponse>;
+  listSiteDetectorResponses(
+    resourceGroupName: string,
+    siteName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteDetectorResponsesResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param callback The callback
    */
-  listSiteDetectorResponses(resourceGroupName: string, siteName: string, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
+  listSiteDetectorResponses(
+    resourceGroupName: string,
+    siteName: string,
+    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteDetectorResponses(resourceGroupName: string, siteName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
-  listSiteDetectorResponses(resourceGroupName: string, siteName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>, callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>): Promise<Models.DiagnosticsListSiteDetectorResponsesResponse> {
+  listSiteDetectorResponses(
+    resourceGroupName: string,
+    siteName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): void;
+  listSiteDetectorResponses(
+    resourceGroupName: string,
+    siteName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>,
+    callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): Promise<Models.DiagnosticsListSiteDetectorResponsesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -126,7 +188,8 @@ export class Diagnostics {
         options
       },
       listSiteDetectorResponsesOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteDetectorResponsesResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteDetectorResponsesResponse>;
   }
 
   /**
@@ -138,14 +201,24 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsGetSiteDetectorResponseResponse>
    */
-  getSiteDetectorResponse(resourceGroupName: string, siteName: string, detectorName: string, options?: Models.DiagnosticsGetSiteDetectorResponseOptionalParams): Promise<Models.DiagnosticsGetSiteDetectorResponseResponse>;
+  getSiteDetectorResponse(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    options?: Models.DiagnosticsGetSiteDetectorResponseOptionalParams
+  ): Promise<Models.DiagnosticsGetSiteDetectorResponseResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param detectorName Detector Resource Name
    * @param callback The callback
    */
-  getSiteDetectorResponse(resourceGroupName: string, siteName: string, detectorName: string, callback: msRest.ServiceCallback<Models.DetectorResponse>): void;
+  getSiteDetectorResponse(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    callback: msRest.ServiceCallback<Models.DetectorResponse>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -153,8 +226,22 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSiteDetectorResponse(resourceGroupName: string, siteName: string, detectorName: string, options: Models.DiagnosticsGetSiteDetectorResponseOptionalParams, callback: msRest.ServiceCallback<Models.DetectorResponse>): void;
-  getSiteDetectorResponse(resourceGroupName: string, siteName: string, detectorName: string, options?: Models.DiagnosticsGetSiteDetectorResponseOptionalParams | msRest.ServiceCallback<Models.DetectorResponse>, callback?: msRest.ServiceCallback<Models.DetectorResponse>): Promise<Models.DiagnosticsGetSiteDetectorResponseResponse> {
+  getSiteDetectorResponse(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    options: Models.DiagnosticsGetSiteDetectorResponseOptionalParams,
+    callback: msRest.ServiceCallback<Models.DetectorResponse>
+  ): void;
+  getSiteDetectorResponse(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    options?:
+      | Models.DiagnosticsGetSiteDetectorResponseOptionalParams
+      | msRest.ServiceCallback<Models.DetectorResponse>,
+    callback?: msRest.ServiceCallback<Models.DetectorResponse>
+  ): Promise<Models.DiagnosticsGetSiteDetectorResponseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -163,7 +250,8 @@ export class Diagnostics {
         options
       },
       getSiteDetectorResponseOperationSpec,
-      callback) as Promise<Models.DiagnosticsGetSiteDetectorResponseResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsGetSiteDetectorResponseResponse>;
   }
 
   /**
@@ -174,21 +262,41 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteDiagnosticCategoriesResponse>
    */
-  listSiteDiagnosticCategories(resourceGroupName: string, siteName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesResponse>;
+  listSiteDiagnosticCategories(
+    resourceGroupName: string,
+    siteName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param callback The callback
    */
-  listSiteDiagnosticCategories(resourceGroupName: string, siteName: string, callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>): void;
+  listSiteDiagnosticCategories(
+    resourceGroupName: string,
+    siteName: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteDiagnosticCategories(resourceGroupName: string, siteName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>): void;
-  listSiteDiagnosticCategories(resourceGroupName: string, siteName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticCategoryCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesResponse> {
+  listSiteDiagnosticCategories(
+    resourceGroupName: string,
+    siteName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>
+  ): void;
+  listSiteDiagnosticCategories(
+    resourceGroupName: string,
+    siteName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DiagnosticCategoryCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>
+  ): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -196,7 +304,8 @@ export class Diagnostics {
         options
       },
       listSiteDiagnosticCategoriesOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteDiagnosticCategoriesResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteDiagnosticCategoriesResponse>;
   }
 
   /**
@@ -208,14 +317,24 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsGetSiteDiagnosticCategoryResponse>
    */
-  getSiteDiagnosticCategory(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsGetSiteDiagnosticCategoryResponse>;
+  getSiteDiagnosticCategory(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsGetSiteDiagnosticCategoryResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
    * @param callback The callback
    */
-  getSiteDiagnosticCategory(resourceGroupName: string, siteName: string, diagnosticCategory: string, callback: msRest.ServiceCallback<Models.DiagnosticCategory>): void;
+  getSiteDiagnosticCategory(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticCategory>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -223,8 +342,20 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSiteDiagnosticCategory(resourceGroupName: string, siteName: string, diagnosticCategory: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticCategory>): void;
-  getSiteDiagnosticCategory(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticCategory>, callback?: msRest.ServiceCallback<Models.DiagnosticCategory>): Promise<Models.DiagnosticsGetSiteDiagnosticCategoryResponse> {
+  getSiteDiagnosticCategory(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticCategory>
+  ): void;
+  getSiteDiagnosticCategory(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticCategory>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticCategory>
+  ): Promise<Models.DiagnosticsGetSiteDiagnosticCategoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -233,7 +364,8 @@ export class Diagnostics {
         options
       },
       getSiteDiagnosticCategoryOperationSpec,
-      callback) as Promise<Models.DiagnosticsGetSiteDiagnosticCategoryResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsGetSiteDiagnosticCategoryResponse>;
   }
 
   /**
@@ -245,14 +377,24 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteAnalysesResponse>
    */
-  listSiteAnalyses(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteAnalysesResponse>;
+  listSiteAnalyses(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteAnalysesResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
    * @param callback The callback
    */
-  listSiteAnalyses(resourceGroupName: string, siteName: string, diagnosticCategory: string, callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>): void;
+  listSiteAnalyses(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -260,8 +402,22 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteAnalyses(resourceGroupName: string, siteName: string, diagnosticCategory: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>): void;
-  listSiteAnalyses(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>): Promise<Models.DiagnosticsListSiteAnalysesResponse> {
+  listSiteAnalyses(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>
+  ): void;
+  listSiteAnalyses(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>
+  ): Promise<Models.DiagnosticsListSiteAnalysesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -270,7 +426,8 @@ export class Diagnostics {
         options
       },
       listSiteAnalysesOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteAnalysesResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteAnalysesResponse>;
   }
 
   /**
@@ -283,7 +440,13 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsGetSiteAnalysisResponse>
    */
-  getSiteAnalysis(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsGetSiteAnalysisResponse>;
+  getSiteAnalysis(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsGetSiteAnalysisResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -291,7 +454,13 @@ export class Diagnostics {
    * @param analysisName Analysis Name
    * @param callback The callback
    */
-  getSiteAnalysis(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, callback: msRest.ServiceCallback<Models.AnalysisDefinition>): void;
+  getSiteAnalysis(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    callback: msRest.ServiceCallback<Models.AnalysisDefinition>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -300,8 +469,22 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSiteAnalysis(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnalysisDefinition>): void;
-  getSiteAnalysis(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisDefinition>, callback?: msRest.ServiceCallback<Models.AnalysisDefinition>): Promise<Models.DiagnosticsGetSiteAnalysisResponse> {
+  getSiteAnalysis(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AnalysisDefinition>
+  ): void;
+  getSiteAnalysis(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisDefinition>,
+    callback?: msRest.ServiceCallback<Models.AnalysisDefinition>
+  ): Promise<Models.DiagnosticsGetSiteAnalysisResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -311,7 +494,8 @@ export class Diagnostics {
         options
       },
       getSiteAnalysisOperationSpec,
-      callback) as Promise<Models.DiagnosticsGetSiteAnalysisResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsGetSiteAnalysisResponse>;
   }
 
   /**
@@ -324,7 +508,13 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsExecuteSiteAnalysisResponse>
    */
-  executeSiteAnalysis(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, options?: Models.DiagnosticsExecuteSiteAnalysisOptionalParams): Promise<Models.DiagnosticsExecuteSiteAnalysisResponse>;
+  executeSiteAnalysis(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    options?: Models.DiagnosticsExecuteSiteAnalysisOptionalParams
+  ): Promise<Models.DiagnosticsExecuteSiteAnalysisResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -332,7 +522,13 @@ export class Diagnostics {
    * @param analysisName Analysis Resource Name
    * @param callback The callback
    */
-  executeSiteAnalysis(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, callback: msRest.ServiceCallback<Models.DiagnosticAnalysis>): void;
+  executeSiteAnalysis(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticAnalysis>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -341,8 +537,24 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  executeSiteAnalysis(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, options: Models.DiagnosticsExecuteSiteAnalysisOptionalParams, callback: msRest.ServiceCallback<Models.DiagnosticAnalysis>): void;
-  executeSiteAnalysis(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, options?: Models.DiagnosticsExecuteSiteAnalysisOptionalParams | msRest.ServiceCallback<Models.DiagnosticAnalysis>, callback?: msRest.ServiceCallback<Models.DiagnosticAnalysis>): Promise<Models.DiagnosticsExecuteSiteAnalysisResponse> {
+  executeSiteAnalysis(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    options: Models.DiagnosticsExecuteSiteAnalysisOptionalParams,
+    callback: msRest.ServiceCallback<Models.DiagnosticAnalysis>
+  ): void;
+  executeSiteAnalysis(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    options?:
+      | Models.DiagnosticsExecuteSiteAnalysisOptionalParams
+      | msRest.ServiceCallback<Models.DiagnosticAnalysis>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticAnalysis>
+  ): Promise<Models.DiagnosticsExecuteSiteAnalysisResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -352,7 +564,8 @@ export class Diagnostics {
         options
       },
       executeSiteAnalysisOperationSpec,
-      callback) as Promise<Models.DiagnosticsExecuteSiteAnalysisResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsExecuteSiteAnalysisResponse>;
   }
 
   /**
@@ -364,14 +577,24 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteDetectorsResponse>
    */
-  listSiteDetectors(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteDetectorsResponse>;
+  listSiteDetectors(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteDetectorsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
    * @param callback The callback
    */
-  listSiteDetectors(resourceGroupName: string, siteName: string, diagnosticCategory: string, callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>): void;
+  listSiteDetectors(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -379,8 +602,22 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteDetectors(resourceGroupName: string, siteName: string, diagnosticCategory: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>): void;
-  listSiteDetectors(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticDetectorCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>): Promise<Models.DiagnosticsListSiteDetectorsResponse> {
+  listSiteDetectors(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>
+  ): void;
+  listSiteDetectors(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DiagnosticDetectorCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>
+  ): Promise<Models.DiagnosticsListSiteDetectorsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -389,7 +626,8 @@ export class Diagnostics {
         options
       },
       listSiteDetectorsOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteDetectorsResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteDetectorsResponse>;
   }
 
   /**
@@ -402,7 +640,13 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsGetSiteDetectorResponse>
    */
-  getSiteDetector(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsGetSiteDetectorResponse>;
+  getSiteDetector(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    detectorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsGetSiteDetectorResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -410,7 +654,13 @@ export class Diagnostics {
    * @param detectorName Detector Name
    * @param callback The callback
    */
-  getSiteDetector(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, callback: msRest.ServiceCallback<Models.DetectorDefinition>): void;
+  getSiteDetector(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    detectorName: string,
+    callback: msRest.ServiceCallback<Models.DetectorDefinition>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -419,8 +669,22 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSiteDetector(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorDefinition>): void;
-  getSiteDetector(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorDefinition>, callback?: msRest.ServiceCallback<Models.DetectorDefinition>): Promise<Models.DiagnosticsGetSiteDetectorResponse> {
+  getSiteDetector(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    detectorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DetectorDefinition>
+  ): void;
+  getSiteDetector(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    detectorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorDefinition>,
+    callback?: msRest.ServiceCallback<Models.DetectorDefinition>
+  ): Promise<Models.DiagnosticsGetSiteDetectorResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -430,7 +694,8 @@ export class Diagnostics {
         options
       },
       getSiteDetectorOperationSpec,
-      callback) as Promise<Models.DiagnosticsGetSiteDetectorResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsGetSiteDetectorResponse>;
   }
 
   /**
@@ -443,7 +708,13 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsExecuteSiteDetectorResponse>
    */
-  executeSiteDetector(resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, options?: Models.DiagnosticsExecuteSiteDetectorOptionalParams): Promise<Models.DiagnosticsExecuteSiteDetectorResponse>;
+  executeSiteDetector(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    diagnosticCategory: string,
+    options?: Models.DiagnosticsExecuteSiteDetectorOptionalParams
+  ): Promise<Models.DiagnosticsExecuteSiteDetectorResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -451,7 +722,13 @@ export class Diagnostics {
    * @param diagnosticCategory Category Name
    * @param callback The callback
    */
-  executeSiteDetector(resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, callback: msRest.ServiceCallback<Models.DiagnosticDetectorResponse>): void;
+  executeSiteDetector(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    diagnosticCategory: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticDetectorResponse>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -460,8 +737,24 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  executeSiteDetector(resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, options: Models.DiagnosticsExecuteSiteDetectorOptionalParams, callback: msRest.ServiceCallback<Models.DiagnosticDetectorResponse>): void;
-  executeSiteDetector(resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, options?: Models.DiagnosticsExecuteSiteDetectorOptionalParams | msRest.ServiceCallback<Models.DiagnosticDetectorResponse>, callback?: msRest.ServiceCallback<Models.DiagnosticDetectorResponse>): Promise<Models.DiagnosticsExecuteSiteDetectorResponse> {
+  executeSiteDetector(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    diagnosticCategory: string,
+    options: Models.DiagnosticsExecuteSiteDetectorOptionalParams,
+    callback: msRest.ServiceCallback<Models.DiagnosticDetectorResponse>
+  ): void;
+  executeSiteDetector(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    diagnosticCategory: string,
+    options?:
+      | Models.DiagnosticsExecuteSiteDetectorOptionalParams
+      | msRest.ServiceCallback<Models.DiagnosticDetectorResponse>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticDetectorResponse>
+  ): Promise<Models.DiagnosticsExecuteSiteDetectorResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -471,7 +764,8 @@ export class Diagnostics {
         options
       },
       executeSiteDetectorOperationSpec,
-      callback) as Promise<Models.DiagnosticsExecuteSiteDetectorResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsExecuteSiteDetectorResponse>;
   }
 
   /**
@@ -483,14 +777,24 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteDetectorResponsesSlotResponse>
    */
-  listSiteDetectorResponsesSlot(resourceGroupName: string, siteName: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteDetectorResponsesSlotResponse>;
+  listSiteDetectorResponsesSlot(
+    resourceGroupName: string,
+    siteName: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteDetectorResponsesSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param slot Slot Name
    * @param callback The callback
    */
-  listSiteDetectorResponsesSlot(resourceGroupName: string, siteName: string, slot: string, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
+  listSiteDetectorResponsesSlot(
+    resourceGroupName: string,
+    siteName: string,
+    slot: string,
+    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -498,8 +802,20 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteDetectorResponsesSlot(resourceGroupName: string, siteName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
-  listSiteDetectorResponsesSlot(resourceGroupName: string, siteName: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>, callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>): Promise<Models.DiagnosticsListSiteDetectorResponsesSlotResponse> {
+  listSiteDetectorResponsesSlot(
+    resourceGroupName: string,
+    siteName: string,
+    slot: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): void;
+  listSiteDetectorResponsesSlot(
+    resourceGroupName: string,
+    siteName: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>,
+    callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): Promise<Models.DiagnosticsListSiteDetectorResponsesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -508,7 +824,8 @@ export class Diagnostics {
         options
       },
       listSiteDetectorResponsesSlotOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteDetectorResponsesSlotResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteDetectorResponsesSlotResponse>;
   }
 
   /**
@@ -521,7 +838,13 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsGetSiteDetectorResponseSlotResponse>
    */
-  getSiteDetectorResponseSlot(resourceGroupName: string, siteName: string, detectorName: string, slot: string, options?: Models.DiagnosticsGetSiteDetectorResponseSlotOptionalParams): Promise<Models.DiagnosticsGetSiteDetectorResponseSlotResponse>;
+  getSiteDetectorResponseSlot(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    slot: string,
+    options?: Models.DiagnosticsGetSiteDetectorResponseSlotOptionalParams
+  ): Promise<Models.DiagnosticsGetSiteDetectorResponseSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -529,7 +852,13 @@ export class Diagnostics {
    * @param slot Slot Name
    * @param callback The callback
    */
-  getSiteDetectorResponseSlot(resourceGroupName: string, siteName: string, detectorName: string, slot: string, callback: msRest.ServiceCallback<Models.DetectorResponse>): void;
+  getSiteDetectorResponseSlot(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    slot: string,
+    callback: msRest.ServiceCallback<Models.DetectorResponse>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -538,8 +867,24 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSiteDetectorResponseSlot(resourceGroupName: string, siteName: string, detectorName: string, slot: string, options: Models.DiagnosticsGetSiteDetectorResponseSlotOptionalParams, callback: msRest.ServiceCallback<Models.DetectorResponse>): void;
-  getSiteDetectorResponseSlot(resourceGroupName: string, siteName: string, detectorName: string, slot: string, options?: Models.DiagnosticsGetSiteDetectorResponseSlotOptionalParams | msRest.ServiceCallback<Models.DetectorResponse>, callback?: msRest.ServiceCallback<Models.DetectorResponse>): Promise<Models.DiagnosticsGetSiteDetectorResponseSlotResponse> {
+  getSiteDetectorResponseSlot(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    slot: string,
+    options: Models.DiagnosticsGetSiteDetectorResponseSlotOptionalParams,
+    callback: msRest.ServiceCallback<Models.DetectorResponse>
+  ): void;
+  getSiteDetectorResponseSlot(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    slot: string,
+    options?:
+      | Models.DiagnosticsGetSiteDetectorResponseSlotOptionalParams
+      | msRest.ServiceCallback<Models.DetectorResponse>,
+    callback?: msRest.ServiceCallback<Models.DetectorResponse>
+  ): Promise<Models.DiagnosticsGetSiteDetectorResponseSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -549,7 +894,8 @@ export class Diagnostics {
         options
       },
       getSiteDetectorResponseSlotOperationSpec,
-      callback) as Promise<Models.DiagnosticsGetSiteDetectorResponseSlotResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsGetSiteDetectorResponseSlotResponse>;
   }
 
   /**
@@ -561,14 +907,24 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotResponse>
    */
-  listSiteDiagnosticCategoriesSlot(resourceGroupName: string, siteName: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotResponse>;
+  listSiteDiagnosticCategoriesSlot(
+    resourceGroupName: string,
+    siteName: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param slot Slot Name
    * @param callback The callback
    */
-  listSiteDiagnosticCategoriesSlot(resourceGroupName: string, siteName: string, slot: string, callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>): void;
+  listSiteDiagnosticCategoriesSlot(
+    resourceGroupName: string,
+    siteName: string,
+    slot: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -576,8 +932,22 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteDiagnosticCategoriesSlot(resourceGroupName: string, siteName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>): void;
-  listSiteDiagnosticCategoriesSlot(resourceGroupName: string, siteName: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticCategoryCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotResponse> {
+  listSiteDiagnosticCategoriesSlot(
+    resourceGroupName: string,
+    siteName: string,
+    slot: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>
+  ): void;
+  listSiteDiagnosticCategoriesSlot(
+    resourceGroupName: string,
+    siteName: string,
+    slot: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DiagnosticCategoryCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>
+  ): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -586,7 +956,8 @@ export class Diagnostics {
         options
       },
       listSiteDiagnosticCategoriesSlotOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotResponse>;
   }
 
   /**
@@ -599,7 +970,13 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsGetSiteDiagnosticCategorySlotResponse>
    */
-  getSiteDiagnosticCategorySlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsGetSiteDiagnosticCategorySlotResponse>;
+  getSiteDiagnosticCategorySlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsGetSiteDiagnosticCategorySlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -607,7 +984,13 @@ export class Diagnostics {
    * @param slot Slot Name
    * @param callback The callback
    */
-  getSiteDiagnosticCategorySlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, callback: msRest.ServiceCallback<Models.DiagnosticCategory>): void;
+  getSiteDiagnosticCategorySlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    slot: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticCategory>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -616,8 +999,22 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSiteDiagnosticCategorySlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticCategory>): void;
-  getSiteDiagnosticCategorySlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticCategory>, callback?: msRest.ServiceCallback<Models.DiagnosticCategory>): Promise<Models.DiagnosticsGetSiteDiagnosticCategorySlotResponse> {
+  getSiteDiagnosticCategorySlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    slot: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticCategory>
+  ): void;
+  getSiteDiagnosticCategorySlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticCategory>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticCategory>
+  ): Promise<Models.DiagnosticsGetSiteDiagnosticCategorySlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -627,7 +1024,8 @@ export class Diagnostics {
         options
       },
       getSiteDiagnosticCategorySlotOperationSpec,
-      callback) as Promise<Models.DiagnosticsGetSiteDiagnosticCategorySlotResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsGetSiteDiagnosticCategorySlotResponse>;
   }
 
   /**
@@ -640,7 +1038,13 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteAnalysesSlotResponse>
    */
-  listSiteAnalysesSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteAnalysesSlotResponse>;
+  listSiteAnalysesSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteAnalysesSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -648,7 +1052,13 @@ export class Diagnostics {
    * @param slot Slot Name
    * @param callback The callback
    */
-  listSiteAnalysesSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>): void;
+  listSiteAnalysesSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    slot: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -657,8 +1067,24 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteAnalysesSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>): void;
-  listSiteAnalysesSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>): Promise<Models.DiagnosticsListSiteAnalysesSlotResponse> {
+  listSiteAnalysesSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    slot: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>
+  ): void;
+  listSiteAnalysesSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    slot: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>
+  ): Promise<Models.DiagnosticsListSiteAnalysesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -668,7 +1094,8 @@ export class Diagnostics {
         options
       },
       listSiteAnalysesSlotOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteAnalysesSlotResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteAnalysesSlotResponse>;
   }
 
   /**
@@ -682,7 +1109,14 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsGetSiteAnalysisSlotResponse>
    */
-  getSiteAnalysisSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsGetSiteAnalysisSlotResponse>;
+  getSiteAnalysisSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsGetSiteAnalysisSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -691,7 +1125,14 @@ export class Diagnostics {
    * @param slot Slot - optional
    * @param callback The callback
    */
-  getSiteAnalysisSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, callback: msRest.ServiceCallback<Models.AnalysisDefinition>): void;
+  getSiteAnalysisSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    slot: string,
+    callback: msRest.ServiceCallback<Models.AnalysisDefinition>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -701,8 +1142,24 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSiteAnalysisSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnalysisDefinition>): void;
-  getSiteAnalysisSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisDefinition>, callback?: msRest.ServiceCallback<Models.AnalysisDefinition>): Promise<Models.DiagnosticsGetSiteAnalysisSlotResponse> {
+  getSiteAnalysisSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    slot: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AnalysisDefinition>
+  ): void;
+  getSiteAnalysisSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisDefinition>,
+    callback?: msRest.ServiceCallback<Models.AnalysisDefinition>
+  ): Promise<Models.DiagnosticsGetSiteAnalysisSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -713,7 +1170,8 @@ export class Diagnostics {
         options
       },
       getSiteAnalysisSlotOperationSpec,
-      callback) as Promise<Models.DiagnosticsGetSiteAnalysisSlotResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsGetSiteAnalysisSlotResponse>;
   }
 
   /**
@@ -727,7 +1185,14 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsExecuteSiteAnalysisSlotResponse>
    */
-  executeSiteAnalysisSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, options?: Models.DiagnosticsExecuteSiteAnalysisSlotOptionalParams): Promise<Models.DiagnosticsExecuteSiteAnalysisSlotResponse>;
+  executeSiteAnalysisSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    slot: string,
+    options?: Models.DiagnosticsExecuteSiteAnalysisSlotOptionalParams
+  ): Promise<Models.DiagnosticsExecuteSiteAnalysisSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -736,7 +1201,14 @@ export class Diagnostics {
    * @param slot Slot Name
    * @param callback The callback
    */
-  executeSiteAnalysisSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, callback: msRest.ServiceCallback<Models.DiagnosticAnalysis>): void;
+  executeSiteAnalysisSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    slot: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticAnalysis>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -746,8 +1218,26 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  executeSiteAnalysisSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, options: Models.DiagnosticsExecuteSiteAnalysisSlotOptionalParams, callback: msRest.ServiceCallback<Models.DiagnosticAnalysis>): void;
-  executeSiteAnalysisSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, options?: Models.DiagnosticsExecuteSiteAnalysisSlotOptionalParams | msRest.ServiceCallback<Models.DiagnosticAnalysis>, callback?: msRest.ServiceCallback<Models.DiagnosticAnalysis>): Promise<Models.DiagnosticsExecuteSiteAnalysisSlotResponse> {
+  executeSiteAnalysisSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    slot: string,
+    options: Models.DiagnosticsExecuteSiteAnalysisSlotOptionalParams,
+    callback: msRest.ServiceCallback<Models.DiagnosticAnalysis>
+  ): void;
+  executeSiteAnalysisSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    analysisName: string,
+    slot: string,
+    options?:
+      | Models.DiagnosticsExecuteSiteAnalysisSlotOptionalParams
+      | msRest.ServiceCallback<Models.DiagnosticAnalysis>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticAnalysis>
+  ): Promise<Models.DiagnosticsExecuteSiteAnalysisSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -758,7 +1248,8 @@ export class Diagnostics {
         options
       },
       executeSiteAnalysisSlotOperationSpec,
-      callback) as Promise<Models.DiagnosticsExecuteSiteAnalysisSlotResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsExecuteSiteAnalysisSlotResponse>;
   }
 
   /**
@@ -771,7 +1262,13 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteDetectorsSlotResponse>
    */
-  listSiteDetectorsSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteDetectorsSlotResponse>;
+  listSiteDetectorsSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteDetectorsSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -779,7 +1276,13 @@ export class Diagnostics {
    * @param slot Slot Name
    * @param callback The callback
    */
-  listSiteDetectorsSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>): void;
+  listSiteDetectorsSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    slot: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -788,8 +1291,24 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteDetectorsSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>): void;
-  listSiteDetectorsSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticDetectorCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>): Promise<Models.DiagnosticsListSiteDetectorsSlotResponse> {
+  listSiteDetectorsSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    slot: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>
+  ): void;
+  listSiteDetectorsSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    slot: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DiagnosticDetectorCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>
+  ): Promise<Models.DiagnosticsListSiteDetectorsSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -799,7 +1318,8 @@ export class Diagnostics {
         options
       },
       listSiteDetectorsSlotOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteDetectorsSlotResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteDetectorsSlotResponse>;
   }
 
   /**
@@ -813,7 +1333,14 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsGetSiteDetectorSlotResponse>
    */
-  getSiteDetectorSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsGetSiteDetectorSlotResponse>;
+  getSiteDetectorSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    detectorName: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsGetSiteDetectorSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -822,7 +1349,14 @@ export class Diagnostics {
    * @param slot Slot Name
    * @param callback The callback
    */
-  getSiteDetectorSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, slot: string, callback: msRest.ServiceCallback<Models.DetectorDefinition>): void;
+  getSiteDetectorSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    detectorName: string,
+    slot: string,
+    callback: msRest.ServiceCallback<Models.DetectorDefinition>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -832,8 +1366,24 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSiteDetectorSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorDefinition>): void;
-  getSiteDetectorSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorDefinition>, callback?: msRest.ServiceCallback<Models.DetectorDefinition>): Promise<Models.DiagnosticsGetSiteDetectorSlotResponse> {
+  getSiteDetectorSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    detectorName: string,
+    slot: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DetectorDefinition>
+  ): void;
+  getSiteDetectorSlot(
+    resourceGroupName: string,
+    siteName: string,
+    diagnosticCategory: string,
+    detectorName: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorDefinition>,
+    callback?: msRest.ServiceCallback<Models.DetectorDefinition>
+  ): Promise<Models.DiagnosticsGetSiteDetectorSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -844,7 +1394,8 @@ export class Diagnostics {
         options
       },
       getSiteDetectorSlotOperationSpec,
-      callback) as Promise<Models.DiagnosticsGetSiteDetectorSlotResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsGetSiteDetectorSlotResponse>;
   }
 
   /**
@@ -858,7 +1409,14 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsExecuteSiteDetectorSlotResponse>
    */
-  executeSiteDetectorSlot(resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, slot: string, options?: Models.DiagnosticsExecuteSiteDetectorSlotOptionalParams): Promise<Models.DiagnosticsExecuteSiteDetectorSlotResponse>;
+  executeSiteDetectorSlot(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    diagnosticCategory: string,
+    slot: string,
+    options?: Models.DiagnosticsExecuteSiteDetectorSlotOptionalParams
+  ): Promise<Models.DiagnosticsExecuteSiteDetectorSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -867,7 +1425,14 @@ export class Diagnostics {
    * @param slot Slot Name
    * @param callback The callback
    */
-  executeSiteDetectorSlot(resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, slot: string, callback: msRest.ServiceCallback<Models.DiagnosticDetectorResponse>): void;
+  executeSiteDetectorSlot(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    diagnosticCategory: string,
+    slot: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticDetectorResponse>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
@@ -877,8 +1442,26 @@ export class Diagnostics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  executeSiteDetectorSlot(resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, slot: string, options: Models.DiagnosticsExecuteSiteDetectorSlotOptionalParams, callback: msRest.ServiceCallback<Models.DiagnosticDetectorResponse>): void;
-  executeSiteDetectorSlot(resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, slot: string, options?: Models.DiagnosticsExecuteSiteDetectorSlotOptionalParams | msRest.ServiceCallback<Models.DiagnosticDetectorResponse>, callback?: msRest.ServiceCallback<Models.DiagnosticDetectorResponse>): Promise<Models.DiagnosticsExecuteSiteDetectorSlotResponse> {
+  executeSiteDetectorSlot(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    diagnosticCategory: string,
+    slot: string,
+    options: Models.DiagnosticsExecuteSiteDetectorSlotOptionalParams,
+    callback: msRest.ServiceCallback<Models.DiagnosticDetectorResponse>
+  ): void;
+  executeSiteDetectorSlot(
+    resourceGroupName: string,
+    siteName: string,
+    detectorName: string,
+    diagnosticCategory: string,
+    slot: string,
+    options?:
+      | Models.DiagnosticsExecuteSiteDetectorSlotOptionalParams
+      | msRest.ServiceCallback<Models.DiagnosticDetectorResponse>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticDetectorResponse>
+  ): Promise<Models.DiagnosticsExecuteSiteDetectorSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -889,7 +1472,8 @@ export class Diagnostics {
         options
       },
       executeSiteDetectorSlotOperationSpec,
-      callback) as Promise<Models.DiagnosticsExecuteSiteDetectorSlotResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsExecuteSiteDetectorSlotResponse>;
   }
 
   /**
@@ -899,26 +1483,41 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesNextResponse>
    */
-  listHostingEnvironmentDetectorResponsesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesNextResponse>;
+  listHostingEnvironmentDetectorResponsesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listHostingEnvironmentDetectorResponsesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
+  listHostingEnvironmentDetectorResponsesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHostingEnvironmentDetectorResponsesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
-  listHostingEnvironmentDetectorResponsesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>, callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>): Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesNextResponse> {
+  listHostingEnvironmentDetectorResponsesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): void;
+  listHostingEnvironmentDetectorResponsesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>,
+    callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listHostingEnvironmentDetectorResponsesNextOperationSpec,
-      callback) as Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesNextResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListHostingEnvironmentDetectorResponsesNextResponse>;
   }
 
   /**
@@ -928,26 +1527,41 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteDetectorResponsesNextResponse>
    */
-  listSiteDetectorResponsesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteDetectorResponsesNextResponse>;
+  listSiteDetectorResponsesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteDetectorResponsesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSiteDetectorResponsesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
+  listSiteDetectorResponsesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteDetectorResponsesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
-  listSiteDetectorResponsesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>, callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>): Promise<Models.DiagnosticsListSiteDetectorResponsesNextResponse> {
+  listSiteDetectorResponsesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): void;
+  listSiteDetectorResponsesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>,
+    callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): Promise<Models.DiagnosticsListSiteDetectorResponsesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSiteDetectorResponsesNextOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteDetectorResponsesNextResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteDetectorResponsesNextResponse>;
   }
 
   /**
@@ -957,26 +1571,43 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteDiagnosticCategoriesNextResponse>
    */
-  listSiteDiagnosticCategoriesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesNextResponse>;
+  listSiteDiagnosticCategoriesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSiteDiagnosticCategoriesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>): void;
+  listSiteDiagnosticCategoriesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteDiagnosticCategoriesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>): void;
-  listSiteDiagnosticCategoriesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticCategoryCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesNextResponse> {
+  listSiteDiagnosticCategoriesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>
+  ): void;
+  listSiteDiagnosticCategoriesNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DiagnosticCategoryCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>
+  ): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSiteDiagnosticCategoriesNextOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteDiagnosticCategoriesNextResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteDiagnosticCategoriesNextResponse>;
   }
 
   /**
@@ -986,26 +1617,43 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteAnalysesNextResponse>
    */
-  listSiteAnalysesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteAnalysesNextResponse>;
+  listSiteAnalysesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteAnalysesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSiteAnalysesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>): void;
+  listSiteAnalysesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteAnalysesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>): void;
-  listSiteAnalysesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>): Promise<Models.DiagnosticsListSiteAnalysesNextResponse> {
+  listSiteAnalysesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>
+  ): void;
+  listSiteAnalysesNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>
+  ): Promise<Models.DiagnosticsListSiteAnalysesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSiteAnalysesNextOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteAnalysesNextResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteAnalysesNextResponse>;
   }
 
   /**
@@ -1015,26 +1663,43 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteDetectorsNextResponse>
    */
-  listSiteDetectorsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteDetectorsNextResponse>;
+  listSiteDetectorsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteDetectorsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSiteDetectorsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>): void;
+  listSiteDetectorsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteDetectorsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>): void;
-  listSiteDetectorsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticDetectorCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>): Promise<Models.DiagnosticsListSiteDetectorsNextResponse> {
+  listSiteDetectorsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>
+  ): void;
+  listSiteDetectorsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DiagnosticDetectorCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>
+  ): Promise<Models.DiagnosticsListSiteDetectorsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSiteDetectorsNextOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteDetectorsNextResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteDetectorsNextResponse>;
   }
 
   /**
@@ -1044,26 +1709,41 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteDetectorResponsesSlotNextResponse>
    */
-  listSiteDetectorResponsesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteDetectorResponsesSlotNextResponse>;
+  listSiteDetectorResponsesSlotNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteDetectorResponsesSlotNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSiteDetectorResponsesSlotNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
+  listSiteDetectorResponsesSlotNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteDetectorResponsesSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectorResponseCollection>): void;
-  listSiteDetectorResponsesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>, callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>): Promise<Models.DiagnosticsListSiteDetectorResponsesSlotNextResponse> {
+  listSiteDetectorResponsesSlotNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): void;
+  listSiteDetectorResponsesSlotNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectorResponseCollection>,
+    callback?: msRest.ServiceCallback<Models.DetectorResponseCollection>
+  ): Promise<Models.DiagnosticsListSiteDetectorResponsesSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSiteDetectorResponsesSlotNextOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteDetectorResponsesSlotNextResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteDetectorResponsesSlotNextResponse>;
   }
 
   /**
@@ -1073,26 +1753,43 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotNextResponse>
    */
-  listSiteDiagnosticCategoriesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotNextResponse>;
+  listSiteDiagnosticCategoriesSlotNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSiteDiagnosticCategoriesSlotNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>): void;
+  listSiteDiagnosticCategoriesSlotNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteDiagnosticCategoriesSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>): void;
-  listSiteDiagnosticCategoriesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticCategoryCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotNextResponse> {
+  listSiteDiagnosticCategoriesSlotNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>
+  ): void;
+  listSiteDiagnosticCategoriesSlotNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DiagnosticCategoryCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticCategoryCollection>
+  ): Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSiteDiagnosticCategoriesSlotNextOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotNextResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteDiagnosticCategoriesSlotNextResponse>;
   }
 
   /**
@@ -1102,26 +1799,43 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteAnalysesSlotNextResponse>
    */
-  listSiteAnalysesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteAnalysesSlotNextResponse>;
+  listSiteAnalysesSlotNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteAnalysesSlotNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSiteAnalysesSlotNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>): void;
+  listSiteAnalysesSlotNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteAnalysesSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>): void;
-  listSiteAnalysesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>): Promise<Models.DiagnosticsListSiteAnalysesSlotNextResponse> {
+  listSiteAnalysesSlotNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>
+  ): void;
+  listSiteAnalysesSlotNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticAnalysisCollection>
+  ): Promise<Models.DiagnosticsListSiteAnalysesSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSiteAnalysesSlotNextOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteAnalysesSlotNextResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteAnalysesSlotNextResponse>;
   }
 
   /**
@@ -1131,26 +1845,43 @@ export class Diagnostics {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiagnosticsListSiteDetectorsSlotNextResponse>
    */
-  listSiteDetectorsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiagnosticsListSiteDetectorsSlotNextResponse>;
+  listSiteDetectorsSlotNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiagnosticsListSiteDetectorsSlotNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSiteDetectorsSlotNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>): void;
+  listSiteDetectorsSlotNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSiteDetectorsSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>): void;
-  listSiteDetectorsSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticDetectorCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>): Promise<Models.DiagnosticsListSiteDetectorsSlotNextResponse> {
+  listSiteDetectorsSlotNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>
+  ): void;
+  listSiteDetectorsSlotNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DiagnosticDetectorCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticDetectorCollection>
+  ): Promise<Models.DiagnosticsListSiteDetectorsSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSiteDetectorsSlotNextOperationSpec,
-      callback) as Promise<Models.DiagnosticsListSiteDetectorsSlotNextResponse>;
+      callback
+    ) as Promise<Models.DiagnosticsListSiteDetectorsSlotNextResponse>;
   }
 }
 
@@ -1158,18 +1889,11 @@ export class Diagnostics {
 const serializer = new msRest.Serializer(Mappers);
 const listHostingEnvironmentDetectorResponsesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorResponseCollection
@@ -1183,7 +1907,8 @@ const listHostingEnvironmentDetectorResponsesOperationSpec: msRest.OperationSpec
 
 const getHostingEnvironmentDetectorResponseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors/{detectorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors/{detectorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
@@ -1196,9 +1921,7 @@ const getHostingEnvironmentDetectorResponseOperationSpec: msRest.OperationSpec =
     Parameters.timeGrain,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorResponse
@@ -1212,18 +1935,11 @@ const getHostingEnvironmentDetectorResponseOperationSpec: msRest.OperationSpec =
 
 const listSiteDetectorResponsesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/detectors",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.siteName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/detectors",
+  urlParameters: [Parameters.resourceGroupName, Parameters.siteName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorResponseCollection
@@ -1237,7 +1953,8 @@ const listSiteDetectorResponsesOperationSpec: msRest.OperationSpec = {
 
 const getSiteDetectorResponseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/detectors/{detectorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/detectors/{detectorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1250,9 +1967,7 @@ const getSiteDetectorResponseOperationSpec: msRest.OperationSpec = {
     Parameters.timeGrain,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorResponse
@@ -1266,18 +1981,11 @@ const getSiteDetectorResponseOperationSpec: msRest.OperationSpec = {
 
 const listSiteDiagnosticCategoriesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.siteName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics",
+  urlParameters: [Parameters.resourceGroupName, Parameters.siteName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticCategoryCollection
@@ -1291,19 +1999,16 @@ const listSiteDiagnosticCategoriesOperationSpec: msRest.OperationSpec = {
 
 const getSiteDiagnosticCategoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
     Parameters.diagnosticCategory,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticCategory
@@ -1317,19 +2022,16 @@ const getSiteDiagnosticCategoryOperationSpec: msRest.OperationSpec = {
 
 const listSiteAnalysesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/analyses",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/analyses",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
     Parameters.diagnosticCategory,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticAnalysisCollection
@@ -1343,7 +2045,8 @@ const listSiteAnalysesOperationSpec: msRest.OperationSpec = {
 
 const getSiteAnalysisOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/analyses/{analysisName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/analyses/{analysisName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1351,12 +2054,8 @@ const getSiteAnalysisOperationSpec: msRest.OperationSpec = {
     Parameters.analysisName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AnalysisDefinition
@@ -1370,7 +2069,8 @@ const getSiteAnalysisOperationSpec: msRest.OperationSpec = {
 
 const executeSiteAnalysisOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/analyses/{analysisName}/execute",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/analyses/{analysisName}/execute",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1384,9 +2084,7 @@ const executeSiteAnalysisOperationSpec: msRest.OperationSpec = {
     Parameters.timeGrain,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticAnalysis
@@ -1400,19 +2098,16 @@ const executeSiteAnalysisOperationSpec: msRest.OperationSpec = {
 
 const listSiteDetectorsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/detectors",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/detectors",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
     Parameters.diagnosticCategory,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticDetectorCollection
@@ -1426,7 +2121,8 @@ const listSiteDetectorsOperationSpec: msRest.OperationSpec = {
 
 const getSiteDetectorOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/detectors/{detectorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/detectors/{detectorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1434,12 +2130,8 @@ const getSiteDetectorOperationSpec: msRest.OperationSpec = {
     Parameters.detectorName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorDefinition
@@ -1453,7 +2145,8 @@ const getSiteDetectorOperationSpec: msRest.OperationSpec = {
 
 const executeSiteDetectorOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/detectors/{detectorName}/execute",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/detectors/{detectorName}/execute",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1467,9 +2160,7 @@ const executeSiteDetectorOperationSpec: msRest.OperationSpec = {
     Parameters.timeGrain,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticDetectorResponse
@@ -1483,19 +2174,16 @@ const executeSiteDetectorOperationSpec: msRest.OperationSpec = {
 
 const listSiteDetectorResponsesSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/detectors",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/detectors",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
     Parameters.slot,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorResponseCollection
@@ -1509,7 +2197,8 @@ const listSiteDetectorResponsesSlotOperationSpec: msRest.OperationSpec = {
 
 const getSiteDetectorResponseSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/detectors/{detectorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/detectors/{detectorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1523,9 +2212,7 @@ const getSiteDetectorResponseSlotOperationSpec: msRest.OperationSpec = {
     Parameters.timeGrain,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorResponse
@@ -1539,19 +2226,16 @@ const getSiteDetectorResponseSlotOperationSpec: msRest.OperationSpec = {
 
 const listSiteDiagnosticCategoriesSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
     Parameters.slot,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticCategoryCollection
@@ -1565,7 +2249,8 @@ const listSiteDiagnosticCategoriesSlotOperationSpec: msRest.OperationSpec = {
 
 const getSiteDiagnosticCategorySlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1573,12 +2258,8 @@ const getSiteDiagnosticCategorySlotOperationSpec: msRest.OperationSpec = {
     Parameters.slot,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticCategory
@@ -1592,7 +2273,8 @@ const getSiteDiagnosticCategorySlotOperationSpec: msRest.OperationSpec = {
 
 const listSiteAnalysesSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/analyses",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/analyses",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1600,12 +2282,8 @@ const listSiteAnalysesSlotOperationSpec: msRest.OperationSpec = {
     Parameters.slot,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticAnalysisCollection
@@ -1619,7 +2297,8 @@ const listSiteAnalysesSlotOperationSpec: msRest.OperationSpec = {
 
 const getSiteAnalysisSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/analyses/{analysisName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/analyses/{analysisName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1628,12 +2307,8 @@ const getSiteAnalysisSlotOperationSpec: msRest.OperationSpec = {
     Parameters.slot,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AnalysisDefinition
@@ -1647,7 +2322,8 @@ const getSiteAnalysisSlotOperationSpec: msRest.OperationSpec = {
 
 const executeSiteAnalysisSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/analyses/{analysisName}/execute",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/analyses/{analysisName}/execute",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1662,9 +2338,7 @@ const executeSiteAnalysisSlotOperationSpec: msRest.OperationSpec = {
     Parameters.timeGrain,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticAnalysis
@@ -1678,7 +2352,8 @@ const executeSiteAnalysisSlotOperationSpec: msRest.OperationSpec = {
 
 const listSiteDetectorsSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/detectors",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/detectors",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1686,12 +2361,8 @@ const listSiteDetectorsSlotOperationSpec: msRest.OperationSpec = {
     Parameters.slot,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticDetectorCollection
@@ -1705,7 +2376,8 @@ const listSiteDetectorsSlotOperationSpec: msRest.OperationSpec = {
 
 const getSiteDetectorSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/detectors/{detectorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/detectors/{detectorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1714,12 +2386,8 @@ const getSiteDetectorSlotOperationSpec: msRest.OperationSpec = {
     Parameters.slot,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorDefinition
@@ -1733,7 +2401,8 @@ const getSiteDetectorSlotOperationSpec: msRest.OperationSpec = {
 
 const executeSiteDetectorSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/detectors/{detectorName}/execute",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/detectors/{detectorName}/execute",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
@@ -1748,9 +2417,7 @@ const executeSiteDetectorSlotOperationSpec: msRest.OperationSpec = {
     Parameters.timeGrain,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticDetectorResponse
@@ -1766,12 +2433,8 @@ const listHostingEnvironmentDetectorResponsesNextOperationSpec: msRest.Operation
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorResponseCollection
@@ -1787,12 +2450,8 @@ const listSiteDetectorResponsesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorResponseCollection
@@ -1808,12 +2467,8 @@ const listSiteDiagnosticCategoriesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticCategoryCollection
@@ -1829,12 +2484,8 @@ const listSiteAnalysesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticAnalysisCollection
@@ -1850,12 +2501,8 @@ const listSiteDetectorsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticDetectorCollection
@@ -1871,12 +2518,8 @@ const listSiteDetectorResponsesSlotNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DetectorResponseCollection
@@ -1892,12 +2535,8 @@ const listSiteDiagnosticCategoriesSlotNextOperationSpec: msRest.OperationSpec = 
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticCategoryCollection
@@ -1913,12 +2552,8 @@ const listSiteAnalysesSlotNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticAnalysisCollection
@@ -1934,12 +2569,8 @@ const listSiteDetectorsSlotNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticDetectorCollection

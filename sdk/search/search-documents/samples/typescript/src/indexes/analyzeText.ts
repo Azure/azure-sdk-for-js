@@ -18,7 +18,7 @@ const apiKey = process.env.SEARCH_API_KEY || "";
 async function main(): Promise<void> {
   console.log(`Running Analyze Text Sample....`);
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
-  const index:SearchIndex = await client.getIndex("example-index");
+  const index: SearchIndex = await client.getIndex("example-index");
 
   index.tokenizers?.push({
     name: "example-tokenizer",
@@ -56,7 +56,6 @@ async function main(): Promise<void> {
   });
 
   console.log(result.tokens);
-
 }
 
 main();

@@ -40,13 +40,17 @@ export class ElevateAccess {
    * @param callback The callback
    */
   post(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  post(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  post(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       postOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -55,12 +59,8 @@ const serializer = new msRest.Serializer(Mappers);
 const postOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Authorization/elevateAccess",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {

@@ -37,7 +37,12 @@ export class Percentile {
    * @param [options] The optional parameters
    * @returns Promise<Models.PercentileListMetricsResponse>
    */
-  listMetrics(resourceGroupName: string, accountName: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.PercentileListMetricsResponse>;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PercentileListMetricsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -46,7 +51,12 @@ export class Percentile {
    * names), startTime, endTime, and timeGrain. The supported operator is eq.
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, filter: string, callback: msRest.ServiceCallback<Models.PercentileMetricListResult>): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.PercentileMetricListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -56,8 +66,20 @@ export class Percentile {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PercentileMetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PercentileMetricListResult>, callback?: msRest.ServiceCallback<Models.PercentileMetricListResult>): Promise<Models.PercentileListMetricsResponse> {
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PercentileMetricListResult>
+  ): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PercentileMetricListResult>,
+    callback?: msRest.ServiceCallback<Models.PercentileMetricListResult>
+  ): Promise<Models.PercentileListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +88,8 @@ export class Percentile {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.PercentileListMetricsResponse>;
+      callback
+    ) as Promise<Models.PercentileListMetricsResponse>;
   }
 }
 
@@ -74,19 +97,11 @@ export class Percentile {
 const serializer = new msRest.Serializer(Mappers);
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/percentile/metrics",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/percentile/metrics",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PercentileMetricListResult

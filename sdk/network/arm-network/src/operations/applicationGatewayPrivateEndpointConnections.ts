@@ -35,9 +35,18 @@ export class ApplicationGatewayPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, applicationGatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,applicationGatewayName,connectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      applicationGatewayName,
+      connectionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -50,9 +59,22 @@ export class ApplicationGatewayPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGatewayPrivateEndpointConnectionsUpdateResponse>
    */
-  update(resourceGroupName: string, applicationGatewayName: string, connectionName: string, parameters: Models.ApplicationGatewayPrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,applicationGatewayName,connectionName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApplicationGatewayPrivateEndpointConnectionsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    connectionName: string,
+    parameters: Models.ApplicationGatewayPrivateEndpointConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      applicationGatewayName,
+      connectionName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ApplicationGatewayPrivateEndpointConnectionsUpdateResponse
+    >;
   }
 
   /**
@@ -63,14 +85,24 @@ export class ApplicationGatewayPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGatewayPrivateEndpointConnectionsGetResponse>
    */
-  get(resourceGroupName: string, applicationGatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param applicationGatewayName The name of the application gateway.
    * @param connectionName The name of the application gateway private endpoint connection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, applicationGatewayName: string, connectionName: string, callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnection>): void;
+  get(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    connectionName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param applicationGatewayName The name of the application gateway.
@@ -78,8 +110,22 @@ export class ApplicationGatewayPrivateEndpointConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, applicationGatewayName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnection>): void;
-  get(resourceGroupName: string, applicationGatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnection>): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    connectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnection>
+  ): void;
+  get(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    connectionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnection>,
+    callback?: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnection>
+  ): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +134,8 @@ export class ApplicationGatewayPrivateEndpointConnections {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ApplicationGatewayPrivateEndpointConnectionsGetResponse>;
+      callback
+    ) as Promise<Models.ApplicationGatewayPrivateEndpointConnectionsGetResponse>;
   }
 
   /**
@@ -98,21 +145,41 @@ export class ApplicationGatewayPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListResponse>
    */
-  list(resourceGroupName: string, applicationGatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListResponse>;
+  list(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param applicationGatewayName The name of the application gateway.
    * @param callback The callback
    */
-  list(resourceGroupName: string, applicationGatewayName: string, callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>): void;
+  list(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param applicationGatewayName The name of the application gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, applicationGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>): void;
-  list(resourceGroupName: string, applicationGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListResponse> {
+  list(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>
+  ): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +187,8 @@ export class ApplicationGatewayPrivateEndpointConnections {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListResponse>;
+      callback
+    ) as Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListResponse>;
   }
 
   /**
@@ -131,7 +199,12 @@ export class ApplicationGatewayPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, applicationGatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -140,7 +213,8 @@ export class ApplicationGatewayPrivateEndpointConnections {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -153,7 +227,13 @@ export class ApplicationGatewayPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, applicationGatewayName: string, connectionName: string, parameters: Models.ApplicationGatewayPrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    connectionName: string,
+    parameters: Models.ApplicationGatewayPrivateEndpointConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -163,7 +243,8 @@ export class ApplicationGatewayPrivateEndpointConnections {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -172,26 +253,43 @@ export class ApplicationGatewayPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationGatewayPrivateEndpointConnectionListResult>
+  ): Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListNextResponse>;
+      callback
+    ) as Promise<Models.ApplicationGatewayPrivateEndpointConnectionsListNextResponse>;
   }
 }
 
@@ -199,19 +297,16 @@ export class ApplicationGatewayPrivateEndpointConnections {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.applicationGatewayName,
     Parameters.connectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationGatewayPrivateEndpointConnection
@@ -225,18 +320,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.applicationGatewayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationGatewayPrivateEndpointConnectionListResult
@@ -250,19 +342,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.applicationGatewayName,
     Parameters.connectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -276,19 +365,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateEndpointConnections/{connectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.applicationGatewayName,
     Parameters.connectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -312,12 +398,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationGatewayPrivateEndpointConnectionListResult

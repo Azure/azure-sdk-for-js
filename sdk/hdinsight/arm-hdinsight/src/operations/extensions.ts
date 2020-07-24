@@ -35,9 +35,18 @@ export class Extensions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  enableMonitoring(resourceGroupName: string, clusterName: string, parameters: Models.ClusterMonitoringRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginEnableMonitoring(resourceGroupName,clusterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  enableMonitoring(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterMonitoringRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginEnableMonitoring(
+      resourceGroupName,
+      clusterName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -47,21 +56,39 @@ export class Extensions {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExtensionsGetMonitoringStatusResponse>
    */
-  getMonitoringStatus(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExtensionsGetMonitoringStatusResponse>;
+  getMonitoringStatus(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExtensionsGetMonitoringStatusResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param callback The callback
    */
-  getMonitoringStatus(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): void;
+  getMonitoringStatus(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.ClusterMonitoringResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMonitoringStatus(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): void;
-  getMonitoringStatus(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterMonitoringResponse>, callback?: msRest.ServiceCallback<Models.ClusterMonitoringResponse>): Promise<Models.ExtensionsGetMonitoringStatusResponse> {
+  getMonitoringStatus(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClusterMonitoringResponse>
+  ): void;
+  getMonitoringStatus(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterMonitoringResponse>,
+    callback?: msRest.ServiceCallback<Models.ClusterMonitoringResponse>
+  ): Promise<Models.ExtensionsGetMonitoringStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -69,7 +96,8 @@ export class Extensions {
         options
       },
       getMonitoringStatusOperationSpec,
-      callback) as Promise<Models.ExtensionsGetMonitoringStatusResponse>;
+      callback
+    ) as Promise<Models.ExtensionsGetMonitoringStatusResponse>;
   }
 
   /**
@@ -79,9 +107,14 @@ export class Extensions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  disableMonitoring(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDisableMonitoring(resourceGroupName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  disableMonitoring(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDisableMonitoring(resourceGroupName, clusterName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -93,9 +126,20 @@ export class Extensions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  create(resourceGroupName: string, clusterName: string, extensionName: string, parameters: Models.Extension, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginCreate(resourceGroupName,clusterName,extensionName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  create(
+    resourceGroupName: string,
+    clusterName: string,
+    extensionName: string,
+    parameters: Models.Extension,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      clusterName,
+      extensionName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -106,14 +150,24 @@ export class Extensions {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExtensionsGetResponse>
    */
-  get(resourceGroupName: string, clusterName: string, extensionName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExtensionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    extensionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExtensionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param extensionName The name of the cluster extension.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, extensionName: string, callback: msRest.ServiceCallback<Models.Extension>): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    extensionName: string,
+    callback: msRest.ServiceCallback<Models.Extension>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -121,8 +175,20 @@ export class Extensions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, extensionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Extension>): void;
-  get(resourceGroupName: string, clusterName: string, extensionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Extension>, callback?: msRest.ServiceCallback<Models.Extension>): Promise<Models.ExtensionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    extensionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Extension>
+  ): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    extensionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Extension>,
+    callback?: msRest.ServiceCallback<Models.Extension>
+  ): Promise<Models.ExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +197,8 @@ export class Extensions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ExtensionsGetResponse>;
+      callback
+    ) as Promise<Models.ExtensionsGetResponse>;
   }
 
   /**
@@ -142,9 +209,18 @@ export class Extensions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, clusterName: string, extensionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,clusterName,extensionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    extensionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      clusterName,
+      extensionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -155,7 +231,12 @@ export class Extensions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginEnableMonitoring(resourceGroupName: string, clusterName: string, parameters: Models.ClusterMonitoringRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginEnableMonitoring(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterMonitoringRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -164,7 +245,8 @@ export class Extensions {
         options
       },
       beginEnableMonitoringOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -174,7 +256,11 @@ export class Extensions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDisableMonitoring(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDisableMonitoring(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -182,7 +268,8 @@ export class Extensions {
         options
       },
       beginDisableMonitoringOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -194,7 +281,13 @@ export class Extensions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, clusterName: string, extensionName: string, parameters: Models.Extension, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    clusterName: string,
+    extensionName: string,
+    parameters: Models.Extension,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -204,7 +297,8 @@ export class Extensions {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -215,7 +309,12 @@ export class Extensions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, clusterName: string, extensionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    extensionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -224,7 +323,8 @@ export class Extensions {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -232,18 +332,11 @@ export class Extensions {
 const serializer = new msRest.Serializer(Mappers);
 const getMonitoringStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterMonitoringResponse
@@ -257,19 +350,16 @@ const getMonitoringStatusOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.extensionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Extension
@@ -283,18 +373,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginEnableMonitoringOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -314,18 +397,11 @@ const beginEnableMonitoringOperationSpec: msRest.OperationSpec = {
 
 const beginDisableMonitoringOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -338,19 +414,16 @@ const beginDisableMonitoringOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.extensionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -370,19 +443,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.extensionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

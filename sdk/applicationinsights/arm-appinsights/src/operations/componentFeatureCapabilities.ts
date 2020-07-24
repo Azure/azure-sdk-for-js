@@ -33,21 +33,41 @@ export class ComponentFeatureCapabilities {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentFeatureCapabilitiesGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ComponentFeatureCapabilitiesGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComponentFeatureCapabilitiesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFeatureCapabilities>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFeatureCapabilities>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFeatureCapabilities>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentFeatureCapabilities>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentFeatureCapabilities>): Promise<Models.ComponentFeatureCapabilitiesGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFeatureCapabilities>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentFeatureCapabilities>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentFeatureCapabilities>
+  ): Promise<Models.ComponentFeatureCapabilitiesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class ComponentFeatureCapabilities {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ComponentFeatureCapabilitiesGetResponse>;
+      callback
+    ) as Promise<Models.ComponentFeatureCapabilitiesGetResponse>;
   }
 }
 
@@ -63,18 +84,11 @@ export class ComponentFeatureCapabilities {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/featurecapabilities",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/featurecapabilities",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentFeatureCapabilities

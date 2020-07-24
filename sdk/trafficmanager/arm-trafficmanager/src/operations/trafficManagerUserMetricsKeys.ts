@@ -31,7 +31,9 @@ export class TrafficManagerUserMetricsKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.TrafficManagerUserMetricsKeysGetResponse>
    */
-  get(options?: msRest.RequestOptionsBase): Promise<Models.TrafficManagerUserMetricsKeysGetResponse>;
+  get(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TrafficManagerUserMetricsKeysGetResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,21 @@ export class TrafficManagerUserMetricsKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserMetricsModel>): void;
-  get(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserMetricsModel>, callback?: msRest.ServiceCallback<Models.UserMetricsModel>): Promise<Models.TrafficManagerUserMetricsKeysGetResponse> {
+  get(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UserMetricsModel>
+  ): void;
+  get(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserMetricsModel>,
+    callback?: msRest.ServiceCallback<Models.UserMetricsModel>
+  ): Promise<Models.TrafficManagerUserMetricsKeysGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TrafficManagerUserMetricsKeysGetResponse>;
+      callback
+    ) as Promise<Models.TrafficManagerUserMetricsKeysGetResponse>;
   }
 
   /**
@@ -55,7 +64,9 @@ export class TrafficManagerUserMetricsKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.TrafficManagerUserMetricsKeysCreateOrUpdateResponse>
    */
-  createOrUpdate(options?: msRest.RequestOptionsBase): Promise<Models.TrafficManagerUserMetricsKeysCreateOrUpdateResponse>;
+  createOrUpdate(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TrafficManagerUserMetricsKeysCreateOrUpdateResponse>;
   /**
    * @param callback The callback
    */
@@ -64,14 +75,21 @@ export class TrafficManagerUserMetricsKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserMetricsModel>): void;
-  createOrUpdate(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserMetricsModel>, callback?: msRest.ServiceCallback<Models.UserMetricsModel>): Promise<Models.TrafficManagerUserMetricsKeysCreateOrUpdateResponse> {
+  createOrUpdate(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UserMetricsModel>
+  ): void;
+  createOrUpdate(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserMetricsModel>,
+    callback?: msRest.ServiceCallback<Models.UserMetricsModel>
+  ): Promise<Models.TrafficManagerUserMetricsKeysCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.TrafficManagerUserMetricsKeysCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.TrafficManagerUserMetricsKeysCreateOrUpdateResponse>;
   }
 
   /**
@@ -79,7 +97,9 @@ export class TrafficManagerUserMetricsKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.TrafficManagerUserMetricsKeysDeleteMethodResponse>
    */
-  deleteMethod(options?: msRest.RequestOptionsBase): Promise<Models.TrafficManagerUserMetricsKeysDeleteMethodResponse>;
+  deleteMethod(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TrafficManagerUserMetricsKeysDeleteMethodResponse>;
   /**
    * @param callback The callback
    */
@@ -88,14 +108,21 @@ export class TrafficManagerUserMetricsKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeleteOperationResult>): void;
-  deleteMethod(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeleteOperationResult>, callback?: msRest.ServiceCallback<Models.DeleteOperationResult>): Promise<Models.TrafficManagerUserMetricsKeysDeleteMethodResponse> {
+  deleteMethod(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeleteOperationResult>
+  ): void;
+  deleteMethod(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeleteOperationResult>,
+    callback?: msRest.ServiceCallback<Models.DeleteOperationResult>
+  ): Promise<Models.TrafficManagerUserMetricsKeysDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.TrafficManagerUserMetricsKeysDeleteMethodResponse>;
+      callback
+    ) as Promise<Models.TrafficManagerUserMetricsKeysDeleteMethodResponse>;
   }
 }
 
@@ -103,16 +130,11 @@ export class TrafficManagerUserMetricsKeys {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UserMetricsModel
@@ -126,16 +148,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     201: {
       bodyMapper: Mappers.UserMetricsModel
@@ -149,16 +166,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficManagerUserMetricsKeys/default",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeleteOperationResult

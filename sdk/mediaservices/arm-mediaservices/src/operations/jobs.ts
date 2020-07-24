@@ -35,14 +35,24 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListResponse>
    */
-  list(resourceGroupName: string, accountName: string, transformName: string, options?: Models.JobsListOptionalParams): Promise<Models.JobsListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    options?: Models.JobsListOptionalParams
+  ): Promise<Models.JobsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param transformName The Transform name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, transformName: string, callback: msRest.ServiceCallback<Models.JobCollection>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    callback: msRest.ServiceCallback<Models.JobCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -50,8 +60,20 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, transformName: string, options: Models.JobsListOptionalParams, callback: msRest.ServiceCallback<Models.JobCollection>): void;
-  list(resourceGroupName: string, accountName: string, transformName: string, options?: Models.JobsListOptionalParams | msRest.ServiceCallback<Models.JobCollection>, callback?: msRest.ServiceCallback<Models.JobCollection>): Promise<Models.JobsListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    options: Models.JobsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobCollection>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    options?: Models.JobsListOptionalParams | msRest.ServiceCallback<Models.JobCollection>,
+    callback?: msRest.ServiceCallback<Models.JobCollection>
+  ): Promise<Models.JobsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class Jobs {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.JobsListResponse>;
+      callback
+    ) as Promise<Models.JobsListResponse>;
   }
 
   /**
@@ -73,7 +96,13 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, transformName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -81,7 +110,13 @@ export class Jobs {
    * @param jobName The Job name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, transformName: string, jobName: string, callback: msRest.ServiceCallback<Models.Job>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<Models.Job>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -90,8 +125,22 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, transformName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Job>): void;
-  get(resourceGroupName: string, accountName: string, transformName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Job>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>,
+    callback?: msRest.ServiceCallback<Models.Job>
+  ): Promise<Models.JobsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +150,8 @@ export class Jobs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.JobsGetResponse>;
+      callback
+    ) as Promise<Models.JobsGetResponse>;
   }
 
   /**
@@ -115,7 +165,14 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, transformName: string, jobName: string, parameters: Models.Job, options?: msRest.RequestOptionsBase): Promise<Models.JobsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    parameters: Models.Job,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -124,7 +181,14 @@ export class Jobs {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, transformName: string, jobName: string, parameters: Models.Job, callback: msRest.ServiceCallback<Models.Job>): void;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    parameters: Models.Job,
+    callback: msRest.ServiceCallback<Models.Job>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -134,8 +198,24 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, transformName: string, jobName: string, parameters: Models.Job, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Job>): void;
-  create(resourceGroupName: string, accountName: string, transformName: string, jobName: string, parameters: Models.Job, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobsCreateResponse> {
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    parameters: Models.Job,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Job>
+  ): void;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    parameters: Models.Job,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>,
+    callback?: msRest.ServiceCallback<Models.Job>
+  ): Promise<Models.JobsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,7 +226,8 @@ export class Jobs {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.JobsCreateResponse>;
+      callback
+    ) as Promise<Models.JobsCreateResponse>;
   }
 
   /**
@@ -159,7 +240,13 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, transformName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -167,7 +254,13 @@ export class Jobs {
    * @param jobName The Job name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, transformName: string, jobName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -176,8 +269,22 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, transformName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, transformName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -187,7 +294,8 @@ export class Jobs {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -203,7 +311,14 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, transformName: string, jobName: string, parameters: Models.Job, options?: msRest.RequestOptionsBase): Promise<Models.JobsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    parameters: Models.Job,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -212,7 +327,14 @@ export class Jobs {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, transformName: string, jobName: string, parameters: Models.Job, callback: msRest.ServiceCallback<Models.Job>): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    parameters: Models.Job,
+    callback: msRest.ServiceCallback<Models.Job>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -222,8 +344,24 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, transformName: string, jobName: string, parameters: Models.Job, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Job>): void;
-  update(resourceGroupName: string, accountName: string, transformName: string, jobName: string, parameters: Models.Job, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    parameters: Models.Job,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Job>
+  ): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    parameters: Models.Job,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>,
+    callback?: msRest.ServiceCallback<Models.Job>
+  ): Promise<Models.JobsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -234,7 +372,8 @@ export class Jobs {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.JobsUpdateResponse>;
+      callback
+    ) as Promise<Models.JobsUpdateResponse>;
   }
 
   /**
@@ -247,7 +386,13 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  cancelJob(resourceGroupName: string, accountName: string, transformName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  cancelJob(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -255,7 +400,13 @@ export class Jobs {
    * @param jobName The Job name.
    * @param callback The callback
    */
-  cancelJob(resourceGroupName: string, accountName: string, transformName: string, jobName: string, callback: msRest.ServiceCallback<void>): void;
+  cancelJob(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -264,8 +415,22 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancelJob(resourceGroupName: string, accountName: string, transformName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancelJob(resourceGroupName: string, accountName: string, transformName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancelJob(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  cancelJob(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -275,7 +440,8 @@ export class Jobs {
         options
       },
       cancelJobOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -285,7 +451,10 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -296,15 +465,24 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCollection>, callback?: msRest.ServiceCallback<Models.JobCollection>): Promise<Models.JobsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCollection>,
+    callback?: msRest.ServiceCallback<Models.JobCollection>
+  ): Promise<Models.JobsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.JobsListNextResponse>;
+      callback
+    ) as Promise<Models.JobsListNextResponse>;
   }
 }
 
@@ -312,21 +490,16 @@ export class Jobs {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.transformName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.orderby],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobCollection
@@ -340,7 +513,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs/{jobName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs/{jobName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -348,12 +522,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.transformName,
     Parameters.jobName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Job
@@ -368,7 +538,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs/{jobName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs/{jobName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -376,12 +547,8 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.transformName,
     Parameters.jobName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -402,7 +569,8 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs/{jobName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs/{jobName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -410,12 +578,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.transformName,
     Parameters.jobName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -428,7 +592,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs/{jobName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs/{jobName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -436,12 +601,8 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.transformName,
     Parameters.jobName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -462,7 +623,8 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const cancelJobOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs/{jobName}/cancelJob",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs/{jobName}/cancelJob",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -470,12 +632,8 @@ const cancelJobOperationSpec: msRest.OperationSpec = {
     Parameters.transformName,
     Parameters.jobName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -489,12 +647,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobCollection

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ManagedLabsClientContext } from "./managedLabsClientContext";
 
-
 class ManagedLabsClient extends ManagedLabsClientContext {
   // Operation groups
   providerOperations: operations.ProviderOperations;
@@ -33,7 +32,11 @@ class ManagedLabsClient extends ManagedLabsClientContext {
    * @param subscriptionId The subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ManagedLabsClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ManagedLabsClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.providerOperations = new operations.ProviderOperations(this);
     this.globalUsers = new operations.GlobalUsers(this);

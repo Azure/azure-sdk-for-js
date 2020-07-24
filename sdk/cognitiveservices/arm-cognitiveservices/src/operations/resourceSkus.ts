@@ -40,14 +40,21 @@ export class ResourceSkus {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceSkusResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkusResult>, callback?: msRest.ServiceCallback<Models.ResourceSkusResult>): Promise<Models.ResourceSkusListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceSkusResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkusResult>,
+    callback?: msRest.ServiceCallback<Models.ResourceSkusResult>
+  ): Promise<Models.ResourceSkusListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ResourceSkusListResponse>;
+      callback
+    ) as Promise<Models.ResourceSkusListResponse>;
   }
 
   /**
@@ -56,7 +63,10 @@ export class ResourceSkus {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceSkusListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceSkusListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceSkusListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -67,15 +77,24 @@ export class ResourceSkus {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceSkusResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkusResult>, callback?: msRest.ServiceCallback<Models.ResourceSkusResult>): Promise<Models.ResourceSkusListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceSkusResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkusResult>,
+    callback?: msRest.ServiceCallback<Models.ResourceSkusResult>
+  ): Promise<Models.ResourceSkusListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ResourceSkusListNextResponse>;
+      callback
+    ) as Promise<Models.ResourceSkusListNextResponse>;
   }
 }
 
@@ -84,15 +103,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/skus",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceSkusResult
@@ -108,12 +121,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceSkusResult

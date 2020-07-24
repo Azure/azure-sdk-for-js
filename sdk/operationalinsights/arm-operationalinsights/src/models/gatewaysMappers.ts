@@ -6,6 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  CloudError
-} from "../models/mappers";
+export { CloudError } from "../models/mappers";

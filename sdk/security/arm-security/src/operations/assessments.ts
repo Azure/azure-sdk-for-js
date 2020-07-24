@@ -49,15 +49,24 @@ export class Assessments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityAssessmentList>): void;
-  list(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentList>, callback?: msRest.ServiceCallback<Models.SecurityAssessmentList>): Promise<Models.AssessmentsListResponse> {
+  list(
+    scope: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentList>
+  ): void;
+  list(
+    scope: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentList>,
+    callback?: msRest.ServiceCallback<Models.SecurityAssessmentList>
+  ): Promise<Models.AssessmentsListResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AssessmentsListResponse>;
+      callback
+    ) as Promise<Models.AssessmentsListResponse>;
   }
 
   /**
@@ -67,21 +76,41 @@ export class Assessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsGetResponse>
    */
-  get(resourceId: string, assessmentName: string, options?: Models.AssessmentsGetOptionalParams): Promise<Models.AssessmentsGetResponse>;
+  get(
+    resourceId: string,
+    assessmentName: string,
+    options?: Models.AssessmentsGetOptionalParams
+  ): Promise<Models.AssessmentsGetResponse>;
   /**
    * @param resourceId The identifier of the resource.
    * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param callback The callback
    */
-  get(resourceId: string, assessmentName: string, callback: msRest.ServiceCallback<Models.SecurityAssessment>): void;
+  get(
+    resourceId: string,
+    assessmentName: string,
+    callback: msRest.ServiceCallback<Models.SecurityAssessment>
+  ): void;
   /**
    * @param resourceId The identifier of the resource.
    * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceId: string, assessmentName: string, options: Models.AssessmentsGetOptionalParams, callback: msRest.ServiceCallback<Models.SecurityAssessment>): void;
-  get(resourceId: string, assessmentName: string, options?: Models.AssessmentsGetOptionalParams | msRest.ServiceCallback<Models.SecurityAssessment>, callback?: msRest.ServiceCallback<Models.SecurityAssessment>): Promise<Models.AssessmentsGetResponse> {
+  get(
+    resourceId: string,
+    assessmentName: string,
+    options: Models.AssessmentsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.SecurityAssessment>
+  ): void;
+  get(
+    resourceId: string,
+    assessmentName: string,
+    options?:
+      | Models.AssessmentsGetOptionalParams
+      | msRest.ServiceCallback<Models.SecurityAssessment>,
+    callback?: msRest.ServiceCallback<Models.SecurityAssessment>
+  ): Promise<Models.AssessmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -89,7 +118,8 @@ export class Assessments {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AssessmentsGetResponse>;
+      callback
+    ) as Promise<Models.AssessmentsGetResponse>;
   }
 
   /**
@@ -101,14 +131,24 @@ export class Assessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceId: string, assessmentName: string, assessment: Models.SecurityAssessment, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceId: string,
+    assessmentName: string,
+    assessment: Models.SecurityAssessment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsCreateOrUpdateResponse>;
   /**
    * @param resourceId The identifier of the resource.
    * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param assessment Calculated assessment on a pre-defined assessment metadata
    * @param callback The callback
    */
-  createOrUpdate(resourceId: string, assessmentName: string, assessment: Models.SecurityAssessment, callback: msRest.ServiceCallback<Models.SecurityAssessment>): void;
+  createOrUpdate(
+    resourceId: string,
+    assessmentName: string,
+    assessment: Models.SecurityAssessment,
+    callback: msRest.ServiceCallback<Models.SecurityAssessment>
+  ): void;
   /**
    * @param resourceId The identifier of the resource.
    * @param assessmentName The Assessment Key - Unique key for the assessment type
@@ -116,8 +156,20 @@ export class Assessments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceId: string, assessmentName: string, assessment: Models.SecurityAssessment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityAssessment>): void;
-  createOrUpdate(resourceId: string, assessmentName: string, assessment: Models.SecurityAssessment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessment>, callback?: msRest.ServiceCallback<Models.SecurityAssessment>): Promise<Models.AssessmentsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceId: string,
+    assessmentName: string,
+    assessment: Models.SecurityAssessment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityAssessment>
+  ): void;
+  createOrUpdate(
+    resourceId: string,
+    assessmentName: string,
+    assessment: Models.SecurityAssessment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessment>,
+    callback?: msRest.ServiceCallback<Models.SecurityAssessment>
+  ): Promise<Models.AssessmentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -126,7 +178,8 @@ export class Assessments {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.AssessmentsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.AssessmentsCreateOrUpdateResponse>;
   }
 
   /**
@@ -137,21 +190,39 @@ export class Assessments {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceId: string, assessmentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceId: string,
+    assessmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceId The identifier of the resource.
    * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param callback The callback
    */
-  deleteMethod(resourceId: string, assessmentName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceId: string,
+    assessmentName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceId The identifier of the resource.
    * @param assessmentName The Assessment Key - Unique key for the assessment type
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceId: string, assessmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceId: string, assessmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceId: string,
+    assessmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceId: string,
+    assessmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
@@ -159,7 +230,8 @@ export class Assessments {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -168,26 +240,41 @@ export class Assessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecurityAssessmentList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityAssessmentList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentList>, callback?: msRest.ServiceCallback<Models.SecurityAssessmentList>): Promise<Models.AssessmentsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityAssessmentList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityAssessmentList>,
+    callback?: msRest.ServiceCallback<Models.SecurityAssessmentList>
+  ): Promise<Models.AssessmentsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AssessmentsListNextResponse>;
+      callback
+    ) as Promise<Models.AssessmentsListNextResponse>;
   }
 }
 
@@ -196,15 +283,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Security/assessments",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityAssessmentList
@@ -219,17 +300,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}",
-  urlParameters: [
-    Parameters.resourceId,
-    Parameters.assessmentName
-  ],
-  queryParameters: [
-    Parameters.apiVersion7,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceId, Parameters.assessmentName],
+  queryParameters: [Parameters.apiVersion7, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityAssessment
@@ -244,16 +317,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}",
-  urlParameters: [
-    Parameters.resourceId,
-    Parameters.assessmentName
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceId, Parameters.assessmentName],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "assessment",
     mapper: {
@@ -278,16 +344,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{resourceId}/providers/Microsoft.Security/assessments/{assessmentName}",
-  urlParameters: [
-    Parameters.resourceId,
-    Parameters.assessmentName
-  ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceId, Parameters.assessmentName],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -302,12 +361,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityAssessmentList

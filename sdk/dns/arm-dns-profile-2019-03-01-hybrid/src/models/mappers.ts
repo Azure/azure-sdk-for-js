@@ -504,11 +504,7 @@ export const ZoneDeleteResult: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "InProgress",
-            "Succeeded",
-            "Failed"
-          ]
+          allowedValues: ["InProgress", "Succeeded", "Failed"]
         }
       },
       statusCode: {

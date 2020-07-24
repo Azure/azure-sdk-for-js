@@ -170,8 +170,7 @@ export interface BigDataPoolPatchInfo {
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * The resource model definition for a Azure Resource Manager resource with an etag.
@@ -1221,14 +1220,12 @@ export interface SensitivityLabel extends ProxyResource {
 /**
  * A Sql pool schema resource.
  */
-export interface SqlPoolSchema extends ProxyResource {
-}
+export interface SqlPoolSchema extends ProxyResource {}
 
 /**
  * A Sql pool table resource.
  */
-export interface SqlPoolTable extends ProxyResource {
-}
+export interface SqlPoolTable extends ProxyResource {}
 
 /**
  * A Sql pool column resource.
@@ -1735,7 +1732,10 @@ export interface SubResource extends BaseResource {
 /**
  * Contains the possible cases for IntegrationRuntime.
  */
-export type IntegrationRuntimeUnion = IntegrationRuntime | ManagedIntegrationRuntime | SelfHostedIntegrationRuntime;
+export type IntegrationRuntimeUnion =
+  | IntegrationRuntime
+  | ManagedIntegrationRuntime
+  | SelfHostedIntegrationRuntime;
 
 /**
  * Azure Synapse nested object which serves as a compute resource for activities.
@@ -1944,7 +1944,11 @@ export interface IntegrationRuntimeDataProxyProperties {
 /**
  * Contains the possible cases for CustomSetupBase.
  */
-export type CustomSetupBaseUnion = CustomSetupBase | CmdkeySetup | EnvironmentVariableSetup | ComponentSetup;
+export type CustomSetupBaseUnion =
+  | CustomSetupBase
+  | CmdkeySetup
+  | EnvironmentVariableSetup
+  | ComponentSetup;
 
 /**
  * The base definition of the custom setup.
@@ -2083,7 +2087,10 @@ export interface ComponentSetup {
 /**
  * Contains the possible cases for LinkedIntegrationRuntimeType.
  */
-export type LinkedIntegrationRuntimeTypeUnion = LinkedIntegrationRuntimeType | LinkedIntegrationRuntimeKeyAuthorization | LinkedIntegrationRuntimeRbacAuthorization;
+export type LinkedIntegrationRuntimeTypeUnion =
+  | LinkedIntegrationRuntimeType
+  | LinkedIntegrationRuntimeKeyAuthorization
+  | LinkedIntegrationRuntimeRbacAuthorization;
 
 /**
  * The base definition of a linked integration runtime.
@@ -2141,7 +2148,10 @@ export interface LinkedIntegrationRuntimeRbacAuthorization {
 /**
  * Contains the possible cases for IntegrationRuntimeStatus.
  */
-export type IntegrationRuntimeStatusUnion = IntegrationRuntimeStatus | ManagedIntegrationRuntimeStatus | SelfHostedIntegrationRuntimeStatus;
+export type IntegrationRuntimeStatusUnion =
+  | IntegrationRuntimeStatus
+  | ManagedIntegrationRuntimeStatus
+  | SelfHostedIntegrationRuntimeStatus;
 
 /**
  * Integration runtime status.
@@ -2686,7 +2696,12 @@ export interface IntegrationRuntimeNodeIpAddress {
 /**
  * Contains the possible cases for SsisObjectMetadata.
  */
-export type SsisObjectMetadataUnion = SsisObjectMetadata | SsisFolder | SsisProject | SsisPackage | SsisEnvironment;
+export type SsisObjectMetadataUnion =
+  | SsisObjectMetadata
+  | SsisFolder
+  | SsisProject
+  | SsisPackage
+  | SsisEnvironment;
 
 /**
  * SSIS object metadata.
@@ -3122,7 +3137,8 @@ export interface BigDataPoolsBeginCreateOrUpdateOptionalParams extends msRest.Re
 /**
  * Optional Parameters.
  */
-export interface SqlPoolSensitivityLabelsListCurrentOptionalParams extends msRest.RequestOptionsBase {
+export interface SqlPoolSensitivityLabelsListCurrentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * An OData filter expression that filters elements in the collection.
    */
@@ -3132,7 +3148,8 @@ export interface SqlPoolSensitivityLabelsListCurrentOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface SqlPoolSensitivityLabelsListRecommendedOptionalParams extends msRest.RequestOptionsBase {
+export interface SqlPoolSensitivityLabelsListRecommendedOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Specifies whether to include disabled recommendations or not.
    */
@@ -3170,7 +3187,8 @@ export interface SqlPoolTablesListBySchemaOptionalParams extends msRest.RequestO
 /**
  * Optional Parameters.
  */
-export interface SqlPoolTableColumnsListByTableNameOptionalParams extends msRest.RequestOptionsBase {
+export interface SqlPoolTableColumnsListByTableNameOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * An OData filter expression that filters elements in the collection.
    */
@@ -3202,7 +3220,8 @@ export interface IntegrationRuntimesCreateOptionalParams extends msRest.RequestO
 /**
  * Optional Parameters.
  */
-export interface IntegrationRuntimeObjectMetadataGetOptionalParams extends msRest.RequestOptionsBase {
+export interface IntegrationRuntimeObjectMetadataGetOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The parameters for getting a SSIS object metadata.
    */
@@ -3285,7 +3304,8 @@ export interface ReplicationLinkListResult extends Array<ReplicationLink> {
  * The response to a list Sql pool operations request
  * @extends Array<SqlPoolOperation>
  */
-export interface SqlPoolBlobAuditingPolicySqlPoolOperationListResult extends Array<SqlPoolOperation> {
+export interface SqlPoolBlobAuditingPolicySqlPoolOperationListResult
+  extends Array<SqlPoolOperation> {
   /**
    * Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -3363,7 +3383,8 @@ export interface SqlPoolColumnListResult extends Array<SqlPoolColumn> {
  * A list of the Sql pool's vulnerability assessments.
  * @extends Array<SqlPoolVulnerabilityAssessment>
  */
-export interface SqlPoolVulnerabilityAssessmentListResult extends Array<SqlPoolVulnerabilityAssessment> {
+export interface SqlPoolVulnerabilityAssessmentListResult
+  extends Array<SqlPoolVulnerabilityAssessment> {
   /**
    * Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -3376,7 +3397,8 @@ export interface SqlPoolVulnerabilityAssessmentListResult extends Array<SqlPoolV
  * A list of vulnerability assessment scan records.
  * @extends Array<VulnerabilityAssessmentScanRecord>
  */
-export interface VulnerabilityAssessmentScanRecordListResult extends Array<VulnerabilityAssessmentScanRecord> {
+export interface VulnerabilityAssessmentScanRecordListResult
+  extends Array<VulnerabilityAssessmentScanRecord> {
   /**
    * Link to retrieve next page of results.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -3452,7 +3474,7 @@ export interface PrivateLinkHubInfoListResult extends Array<PrivateLinkHub> {
  * @readonly
  * @enum {string}
  */
-export type NodeSize = 'None' | 'Small' | 'Medium' | 'Large';
+export type NodeSize = "None" | "Small" | "Medium" | "Large";
 
 /**
  * Defines values for NodeSizeFamily.
@@ -3460,7 +3482,7 @@ export type NodeSize = 'None' | 'Small' | 'Medium' | 'Large';
  * @readonly
  * @enum {string}
  */
-export type NodeSizeFamily = 'None' | 'MemoryOptimized';
+export type NodeSizeFamily = "None" | "MemoryOptimized";
 
 /**
  * Defines values for ProvisioningState.
@@ -3468,7 +3490,12 @@ export type NodeSizeFamily = 'None' | 'MemoryOptimized';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Provisioning' | 'Succeeded' | 'Deleting' | 'Failed' | 'DeleteError';
+export type ProvisioningState =
+  | "Provisioning"
+  | "Succeeded"
+  | "Deleting"
+  | "Failed"
+  | "DeleteError";
 
 /**
  * Defines values for OperationStatus.
@@ -3476,7 +3503,7 @@ export type ProvisioningState = 'Provisioning' | 'Succeeded' | 'Deleting' | 'Fai
  * @readonly
  * @enum {string}
  */
-export type OperationStatus = 'InProgress' | 'Succeeded' | 'Failed' | 'Canceled';
+export type OperationStatus = "InProgress" | "Succeeded" | "Failed" | "Canceled";
 
 /**
  * Defines values for GeoBackupPolicyState.
@@ -3484,7 +3511,7 @@ export type OperationStatus = 'InProgress' | 'Succeeded' | 'Failed' | 'Canceled'
  * @readonly
  * @enum {string}
  */
-export type GeoBackupPolicyState = 'Disabled' | 'Enabled';
+export type GeoBackupPolicyState = "Disabled" | "Enabled";
 
 /**
  * Defines values for QueryAggregationFunction.
@@ -3492,7 +3519,7 @@ export type GeoBackupPolicyState = 'Disabled' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type QueryAggregationFunction = 'min' | 'max' | 'avg' | 'sum';
+export type QueryAggregationFunction = "min" | "max" | "avg" | "sum";
 
 /**
  * Defines values for QueryExecutionType.
@@ -3500,7 +3527,7 @@ export type QueryAggregationFunction = 'min' | 'max' | 'avg' | 'sum';
  * @readonly
  * @enum {string}
  */
-export type QueryExecutionType = 'any' | 'regular' | 'irregular' | 'aborted' | 'exception';
+export type QueryExecutionType = "any" | "regular" | "irregular" | "aborted" | "exception";
 
 /**
  * Defines values for QueryObservedMetricType.
@@ -3508,7 +3535,7 @@ export type QueryExecutionType = 'any' | 'regular' | 'irregular' | 'aborted' | '
  * @readonly
  * @enum {string}
  */
-export type QueryObservedMetricType = 'cpu' | 'io' | 'logio' | 'duration' | 'executionCount';
+export type QueryObservedMetricType = "cpu" | "io" | "logio" | "duration" | "executionCount";
 
 /**
  * Defines values for QueryMetricUnit.
@@ -3516,7 +3543,7 @@ export type QueryObservedMetricType = 'cpu' | 'io' | 'logio' | 'duration' | 'exe
  * @readonly
  * @enum {string}
  */
-export type QueryMetricUnit = 'percentage' | 'KB' | 'microseconds';
+export type QueryMetricUnit = "percentage" | "KB" | "microseconds";
 
 /**
  * Defines values for RestorePointType.
@@ -3524,7 +3551,7 @@ export type QueryMetricUnit = 'percentage' | 'KB' | 'microseconds';
  * @readonly
  * @enum {string}
  */
-export type RestorePointType = 'CONTINUOUS' | 'DISCRETE';
+export type RestorePointType = "CONTINUOUS" | "DISCRETE";
 
 /**
  * Defines values for ReplicationRole.
@@ -3532,7 +3559,7 @@ export type RestorePointType = 'CONTINUOUS' | 'DISCRETE';
  * @readonly
  * @enum {string}
  */
-export type ReplicationRole = 'Primary' | 'Secondary' | 'NonReadableSecondary' | 'Source' | 'Copy';
+export type ReplicationRole = "Primary" | "Secondary" | "NonReadableSecondary" | "Source" | "Copy";
 
 /**
  * Defines values for ReplicationState.
@@ -3540,7 +3567,7 @@ export type ReplicationRole = 'Primary' | 'Secondary' | 'NonReadableSecondary' |
  * @readonly
  * @enum {string}
  */
-export type ReplicationState = 'PENDING' | 'SEEDING' | 'CATCH_UP' | 'SUSPENDED';
+export type ReplicationState = "PENDING" | "SEEDING" | "CATCH_UP" | "SUSPENDED";
 
 /**
  * Defines values for TransparentDataEncryptionStatus.
@@ -3548,7 +3575,7 @@ export type ReplicationState = 'PENDING' | 'SEEDING' | 'CATCH_UP' | 'SUSPENDED';
  * @readonly
  * @enum {string}
  */
-export type TransparentDataEncryptionStatus = 'Enabled' | 'Disabled';
+export type TransparentDataEncryptionStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for BlobAuditingPolicyState.
@@ -3556,7 +3583,7 @@ export type TransparentDataEncryptionStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type BlobAuditingPolicyState = 'Enabled' | 'Disabled';
+export type BlobAuditingPolicyState = "Enabled" | "Disabled";
 
 /**
  * Defines values for ManagementOperationState.
@@ -3565,7 +3592,13 @@ export type BlobAuditingPolicyState = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type ManagementOperationState = 'Pending' | 'InProgress' | 'Succeeded' | 'Failed' | 'CancelInProgress' | 'Cancelled';
+export type ManagementOperationState =
+  | "Pending"
+  | "InProgress"
+  | "Succeeded"
+  | "Failed"
+  | "CancelInProgress"
+  | "Cancelled";
 
 /**
  * Defines values for ColumnDataType.
@@ -3577,7 +3610,41 @@ export type ManagementOperationState = 'Pending' | 'InProgress' | 'Succeeded' | 
  * @readonly
  * @enum {string}
  */
-export type ColumnDataType = 'image' | 'text' | 'uniqueidentifier' | 'date' | 'time' | 'datetime2' | 'datetimeoffset' | 'tinyint' | 'smallint' | 'int' | 'smalldatetime' | 'real' | 'money' | 'datetime' | 'float' | 'sql_variant' | 'ntext' | 'bit' | 'decimal' | 'numeric' | 'smallmoney' | 'bigint' | 'hierarchyid' | 'geometry' | 'geography' | 'varbinary' | 'varchar' | 'binary' | 'char' | 'timestamp' | 'nvarchar' | 'nchar' | 'xml' | 'sysname';
+export type ColumnDataType =
+  | "image"
+  | "text"
+  | "uniqueidentifier"
+  | "date"
+  | "time"
+  | "datetime2"
+  | "datetimeoffset"
+  | "tinyint"
+  | "smallint"
+  | "int"
+  | "smalldatetime"
+  | "real"
+  | "money"
+  | "datetime"
+  | "float"
+  | "sql_variant"
+  | "ntext"
+  | "bit"
+  | "decimal"
+  | "numeric"
+  | "smallmoney"
+  | "bigint"
+  | "hierarchyid"
+  | "geometry"
+  | "geography"
+  | "varbinary"
+  | "varchar"
+  | "binary"
+  | "char"
+  | "timestamp"
+  | "nvarchar"
+  | "nchar"
+  | "xml"
+  | "sysname";
 
 /**
  * Defines values for VulnerabilityAssessmentScanTriggerType.
@@ -3585,7 +3652,7 @@ export type ColumnDataType = 'image' | 'text' | 'uniqueidentifier' | 'date' | 't
  * @readonly
  * @enum {string}
  */
-export type VulnerabilityAssessmentScanTriggerType = 'OnDemand' | 'Recurring';
+export type VulnerabilityAssessmentScanTriggerType = "OnDemand" | "Recurring";
 
 /**
  * Defines values for VulnerabilityAssessmentScanState.
@@ -3593,7 +3660,7 @@ export type VulnerabilityAssessmentScanTriggerType = 'OnDemand' | 'Recurring';
  * @readonly
  * @enum {string}
  */
-export type VulnerabilityAssessmentScanState = 'Passed' | 'Failed' | 'FailedToRun' | 'InProgress';
+export type VulnerabilityAssessmentScanState = "Passed" | "Failed" | "FailedToRun" | "InProgress";
 
 /**
  * Defines values for SecurityAlertPolicyState.
@@ -3601,7 +3668,7 @@ export type VulnerabilityAssessmentScanState = 'Passed' | 'Failed' | 'FailedToRu
  * @readonly
  * @enum {string}
  */
-export type SecurityAlertPolicyState = 'New' | 'Enabled' | 'Disabled';
+export type SecurityAlertPolicyState = "New" | "Enabled" | "Disabled";
 
 /**
  * Defines values for ResourceIdentityType.
@@ -3609,7 +3676,7 @@ export type SecurityAlertPolicyState = 'New' | 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'None' | 'SystemAssigned';
+export type ResourceIdentityType = "None" | "SystemAssigned";
 
 /**
  * Defines values for IntegrationRuntimeType.
@@ -3617,7 +3684,7 @@ export type ResourceIdentityType = 'None' | 'SystemAssigned';
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeType = 'Managed' | 'SelfHosted';
+export type IntegrationRuntimeType = "Managed" | "SelfHosted";
 
 /**
  * Defines values for IntegrationRuntimeState.
@@ -3626,7 +3693,17 @@ export type IntegrationRuntimeType = 'Managed' | 'SelfHosted';
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeState = 'Initial' | 'Stopped' | 'Started' | 'Starting' | 'Stopping' | 'NeedRegistration' | 'Online' | 'Limited' | 'Offline' | 'AccessDenied';
+export type IntegrationRuntimeState =
+  | "Initial"
+  | "Stopped"
+  | "Started"
+  | "Starting"
+  | "Stopping"
+  | "NeedRegistration"
+  | "Online"
+  | "Limited"
+  | "Offline"
+  | "AccessDenied";
 
 /**
  * Defines values for DataFlowComputeType.
@@ -3634,7 +3711,7 @@ export type IntegrationRuntimeState = 'Initial' | 'Stopped' | 'Started' | 'Start
  * @readonly
  * @enum {string}
  */
-export type DataFlowComputeType = 'General' | 'MemoryOptimized' | 'ComputeOptimized';
+export type DataFlowComputeType = "General" | "MemoryOptimized" | "ComputeOptimized";
 
 /**
  * Defines values for IntegrationRuntimeSsisCatalogPricingTier.
@@ -3642,7 +3719,11 @@ export type DataFlowComputeType = 'General' | 'MemoryOptimized' | 'ComputeOptimi
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeSsisCatalogPricingTier = 'Basic' | 'Standard' | 'Premium' | 'PremiumRS';
+export type IntegrationRuntimeSsisCatalogPricingTier =
+  | "Basic"
+  | "Standard"
+  | "Premium"
+  | "PremiumRS";
 
 /**
  * Defines values for IntegrationRuntimeLicenseType.
@@ -3650,7 +3731,7 @@ export type IntegrationRuntimeSsisCatalogPricingTier = 'Basic' | 'Standard' | 'P
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeLicenseType = 'BasePrice' | 'LicenseIncluded';
+export type IntegrationRuntimeLicenseType = "BasePrice" | "LicenseIncluded";
 
 /**
  * Defines values for IntegrationRuntimeEntityReferenceType.
@@ -3658,7 +3739,9 @@ export type IntegrationRuntimeLicenseType = 'BasePrice' | 'LicenseIncluded';
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeEntityReferenceType = 'IntegrationRuntimeReference' | 'LinkedServiceReference';
+export type IntegrationRuntimeEntityReferenceType =
+  | "IntegrationRuntimeReference"
+  | "LinkedServiceReference";
 
 /**
  * Defines values for IntegrationRuntimeEdition.
@@ -3666,7 +3749,7 @@ export type IntegrationRuntimeEntityReferenceType = 'IntegrationRuntimeReference
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeEdition = 'Standard' | 'Enterprise';
+export type IntegrationRuntimeEdition = "Standard" | "Enterprise";
 
 /**
  * Defines values for ManagedIntegrationRuntimeNodeStatus.
@@ -3674,7 +3757,11 @@ export type IntegrationRuntimeEdition = 'Standard' | 'Enterprise';
  * @readonly
  * @enum {string}
  */
-export type ManagedIntegrationRuntimeNodeStatus = 'Starting' | 'Available' | 'Recycling' | 'Unavailable';
+export type ManagedIntegrationRuntimeNodeStatus =
+  | "Starting"
+  | "Available"
+  | "Recycling"
+  | "Unavailable";
 
 /**
  * Defines values for IntegrationRuntimeInternalChannelEncryptionMode.
@@ -3682,7 +3769,10 @@ export type ManagedIntegrationRuntimeNodeStatus = 'Starting' | 'Available' | 'Re
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeInternalChannelEncryptionMode = 'NotSet' | 'SslEncrypted' | 'NotEncrypted';
+export type IntegrationRuntimeInternalChannelEncryptionMode =
+  | "NotSet"
+  | "SslEncrypted"
+  | "NotEncrypted";
 
 /**
  * Defines values for SelfHostedIntegrationRuntimeNodeStatus.
@@ -3691,7 +3781,14 @@ export type IntegrationRuntimeInternalChannelEncryptionMode = 'NotSet' | 'SslEnc
  * @readonly
  * @enum {string}
  */
-export type SelfHostedIntegrationRuntimeNodeStatus = 'NeedRegistration' | 'Online' | 'Limited' | 'Offline' | 'Upgrading' | 'Initializing' | 'InitializeFailed';
+export type SelfHostedIntegrationRuntimeNodeStatus =
+  | "NeedRegistration"
+  | "Online"
+  | "Limited"
+  | "Offline"
+  | "Upgrading"
+  | "Initializing"
+  | "InitializeFailed";
 
 /**
  * Defines values for IntegrationRuntimeUpdateResult.
@@ -3699,7 +3796,7 @@ export type SelfHostedIntegrationRuntimeNodeStatus = 'NeedRegistration' | 'Onlin
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeUpdateResult = 'None' | 'Succeed' | 'Fail';
+export type IntegrationRuntimeUpdateResult = "None" | "Succeed" | "Fail";
 
 /**
  * Defines values for IntegrationRuntimeAutoUpdate.
@@ -3707,7 +3804,7 @@ export type IntegrationRuntimeUpdateResult = 'None' | 'Succeed' | 'Fail';
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeAutoUpdate = 'On' | 'Off';
+export type IntegrationRuntimeAutoUpdate = "On" | "Off";
 
 /**
  * Defines values for IntegrationRuntimeAuthKeyName.
@@ -3715,7 +3812,7 @@ export type IntegrationRuntimeAutoUpdate = 'On' | 'Off';
  * @readonly
  * @enum {string}
  */
-export type IntegrationRuntimeAuthKeyName = 'authKey1' | 'authKey2';
+export type IntegrationRuntimeAuthKeyName = "authKey1" | "authKey2";
 
 /**
  * Defines values for SsisObjectMetadataType.
@@ -3723,7 +3820,7 @@ export type IntegrationRuntimeAuthKeyName = 'authKey1' | 'authKey2';
  * @readonly
  * @enum {string}
  */
-export type SsisObjectMetadataType = 'Folder' | 'Project' | 'Package' | 'Environment';
+export type SsisObjectMetadataType = "Folder" | "Project" | "Package" | "Environment";
 
 /**
  * Defines values for VulnerabilityAssessmentPolicyBaselineName.
@@ -3731,7 +3828,7 @@ export type SsisObjectMetadataType = 'Folder' | 'Project' | 'Package' | 'Environ
  * @readonly
  * @enum {string}
  */
-export type VulnerabilityAssessmentPolicyBaselineName = 'master' | 'default';
+export type VulnerabilityAssessmentPolicyBaselineName = "master" | "default";
 
 /**
  * Defines values for Status.
@@ -3739,7 +3836,7 @@ export type VulnerabilityAssessmentPolicyBaselineName = 'master' | 'default';
  * @readonly
  * @enum {string}
  */
-export type Status = 'Approved' | 'Pending' | 'Rejected' | 'Disconnected';
+export type Status = "Approved" | "Pending" | "Rejected" | "Disconnected";
 
 /**
  * Defines values for DesiredState.
@@ -3747,7 +3844,7 @@ export type Status = 'Approved' | 'Pending' | 'Rejected' | 'Disconnected';
  * @readonly
  * @enum {string}
  */
-export type DesiredState = 'Enabled' | 'Disabled';
+export type DesiredState = "Enabled" | "Disabled";
 
 /**
  * Defines values for ActualState.
@@ -3755,7 +3852,7 @@ export type DesiredState = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type ActualState = 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Unknown';
+export type ActualState = "Enabling" | "Enabled" | "Disabling" | "Disabled" | "Unknown";
 
 /**
  * Defines values for ProvisioningState1.
@@ -3763,7 +3860,7 @@ export type ActualState = 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'U
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState1 = 'Succeeded' | 'Failed';
+export type ProvisioningState1 = "Succeeded" | "Failed";
 
 /**
  * Contains response data for the get operation.
@@ -3773,16 +3870,16 @@ export type BigDataPoolsGetResponse = BigDataPoolResourceInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BigDataPoolResourceInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BigDataPoolResourceInfo;
+  };
 };
 
 /**
@@ -3793,16 +3890,16 @@ export type BigDataPoolsUpdateResponse = BigDataPoolResourceInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BigDataPoolResourceInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BigDataPoolResourceInfo;
+  };
 };
 
 /**
@@ -3813,16 +3910,16 @@ export type BigDataPoolsCreateOrUpdateResponse = BigDataPoolResourceInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BigDataPoolResourceInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BigDataPoolResourceInfo;
+  };
 };
 
 /**
@@ -3838,16 +3935,16 @@ export type BigDataPoolsDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -3858,16 +3955,16 @@ export type BigDataPoolsListByWorkspaceResponse = BigDataPoolResourceInfoListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BigDataPoolResourceInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BigDataPoolResourceInfoListResult;
+  };
 };
 
 /**
@@ -3878,16 +3975,16 @@ export type BigDataPoolsBeginCreateOrUpdateResponse = BigDataPoolResourceInfo & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BigDataPoolResourceInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BigDataPoolResourceInfo;
+  };
 };
 
 /**
@@ -3903,16 +4000,16 @@ export type BigDataPoolsBeginDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -3923,16 +4020,16 @@ export type BigDataPoolsListByWorkspaceNextResponse = BigDataPoolResourceInfoLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BigDataPoolResourceInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BigDataPoolResourceInfoListResult;
+  };
 };
 
 /**
@@ -3943,16 +4040,16 @@ export type OperationsCheckNameAvailabilityResponse = CheckNameAvailabilityRespo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResponse;
+  };
 };
 
 /**
@@ -3963,16 +4060,16 @@ export type OperationsListResponse = Array<AvailableRpOperation> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableRpOperation[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailableRpOperation[];
+  };
 };
 
 /**
@@ -3988,16 +4085,16 @@ export type OperationsGetAzureAsyncHeaderResultResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4008,16 +4105,16 @@ export type IpFirewallRulesListByWorkspaceResponse = IpFirewallRuleInfoListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IpFirewallRuleInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IpFirewallRuleInfoListResult;
+  };
 };
 
 /**
@@ -4028,16 +4125,16 @@ export type IpFirewallRulesCreateOrUpdateResponse = IpFirewallRuleInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IpFirewallRuleInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IpFirewallRuleInfo;
+  };
 };
 
 /**
@@ -4053,16 +4150,16 @@ export type IpFirewallRulesDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4073,16 +4170,16 @@ export type IpFirewallRulesGetResponse = IpFirewallRuleInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IpFirewallRuleInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IpFirewallRuleInfo;
+  };
 };
 
 /**
@@ -4093,16 +4190,16 @@ export type IpFirewallRulesReplaceAllResponse = ReplaceAllFirewallRulesOperation
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplaceAllFirewallRulesOperationResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplaceAllFirewallRulesOperationResponse;
+  };
 };
 
 /**
@@ -4113,16 +4210,16 @@ export type IpFirewallRulesBeginCreateOrUpdateResponse = IpFirewallRuleInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IpFirewallRuleInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IpFirewallRuleInfo;
+  };
 };
 
 /**
@@ -4138,16 +4235,16 @@ export type IpFirewallRulesBeginDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4158,16 +4255,16 @@ export type IpFirewallRulesBeginReplaceAllResponse = ReplaceAllFirewallRulesOper
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplaceAllFirewallRulesOperationResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplaceAllFirewallRulesOperationResponse;
+  };
 };
 
 /**
@@ -4178,16 +4275,16 @@ export type IpFirewallRulesListByWorkspaceNextResponse = IpFirewallRuleInfoListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IpFirewallRuleInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IpFirewallRuleInfoListResult;
+  };
 };
 
 /**
@@ -4198,16 +4295,16 @@ export type SqlPoolsGetResponse = SqlPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPool;
+  };
 };
 
 /**
@@ -4218,16 +4315,16 @@ export type SqlPoolsUpdateResponse = SqlPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPool;
+  };
 };
 
 /**
@@ -4238,16 +4335,16 @@ export type SqlPoolsCreateResponse = SqlPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPool;
+  };
 };
 
 /**
@@ -4263,16 +4360,16 @@ export type SqlPoolsDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4283,16 +4380,16 @@ export type SqlPoolsListByWorkspaceResponse = SqlPoolInfoListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolInfoListResult;
+  };
 };
 
 /**
@@ -4308,16 +4405,16 @@ export type SqlPoolsPauseResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4333,16 +4430,16 @@ export type SqlPoolsResumeResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4353,16 +4450,16 @@ export type SqlPoolsBeginCreateResponse = SqlPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPool;
+  };
 };
 
 /**
@@ -4378,16 +4475,16 @@ export type SqlPoolsBeginDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4403,16 +4500,16 @@ export type SqlPoolsBeginPauseResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4428,16 +4525,16 @@ export type SqlPoolsBeginResumeResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4448,16 +4545,16 @@ export type SqlPoolsListByWorkspaceNextResponse = SqlPoolInfoListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolInfoListResult;
+  };
 };
 
 /**
@@ -4468,16 +4565,16 @@ export type SqlPoolMetadataSyncConfigsGetResponse = MetadataSyncConfig & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetadataSyncConfig;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetadataSyncConfig;
+  };
 };
 
 /**
@@ -4488,16 +4585,16 @@ export type SqlPoolMetadataSyncConfigsCreateResponse = MetadataSyncConfig & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetadataSyncConfig;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetadataSyncConfig;
+  };
 };
 
 /**
@@ -4513,16 +4610,16 @@ export type SqlPoolOperationResultsGetLocationHeaderResultResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4533,16 +4630,16 @@ export type SqlPoolGeoBackupPoliciesGetResponse = GeoBackupPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GeoBackupPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GeoBackupPolicy;
+  };
 };
 
 /**
@@ -4553,16 +4650,16 @@ export type SqlPoolDataWarehouseUserActivitiesGetResponse = DataWarehouseUserAct
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataWarehouseUserActivities;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataWarehouseUserActivities;
+  };
 };
 
 /**
@@ -4573,16 +4670,16 @@ export type SqlPoolRestorePointsListResponse = RestorePointListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RestorePointListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePointListResult;
+  };
 };
 
 /**
@@ -4593,16 +4690,16 @@ export type SqlPoolRestorePointsCreateResponse = RestorePoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RestorePoint;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePoint;
+  };
 };
 
 /**
@@ -4613,16 +4710,16 @@ export type SqlPoolRestorePointsBeginCreateResponse = RestorePoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RestorePoint;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePoint;
+  };
 };
 
 /**
@@ -4633,16 +4730,16 @@ export type SqlPoolRestorePointsListNextResponse = RestorePointListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RestorePointListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestorePointListResult;
+  };
 };
 
 /**
@@ -4653,16 +4750,16 @@ export type SqlPoolReplicationLinksListResponse = ReplicationLinkListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationLinkListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationLinkListResult;
+  };
 };
 
 /**
@@ -4673,16 +4770,16 @@ export type SqlPoolReplicationLinksListNextResponse = ReplicationLinkListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationLinkListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationLinkListResult;
+  };
 };
 
 /**
@@ -4693,16 +4790,16 @@ export type SqlPoolTransparentDataEncryptionsGetResponse = TransparentDataEncryp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TransparentDataEncryption;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TransparentDataEncryption;
+  };
 };
 
 /**
@@ -4713,16 +4810,16 @@ export type SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse = Transparen
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TransparentDataEncryption;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TransparentDataEncryption;
+  };
 };
 
 /**
@@ -4733,16 +4830,16 @@ export type SqlPoolBlobAuditingPoliciesGetResponse = SqlPoolBlobAuditingPolicy &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolBlobAuditingPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolBlobAuditingPolicy;
+  };
 };
 
 /**
@@ -4753,16 +4850,16 @@ export type SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse = SqlPoolBlobAudit
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolBlobAuditingPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolBlobAuditingPolicy;
+  };
 };
 
 /**
@@ -4773,16 +4870,16 @@ export type SqlPoolOperationsListResponse = SqlPoolBlobAuditingPolicySqlPoolOper
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolBlobAuditingPolicySqlPoolOperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolBlobAuditingPolicySqlPoolOperationListResult;
+  };
 };
 
 /**
@@ -4793,16 +4890,16 @@ export type SqlPoolOperationsListNextResponse = SqlPoolBlobAuditingPolicySqlPool
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolBlobAuditingPolicySqlPoolOperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolBlobAuditingPolicySqlPoolOperationListResult;
+  };
 };
 
 /**
@@ -4813,16 +4910,16 @@ export type SqlPoolUsagesListResponse = SqlPoolUsageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolUsageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolUsageListResult;
+  };
 };
 
 /**
@@ -4833,16 +4930,16 @@ export type SqlPoolUsagesListNextResponse = SqlPoolUsageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolUsageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolUsageListResult;
+  };
 };
 
 /**
@@ -4853,16 +4950,16 @@ export type SqlPoolSensitivityLabelsListCurrentResponse = SensitivityLabelListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SensitivityLabelListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SensitivityLabelListResult;
+  };
 };
 
 /**
@@ -4873,16 +4970,16 @@ export type SqlPoolSensitivityLabelsListRecommendedResponse = SensitivityLabelLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SensitivityLabelListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SensitivityLabelListResult;
+  };
 };
 
 /**
@@ -4893,16 +4990,16 @@ export type SqlPoolSensitivityLabelsCreateOrUpdateResponse = SensitivityLabel & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SensitivityLabel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SensitivityLabel;
+  };
 };
 
 /**
@@ -4913,16 +5010,16 @@ export type SqlPoolSensitivityLabelsListCurrentNextResponse = SensitivityLabelLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SensitivityLabelListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SensitivityLabelListResult;
+  };
 };
 
 /**
@@ -4933,16 +5030,16 @@ export type SqlPoolSensitivityLabelsListRecommendedNextResponse = SensitivityLab
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SensitivityLabelListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SensitivityLabelListResult;
+  };
 };
 
 /**
@@ -4953,16 +5050,16 @@ export type SqlPoolSchemasListResponse = SqlPoolSchemaListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolSchemaListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolSchemaListResult;
+  };
 };
 
 /**
@@ -4973,16 +5070,16 @@ export type SqlPoolSchemasListNextResponse = SqlPoolSchemaListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolSchemaListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolSchemaListResult;
+  };
 };
 
 /**
@@ -4993,16 +5090,16 @@ export type SqlPoolTablesListBySchemaResponse = SqlPoolTableListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolTableListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolTableListResult;
+  };
 };
 
 /**
@@ -5013,16 +5110,16 @@ export type SqlPoolTablesListBySchemaNextResponse = SqlPoolTableListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolTableListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolTableListResult;
+  };
 };
 
 /**
@@ -5033,16 +5130,16 @@ export type SqlPoolTableColumnsListByTableNameResponse = SqlPoolColumnListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolColumnListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolColumnListResult;
+  };
 };
 
 /**
@@ -5053,16 +5150,16 @@ export type SqlPoolTableColumnsListByTableNameNextResponse = SqlPoolColumnListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolColumnListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolColumnListResult;
+  };
 };
 
 /**
@@ -5073,16 +5170,16 @@ export type SqlPoolConnectionPoliciesGetResponse = SqlPoolConnectionPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolConnectionPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolConnectionPolicy;
+  };
 };
 
 /**
@@ -5093,16 +5190,16 @@ export type SqlPoolVulnerabilityAssessmentsListResponse = SqlPoolVulnerabilityAs
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolVulnerabilityAssessmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolVulnerabilityAssessmentListResult;
+  };
 };
 
 /**
@@ -5113,16 +5210,16 @@ export type SqlPoolVulnerabilityAssessmentsGetResponse = SqlPoolVulnerabilityAss
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolVulnerabilityAssessment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolVulnerabilityAssessment;
+  };
 };
 
 /**
@@ -5133,16 +5230,16 @@ export type SqlPoolVulnerabilityAssessmentsCreateOrUpdateResponse = SqlPoolVulne
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolVulnerabilityAssessment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolVulnerabilityAssessment;
+  };
 };
 
 /**
@@ -5153,16 +5250,16 @@ export type SqlPoolVulnerabilityAssessmentsListNextResponse = SqlPoolVulnerabili
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolVulnerabilityAssessmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolVulnerabilityAssessmentListResult;
+  };
 };
 
 /**
@@ -5173,16 +5270,16 @@ export type SqlPoolVulnerabilityAssessmentScansListResponse = VulnerabilityAsses
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VulnerabilityAssessmentScanRecordListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VulnerabilityAssessmentScanRecordListResult;
+  };
 };
 
 /**
@@ -5193,16 +5290,16 @@ export type SqlPoolVulnerabilityAssessmentScansExportMethodResponse = SqlPoolVul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolVulnerabilityAssessmentScansExport;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolVulnerabilityAssessmentScansExport;
+  };
 };
 
 /**
@@ -5213,16 +5310,16 @@ export type SqlPoolVulnerabilityAssessmentScansListNextResponse = VulnerabilityA
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VulnerabilityAssessmentScanRecordListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VulnerabilityAssessmentScanRecordListResult;
+  };
 };
 
 /**
@@ -5233,16 +5330,16 @@ export type SqlPoolSecurityAlertPoliciesGetResponse = SqlPoolSecurityAlertPolicy
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolSecurityAlertPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolSecurityAlertPolicy;
+  };
 };
 
 /**
@@ -5253,16 +5350,16 @@ export type SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse = SqlPoolSecurity
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolSecurityAlertPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolSecurityAlertPolicy;
+  };
 };
 
 /**
@@ -5273,16 +5370,16 @@ export type SqlPoolVulnerabilityAssessmentRuleBaselinesCreateOrUpdateResponse = 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlPoolVulnerabilityAssessmentRuleBaseline;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlPoolVulnerabilityAssessmentRuleBaseline;
+  };
 };
 
 /**
@@ -5293,16 +5390,16 @@ export type WorkspacesListByResourceGroupResponse = WorkspaceInfoListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceInfoListResult;
+  };
 };
 
 /**
@@ -5313,16 +5410,16 @@ export type WorkspacesGetResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -5333,16 +5430,16 @@ export type WorkspacesUpdateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -5353,16 +5450,16 @@ export type WorkspacesCreateOrUpdateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -5378,16 +5475,16 @@ export type WorkspacesDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -5398,16 +5495,16 @@ export type WorkspacesListResponse = WorkspaceInfoListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceInfoListResult;
+  };
 };
 
 /**
@@ -5418,16 +5515,16 @@ export type WorkspacesBeginUpdateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -5438,16 +5535,16 @@ export type WorkspacesBeginCreateOrUpdateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -5463,16 +5560,16 @@ export type WorkspacesBeginDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -5483,16 +5580,16 @@ export type WorkspacesListByResourceGroupNextResponse = WorkspaceInfoListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceInfoListResult;
+  };
 };
 
 /**
@@ -5503,16 +5600,16 @@ export type WorkspacesListNextResponse = WorkspaceInfoListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceInfoListResult;
+  };
 };
 
 /**
@@ -5523,16 +5620,16 @@ export type WorkspaceAadAdminsGetResponse = WorkspaceAadAdminInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceAadAdminInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceAadAdminInfo;
+  };
 };
 
 /**
@@ -5543,16 +5640,16 @@ export type WorkspaceAadAdminsCreateOrUpdateResponse = WorkspaceAadAdminInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceAadAdminInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceAadAdminInfo;
+  };
 };
 
 /**
@@ -5563,16 +5660,16 @@ export type WorkspaceAadAdminsBeginCreateOrUpdateResponse = WorkspaceAadAdminInf
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceAadAdminInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceAadAdminInfo;
+  };
 };
 
 /**
@@ -5583,16 +5680,16 @@ export type WorkspaceManagedIdentitySqlControlSettingsGetResponse = ManagedIdent
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedIdentitySqlControlSettingsModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedIdentitySqlControlSettingsModel;
+  };
 };
 
 /**
@@ -5603,16 +5700,16 @@ export type WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse = M
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedIdentitySqlControlSettingsModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedIdentitySqlControlSettingsModel;
+  };
 };
 
 /**
@@ -5623,16 +5720,16 @@ export type IntegrationRuntimesUpdateResponse = IntegrationRuntimeResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationRuntimeResource;
+  };
 };
 
 /**
@@ -5643,16 +5740,16 @@ export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationRuntimeResource;
+  };
 };
 
 /**
@@ -5663,16 +5760,16 @@ export type IntegrationRuntimesCreateResponse = IntegrationRuntimeResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationRuntimeResource;
+  };
 };
 
 /**
@@ -5683,16 +5780,16 @@ export type IntegrationRuntimesListByWorkspaceResponse = IntegrationRuntimeListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationRuntimeListResponse;
+  };
 };
 
 /**
@@ -5703,16 +5800,16 @@ export type IntegrationRuntimesStartResponse = IntegrationRuntimeStatusResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationRuntimeStatusResponse;
+  };
 };
 
 /**
@@ -5723,16 +5820,16 @@ export type IntegrationRuntimesListByWorkspaceNextResponse = IntegrationRuntimeL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationRuntimeListResponse;
+  };
 };
 
 /**
@@ -5743,16 +5840,16 @@ export type IntegrationRuntimeNodeIpAddressGetResponse = IntegrationRuntimeNodeI
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeNodeIpAddress;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationRuntimeNodeIpAddress;
+  };
 };
 
 /**
@@ -5763,16 +5860,16 @@ export type IntegrationRuntimeObjectMetadataGetResponse = SsisObjectMetadataList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SsisObjectMetadataListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SsisObjectMetadataListResponse;
+  };
 };
 
 /**
@@ -5783,16 +5880,16 @@ export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadata
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SsisObjectMetadataStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SsisObjectMetadataStatusResponse;
+  };
 };
 
 /**
@@ -5803,16 +5900,16 @@ export type IntegrationRuntimeNodesGetResponse = SelfHostedIntegrationRuntimeNod
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SelfHostedIntegrationRuntimeNode;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SelfHostedIntegrationRuntimeNode;
+  };
 };
 
 /**
@@ -5823,16 +5920,16 @@ export type IntegrationRuntimeNodesUpdateResponse = SelfHostedIntegrationRuntime
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SelfHostedIntegrationRuntimeNode;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SelfHostedIntegrationRuntimeNode;
+  };
 };
 
 /**
@@ -5843,16 +5940,16 @@ export type IntegrationRuntimeConnectionInfosGetResponse = IntegrationRuntimeCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeConnectionInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationRuntimeConnectionInfo;
+  };
 };
 
 /**
@@ -5863,16 +5960,16 @@ export type IntegrationRuntimeAuthKeysRegenerateResponse = IntegrationRuntimeAut
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeAuthKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationRuntimeAuthKeys;
+  };
 };
 
 /**
@@ -5883,16 +5980,16 @@ export type IntegrationRuntimeAuthKeysListResponse = IntegrationRuntimeAuthKeys 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeAuthKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationRuntimeAuthKeys;
+  };
 };
 
 /**
@@ -5903,16 +6000,16 @@ export type IntegrationRuntimeMonitoringDataGetResponse = IntegrationRuntimeMoni
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeMonitoringData;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationRuntimeMonitoringData;
+  };
 };
 
 /**
@@ -5923,16 +6020,16 @@ export type IntegrationRuntimeStatusGetResponse = IntegrationRuntimeStatusRespon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationRuntimeStatusResponse;
+  };
 };
 
 /**
@@ -5943,16 +6040,16 @@ export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResourceListResult;
+  };
 };
 
 /**
@@ -5963,16 +6060,16 @@ export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResource;
+  };
 };
 
 /**
@@ -5983,16 +6080,16 @@ export type PrivateLinkResourcesListNextResponse = PrivateLinkResourceListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResourceListResult;
+  };
 };
 
 /**
@@ -6003,16 +6100,16 @@ export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -6023,16 +6120,16 @@ export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -6043,16 +6140,16 @@ export type PrivateEndpointConnectionsDeleteMethodResponse = OperationResource &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationResource;
+  };
 };
 
 /**
@@ -6063,16 +6160,16 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnectionList;
+  };
 };
 
 /**
@@ -6083,16 +6180,16 @@ export type PrivateEndpointConnectionsBeginCreateResponse = PrivateEndpointConne
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -6103,16 +6200,16 @@ export type PrivateEndpointConnectionsBeginDeleteMethodResponse = OperationResou
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationResource;
+  };
 };
 
 /**
@@ -6123,16 +6220,16 @@ export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnecti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnectionList;
+  };
 };
 
 /**
@@ -6143,16 +6240,16 @@ export type PrivateLinkHubsListByResourceGroupResponse = PrivateLinkHubInfoListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHubInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkHubInfoListResult;
+  };
 };
 
 /**
@@ -6163,16 +6260,16 @@ export type PrivateLinkHubsGetResponse = PrivateLinkHub & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHub;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkHub;
+  };
 };
 
 /**
@@ -6183,16 +6280,16 @@ export type PrivateLinkHubsUpdateResponse = PrivateLinkHub & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHub;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkHub;
+  };
 };
 
 /**
@@ -6203,16 +6300,16 @@ export type PrivateLinkHubsCreateOrUpdateResponse = PrivateLinkHub & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHub;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkHub;
+  };
 };
 
 /**
@@ -6223,16 +6320,16 @@ export type PrivateLinkHubsListResponse = PrivateLinkHubInfoListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHubInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkHubInfoListResult;
+  };
 };
 
 /**
@@ -6243,16 +6340,16 @@ export type PrivateLinkHubsListByResourceGroupNextResponse = PrivateLinkHubInfoL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHubInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkHubInfoListResult;
+  };
 };
 
 /**
@@ -6263,14 +6360,14 @@ export type PrivateLinkHubsListNextResponse = PrivateLinkHubInfoListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHubInfoListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkHubInfoListResult;
+  };
 };

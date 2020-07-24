@@ -41,14 +41,23 @@ export class ExpressRoutePortsLocations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): Promise<Models.ExpressRoutePortsLocationsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>,
+    callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>
+  ): Promise<Models.ExpressRoutePortsLocationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ExpressRoutePortsLocationsListResponse>;
+      callback
+    ) as Promise<Models.ExpressRoutePortsLocationsListResponse>;
   }
 
   /**
@@ -58,26 +67,41 @@ export class ExpressRoutePortsLocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsLocationsGetResponse>
    */
-  get(locationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRoutePortsLocationsGetResponse>;
+  get(
+    locationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRoutePortsLocationsGetResponse>;
   /**
    * @param locationName Name of the requested ExpressRoutePort peering location.
    * @param callback The callback
    */
-  get(locationName: string, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocation>): void;
+  get(
+    locationName: string,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocation>
+  ): void;
   /**
    * @param locationName Name of the requested ExpressRoutePort peering location.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocation>): void;
-  get(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortsLocation>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocation>): Promise<Models.ExpressRoutePortsLocationsGetResponse> {
+  get(
+    locationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocation>
+  ): void;
+  get(
+    locationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortsLocation>,
+    callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocation>
+  ): Promise<Models.ExpressRoutePortsLocationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ExpressRoutePortsLocationsGetResponse>;
+      callback
+    ) as Promise<Models.ExpressRoutePortsLocationsGetResponse>;
   }
 
   /**
@@ -87,26 +111,43 @@ export class ExpressRoutePortsLocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsLocationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRoutePortsLocationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRoutePortsLocationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>): Promise<Models.ExpressRoutePortsLocationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>,
+    callback?: msRest.ServiceCallback<Models.ExpressRoutePortsLocationListResult>
+  ): Promise<Models.ExpressRoutePortsLocationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ExpressRoutePortsLocationsListNextResponse>;
+      callback
+    ) as Promise<Models.ExpressRoutePortsLocationsListNextResponse>;
   }
 }
 
@@ -115,15 +156,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRoutePortsLocationListResult
@@ -137,17 +172,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations/{locationName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.locationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations/{locationName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.locationName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRoutePortsLocation
@@ -163,12 +192,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRoutePortsLocationListResult

@@ -34,21 +34,39 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersGetResponse>
    */
-  get(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersGetResponse>;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.Cluster>): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.Cluster>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Cluster>): void;
-  get(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersGetResponse> {
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Cluster>
+  ): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>,
+    callback?: msRest.ServiceCallback<Models.Cluster>
+  ): Promise<Models.ClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class Clusters {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ClustersGetResponse>;
+      callback
+    ) as Promise<Models.ClustersGetResponse>;
   }
 
   /**
@@ -67,9 +86,20 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, clusterName: string, parameters: Models.Cluster, options?: msRest.RequestOptionsBase): Promise<Models.ClustersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,clusterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ClustersCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.Cluster,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      clusterName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ClustersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -80,9 +110,15 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersUpdateResponse>
    */
-  update(resourceGroupName: string, clusterName: string, parameters: Models.ClusterUpdate, options?: msRest.RequestOptionsBase): Promise<Models.ClustersUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,clusterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ClustersUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersUpdateResponse> {
+    return this.beginUpdate(resourceGroupName, clusterName, parameters, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ClustersUpdateResponse>;
   }
 
   /**
@@ -92,9 +128,14 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, clusterName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -104,9 +145,14 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStop(resourceGroupName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  stop(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStop(resourceGroupName, clusterName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -116,9 +162,14 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStart(resourceGroupName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  start(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStart(resourceGroupName, clusterName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -128,21 +179,39 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListFollowerDatabasesResponse>
    */
-  listFollowerDatabases(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListFollowerDatabasesResponse>;
+  listFollowerDatabases(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersListFollowerDatabasesResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param callback The callback
    */
-  listFollowerDatabases(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.FollowerDatabaseListResult>): void;
+  listFollowerDatabases(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.FollowerDatabaseListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listFollowerDatabases(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FollowerDatabaseListResult>): void;
-  listFollowerDatabases(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FollowerDatabaseListResult>, callback?: msRest.ServiceCallback<Models.FollowerDatabaseListResult>): Promise<Models.ClustersListFollowerDatabasesResponse> {
+  listFollowerDatabases(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FollowerDatabaseListResult>
+  ): void;
+  listFollowerDatabases(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FollowerDatabaseListResult>,
+    callback?: msRest.ServiceCallback<Models.FollowerDatabaseListResult>
+  ): Promise<Models.ClustersListFollowerDatabasesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -150,7 +219,8 @@ export class Clusters {
         options
       },
       listFollowerDatabasesOperationSpec,
-      callback) as Promise<Models.ClustersListFollowerDatabasesResponse>;
+      callback
+    ) as Promise<Models.ClustersListFollowerDatabasesResponse>;
   }
 
   /**
@@ -161,9 +231,18 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  detachFollowerDatabases(resourceGroupName: string, clusterName: string, followerDatabaseToRemove: Models.FollowerDatabaseDefinition, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDetachFollowerDatabases(resourceGroupName,clusterName,followerDatabaseToRemove,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  detachFollowerDatabases(
+    resourceGroupName: string,
+    clusterName: string,
+    followerDatabaseToRemove: Models.FollowerDatabaseDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDetachFollowerDatabases(
+      resourceGroupName,
+      clusterName,
+      followerDatabaseToRemove,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -174,9 +253,18 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersDiagnoseVirtualNetworkResponse>
    */
-  diagnoseVirtualNetwork(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersDiagnoseVirtualNetworkResponse> {
-    return this.beginDiagnoseVirtualNetwork(resourceGroupName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ClustersDiagnoseVirtualNetworkResponse>;
+  diagnoseVirtualNetwork(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersDiagnoseVirtualNetworkResponse> {
+    return this.beginDiagnoseVirtualNetwork(
+      resourceGroupName,
+      clusterName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ClustersDiagnoseVirtualNetworkResponse
+    >;
   }
 
   /**
@@ -185,26 +273,41 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.ClusterListResult>
+  ): Promise<Models.ClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ClustersListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ClustersListByResourceGroupResponse>;
   }
 
   /**
@@ -221,14 +324,21 @@ export class Clusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.ClusterListResult>
+  ): Promise<Models.ClustersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ClustersListResponse>;
+      callback
+    ) as Promise<Models.ClustersListResponse>;
   }
 
   /**
@@ -245,14 +355,21 @@ export class Clusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkus(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuDescriptionList>): void;
-  listSkus(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuDescriptionList>, callback?: msRest.ServiceCallback<Models.SkuDescriptionList>): Promise<Models.ClustersListSkusResponse> {
+  listSkus(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SkuDescriptionList>
+  ): void;
+  listSkus(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.SkuDescriptionList>
+  ): Promise<Models.ClustersListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listSkusOperationSpec,
-      callback) as Promise<Models.ClustersListSkusResponse>;
+      callback
+    ) as Promise<Models.ClustersListSkusResponse>;
   }
 
   /**
@@ -262,21 +379,39 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(location: string, clusterName: Models.ClusterCheckNameRequest, options?: msRest.RequestOptionsBase): Promise<Models.ClustersCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    location: string,
+    clusterName: Models.ClusterCheckNameRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersCheckNameAvailabilityResponse>;
   /**
    * @param location Azure location.
    * @param clusterName The name of the cluster.
    * @param callback The callback
    */
-  checkNameAvailability(location: string, clusterName: Models.ClusterCheckNameRequest, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
+  checkNameAvailability(
+    location: string,
+    clusterName: Models.ClusterCheckNameRequest,
+    callback: msRest.ServiceCallback<Models.CheckNameResult>
+  ): void;
   /**
    * @param location Azure location.
    * @param clusterName The name of the cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(location: string, clusterName: Models.ClusterCheckNameRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
-  checkNameAvailability(location: string, clusterName: Models.ClusterCheckNameRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>, callback?: msRest.ServiceCallback<Models.CheckNameResult>): Promise<Models.ClustersCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    location: string,
+    clusterName: Models.ClusterCheckNameRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameResult>
+  ): void;
+  checkNameAvailability(
+    location: string,
+    clusterName: Models.ClusterCheckNameRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>,
+    callback?: msRest.ServiceCallback<Models.CheckNameResult>
+  ): Promise<Models.ClustersCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -284,7 +419,8 @@ export class Clusters {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.ClustersCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.ClustersCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -294,21 +430,39 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListSkusByResourceResponse>
    */
-  listSkusByResource(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListSkusByResourceResponse>;
+  listSkusByResource(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersListSkusByResourceResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param callback The callback
    */
-  listSkusByResource(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.ListResourceSkusResult>): void;
+  listSkusByResource(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.ListResourceSkusResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkusByResource(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListResourceSkusResult>): void;
-  listSkusByResource(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListResourceSkusResult>, callback?: msRest.ServiceCallback<Models.ListResourceSkusResult>): Promise<Models.ClustersListSkusByResourceResponse> {
+  listSkusByResource(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListResourceSkusResult>
+  ): void;
+  listSkusByResource(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListResourceSkusResult>,
+    callback?: msRest.ServiceCallback<Models.ListResourceSkusResult>
+  ): Promise<Models.ClustersListSkusByResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -316,7 +470,8 @@ export class Clusters {
         options
       },
       listSkusByResourceOperationSpec,
-      callback) as Promise<Models.ClustersListSkusByResourceResponse>;
+      callback
+    ) as Promise<Models.ClustersListSkusByResourceResponse>;
   }
 
   /**
@@ -326,21 +481,39 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListLanguageExtensionsResponse>
    */
-  listLanguageExtensions(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListLanguageExtensionsResponse>;
+  listLanguageExtensions(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersListLanguageExtensionsResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param callback The callback
    */
-  listLanguageExtensions(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.LanguageExtensionsList>): void;
+  listLanguageExtensions(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.LanguageExtensionsList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listLanguageExtensions(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LanguageExtensionsList>): void;
-  listLanguageExtensions(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LanguageExtensionsList>, callback?: msRest.ServiceCallback<Models.LanguageExtensionsList>): Promise<Models.ClustersListLanguageExtensionsResponse> {
+  listLanguageExtensions(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LanguageExtensionsList>
+  ): void;
+  listLanguageExtensions(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LanguageExtensionsList>,
+    callback?: msRest.ServiceCallback<Models.LanguageExtensionsList>
+  ): Promise<Models.ClustersListLanguageExtensionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -348,7 +521,8 @@ export class Clusters {
         options
       },
       listLanguageExtensionsOperationSpec,
-      callback) as Promise<Models.ClustersListLanguageExtensionsResponse>;
+      callback
+    ) as Promise<Models.ClustersListLanguageExtensionsResponse>;
   }
 
   /**
@@ -359,9 +533,18 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  addLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToAdd: Models.LanguageExtensionsList, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginAddLanguageExtensions(resourceGroupName,clusterName,languageExtensionsToAdd,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  addLanguageExtensions(
+    resourceGroupName: string,
+    clusterName: string,
+    languageExtensionsToAdd: Models.LanguageExtensionsList,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginAddLanguageExtensions(
+      resourceGroupName,
+      clusterName,
+      languageExtensionsToAdd,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -372,9 +555,18 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  removeLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToRemove: Models.LanguageExtensionsList, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRemoveLanguageExtensions(resourceGroupName,clusterName,languageExtensionsToRemove,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  removeLanguageExtensions(
+    resourceGroupName: string,
+    clusterName: string,
+    languageExtensionsToRemove: Models.LanguageExtensionsList,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRemoveLanguageExtensions(
+      resourceGroupName,
+      clusterName,
+      languageExtensionsToRemove,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -385,7 +577,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Models.Cluster, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.Cluster,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -394,7 +591,8 @@ export class Clusters {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -405,7 +603,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, clusterName: string, parameters: Models.ClusterUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -414,7 +617,8 @@ export class Clusters {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -424,7 +628,11 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -432,7 +640,8 @@ export class Clusters {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -442,7 +651,11 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStop(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -450,7 +663,8 @@ export class Clusters {
         options
       },
       beginStopOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -460,7 +674,11 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -468,7 +686,8 @@ export class Clusters {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -479,7 +698,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDetachFollowerDatabases(resourceGroupName: string, clusterName: string, followerDatabaseToRemove: Models.FollowerDatabaseDefinition, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDetachFollowerDatabases(
+    resourceGroupName: string,
+    clusterName: string,
+    followerDatabaseToRemove: Models.FollowerDatabaseDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -488,7 +712,8 @@ export class Clusters {
         options
       },
       beginDetachFollowerDatabasesOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -499,7 +724,11 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDiagnoseVirtualNetwork(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDiagnoseVirtualNetwork(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -507,7 +736,8 @@ export class Clusters {
         options
       },
       beginDiagnoseVirtualNetworkOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -518,7 +748,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginAddLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToAdd: Models.LanguageExtensionsList, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginAddLanguageExtensions(
+    resourceGroupName: string,
+    clusterName: string,
+    languageExtensionsToAdd: Models.LanguageExtensionsList,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -527,7 +762,8 @@ export class Clusters {
         options
       },
       beginAddLanguageExtensionsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -538,7 +774,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRemoveLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToRemove: Models.LanguageExtensionsList, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRemoveLanguageExtensions(
+    resourceGroupName: string,
+    clusterName: string,
+    languageExtensionsToRemove: Models.LanguageExtensionsList,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -547,7 +788,8 @@ export class Clusters {
         options
       },
       beginRemoveLanguageExtensionsOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -555,18 +797,11 @@ export class Clusters {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.clusterName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Cluster
@@ -580,18 +815,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listFollowerDatabasesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listFollowerDatabases",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listFollowerDatabases",
+  urlParameters: [Parameters.resourceGroupName, Parameters.clusterName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FollowerDatabaseListResult
@@ -605,17 +833,11 @@ const listFollowerDatabasesOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterListResult
@@ -630,15 +852,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Kusto/clusters",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterListResult
@@ -653,15 +869,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const listSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Kusto/skus",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SkuDescriptionList
@@ -675,17 +885,11 @@ const listSkusOperationSpec: msRest.OperationSpec = {
 
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/checkNameAvailability",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "clusterName",
     mapper: {
@@ -706,18 +910,11 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const listSkusByResourceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/skus",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/skus",
+  urlParameters: [Parameters.resourceGroupName, Parameters.clusterName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListResourceSkusResult
@@ -731,18 +928,11 @@ const listSkusByResourceOperationSpec: msRest.OperationSpec = {
 
 const listLanguageExtensionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listLanguageExtensions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listLanguageExtensions",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LanguageExtensionsList
@@ -756,18 +946,11 @@ const listLanguageExtensionsOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.clusterName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -791,18 +974,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.clusterName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -829,18 +1005,11 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.clusterName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -854,18 +1023,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginStopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/stop",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/stop",
+  urlParameters: [Parameters.resourceGroupName, Parameters.clusterName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -878,18 +1040,11 @@ const beginStopOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/start",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/start",
+  urlParameters: [Parameters.resourceGroupName, Parameters.clusterName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -902,18 +1057,11 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginDetachFollowerDatabasesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/detachFollowerDatabases",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/detachFollowerDatabases",
+  urlParameters: [Parameters.resourceGroupName, Parameters.clusterName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "followerDatabaseToRemove",
     mapper: {
@@ -933,18 +1081,11 @@ const beginDetachFollowerDatabasesOperationSpec: msRest.OperationSpec = {
 
 const beginDiagnoseVirtualNetworkOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/diagnoseVirtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/diagnoseVirtualNetwork",
+  urlParameters: [Parameters.resourceGroupName, Parameters.clusterName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnoseVirtualNetworkResult
@@ -959,18 +1100,11 @@ const beginDiagnoseVirtualNetworkOperationSpec: msRest.OperationSpec = {
 
 const beginAddLanguageExtensionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/addLanguageExtensions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/addLanguageExtensions",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "languageExtensionsToAdd",
     mapper: {
@@ -990,18 +1124,11 @@ const beginAddLanguageExtensionsOperationSpec: msRest.OperationSpec = {
 
 const beginRemoveLanguageExtensionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/removeLanguageExtensions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/removeLanguageExtensions",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "languageExtensionsToRemove",
     mapper: {

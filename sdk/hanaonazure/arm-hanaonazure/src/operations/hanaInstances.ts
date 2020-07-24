@@ -43,14 +43,21 @@ export class HanaInstances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstancesListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstancesListResult>, callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>): Promise<Models.HanaInstancesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HanaInstancesListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstancesListResult>,
+    callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>
+  ): Promise<Models.HanaInstancesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.HanaInstancesListResponse>;
+      callback
+    ) as Promise<Models.HanaInstancesListResponse>;
   }
 
   /**
@@ -61,26 +68,41 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.HanaInstancesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HanaInstancesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.HanaInstancesListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.HanaInstancesListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstancesListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstancesListResult>, callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>): Promise<Models.HanaInstancesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HanaInstancesListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstancesListResult>,
+    callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>
+  ): Promise<Models.HanaInstancesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.HanaInstancesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.HanaInstancesListByResourceGroupResponse>;
   }
 
   /**
@@ -92,21 +114,39 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.HanaInstancesGetResponse>
    */
-  get(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesGetResponse>;
+  get(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HanaInstancesGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, hanaInstanceName: string, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  get(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    callback: msRest.ServiceCallback<Models.HanaInstance>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, hanaInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
-  get(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>, callback?: msRest.ServiceCallback<Models.HanaInstance>): Promise<Models.HanaInstancesGetResponse> {
+  get(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HanaInstance>
+  ): void;
+  get(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>,
+    callback?: msRest.ServiceCallback<Models.HanaInstance>
+  ): Promise<Models.HanaInstancesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +154,8 @@ export class HanaInstances {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.HanaInstancesGetResponse>;
+      callback
+    ) as Promise<Models.HanaInstancesGetResponse>;
   }
 
   /**
@@ -126,9 +167,20 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.HanaInstancesCreateResponse>
    */
-  create(resourceGroupName: string, hanaInstanceName: string, hanaInstanceParameter: Models.HanaInstance, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesCreateResponse> {
-    return this.beginCreate(resourceGroupName,hanaInstanceName,hanaInstanceParameter,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.HanaInstancesCreateResponse>;
+  create(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    hanaInstanceParameter: Models.HanaInstance,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HanaInstancesCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      hanaInstanceName,
+      hanaInstanceParameter,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.HanaInstancesCreateResponse
+    >;
   }
 
   /**
@@ -139,9 +191,14 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,hanaInstanceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, hanaInstanceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -154,14 +211,24 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.HanaInstancesUpdateResponse>
    */
-  update(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    tagsParameter: Models.Tags,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HanaInstancesUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
    * @param tagsParameter Request body that only contains the new Tags field
    * @param callback The callback
    */
-  update(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
+  update(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    tagsParameter: Models.Tags,
+    callback: msRest.ServiceCallback<Models.HanaInstance>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param hanaInstanceName Name of the SAP HANA on Azure instance.
@@ -169,8 +236,20 @@ export class HanaInstances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstance>): void;
-  update(resourceGroupName: string, hanaInstanceName: string, tagsParameter: Models.Tags, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>, callback?: msRest.ServiceCallback<Models.HanaInstance>): Promise<Models.HanaInstancesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    tagsParameter: Models.Tags,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HanaInstance>
+  ): void;
+  update(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    tagsParameter: Models.Tags,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstance>,
+    callback?: msRest.ServiceCallback<Models.HanaInstance>
+  ): Promise<Models.HanaInstancesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -179,7 +258,8 @@ export class HanaInstances {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.HanaInstancesUpdateResponse>;
+      callback
+    ) as Promise<Models.HanaInstancesUpdateResponse>;
   }
 
   /**
@@ -189,9 +269,14 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  restart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRestart(resourceGroupName,hanaInstanceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  restart(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRestart(resourceGroupName, hanaInstanceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -201,9 +286,14 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStart(resourceGroupName,hanaInstanceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  start(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStart(resourceGroupName, hanaInstanceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -213,9 +303,14 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  shutdown(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginShutdown(resourceGroupName,hanaInstanceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  shutdown(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginShutdown(resourceGroupName, hanaInstanceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -227,7 +322,12 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, hanaInstanceName: string, hanaInstanceParameter: Models.HanaInstance, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    hanaInstanceParameter: Models.HanaInstance,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -236,7 +336,8 @@ export class HanaInstances {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -247,7 +348,11 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -255,7 +360,8 @@ export class HanaInstances {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -265,7 +371,11 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRestart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRestart(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -273,7 +383,8 @@ export class HanaInstances {
         options
       },
       beginRestartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -283,7 +394,11 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -291,7 +406,8 @@ export class HanaInstances {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -301,7 +417,11 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginShutdown(resourceGroupName: string, hanaInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginShutdown(
+    resourceGroupName: string,
+    hanaInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -309,7 +429,8 @@ export class HanaInstances {
         options
       },
       beginShutdownOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -320,26 +441,41 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.HanaInstancesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HanaInstancesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.HanaInstancesListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.HanaInstancesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstancesListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstancesListResult>, callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>): Promise<Models.HanaInstancesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HanaInstancesListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstancesListResult>,
+    callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>
+  ): Promise<Models.HanaInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.HanaInstancesListNextResponse>;
+      callback
+    ) as Promise<Models.HanaInstancesListNextResponse>;
   }
 
   /**
@@ -350,26 +486,41 @@ export class HanaInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.HanaInstancesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.HanaInstancesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HanaInstancesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.HanaInstancesListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.HanaInstancesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HanaInstancesListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstancesListResult>, callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>): Promise<Models.HanaInstancesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HanaInstancesListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HanaInstancesListResult>,
+    callback?: msRest.ServiceCallback<Models.HanaInstancesListResult>
+  ): Promise<Models.HanaInstancesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.HanaInstancesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.HanaInstancesListByResourceGroupNextResponse>;
   }
 }
 
@@ -378,15 +529,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.HanaOnAzure/hanaInstances",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HanaInstancesListResult
@@ -400,17 +545,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HanaInstancesListResult
@@ -424,18 +563,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hanaInstanceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HanaInstance
@@ -449,18 +585,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hanaInstanceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "tagsParameter",
     mapper: {
@@ -481,18 +614,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hanaInstanceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "hanaInstanceParameter",
     mapper: {
@@ -516,18 +646,15 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hanaInstanceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -541,18 +668,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginRestartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}/restart",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}/restart",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hanaInstanceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -565,18 +689,15 @@ const beginRestartOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}/start",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}/start",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hanaInstanceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -589,18 +710,15 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginShutdownOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}/shutdown",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/hanaInstances/{hanaInstanceName}/shutdown",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hanaInstanceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -615,12 +733,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HanaInstancesListResult
@@ -636,12 +750,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HanaInstancesListResult

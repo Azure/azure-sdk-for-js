@@ -35,7 +35,13 @@ export class ApiIssueAttachment {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiIssueAttachmentListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: Models.ApiIssueAttachmentListByServiceOptionalParams): Promise<Models.ApiIssueAttachmentListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    options?: Models.ApiIssueAttachmentListByServiceOptionalParams
+  ): Promise<Models.ApiIssueAttachmentListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -43,7 +49,13 @@ export class ApiIssueAttachment {
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, callback: msRest.ServiceCallback<Models.IssueAttachmentCollection>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    callback: msRest.ServiceCallback<Models.IssueAttachmentCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -52,8 +64,24 @@ export class ApiIssueAttachment {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options: Models.ApiIssueAttachmentListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.IssueAttachmentCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, options?: Models.ApiIssueAttachmentListByServiceOptionalParams | msRest.ServiceCallback<Models.IssueAttachmentCollection>, callback?: msRest.ServiceCallback<Models.IssueAttachmentCollection>): Promise<Models.ApiIssueAttachmentListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    options: Models.ApiIssueAttachmentListByServiceOptionalParams,
+    callback: msRest.ServiceCallback<Models.IssueAttachmentCollection>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    options?:
+      | Models.ApiIssueAttachmentListByServiceOptionalParams
+      | msRest.ServiceCallback<Models.IssueAttachmentCollection>,
+    callback?: msRest.ServiceCallback<Models.IssueAttachmentCollection>
+  ): Promise<Models.ApiIssueAttachmentListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +91,8 @@ export class ApiIssueAttachment {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.ApiIssueAttachmentListByServiceResponse>;
+      callback
+    ) as Promise<Models.ApiIssueAttachmentListByServiceResponse>;
   }
 
   /**
@@ -77,7 +106,14 @@ export class ApiIssueAttachment {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiIssueAttachmentGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiIssueAttachmentGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApiIssueAttachmentGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -86,7 +122,14 @@ export class ApiIssueAttachment {
    * @param attachmentId Attachment identifier within an Issue. Must be unique in the current Issue.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -96,8 +139,24 @@ export class ApiIssueAttachment {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiIssueAttachmentGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.ApiIssueAttachmentGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +167,8 @@ export class ApiIssueAttachment {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.ApiIssueAttachmentGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.ApiIssueAttachmentGetEntityTagResponse>;
   }
 
   /**
@@ -121,7 +181,14 @@ export class ApiIssueAttachment {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiIssueAttachmentGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiIssueAttachmentGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApiIssueAttachmentGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -130,7 +197,14 @@ export class ApiIssueAttachment {
    * @param attachmentId Attachment identifier within an Issue. Must be unique in the current Issue.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, callback: msRest.ServiceCallback<Models.IssueAttachmentContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    callback: msRest.ServiceCallback<Models.IssueAttachmentContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -140,8 +214,24 @@ export class ApiIssueAttachment {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueAttachmentContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueAttachmentContract>, callback?: msRest.ServiceCallback<Models.IssueAttachmentContract>): Promise<Models.ApiIssueAttachmentGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IssueAttachmentContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueAttachmentContract>,
+    callback?: msRest.ServiceCallback<Models.IssueAttachmentContract>
+  ): Promise<Models.ApiIssueAttachmentGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -152,7 +242,8 @@ export class ApiIssueAttachment {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ApiIssueAttachmentGetResponse>;
+      callback
+    ) as Promise<Models.ApiIssueAttachmentGetResponse>;
   }
 
   /**
@@ -166,7 +257,15 @@ export class ApiIssueAttachment {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiIssueAttachmentCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, parameters: Models.IssueAttachmentContract, options?: Models.ApiIssueAttachmentCreateOrUpdateOptionalParams): Promise<Models.ApiIssueAttachmentCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    parameters: Models.IssueAttachmentContract,
+    options?: Models.ApiIssueAttachmentCreateOrUpdateOptionalParams
+  ): Promise<Models.ApiIssueAttachmentCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -176,7 +275,15 @@ export class ApiIssueAttachment {
    * @param parameters Create parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, parameters: Models.IssueAttachmentContract, callback: msRest.ServiceCallback<Models.IssueAttachmentContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    parameters: Models.IssueAttachmentContract,
+    callback: msRest.ServiceCallback<Models.IssueAttachmentContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -187,8 +294,28 @@ export class ApiIssueAttachment {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, parameters: Models.IssueAttachmentContract, options: Models.ApiIssueAttachmentCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.IssueAttachmentContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, parameters: Models.IssueAttachmentContract, options?: Models.ApiIssueAttachmentCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.IssueAttachmentContract>, callback?: msRest.ServiceCallback<Models.IssueAttachmentContract>): Promise<Models.ApiIssueAttachmentCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    parameters: Models.IssueAttachmentContract,
+    options: Models.ApiIssueAttachmentCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.IssueAttachmentContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    parameters: Models.IssueAttachmentContract,
+    options?:
+      | Models.ApiIssueAttachmentCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.IssueAttachmentContract>,
+    callback?: msRest.ServiceCallback<Models.IssueAttachmentContract>
+  ): Promise<Models.ApiIssueAttachmentCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -200,7 +327,8 @@ export class ApiIssueAttachment {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ApiIssueAttachmentCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ApiIssueAttachmentCreateOrUpdateResponse>;
   }
 
   /**
@@ -215,7 +343,15 @@ export class ApiIssueAttachment {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -226,7 +362,15 @@ export class ApiIssueAttachment {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -238,8 +382,26 @@ export class ApiIssueAttachment {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, issueId: string, attachmentId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    issueId: string,
+    attachmentId: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -251,7 +413,8 @@ export class ApiIssueAttachment {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -260,26 +423,41 @@ export class ApiIssueAttachment {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiIssueAttachmentListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiIssueAttachmentListByServiceNextResponse>;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApiIssueAttachmentListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IssueAttachmentCollection>): void;
+  listByServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IssueAttachmentCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IssueAttachmentCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueAttachmentCollection>, callback?: msRest.ServiceCallback<Models.IssueAttachmentCollection>): Promise<Models.ApiIssueAttachmentListByServiceNextResponse> {
+  listByServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IssueAttachmentCollection>
+  ): void;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IssueAttachmentCollection>,
+    callback?: msRest.ServiceCallback<Models.IssueAttachmentCollection>
+  ): Promise<Models.ApiIssueAttachmentListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.ApiIssueAttachmentListByServiceNextResponse>;
+      callback
+    ) as Promise<Models.ApiIssueAttachmentListByServiceNextResponse>;
   }
 }
 
@@ -287,7 +465,8 @@ export class ApiIssueAttachment {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -295,15 +474,8 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
     Parameters.issueId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter0, Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IssueAttachmentCollection
@@ -317,7 +489,8 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -326,12 +499,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
     Parameters.attachmentId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.ApiIssueAttachmentGetEntityTagHeaders
@@ -345,7 +514,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -354,12 +524,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.attachmentId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IssueAttachmentContract,
@@ -374,7 +540,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -383,13 +550,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.attachmentId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -415,7 +577,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/attachments/{attachmentId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -424,13 +587,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.attachmentId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -445,12 +603,8 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IssueAttachmentCollection

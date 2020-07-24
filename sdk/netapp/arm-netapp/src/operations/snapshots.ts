@@ -37,7 +37,13 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsListResponse>
    */
-  list(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotsListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SnapshotsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -45,7 +51,13 @@ export class Snapshots {
    * @param volumeName The name of the volume
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, callback: msRest.ServiceCallback<Models.SnapshotsList>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    callback: msRest.ServiceCallback<Models.SnapshotsList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -54,8 +66,22 @@ export class Snapshots {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SnapshotsList>): void;
-  list(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotsList>, callback?: msRest.ServiceCallback<Models.SnapshotsList>): Promise<Models.SnapshotsListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SnapshotsList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SnapshotsList>,
+    callback?: msRest.ServiceCallback<Models.SnapshotsList>
+  ): Promise<Models.SnapshotsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -65,7 +91,8 @@ export class Snapshots {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SnapshotsListResponse>;
+      callback
+    ) as Promise<Models.SnapshotsListResponse>;
   }
 
   /**
@@ -79,7 +106,14 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    snapshotName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SnapshotsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -88,7 +122,14 @@ export class Snapshots {
    * @param snapshotName The name of the mount target
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, callback: msRest.ServiceCallback<Models.Snapshot>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    snapshotName: string,
+    callback: msRest.ServiceCallback<Models.Snapshot>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -98,8 +139,24 @@ export class Snapshots {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Snapshot>): void;
-  get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Snapshot>, callback?: msRest.ServiceCallback<Models.Snapshot>): Promise<Models.SnapshotsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    snapshotName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Snapshot>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    snapshotName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Snapshot>,
+    callback?: msRest.ServiceCallback<Models.Snapshot>
+  ): Promise<Models.SnapshotsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -110,7 +167,8 @@ export class Snapshots {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SnapshotsGetResponse>;
+      callback
+    ) as Promise<Models.SnapshotsGetResponse>;
   }
 
   /**
@@ -125,9 +183,24 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, location: string, options?: Models.SnapshotsCreateOptionalParams): Promise<Models.SnapshotsCreateResponse> {
-    return this.beginCreate(resourceGroupName,accountName,poolName,volumeName,snapshotName,location,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SnapshotsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    snapshotName: string,
+    location: string,
+    options?: Models.SnapshotsCreateOptionalParams
+  ): Promise<Models.SnapshotsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      snapshotName,
+      location,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.SnapshotsCreateResponse>;
   }
 
   /**
@@ -142,9 +215,24 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotsUpdateResponse>
    */
-  update(body: any, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotsUpdateResponse> {
-    return this.beginUpdate(body,resourceGroupName,accountName,poolName,volumeName,snapshotName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SnapshotsUpdateResponse>;
+  update(
+    body: any,
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    snapshotName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SnapshotsUpdateResponse> {
+    return this.beginUpdate(
+      body,
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      snapshotName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.SnapshotsUpdateResponse>;
   }
 
   /**
@@ -158,9 +246,22 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,accountName,poolName,volumeName,snapshotName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    snapshotName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      snapshotName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -175,7 +276,15 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, location: string, options?: Models.SnapshotsBeginCreateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    snapshotName: string,
+    location: string,
+    options?: Models.SnapshotsBeginCreateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -187,7 +296,8 @@ export class Snapshots {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -202,7 +312,15 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(body: any, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    body: any,
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    snapshotName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         body,
@@ -214,7 +332,8 @@ export class Snapshots {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -228,7 +347,14 @@ export class Snapshots {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, snapshotName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    snapshotName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -239,7 +365,8 @@ export class Snapshots {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -247,7 +374,8 @@ export class Snapshots {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -255,12 +383,8 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SnapshotsList
@@ -274,7 +398,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -283,12 +408,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.volumeName,
     Parameters.snapshotName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Snapshot
@@ -302,7 +423,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -311,19 +433,12 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.volumeName,
     Parameters.snapshotName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       location: "location",
-      fileSystemId: [
-        "options",
-        "fileSystemId"
-      ]
+      fileSystemId: ["options", "fileSystemId"]
     },
     mapper: {
       ...Mappers.Snapshot,
@@ -344,7 +459,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -353,12 +469,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.volumeName,
     Parameters.snapshotName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -383,7 +495,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/snapshots/{snapshotName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -392,12 +505,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.volumeName,
     Parameters.snapshotName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

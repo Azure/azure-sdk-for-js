@@ -36,14 +36,24 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListByDeviceResponse>
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.JobsListByDeviceOptionalParams): Promise<Models.JobsListByDeviceResponse>;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.JobsListByDeviceOptionalParams
+  ): Promise<Models.JobsListByDeviceResponse>;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.JobList>): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.JobList>
+  ): void;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
@@ -51,8 +61,20 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: Models.JobsListByDeviceOptionalParams, callback: msRest.ServiceCallback<Models.JobList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.JobsListByDeviceOptionalParams | msRest.ServiceCallback<Models.JobList>, callback?: msRest.ServiceCallback<Models.JobList>): Promise<Models.JobsListByDeviceResponse> {
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.JobsListByDeviceOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobList>
+  ): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.JobsListByDeviceOptionalParams | msRest.ServiceCallback<Models.JobList>,
+    callback?: msRest.ServiceCallback<Models.JobList>
+  ): Promise<Models.JobsListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -61,7 +83,8 @@ export class Jobs {
         options
       },
       listByDeviceOperationSpec,
-      callback) as Promise<Models.JobsListByDeviceResponse>;
+      callback
+    ) as Promise<Models.JobsListByDeviceResponse>;
   }
 
   /**
@@ -73,7 +96,13 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsGetResponse>
    */
-  get(deviceName: string, jobName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsGetResponse>;
+  get(
+    deviceName: string,
+    jobName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsGetResponse>;
   /**
    * @param deviceName The device name
    * @param jobName The job Name.
@@ -81,7 +110,13 @@ export class Jobs {
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(deviceName: string, jobName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.Job>): void;
+  get(
+    deviceName: string,
+    jobName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.Job>
+  ): void;
   /**
    * @param deviceName The device name
    * @param jobName The job Name.
@@ -90,8 +125,22 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(deviceName: string, jobName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Job>): void;
-  get(deviceName: string, jobName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobsGetResponse> {
+  get(
+    deviceName: string,
+    jobName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Job>
+  ): void;
+  get(
+    deviceName: string,
+    jobName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>,
+    callback?: msRest.ServiceCallback<Models.Job>
+  ): Promise<Models.JobsGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -101,7 +150,8 @@ export class Jobs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.JobsGetResponse>;
+      callback
+    ) as Promise<Models.JobsGetResponse>;
   }
 
   /**
@@ -113,9 +163,20 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  cancel(deviceName: string, jobName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginCancel(deviceName,jobName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  cancel(
+    deviceName: string,
+    jobName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginCancel(
+      deviceName,
+      jobName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -126,21 +187,39 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListByManagerResponse>
    */
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.JobsListByManagerOptionalParams): Promise<Models.JobsListByManagerResponse>;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.JobsListByManagerOptionalParams
+  ): Promise<Models.JobsListByManagerResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.JobList>): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.JobList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, options: Models.JobsListByManagerOptionalParams, callback: msRest.ServiceCallback<Models.JobList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.JobsListByManagerOptionalParams | msRest.ServiceCallback<Models.JobList>, callback?: msRest.ServiceCallback<Models.JobList>): Promise<Models.JobsListByManagerResponse> {
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.JobsListByManagerOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobList>
+  ): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.JobsListByManagerOptionalParams | msRest.ServiceCallback<Models.JobList>,
+    callback?: msRest.ServiceCallback<Models.JobList>
+  ): Promise<Models.JobsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -148,7 +227,8 @@ export class Jobs {
         options
       },
       listByManagerOperationSpec,
-      callback) as Promise<Models.JobsListByManagerResponse>;
+      callback
+    ) as Promise<Models.JobsListByManagerResponse>;
   }
 
   /**
@@ -160,7 +240,13 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCancel(deviceName: string, jobName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCancel(
+    deviceName: string,
+    jobName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -170,7 +256,8 @@ export class Jobs {
         options
       },
       beginCancelOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -180,7 +267,10 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListByDeviceNextResponse>
    */
-  listByDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsListByDeviceNextResponse>;
+  listByDeviceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListByDeviceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -191,15 +281,24 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDeviceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobList>): void;
-  listByDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobList>, callback?: msRest.ServiceCallback<Models.JobList>): Promise<Models.JobsListByDeviceNextResponse> {
+  listByDeviceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobList>
+  ): void;
+  listByDeviceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobList>,
+    callback?: msRest.ServiceCallback<Models.JobList>
+  ): Promise<Models.JobsListByDeviceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByDeviceNextOperationSpec,
-      callback) as Promise<Models.JobsListByDeviceNextResponse>;
+      callback
+    ) as Promise<Models.JobsListByDeviceNextResponse>;
   }
 
   /**
@@ -209,7 +308,10 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListByManagerNextResponse>
    */
-  listByManagerNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsListByManagerNextResponse>;
+  listByManagerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListByManagerNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -220,15 +322,24 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManagerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobList>): void;
-  listByManagerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobList>, callback?: msRest.ServiceCallback<Models.JobList>): Promise<Models.JobsListByManagerNextResponse> {
+  listByManagerNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobList>
+  ): void;
+  listByManagerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobList>,
+    callback?: msRest.ServiceCallback<Models.JobList>
+  ): Promise<Models.JobsListByManagerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByManagerNextOperationSpec,
-      callback) as Promise<Models.JobsListByManagerNextResponse>;
+      callback
+    ) as Promise<Models.JobsListByManagerNextResponse>;
   }
 }
 
@@ -236,20 +347,16 @@ export class Jobs {
 const serializer = new msRest.Serializer(Mappers);
 const listByDeviceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/jobs",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/jobs",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobList
@@ -263,7 +370,8 @@ const listByDeviceOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/jobs/{jobName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/jobs/{jobName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.jobName,
@@ -271,12 +379,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Job
@@ -290,19 +394,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByManagerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/jobs",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/jobs",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobList
@@ -316,7 +412,8 @@ const listByManagerOperationSpec: msRest.OperationSpec = {
 
 const beginCancelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/jobs/{jobName}/cancel",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/jobs/{jobName}/cancel",
   urlParameters: [
     Parameters.deviceName,
     Parameters.jobName,
@@ -324,12 +421,8 @@ const beginCancelOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -344,12 +437,8 @@ const listByDeviceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobList
@@ -365,12 +454,8 @@ const listByManagerNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobList

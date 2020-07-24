@@ -33,21 +33,39 @@ export class Tables {
    * @param [options] The optional parameters
    * @returns Promise<Models.TablesListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TablesListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TablesListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.TablesListResult>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.TablesListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TablesListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TablesListResult>, callback?: msRest.ServiceCallback<Models.TablesListResult>): Promise<Models.TablesListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TablesListResult>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TablesListResult>,
+    callback?: msRest.ServiceCallback<Models.TablesListResult>
+  ): Promise<Models.TablesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class Tables {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.TablesListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.TablesListByWorkspaceResponse>;
   }
 
   /**
@@ -67,7 +86,13 @@ export class Tables {
    * @param [options] The optional parameters
    * @returns Promise<Models.TablesUpdateResponse>
    */
-  update(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Models.Table, options?: msRest.RequestOptionsBase): Promise<Models.TablesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    parameters: Models.Table,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TablesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -75,7 +100,13 @@ export class Tables {
    * @param parameters The parameters required to update table properties.
    * @param callback The callback
    */
-  update(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Models.Table, callback: msRest.ServiceCallback<Models.Table>): void;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    parameters: Models.Table,
+    callback: msRest.ServiceCallback<Models.Table>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -84,8 +115,22 @@ export class Tables {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Models.Table, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Table>): void;
-  update(resourceGroupName: string, workspaceName: string, tableName: string, parameters: Models.Table, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Table>, callback?: msRest.ServiceCallback<Models.Table>): Promise<Models.TablesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    parameters: Models.Table,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Table>
+  ): void;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    parameters: Models.Table,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Table>,
+    callback?: msRest.ServiceCallback<Models.Table>
+  ): Promise<Models.TablesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +140,8 @@ export class Tables {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.TablesUpdateResponse>;
+      callback
+    ) as Promise<Models.TablesUpdateResponse>;
   }
 
   /**
@@ -106,14 +152,24 @@ export class Tables {
    * @param [options] The optional parameters
    * @returns Promise<Models.TablesGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.TablesGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TablesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param tableName The name of the table.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, tableName: string, callback: msRest.ServiceCallback<Models.Table>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    callback: msRest.ServiceCallback<Models.Table>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -121,8 +177,20 @@ export class Tables {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, tableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Table>): void;
-  get(resourceGroupName: string, workspaceName: string, tableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Table>, callback?: msRest.ServiceCallback<Models.Table>): Promise<Models.TablesGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Table>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Table>,
+    callback?: msRest.ServiceCallback<Models.Table>
+  ): Promise<Models.TablesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +199,8 @@ export class Tables {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TablesGetResponse>;
+      callback
+    ) as Promise<Models.TablesGetResponse>;
   }
 }
 
@@ -139,18 +208,15 @@ export class Tables {
 const serializer = new msRest.Serializer(Mappers);
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TablesListResult
@@ -164,19 +230,16 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.tableName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -197,19 +260,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.tableName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Table

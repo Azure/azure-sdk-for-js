@@ -40,7 +40,15 @@ export class CollectionRegion {
    * @param [options] The optional parameters
    * @returns Promise<Models.CollectionRegionListMetricsResponse>
    */
-  listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.CollectionRegionListMetricsResponse>;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    region: string,
+    databaseRid: string,
+    collectionRid: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CollectionRegionListMetricsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -52,7 +60,15 @@ export class CollectionRegion {
    * names), startTime, endTime, and timeGrain. The supported operator is eq.
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    region: string,
+    databaseRid: string,
+    collectionRid: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.MetricListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -65,8 +81,26 @@ export class CollectionRegion {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.CollectionRegionListMetricsResponse> {
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    region: string,
+    databaseRid: string,
+    collectionRid: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricListResult>
+  ): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    region: string,
+    databaseRid: string,
+    collectionRid: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>,
+    callback?: msRest.ServiceCallback<Models.MetricListResult>
+  ): Promise<Models.CollectionRegionListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -78,7 +112,8 @@ export class CollectionRegion {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.CollectionRegionListMetricsResponse>;
+      callback
+    ) as Promise<Models.CollectionRegionListMetricsResponse>;
   }
 }
 
@@ -86,7 +121,8 @@ export class CollectionRegion {
 const serializer = new msRest.Serializer(Mappers);
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/metrics",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -95,13 +131,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.databaseRid,
     Parameters.collectionRid
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricListResult

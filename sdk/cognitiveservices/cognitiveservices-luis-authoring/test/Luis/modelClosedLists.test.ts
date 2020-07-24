@@ -26,11 +26,14 @@ var closedListSample = {
   ]
 };
 
-
 describe("Model Closed Lists Tests", () => {
   it("should list closed lists", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
+      const listId = await client.model.addClosedList(
+        BaseTest.GlobalAppId,
+        "0.1",
+        closedListSample
+      );
       const result = await client.model.listClosedLists(BaseTest.GlobalAppId, "0.1");
       await client.model.deleteClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       chai.expect(result).to.have.length.above(0);
@@ -39,15 +42,22 @@ describe("Model Closed Lists Tests", () => {
 
   it("should add closed list", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-
-      const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
+      const listId = await client.model.addClosedList(
+        BaseTest.GlobalAppId,
+        "0.1",
+        closedListSample
+      );
       await client.model.deleteClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       chai.expect(listId).not.to.eql(BaseTest.EmptyId);
     });
   });
   it("should get closed list", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
+      const listId = await client.model.addClosedList(
+        BaseTest.GlobalAppId,
+        "0.1",
+        closedListSample
+      );
       const result = await client.model.getClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       await client.model.deleteClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       chai.expect(result.name).to.eql("States");
@@ -57,12 +67,19 @@ describe("Model Closed Lists Tests", () => {
 
   it("should update closed list", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
+      const listId = await client.model.addClosedList(
+        BaseTest.GlobalAppId,
+        "0.1",
+        closedListSample
+      );
       await client.model.updateClosedList(BaseTest.GlobalAppId, "0.1", listId.body, {
-        name: "New States", subLists: [{
-          canonicalForm: "Texas",
-          list: ["tx", "texas"]
-        }]
+        name: "New States",
+        subLists: [
+          {
+            canonicalForm: "Texas",
+            list: ["tx", "texas"]
+          }
+        ]
       });
       const updated = await client.model.getClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       await client.model.deleteClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
@@ -74,7 +91,11 @@ describe("Model Closed Lists Tests", () => {
 
   it("should delete closed list", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
+      const listId = await client.model.addClosedList(
+        BaseTest.GlobalAppId,
+        "0.1",
+        closedListSample
+      );
       await client.model.deleteClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       const lists = await client.model.listClosedLists(BaseTest.GlobalAppId, "0.1");
       chai.expect(BaseTest.doesListContain(lists, "id", listId)).to.be.false;
@@ -83,15 +104,22 @@ describe("Model Closed Lists Tests", () => {
 
   it("should patch closed list", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
+      const listId = await client.model.addClosedList(
+        BaseTest.GlobalAppId,
+        "0.1",
+        closedListSample
+      );
       await client.model.patchClosedList(BaseTest.GlobalAppId, "0.1", listId.body, {
-        subLists: [{
-          canonicalForm: "Texas",
-          list: ["tx", "texas"]
-        }, {
-          canonicalForm: "Florida",
-          list: ["fl", "florida"]
-        }]
+        subLists: [
+          {
+            canonicalForm: "Texas",
+            list: ["tx", "texas"]
+          },
+          {
+            canonicalForm: "Florida",
+            list: ["fl", "florida"]
+          }
+        ]
       });
       const list = await client.model.getClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       await client.model.deleteClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
@@ -101,12 +129,17 @@ describe("Model Closed Lists Tests", () => {
     });
   });
 
-
-
   it("should add sublist", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
-      await client.model.addSubList(BaseTest.GlobalAppId, "0.1", listId.body, { canonicalForm: "Texas", list: ["tx", "texas"] });
+      const listId = await client.model.addClosedList(
+        BaseTest.GlobalAppId,
+        "0.1",
+        closedListSample
+      );
+      await client.model.addSubList(BaseTest.GlobalAppId, "0.1", listId.body, {
+        canonicalForm: "Texas",
+        list: ["tx", "texas"]
+      });
       const list = await client.model.getClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       await client.model.deleteClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       chai.expect(list.subLists.length).to.eql(4);
@@ -116,7 +149,11 @@ describe("Model Closed Lists Tests", () => {
 
   it("should delete sublist", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
+      const listId = await client.model.addClosedList(
+        BaseTest.GlobalAppId,
+        "0.1",
+        closedListSample
+      );
       let list = await client.model.getClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       let sublistId = null;
       for (var sublist of list.subLists) {
@@ -134,7 +171,11 @@ describe("Model Closed Lists Tests", () => {
 
   it("should update sublist", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const listId = await client.model.addClosedList(BaseTest.GlobalAppId, "0.1", closedListSample);
+      const listId = await client.model.addClosedList(
+        BaseTest.GlobalAppId,
+        "0.1",
+        closedListSample
+      );
       const list = await client.model.getClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       let sublistId = null;
       for (var sublist of list.subLists) {
@@ -144,13 +185,15 @@ describe("Model Closed Lists Tests", () => {
       }
       await client.model.updateSubList(BaseTest.GlobalAppId, "0.1", listId.body, sublistId, {
         canonicalForm: "New Yorkers",
-        list: ["NYC", "NY", "New York"],
+        list: ["NYC", "NY", "New York"]
       });
       const newlist = await client.model.getClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       await client.model.deleteClosedList(BaseTest.GlobalAppId, "0.1", listId.body);
       chai.expect(newlist.subLists.length).to.eql(3);
-      chai.expect(BaseTest.doesListContain(newlist.subLists, "canonicalForm", "New York")).to.be.false;
-      chai.expect(BaseTest.doesListContain(newlist.subLists, "canonicalForm", "New Yorkers")).to.be.true;
+      chai.expect(BaseTest.doesListContain(newlist.subLists, "canonicalForm", "New York")).to.be
+        .false;
+      chai.expect(BaseTest.doesListContain(newlist.subLists, "canonicalForm", "New Yorkers")).to.be
+        .true;
     });
   });
 });

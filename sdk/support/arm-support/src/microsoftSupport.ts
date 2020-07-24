@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { MicrosoftSupportContext } from "./microsoftSupportContext";
 
-
 class MicrosoftSupport extends MicrosoftSupportContext {
   // Operation groups
   operations: operations.Operations;
@@ -29,7 +28,11 @@ class MicrosoftSupport extends MicrosoftSupportContext {
    * @param subscriptionId Azure subscription Id.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MicrosoftSupportOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.MicrosoftSupportOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.services = new operations.Services(this);

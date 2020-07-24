@@ -39,7 +39,12 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListByExperimentResponse>
    */
-  listByExperiment(resourceGroupName: string, workspaceName: string, experimentName: string, options?: Models.JobsListByExperimentOptionalParams): Promise<Models.JobsListByExperimentResponse>;
+  listByExperiment(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    options?: Models.JobsListByExperimentOptionalParams
+  ): Promise<Models.JobsListByExperimentResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -50,7 +55,12 @@ export class Jobs {
    * from 1 through 64 characters long.
    * @param callback The callback
    */
-  listByExperiment(resourceGroupName: string, workspaceName: string, experimentName: string, callback: msRest.ServiceCallback<Models.JobListResult>): void;
+  listByExperiment(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    callback: msRest.ServiceCallback<Models.JobListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -62,8 +72,22 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByExperiment(resourceGroupName: string, workspaceName: string, experimentName: string, options: Models.JobsListByExperimentOptionalParams, callback: msRest.ServiceCallback<Models.JobListResult>): void;
-  listByExperiment(resourceGroupName: string, workspaceName: string, experimentName: string, options?: Models.JobsListByExperimentOptionalParams | msRest.ServiceCallback<Models.JobListResult>, callback?: msRest.ServiceCallback<Models.JobListResult>): Promise<Models.JobsListByExperimentResponse> {
+  listByExperiment(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    options: Models.JobsListByExperimentOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobListResult>
+  ): void;
+  listByExperiment(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    options?:
+      | Models.JobsListByExperimentOptionalParams
+      | msRest.ServiceCallback<Models.JobListResult>,
+    callback?: msRest.ServiceCallback<Models.JobListResult>
+  ): Promise<Models.JobsListByExperimentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -72,7 +96,8 @@ export class Jobs {
         options
       },
       listByExperimentOperationSpec,
-      callback) as Promise<Models.JobsListByExperimentResponse>;
+      callback
+    ) as Promise<Models.JobsListByExperimentResponse>;
   }
 
   /**
@@ -91,9 +116,22 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsCreateResponse>
    */
-  create(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, parameters: Models.JobCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.JobsCreateResponse> {
-    return this.beginCreate(resourceGroupName,workspaceName,experimentName,jobName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.JobsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    parameters: Models.JobCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      workspaceName,
+      experimentName,
+      jobName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.JobsCreateResponse>;
   }
 
   /**
@@ -111,9 +149,20 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,workspaceName,experimentName,jobName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      workspaceName,
+      experimentName,
+      jobName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -131,7 +180,13 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -145,7 +200,13 @@ export class Jobs {
    * name must be from 1 through 64 characters long.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, callback: msRest.ServiceCallback<Models.Job>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<Models.Job>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -160,8 +221,22 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Job>): void;
-  get(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.JobsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Job>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>,
+    callback?: msRest.ServiceCallback<Models.Job>
+  ): Promise<Models.JobsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +246,8 @@ export class Jobs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.JobsGetResponse>;
+      callback
+    ) as Promise<Models.JobsGetResponse>;
   }
 
   /**
@@ -191,7 +267,14 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListOutputFilesResponse>
    */
-  listOutputFiles(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, jobsListOutputFilesOptions: Models.JobsListOutputFilesOptions, options?: msRest.RequestOptionsBase): Promise<Models.JobsListOutputFilesResponse>;
+  listOutputFiles(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    jobsListOutputFilesOptions: Models.JobsListOutputFilesOptions,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListOutputFilesResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -206,7 +289,14 @@ export class Jobs {
    * @param jobsListOutputFilesOptions Additional parameters for the operation
    * @param callback The callback
    */
-  listOutputFiles(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, jobsListOutputFilesOptions: Models.JobsListOutputFilesOptions, callback: msRest.ServiceCallback<Models.FileListResult>): void;
+  listOutputFiles(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    jobsListOutputFilesOptions: Models.JobsListOutputFilesOptions,
+    callback: msRest.ServiceCallback<Models.FileListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -222,8 +312,24 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOutputFiles(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, jobsListOutputFilesOptions: Models.JobsListOutputFilesOptions, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileListResult>): void;
-  listOutputFiles(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, jobsListOutputFilesOptions: Models.JobsListOutputFilesOptions, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileListResult>, callback?: msRest.ServiceCallback<Models.FileListResult>): Promise<Models.JobsListOutputFilesResponse> {
+  listOutputFiles(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    jobsListOutputFilesOptions: Models.JobsListOutputFilesOptions,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileListResult>
+  ): void;
+  listOutputFiles(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    jobsListOutputFilesOptions: Models.JobsListOutputFilesOptions,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileListResult>,
+    callback?: msRest.ServiceCallback<Models.FileListResult>
+  ): Promise<Models.JobsListOutputFilesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -234,7 +340,8 @@ export class Jobs {
         options
       },
       listOutputFilesOperationSpec,
-      callback) as Promise<Models.JobsListOutputFilesResponse>;
+      callback
+    ) as Promise<Models.JobsListOutputFilesResponse>;
   }
 
   /**
@@ -253,7 +360,13 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListRemoteLoginInformationResponse>
    */
-  listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsListRemoteLoginInformationResponse>;
+  listRemoteLoginInformation(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListRemoteLoginInformationResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -267,7 +380,13 @@ export class Jobs {
    * name must be from 1 through 64 characters long.
    * @param callback The callback
    */
-  listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): void;
+  listRemoteLoginInformation(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -282,8 +401,24 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): void;
-  listRemoteLoginInformation(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteLoginInformationListResult>, callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): Promise<Models.JobsListRemoteLoginInformationResponse> {
+  listRemoteLoginInformation(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>
+  ): void;
+  listRemoteLoginInformation(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RemoteLoginInformationListResult>,
+    callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>
+  ): Promise<Models.JobsListRemoteLoginInformationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -293,7 +428,8 @@ export class Jobs {
         options
       },
       listRemoteLoginInformationOperationSpec,
-      callback) as Promise<Models.JobsListRemoteLoginInformationResponse>;
+      callback
+    ) as Promise<Models.JobsListRemoteLoginInformationResponse>;
   }
 
   /**
@@ -311,9 +447,20 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  terminate(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginTerminate(resourceGroupName,workspaceName,experimentName,jobName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  terminate(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginTerminate(
+      resourceGroupName,
+      workspaceName,
+      experimentName,
+      jobName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -332,7 +479,14 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, parameters: Models.JobCreateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    parameters: Models.JobCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -343,7 +497,8 @@ export class Jobs {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -361,7 +516,13 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -371,7 +532,8 @@ export class Jobs {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -389,7 +551,13 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginTerminate(resourceGroupName: string, workspaceName: string, experimentName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginTerminate(
+    resourceGroupName: string,
+    workspaceName: string,
+    experimentName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -399,7 +567,8 @@ export class Jobs {
         options
       },
       beginTerminateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -408,26 +577,41 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListByExperimentNextResponse>
    */
-  listByExperimentNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsListByExperimentNextResponse>;
+  listByExperimentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListByExperimentNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByExperimentNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.JobListResult>): void;
+  listByExperimentNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.JobListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByExperimentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobListResult>): void;
-  listByExperimentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobListResult>, callback?: msRest.ServiceCallback<Models.JobListResult>): Promise<Models.JobsListByExperimentNextResponse> {
+  listByExperimentNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobListResult>
+  ): void;
+  listByExperimentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobListResult>,
+    callback?: msRest.ServiceCallback<Models.JobListResult>
+  ): Promise<Models.JobsListByExperimentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByExperimentNextOperationSpec,
-      callback) as Promise<Models.JobsListByExperimentNextResponse>;
+      callback
+    ) as Promise<Models.JobsListByExperimentNextResponse>;
   }
 
   /**
@@ -437,26 +621,41 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListOutputFilesNextResponse>
    */
-  listOutputFilesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsListOutputFilesNextResponse>;
+  listOutputFilesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListOutputFilesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listOutputFilesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FileListResult>): void;
+  listOutputFilesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.FileListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOutputFilesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileListResult>): void;
-  listOutputFilesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileListResult>, callback?: msRest.ServiceCallback<Models.FileListResult>): Promise<Models.JobsListOutputFilesNextResponse> {
+  listOutputFilesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileListResult>
+  ): void;
+  listOutputFilesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileListResult>,
+    callback?: msRest.ServiceCallback<Models.FileListResult>
+  ): Promise<Models.JobsListOutputFilesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listOutputFilesNextOperationSpec,
-      callback) as Promise<Models.JobsListOutputFilesNextResponse>;
+      callback
+    ) as Promise<Models.JobsListOutputFilesNextResponse>;
   }
 
   /**
@@ -466,26 +665,43 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListRemoteLoginInformationNextResponse>
    */
-  listRemoteLoginInformationNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsListRemoteLoginInformationNextResponse>;
+  listRemoteLoginInformationNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListRemoteLoginInformationNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listRemoteLoginInformationNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): void;
+  listRemoteLoginInformationNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRemoteLoginInformationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): void;
-  listRemoteLoginInformationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteLoginInformationListResult>, callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>): Promise<Models.JobsListRemoteLoginInformationNextResponse> {
+  listRemoteLoginInformationNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>
+  ): void;
+  listRemoteLoginInformationNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RemoteLoginInformationListResult>,
+    callback?: msRest.ServiceCallback<Models.RemoteLoginInformationListResult>
+  ): Promise<Models.JobsListRemoteLoginInformationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listRemoteLoginInformationNextOperationSpec,
-      callback) as Promise<Models.JobsListRemoteLoginInformationNextResponse>;
+      callback
+    ) as Promise<Models.JobsListRemoteLoginInformationNextResponse>;
   }
 }
 
@@ -493,20 +709,16 @@ export class Jobs {
 const serializer = new msRest.Serializer(Mappers);
 const listByExperimentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.experimentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxResults3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxResults3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobListResult
@@ -520,7 +732,8 @@ const listByExperimentOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
@@ -528,12 +741,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.jobName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Job
@@ -547,7 +756,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOutputFilesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/listOutputFiles",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/listOutputFiles",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
@@ -562,9 +772,7 @@ const listOutputFilesOperationSpec: msRest.OperationSpec = {
     Parameters.linkexpiryinminutes,
     Parameters.maxResults4
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileListResult
@@ -578,7 +786,8 @@ const listOutputFilesOperationSpec: msRest.OperationSpec = {
 
 const listRemoteLoginInformationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/listRemoteLoginInformation",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/listRemoteLoginInformation",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
@@ -586,12 +795,8 @@ const listRemoteLoginInformationOperationSpec: msRest.OperationSpec = {
     Parameters.jobName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RemoteLoginInformationListResult
@@ -605,7 +810,8 @@ const listRemoteLoginInformationOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
@@ -613,12 +819,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.jobName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -640,7 +842,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
@@ -648,12 +851,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.jobName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -667,7 +866,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginTerminateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/terminate",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/experiments/{experimentName}/jobs/{jobName}/terminate",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
@@ -675,12 +875,8 @@ const beginTerminateOperationSpec: msRest.OperationSpec = {
     Parameters.jobName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -695,12 +891,8 @@ const listByExperimentNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobListResult
@@ -716,12 +908,8 @@ const listOutputFilesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileListResult
@@ -737,12 +925,8 @@ const listRemoteLoginInformationNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RemoteLoginInformationListResult

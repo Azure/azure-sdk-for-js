@@ -27,7 +27,9 @@ async function run() {
   logStep("Creating the sproc: '" + sprocDefinition.id + "'");
 
   // Query for the stored procedure.
-  const { sproc, resource: sprocDef } = await container.scripts.storedProcedures.create(sprocDefinition);
+  const { sproc, resource: sprocDef } = await container.scripts.storedProcedures.create(
+    sprocDefinition
+  );
 
   logStep("Executing the sproc: '" + sproc.id + "'");
   console.log("Sproc parameters: " + JSON.stringify(sprocParams));

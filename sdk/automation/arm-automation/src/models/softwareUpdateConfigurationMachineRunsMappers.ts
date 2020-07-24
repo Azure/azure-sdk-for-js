@@ -15,4 +15,3 @@ export {
   ErrorResponse,
   SoftwareUpdateConfigurationMachineRunListResult
 } from "../models/mappers";
-

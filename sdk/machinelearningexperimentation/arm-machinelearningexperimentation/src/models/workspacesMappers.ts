@@ -19,4 +19,3 @@ export {
   Account,
   StorageAccountProperties
 } from "../models/mappers";
-

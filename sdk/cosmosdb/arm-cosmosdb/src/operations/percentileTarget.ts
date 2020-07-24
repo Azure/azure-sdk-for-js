@@ -39,7 +39,13 @@ export class PercentileTarget {
    * @param [options] The optional parameters
    * @returns Promise<Models.PercentileTargetListMetricsResponse>
    */
-  listMetrics(resourceGroupName: string, accountName: string, targetRegion: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.PercentileTargetListMetricsResponse>;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    targetRegion: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PercentileTargetListMetricsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -50,7 +56,13 @@ export class PercentileTarget {
    * names), startTime, endTime, and timeGrain. The supported operator is eq.
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, targetRegion: string, filter: string, callback: msRest.ServiceCallback<Models.PercentileMetricListResult>): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    targetRegion: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.PercentileMetricListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -62,8 +74,22 @@ export class PercentileTarget {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, targetRegion: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PercentileMetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, targetRegion: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PercentileMetricListResult>, callback?: msRest.ServiceCallback<Models.PercentileMetricListResult>): Promise<Models.PercentileTargetListMetricsResponse> {
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    targetRegion: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PercentileMetricListResult>
+  ): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    targetRegion: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PercentileMetricListResult>,
+    callback?: msRest.ServiceCallback<Models.PercentileMetricListResult>
+  ): Promise<Models.PercentileTargetListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,7 +99,8 @@ export class PercentileTarget {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.PercentileTargetListMetricsResponse>;
+      callback
+    ) as Promise<Models.PercentileTargetListMetricsResponse>;
   }
 }
 
@@ -81,20 +108,16 @@ export class PercentileTarget {
 const serializer = new msRest.Serializer(Mappers);
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/targetRegion/{targetRegion}/percentile/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/targetRegion/{targetRegion}/percentile/metrics",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.targetRegion
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PercentileMetricListResult

@@ -32,7 +32,10 @@ export class Registrations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RegistrationsListResponse>
    */
-  list(resourceGroup: string, options?: msRest.RequestOptionsBase): Promise<Models.RegistrationsListResponse>;
+  list(
+    resourceGroup: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RegistrationsListResponse>;
   /**
    * @param resourceGroup Name of the resource group.
    * @param callback The callback
@@ -43,15 +46,24 @@ export class Registrations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistrationList>): void;
-  list(resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistrationList>, callback?: msRest.ServiceCallback<Models.RegistrationList>): Promise<Models.RegistrationsListResponse> {
+  list(
+    resourceGroup: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RegistrationList>
+  ): void;
+  list(
+    resourceGroup: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistrationList>,
+    callback?: msRest.ServiceCallback<Models.RegistrationList>
+  ): Promise<Models.RegistrationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.RegistrationsListResponse>;
+      callback
+    ) as Promise<Models.RegistrationsListResponse>;
   }
 
   /**
@@ -61,21 +73,39 @@ export class Registrations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RegistrationsGetResponse>
    */
-  get(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase): Promise<Models.RegistrationsGetResponse>;
+  get(
+    resourceGroup: string,
+    registrationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RegistrationsGetResponse>;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
    * @param callback The callback
    */
-  get(resourceGroup: string, registrationName: string, callback: msRest.ServiceCallback<Models.Registration>): void;
+  get(
+    resourceGroup: string,
+    registrationName: string,
+    callback: msRest.ServiceCallback<Models.Registration>
+  ): void;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroup: string, registrationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Registration>): void;
-  get(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Registration>, callback?: msRest.ServiceCallback<Models.Registration>): Promise<Models.RegistrationsGetResponse> {
+  get(
+    resourceGroup: string,
+    registrationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Registration>
+  ): void;
+  get(
+    resourceGroup: string,
+    registrationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Registration>,
+    callback?: msRest.ServiceCallback<Models.Registration>
+  ): Promise<Models.RegistrationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -83,7 +113,8 @@ export class Registrations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RegistrationsGetResponse>;
+      callback
+    ) as Promise<Models.RegistrationsGetResponse>;
   }
 
   /**
@@ -93,21 +124,39 @@ export class Registrations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroup: string,
+    registrationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
    * @param callback The callback
    */
-  deleteMethod(resourceGroup: string, registrationName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroup: string,
+    registrationName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroup: string, registrationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroup: string,
+    registrationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroup: string,
+    registrationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -115,7 +164,8 @@ export class Registrations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -126,14 +176,24 @@ export class Registrations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RegistrationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, options?: msRest.RequestOptionsBase): Promise<Models.RegistrationsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroup: string,
+    registrationName: string,
+    token: Models.RegistrationParameter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RegistrationsCreateOrUpdateResponse>;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
    * @param token Registration token
    * @param callback The callback
    */
-  createOrUpdate(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, callback: msRest.ServiceCallback<Models.Registration>): void;
+  createOrUpdate(
+    resourceGroup: string,
+    registrationName: string,
+    token: Models.RegistrationParameter,
+    callback: msRest.ServiceCallback<Models.Registration>
+  ): void;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
@@ -141,8 +201,20 @@ export class Registrations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Registration>): void;
-  createOrUpdate(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Registration>, callback?: msRest.ServiceCallback<Models.Registration>): Promise<Models.RegistrationsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroup: string,
+    registrationName: string,
+    token: Models.RegistrationParameter,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Registration>
+  ): void;
+  createOrUpdate(
+    resourceGroup: string,
+    registrationName: string,
+    token: Models.RegistrationParameter,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Registration>,
+    callback?: msRest.ServiceCallback<Models.Registration>
+  ): Promise<Models.RegistrationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -151,7 +223,8 @@ export class Registrations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.RegistrationsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.RegistrationsCreateOrUpdateResponse>;
   }
 
   /**
@@ -162,14 +235,24 @@ export class Registrations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RegistrationsUpdateResponse>
    */
-  update(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, options?: msRest.RequestOptionsBase): Promise<Models.RegistrationsUpdateResponse>;
+  update(
+    resourceGroup: string,
+    registrationName: string,
+    token: Models.RegistrationParameter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RegistrationsUpdateResponse>;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
    * @param token Registration token
    * @param callback The callback
    */
-  update(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, callback: msRest.ServiceCallback<Models.Registration>): void;
+  update(
+    resourceGroup: string,
+    registrationName: string,
+    token: Models.RegistrationParameter,
+    callback: msRest.ServiceCallback<Models.Registration>
+  ): void;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
@@ -177,8 +260,20 @@ export class Registrations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Registration>): void;
-  update(resourceGroup: string, registrationName: string, token: Models.RegistrationParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Registration>, callback?: msRest.ServiceCallback<Models.Registration>): Promise<Models.RegistrationsUpdateResponse> {
+  update(
+    resourceGroup: string,
+    registrationName: string,
+    token: Models.RegistrationParameter,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Registration>
+  ): void;
+  update(
+    resourceGroup: string,
+    registrationName: string,
+    token: Models.RegistrationParameter,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Registration>,
+    callback?: msRest.ServiceCallback<Models.Registration>
+  ): Promise<Models.RegistrationsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -187,7 +282,8 @@ export class Registrations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.RegistrationsUpdateResponse>;
+      callback
+    ) as Promise<Models.RegistrationsUpdateResponse>;
   }
 
   /**
@@ -197,21 +293,39 @@ export class Registrations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RegistrationsGetActivationKeyResponse>
    */
-  getActivationKey(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase): Promise<Models.RegistrationsGetActivationKeyResponse>;
+  getActivationKey(
+    resourceGroup: string,
+    registrationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RegistrationsGetActivationKeyResponse>;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
    * @param callback The callback
    */
-  getActivationKey(resourceGroup: string, registrationName: string, callback: msRest.ServiceCallback<Models.ActivationKeyResult>): void;
+  getActivationKey(
+    resourceGroup: string,
+    registrationName: string,
+    callback: msRest.ServiceCallback<Models.ActivationKeyResult>
+  ): void;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getActivationKey(resourceGroup: string, registrationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivationKeyResult>): void;
-  getActivationKey(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivationKeyResult>, callback?: msRest.ServiceCallback<Models.ActivationKeyResult>): Promise<Models.RegistrationsGetActivationKeyResponse> {
+  getActivationKey(
+    resourceGroup: string,
+    registrationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ActivationKeyResult>
+  ): void;
+  getActivationKey(
+    resourceGroup: string,
+    registrationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivationKeyResult>,
+    callback?: msRest.ServiceCallback<Models.ActivationKeyResult>
+  ): Promise<Models.RegistrationsGetActivationKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -219,7 +333,8 @@ export class Registrations {
         options
       },
       getActivationKeyOperationSpec,
-      callback) as Promise<Models.RegistrationsGetActivationKeyResponse>;
+      callback
+    ) as Promise<Models.RegistrationsGetActivationKeyResponse>;
   }
 
   /**
@@ -228,7 +343,10 @@ export class Registrations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RegistrationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RegistrationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RegistrationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -239,15 +357,24 @@ export class Registrations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RegistrationList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistrationList>, callback?: msRest.ServiceCallback<Models.RegistrationList>): Promise<Models.RegistrationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RegistrationList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RegistrationList>,
+    callback?: msRest.ServiceCallback<Models.RegistrationList>
+  ): Promise<Models.RegistrationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.RegistrationsListNextResponse>;
+      callback
+    ) as Promise<Models.RegistrationsListNextResponse>;
   }
 }
 
@@ -255,17 +382,11 @@ export class Registrations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroup
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroup],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RegistrationList
@@ -279,18 +400,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroup,
-    Parameters.registrationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroup, Parameters.registrationName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Registration
@@ -304,18 +418,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroup,
-    Parameters.registrationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroup, Parameters.registrationName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -328,18 +435,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroup,
-    Parameters.registrationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroup, Parameters.registrationName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "token",
     mapper: {
@@ -363,18 +463,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroup,
-    Parameters.registrationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroup, Parameters.registrationName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "token",
     mapper: {
@@ -395,18 +488,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getActivationKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/getactivationkey",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroup,
-    Parameters.registrationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/getactivationkey",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroup, Parameters.registrationName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ActivationKeyResult
@@ -422,12 +508,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RegistrationList

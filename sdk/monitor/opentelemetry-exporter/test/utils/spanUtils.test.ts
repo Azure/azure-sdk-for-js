@@ -15,7 +15,7 @@ import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
 const context = getInstance(undefined, "./", "../../");
 
 const tracer = new BasicTracerProvider({
-  logger: new NoopLogger(),
+  logger: new NoopLogger()
 }).getTracer("default");
 
 function assertEnvelope(
@@ -25,7 +25,7 @@ function assertEnvelope(
   expectedTags: Tags,
   expectedProperties: Properties,
   expectedBaseData: Partial<RequestData | RemoteDependencyData>,
-  expectedTime?: string,
+  expectedTime?: string
 ) {
   assert.strictEqual(Context.sdkVersion, "1.0.0-preview.4");
   assert.strictEqual(Object.keys(Context.appVersion).length, 1);
@@ -58,7 +58,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.SERVER,
-          "parentSpanId",
+          "parentSpanId"
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -66,21 +66,21 @@ describe("spanUtils.ts", () => {
           [grpc.GRPC_KIND]: SpanKind.SERVER,
           [grpc.GRPC_METHOD]: "/foo.Example/Foo",
           [grpc.GRPC_ERROR_MESSAGE]: "some error message",
-          [grpc.GRPC_ERROR_NAME]: "some error name",
+          [grpc.GRPC_ERROR_NAME]: "some error name"
         });
         span.setStatus({
-          code: CanonicalCode.OK,
+          code: CanonicalCode.OK
         });
         span.end();
         const expectedTags: Tags = {
           [ai.AI_OPERATION_ID]: "traceid",
           [ai.AI_OPERATION_PARENT_ID]: "parentSpanId",
-          [ai.AI_OPERATION_NAME]: "/foo.Example/Foo",
+          [ai.AI_OPERATION_NAME]: "/foo.Example/Foo"
         };
         const expectedProperties: Properties = {
           "extra.attribute": "foo",
           [grpc.GRPC_ERROR_MESSAGE]: "some error message",
-          [grpc.GRPC_ERROR_NAME]: "some error name",
+          [grpc.GRPC_ERROR_NAME]: "some error name"
         };
 
         const expectedBaseData: Partial<RequestData> = {
@@ -93,7 +93,7 @@ describe("spanUtils.ts", () => {
           name: `parent span`,
           ver: 1,
           properties: expectedProperties,
-          measurements: {},
+          measurements: {}
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
@@ -103,7 +103,7 @@ describe("spanUtils.ts", () => {
           "RequestData",
           expectedTags,
           expectedProperties,
-          expectedBaseData,
+          expectedBaseData
         );
       });
       it("should create a Dependency Envelope for Client Spans", () => {
@@ -112,7 +112,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId",
+          "parentSpanId"
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -120,20 +120,20 @@ describe("spanUtils.ts", () => {
           [grpc.GRPC_KIND]: SpanKind.CLIENT,
           [grpc.GRPC_METHOD]: "/foo.Example/Foo",
           [grpc.GRPC_ERROR_MESSAGE]: "some error message",
-          [grpc.GRPC_ERROR_NAME]: "some error name",
+          [grpc.GRPC_ERROR_NAME]: "some error name"
         });
         span.setStatus({
-          code: CanonicalCode.OK,
+          code: CanonicalCode.OK
         });
         span.end();
         const expectedTags: Tags = {
           [ai.AI_OPERATION_ID]: "traceid",
-          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId",
+          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
         };
         const expectedProperties: Properties = {
           "extra.attribute": "foo",
           [grpc.GRPC_ERROR_MESSAGE]: "some error message",
-          [grpc.GRPC_ERROR_NAME]: "some error name",
+          [grpc.GRPC_ERROR_NAME]: "some error name"
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
@@ -147,7 +147,7 @@ describe("spanUtils.ts", () => {
           name: `parent span`,
           ver: 1,
           properties: expectedProperties,
-          measurements: {},
+          measurements: {}
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
@@ -157,7 +157,7 @@ describe("spanUtils.ts", () => {
           "RemoteDependencyData",
           expectedTags,
           expectedProperties,
-          expectedBaseData,
+          expectedBaseData
         );
       });
     });
@@ -168,22 +168,22 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.SERVER,
-          "parentSpanId",
+          "parentSpanId"
         );
         span.setAttributes({
-          "extra.attribute": "foo",
+          "extra.attribute": "foo"
         });
         span.setStatus({
-          code: CanonicalCode.OK,
+          code: CanonicalCode.OK
         });
         span.end();
         const expectedTime = new Date(hrTimeToMilliseconds(span.startTime)).toISOString();
         const expectedTags: Tags = {
           [ai.AI_OPERATION_ID]: "traceid",
-          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId",
+          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
         };
         const expectedProperties: Properties = {
-          "extra.attribute": "foo",
+          "extra.attribute": "foo"
         };
 
         const expectedBaseData: Partial<RequestData> = {
@@ -195,7 +195,7 @@ describe("spanUtils.ts", () => {
           ver: 1,
           source: undefined,
           properties: expectedProperties,
-          measurements: {},
+          measurements: {}
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
@@ -206,7 +206,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           expectedBaseData,
-          expectedTime,
+          expectedTime
         );
       });
 
@@ -216,21 +216,21 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId",
+          "parentSpanId"
         );
         span.setAttributes({
-          "extra.attribute": "foo",
+          "extra.attribute": "foo"
         });
         span.setStatus({
-          code: CanonicalCode.OK,
+          code: CanonicalCode.OK
         });
         span.end();
         const expectedTags: Tags = {
           [ai.AI_OPERATION_ID]: "traceid",
-          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId",
+          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
         };
         const expectedProperties: Properties = {
-          "extra.attribute": "foo",
+          "extra.attribute": "foo"
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
@@ -243,7 +243,7 @@ describe("spanUtils.ts", () => {
           name: `parent span`,
           ver: 1,
           properties: expectedProperties,
-          measurements: {},
+          measurements: {}
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
@@ -253,7 +253,7 @@ describe("spanUtils.ts", () => {
           "RemoteDependencyData",
           expectedTags,
           expectedProperties,
-          expectedBaseData,
+          expectedBaseData
         );
       });
     });
@@ -265,17 +265,17 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.SERVER,
-          "parentSpanId",
+          "parentSpanId"
         );
         span.setAttributes({
           [http.HTTP_METHOD]: "GET",
           [http.HTTP_ROUTE]: "/api/example",
           [http.HTTP_URL]: "https://example.com/api/example",
           [http.HTTP_STATUS_CODE]: 200,
-          "extra.attribute": "foo",
+          "extra.attribute": "foo"
         });
         span.setStatus({
-          code: CanonicalCode.OK,
+          code: CanonicalCode.OK
         });
         span.end();
         const expectedTags: Tags = {
@@ -283,10 +283,10 @@ describe("spanUtils.ts", () => {
           [ai.AI_OPERATION_PARENT_ID]: "parentSpanId",
           [ai.AI_OPERATION_NAME]: `${span.attributes[http.HTTP_METHOD] as string} ${span.attributes[
             http.HTTP_ROUTE
-          ] as string}`,
+          ] as string}`
         };
         const expectedProperties: Properties = {
-          "extra.attribute": "foo",
+          "extra.attribute": "foo"
         };
 
         const expectedBaseData: RequestData = {
@@ -299,7 +299,7 @@ describe("spanUtils.ts", () => {
           ver: 1,
           source: undefined,
           properties: expectedProperties,
-          measurements: {},
+          measurements: {}
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
@@ -309,7 +309,7 @@ describe("spanUtils.ts", () => {
           "RequestData",
           expectedTags,
           expectedProperties,
-          expectedBaseData,
+          expectedBaseData
         );
       });
       it("should create a Dependency Envelope for Client Spans", () => {
@@ -318,24 +318,24 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId",
+          "parentSpanId"
         );
         span.setAttributes({
           [http.HTTP_METHOD]: "GET",
           [http.HTTP_URL]: "https://example.com/api/example",
           [http.HTTP_STATUS_CODE]: 200,
-          "extra.attribute": "foo",
+          "extra.attribute": "foo"
         });
         span.setStatus({
-          code: CanonicalCode.OK,
+          code: CanonicalCode.OK
         });
         span.end();
         const expectedTags: Tags = {
           [ai.AI_OPERATION_ID]: span.spanContext.traceId,
-          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId",
+          [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
         };
         const expectedProperties: Properties = {
-          "extra.attribute": "foo",
+          "extra.attribute": "foo"
         };
 
         const expectedBaseData: RemoteDependencyData = {
@@ -349,7 +349,7 @@ describe("spanUtils.ts", () => {
           name: `GET /api/example`,
           ver: 1,
           properties: expectedProperties,
-          measurements: {},
+          measurements: {}
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
@@ -359,7 +359,7 @@ describe("spanUtils.ts", () => {
           "RemoteDependencyData",
           expectedTags,
           expectedProperties,
-          expectedBaseData,
+          expectedBaseData
         );
       });
     });

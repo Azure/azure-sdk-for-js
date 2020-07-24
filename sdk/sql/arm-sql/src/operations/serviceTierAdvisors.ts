@@ -36,7 +36,13 @@ export class ServiceTierAdvisors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceTierAdvisorsGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, serviceTierAdvisorName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceTierAdvisorsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    serviceTierAdvisorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceTierAdvisorsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -45,7 +51,13 @@ export class ServiceTierAdvisors {
    * @param serviceTierAdvisorName The name of service tier advisor.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, serviceTierAdvisorName: string, callback: msRest.ServiceCallback<Models.ServiceTierAdvisor>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    serviceTierAdvisorName: string,
+    callback: msRest.ServiceCallback<Models.ServiceTierAdvisor>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -55,8 +67,22 @@ export class ServiceTierAdvisors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, serviceTierAdvisorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceTierAdvisor>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, serviceTierAdvisorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceTierAdvisor>, callback?: msRest.ServiceCallback<Models.ServiceTierAdvisor>): Promise<Models.ServiceTierAdvisorsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    serviceTierAdvisorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceTierAdvisor>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    serviceTierAdvisorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceTierAdvisor>,
+    callback?: msRest.ServiceCallback<Models.ServiceTierAdvisor>
+  ): Promise<Models.ServiceTierAdvisorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +92,8 @@ export class ServiceTierAdvisors {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServiceTierAdvisorsGetResponse>;
+      callback
+    ) as Promise<Models.ServiceTierAdvisorsGetResponse>;
   }
 
   /**
@@ -78,7 +105,12 @@ export class ServiceTierAdvisors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceTierAdvisorsListByDatabaseResponse>
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceTierAdvisorsListByDatabaseResponse>;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceTierAdvisorsListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -86,7 +118,12 @@ export class ServiceTierAdvisors {
    * @param databaseName The name of database.
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ServiceTierAdvisorListResult>): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.ServiceTierAdvisorListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -95,8 +132,22 @@ export class ServiceTierAdvisors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceTierAdvisorListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceTierAdvisorListResult>, callback?: msRest.ServiceCallback<Models.ServiceTierAdvisorListResult>): Promise<Models.ServiceTierAdvisorsListByDatabaseResponse> {
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceTierAdvisorListResult>
+  ): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ServiceTierAdvisorListResult>,
+    callback?: msRest.ServiceCallback<Models.ServiceTierAdvisorListResult>
+  ): Promise<Models.ServiceTierAdvisorsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +156,8 @@ export class ServiceTierAdvisors {
         options
       },
       listByDatabaseOperationSpec,
-      callback) as Promise<Models.ServiceTierAdvisorsListByDatabaseResponse>;
+      callback
+    ) as Promise<Models.ServiceTierAdvisorsListByDatabaseResponse>;
   }
 }
 
@@ -113,7 +165,8 @@ export class ServiceTierAdvisors {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/serviceTierAdvisors/{serviceTierAdvisorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/serviceTierAdvisors/{serviceTierAdvisorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -121,12 +174,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.serviceTierAdvisorName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceTierAdvisor
@@ -140,19 +189,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/serviceTierAdvisors",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/serviceTierAdvisors",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceTierAdvisorListResult

@@ -33,21 +33,41 @@ export class UsageHistory {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsageHistoryListResponse>
    */
-  list(resourceGroupName: string, commitmentPlanName: string, options?: Models.UsageHistoryListOptionalParams): Promise<Models.UsageHistoryListResponse>;
+  list(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: Models.UsageHistoryListOptionalParams
+  ): Promise<Models.UsageHistoryListResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param commitmentPlanName The Azure ML commitment plan name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, commitmentPlanName: string, callback: msRest.ServiceCallback<Models.PlanUsageHistoryListResult>): void;
+  list(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    callback: msRest.ServiceCallback<Models.PlanUsageHistoryListResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param commitmentPlanName The Azure ML commitment plan name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, commitmentPlanName: string, options: Models.UsageHistoryListOptionalParams, callback: msRest.ServiceCallback<Models.PlanUsageHistoryListResult>): void;
-  list(resourceGroupName: string, commitmentPlanName: string, options?: Models.UsageHistoryListOptionalParams | msRest.ServiceCallback<Models.PlanUsageHistoryListResult>, callback?: msRest.ServiceCallback<Models.PlanUsageHistoryListResult>): Promise<Models.UsageHistoryListResponse> {
+  list(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options: Models.UsageHistoryListOptionalParams,
+    callback: msRest.ServiceCallback<Models.PlanUsageHistoryListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?:
+      | Models.UsageHistoryListOptionalParams
+      | msRest.ServiceCallback<Models.PlanUsageHistoryListResult>,
+    callback?: msRest.ServiceCallback<Models.PlanUsageHistoryListResult>
+  ): Promise<Models.UsageHistoryListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class UsageHistory {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.UsageHistoryListResponse>;
+      callback
+    ) as Promise<Models.UsageHistoryListResponse>;
   }
 
   /**
@@ -64,26 +85,41 @@ export class UsageHistory {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsageHistoryListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.UsageHistoryListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UsageHistoryListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PlanUsageHistoryListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PlanUsageHistoryListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PlanUsageHistoryListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PlanUsageHistoryListResult>, callback?: msRest.ServiceCallback<Models.PlanUsageHistoryListResult>): Promise<Models.UsageHistoryListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PlanUsageHistoryListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PlanUsageHistoryListResult>,
+    callback?: msRest.ServiceCallback<Models.PlanUsageHistoryListResult>
+  ): Promise<Models.UsageHistoryListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.UsageHistoryListNextResponse>;
+      callback
+    ) as Promise<Models.UsageHistoryListNextResponse>;
   }
 }
 
@@ -91,19 +127,15 @@ export class UsageHistory {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}/usageHistory",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}/usageHistory",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.commitmentPlanName
   ],
-  queryParameters: [
-    Parameters.skipToken,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.skipToken, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PlanUsageHistoryListResult
@@ -119,12 +151,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PlanUsageHistoryListResult

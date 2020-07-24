@@ -35,14 +35,24 @@ export class SqlPoolSecurityAlertPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolSecurityAlertPoliciesGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolSecurityAlertPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolSecurityAlertPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    callback: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -50,8 +60,20 @@ export class SqlPoolSecurityAlertPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>): void;
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>, callback?: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>): Promise<Models.SqlPoolSecurityAlertPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>,
+    callback?: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>
+  ): Promise<Models.SqlPoolSecurityAlertPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class SqlPoolSecurityAlertPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SqlPoolSecurityAlertPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.SqlPoolSecurityAlertPoliciesGetResponse>;
   }
 
   /**
@@ -73,7 +96,13 @@ export class SqlPoolSecurityAlertPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SqlPoolSecurityAlertPolicy, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.SqlPoolSecurityAlertPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -81,7 +110,13 @@ export class SqlPoolSecurityAlertPolicies {
    * @param parameters The Sql pool security alert policy.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SqlPoolSecurityAlertPolicy, callback: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.SqlPoolSecurityAlertPolicy,
+    callback: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -90,8 +125,22 @@ export class SqlPoolSecurityAlertPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SqlPoolSecurityAlertPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SqlPoolSecurityAlertPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>, callback?: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>): Promise<Models.SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.SqlPoolSecurityAlertPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.SqlPoolSecurityAlertPolicy,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>,
+    callback?: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>
+  ): Promise<Models.SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +150,8 @@ export class SqlPoolSecurityAlertPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse>;
   }
 }
 
@@ -109,7 +159,8 @@ export class SqlPoolSecurityAlertPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/securityAlertPolicies/{securityAlertPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/securityAlertPolicies/{securityAlertPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -117,12 +168,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName,
     Parameters.securityAlertPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlPoolSecurityAlertPolicy
@@ -136,7 +183,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/securityAlertPolicies/{securityAlertPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/securityAlertPolicies/{securityAlertPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -144,12 +192,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName,
     Parameters.securityAlertPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

@@ -35,7 +35,13 @@ export class WorkflowRunOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowRunOperationsGetResponse>
    */
-  get(resourceGroupName: string, workflowName: string, runName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowRunOperationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowRunOperationsGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -43,7 +49,13 @@ export class WorkflowRunOperations {
    * @param operationId The workflow operation id.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workflowName: string, runName: string, operationId: string, callback: msRest.ServiceCallback<Models.WorkflowRun>): void;
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    operationId: string,
+    callback: msRest.ServiceCallback<Models.WorkflowRun>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -52,8 +64,22 @@ export class WorkflowRunOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workflowName: string, runName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowRun>): void;
-  get(resourceGroupName: string, workflowName: string, runName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowRun>, callback?: msRest.ServiceCallback<Models.WorkflowRun>): Promise<Models.WorkflowRunOperationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkflowRun>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowRun>,
+    callback?: msRest.ServiceCallback<Models.WorkflowRun>
+  ): Promise<Models.WorkflowRunOperationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class WorkflowRunOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WorkflowRunOperationsGetResponse>;
+      callback
+    ) as Promise<Models.WorkflowRunOperationsGetResponse>;
   }
 }
 
@@ -71,7 +98,8 @@ export class WorkflowRunOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/operations/{operationId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/operations/{operationId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -79,12 +107,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.runName,
     Parameters.operationId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkflowRun

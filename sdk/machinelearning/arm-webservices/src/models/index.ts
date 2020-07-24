@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing Resource.
@@ -1075,7 +1074,6 @@ export interface AzureMLWebServicesManagementClientOptions extends AzureServiceC
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the OperationEntityListResult.
@@ -1083,8 +1081,7 @@ export interface AzureMLWebServicesManagementClientOptions extends AzureServiceC
  *
  * @extends Array<OperationEntity>
  */
-export interface OperationEntityListResult extends Array<OperationEntity> {
-}
+export interface OperationEntityListResult extends Array<OperationEntity> {}
 
 /**
  * @interface
@@ -1107,7 +1104,7 @@ export interface PaginatedWebServicesList extends Array<WebService> {
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Unknown' | 'Provisioning' | 'Succeeded' | 'Failed';
+export type ProvisioningState = "Unknown" | "Provisioning" | "Succeeded" | "Failed";
 
 /**
  * Defines values for DiagnosticsLevel.
@@ -1115,7 +1112,7 @@ export type ProvisioningState = 'Unknown' | 'Provisioning' | 'Succeeded' | 'Fail
  * @readonly
  * @enum {string}
  */
-export type DiagnosticsLevel = 'None' | 'Error' | 'All';
+export type DiagnosticsLevel = "None" | "Error" | "All";
 
 /**
  * Defines values for ColumnType.
@@ -1123,7 +1120,7 @@ export type DiagnosticsLevel = 'None' | 'Error' | 'All';
  * @readonly
  * @enum {string}
  */
-export type ColumnType = 'Boolean' | 'Integer' | 'Number' | 'String';
+export type ColumnType = "Boolean" | "Integer" | "Number" | "String";
 
 /**
  * Defines values for ColumnFormat.
@@ -1133,7 +1130,24 @@ export type ColumnType = 'Boolean' | 'Integer' | 'Number' | 'String';
  * @readonly
  * @enum {string}
  */
-export type ColumnFormat = 'Byte' | 'Char' | 'Complex64' | 'Complex128' | 'Date-time' | 'Date-timeOffset' | 'Double' | 'Duration' | 'Float' | 'Int8' | 'Int16' | 'Int32' | 'Int64' | 'Uint8' | 'Uint16' | 'Uint32' | 'Uint64';
+export type ColumnFormat =
+  | "Byte"
+  | "Char"
+  | "Complex64"
+  | "Complex128"
+  | "Date-time"
+  | "Date-timeOffset"
+  | "Double"
+  | "Duration"
+  | "Float"
+  | "Int8"
+  | "Int16"
+  | "Int32"
+  | "Int64"
+  | "Uint8"
+  | "Uint16"
+  | "Uint32"
+  | "Uint64";
 
 /**
  * Defines values for AssetType.
@@ -1141,7 +1155,7 @@ export type ColumnFormat = 'Byte' | 'Char' | 'Complex64' | 'Complex128' | 'Date-
  * @readonly
  * @enum {string}
  */
-export type AssetType = 'Module' | 'Resource';
+export type AssetType = "Module" | "Resource";
 
 /**
  * Defines values for InputPortType.
@@ -1149,7 +1163,7 @@ export type AssetType = 'Module' | 'Resource';
  * @readonly
  * @enum {string}
  */
-export type InputPortType = 'Dataset';
+export type InputPortType = "Dataset";
 
 /**
  * Defines values for OutputPortType.
@@ -1157,7 +1171,7 @@ export type InputPortType = 'Dataset';
  * @readonly
  * @enum {string}
  */
-export type OutputPortType = 'Dataset';
+export type OutputPortType = "Dataset";
 
 /**
  * Defines values for ParameterType.
@@ -1166,7 +1180,19 @@ export type OutputPortType = 'Dataset';
  * @readonly
  * @enum {string}
  */
-export type ParameterType = 'String' | 'Int' | 'Float' | 'Enumerated' | 'Script' | 'Mode' | 'Credential' | 'Boolean' | 'Double' | 'ColumnPicker' | 'ParameterRange' | 'DataGatewayName';
+export type ParameterType =
+  | "String"
+  | "Int"
+  | "Float"
+  | "Enumerated"
+  | "Script"
+  | "Mode"
+  | "Credential"
+  | "Boolean"
+  | "Double"
+  | "ColumnPicker"
+  | "ParameterRange"
+  | "DataGatewayName";
 
 /**
  * Contains response data for the list operation.
@@ -1176,15 +1202,15 @@ export type OperationsListResponse = OperationEntityListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationEntityListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationEntityListResult;
+  };
 };
 
 /**
@@ -1195,15 +1221,15 @@ export type WebServicesCreateOrUpdateResponse = WebService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebService;
+  };
 };
 
 /**
@@ -1214,15 +1240,15 @@ export type WebServicesGetResponse = WebService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebService;
+  };
 };
 
 /**
@@ -1233,15 +1259,15 @@ export type WebServicesPatchResponse = WebService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebService;
+  };
 };
 
 /**
@@ -1252,15 +1278,15 @@ export type WebServicesCreateRegionalPropertiesResponse = AsyncOperationStatus &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AsyncOperationStatus;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AsyncOperationStatus;
+  };
 };
 
 /**
@@ -1271,15 +1297,15 @@ export type WebServicesListKeysResponse = WebServiceKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebServiceKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebServiceKeys;
+  };
 };
 
 /**
@@ -1290,15 +1316,15 @@ export type WebServicesListByResourceGroupResponse = PaginatedWebServicesList & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedWebServicesList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PaginatedWebServicesList;
+  };
 };
 
 /**
@@ -1309,15 +1335,15 @@ export type WebServicesListBySubscriptionIdResponse = PaginatedWebServicesList &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedWebServicesList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PaginatedWebServicesList;
+  };
 };
 
 /**
@@ -1328,15 +1354,15 @@ export type WebServicesBeginCreateOrUpdateResponse = WebService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebService;
+  };
 };
 
 /**
@@ -1347,15 +1373,15 @@ export type WebServicesBeginPatchResponse = WebService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebService;
+  };
 };
 
 /**
@@ -1366,15 +1392,15 @@ export type WebServicesBeginCreateRegionalPropertiesResponse = AsyncOperationSta
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AsyncOperationStatus;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AsyncOperationStatus;
+  };
 };
 
 /**
@@ -1385,15 +1411,15 @@ export type WebServicesListByResourceGroupNextResponse = PaginatedWebServicesLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedWebServicesList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PaginatedWebServicesList;
+  };
 };
 
 /**
@@ -1404,13 +1430,13 @@ export type WebServicesListBySubscriptionIdNextResponse = PaginatedWebServicesLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedWebServicesList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PaginatedWebServicesList;
+  };
 };

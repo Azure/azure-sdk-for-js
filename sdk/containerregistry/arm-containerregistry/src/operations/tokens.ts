@@ -35,14 +35,24 @@ export class Tokens {
    * @param [options] The optional parameters
    * @returns Promise<Models.TokensGetResponse>
    */
-  get(resourceGroupName: string, registryName: string, tokenName: string, options?: msRest.RequestOptionsBase): Promise<Models.TokensGetResponse>;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TokensGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param tokenName The name of the token.
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, tokenName: string, callback: msRest.ServiceCallback<Models.Token>): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    callback: msRest.ServiceCallback<Models.Token>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -50,8 +60,20 @@ export class Tokens {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, tokenName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Token>): void;
-  get(resourceGroupName: string, registryName: string, tokenName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Token>, callback?: msRest.ServiceCallback<Models.Token>): Promise<Models.TokensGetResponse> {
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Token>
+  ): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Token>,
+    callback?: msRest.ServiceCallback<Models.Token>
+  ): Promise<Models.TokensGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class Tokens {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TokensGetResponse>;
+      callback
+    ) as Promise<Models.TokensGetResponse>;
   }
 
   /**
@@ -72,9 +95,20 @@ export class Tokens {
    * @param [options] The optional parameters
    * @returns Promise<Models.TokensCreateResponse>
    */
-  create(resourceGroupName: string, registryName: string, tokenName: string, tokenCreateParameters: Models.Token, options?: msRest.RequestOptionsBase): Promise<Models.TokensCreateResponse> {
-    return this.beginCreate(resourceGroupName,registryName,tokenName,tokenCreateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TokensCreateResponse>;
+  create(
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    tokenCreateParameters: Models.Token,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TokensCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      registryName,
+      tokenName,
+      tokenCreateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.TokensCreateResponse>;
   }
 
   /**
@@ -85,9 +119,18 @@ export class Tokens {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, registryName: string, tokenName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,registryName,tokenName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      registryName,
+      tokenName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -99,9 +142,20 @@ export class Tokens {
    * @param [options] The optional parameters
    * @returns Promise<Models.TokensUpdateResponse>
    */
-  update(resourceGroupName: string, registryName: string, tokenName: string, tokenUpdateParameters: Models.TokenUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.TokensUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,registryName,tokenName,tokenUpdateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TokensUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    tokenUpdateParameters: Models.TokenUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TokensUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      registryName,
+      tokenName,
+      tokenUpdateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.TokensUpdateResponse>;
   }
 
   /**
@@ -111,21 +165,39 @@ export class Tokens {
    * @param [options] The optional parameters
    * @returns Promise<Models.TokensListResponse>
    */
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase): Promise<Models.TokensListResponse>;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TokensListResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, callback: msRest.ServiceCallback<Models.TokenListResult>): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    callback: msRest.ServiceCallback<Models.TokenListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TokenListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TokenListResult>, callback?: msRest.ServiceCallback<Models.TokenListResult>): Promise<Models.TokensListResponse> {
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TokenListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TokenListResult>,
+    callback?: msRest.ServiceCallback<Models.TokenListResult>
+  ): Promise<Models.TokensListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +205,8 @@ export class Tokens {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.TokensListResponse>;
+      callback
+    ) as Promise<Models.TokensListResponse>;
   }
 
   /**
@@ -145,7 +218,13 @@ export class Tokens {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, registryName: string, tokenName: string, tokenCreateParameters: Models.Token, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    tokenCreateParameters: Models.Token,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -155,7 +234,8 @@ export class Tokens {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -166,7 +246,12 @@ export class Tokens {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, registryName: string, tokenName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -175,7 +260,8 @@ export class Tokens {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -187,7 +273,13 @@ export class Tokens {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, registryName: string, tokenName: string, tokenUpdateParameters: Models.TokenUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    registryName: string,
+    tokenName: string,
+    tokenUpdateParameters: Models.TokenUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -197,7 +289,8 @@ export class Tokens {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -206,7 +299,10 @@ export class Tokens {
    * @param [options] The optional parameters
    * @returns Promise<Models.TokensListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TokensListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TokensListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -217,15 +313,24 @@ export class Tokens {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TokenListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TokenListResult>, callback?: msRest.ServiceCallback<Models.TokenListResult>): Promise<Models.TokensListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TokenListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TokenListResult>,
+    callback?: msRest.ServiceCallback<Models.TokenListResult>
+  ): Promise<Models.TokensListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.TokensListNextResponse>;
+      callback
+    ) as Promise<Models.TokensListNextResponse>;
   }
 }
 
@@ -233,19 +338,16 @@ export class Tokens {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.tokenName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Token
@@ -259,18 +361,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.registryName],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TokenListResult
@@ -284,19 +379,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.tokenName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "tokenCreateParameters",
     mapper: {
@@ -320,19 +412,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.tokenName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -346,19 +435,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.tokenName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "tokenUpdateParameters",
     mapper: {
@@ -384,12 +470,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TokenListResult

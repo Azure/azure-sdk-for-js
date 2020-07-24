@@ -33,26 +33,43 @@ export class AssessmentOptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentOptionsGetResponse>
    */
-  get(locationName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentOptionsGetResponse>;
+  get(
+    locationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentOptionsGetResponse>;
   /**
    * @param locationName Azure region in which the project is created.
    * @param callback The callback
    */
-  get(locationName: string, callback: msRest.ServiceCallback<Models.AssessmentOptionsResultList>): void;
+  get(
+    locationName: string,
+    callback: msRest.ServiceCallback<Models.AssessmentOptionsResultList>
+  ): void;
   /**
    * @param locationName Azure region in which the project is created.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssessmentOptionsResultList>): void;
-  get(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessmentOptionsResultList>, callback?: msRest.ServiceCallback<Models.AssessmentOptionsResultList>): Promise<Models.AssessmentOptionsGetResponse> {
+  get(
+    locationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AssessmentOptionsResultList>
+  ): void;
+  get(
+    locationName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AssessmentOptionsResultList>,
+    callback?: msRest.ServiceCallback<Models.AssessmentOptionsResultList>
+  ): Promise<Models.AssessmentOptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AssessmentOptionsGetResponse>;
+      callback
+    ) as Promise<Models.AssessmentOptionsGetResponse>;
   }
 }
 
@@ -60,17 +77,11 @@ export class AssessmentOptions {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Migrate/locations/{locationName}/assessmentOptions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.locationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Migrate/locations/{locationName}/assessmentOptions",
+  urlParameters: [Parameters.subscriptionId, Parameters.locationName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AssessmentOptionsResultList

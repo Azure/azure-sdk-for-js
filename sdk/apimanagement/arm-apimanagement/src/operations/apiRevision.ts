@@ -34,14 +34,24 @@ export class ApiRevision {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiRevisionListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiRevisionListByServiceOptionalParams): Promise<Models.ApiRevisionListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: Models.ApiRevisionListByServiceOptionalParams
+  ): Promise<Models.ApiRevisionListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, callback: msRest.ServiceCallback<Models.ApiRevisionCollection>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    callback: msRest.ServiceCallback<Models.ApiRevisionCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -49,8 +59,22 @@ export class ApiRevision {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiRevisionListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.ApiRevisionCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiRevisionListByServiceOptionalParams | msRest.ServiceCallback<Models.ApiRevisionCollection>, callback?: msRest.ServiceCallback<Models.ApiRevisionCollection>): Promise<Models.ApiRevisionListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options: Models.ApiRevisionListByServiceOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApiRevisionCollection>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?:
+      | Models.ApiRevisionListByServiceOptionalParams
+      | msRest.ServiceCallback<Models.ApiRevisionCollection>,
+    callback?: msRest.ServiceCallback<Models.ApiRevisionCollection>
+  ): Promise<Models.ApiRevisionListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +83,8 @@ export class ApiRevision {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.ApiRevisionListByServiceResponse>;
+      callback
+    ) as Promise<Models.ApiRevisionListByServiceResponse>;
   }
 
   /**
@@ -68,26 +93,41 @@ export class ApiRevision {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiRevisionListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiRevisionListByServiceNextResponse>;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApiRevisionListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApiRevisionCollection>): void;
+  listByServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApiRevisionCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiRevisionCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiRevisionCollection>, callback?: msRest.ServiceCallback<Models.ApiRevisionCollection>): Promise<Models.ApiRevisionListByServiceNextResponse> {
+  listByServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApiRevisionCollection>
+  ): void;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiRevisionCollection>,
+    callback?: msRest.ServiceCallback<Models.ApiRevisionCollection>
+  ): Promise<Models.ApiRevisionListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.ApiRevisionListByServiceNextResponse>;
+      callback
+    ) as Promise<Models.ApiRevisionListByServiceNextResponse>;
   }
 }
 
@@ -95,22 +135,16 @@ export class ApiRevision {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/revisions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/revisions",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.apiId1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter0, Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiRevisionCollection
@@ -126,12 +160,8 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiRevisionCollection

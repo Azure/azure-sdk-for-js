@@ -35,14 +35,24 @@ export class ImportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImportPipelinesGetResponse>
    */
-  get(resourceGroupName: string, registryName: string, importPipelineName: string, options?: msRest.RequestOptionsBase): Promise<Models.ImportPipelinesGetResponse>;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    importPipelineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ImportPipelinesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param importPipelineName The name of the import pipeline.
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, importPipelineName: string, callback: msRest.ServiceCallback<Models.ImportPipeline>): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    importPipelineName: string,
+    callback: msRest.ServiceCallback<Models.ImportPipeline>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -50,8 +60,20 @@ export class ImportPipelines {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, importPipelineName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImportPipeline>): void;
-  get(resourceGroupName: string, registryName: string, importPipelineName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImportPipeline>, callback?: msRest.ServiceCallback<Models.ImportPipeline>): Promise<Models.ImportPipelinesGetResponse> {
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    importPipelineName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ImportPipeline>
+  ): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    importPipelineName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImportPipeline>,
+    callback?: msRest.ServiceCallback<Models.ImportPipeline>
+  ): Promise<Models.ImportPipelinesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class ImportPipelines {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ImportPipelinesGetResponse>;
+      callback
+    ) as Promise<Models.ImportPipelinesGetResponse>;
   }
 
   /**
@@ -72,9 +95,22 @@ export class ImportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImportPipelinesCreateResponse>
    */
-  create(resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: Models.ImportPipeline, options?: msRest.RequestOptionsBase): Promise<Models.ImportPipelinesCreateResponse> {
-    return this.beginCreate(resourceGroupName,registryName,importPipelineName,importPipelineCreateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ImportPipelinesCreateResponse>;
+  create(
+    resourceGroupName: string,
+    registryName: string,
+    importPipelineName: string,
+    importPipelineCreateParameters: Models.ImportPipeline,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ImportPipelinesCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      registryName,
+      importPipelineName,
+      importPipelineCreateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ImportPipelinesCreateResponse
+    >;
   }
 
   /**
@@ -85,9 +121,18 @@ export class ImportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, registryName: string, importPipelineName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,registryName,importPipelineName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    importPipelineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      registryName,
+      importPipelineName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -97,21 +142,39 @@ export class ImportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImportPipelinesListResponse>
    */
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase): Promise<Models.ImportPipelinesListResponse>;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ImportPipelinesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, callback: msRest.ServiceCallback<Models.ImportPipelineListResult>): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    callback: msRest.ServiceCallback<Models.ImportPipelineListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImportPipelineListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImportPipelineListResult>, callback?: msRest.ServiceCallback<Models.ImportPipelineListResult>): Promise<Models.ImportPipelinesListResponse> {
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ImportPipelineListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImportPipelineListResult>,
+    callback?: msRest.ServiceCallback<Models.ImportPipelineListResult>
+  ): Promise<Models.ImportPipelinesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +182,8 @@ export class ImportPipelines {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ImportPipelinesListResponse>;
+      callback
+    ) as Promise<Models.ImportPipelinesListResponse>;
   }
 
   /**
@@ -131,7 +195,13 @@ export class ImportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: Models.ImportPipeline, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    registryName: string,
+    importPipelineName: string,
+    importPipelineCreateParameters: Models.ImportPipeline,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -141,7 +211,8 @@ export class ImportPipelines {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +223,12 @@ export class ImportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, registryName: string, importPipelineName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    importPipelineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +237,8 @@ export class ImportPipelines {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,26 +247,41 @@ export class ImportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImportPipelinesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ImportPipelinesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ImportPipelinesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ImportPipelineListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ImportPipelineListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImportPipelineListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImportPipelineListResult>, callback?: msRest.ServiceCallback<Models.ImportPipelineListResult>): Promise<Models.ImportPipelinesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ImportPipelineListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImportPipelineListResult>,
+    callback?: msRest.ServiceCallback<Models.ImportPipelineListResult>
+  ): Promise<Models.ImportPipelinesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ImportPipelinesListNextResponse>;
+      callback
+    ) as Promise<Models.ImportPipelinesListNextResponse>;
   }
 }
 
@@ -197,19 +289,16 @@ export class ImportPipelines {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.importPipelineName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ImportPipeline
@@ -223,18 +312,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.registryName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ImportPipelineListResult
@@ -248,19 +330,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.importPipelineName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "importPipelineCreateParameters",
     mapper: {
@@ -284,19 +363,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.importPipelineName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -312,12 +388,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ImportPipelineListResult

@@ -36,7 +36,13 @@ export class DataMaskingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataMaskingPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DataMaskingPolicy, options?: msRest.RequestOptionsBase): Promise<Models.DataMaskingPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DataMaskingPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataMaskingPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -45,7 +51,13 @@ export class DataMaskingPolicies {
    * @param parameters Parameters for creating or updating a data masking policy.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DataMaskingPolicy, callback: msRest.ServiceCallback<Models.DataMaskingPolicy>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DataMaskingPolicy,
+    callback: msRest.ServiceCallback<Models.DataMaskingPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -55,8 +67,22 @@ export class DataMaskingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DataMaskingPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMaskingPolicy>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DataMaskingPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMaskingPolicy>, callback?: msRest.ServiceCallback<Models.DataMaskingPolicy>): Promise<Models.DataMaskingPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DataMaskingPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataMaskingPolicy>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DataMaskingPolicy,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMaskingPolicy>,
+    callback?: msRest.ServiceCallback<Models.DataMaskingPolicy>
+  ): Promise<Models.DataMaskingPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +92,8 @@ export class DataMaskingPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DataMaskingPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.DataMaskingPoliciesCreateOrUpdateResponse>;
   }
 
   /**
@@ -78,7 +105,12 @@ export class DataMaskingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataMaskingPoliciesGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataMaskingPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataMaskingPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -86,7 +118,12 @@ export class DataMaskingPolicies {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.DataMaskingPolicy>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.DataMaskingPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -95,8 +132,20 @@ export class DataMaskingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMaskingPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMaskingPolicy>, callback?: msRest.ServiceCallback<Models.DataMaskingPolicy>): Promise<Models.DataMaskingPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataMaskingPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMaskingPolicy>,
+    callback?: msRest.ServiceCallback<Models.DataMaskingPolicy>
+  ): Promise<Models.DataMaskingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +154,8 @@ export class DataMaskingPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DataMaskingPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.DataMaskingPoliciesGetResponse>;
   }
 }
 
@@ -113,7 +163,8 @@ export class DataMaskingPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -121,12 +172,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.dataMaskingPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -147,7 +194,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -155,12 +203,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.dataMaskingPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataMaskingPolicy

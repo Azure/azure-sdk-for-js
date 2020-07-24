@@ -24,4 +24,3 @@ export {
   WebTestGeolocation,
   WebTestPropertiesConfiguration
 } from "../models/mappers";
-

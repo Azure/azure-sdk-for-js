@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ServiceBusManagementClientContext } from "./serviceBusManagementClientContext";
 
-
 class ServiceBusManagementClient extends ServiceBusManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -36,7 +35,11 @@ class ServiceBusManagementClient extends ServiceBusManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ServiceBusManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ServiceBusManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.namespaces = new operations.Namespaces(this);

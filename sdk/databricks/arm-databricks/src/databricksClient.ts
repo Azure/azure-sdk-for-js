@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { DatabricksClientContext } from "./databricksClientContext";
 
-
 class DatabricksClient extends DatabricksClientContext {
   // Operation groups
   workspaces: operations.Workspaces;
@@ -26,7 +25,11 @@ class DatabricksClient extends DatabricksClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DatabricksClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.DatabricksClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.workspaces = new operations.Workspaces(this);
     this.operations = new operations.Operations(this);

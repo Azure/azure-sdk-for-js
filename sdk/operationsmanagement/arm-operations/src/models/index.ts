@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing OperationDisplay.
@@ -395,7 +394,6 @@ export interface OperationsManagementClientOptions extends AzureServiceClientOpt
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the OperationListResult.
@@ -403,8 +401,7 @@ export interface OperationsManagementClientOptions extends AzureServiceClientOpt
  *
  * @extends Array<Operation>
  */
-export interface OperationListResult extends Array<Operation> {
-}
+export interface OperationListResult extends Array<Operation> {}
 
 /**
  * Contains response data for the createOrUpdate operation.
@@ -414,15 +411,15 @@ export type SolutionsCreateOrUpdateResponse = Solution & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Solution;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Solution;
+  };
 };
 
 /**
@@ -433,15 +430,15 @@ export type SolutionsGetResponse = Solution & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Solution;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Solution;
+  };
 };
 
 /**
@@ -452,15 +449,15 @@ export type SolutionsListByResourceGroupResponse = SolutionPropertiesList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SolutionPropertiesList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SolutionPropertiesList;
+  };
 };
 
 /**
@@ -471,15 +468,15 @@ export type SolutionsListBySubscriptionResponse = SolutionPropertiesList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SolutionPropertiesList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SolutionPropertiesList;
+  };
 };
 
 /**
@@ -490,15 +487,15 @@ export type SolutionsBeginCreateOrUpdateResponse = Solution & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Solution;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Solution;
+  };
 };
 
 /**
@@ -509,15 +506,15 @@ export type ManagementAssociationsListBySubscriptionResponse = ManagementAssocia
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementAssociationPropertiesList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementAssociationPropertiesList;
+  };
 };
 
 /**
@@ -528,15 +525,15 @@ export type ManagementAssociationsCreateOrUpdateResponse = ManagementAssociation
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementAssociation;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementAssociation;
+  };
 };
 
 /**
@@ -547,15 +544,15 @@ export type ManagementAssociationsGetResponse = ManagementAssociation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementAssociation;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementAssociation;
+  };
 };
 
 /**
@@ -566,15 +563,15 @@ export type ManagementConfigurationsListBySubscriptionResponse = ManagementConfi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementConfigurationPropertiesList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementConfigurationPropertiesList;
+  };
 };
 
 /**
@@ -585,15 +582,15 @@ export type ManagementConfigurationsCreateOrUpdateResponse = ManagementConfigura
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementConfiguration;
+  };
 };
 
 /**
@@ -604,15 +601,15 @@ export type ManagementConfigurationsGetResponse = ManagementConfiguration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementConfiguration;
+  };
 };
 
 /**
@@ -623,13 +620,13 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

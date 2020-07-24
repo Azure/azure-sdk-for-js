@@ -35,14 +35,22 @@ export class ManagedInstanceAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstanceAdministratorsListByInstanceResponse>
    */
-  listByInstance(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstanceAdministratorsListByInstanceResponse>;
+  listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedInstanceAdministratorsListByInstanceResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
    * @param callback The callback
    */
-  listByInstance(resourceGroupName: string, managedInstanceName: string, callback: msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>): void;
+  listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -50,8 +58,20 @@ export class ManagedInstanceAdministrators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByInstance(resourceGroupName: string, managedInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>): void;
-  listByInstance(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>): Promise<Models.ManagedInstanceAdministratorsListByInstanceResponse> {
+  listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>
+  ): void;
+  listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>
+  ): Promise<Models.ManagedInstanceAdministratorsListByInstanceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +79,8 @@ export class ManagedInstanceAdministrators {
         options
       },
       listByInstanceOperationSpec,
-      callback) as Promise<Models.ManagedInstanceAdministratorsListByInstanceResponse>;
+      callback
+    ) as Promise<Models.ManagedInstanceAdministratorsListByInstanceResponse>;
   }
 
   /**
@@ -70,14 +91,22 @@ export class ManagedInstanceAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstanceAdministratorsGetResponse>
    */
-  get(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstanceAdministratorsGetResponse>;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedInstanceAdministratorsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, callback: msRest.ServiceCallback<Models.ManagedInstanceAdministrator>): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceAdministrator>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -85,8 +114,20 @@ export class ManagedInstanceAdministrators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceAdministrator>): void;
-  get(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceAdministrator>, callback?: msRest.ServiceCallback<Models.ManagedInstanceAdministrator>): Promise<Models.ManagedInstanceAdministratorsGetResponse> {
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceAdministrator>
+  ): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedInstanceAdministrator>,
+    callback?: msRest.ServiceCallback<Models.ManagedInstanceAdministrator>
+  ): Promise<Models.ManagedInstanceAdministratorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +135,8 @@ export class ManagedInstanceAdministrators {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagedInstanceAdministratorsGetResponse>;
+      callback
+    ) as Promise<Models.ManagedInstanceAdministratorsGetResponse>;
   }
 
   /**
@@ -106,9 +148,20 @@ export class ManagedInstanceAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstanceAdministratorsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, parameters: Models.ManagedInstanceAdministrator, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstanceAdministratorsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,managedInstanceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedInstanceAdministratorsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    parameters: Models.ManagedInstanceAdministrator,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedInstanceAdministratorsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      managedInstanceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ManagedInstanceAdministratorsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -119,9 +172,16 @@ export class ManagedInstanceAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,managedInstanceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      managedInstanceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -133,7 +193,12 @@ export class ManagedInstanceAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, managedInstanceName: string, parameters: Models.ManagedInstanceAdministrator, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    parameters: Models.ManagedInstanceAdministrator,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -142,7 +207,8 @@ export class ManagedInstanceAdministrators {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -153,7 +219,11 @@ export class ManagedInstanceAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +231,8 @@ export class ManagedInstanceAdministrators {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,26 +241,43 @@ export class ManagedInstanceAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstanceAdministratorsListByInstanceNextResponse>
    */
-  listByInstanceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstanceAdministratorsListByInstanceNextResponse>;
+  listByInstanceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedInstanceAdministratorsListByInstanceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByInstanceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>): void;
+  listByInstanceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByInstanceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>): void;
-  listByInstanceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>): Promise<Models.ManagedInstanceAdministratorsListByInstanceNextResponse> {
+  listByInstanceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>
+  ): void;
+  listByInstanceNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedInstanceAdministratorListResult>
+  ): Promise<Models.ManagedInstanceAdministratorsListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByInstanceNextOperationSpec,
-      callback) as Promise<Models.ManagedInstanceAdministratorsListByInstanceNextResponse>;
+      callback
+    ) as Promise<Models.ManagedInstanceAdministratorsListByInstanceNextResponse>;
   }
 }
 
@@ -197,18 +285,15 @@ export class ManagedInstanceAdministrators {
 const serializer = new msRest.Serializer(Mappers);
 const listByInstanceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedInstanceAdministratorListResult
@@ -222,19 +307,16 @@ const listByInstanceOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.administratorName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedInstanceAdministrator
@@ -248,19 +330,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.administratorName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -285,19 +364,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.administratorName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -312,12 +388,8 @@ const listByInstanceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedInstanceAdministratorListResult

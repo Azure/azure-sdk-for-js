@@ -1180,9 +1180,7 @@ export const DscConfiguration: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Succeeded"
-          ]
+          allowedValues: ["Succeeded"]
         }
       },
       jobCount: {
@@ -2961,10 +2959,7 @@ export const TagSettingsProperties: msRest.CompositeMapper = {
         serializedName: "filterOperator",
         type: {
           name: "Enum",
-          allowedValues: [
-            "All",
-            "Any"
-          ]
+          allowedValues: ["All", "Any"]
         }
       }
     }
@@ -3043,10 +3038,7 @@ export const UpdateConfiguration: msRest.CompositeMapper = {
         serializedName: "operatingSystem",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Windows",
-            "Linux"
-          ]
+          allowedValues: ["Windows", "Linux"]
         }
       },
       windows: {
@@ -5620,9 +5612,7 @@ export const Runbook: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Succeeded"
-          ]
+          allowedValues: ["Succeeded"]
         }
       },
       lastModifiedBy: {

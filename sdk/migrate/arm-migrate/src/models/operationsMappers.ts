@@ -8,10 +8,4 @@
  * regenerated.
  */
 
-export {
-  OperationResultList,
-  Operation,
-  OperationDisplay,
-  CloudError
-} from "../models/mappers";
-
+export { OperationResultList, Operation, OperationDisplay, CloudError } from "../models/mappers";

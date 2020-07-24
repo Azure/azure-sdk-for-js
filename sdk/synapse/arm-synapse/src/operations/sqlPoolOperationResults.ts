@@ -36,7 +36,13 @@ export class SqlPoolOperationResults {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolOperationResultsGetLocationHeaderResultResponse>
    */
-  getLocationHeaderResult(resourceGroupName: string, workspaceName: string, sqlPoolName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolOperationResultsGetLocationHeaderResultResponse>;
+  getLocationHeaderResult(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolOperationResultsGetLocationHeaderResultResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -44,7 +50,13 @@ export class SqlPoolOperationResults {
    * @param operationId Operation ID
    * @param callback The callback
    */
-  getLocationHeaderResult(resourceGroupName: string, workspaceName: string, sqlPoolName: string, operationId: string, callback: msRest.ServiceCallback<any>): void;
+  getLocationHeaderResult(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    operationId: string,
+    callback: msRest.ServiceCallback<any>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -53,8 +65,22 @@ export class SqlPoolOperationResults {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getLocationHeaderResult(resourceGroupName: string, workspaceName: string, sqlPoolName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getLocationHeaderResult(resourceGroupName: string, workspaceName: string, sqlPoolName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.SqlPoolOperationResultsGetLocationHeaderResultResponse> {
+  getLocationHeaderResult(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<any>
+  ): void;
+  getLocationHeaderResult(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>,
+    callback?: msRest.ServiceCallback<any>
+  ): Promise<Models.SqlPoolOperationResultsGetLocationHeaderResultResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,7 +90,8 @@ export class SqlPoolOperationResults {
         options
       },
       getLocationHeaderResultOperationSpec,
-      callback) as Promise<Models.SqlPoolOperationResultsGetLocationHeaderResultResponse>;
+      callback
+    ) as Promise<Models.SqlPoolOperationResultsGetLocationHeaderResultResponse>;
   }
 }
 
@@ -72,7 +99,8 @@ export class SqlPoolOperationResults {
 const serializer = new msRest.Serializer(Mappers);
 const getLocationHeaderResultOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/operationResults/{operationId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/operationResults/{operationId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -80,12 +108,8 @@ const getLocationHeaderResultOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName,
     Parameters.operationId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {

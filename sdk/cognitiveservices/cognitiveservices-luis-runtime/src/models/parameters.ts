@@ -25,7 +25,7 @@ export const endpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -33,10 +33,7 @@ export const endpoint: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const log: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "log"
-  ],
+  parameterPath: ["options", "log"],
   mapper: {
     serializedName: "log",
     type: {
@@ -45,10 +42,7 @@ export const log: msRest.OperationQueryParameter = {
   }
 };
 export const showAllIntents: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "showAllIntents"
-  ],
+  parameterPath: ["options", "showAllIntents"],
   mapper: {
     serializedName: "show-all-intents",
     type: {
@@ -67,10 +61,7 @@ export const slotName: msRest.OperationURLParameter = {
   }
 };
 export const verbose: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "verbose"
-  ],
+  parameterPath: ["options", "verbose"],
   mapper: {
     serializedName: "verbose",
     type: {

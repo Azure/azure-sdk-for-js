@@ -109,14 +109,7 @@ export const MetricDefinition: msRest.CompositeMapper = {
         serializedName: "primaryAggregationType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Average",
-            "Count",
-            "Minimum",
-            "Maximum",
-            "Total"
-          ]
+          allowedValues: ["None", "Average", "Count", "Minimum", "Maximum", "Total"]
         }
       },
       supportedAggregationTypes: {
@@ -126,14 +119,7 @@ export const MetricDefinition: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "None",
-                "Average",
-                "Count",
-                "Minimum",
-                "Maximum",
-                "Total"
-              ]
+              allowedValues: ["None", "Average", "Count", "Minimum", "Maximum", "Total"]
             }
           }
         }
@@ -641,10 +627,7 @@ export const DiagnosticSettingsCategoryResource: msRest.CompositeMapper = {
         serializedName: "properties.categoryType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Metrics",
-            "Logs"
-          ]
+          allowedValues: ["Metrics", "Logs"]
         }
       }
     }

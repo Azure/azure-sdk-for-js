@@ -32,7 +32,9 @@ export class GlobalSchedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalSchedulesListBySubscriptionResponse>
    */
-  listBySubscription(options?: Models.GlobalSchedulesListBySubscriptionOptionalParams): Promise<Models.GlobalSchedulesListBySubscriptionResponse>;
+  listBySubscription(
+    options?: Models.GlobalSchedulesListBySubscriptionOptionalParams
+  ): Promise<Models.GlobalSchedulesListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -41,14 +43,23 @@ export class GlobalSchedules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: Models.GlobalSchedulesListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listBySubscription(options?: Models.GlobalSchedulesListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.ScheduleList>, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.GlobalSchedulesListBySubscriptionResponse> {
+  listBySubscription(
+    options: Models.GlobalSchedulesListBySubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
+  listBySubscription(
+    options?:
+      | Models.GlobalSchedulesListBySubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.ScheduleList>,
+    callback?: msRest.ServiceCallback<Models.ScheduleList>
+  ): Promise<Models.GlobalSchedulesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.GlobalSchedulesListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.GlobalSchedulesListBySubscriptionResponse>;
   }
 
   /**
@@ -57,26 +68,43 @@ export class GlobalSchedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalSchedulesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.GlobalSchedulesListByResourceGroupOptionalParams): Promise<Models.GlobalSchedulesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.GlobalSchedulesListByResourceGroupOptionalParams
+  ): Promise<Models.GlobalSchedulesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.GlobalSchedulesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.GlobalSchedulesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.ScheduleList>, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.GlobalSchedulesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.GlobalSchedulesListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.GlobalSchedulesListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.ScheduleList>,
+    callback?: msRest.ServiceCallback<Models.ScheduleList>
+  ): Promise<Models.GlobalSchedulesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.GlobalSchedulesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.GlobalSchedulesListByResourceGroupResponse>;
   }
 
   /**
@@ -86,21 +114,39 @@ export class GlobalSchedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalSchedulesGetResponse>
    */
-  get(resourceGroupName: string, name: string, options?: Models.GlobalSchedulesGetOptionalParams): Promise<Models.GlobalSchedulesGetResponse>;
+  get(
+    resourceGroupName: string,
+    name: string,
+    options?: Models.GlobalSchedulesGetOptionalParams
+  ): Promise<Models.GlobalSchedulesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the schedule.
    * @param callback The callback
    */
-  get(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  get(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the schedule.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, name: string, options: Models.GlobalSchedulesGetOptionalParams, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  get(resourceGroupName: string, name: string, options?: Models.GlobalSchedulesGetOptionalParams | msRest.ServiceCallback<Models.Schedule>, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.GlobalSchedulesGetResponse> {
+  get(
+    resourceGroupName: string,
+    name: string,
+    options: Models.GlobalSchedulesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
+  get(
+    resourceGroupName: string,
+    name: string,
+    options?: Models.GlobalSchedulesGetOptionalParams | msRest.ServiceCallback<Models.Schedule>,
+    callback?: msRest.ServiceCallback<Models.Schedule>
+  ): Promise<Models.GlobalSchedulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +154,8 @@ export class GlobalSchedules {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.GlobalSchedulesGetResponse>;
+      callback
+    ) as Promise<Models.GlobalSchedulesGetResponse>;
   }
 
   /**
@@ -119,14 +166,24 @@ export class GlobalSchedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalSchedulesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, name: string, schedule: Models.Schedule, options?: msRest.RequestOptionsBase): Promise<Models.GlobalSchedulesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    name: string,
+    schedule: Models.Schedule,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GlobalSchedulesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the schedule.
    * @param schedule A schedule.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, name: string, schedule: Models.Schedule, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    name: string,
+    schedule: Models.Schedule,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the schedule.
@@ -134,8 +191,20 @@ export class GlobalSchedules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, name: string, schedule: Models.Schedule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  createOrUpdate(resourceGroupName: string, name: string, schedule: Models.Schedule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.GlobalSchedulesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    name: string,
+    schedule: Models.Schedule,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    name: string,
+    schedule: Models.Schedule,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>,
+    callback?: msRest.ServiceCallback<Models.Schedule>
+  ): Promise<Models.GlobalSchedulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,7 +213,8 @@ export class GlobalSchedules {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.GlobalSchedulesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.GlobalSchedulesCreateOrUpdateResponse>;
   }
 
   /**
@@ -154,21 +224,39 @@ export class GlobalSchedules {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the schedule.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the schedule.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -176,7 +264,8 @@ export class GlobalSchedules {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -187,14 +276,24 @@ export class GlobalSchedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalSchedulesUpdateResponse>
    */
-  update(resourceGroupName: string, name: string, schedule: Models.ScheduleFragment, options?: msRest.RequestOptionsBase): Promise<Models.GlobalSchedulesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    name: string,
+    schedule: Models.ScheduleFragment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GlobalSchedulesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the schedule.
    * @param schedule A schedule.
    * @param callback The callback
    */
-  update(resourceGroupName: string, name: string, schedule: Models.ScheduleFragment, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  update(
+    resourceGroupName: string,
+    name: string,
+    schedule: Models.ScheduleFragment,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the schedule.
@@ -202,8 +301,20 @@ export class GlobalSchedules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, name: string, schedule: Models.ScheduleFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  update(resourceGroupName: string, name: string, schedule: Models.ScheduleFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.GlobalSchedulesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    name: string,
+    schedule: Models.ScheduleFragment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
+  update(
+    resourceGroupName: string,
+    name: string,
+    schedule: Models.ScheduleFragment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>,
+    callback?: msRest.ServiceCallback<Models.Schedule>
+  ): Promise<Models.GlobalSchedulesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -212,7 +323,8 @@ export class GlobalSchedules {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.GlobalSchedulesUpdateResponse>;
+      callback
+    ) as Promise<Models.GlobalSchedulesUpdateResponse>;
   }
 
   /**
@@ -222,9 +334,14 @@ export class GlobalSchedules {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  execute(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginExecute(resourceGroupName,name,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  execute(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginExecute(resourceGroupName, name, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -235,9 +352,18 @@ export class GlobalSchedules {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  retarget(resourceGroupName: string, name: string, retargetScheduleProperties: Models.RetargetScheduleProperties, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRetarget(resourceGroupName,name,retargetScheduleProperties,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  retarget(
+    resourceGroupName: string,
+    name: string,
+    retargetScheduleProperties: Models.RetargetScheduleProperties,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRetarget(
+      resourceGroupName,
+      name,
+      retargetScheduleProperties,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -247,7 +373,11 @@ export class GlobalSchedules {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginExecute(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginExecute(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -255,7 +385,8 @@ export class GlobalSchedules {
         options
       },
       beginExecuteOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -266,7 +397,12 @@ export class GlobalSchedules {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRetarget(resourceGroupName: string, name: string, retargetScheduleProperties: Models.RetargetScheduleProperties, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRetarget(
+    resourceGroupName: string,
+    name: string,
+    retargetScheduleProperties: Models.RetargetScheduleProperties,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -275,7 +411,8 @@ export class GlobalSchedules {
         options
       },
       beginRetargetOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -284,26 +421,41 @@ export class GlobalSchedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalSchedulesListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GlobalSchedulesListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GlobalSchedulesListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleList>, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.GlobalSchedulesListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleList>,
+    callback?: msRest.ServiceCallback<Models.ScheduleList>
+  ): Promise<Models.GlobalSchedulesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.GlobalSchedulesListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.GlobalSchedulesListBySubscriptionNextResponse>;
   }
 
   /**
@@ -312,26 +464,41 @@ export class GlobalSchedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalSchedulesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GlobalSchedulesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GlobalSchedulesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleList>, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.GlobalSchedulesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleList>,
+    callback?: msRest.ServiceCallback<Models.ScheduleList>
+  ): Promise<Models.GlobalSchedulesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.GlobalSchedulesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.GlobalSchedulesListByResourceGroupNextResponse>;
   }
 }
 
@@ -340,9 +507,7 @@ const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DevTestLab/schedules",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.subscriptionId],
   queryParameters: [
     Parameters.expand,
     Parameters.filter,
@@ -350,9 +515,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScheduleList
@@ -366,11 +529,9 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
   queryParameters: [
     Parameters.expand,
     Parameters.filter,
@@ -378,9 +539,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScheduleList
@@ -394,19 +553,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Schedule
@@ -420,18 +571,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "schedule",
     mapper: {
@@ -455,18 +599,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -479,18 +616,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "schedule",
     mapper: {
@@ -511,18 +641,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginExecuteOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}/execute",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}/execute",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -535,18 +658,11 @@ const beginExecuteOperationSpec: msRest.OperationSpec = {
 
 const beginRetargetOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}/retarget",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/schedules/{name}/retarget",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "retargetScheduleProperties",
     mapper: {
@@ -568,12 +684,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScheduleList
@@ -589,12 +701,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScheduleList

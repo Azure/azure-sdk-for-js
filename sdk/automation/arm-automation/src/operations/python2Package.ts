@@ -34,14 +34,24 @@ export class Python2Package {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, packageName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param packageName The python package name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, packageName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -49,8 +59,20 @@ export class Python2Package {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, packageName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, packageName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class Python2Package {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -70,14 +93,24 @@ export class Python2Package {
    * @param [options] The optional parameters
    * @returns Promise<Models.Python2PackageGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, packageName: string, options?: msRest.RequestOptionsBase): Promise<Models.Python2PackageGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.Python2PackageGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param packageName The python package name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, packageName: string, callback: msRest.ServiceCallback<Models.Module>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    callback: msRest.ServiceCallback<Models.Module>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -85,8 +118,20 @@ export class Python2Package {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, packageName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Module>): void;
-  get(resourceGroupName: string, automationAccountName: string, packageName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Module>, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.Python2PackageGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Module>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Module>,
+    callback?: msRest.ServiceCallback<Models.Module>
+  ): Promise<Models.Python2PackageGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +140,8 @@ export class Python2Package {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.Python2PackageGetResponse>;
+      callback
+    ) as Promise<Models.Python2PackageGetResponse>;
   }
 
   /**
@@ -107,7 +153,13 @@ export class Python2Package {
    * @param [options] The optional parameters
    * @returns Promise<Models.Python2PackageCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.Python2PackageCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    parameters: Models.PythonPackageCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.Python2PackageCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -115,7 +167,13 @@ export class Python2Package {
    * @param parameters The create or update parameters for python package.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageCreateParameters, callback: msRest.ServiceCallback<Models.Module>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    parameters: Models.PythonPackageCreateParameters,
+    callback: msRest.ServiceCallback<Models.Module>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -124,8 +182,22 @@ export class Python2Package {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Module>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Module>, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.Python2PackageCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    parameters: Models.PythonPackageCreateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Module>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    parameters: Models.PythonPackageCreateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Module>,
+    callback?: msRest.ServiceCallback<Models.Module>
+  ): Promise<Models.Python2PackageCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +207,8 @@ export class Python2Package {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.Python2PackageCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.Python2PackageCreateOrUpdateResponse>;
   }
 
   /**
@@ -147,7 +220,13 @@ export class Python2Package {
    * @param [options] The optional parameters
    * @returns Promise<Models.Python2PackageUpdateResponse>
    */
-  update(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.Python2PackageUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    parameters: Models.PythonPackageUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.Python2PackageUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -155,7 +234,13 @@ export class Python2Package {
    * @param parameters The update parameters for python package.
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageUpdateParameters, callback: msRest.ServiceCallback<Models.Module>): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    parameters: Models.PythonPackageUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Module>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -164,8 +249,22 @@ export class Python2Package {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Module>): void;
-  update(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: Models.PythonPackageUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Module>, callback?: msRest.ServiceCallback<Models.Module>): Promise<Models.Python2PackageUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    parameters: Models.PythonPackageUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Module>
+  ): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    parameters: Models.PythonPackageUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Module>,
+    callback?: msRest.ServiceCallback<Models.Module>
+  ): Promise<Models.Python2PackageUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,7 +274,8 @@ export class Python2Package {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.Python2PackageUpdateResponse>;
+      callback
+    ) as Promise<Models.Python2PackageUpdateResponse>;
   }
 
   /**
@@ -185,21 +285,39 @@ export class Python2Package {
    * @param [options] The optional parameters
    * @returns Promise<Models.Python2PackageListByAutomationAccountResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.Python2PackageListByAutomationAccountResponse>;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.Python2PackageListByAutomationAccountResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.ModuleListResult>): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.ModuleListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModuleListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModuleListResult>, callback?: msRest.ServiceCallback<Models.ModuleListResult>): Promise<Models.Python2PackageListByAutomationAccountResponse> {
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ModuleListResult>
+  ): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModuleListResult>,
+    callback?: msRest.ServiceCallback<Models.ModuleListResult>
+  ): Promise<Models.Python2PackageListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +325,8 @@ export class Python2Package {
         options
       },
       listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.Python2PackageListByAutomationAccountResponse>;
+      callback
+    ) as Promise<Models.Python2PackageListByAutomationAccountResponse>;
   }
 
   /**
@@ -216,26 +335,41 @@ export class Python2Package {
    * @param [options] The optional parameters
    * @returns Promise<Models.Python2PackageListByAutomationAccountNextResponse>
    */
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.Python2PackageListByAutomationAccountNextResponse>;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.Python2PackageListByAutomationAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ModuleListResult>): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ModuleListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModuleListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModuleListResult>, callback?: msRest.ServiceCallback<Models.ModuleListResult>): Promise<Models.Python2PackageListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ModuleListResult>
+  ): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModuleListResult>,
+    callback?: msRest.ServiceCallback<Models.ModuleListResult>
+  ): Promise<Models.Python2PackageListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAutomationAccountNextOperationSpec,
-      callback) as Promise<Models.Python2PackageListByAutomationAccountNextResponse>;
+      callback
+    ) as Promise<Models.Python2PackageListByAutomationAccountNextResponse>;
   }
 }
 
@@ -243,19 +377,16 @@ export class Python2Package {
 const serializer = new msRest.Serializer(Mappers);
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages/{packageName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages/{packageName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.packageName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -267,19 +398,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages/{packageName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages/{packageName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.packageName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Module
@@ -293,19 +421,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages/{packageName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages/{packageName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.packageName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -329,19 +454,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages/{packageName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages/{packageName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.packageName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -362,18 +484,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python2Packages",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ModuleListResult
@@ -389,12 +508,8 @@ const listByAutomationAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ModuleListResult

@@ -37,14 +37,24 @@ export class Assessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsListByGroupResponse>
    */
-  listByGroup(resourceGroupName: string, projectName: string, groupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsListByGroupResponse>;
+  listByGroup(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsListByGroupResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param groupName Unique name of a group within a project.
    * @param callback The callback
    */
-  listByGroup(resourceGroupName: string, projectName: string, groupName: string, callback: msRest.ServiceCallback<Models.AssessmentResultList>): void;
+  listByGroup(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    callback: msRest.ServiceCallback<Models.AssessmentResultList>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -52,8 +62,20 @@ export class Assessments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByGroup(resourceGroupName: string, projectName: string, groupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssessmentResultList>): void;
-  listByGroup(resourceGroupName: string, projectName: string, groupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessmentResultList>, callback?: msRest.ServiceCallback<Models.AssessmentResultList>): Promise<Models.AssessmentsListByGroupResponse> {
+  listByGroup(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AssessmentResultList>
+  ): void;
+  listByGroup(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessmentResultList>,
+    callback?: msRest.ServiceCallback<Models.AssessmentResultList>
+  ): Promise<Models.AssessmentsListByGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +84,8 @@ export class Assessments {
         options
       },
       listByGroupOperationSpec,
-      callback) as Promise<Models.AssessmentsListByGroupResponse>;
+      callback
+    ) as Promise<Models.AssessmentsListByGroupResponse>;
   }
 
   /**
@@ -75,21 +98,39 @@ export class Assessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsListByProjectResponse>
    */
-  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsListByProjectResponse>;
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsListByProjectResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param callback The callback
    */
-  listByProject(resourceGroupName: string, projectName: string, callback: msRest.ServiceCallback<Models.AssessmentResultList>): void;
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    callback: msRest.ServiceCallback<Models.AssessmentResultList>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByProject(resourceGroupName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssessmentResultList>): void;
-  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessmentResultList>, callback?: msRest.ServiceCallback<Models.AssessmentResultList>): Promise<Models.AssessmentsListByProjectResponse> {
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AssessmentResultList>
+  ): void;
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessmentResultList>,
+    callback?: msRest.ServiceCallback<Models.AssessmentResultList>
+  ): Promise<Models.AssessmentsListByProjectResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +138,8 @@ export class Assessments {
         options
       },
       listByProjectOperationSpec,
-      callback) as Promise<Models.AssessmentsListByProjectResponse>;
+      callback
+    ) as Promise<Models.AssessmentsListByProjectResponse>;
   }
 
   /**
@@ -111,7 +153,13 @@ export class Assessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsGetResponse>
    */
-  get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsGetResponse>;
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsGetResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -119,7 +167,13 @@ export class Assessments {
    * @param assessmentName Unique name of an assessment within a project.
    * @param callback The callback
    */
-  get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, callback: msRest.ServiceCallback<Models.Assessment>): void;
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    callback: msRest.ServiceCallback<Models.Assessment>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -128,8 +182,22 @@ export class Assessments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Assessment>): void;
-  get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Assessment>, callback?: msRest.ServiceCallback<Models.Assessment>): Promise<Models.AssessmentsGetResponse> {
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Assessment>
+  ): void;
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Assessment>,
+    callback?: msRest.ServiceCallback<Models.Assessment>
+  ): Promise<Models.AssessmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,7 +207,8 @@ export class Assessments {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AssessmentsGetResponse>;
+      callback
+    ) as Promise<Models.AssessmentsGetResponse>;
   }
 
   /**
@@ -163,7 +232,13 @@ export class Assessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsCreateResponse>
    */
-  create(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: Models.AssessmentsCreateOptionalParams): Promise<Models.AssessmentsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options?: Models.AssessmentsCreateOptionalParams
+  ): Promise<Models.AssessmentsCreateResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -171,7 +246,13 @@ export class Assessments {
    * @param assessmentName Unique name of an assessment within a project.
    * @param callback The callback
    */
-  create(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, callback: msRest.ServiceCallback<Models.Assessment>): void;
+  create(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    callback: msRest.ServiceCallback<Models.Assessment>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -180,8 +261,22 @@ export class Assessments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options: Models.AssessmentsCreateOptionalParams, callback: msRest.ServiceCallback<Models.Assessment>): void;
-  create(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: Models.AssessmentsCreateOptionalParams | msRest.ServiceCallback<Models.Assessment>, callback?: msRest.ServiceCallback<Models.Assessment>): Promise<Models.AssessmentsCreateResponse> {
+  create(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options: Models.AssessmentsCreateOptionalParams,
+    callback: msRest.ServiceCallback<Models.Assessment>
+  ): void;
+  create(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options?: Models.AssessmentsCreateOptionalParams | msRest.ServiceCallback<Models.Assessment>,
+    callback?: msRest.ServiceCallback<Models.Assessment>
+  ): Promise<Models.AssessmentsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -191,7 +286,8 @@ export class Assessments {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.AssessmentsCreateResponse>;
+      callback
+    ) as Promise<Models.AssessmentsCreateResponse>;
   }
 
   /**
@@ -208,7 +304,13 @@ export class Assessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsDeleteResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsDeleteResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -216,7 +318,13 @@ export class Assessments {
    * @param assessmentName Unique name of an assessment within a project.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -225,8 +333,22 @@ export class Assessments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AssessmentsDeleteResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.AssessmentsDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -236,7 +358,8 @@ export class Assessments {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.AssessmentsDeleteResponse>;
+      callback
+    ) as Promise<Models.AssessmentsDeleteResponse>;
   }
 
   /**
@@ -249,7 +372,13 @@ export class Assessments {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessmentsGetReportDownloadUrlResponse>
    */
-  getReportDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessmentsGetReportDownloadUrlResponse>;
+  getReportDownloadUrl(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessmentsGetReportDownloadUrlResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -257,7 +386,13 @@ export class Assessments {
    * @param assessmentName Unique name of an assessment within a project.
    * @param callback The callback
    */
-  getReportDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, callback: msRest.ServiceCallback<Models.DownloadUrl>): void;
+  getReportDownloadUrl(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    callback: msRest.ServiceCallback<Models.DownloadUrl>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -266,8 +401,22 @@ export class Assessments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getReportDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DownloadUrl>): void;
-  getReportDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DownloadUrl>, callback?: msRest.ServiceCallback<Models.DownloadUrl>): Promise<Models.AssessmentsGetReportDownloadUrlResponse> {
+  getReportDownloadUrl(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DownloadUrl>
+  ): void;
+  getReportDownloadUrl(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DownloadUrl>,
+    callback?: msRest.ServiceCallback<Models.DownloadUrl>
+  ): Promise<Models.AssessmentsGetReportDownloadUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -277,7 +426,8 @@ export class Assessments {
         options
       },
       getReportDownloadUrlOperationSpec,
-      callback) as Promise<Models.AssessmentsGetReportDownloadUrlResponse>;
+      callback
+    ) as Promise<Models.AssessmentsGetReportDownloadUrlResponse>;
   }
 }
 
@@ -285,19 +435,16 @@ export class Assessments {
 const serializer = new msRest.Serializer(Mappers);
 const listByGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
     Parameters.groupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AssessmentResultList,
@@ -312,18 +459,11 @@ const listByGroupOperationSpec: msRest.OperationSpec = {
 
 const listByProjectOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/assessments",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/assessments",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.projectName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AssessmentResultList,
@@ -338,7 +478,8 @@ const listByProjectOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -346,12 +487,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.groupName,
     Parameters.assessmentName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Assessment,
@@ -366,7 +503,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -374,17 +512,10 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.groupName,
     Parameters.assessmentName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "assessment"
-    ],
+    parameterPath: ["options", "assessment"],
     mapper: Mappers.Assessment
   },
   responses: {
@@ -405,7 +536,8 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -413,12 +545,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.groupName,
     Parameters.assessmentName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.AssessmentsDeleteHeaders
@@ -432,7 +560,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getReportDownloadUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}/downloadUrl",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}/downloadUrl",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -440,12 +569,8 @@ const getReportDownloadUrlOperationSpec: msRest.OperationSpec = {
     Parameters.groupName,
     Parameters.assessmentName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DownloadUrl,

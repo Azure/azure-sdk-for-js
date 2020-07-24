@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -26,7 +26,7 @@ export const accessName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "accessName",
-    defaultValue: 'access',
+    defaultValue: "access",
     type: {
       name: "String"
     }
@@ -166,17 +166,14 @@ export const configurationName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "configurationName",
-    defaultValue: 'configuration',
+    defaultValue: "configuration",
     type: {
       name: "String"
     }
   }
 };
 export const deleteRevisions: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "deleteRevisions"
-  ],
+  parameterPath: ["options", "deleteRevisions"],
   mapper: {
     serializedName: "deleteRevisions",
     type: {
@@ -185,10 +182,7 @@ export const deleteRevisions: msRest.OperationQueryParameter = {
   }
 };
 export const deleteSubscriptions: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "deleteSubscriptions"
-  ],
+  parameterPath: ["options", "deleteSubscriptions"],
   mapper: {
     serializedName: "deleteSubscriptions",
     type: {
@@ -222,10 +216,7 @@ export const email: msRest.OperationURLParameter = {
   }
 };
 export const expandApiVersionSet: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expandApiVersionSet"
-  ],
+  parameterPath: ["options", "expandApiVersionSet"],
   mapper: {
     serializedName: "expandApiVersionSet",
     type: {
@@ -234,10 +225,7 @@ export const expandApiVersionSet: msRest.OperationQueryParameter = {
   }
 };
 export const expandCommentsAttachments: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expandCommentsAttachments"
-  ],
+  parameterPath: ["options", "expandCommentsAttachments"],
   mapper: {
     serializedName: "expandCommentsAttachments",
     type: {
@@ -246,10 +234,7 @@ export const expandCommentsAttachments: msRest.OperationQueryParameter = {
   }
 };
 export const expandGroups: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expandGroups"
-  ],
+  parameterPath: ["options", "expandGroups"],
   mapper: {
     serializedName: "expandGroups",
     type: {
@@ -263,17 +248,14 @@ export const exportParameter: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "export",
-    defaultValue: 'true',
+    defaultValue: "true",
     type: {
       name: "String"
     }
   }
 };
 export const filter0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -292,10 +274,7 @@ export const filter1: msRest.OperationQueryParameter = {
   }
 };
 export const force: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "force"
-  ],
+  parameterPath: ["options", "force"],
   mapper: {
     serializedName: "force",
     type: {
@@ -304,13 +283,10 @@ export const force: msRest.OperationQueryParameter = {
   }
 };
 export const format0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "format"
-  ],
+  parameterPath: ["options", "format"],
   mapper: {
     serializedName: "format",
-    defaultValue: 'xml',
+    defaultValue: "xml",
     type: {
       name: "String"
     }
@@ -379,10 +355,7 @@ export const identityProviderName: msRest.OperationURLParameter = {
   }
 };
 export const ifMatch0: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifMatch"
-  ],
+  parameterPath: ["options", "ifMatch"],
   mapper: {
     serializedName: "If-Match",
     type: {
@@ -401,10 +374,7 @@ export const ifMatch1: msRest.OperationParameter = {
   }
 };
 export const includeNotTaggedApis: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeNotTaggedApis"
-  ],
+  parameterPath: ["options", "includeNotTaggedApis"],
   mapper: {
     serializedName: "includeNotTaggedApis",
     type: {
@@ -413,10 +383,7 @@ export const includeNotTaggedApis: msRest.OperationQueryParameter = {
   }
 };
 export const includeNotTaggedOperations: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeNotTaggedOperations"
-  ],
+  parameterPath: ["options", "includeNotTaggedOperations"],
   mapper: {
     serializedName: "includeNotTaggedOperations",
     type: {
@@ -425,10 +392,7 @@ export const includeNotTaggedOperations: msRest.OperationQueryParameter = {
   }
 };
 export const includeNotTaggedProducts: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeNotTaggedProducts"
-  ],
+  parameterPath: ["options", "includeNotTaggedProducts"],
   mapper: {
     serializedName: "includeNotTaggedProducts",
     type: {
@@ -524,10 +488,7 @@ export const notificationName: msRest.OperationURLParameter = {
   }
 };
 export const notify: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "notify"
-  ],
+  parameterPath: ["options", "notify"],
   mapper: {
     serializedName: "notify",
     type: {
@@ -564,10 +525,7 @@ export const opid: msRest.OperationURLParameter = {
   }
 };
 export const orderby: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "orderby"
-  ],
+  parameterPath: ["options", "orderby"],
   mapper: {
     serializedName: "$orderby",
     type: {
@@ -581,7 +539,7 @@ export const policyId: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "policyId",
-    defaultValue: 'policy',
+    defaultValue: "policy",
     type: {
       name: "String"
     }
@@ -662,10 +620,7 @@ export const schemaId: msRest.OperationURLParameter = {
   }
 };
 export const scope0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "scope"
-  ],
+  parameterPath: ["options", "scope"],
   mapper: {
     serializedName: "scope",
     type: {
@@ -674,21 +629,12 @@ export const scope0: msRest.OperationQueryParameter = {
   }
 };
 export const scope1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "scope"
-  ],
+  parameterPath: ["options", "scope"],
   mapper: {
     serializedName: "scope",
     type: {
       name: "Enum",
-      allowedValues: [
-        "Tenant",
-        "Product",
-        "Api",
-        "Operation",
-        "All"
-      ]
+      allowedValues: ["Tenant", "Product", "Api", "Operation", "All"]
     }
   }
 };
@@ -722,10 +668,7 @@ export const sid: msRest.OperationURLParameter = {
   }
 };
 export const skip: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skip"
-  ],
+  parameterPath: ["options", "skip"],
   mapper: {
     serializedName: "$skip",
     constraints: {
@@ -777,10 +720,7 @@ export const tagId: msRest.OperationURLParameter = {
   }
 };
 export const tags: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "tags"
-  ],
+  parameterPath: ["options", "tags"],
   mapper: {
     serializedName: "tags",
     type: {
@@ -799,10 +739,7 @@ export const templateName: msRest.OperationURLParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "$top",
     constraints: {

@@ -35,7 +35,12 @@ export class ExtendedDatabaseBlobAuditingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExtendedDatabaseBlobAuditingPoliciesGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExtendedDatabaseBlobAuditingPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExtendedDatabaseBlobAuditingPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -43,7 +48,12 @@ export class ExtendedDatabaseBlobAuditingPolicies {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -52,8 +62,22 @@ export class ExtendedDatabaseBlobAuditingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>, callback?: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>): Promise<Models.ExtendedDatabaseBlobAuditingPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>,
+    callback?: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>
+  ): Promise<Models.ExtendedDatabaseBlobAuditingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +86,8 @@ export class ExtendedDatabaseBlobAuditingPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ExtendedDatabaseBlobAuditingPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.ExtendedDatabaseBlobAuditingPoliciesGetResponse>;
   }
 
   /**
@@ -75,7 +100,13 @@ export class ExtendedDatabaseBlobAuditingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ExtendedDatabaseBlobAuditingPolicy, options?: msRest.RequestOptionsBase): Promise<Models.ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.ExtendedDatabaseBlobAuditingPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -84,7 +115,13 @@ export class ExtendedDatabaseBlobAuditingPolicies {
    * @param parameters The extended database blob auditing policy.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ExtendedDatabaseBlobAuditingPolicy, callback: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.ExtendedDatabaseBlobAuditingPolicy,
+    callback: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -94,8 +131,24 @@ export class ExtendedDatabaseBlobAuditingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ExtendedDatabaseBlobAuditingPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ExtendedDatabaseBlobAuditingPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>, callback?: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>): Promise<Models.ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.ExtendedDatabaseBlobAuditingPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.ExtendedDatabaseBlobAuditingPolicy,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>,
+    callback?: msRest.ServiceCallback<Models.ExtendedDatabaseBlobAuditingPolicy>
+  ): Promise<Models.ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +158,8 @@ export class ExtendedDatabaseBlobAuditingPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ExtendedDatabaseBlobAuditingPoliciesCreateOrUpdateResponse>;
   }
 }
 
@@ -113,7 +167,8 @@ export class ExtendedDatabaseBlobAuditingPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extendedAuditingSettings/{blobAuditingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extendedAuditingSettings/{blobAuditingPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -121,12 +176,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.blobAuditingPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExtendedDatabaseBlobAuditingPolicy
@@ -140,7 +191,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extendedAuditingSettings/{blobAuditingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extendedAuditingSettings/{blobAuditingPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -148,12 +200,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.blobAuditingPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

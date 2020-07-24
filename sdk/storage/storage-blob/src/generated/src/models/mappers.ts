@@ -8,7 +8,6 @@
 
 import * as coreHttp from "@azure/core-http";
 
-
 export const KeyInfo: coreHttp.CompositeMapper = {
   serializedName: "KeyInfo",
   type: {
@@ -282,11 +281,7 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
         serializedName: "BlobType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "BlockBlob",
-            "PageBlob",
-            "AppendBlob"
-          ]
+          allowedValues: ["BlockBlob", "PageBlob", "AppendBlob"]
         }
       },
       leaseStatus: {
@@ -294,10 +289,7 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
         serializedName: "LeaseStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "locked",
-            "unlocked"
-          ]
+          allowedValues: ["locked", "unlocked"]
         }
       },
       leaseState: {
@@ -305,13 +297,7 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
         serializedName: "LeaseState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "available",
-            "leased",
-            "expired",
-            "breaking",
-            "broken"
-          ]
+          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
         }
       },
       leaseDuration: {
@@ -319,10 +305,7 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
         serializedName: "LeaseDuration",
         type: {
           name: "Enum",
-          allowedValues: [
-            "infinite",
-            "fixed"
-          ]
+          allowedValues: ["infinite", "fixed"]
         }
       },
       copyId: {
@@ -337,12 +320,7 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
         serializedName: "CopyStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pending",
-            "success",
-            "aborted",
-            "failed"
-          ]
+          allowedValues: ["pending", "success", "aborted", "failed"]
         }
       },
       copySource: {
@@ -992,10 +970,7 @@ export const ContainerProperties: coreHttp.CompositeMapper = {
         serializedName: "LeaseStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "locked",
-            "unlocked"
-          ]
+          allowedValues: ["locked", "unlocked"]
         }
       },
       leaseState: {
@@ -1003,13 +978,7 @@ export const ContainerProperties: coreHttp.CompositeMapper = {
         serializedName: "LeaseState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "available",
-            "leased",
-            "expired",
-            "breaking",
-            "broken"
-          ]
+          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
         }
       },
       leaseDuration: {
@@ -1017,10 +986,7 @@ export const ContainerProperties: coreHttp.CompositeMapper = {
         serializedName: "LeaseDuration",
         type: {
           name: "Enum",
-          allowedValues: [
-            "infinite",
-            "fixed"
-          ]
+          allowedValues: ["infinite", "fixed"]
         }
       },
       publicAccess: {
@@ -1647,10 +1613,7 @@ export const QueryFormat: coreHttp.CompositeMapper = {
         serializedName: "Type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "delimited",
-            "json"
-          ]
+          allowedValues: ["delimited", "json"]
         }
       },
       delimitedTextConfiguration: {
@@ -1703,7 +1666,7 @@ export const QueryRequest: coreHttp.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "QueryType",
-        defaultValue: 'SQL',
+        defaultValue: "SQL",
         type: {
           name: "String"
         }
@@ -2074,9 +2037,7 @@ export const CpkInfo: coreHttp.CompositeMapper = {
         xmlName: "encryptionAlgorithm",
         type: {
           name: "Enum",
-          allowedValues: [
-            "AES256"
-          ]
+          allowedValues: ["AES256"]
         }
       }
     }
@@ -2408,13 +2369,7 @@ export const ServiceGetAccountInfoHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-account-kind",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Storage",
-            "BlobStorage",
-            "StorageV2",
-            "FileStorage",
-            "BlockBlobStorage"
-          ]
+          allowedValues: ["Storage", "BlobStorage", "StorageV2", "FileStorage", "BlockBlobStorage"]
         }
       },
       errorCode: {
@@ -2593,33 +2548,21 @@ export const ContainerGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-lease-duration",
         type: {
           name: "Enum",
-          allowedValues: [
-            "infinite",
-            "fixed"
-          ]
+          allowedValues: ["infinite", "fixed"]
         }
       },
       leaseState: {
         serializedName: "x-ms-lease-state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "available",
-            "leased",
-            "expired",
-            "breaking",
-            "broken"
-          ]
+          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
         }
       },
       leaseStatus: {
         serializedName: "x-ms-lease-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "locked",
-            "unlocked"
-          ]
+          allowedValues: ["locked", "unlocked"]
         }
       },
       clientRequestId: {
@@ -3351,13 +3294,7 @@ export const ContainerGetAccountInfoHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-account-kind",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Storage",
-            "BlobStorage",
-            "StorageV2",
-            "FileStorage",
-            "BlockBlobStorage"
-          ]
+          allowedValues: ["Storage", "BlobStorage", "StorageV2", "FileStorage", "BlockBlobStorage"]
         }
       },
       errorCode: {
@@ -3742,11 +3679,7 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-blob-type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "BlockBlob",
-            "PageBlob",
-            "AppendBlob"
-          ]
+          allowedValues: ["BlockBlob", "PageBlob", "AppendBlob"]
         }
       },
       copyCompletedOn: {
@@ -3783,45 +3716,28 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pending",
-            "success",
-            "aborted",
-            "failed"
-          ]
+          allowedValues: ["pending", "success", "aborted", "failed"]
         }
       },
       leaseDuration: {
         serializedName: "x-ms-lease-duration",
         type: {
           name: "Enum",
-          allowedValues: [
-            "infinite",
-            "fixed"
-          ]
+          allowedValues: ["infinite", "fixed"]
         }
       },
       leaseState: {
         serializedName: "x-ms-lease-state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "available",
-            "leased",
-            "expired",
-            "breaking",
-            "broken"
-          ]
+          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
         }
       },
       leaseStatus: {
         serializedName: "x-ms-lease-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "locked",
-            "unlocked"
-          ]
+          allowedValues: ["locked", "unlocked"]
         }
       },
       clientRequestId: {
@@ -3970,11 +3886,7 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-blob-type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "BlockBlob",
-            "PageBlob",
-            "AppendBlob"
-          ]
+          allowedValues: ["BlockBlob", "PageBlob", "AppendBlob"]
         }
       },
       copyCompletedOn: {
@@ -4011,12 +3923,7 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pending",
-            "success",
-            "aborted",
-            "failed"
-          ]
+          allowedValues: ["pending", "success", "aborted", "failed"]
         }
       },
       isIncrementalCopy: {
@@ -4035,33 +3942,21 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-lease-duration",
         type: {
           name: "Enum",
-          allowedValues: [
-            "infinite",
-            "fixed"
-          ]
+          allowedValues: ["infinite", "fixed"]
         }
       },
       leaseState: {
         serializedName: "x-ms-lease-state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "available",
-            "leased",
-            "expired",
-            "breaking",
-            "broken"
-          ]
+          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
         }
       },
       leaseStatus: {
         serializedName: "x-ms-lease-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "locked",
-            "unlocked"
-          ]
+          allowedValues: ["locked", "unlocked"]
         }
       },
       contentLength: {
@@ -5334,12 +5229,7 @@ export const BlobStartCopyFromURLHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pending",
-            "success",
-            "aborted",
-            "failed"
-          ]
+          allowedValues: ["pending", "success", "aborted", "failed"]
         }
       },
       errorCode: {
@@ -5410,9 +5300,7 @@ export const BlobCopyFromURLHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "success"
-          ]
+          allowedValues: ["success"]
         }
       },
       contentMD5: {
@@ -5558,13 +5446,7 @@ export const BlobGetAccountInfoHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-account-kind",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Storage",
-            "BlobStorage",
-            "StorageV2",
-            "FileStorage",
-            "BlockBlobStorage"
-          ]
+          allowedValues: ["Storage", "BlobStorage", "StorageV2", "FileStorage", "BlockBlobStorage"]
         }
       },
       errorCode: {
@@ -6393,12 +6275,7 @@ export const PageBlobCopyIncrementalHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pending",
-            "success",
-            "aborted",
-            "failed"
-          ]
+          allowedValues: ["pending", "success", "aborted", "failed"]
         }
       },
       errorCode: {
@@ -6739,11 +6616,7 @@ export const BlobQueryHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-blob-type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "BlockBlob",
-            "PageBlob",
-            "AppendBlob"
-          ]
+          allowedValues: ["BlockBlob", "PageBlob", "AppendBlob"]
         }
       },
       copyCompletionTime: {
@@ -6780,45 +6653,28 @@ export const BlobQueryHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pending",
-            "success",
-            "aborted",
-            "failed"
-          ]
+          allowedValues: ["pending", "success", "aborted", "failed"]
         }
       },
       leaseDuration: {
         serializedName: "x-ms-lease-duration",
         type: {
           name: "Enum",
-          allowedValues: [
-            "infinite",
-            "fixed"
-          ]
+          allowedValues: ["infinite", "fixed"]
         }
       },
       leaseState: {
         serializedName: "x-ms-lease-state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "available",
-            "leased",
-            "expired",
-            "breaking",
-            "broken"
-          ]
+          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
         }
       },
       leaseStatus: {
         serializedName: "x-ms-lease-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "locked",
-            "unlocked"
-          ]
+          allowedValues: ["locked", "unlocked"]
         }
       },
       clientRequestId: {

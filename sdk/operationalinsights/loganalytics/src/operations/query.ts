@@ -38,7 +38,11 @@ export class Query {
    * @param [options] The optional parameters
    * @returns Promise<Models.QueryExecuteResponse>
    */
-  execute(workspaceId: string, body: Models.QueryBody, options?: msRest.RequestOptionsBase): Promise<Models.QueryExecuteResponse>;
+  execute(
+    workspaceId: string,
+    body: Models.QueryBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.QueryExecuteResponse>;
   /**
    * @param workspaceId ID of the workspace. This is Workspace ID from the Properties blade in the
    * Azure portal.
@@ -46,7 +50,11 @@ export class Query {
    * syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
    * @param callback The callback
    */
-  execute(workspaceId: string, body: Models.QueryBody, callback: msRest.ServiceCallback<Models.QueryResults>): void;
+  execute(
+    workspaceId: string,
+    body: Models.QueryBody,
+    callback: msRest.ServiceCallback<Models.QueryResults>
+  ): void;
   /**
    * @param workspaceId ID of the workspace. This is Workspace ID from the Properties blade in the
    * Azure portal.
@@ -55,8 +63,18 @@ export class Query {
    * @param options The optional parameters
    * @param callback The callback
    */
-  execute(workspaceId: string, body: Models.QueryBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QueryResults>): void;
-  execute(workspaceId: string, body: Models.QueryBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryResults>, callback?: msRest.ServiceCallback<Models.QueryResults>): Promise<Models.QueryExecuteResponse> {
+  execute(
+    workspaceId: string,
+    body: Models.QueryBody,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.QueryResults>
+  ): void;
+  execute(
+    workspaceId: string,
+    body: Models.QueryBody,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryResults>,
+    callback?: msRest.ServiceCallback<Models.QueryResults>
+  ): Promise<Models.QueryExecuteResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceId,
@@ -64,7 +82,8 @@ export class Query {
         options
       },
       executeOperationSpec,
-      callback) as Promise<Models.QueryExecuteResponse>;
+      callback
+    ) as Promise<Models.QueryExecuteResponse>;
   }
 }
 
@@ -73,9 +92,7 @@ const serializer = new msRest.Serializer(Mappers);
 const executeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "v1/workspaces/{workspaceId}/query",
-  urlParameters: [
-    Parameters.workspaceId
-  ],
+  urlParameters: [Parameters.workspaceId],
   requestBody: {
     parameterPath: "body",
     mapper: {

@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing Sku.
@@ -359,8 +358,7 @@ export interface AutomationAccountUpdateParameters {
  *
  * @extends Resource
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * @interface
@@ -4474,7 +4472,8 @@ export interface DscConfigurationUpdateOptionalParams extends msRest.RequestOpti
  *
  * @extends RequestOptionsBase
  */
-export interface DscConfigurationListByAutomationAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface DscConfigurationListByAutomationAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the operation.
    */
@@ -4500,7 +4499,8 @@ export interface DscConfigurationListByAutomationAccountOptionalParams extends m
  *
  * @extends RequestOptionsBase
  */
-export interface HybridRunbookWorkerGroupListByAutomationAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface HybridRunbookWorkerGroupListByAutomationAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the operation.
    */
@@ -4514,7 +4514,8 @@ export interface HybridRunbookWorkerGroupListByAutomationAccountOptionalParams e
  *
  * @extends RequestOptionsBase
  */
-export interface JobScheduleListByAutomationAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface JobScheduleListByAutomationAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the operation.
    */
@@ -4556,7 +4557,8 @@ export interface WatcherListByAutomationAccountOptionalParams extends msRest.Req
  *
  * @extends RequestOptionsBase
  */
-export interface SoftwareUpdateConfigurationsCreateOptionalParams extends msRest.RequestOptionsBase {
+export interface SoftwareUpdateConfigurationsCreateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [clientRequestId] Identifies this specific client
    * request.
@@ -4571,7 +4573,8 @@ export interface SoftwareUpdateConfigurationsCreateOptionalParams extends msRest
  *
  * @extends RequestOptionsBase
  */
-export interface SoftwareUpdateConfigurationsGetByNameOptionalParams extends msRest.RequestOptionsBase {
+export interface SoftwareUpdateConfigurationsGetByNameOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [clientRequestId] Identifies this specific client
    * request.
@@ -4586,7 +4589,8 @@ export interface SoftwareUpdateConfigurationsGetByNameOptionalParams extends msR
  *
  * @extends RequestOptionsBase
  */
-export interface SoftwareUpdateConfigurationsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface SoftwareUpdateConfigurationsDeleteMethodOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [clientRequestId] Identifies this specific client
    * request.
@@ -4620,7 +4624,8 @@ export interface SoftwareUpdateConfigurationsListOptionalParams extends msRest.R
  *
  * @extends RequestOptionsBase
  */
-export interface SoftwareUpdateConfigurationRunsGetByIdOptionalParams extends msRest.RequestOptionsBase {
+export interface SoftwareUpdateConfigurationRunsGetByIdOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [clientRequestId] Identifies this specific client
    * request.
@@ -4635,7 +4640,8 @@ export interface SoftwareUpdateConfigurationRunsGetByIdOptionalParams extends ms
  *
  * @extends RequestOptionsBase
  */
-export interface SoftwareUpdateConfigurationRunsListOptionalParams extends msRest.RequestOptionsBase {
+export interface SoftwareUpdateConfigurationRunsListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [clientRequestId] Identifies this specific client
    * request.
@@ -4666,7 +4672,8 @@ export interface SoftwareUpdateConfigurationRunsListOptionalParams extends msRes
  *
  * @extends RequestOptionsBase
  */
-export interface SoftwareUpdateConfigurationMachineRunsGetByIdOptionalParams extends msRest.RequestOptionsBase {
+export interface SoftwareUpdateConfigurationMachineRunsGetByIdOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [clientRequestId] Identifies this specific client
    * request.
@@ -4681,7 +4688,8 @@ export interface SoftwareUpdateConfigurationMachineRunsGetByIdOptionalParams ext
  *
  * @extends RequestOptionsBase
  */
-export interface SoftwareUpdateConfigurationMachineRunsListOptionalParams extends msRest.RequestOptionsBase {
+export interface SoftwareUpdateConfigurationMachineRunsListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [clientRequestId] Identifies this specific client
    * request.
@@ -4712,7 +4720,8 @@ export interface SoftwareUpdateConfigurationMachineRunsListOptionalParams extend
  *
  * @extends RequestOptionsBase
  */
-export interface SourceControlListByAutomationAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface SourceControlListByAutomationAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the operation.
    */
@@ -4726,7 +4735,8 @@ export interface SourceControlListByAutomationAccountOptionalParams extends msRe
  *
  * @extends RequestOptionsBase
  */
-export interface SourceControlSyncJobListByAutomationAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface SourceControlSyncJobListByAutomationAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the operation.
    */
@@ -4740,7 +4750,8 @@ export interface SourceControlSyncJobListByAutomationAccountOptionalParams exten
  *
  * @extends RequestOptionsBase
  */
-export interface SourceControlSyncJobStreamsListBySyncJobOptionalParams extends msRest.RequestOptionsBase {
+export interface SourceControlSyncJobStreamsListBySyncJobOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the operation.
    */
@@ -4982,7 +4993,8 @@ export interface NodeReportsListByNodeOptionalParams extends msRest.RequestOptio
  *
  * @extends RequestOptionsBase
  */
-export interface DscCompilationJobListByAutomationAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface DscCompilationJobListByAutomationAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the operation.
    */
@@ -4996,7 +5008,8 @@ export interface DscCompilationJobListByAutomationAccountOptionalParams extends 
  *
  * @extends RequestOptionsBase
  */
-export interface DscNodeConfigurationListByAutomationAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface DscNodeConfigurationListByAutomationAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the operation.
    */
@@ -5067,7 +5080,6 @@ export interface RunbookPublishHeaders {
   location: string;
 }
 
-
 /**
  * @interface
  * An interface representing the AutomationAccountListResult.
@@ -5089,8 +5101,7 @@ export interface AutomationAccountListResult extends Array<AutomationAccount> {
  *
  * @extends Array<Operation>
  */
-export interface OperationListResult extends Array<Operation> {
-}
+export interface OperationListResult extends Array<Operation> {}
 
 /**
  * @interface
@@ -5099,8 +5110,7 @@ export interface OperationListResult extends Array<Operation> {
  *
  * @extends Array<Statistics>
  */
-export interface StatisticsListResult extends Array<Statistics> {
-}
+export interface StatisticsListResult extends Array<Statistics> {}
 
 /**
  * @interface
@@ -5109,8 +5119,7 @@ export interface StatisticsListResult extends Array<Statistics> {
  *
  * @extends Array<Usage>
  */
-export interface UsageListResult extends Array<Usage> {
-}
+export interface UsageListResult extends Array<Usage> {}
 
 /**
  * @interface
@@ -5250,8 +5259,7 @@ export interface ModuleListResult extends Array<Module> {
  *
  * @extends Array<TypeField>
  */
-export interface TypeFieldListResult extends Array<TypeField> {
-}
+export interface TypeFieldListResult extends Array<TypeField> {}
 
 /**
  * @interface
@@ -5344,7 +5352,8 @@ export interface SourceControlSyncJobListResult extends Array<SourceControlSyncJ
  *
  * @extends Array<SourceControlSyncJobStream>
  */
-export interface SourceControlSyncJobStreamsListBySyncJob extends Array<SourceControlSyncJobStream> {
+export interface SourceControlSyncJobStreamsListBySyncJob
+  extends Array<SourceControlSyncJobStream> {
   /**
    * @member {string} [nextLink] The next link.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -5468,7 +5477,7 @@ export interface RunbookListResult extends Array<Runbook> {
  * @readonly
  * @enum {string}
  */
-export type SkuNameEnum = 'Free' | 'Basic';
+export type SkuNameEnum = "Free" | "Basic";
 
 /**
  * Defines values for AutomationAccountState.
@@ -5476,7 +5485,7 @@ export type SkuNameEnum = 'Free' | 'Basic';
  * @readonly
  * @enum {string}
  */
-export type AutomationAccountState = 'Ok' | 'Unavailable' | 'Suspended';
+export type AutomationAccountState = "Ok" | "Unavailable" | "Suspended";
 
 /**
  * Defines values for AutomationKeyName.
@@ -5484,7 +5493,7 @@ export type AutomationAccountState = 'Ok' | 'Unavailable' | 'Suspended';
  * @readonly
  * @enum {string}
  */
-export type AutomationKeyName = 'Primary' | 'Secondary';
+export type AutomationKeyName = "Primary" | "Secondary";
 
 /**
  * Defines values for AutomationKeyPermissions.
@@ -5492,7 +5501,7 @@ export type AutomationKeyName = 'Primary' | 'Secondary';
  * @readonly
  * @enum {string}
  */
-export type AutomationKeyPermissions = 'Read' | 'Full';
+export type AutomationKeyPermissions = "Read" | "Full";
 
 /**
  * Defines values for ContentSourceType.
@@ -5500,7 +5509,7 @@ export type AutomationKeyPermissions = 'Read' | 'Full';
  * @readonly
  * @enum {string}
  */
-export type ContentSourceType = 'embeddedContent' | 'uri';
+export type ContentSourceType = "embeddedContent" | "uri";
 
 /**
  * Defines values for DscConfigurationProvisioningState.
@@ -5508,7 +5517,7 @@ export type ContentSourceType = 'embeddedContent' | 'uri';
  * @readonly
  * @enum {string}
  */
-export type DscConfigurationProvisioningState = 'Succeeded';
+export type DscConfigurationProvisioningState = "Succeeded";
 
 /**
  * Defines values for DscConfigurationState.
@@ -5516,7 +5525,7 @@ export type DscConfigurationProvisioningState = 'Succeeded';
  * @readonly
  * @enum {string}
  */
-export type DscConfigurationState = 'New' | 'Edit' | 'Published';
+export type DscConfigurationState = "New" | "Edit" | "Published";
 
 /**
  * Defines values for GroupTypeEnum.
@@ -5524,7 +5533,7 @@ export type DscConfigurationState = 'New' | 'Edit' | 'Published';
  * @readonly
  * @enum {string}
  */
-export type GroupTypeEnum = 'User' | 'System';
+export type GroupTypeEnum = "User" | "System";
 
 /**
  * Defines values for ModuleProvisioningState.
@@ -5535,7 +5544,23 @@ export type GroupTypeEnum = 'User' | 'System';
  * @readonly
  * @enum {string}
  */
-export type ModuleProvisioningState = 'Created' | 'Creating' | 'StartingImportModuleRunbook' | 'RunningImportModuleRunbook' | 'ContentRetrieved' | 'ContentDownloaded' | 'ContentValidated' | 'ConnectionTypeImported' | 'ContentStored' | 'ModuleDataStored' | 'ActivitiesStored' | 'ModuleImportRunbookComplete' | 'Succeeded' | 'Failed' | 'Cancelled' | 'Updating';
+export type ModuleProvisioningState =
+  | "Created"
+  | "Creating"
+  | "StartingImportModuleRunbook"
+  | "RunningImportModuleRunbook"
+  | "ContentRetrieved"
+  | "ContentDownloaded"
+  | "ContentValidated"
+  | "ConnectionTypeImported"
+  | "ContentStored"
+  | "ModuleDataStored"
+  | "ActivitiesStored"
+  | "ModuleImportRunbookComplete"
+  | "Succeeded"
+  | "Failed"
+  | "Cancelled"
+  | "Updating";
 
 /**
  * Defines values for ScheduleDay.
@@ -5544,7 +5569,14 @@ export type ModuleProvisioningState = 'Created' | 'Creating' | 'StartingImportMo
  * @readonly
  * @enum {string}
  */
-export type ScheduleDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+export type ScheduleDay =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
 
 /**
  * Defines values for ScheduleFrequency.
@@ -5552,7 +5584,7 @@ export type ScheduleDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Fri
  * @readonly
  * @enum {string}
  */
-export type ScheduleFrequency = 'OneTime' | 'Day' | 'Hour' | 'Week' | 'Month';
+export type ScheduleFrequency = "OneTime" | "Day" | "Hour" | "Week" | "Month";
 
 /**
  * Defines values for OperatingSystemType.
@@ -5560,7 +5592,7 @@ export type ScheduleFrequency = 'OneTime' | 'Day' | 'Hour' | 'Week' | 'Month';
  * @readonly
  * @enum {string}
  */
-export type OperatingSystemType = 'Windows' | 'Linux';
+export type OperatingSystemType = "Windows" | "Linux";
 
 /**
  * Defines values for WindowsUpdateClasses.
@@ -5569,7 +5601,16 @@ export type OperatingSystemType = 'Windows' | 'Linux';
  * @readonly
  * @enum {string}
  */
-export type WindowsUpdateClasses = 'Unclassified' | 'Critical' | 'Security' | 'UpdateRollup' | 'FeaturePack' | 'ServicePack' | 'Definition' | 'Tools' | 'Updates';
+export type WindowsUpdateClasses =
+  | "Unclassified"
+  | "Critical"
+  | "Security"
+  | "UpdateRollup"
+  | "FeaturePack"
+  | "ServicePack"
+  | "Definition"
+  | "Tools"
+  | "Updates";
 
 /**
  * Defines values for LinuxUpdateClasses.
@@ -5577,7 +5618,7 @@ export type WindowsUpdateClasses = 'Unclassified' | 'Critical' | 'Security' | 'U
  * @readonly
  * @enum {string}
  */
-export type LinuxUpdateClasses = 'Unclassified' | 'Critical' | 'Security' | 'Other';
+export type LinuxUpdateClasses = "Unclassified" | "Critical" | "Security" | "Other";
 
 /**
  * Defines values for TagOperators.
@@ -5585,7 +5626,7 @@ export type LinuxUpdateClasses = 'Unclassified' | 'Critical' | 'Security' | 'Oth
  * @readonly
  * @enum {string}
  */
-export type TagOperators = 'All' | 'Any';
+export type TagOperators = "All" | "Any";
 
 /**
  * Defines values for SourceType.
@@ -5593,7 +5634,7 @@ export type TagOperators = 'All' | 'Any';
  * @readonly
  * @enum {string}
  */
-export type SourceType = 'VsoGit' | 'VsoTfvc' | 'GitHub';
+export type SourceType = "VsoGit" | "VsoTfvc" | "GitHub";
 
 /**
  * Defines values for TokenType.
@@ -5601,7 +5642,7 @@ export type SourceType = 'VsoGit' | 'VsoTfvc' | 'GitHub';
  * @readonly
  * @enum {string}
  */
-export type TokenType = 'PersonalAccessToken' | 'Oauth';
+export type TokenType = "PersonalAccessToken" | "Oauth";
 
 /**
  * Defines values for ProvisioningState.
@@ -5609,7 +5650,7 @@ export type TokenType = 'PersonalAccessToken' | 'Oauth';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Completed' | 'Failed' | 'Running';
+export type ProvisioningState = "Completed" | "Failed" | "Running";
 
 /**
  * Defines values for SyncType.
@@ -5617,7 +5658,7 @@ export type ProvisioningState = 'Completed' | 'Failed' | 'Running';
  * @readonly
  * @enum {string}
  */
-export type SyncType = 'PartialSync' | 'FullSync';
+export type SyncType = "PartialSync" | "FullSync";
 
 /**
  * Defines values for StreamType.
@@ -5625,7 +5666,7 @@ export type SyncType = 'PartialSync' | 'FullSync';
  * @readonly
  * @enum {string}
  */
-export type StreamType = 'Error' | 'Output';
+export type StreamType = "Error" | "Output";
 
 /**
  * Defines values for JobStreamType.
@@ -5633,7 +5674,14 @@ export type StreamType = 'Error' | 'Output';
  * @readonly
  * @enum {string}
  */
-export type JobStreamType = 'Progress' | 'Output' | 'Warning' | 'Error' | 'Debug' | 'Verbose' | 'Any';
+export type JobStreamType =
+  | "Progress"
+  | "Output"
+  | "Warning"
+  | "Error"
+  | "Debug"
+  | "Verbose"
+  | "Any";
 
 /**
  * Defines values for JobStatus.
@@ -5642,7 +5690,20 @@ export type JobStreamType = 'Progress' | 'Output' | 'Warning' | 'Error' | 'Debug
  * @readonly
  * @enum {string}
  */
-export type JobStatus = 'New' | 'Activating' | 'Running' | 'Completed' | 'Failed' | 'Stopped' | 'Blocked' | 'Suspended' | 'Disconnected' | 'Suspending' | 'Stopping' | 'Resuming' | 'Removing';
+export type JobStatus =
+  | "New"
+  | "Activating"
+  | "Running"
+  | "Completed"
+  | "Failed"
+  | "Stopped"
+  | "Blocked"
+  | "Suspended"
+  | "Disconnected"
+  | "Suspending"
+  | "Stopping"
+  | "Resuming"
+  | "Removing";
 
 /**
  * Defines values for JobProvisioningState.
@@ -5650,7 +5711,7 @@ export type JobStatus = 'New' | 'Activating' | 'Running' | 'Completed' | 'Failed
  * @readonly
  * @enum {string}
  */
-export type JobProvisioningState = 'Failed' | 'Succeeded' | 'Suspended' | 'Processing';
+export type JobProvisioningState = "Failed" | "Succeeded" | "Suspended" | "Processing";
 
 /**
  * Defines values for AgentRegistrationKeyName.
@@ -5658,7 +5719,7 @@ export type JobProvisioningState = 'Failed' | 'Succeeded' | 'Suspended' | 'Proce
  * @readonly
  * @enum {string}
  */
-export type AgentRegistrationKeyName = 'primary' | 'secondary';
+export type AgentRegistrationKeyName = "primary" | "secondary";
 
 /**
  * Defines values for RunbookTypeEnum.
@@ -5667,7 +5728,13 @@ export type AgentRegistrationKeyName = 'primary' | 'secondary';
  * @readonly
  * @enum {string}
  */
-export type RunbookTypeEnum = 'Script' | 'Graph' | 'PowerShellWorkflow' | 'PowerShell' | 'GraphPowerShellWorkflow' | 'GraphPowerShell';
+export type RunbookTypeEnum =
+  | "Script"
+  | "Graph"
+  | "PowerShellWorkflow"
+  | "PowerShell"
+  | "GraphPowerShellWorkflow"
+  | "GraphPowerShell";
 
 /**
  * Defines values for RunbookState.
@@ -5675,7 +5742,7 @@ export type RunbookTypeEnum = 'Script' | 'Graph' | 'PowerShellWorkflow' | 'Power
  * @readonly
  * @enum {string}
  */
-export type RunbookState = 'New' | 'Edit' | 'Published';
+export type RunbookState = "New" | "Edit" | "Published";
 
 /**
  * Defines values for RunbookProvisioningState.
@@ -5683,7 +5750,7 @@ export type RunbookState = 'New' | 'Edit' | 'Published';
  * @readonly
  * @enum {string}
  */
-export type RunbookProvisioningState = 'Succeeded';
+export type RunbookProvisioningState = "Succeeded";
 
 /**
  * Defines values for HttpStatusCode.
@@ -5700,7 +5767,54 @@ export type RunbookProvisioningState = 'Succeeded';
  * @readonly
  * @enum {string}
  */
-export type HttpStatusCode = 'Continue' | 'SwitchingProtocols' | 'OK' | 'Created' | 'Accepted' | 'NonAuthoritativeInformation' | 'NoContent' | 'ResetContent' | 'PartialContent' | 'MultipleChoices' | 'Ambiguous' | 'MovedPermanently' | 'Moved' | 'Found' | 'Redirect' | 'SeeOther' | 'RedirectMethod' | 'NotModified' | 'UseProxy' | 'Unused' | 'TemporaryRedirect' | 'RedirectKeepVerb' | 'BadRequest' | 'Unauthorized' | 'PaymentRequired' | 'Forbidden' | 'NotFound' | 'MethodNotAllowed' | 'NotAcceptable' | 'ProxyAuthenticationRequired' | 'RequestTimeout' | 'Conflict' | 'Gone' | 'LengthRequired' | 'PreconditionFailed' | 'RequestEntityTooLarge' | 'RequestUriTooLong' | 'UnsupportedMediaType' | 'RequestedRangeNotSatisfiable' | 'ExpectationFailed' | 'UpgradeRequired' | 'InternalServerError' | 'NotImplemented' | 'BadGateway' | 'ServiceUnavailable' | 'GatewayTimeout' | 'HttpVersionNotSupported';
+export type HttpStatusCode =
+  | "Continue"
+  | "SwitchingProtocols"
+  | "OK"
+  | "Created"
+  | "Accepted"
+  | "NonAuthoritativeInformation"
+  | "NoContent"
+  | "ResetContent"
+  | "PartialContent"
+  | "MultipleChoices"
+  | "Ambiguous"
+  | "MovedPermanently"
+  | "Moved"
+  | "Found"
+  | "Redirect"
+  | "SeeOther"
+  | "RedirectMethod"
+  | "NotModified"
+  | "UseProxy"
+  | "Unused"
+  | "TemporaryRedirect"
+  | "RedirectKeepVerb"
+  | "BadRequest"
+  | "Unauthorized"
+  | "PaymentRequired"
+  | "Forbidden"
+  | "NotFound"
+  | "MethodNotAllowed"
+  | "NotAcceptable"
+  | "ProxyAuthenticationRequired"
+  | "RequestTimeout"
+  | "Conflict"
+  | "Gone"
+  | "LengthRequired"
+  | "PreconditionFailed"
+  | "RequestEntityTooLarge"
+  | "RequestUriTooLong"
+  | "UnsupportedMediaType"
+  | "RequestedRangeNotSatisfiable"
+  | "ExpectationFailed"
+  | "UpgradeRequired"
+  | "InternalServerError"
+  | "NotImplemented"
+  | "BadGateway"
+  | "ServiceUnavailable"
+  | "GatewayTimeout"
+  | "HttpVersionNotSupported";
 
 /**
  * Defines values for CountType.
@@ -5708,7 +5822,7 @@ export type HttpStatusCode = 'Continue' | 'SwitchingProtocols' | 'OK' | 'Created
  * @readonly
  * @enum {string}
  */
-export type CountType = 'status' | 'nodeconfiguration';
+export type CountType = "status" | "nodeconfiguration";
 
 /**
  * Contains response data for the update operation.
@@ -5718,15 +5832,15 @@ export type AutomationAccountUpdateResponse = AutomationAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutomationAccount;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutomationAccount;
+  };
 };
 
 /**
@@ -5737,15 +5851,15 @@ export type AutomationAccountCreateOrUpdateResponse = AutomationAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutomationAccount;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutomationAccount;
+  };
 };
 
 /**
@@ -5756,15 +5870,15 @@ export type AutomationAccountGetResponse = AutomationAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutomationAccount;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutomationAccount;
+  };
 };
 
 /**
@@ -5775,15 +5889,15 @@ export type AutomationAccountListByResourceGroupResponse = AutomationAccountList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutomationAccountListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutomationAccountListResult;
+  };
 };
 
 /**
@@ -5794,15 +5908,15 @@ export type AutomationAccountListResponse = AutomationAccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutomationAccountListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutomationAccountListResult;
+  };
 };
 
 /**
@@ -5813,15 +5927,15 @@ export type AutomationAccountListByResourceGroupNextResponse = AutomationAccount
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutomationAccountListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutomationAccountListResult;
+  };
 };
 
 /**
@@ -5832,15 +5946,15 @@ export type AutomationAccountListNextResponse = AutomationAccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AutomationAccountListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AutomationAccountListResult;
+  };
 };
 
 /**
@@ -5851,15 +5965,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -5870,15 +5984,15 @@ export type StatisticsListByAutomationAccountResponse = StatisticsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StatisticsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StatisticsListResult;
+  };
 };
 
 /**
@@ -5889,15 +6003,15 @@ export type UsagesListByAutomationAccountResponse = UsageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageListResult;
+  };
 };
 
 /**
@@ -5908,15 +6022,15 @@ export type KeysListByAutomationAccountResponse = KeyListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyListResult;
+  };
 };
 
 /**
@@ -5927,15 +6041,15 @@ export type CertificateGetResponse = Certificate & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Certificate;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Certificate;
+  };
 };
 
 /**
@@ -5946,15 +6060,15 @@ export type CertificateCreateOrUpdateResponse = Certificate & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Certificate;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Certificate;
+  };
 };
 
 /**
@@ -5965,15 +6079,15 @@ export type CertificateUpdateResponse = Certificate & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Certificate;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Certificate;
+  };
 };
 
 /**
@@ -5984,15 +6098,15 @@ export type CertificateListByAutomationAccountResponse = CertificateListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateListResult;
+  };
 };
 
 /**
@@ -6003,15 +6117,15 @@ export type CertificateListByAutomationAccountNextResponse = CertificateListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateListResult;
+  };
 };
 
 /**
@@ -6022,15 +6136,15 @@ export type ConnectionDeleteMethodResponse = Connection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Connection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Connection;
+  };
 };
 
 /**
@@ -6041,15 +6155,15 @@ export type ConnectionGetResponse = Connection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Connection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Connection;
+  };
 };
 
 /**
@@ -6060,15 +6174,15 @@ export type ConnectionCreateOrUpdateResponse = Connection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Connection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Connection;
+  };
 };
 
 /**
@@ -6079,15 +6193,15 @@ export type ConnectionUpdateResponse = Connection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Connection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Connection;
+  };
 };
 
 /**
@@ -6098,15 +6212,15 @@ export type ConnectionListByAutomationAccountResponse = ConnectionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionListResult;
+  };
 };
 
 /**
@@ -6117,15 +6231,15 @@ export type ConnectionListByAutomationAccountNextResponse = ConnectionListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionListResult;
+  };
 };
 
 /**
@@ -6136,15 +6250,15 @@ export type ConnectionTypeGetResponse = ConnectionType & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionType;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionType;
+  };
 };
 
 /**
@@ -6155,15 +6269,15 @@ export type ConnectionTypeCreateOrUpdateResponse = ConnectionType & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionType;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionType;
+  };
 };
 
 /**
@@ -6174,15 +6288,15 @@ export type ConnectionTypeListByAutomationAccountResponse = ConnectionTypeListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionTypeListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionTypeListResult;
+  };
 };
 
 /**
@@ -6193,15 +6307,15 @@ export type ConnectionTypeListByAutomationAccountNextResponse = ConnectionTypeLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionTypeListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionTypeListResult;
+  };
 };
 
 /**
@@ -6212,15 +6326,15 @@ export type CredentialGetResponse = Credential & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Credential;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Credential;
+  };
 };
 
 /**
@@ -6231,15 +6345,15 @@ export type CredentialCreateOrUpdateResponse = Credential & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Credential;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Credential;
+  };
 };
 
 /**
@@ -6250,15 +6364,15 @@ export type CredentialUpdateResponse = Credential & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Credential;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Credential;
+  };
 };
 
 /**
@@ -6269,15 +6383,15 @@ export type CredentialListByAutomationAccountResponse = CredentialListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CredentialListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CredentialListResult;
+  };
 };
 
 /**
@@ -6288,15 +6402,15 @@ export type CredentialListByAutomationAccountNextResponse = CredentialListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CredentialListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CredentialListResult;
+  };
 };
 
 /**
@@ -6307,15 +6421,15 @@ export type DscConfigurationGetResponse = DscConfiguration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscConfiguration;
+  };
 };
 
 /**
@@ -6326,15 +6440,15 @@ export type DscConfigurationCreateOrUpdateResponse = DscConfiguration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscConfiguration;
+  };
 };
 
 /**
@@ -6345,15 +6459,15 @@ export type DscConfigurationUpdateResponse = DscConfiguration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscConfiguration;
+  };
 };
 
 /**
@@ -6388,15 +6502,15 @@ export type DscConfigurationListByAutomationAccountResponse = DscConfigurationLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscConfigurationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscConfigurationListResult;
+  };
 };
 
 /**
@@ -6407,15 +6521,15 @@ export type DscConfigurationListByAutomationAccountNextResponse = DscConfigurati
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscConfigurationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscConfigurationListResult;
+  };
 };
 
 /**
@@ -6426,15 +6540,15 @@ export type HybridRunbookWorkerGroupGetResponse = HybridRunbookWorkerGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HybridRunbookWorkerGroup;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HybridRunbookWorkerGroup;
+  };
 };
 
 /**
@@ -6445,15 +6559,15 @@ export type HybridRunbookWorkerGroupUpdateResponse = HybridRunbookWorkerGroup & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HybridRunbookWorkerGroup;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HybridRunbookWorkerGroup;
+  };
 };
 
 /**
@@ -6464,15 +6578,15 @@ export type HybridRunbookWorkerGroupListByAutomationAccountResponse = HybridRunb
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HybridRunbookWorkerGroupsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HybridRunbookWorkerGroupsListResult;
+  };
 };
 
 /**
@@ -6483,15 +6597,15 @@ export type HybridRunbookWorkerGroupListByAutomationAccountNextResponse = Hybrid
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HybridRunbookWorkerGroupsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HybridRunbookWorkerGroupsListResult;
+  };
 };
 
 /**
@@ -6502,15 +6616,15 @@ export type JobScheduleGetResponse = JobSchedule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobSchedule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobSchedule;
+  };
 };
 
 /**
@@ -6521,15 +6635,15 @@ export type JobScheduleCreateResponse = JobSchedule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobSchedule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobSchedule;
+  };
 };
 
 /**
@@ -6540,15 +6654,15 @@ export type JobScheduleListByAutomationAccountResponse = JobScheduleListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobScheduleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobScheduleListResult;
+  };
 };
 
 /**
@@ -6559,15 +6673,15 @@ export type JobScheduleListByAutomationAccountNextResponse = JobScheduleListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobScheduleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobScheduleListResult;
+  };
 };
 
 /**
@@ -6578,15 +6692,15 @@ export type LinkedWorkspaceGetResponse = LinkedWorkspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedWorkspace;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LinkedWorkspace;
+  };
 };
 
 /**
@@ -6597,15 +6711,15 @@ export type ActivityGetResponse = Activity & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Activity;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Activity;
+  };
 };
 
 /**
@@ -6616,15 +6730,15 @@ export type ActivityListByModuleResponse = ActivityListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ActivityListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ActivityListResult;
+  };
 };
 
 /**
@@ -6635,15 +6749,15 @@ export type ActivityListByModuleNextResponse = ActivityListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ActivityListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ActivityListResult;
+  };
 };
 
 /**
@@ -6654,15 +6768,15 @@ export type ModuleGetResponse = Module & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Module;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Module;
+  };
 };
 
 /**
@@ -6673,15 +6787,15 @@ export type ModuleCreateOrUpdateResponse = Module & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Module;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Module;
+  };
 };
 
 /**
@@ -6692,15 +6806,15 @@ export type ModuleUpdateResponse = Module & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Module;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Module;
+  };
 };
 
 /**
@@ -6711,15 +6825,15 @@ export type ModuleListByAutomationAccountResponse = ModuleListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ModuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ModuleListResult;
+  };
 };
 
 /**
@@ -6730,15 +6844,15 @@ export type ModuleListByAutomationAccountNextResponse = ModuleListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ModuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ModuleListResult;
+  };
 };
 
 /**
@@ -6749,15 +6863,15 @@ export type ObjectDataTypesListFieldsByModuleAndTypeResponse = TypeFieldListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TypeFieldListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TypeFieldListResult;
+  };
 };
 
 /**
@@ -6768,15 +6882,15 @@ export type ObjectDataTypesListFieldsByTypeResponse = TypeFieldListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TypeFieldListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TypeFieldListResult;
+  };
 };
 
 /**
@@ -6787,15 +6901,15 @@ export type FieldsListByTypeResponse = TypeFieldListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TypeFieldListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TypeFieldListResult;
+  };
 };
 
 /**
@@ -6806,15 +6920,15 @@ export type ScheduleCreateOrUpdateResponse = Schedule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Schedule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Schedule;
+  };
 };
 
 /**
@@ -6825,15 +6939,15 @@ export type ScheduleUpdateResponse = Schedule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Schedule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Schedule;
+  };
 };
 
 /**
@@ -6844,15 +6958,15 @@ export type ScheduleGetResponse = Schedule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Schedule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Schedule;
+  };
 };
 
 /**
@@ -6863,15 +6977,15 @@ export type ScheduleListByAutomationAccountResponse = ScheduleListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScheduleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScheduleListResult;
+  };
 };
 
 /**
@@ -6882,15 +6996,15 @@ export type ScheduleListByAutomationAccountNextResponse = ScheduleListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScheduleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScheduleListResult;
+  };
 };
 
 /**
@@ -6901,15 +7015,15 @@ export type VariableCreateOrUpdateResponse = Variable & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Variable;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Variable;
+  };
 };
 
 /**
@@ -6920,15 +7034,15 @@ export type VariableUpdateResponse = Variable & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Variable;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Variable;
+  };
 };
 
 /**
@@ -6939,15 +7053,15 @@ export type VariableGetResponse = Variable & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Variable;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Variable;
+  };
 };
 
 /**
@@ -6958,15 +7072,15 @@ export type VariableListByAutomationAccountResponse = VariableListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VariableListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VariableListResult;
+  };
 };
 
 /**
@@ -6977,15 +7091,15 @@ export type VariableListByAutomationAccountNextResponse = VariableListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VariableListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VariableListResult;
+  };
 };
 
 /**
@@ -7000,15 +7114,15 @@ export type WebhookGenerateUriResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -7019,15 +7133,15 @@ export type WebhookGetResponse = Webhook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Webhook;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Webhook;
+  };
 };
 
 /**
@@ -7038,15 +7152,15 @@ export type WebhookCreateOrUpdateResponse = Webhook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Webhook;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Webhook;
+  };
 };
 
 /**
@@ -7057,15 +7171,15 @@ export type WebhookUpdateResponse = Webhook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Webhook;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Webhook;
+  };
 };
 
 /**
@@ -7076,15 +7190,15 @@ export type WebhookListByAutomationAccountResponse = WebhookListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebhookListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebhookListResult;
+  };
 };
 
 /**
@@ -7095,15 +7209,15 @@ export type WebhookListByAutomationAccountNextResponse = WebhookListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebhookListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebhookListResult;
+  };
 };
 
 /**
@@ -7114,15 +7228,15 @@ export type WatcherCreateOrUpdateResponse = Watcher & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Watcher;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Watcher;
+  };
 };
 
 /**
@@ -7133,15 +7247,15 @@ export type WatcherGetResponse = Watcher & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Watcher;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Watcher;
+  };
 };
 
 /**
@@ -7152,15 +7266,15 @@ export type WatcherUpdateResponse = Watcher & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Watcher;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Watcher;
+  };
 };
 
 /**
@@ -7171,15 +7285,15 @@ export type WatcherListByAutomationAccountResponse = WatcherListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WatcherListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WatcherListResult;
+  };
 };
 
 /**
@@ -7190,15 +7304,15 @@ export type WatcherListByAutomationAccountNextResponse = WatcherListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WatcherListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WatcherListResult;
+  };
 };
 
 /**
@@ -7209,15 +7323,15 @@ export type SoftwareUpdateConfigurationsCreateResponse = SoftwareUpdateConfigura
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SoftwareUpdateConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SoftwareUpdateConfiguration;
+  };
 };
 
 /**
@@ -7228,15 +7342,15 @@ export type SoftwareUpdateConfigurationsGetByNameResponse = SoftwareUpdateConfig
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SoftwareUpdateConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SoftwareUpdateConfiguration;
+  };
 };
 
 /**
@@ -7247,15 +7361,15 @@ export type SoftwareUpdateConfigurationsListResponse = SoftwareUpdateConfigurati
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SoftwareUpdateConfigurationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SoftwareUpdateConfigurationListResult;
+  };
 };
 
 /**
@@ -7266,15 +7380,15 @@ export type SoftwareUpdateConfigurationRunsGetByIdResponse = SoftwareUpdateConfi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SoftwareUpdateConfigurationRun;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SoftwareUpdateConfigurationRun;
+  };
 };
 
 /**
@@ -7285,15 +7399,15 @@ export type SoftwareUpdateConfigurationRunsListResponse = SoftwareUpdateConfigur
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SoftwareUpdateConfigurationRunListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SoftwareUpdateConfigurationRunListResult;
+  };
 };
 
 /**
@@ -7304,15 +7418,15 @@ export type SoftwareUpdateConfigurationMachineRunsGetByIdResponse = SoftwareUpda
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SoftwareUpdateConfigurationMachineRun;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SoftwareUpdateConfigurationMachineRun;
+  };
 };
 
 /**
@@ -7323,15 +7437,15 @@ export type SoftwareUpdateConfigurationMachineRunsListResponse = SoftwareUpdateC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SoftwareUpdateConfigurationMachineRunListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SoftwareUpdateConfigurationMachineRunListResult;
+  };
 };
 
 /**
@@ -7342,15 +7456,15 @@ export type SourceControlCreateOrUpdateResponse = SourceControl & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControl;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControl;
+  };
 };
 
 /**
@@ -7361,15 +7475,15 @@ export type SourceControlUpdateResponse = SourceControl & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControl;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControl;
+  };
 };
 
 /**
@@ -7380,15 +7494,15 @@ export type SourceControlGetResponse = SourceControl & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControl;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControl;
+  };
 };
 
 /**
@@ -7399,15 +7513,15 @@ export type SourceControlListByAutomationAccountResponse = SourceControlListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlListResult;
+  };
 };
 
 /**
@@ -7418,15 +7532,15 @@ export type SourceControlListByAutomationAccountNextResponse = SourceControlList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlListResult;
+  };
 };
 
 /**
@@ -7437,15 +7551,15 @@ export type SourceControlSyncJobCreateResponse = SourceControlSyncJob & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlSyncJob;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlSyncJob;
+  };
 };
 
 /**
@@ -7456,15 +7570,15 @@ export type SourceControlSyncJobGetResponse = SourceControlSyncJobById & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlSyncJobById;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlSyncJobById;
+  };
 };
 
 /**
@@ -7475,15 +7589,15 @@ export type SourceControlSyncJobListByAutomationAccountResponse = SourceControlS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlSyncJobListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlSyncJobListResult;
+  };
 };
 
 /**
@@ -7494,15 +7608,15 @@ export type SourceControlSyncJobListByAutomationAccountNextResponse = SourceCont
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlSyncJobListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlSyncJobListResult;
+  };
 };
 
 /**
@@ -7513,15 +7627,15 @@ export type SourceControlSyncJobStreamsListBySyncJobResponse = SourceControlSync
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlSyncJobStreamsListBySyncJob;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlSyncJobStreamsListBySyncJob;
+  };
 };
 
 /**
@@ -7532,15 +7646,15 @@ export type SourceControlSyncJobStreamsGetResponse = SourceControlSyncJobStreamB
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlSyncJobStreamById;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlSyncJobStreamById;
+  };
 };
 
 /**
@@ -7551,15 +7665,15 @@ export type SourceControlSyncJobStreamsListBySyncJobNextResponse = SourceControl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlSyncJobStreamsListBySyncJob;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlSyncJobStreamsListBySyncJob;
+  };
 };
 
 /**
@@ -7618,15 +7732,15 @@ export type JobGetResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -7637,15 +7751,15 @@ export type JobCreateResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -7656,15 +7770,15 @@ export type JobListByAutomationAccountResponse = JobListResultV2 & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobListResultV2;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobListResultV2;
+  };
 };
 
 /**
@@ -7675,15 +7789,15 @@ export type JobListByAutomationAccountNextResponse = JobListResultV2 & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobListResultV2;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobListResultV2;
+  };
 };
 
 /**
@@ -7694,15 +7808,15 @@ export type JobStreamGetResponse = JobStream & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobStream;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobStream;
+  };
 };
 
 /**
@@ -7713,15 +7827,15 @@ export type JobStreamListByJobResponse = JobStreamListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobStreamListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobStreamListResult;
+  };
 };
 
 /**
@@ -7732,15 +7846,15 @@ export type JobStreamListByJobNextResponse = JobStreamListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobStreamListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobStreamListResult;
+  };
 };
 
 /**
@@ -7751,15 +7865,15 @@ export type AgentRegistrationInformationGetResponse = AgentRegistration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentRegistration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentRegistration;
+  };
 };
 
 /**
@@ -7770,15 +7884,15 @@ export type AgentRegistrationInformationRegenerateKeyResponse = AgentRegistratio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentRegistration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentRegistration;
+  };
 };
 
 /**
@@ -7789,15 +7903,15 @@ export type DscNodeDeleteMethodResponse = DscNode & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNode;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNode;
+  };
 };
 
 /**
@@ -7808,15 +7922,15 @@ export type DscNodeGetResponse = DscNode & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNode;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNode;
+  };
 };
 
 /**
@@ -7827,15 +7941,15 @@ export type DscNodeUpdateResponse = DscNode & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNode;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNode;
+  };
 };
 
 /**
@@ -7846,15 +7960,15 @@ export type DscNodeListByAutomationAccountResponse = DscNodeListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNodeListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNodeListResult;
+  };
 };
 
 /**
@@ -7865,15 +7979,15 @@ export type DscNodeListByAutomationAccountNextResponse = DscNodeListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNodeListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNodeListResult;
+  };
 };
 
 /**
@@ -7884,15 +7998,15 @@ export type NodeReportsListByNodeResponse = DscNodeReportListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNodeReportListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNodeReportListResult;
+  };
 };
 
 /**
@@ -7903,15 +8017,15 @@ export type NodeReportsGetResponse = DscNodeReport & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNodeReport;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNodeReport;
+  };
 };
 
 /**
@@ -7926,15 +8040,15 @@ export type NodeReportsGetContentResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -7945,15 +8059,15 @@ export type NodeReportsListByNodeNextResponse = DscNodeReportListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNodeReportListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNodeReportListResult;
+  };
 };
 
 /**
@@ -7964,15 +8078,15 @@ export type DscCompilationJobCreateResponse = DscCompilationJob & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscCompilationJob;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscCompilationJob;
+  };
 };
 
 /**
@@ -7983,15 +8097,15 @@ export type DscCompilationJobGetResponse = DscCompilationJob & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscCompilationJob;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscCompilationJob;
+  };
 };
 
 /**
@@ -8002,15 +8116,15 @@ export type DscCompilationJobListByAutomationAccountResponse = DscCompilationJob
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscCompilationJobListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscCompilationJobListResult;
+  };
 };
 
 /**
@@ -8021,15 +8135,15 @@ export type DscCompilationJobGetStreamResponse = JobStream & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobStream;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobStream;
+  };
 };
 
 /**
@@ -8040,15 +8154,15 @@ export type DscCompilationJobBeginCreateResponse = DscCompilationJob & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscCompilationJob;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscCompilationJob;
+  };
 };
 
 /**
@@ -8059,15 +8173,15 @@ export type DscCompilationJobListByAutomationAccountNextResponse = DscCompilatio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscCompilationJobListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscCompilationJobListResult;
+  };
 };
 
 /**
@@ -8078,15 +8192,15 @@ export type DscCompilationJobStreamListByJobResponse = JobStreamListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobStreamListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobStreamListResult;
+  };
 };
 
 /**
@@ -8097,15 +8211,15 @@ export type DscNodeConfigurationGetResponse = DscNodeConfiguration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNodeConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNodeConfiguration;
+  };
 };
 
 /**
@@ -8116,15 +8230,15 @@ export type DscNodeConfigurationCreateOrUpdateResponse = DscNodeConfiguration & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNodeConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNodeConfiguration;
+  };
 };
 
 /**
@@ -8135,15 +8249,15 @@ export type DscNodeConfigurationListByAutomationAccountResponse = DscNodeConfigu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNodeConfigurationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNodeConfigurationListResult;
+  };
 };
 
 /**
@@ -8154,15 +8268,15 @@ export type DscNodeConfigurationBeginCreateOrUpdateResponse = DscNodeConfigurati
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNodeConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNodeConfiguration;
+  };
 };
 
 /**
@@ -8173,15 +8287,15 @@ export type DscNodeConfigurationListByAutomationAccountNextResponse = DscNodeCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DscNodeConfigurationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DscNodeConfigurationListResult;
+  };
 };
 
 /**
@@ -8192,15 +8306,15 @@ export type NodeCountInformationGetResponse = NodeCounts & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NodeCounts;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NodeCounts;
+  };
 };
 
 /**
@@ -8249,11 +8363,11 @@ export type RunbookDraftReplaceContentResponse = RunbookDraftReplaceContentHeade
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: RunbookDraftReplaceContentHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: RunbookDraftReplaceContentHeaders;
+  };
 };
 
 /**
@@ -8264,15 +8378,15 @@ export type RunbookDraftGetResponse = RunbookDraft & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunbookDraft;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunbookDraft;
+  };
 };
 
 /**
@@ -8283,15 +8397,15 @@ export type RunbookDraftUndoEditResponse = RunbookDraftUndoEditResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunbookDraftUndoEditResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunbookDraftUndoEditResult;
+  };
 };
 
 /**
@@ -8302,11 +8416,11 @@ export type RunbookPublishResponse = RunbookPublishHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: RunbookPublishHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: RunbookPublishHeaders;
+  };
 };
 
 /**
@@ -8341,15 +8455,15 @@ export type RunbookGetResponse = Runbook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Runbook;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Runbook;
+  };
 };
 
 /**
@@ -8360,15 +8474,15 @@ export type RunbookCreateOrUpdateResponse = Runbook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Runbook;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Runbook;
+  };
 };
 
 /**
@@ -8379,15 +8493,15 @@ export type RunbookUpdateResponse = Runbook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Runbook;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Runbook;
+  };
 };
 
 /**
@@ -8398,15 +8512,15 @@ export type RunbookListByAutomationAccountResponse = RunbookListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunbookListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunbookListResult;
+  };
 };
 
 /**
@@ -8417,15 +8531,15 @@ export type RunbookListByAutomationAccountNextResponse = RunbookListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunbookListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunbookListResult;
+  };
 };
 
 /**
@@ -8436,15 +8550,15 @@ export type TestJobStreamsGetResponse = JobStream & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobStream;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobStream;
+  };
 };
 
 /**
@@ -8455,15 +8569,15 @@ export type TestJobStreamsListByTestJobResponse = JobStreamListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobStreamListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobStreamListResult;
+  };
 };
 
 /**
@@ -8474,15 +8588,15 @@ export type TestJobStreamsListByTestJobNextResponse = JobStreamListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobStreamListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobStreamListResult;
+  };
 };
 
 /**
@@ -8493,15 +8607,15 @@ export type TestJobCreateResponse = TestJob & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TestJob;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TestJob;
+  };
 };
 
 /**
@@ -8512,15 +8626,15 @@ export type TestJobGetResponse = TestJob & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TestJob;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TestJob;
+  };
 };
 
 /**
@@ -8531,15 +8645,15 @@ export type Python2PackageGetResponse = Module & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Module;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Module;
+  };
 };
 
 /**
@@ -8550,15 +8664,15 @@ export type Python2PackageCreateOrUpdateResponse = Module & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Module;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Module;
+  };
 };
 
 /**
@@ -8569,15 +8683,15 @@ export type Python2PackageUpdateResponse = Module & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Module;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Module;
+  };
 };
 
 /**
@@ -8588,15 +8702,15 @@ export type Python2PackageListByAutomationAccountResponse = ModuleListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ModuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ModuleListResult;
+  };
 };
 
 /**
@@ -8607,13 +8721,13 @@ export type Python2PackageListByAutomationAccountNextResponse = ModuleListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ModuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ModuleListResult;
+  };
 };

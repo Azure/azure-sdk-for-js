@@ -32,26 +32,43 @@ export class Capabilities {
    * @param [options] The optional parameters
    * @returns Promise<Models.CapabilitiesListByLocationResponse>
    */
-  listByLocation(locationName: string, options?: Models.CapabilitiesListByLocationOptionalParams): Promise<Models.CapabilitiesListByLocationResponse>;
+  listByLocation(
+    locationName: string,
+    options?: Models.CapabilitiesListByLocationOptionalParams
+  ): Promise<Models.CapabilitiesListByLocationResponse>;
   /**
    * @param locationName The location name whose capabilities are retrieved.
    * @param callback The callback
    */
-  listByLocation(locationName: string, callback: msRest.ServiceCallback<Models.LocationCapabilities>): void;
+  listByLocation(
+    locationName: string,
+    callback: msRest.ServiceCallback<Models.LocationCapabilities>
+  ): void;
   /**
    * @param locationName The location name whose capabilities are retrieved.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByLocation(locationName: string, options: Models.CapabilitiesListByLocationOptionalParams, callback: msRest.ServiceCallback<Models.LocationCapabilities>): void;
-  listByLocation(locationName: string, options?: Models.CapabilitiesListByLocationOptionalParams | msRest.ServiceCallback<Models.LocationCapabilities>, callback?: msRest.ServiceCallback<Models.LocationCapabilities>): Promise<Models.CapabilitiesListByLocationResponse> {
+  listByLocation(
+    locationName: string,
+    options: Models.CapabilitiesListByLocationOptionalParams,
+    callback: msRest.ServiceCallback<Models.LocationCapabilities>
+  ): void;
+  listByLocation(
+    locationName: string,
+    options?:
+      | Models.CapabilitiesListByLocationOptionalParams
+      | msRest.ServiceCallback<Models.LocationCapabilities>,
+    callback?: msRest.ServiceCallback<Models.LocationCapabilities>
+  ): Promise<Models.CapabilitiesListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
         options
       },
       listByLocationOperationSpec,
-      callback) as Promise<Models.CapabilitiesListByLocationResponse>;
+      callback
+    ) as Promise<Models.CapabilitiesListByLocationResponse>;
   }
 }
 
@@ -59,18 +76,11 @@ export class Capabilities {
 const serializer = new msRest.Serializer(Mappers);
 const listByLocationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/capabilities",
-  urlParameters: [
-    Parameters.locationName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.include,
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/capabilities",
+  urlParameters: [Parameters.locationName, Parameters.subscriptionId],
+  queryParameters: [Parameters.include, Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LocationCapabilities

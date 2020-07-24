@@ -42,7 +42,12 @@ export class MessageId {
    * @param [options] The optional parameters
    * @returns Promise<Models.MessageIdUpdateResponse>
    */
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilityTimeout: number, options?: Models.MessageIdUpdateOptionalParams): Promise<Models.MessageIdUpdateResponse>;
+  update(
+    queueMessage: Models.QueueMessage,
+    popReceipt: string,
+    visibilityTimeout: number,
+    options?: Models.MessageIdUpdateOptionalParams
+  ): Promise<Models.MessageIdUpdateResponse>;
   /**
    * @param queueMessage A Message object which can be stored in a Queue
    * @param popReceipt Required. Specifies the valid pop receipt value returned from an earlier call
@@ -54,7 +59,12 @@ export class MessageId {
    * later than the expiry time.
    * @param callback The callback
    */
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilityTimeout: number, callback: coreHttp.ServiceCallback<void>): void;
+  update(
+    queueMessage: Models.QueueMessage,
+    popReceipt: string,
+    visibilityTimeout: number,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param queueMessage A Message object which can be stored in a Queue
    * @param popReceipt Required. Specifies the valid pop receipt value returned from an earlier call
@@ -67,8 +77,20 @@ export class MessageId {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilityTimeout: number, options: Models.MessageIdUpdateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilityTimeout: number, options?: Models.MessageIdUpdateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.MessageIdUpdateResponse> {
+  update(
+    queueMessage: Models.QueueMessage,
+    popReceipt: string,
+    visibilityTimeout: number,
+    options: Models.MessageIdUpdateOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  update(
+    queueMessage: Models.QueueMessage,
+    popReceipt: string,
+    visibilityTimeout: number,
+    options?: Models.MessageIdUpdateOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.MessageIdUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         queueMessage,
@@ -77,7 +99,8 @@ export class MessageId {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.MessageIdUpdateResponse>;
+      callback
+    ) as Promise<Models.MessageIdUpdateResponse>;
   }
 
   /**
@@ -87,7 +110,10 @@ export class MessageId {
    * @param [options] The optional parameters
    * @returns Promise<Models.MessageIdDeleteResponse>
    */
-  deleteMethod(popReceipt: string, options?: Models.MessageIdDeleteMethodOptionalParams): Promise<Models.MessageIdDeleteResponse>;
+  deleteMethod(
+    popReceipt: string,
+    options?: Models.MessageIdDeleteMethodOptionalParams
+  ): Promise<Models.MessageIdDeleteResponse>;
   /**
    * @param popReceipt Required. Specifies the valid pop receipt value returned from an earlier call
    * to the Get Messages or Update Message operation.
@@ -100,15 +126,24 @@ export class MessageId {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(popReceipt: string, options: Models.MessageIdDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  deleteMethod(popReceipt: string, options?: Models.MessageIdDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.MessageIdDeleteResponse> {
+  deleteMethod(
+    popReceipt: string,
+    options: Models.MessageIdDeleteMethodOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    popReceipt: string,
+    options?: Models.MessageIdDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.MessageIdDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         popReceipt,
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.MessageIdDeleteResponse>;
+      callback
+    ) as Promise<Models.MessageIdDeleteResponse>;
   }
 }
 
@@ -117,18 +152,13 @@ const serializer = new coreHttp.Serializer(Mappers, true);
 const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{queueName}/messages/{messageid}",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.popReceipt,
     Parameters.visibilityTimeout1,
     Parameters.timeoutInSeconds
   ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId],
   requestBody: {
     parameterPath: "queueMessage",
     mapper: {
@@ -153,17 +183,9 @@ const updateOperationSpec: coreHttp.OperationSpec = {
 const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{queueName}/messages/{messageid}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.popReceipt,
-    Parameters.timeoutInSeconds
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.popReceipt, Parameters.timeoutInSeconds],
+  headerParameters: [Parameters.version, Parameters.requestId],
   responses: {
     204: {
       headersMapper: Mappers.MessageIdDeleteHeaders

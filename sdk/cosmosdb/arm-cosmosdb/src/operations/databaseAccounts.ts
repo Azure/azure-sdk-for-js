@@ -34,21 +34,39 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAccountsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.DatabaseAccountGetResults>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountGetResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountGetResults>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountGetResults>, callback?: msRest.ServiceCallback<Models.DatabaseAccountGetResults>): Promise<Models.DatabaseAccountsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountGetResults>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountGetResults>,
+    callback?: msRest.ServiceCallback<Models.DatabaseAccountGetResults>
+  ): Promise<Models.DatabaseAccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class DatabaseAccounts {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DatabaseAccountsGetResponse>;
+      callback
+    ) as Promise<Models.DatabaseAccountsGetResponse>;
   }
 
   /**
@@ -67,9 +86,20 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, updateParameters: Models.DatabaseAccountUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,accountName,updateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    updateParameters: Models.DatabaseAccountUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAccountsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      accountName,
+      updateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DatabaseAccountsUpdateResponse
+    >;
   }
 
   /**
@@ -81,9 +111,20 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, createUpdateParameters: Models.DatabaseAccountCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,accountName,createUpdateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabaseAccountsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    createUpdateParameters: Models.DatabaseAccountCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAccountsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      accountName,
+      createUpdateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DatabaseAccountsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -93,9 +134,14 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,accountName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, accountName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -109,9 +155,18 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  failoverPriorityChange(resourceGroupName: string, accountName: string, failoverParameters: Models.FailoverPolicies, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginFailoverPriorityChange(resourceGroupName,accountName,failoverParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  failoverPriorityChange(
+    resourceGroupName: string,
+    accountName: string,
+    failoverParameters: Models.FailoverPolicies,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginFailoverPriorityChange(
+      resourceGroupName,
+      accountName,
+      failoverParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -128,14 +183,21 @@ export class DatabaseAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountsListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountsListResult>, callback?: msRest.ServiceCallback<Models.DatabaseAccountsListResult>): Promise<Models.DatabaseAccountsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountsListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountsListResult>,
+    callback?: msRest.ServiceCallback<Models.DatabaseAccountsListResult>
+  ): Promise<Models.DatabaseAccountsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DatabaseAccountsListResponse>;
+      callback
+    ) as Promise<Models.DatabaseAccountsListResponse>;
   }
 
   /**
@@ -144,26 +206,41 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAccountsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DatabaseAccountsListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountsListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountsListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountsListResult>, callback?: msRest.ServiceCallback<Models.DatabaseAccountsListResult>): Promise<Models.DatabaseAccountsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountsListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountsListResult>,
+    callback?: msRest.ServiceCallback<Models.DatabaseAccountsListResult>
+  ): Promise<Models.DatabaseAccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.DatabaseAccountsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.DatabaseAccountsListByResourceGroupResponse>;
   }
 
   /**
@@ -173,21 +250,41 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListKeysResponse>
    */
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAccountsListKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>): void;
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>): void;
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>, callback?: msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>): Promise<Models.DatabaseAccountsListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>,
+    callback?: msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>
+  ): Promise<Models.DatabaseAccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -195,7 +292,8 @@ export class DatabaseAccounts {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.DatabaseAccountsListKeysResponse>;
+      callback
+    ) as Promise<Models.DatabaseAccountsListKeysResponse>;
   }
 
   /**
@@ -205,21 +303,41 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListConnectionStringsResponse>
    */
-  listConnectionStrings(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListConnectionStringsResponse>;
+  listConnectionStrings(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAccountsListConnectionStringsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listConnectionStrings(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>): void;
+  listConnectionStrings(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listConnectionStrings(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>): void;
-  listConnectionStrings(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>, callback?: msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>): Promise<Models.DatabaseAccountsListConnectionStringsResponse> {
+  listConnectionStrings(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>
+  ): void;
+  listConnectionStrings(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>,
+    callback?: msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>
+  ): Promise<Models.DatabaseAccountsListConnectionStringsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -227,7 +345,8 @@ export class DatabaseAccounts {
         options
       },
       listConnectionStringsOperationSpec,
-      callback) as Promise<Models.DatabaseAccountsListConnectionStringsResponse>;
+      callback
+    ) as Promise<Models.DatabaseAccountsListConnectionStringsResponse>;
   }
 
   /**
@@ -238,9 +357,18 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  offlineRegion(resourceGroupName: string, accountName: string, regionParameterForOffline: Models.RegionForOnlineOffline, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginOfflineRegion(resourceGroupName,accountName,regionParameterForOffline,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  offlineRegion(
+    resourceGroupName: string,
+    accountName: string,
+    regionParameterForOffline: Models.RegionForOnlineOffline,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginOfflineRegion(
+      resourceGroupName,
+      accountName,
+      regionParameterForOffline,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -251,9 +379,18 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  onlineRegion(resourceGroupName: string, accountName: string, regionParameterForOnline: Models.RegionForOnlineOffline, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginOnlineRegion(resourceGroupName,accountName,regionParameterForOnline,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  onlineRegion(
+    resourceGroupName: string,
+    accountName: string,
+    regionParameterForOnline: Models.RegionForOnlineOffline,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginOnlineRegion(
+      resourceGroupName,
+      accountName,
+      regionParameterForOnline,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -263,21 +400,41 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsGetReadOnlyKeysResponse>
    */
-  getReadOnlyKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetReadOnlyKeysResponse>;
+  getReadOnlyKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAccountsGetReadOnlyKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  getReadOnlyKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): void;
+  getReadOnlyKeys(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getReadOnlyKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): void;
-  getReadOnlyKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>, callback?: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): Promise<Models.DatabaseAccountsGetReadOnlyKeysResponse> {
+  getReadOnlyKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>
+  ): void;
+  getReadOnlyKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>,
+    callback?: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>
+  ): Promise<Models.DatabaseAccountsGetReadOnlyKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -285,7 +442,8 @@ export class DatabaseAccounts {
         options
       },
       getReadOnlyKeysOperationSpec,
-      callback) as Promise<Models.DatabaseAccountsGetReadOnlyKeysResponse>;
+      callback
+    ) as Promise<Models.DatabaseAccountsGetReadOnlyKeysResponse>;
   }
 
   /**
@@ -295,21 +453,41 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListReadOnlyKeysResponse>
    */
-  listReadOnlyKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListReadOnlyKeysResponse>;
+  listReadOnlyKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAccountsListReadOnlyKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listReadOnlyKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): void;
+  listReadOnlyKeys(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listReadOnlyKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): void;
-  listReadOnlyKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>, callback?: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): Promise<Models.DatabaseAccountsListReadOnlyKeysResponse> {
+  listReadOnlyKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>
+  ): void;
+  listReadOnlyKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>,
+    callback?: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>
+  ): Promise<Models.DatabaseAccountsListReadOnlyKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -317,7 +495,8 @@ export class DatabaseAccounts {
         options
       },
       listReadOnlyKeysOperationSpec,
-      callback) as Promise<Models.DatabaseAccountsListReadOnlyKeysResponse>;
+      callback
+    ) as Promise<Models.DatabaseAccountsListReadOnlyKeysResponse>;
   }
 
   /**
@@ -328,9 +507,18 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  regenerateKey(resourceGroupName: string, accountName: string, keyToRegenerate: Models.DatabaseAccountRegenerateKeyParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRegenerateKey(resourceGroupName,accountName,keyToRegenerate,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  regenerateKey(
+    resourceGroupName: string,
+    accountName: string,
+    keyToRegenerate: Models.DatabaseAccountRegenerateKeyParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRegenerateKey(
+      resourceGroupName,
+      accountName,
+      keyToRegenerate,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -340,7 +528,10 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsCheckNameExistsResponse>
    */
-  checkNameExists(accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsCheckNameExistsResponse>;
+  checkNameExists(
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAccountsCheckNameExistsResponse>;
   /**
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
@@ -351,15 +542,24 @@ export class DatabaseAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameExists(accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkNameExists(accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.DatabaseAccountsCheckNameExistsResponse> {
+  checkNameExists(
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<boolean>
+  ): void;
+  checkNameExists(
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>,
+    callback?: msRest.ServiceCallback<boolean>
+  ): Promise<Models.DatabaseAccountsCheckNameExistsResponse> {
     return this.client.sendOperationRequest(
       {
         accountName,
         options
       },
       checkNameExistsOperationSpec,
-      callback) as Promise<Models.DatabaseAccountsCheckNameExistsResponse>;
+      callback
+    ) as Promise<Models.DatabaseAccountsCheckNameExistsResponse>;
   }
 
   /**
@@ -372,7 +572,12 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListMetricsResponse>
    */
-  listMetrics(resourceGroupName: string, accountName: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListMetricsResponse>;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAccountsListMetricsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -381,7 +586,12 @@ export class DatabaseAccounts {
    * names), startTime, endTime, and timeGrain. The supported operator is eq.
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, filter: string, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.MetricListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -391,8 +601,20 @@ export class DatabaseAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.DatabaseAccountsListMetricsResponse> {
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricListResult>
+  ): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>,
+    callback?: msRest.ServiceCallback<Models.MetricListResult>
+  ): Promise<Models.DatabaseAccountsListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -401,7 +623,8 @@ export class DatabaseAccounts {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.DatabaseAccountsListMetricsResponse>;
+      callback
+    ) as Promise<Models.DatabaseAccountsListMetricsResponse>;
   }
 
   /**
@@ -411,21 +634,41 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListUsagesResponse>
    */
-  listUsages(resourceGroupName: string, accountName: string, options?: Models.DatabaseAccountsListUsagesOptionalParams): Promise<Models.DatabaseAccountsListUsagesResponse>;
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    options?: Models.DatabaseAccountsListUsagesOptionalParams
+  ): Promise<Models.DatabaseAccountsListUsagesResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listUsages(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.UsagesResult>): void;
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.UsagesResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUsages(resourceGroupName: string, accountName: string, options: Models.DatabaseAccountsListUsagesOptionalParams, callback: msRest.ServiceCallback<Models.UsagesResult>): void;
-  listUsages(resourceGroupName: string, accountName: string, options?: Models.DatabaseAccountsListUsagesOptionalParams | msRest.ServiceCallback<Models.UsagesResult>, callback?: msRest.ServiceCallback<Models.UsagesResult>): Promise<Models.DatabaseAccountsListUsagesResponse> {
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    options: Models.DatabaseAccountsListUsagesOptionalParams,
+    callback: msRest.ServiceCallback<Models.UsagesResult>
+  ): void;
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | Models.DatabaseAccountsListUsagesOptionalParams
+      | msRest.ServiceCallback<Models.UsagesResult>,
+    callback?: msRest.ServiceCallback<Models.UsagesResult>
+  ): Promise<Models.DatabaseAccountsListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -433,7 +676,8 @@ export class DatabaseAccounts {
         options
       },
       listUsagesOperationSpec,
-      callback) as Promise<Models.DatabaseAccountsListUsagesResponse>;
+      callback
+    ) as Promise<Models.DatabaseAccountsListUsagesResponse>;
   }
 
   /**
@@ -443,21 +687,41 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListMetricDefinitionsResponse>
    */
-  listMetricDefinitions(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListMetricDefinitionsResponse>;
+  listMetricDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAccountsListMetricDefinitionsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listMetricDefinitions(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): void;
+  listMetricDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionsListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetricDefinitions(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): void;
-  listMetricDefinitions(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionsListResult>, callback?: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): Promise<Models.DatabaseAccountsListMetricDefinitionsResponse> {
+  listMetricDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionsListResult>
+  ): void;
+  listMetricDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.MetricDefinitionsListResult>,
+    callback?: msRest.ServiceCallback<Models.MetricDefinitionsListResult>
+  ): Promise<Models.DatabaseAccountsListMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -465,7 +729,8 @@ export class DatabaseAccounts {
         options
       },
       listMetricDefinitionsOperationSpec,
-      callback) as Promise<Models.DatabaseAccountsListMetricDefinitionsResponse>;
+      callback
+    ) as Promise<Models.DatabaseAccountsListMetricDefinitionsResponse>;
   }
 
   /**
@@ -476,7 +741,12 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, accountName: string, updateParameters: Models.DatabaseAccountUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    updateParameters: Models.DatabaseAccountUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -485,7 +755,8 @@ export class DatabaseAccounts {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -497,7 +768,12 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, accountName: string, createUpdateParameters: Models.DatabaseAccountCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    createUpdateParameters: Models.DatabaseAccountCreateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -506,7 +782,8 @@ export class DatabaseAccounts {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -516,7 +793,11 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -524,7 +805,8 @@ export class DatabaseAccounts {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -538,7 +820,12 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginFailoverPriorityChange(resourceGroupName: string, accountName: string, failoverParameters: Models.FailoverPolicies, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginFailoverPriorityChange(
+    resourceGroupName: string,
+    accountName: string,
+    failoverParameters: Models.FailoverPolicies,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -547,7 +834,8 @@ export class DatabaseAccounts {
         options
       },
       beginFailoverPriorityChangeOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -558,7 +846,12 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginOfflineRegion(resourceGroupName: string, accountName: string, regionParameterForOffline: Models.RegionForOnlineOffline, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginOfflineRegion(
+    resourceGroupName: string,
+    accountName: string,
+    regionParameterForOffline: Models.RegionForOnlineOffline,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -567,7 +860,8 @@ export class DatabaseAccounts {
         options
       },
       beginOfflineRegionOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -578,7 +872,12 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginOnlineRegion(resourceGroupName: string, accountName: string, regionParameterForOnline: Models.RegionForOnlineOffline, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginOnlineRegion(
+    resourceGroupName: string,
+    accountName: string,
+    regionParameterForOnline: Models.RegionForOnlineOffline,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -587,7 +886,8 @@ export class DatabaseAccounts {
         options
       },
       beginOnlineRegionOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -598,7 +898,12 @@ export class DatabaseAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRegenerateKey(resourceGroupName: string, accountName: string, keyToRegenerate: Models.DatabaseAccountRegenerateKeyParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRegenerateKey(
+    resourceGroupName: string,
+    accountName: string,
+    keyToRegenerate: Models.DatabaseAccountRegenerateKeyParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -607,7 +912,8 @@ export class DatabaseAccounts {
         options
       },
       beginRegenerateKeyOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -615,18 +921,11 @@ export class DatabaseAccounts {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseAccountGetResults
@@ -642,15 +941,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/databaseAccounts",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseAccountsListResult
@@ -664,17 +957,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseAccountsListResult
@@ -688,18 +975,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listKeys",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listKeys",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseAccountListKeysResult
@@ -713,18 +993,11 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const listConnectionStringsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listConnectionStrings",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listConnectionStrings",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseAccountListConnectionStringsResult
@@ -738,18 +1011,11 @@ const listConnectionStringsOperationSpec: msRest.OperationSpec = {
 
 const getReadOnlyKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseAccountListReadOnlyKeysResult
@@ -763,18 +1029,11 @@ const getReadOnlyKeysOperationSpec: msRest.OperationSpec = {
 
 const listReadOnlyKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseAccountListReadOnlyKeysResult
@@ -789,15 +1048,9 @@ const listReadOnlyKeysOperationSpec: msRest.OperationSpec = {
 const checkNameExistsOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
   path: "providers/Microsoft.DocumentDB/databaseAccountNames/{accountName}",
-  urlParameters: [
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     404: {},
@@ -810,19 +1063,11 @@ const checkNameExistsOperationSpec: msRest.OperationSpec = {
 
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metrics",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metrics",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricListResult
@@ -836,19 +1081,11 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
 
 const listUsagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/usages",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/usages",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UsagesResult
@@ -862,18 +1099,11 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
 
 const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metricDefinitions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metricDefinitions",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricDefinitionsListResult
@@ -887,18 +1117,11 @@ const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "updateParameters",
     mapper: {
@@ -919,18 +1142,11 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "createUpdateParameters",
     mapper: {
@@ -951,18 +1167,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -975,18 +1184,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginFailoverPriorityChangeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/failoverPriorityChange",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/failoverPriorityChange",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "failoverParameters",
     mapper: {
@@ -1006,18 +1208,11 @@ const beginFailoverPriorityChangeOperationSpec: msRest.OperationSpec = {
 
 const beginOfflineRegionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/offlineRegion",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/offlineRegion",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "regionParameterForOffline",
     mapper: {
@@ -1037,18 +1232,11 @@ const beginOfflineRegionOperationSpec: msRest.OperationSpec = {
 
 const beginOnlineRegionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/onlineRegion",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/onlineRegion",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "regionParameterForOnline",
     mapper: {
@@ -1068,18 +1256,11 @@ const beginOnlineRegionOperationSpec: msRest.OperationSpec = {
 
 const beginRegenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/regenerateKey",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/regenerateKey",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "keyToRegenerate",
     mapper: {

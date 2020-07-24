@@ -14,5 +14,5 @@ export interface NodejsPlatformConfig extends AzureExporterConfig {
 
 // Noop for now until sender requires
 export const DEFAULT_SENDER_OPTIONS: NodejsPlatformConfig = {
-  ...DEFAULT_EXPORTER_CONFIG,
+  ...DEFAULT_EXPORTER_CONFIG
 };

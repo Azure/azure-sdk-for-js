@@ -35,14 +35,24 @@ export class SqlPoolBlobAuditingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolBlobAuditingPoliciesGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolBlobAuditingPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolBlobAuditingPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -50,8 +60,20 @@ export class SqlPoolBlobAuditingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>): void;
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>, callback?: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>): Promise<Models.SqlPoolBlobAuditingPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>,
+    callback?: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>
+  ): Promise<Models.SqlPoolBlobAuditingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class SqlPoolBlobAuditingPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SqlPoolBlobAuditingPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.SqlPoolBlobAuditingPoliciesGetResponse>;
   }
 
   /**
@@ -73,7 +96,13 @@ export class SqlPoolBlobAuditingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SqlPoolBlobAuditingPolicy, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.SqlPoolBlobAuditingPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -81,7 +110,13 @@ export class SqlPoolBlobAuditingPolicies {
    * @param parameters The database blob auditing policy.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SqlPoolBlobAuditingPolicy, callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.SqlPoolBlobAuditingPolicy,
+    callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -90,8 +125,22 @@ export class SqlPoolBlobAuditingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SqlPoolBlobAuditingPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SqlPoolBlobAuditingPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>, callback?: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>): Promise<Models.SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.SqlPoolBlobAuditingPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.SqlPoolBlobAuditingPolicy,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>,
+    callback?: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicy>
+  ): Promise<Models.SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +150,8 @@ export class SqlPoolBlobAuditingPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse>;
   }
 }
 
@@ -109,7 +159,8 @@ export class SqlPoolBlobAuditingPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/auditingSettings/{blobAuditingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/auditingSettings/{blobAuditingPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -117,12 +168,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName,
     Parameters.blobAuditingPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlPoolBlobAuditingPolicy
@@ -136,7 +183,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/auditingSettings/{blobAuditingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/auditingSettings/{blobAuditingPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -144,12 +192,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName,
     Parameters.blobAuditingPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

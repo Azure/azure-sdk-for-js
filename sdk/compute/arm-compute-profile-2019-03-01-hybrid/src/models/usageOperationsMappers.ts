@@ -6,9 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  CloudError,
-  ListUsagesResult,
-  Usage,
-  UsageName
-} from "../models/mappers";
+export { CloudError, ListUsagesResult, Usage, UsageName } from "../models/mappers";

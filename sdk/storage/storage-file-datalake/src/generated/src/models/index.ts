@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -1715,9 +1714,9 @@ export interface PathSetExpiryHeaders {
  * @enum {string}
  */
 export enum PathSetAccessControlRecursiveMode {
-  Set = 'set',
-  Modify = 'modify',
-  Remove = 'remove',
+  Set = "set",
+  Modify = "modify",
+  Remove = "remove"
 }
 
 /**
@@ -1727,10 +1726,10 @@ export enum PathSetAccessControlRecursiveMode {
  * @enum {string}
  */
 export enum PathExpiryOptions {
-  NeverExpire = 'NeverExpire',
-  RelativeToCreation = 'RelativeToCreation',
-  RelativeToNow = 'RelativeToNow',
-  Absolute = 'Absolute',
+  NeverExpire = "NeverExpire",
+  RelativeToCreation = "RelativeToCreation",
+  RelativeToNow = "RelativeToNow",
+  Absolute = "Absolute"
 }
 
 /**
@@ -1740,8 +1739,8 @@ export enum PathExpiryOptions {
  * @enum {string}
  */
 export enum PathResourceType {
-  Directory = 'directory',
-  File = 'file',
+  Directory = "directory",
+  File = "file"
 }
 
 /**
@@ -1751,8 +1750,8 @@ export enum PathResourceType {
  * @enum {string}
  */
 export enum PathRenameMode {
-  Legacy = 'legacy',
-  Posix = 'posix',
+  Legacy = "legacy",
+  Posix = "posix"
 }
 
 /**
@@ -1763,11 +1762,11 @@ export enum PathRenameMode {
  * @enum {string}
  */
 export enum PathUpdateAction {
-  Append = 'append',
-  Flush = 'flush',
-  SetProperties = 'setProperties',
-  SetAccessControl = 'setAccessControl',
-  SetAccessControlRecursive = 'setAccessControlRecursive',
+  Append = "append",
+  Flush = "flush",
+  SetProperties = "setProperties",
+  SetAccessControl = "setAccessControl",
+  SetAccessControlRecursive = "setAccessControlRecursive"
 }
 
 /**
@@ -1777,11 +1776,11 @@ export enum PathUpdateAction {
  * @enum {string}
  */
 export enum PathLeaseAction {
-  Acquire = 'acquire',
-  Break = 'break',
-  Change = 'change',
-  Renew = 'renew',
-  Release = 'release',
+  Acquire = "acquire",
+  Break = "break",
+  Change = "change",
+  Renew = "renew",
+  Release = "release"
 }
 
 /**
@@ -1791,18 +1790,19 @@ export enum PathLeaseAction {
  * @enum {string}
  */
 export enum PathGetPropertiesAction {
-  GetAccessControl = 'getAccessControl',
-  GetStatus = 'getStatus',
+  GetAccessControl = "getAccessControl",
+  GetStatus = "getStatus"
 }
 
 /**
  * Contains response data for the listFileSystems operation.
  */
-export type ServiceListFileSystemsResponse = FileSystemList & ServiceListFileSystemsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type ServiceListFileSystemsResponse = FileSystemList &
+  ServiceListFileSystemsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1818,7 +1818,7 @@ export type ServiceListFileSystemsResponse = FileSystemList & ServiceListFileSys
        */
       parsedBody: FileSystemList;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
@@ -1828,11 +1828,11 @@ export type FileSystemCreateResponse = FileSystemCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileSystemCreateHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileSystemCreateHeaders;
+  };
 };
 
 /**
@@ -1843,11 +1843,11 @@ export type FileSystemSetPropertiesResponse = FileSystemSetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileSystemSetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileSystemSetPropertiesHeaders;
+  };
 };
 
 /**
@@ -1858,11 +1858,11 @@ export type FileSystemGetPropertiesResponse = FileSystemGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileSystemGetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileSystemGetPropertiesHeaders;
+  };
 };
 
 /**
@@ -1873,21 +1873,22 @@ export type FileSystemDeleteResponse = FileSystemDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FileSystemDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FileSystemDeleteHeaders;
+  };
 };
 
 /**
  * Contains response data for the listPaths operation.
  */
-export type FileSystemListPathsResponse = PathList & FileSystemListPathsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type FileSystemListPathsResponse = PathList &
+  FileSystemListPathsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1903,7 +1904,7 @@ export type FileSystemListPathsResponse = PathList & FileSystemListPathsHeaders 
        */
       parsedBody: PathList;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
@@ -1913,21 +1914,22 @@ export type PathCreateResponse = PathCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathCreateHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathCreateHeaders;
+  };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type PathUpdateResponse = SetAccessControlRecursiveResponse & PathUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type PathUpdateResponse = SetAccessControlRecursiveResponse &
+  PathUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1943,7 +1945,7 @@ export type PathUpdateResponse = SetAccessControlRecursiveResponse & PathUpdateH
        */
       parsedBody: SetAccessControlRecursiveResponse;
     };
-};
+  };
 
 /**
  * Contains response data for the lease operation.
@@ -1953,11 +1955,11 @@ export type PathLeaseResponse = PathLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathLeaseHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathLeaseHeaders;
+  };
 };
 
 /**
@@ -1984,11 +1986,11 @@ export type PathReadResponse = PathReadHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathReadHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathReadHeaders;
+  };
 };
 
 /**
@@ -1999,11 +2001,11 @@ export type PathGetPropertiesResponse = PathGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathGetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathGetPropertiesHeaders;
+  };
 };
 
 /**
@@ -2014,11 +2016,11 @@ export type PathDeleteResponse = PathDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathDeleteHeaders;
+  };
 };
 
 /**
@@ -2029,21 +2031,22 @@ export type PathSetAccessControlResponse = PathSetAccessControlHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathSetAccessControlHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathSetAccessControlHeaders;
+  };
 };
 
 /**
  * Contains response data for the setAccessControlRecursive operation.
  */
-export type PathSetAccessControlRecursiveResponse = SetAccessControlRecursiveResponse & PathSetAccessControlRecursiveHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type PathSetAccessControlRecursiveResponse = SetAccessControlRecursiveResponse &
+  PathSetAccessControlRecursiveHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2059,7 +2062,7 @@ export type PathSetAccessControlRecursiveResponse = SetAccessControlRecursiveRes
        */
       parsedBody: SetAccessControlRecursiveResponse;
     };
-};
+  };
 
 /**
  * Contains response data for the flushData operation.
@@ -2069,11 +2072,11 @@ export type PathFlushDataResponse = PathFlushDataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathFlushDataHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathFlushDataHeaders;
+  };
 };
 
 /**
@@ -2084,11 +2087,11 @@ export type PathAppendDataResponse = PathAppendDataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathAppendDataHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathAppendDataHeaders;
+  };
 };
 
 /**
@@ -2099,9 +2102,9 @@ export type PathSetExpiryResponse = PathSetExpiryHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathSetExpiryHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathSetExpiryHeaders;
+  };
 };

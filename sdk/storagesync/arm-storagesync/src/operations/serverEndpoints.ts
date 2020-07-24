@@ -37,9 +37,24 @@ export class ServerEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerEndpointsCreateResponse>
    */
-  create(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: Models.ServerEndpointCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ServerEndpointsCreateResponse> {
-    return this.beginCreate(resourceGroupName,storageSyncServiceName,syncGroupName,serverEndpointName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServerEndpointsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    parameters: Models.ServerEndpointCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerEndpointsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      storageSyncServiceName,
+      syncGroupName,
+      serverEndpointName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ServerEndpointsCreateResponse
+    >;
   }
 
   /**
@@ -51,9 +66,22 @@ export class ServerEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerEndpointsUpdateResponse>
    */
-  update(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: Models.ServerEndpointsUpdateOptionalParams): Promise<Models.ServerEndpointsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,storageSyncServiceName,syncGroupName,serverEndpointName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServerEndpointsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    options?: Models.ServerEndpointsUpdateOptionalParams
+  ): Promise<Models.ServerEndpointsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      storageSyncServiceName,
+      syncGroupName,
+      serverEndpointName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ServerEndpointsUpdateResponse
+    >;
   }
 
   /**
@@ -65,7 +93,13 @@ export class ServerEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerEndpointsGetResponse>
    */
-  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerEndpointsGetResponse>;
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerEndpointsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
@@ -73,7 +107,13 @@ export class ServerEndpoints {
    * @param serverEndpointName Name of Server Endpoint object.
    * @param callback The callback
    */
-  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, callback: msRest.ServiceCallback<Models.ServerEndpoint>): void;
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    callback: msRest.ServiceCallback<Models.ServerEndpoint>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
@@ -82,8 +122,22 @@ export class ServerEndpoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerEndpoint>): void;
-  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerEndpoint>, callback?: msRest.ServiceCallback<Models.ServerEndpoint>): Promise<Models.ServerEndpointsGetResponse> {
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServerEndpoint>
+  ): void;
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerEndpoint>,
+    callback?: msRest.ServiceCallback<Models.ServerEndpoint>
+  ): Promise<Models.ServerEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -93,7 +147,8 @@ export class ServerEndpoints {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServerEndpointsGetResponse>;
+      callback
+    ) as Promise<Models.ServerEndpointsGetResponse>;
   }
 
   /**
@@ -105,9 +160,22 @@ export class ServerEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerEndpointsDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerEndpointsDeleteResponse> {
-    return this.beginDeleteMethod(resourceGroupName,storageSyncServiceName,syncGroupName,serverEndpointName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServerEndpointsDeleteResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerEndpointsDeleteResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      storageSyncServiceName,
+      syncGroupName,
+      serverEndpointName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ServerEndpointsDeleteResponse
+    >;
   }
 
   /**
@@ -118,14 +186,24 @@ export class ServerEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerEndpointsListBySyncGroupResponse>
    */
-  listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerEndpointsListBySyncGroupResponse>;
+  listBySyncGroup(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerEndpointsListBySyncGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param syncGroupName Name of Sync Group resource.
    * @param callback The callback
    */
-  listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, callback: msRest.ServiceCallback<Models.ServerEndpointArray>): void;
+  listBySyncGroup(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    callback: msRest.ServiceCallback<Models.ServerEndpointArray>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
@@ -133,8 +211,20 @@ export class ServerEndpoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerEndpointArray>): void;
-  listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerEndpointArray>, callback?: msRest.ServiceCallback<Models.ServerEndpointArray>): Promise<Models.ServerEndpointsListBySyncGroupResponse> {
+  listBySyncGroup(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServerEndpointArray>
+  ): void;
+  listBySyncGroup(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerEndpointArray>,
+    callback?: msRest.ServiceCallback<Models.ServerEndpointArray>
+  ): Promise<Models.ServerEndpointsListBySyncGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,7 +233,8 @@ export class ServerEndpoints {
         options
       },
       listBySyncGroupOperationSpec,
-      callback) as Promise<Models.ServerEndpointsListBySyncGroupResponse>;
+      callback
+    ) as Promise<Models.ServerEndpointsListBySyncGroupResponse>;
   }
 
   /**
@@ -156,9 +247,24 @@ export class ServerEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerEndpointsRecallActionResponse>
    */
-  recallAction(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: Models.RecallActionParameters, options?: msRest.RequestOptionsBase): Promise<Models.ServerEndpointsRecallActionResponse> {
-    return this.beginRecallAction(resourceGroupName,storageSyncServiceName,syncGroupName,serverEndpointName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServerEndpointsRecallActionResponse>;
+  recallAction(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    parameters: Models.RecallActionParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerEndpointsRecallActionResponse> {
+    return this.beginRecallAction(
+      resourceGroupName,
+      storageSyncServiceName,
+      syncGroupName,
+      serverEndpointName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ServerEndpointsRecallActionResponse
+    >;
   }
 
   /**
@@ -171,7 +277,14 @@ export class ServerEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: Models.ServerEndpointCreateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    parameters: Models.ServerEndpointCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -182,7 +295,8 @@ export class ServerEndpoints {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -194,7 +308,13 @@ export class ServerEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: Models.ServerEndpointsBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    options?: Models.ServerEndpointsBeginUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -204,7 +324,8 @@ export class ServerEndpoints {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -216,7 +337,13 @@ export class ServerEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -226,7 +353,8 @@ export class ServerEndpoints {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -239,7 +367,14 @@ export class ServerEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRecallAction(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: Models.RecallActionParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRecallAction(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    serverEndpointName: string,
+    parameters: Models.RecallActionParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -250,7 +385,8 @@ export class ServerEndpoints {
         options
       },
       beginRecallActionOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -258,7 +394,8 @@ export class ServerEndpoints {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/serverEndpoints/{serverEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/serverEndpoints/{serverEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -266,12 +403,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.serverEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServerEndpoint,
@@ -286,19 +419,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listBySyncGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/serverEndpoints",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/serverEndpoints",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.syncGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServerEndpointArray,
@@ -313,7 +443,8 @@ const listBySyncGroupOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/serverEndpoints/{serverEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/serverEndpoints/{serverEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -321,12 +452,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.serverEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -351,7 +478,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/serverEndpoints/{serverEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/serverEndpoints/{serverEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -359,17 +487,10 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.serverEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: Mappers.ServerEndpointUpdateParameters
   },
   responses: {
@@ -389,7 +510,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/serverEndpoints/{serverEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/serverEndpoints/{serverEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -397,12 +519,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.serverEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.ServerEndpointsDeleteHeaders
@@ -419,7 +537,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginRecallActionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/serverEndpoints/{serverEndpointName}/recallAction",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/serverEndpoints/{serverEndpointName}/recallAction",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -427,12 +546,8 @@ const beginRecallActionOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.serverEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

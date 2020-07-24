@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { SecurityCenterContext } from "./securityCenterContext";
 
-
 class SecurityCenter extends SecurityCenterContext {
   // Operation groups
   complianceResults: operations.ComplianceResults;
@@ -63,7 +62,12 @@ class SecurityCenter extends SecurityCenterContext {
    * from Get locations
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, ascLocation: string, options?: Models.SecurityCenterOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    ascLocation: string,
+    options?: Models.SecurityCenterOptions
+  ) {
     super(credentials, subscriptionId, ascLocation, options);
     this.complianceResults = new operations.ComplianceResults(this);
     this.pricings = new operations.Pricings(this);
@@ -73,8 +77,12 @@ class SecurityCenter extends SecurityCenterContext {
     this.deviceSecurityGroups = new operations.DeviceSecurityGroups(this);
     this.iotSecuritySolution = new operations.IotSecuritySolution(this);
     this.iotSecuritySolutionAnalytics = new operations.IotSecuritySolutionAnalytics(this);
-    this.iotSecuritySolutionsAnalyticsAggregatedAlert = new operations.IotSecuritySolutionsAnalyticsAggregatedAlert(this);
-    this.iotSecuritySolutionsAnalyticsRecommendation = new operations.IotSecuritySolutionsAnalyticsRecommendation(this);
+    this.iotSecuritySolutionsAnalyticsAggregatedAlert = new operations.IotSecuritySolutionsAnalyticsAggregatedAlert(
+      this
+    );
+    this.iotSecuritySolutionsAnalyticsRecommendation = new operations.IotSecuritySolutionsAnalyticsRecommendation(
+      this
+    );
     this.locations = new operations.Locations(this);
     this.operations = new operations.Operations(this);
     this.tasks = new operations.Tasks(this);
@@ -86,7 +94,9 @@ class SecurityCenter extends SecurityCenterContext {
     this.regulatoryComplianceStandards = new operations.RegulatoryComplianceStandards(this);
     this.regulatoryComplianceControls = new operations.RegulatoryComplianceControls(this);
     this.regulatoryComplianceAssessments = new operations.RegulatoryComplianceAssessments(this);
-    this.serverVulnerabilityAssessment = new operations.ServerVulnerabilityAssessmentOperations(this);
+    this.serverVulnerabilityAssessment = new operations.ServerVulnerabilityAssessmentOperations(
+      this
+    );
     this.subAssessments = new operations.SubAssessments(this);
     this.automations = new operations.Automations(this);
     this.alertsSuppressionRules = new operations.AlertsSuppressionRules(this);

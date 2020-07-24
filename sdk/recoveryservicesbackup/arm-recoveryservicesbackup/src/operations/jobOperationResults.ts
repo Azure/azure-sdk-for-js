@@ -35,7 +35,13 @@ export class JobOperationResults {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  get(vaultName: string, resourceGroupName: string, jobName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    jobName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -44,7 +50,13 @@ export class JobOperationResults {
    * @param operationId OperationID which represents the operation whose result has to be fetched.
    * @param callback The callback
    */
-  get(vaultName: string, resourceGroupName: string, jobName: string, operationId: string, callback: msRest.ServiceCallback<void>): void;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    jobName: string,
+    operationId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -54,8 +66,22 @@ export class JobOperationResults {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(vaultName: string, resourceGroupName: string, jobName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  get(vaultName: string, resourceGroupName: string, jobName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    jobName: string,
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    jobName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -65,7 +91,8 @@ export class JobOperationResults {
         options
       },
       getOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -73,7 +100,8 @@ export class JobOperationResults {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs/{jobName}/operationResults/{operationId}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupJobs/{jobName}/operationResults/{operationId}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -81,12 +109,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.jobName,
     Parameters.operationId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

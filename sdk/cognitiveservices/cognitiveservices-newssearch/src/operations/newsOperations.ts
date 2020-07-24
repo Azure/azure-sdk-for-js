@@ -41,7 +41,10 @@ export class NewsOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.NewsSearchResponse>
    */
-  search(query: string, options?: Models.NewsSearchOptionalParams): Promise<Models.NewsSearchResponse>;
+  search(
+    query: string,
+    options?: Models.NewsSearchOptionalParams
+  ): Promise<Models.NewsSearchResponse>;
   /**
    * @param query The user's search query string. The query string cannot be empty. The query string
    * may contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). For
@@ -62,15 +65,24 @@ export class NewsOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  search(query: string, options: Models.NewsSearchOptionalParams, callback: msRest.ServiceCallback<Models.News>): void;
-  search(query: string, options?: Models.NewsSearchOptionalParams | msRest.ServiceCallback<Models.News>, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsSearchResponse> {
+  search(
+    query: string,
+    options: Models.NewsSearchOptionalParams,
+    callback: msRest.ServiceCallback<Models.News>
+  ): void;
+  search(
+    query: string,
+    options?: Models.NewsSearchOptionalParams | msRest.ServiceCallback<Models.News>,
+    callback?: msRest.ServiceCallback<Models.News>
+  ): Promise<Models.NewsSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
         options
       },
       searchOperationSpec,
-      callback) as Promise<Models.NewsSearchResponse>;
+      callback
+    ) as Promise<Models.NewsSearchResponse>;
   }
 
   /**
@@ -91,14 +103,21 @@ export class NewsOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  category(options: Models.NewsCategoryOptionalParams, callback: msRest.ServiceCallback<Models.News>): void;
-  category(options?: Models.NewsCategoryOptionalParams | msRest.ServiceCallback<Models.News>, callback?: msRest.ServiceCallback<Models.News>): Promise<Models.NewsCategoryResponse> {
+  category(
+    options: Models.NewsCategoryOptionalParams,
+    callback: msRest.ServiceCallback<Models.News>
+  ): void;
+  category(
+    options?: Models.NewsCategoryOptionalParams | msRest.ServiceCallback<Models.News>,
+    callback?: msRest.ServiceCallback<Models.News>
+  ): Promise<Models.NewsCategoryResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       categoryOperationSpec,
-      callback) as Promise<Models.NewsCategoryResponse>;
+      callback
+    ) as Promise<Models.NewsCategoryResponse>;
   }
 
   /**
@@ -119,14 +138,21 @@ export class NewsOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  trending(options: Models.NewsTrendingOptionalParams, callback: msRest.ServiceCallback<Models.TrendingTopics>): void;
-  trending(options?: Models.NewsTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingTopics>, callback?: msRest.ServiceCallback<Models.TrendingTopics>): Promise<Models.NewsTrendingResponse> {
+  trending(
+    options: Models.NewsTrendingOptionalParams,
+    callback: msRest.ServiceCallback<Models.TrendingTopics>
+  ): void;
+  trending(
+    options?: Models.NewsTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingTopics>,
+    callback?: msRest.ServiceCallback<Models.TrendingTopics>
+  ): Promise<Models.NewsTrendingResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       trendingOperationSpec,
-      callback) as Promise<Models.NewsTrendingResponse>;
+      callback
+    ) as Promise<Models.NewsTrendingResponse>;
   }
 }
 
@@ -135,9 +161,7 @@ const serializer = new msRest.Serializer(Mappers);
 const searchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "news/search",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.countryCode,
     Parameters.count,
@@ -174,9 +198,7 @@ const searchOperationSpec: msRest.OperationSpec = {
 const categoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "news",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.countryCode,
     Parameters.category,
@@ -212,9 +234,7 @@ const categoryOperationSpec: msRest.OperationSpec = {
 const trendingOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "news/trendingtopics",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.countryCode,
     Parameters.count,

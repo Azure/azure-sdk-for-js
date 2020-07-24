@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const TrainSourceFilter: msRest.CompositeMapper = {
   serializedName: "TrainSourceFilter",
   type: {
@@ -566,10 +565,7 @@ export const Word: msRest.CompositeMapper = {
         serializedName: "confidence",
         type: {
           name: "Enum",
-          allowedValues: [
-            "High",
-            "Low"
-          ]
+          allowedValues: ["High", "Low"]
         }
       }
     }
@@ -650,10 +646,7 @@ export const TextRecognitionResult: msRest.CompositeMapper = {
         serializedName: "unit",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pixel",
-            "inch"
-          ]
+          allowedValues: ["pixel", "inch"]
         }
       },
       lines: {
@@ -773,12 +766,7 @@ export const ReadReceiptResult: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Not Started",
-            "Running",
-            "Failed",
-            "Succeeded"
-          ]
+          allowedValues: ["Not Started", "Running", "Failed", "Succeeded"]
         }
       },
       recognitionResults: {
@@ -927,8 +915,7 @@ export const BatchReadReceiptInStreamHeaders: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'fieldValue' : FieldValue,
-  'FieldValue.stringValue' : StringValue,
-  'FieldValue.numberValue' : NumberValue
-
+  fieldValue: FieldValue,
+  "FieldValue.stringValue": StringValue,
+  "FieldValue.numberValue": NumberValue
 };

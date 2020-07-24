@@ -34,14 +34,22 @@ export class VaultExtendedInfoOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultExtendedInfoGetResponse>
    */
-  get(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase): Promise<Models.VaultExtendedInfoGetResponse>;
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VaultExtendedInfoGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param vaultName The name of the recovery services vault.
    * @param callback The callback
    */
-  get(resourceGroupName: string, vaultName: string, callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): void;
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -49,8 +57,18 @@ export class VaultExtendedInfoOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, vaultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): void;
-  get(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultExtendedInfoResource>, callback?: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): Promise<Models.VaultExtendedInfoGetResponse> {
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultExtendedInfoResource>,
+    callback?: msRest.ServiceCallback<Models.VaultExtendedInfoResource>
+  ): Promise<Models.VaultExtendedInfoGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +76,8 @@ export class VaultExtendedInfoOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VaultExtendedInfoGetResponse>;
+      callback
+    ) as Promise<Models.VaultExtendedInfoGetResponse>;
   }
 
   /**
@@ -70,7 +89,12 @@ export class VaultExtendedInfoOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultExtendedInfoCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, options?: msRest.RequestOptionsBase): Promise<Models.VaultExtendedInfoCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    vaultName: string,
+    resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VaultExtendedInfoCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -78,7 +102,12 @@ export class VaultExtendedInfoOperations {
    * @param resourceResourceExtendedInfoDetails Details of ResourceExtendedInfo
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    vaultName: string,
+    resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource,
+    callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -87,8 +116,20 @@ export class VaultExtendedInfoOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): void;
-  createOrUpdate(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultExtendedInfoResource>, callback?: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): Promise<Models.VaultExtendedInfoCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    vaultName: string,
+    resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    vaultName: string,
+    resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultExtendedInfoResource>,
+    callback?: msRest.ServiceCallback<Models.VaultExtendedInfoResource>
+  ): Promise<Models.VaultExtendedInfoCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +138,8 @@ export class VaultExtendedInfoOperations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.VaultExtendedInfoCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.VaultExtendedInfoCreateOrUpdateResponse>;
   }
 
   /**
@@ -109,7 +151,12 @@ export class VaultExtendedInfoOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultExtendedInfoUpdateResponse>
    */
-  update(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, options?: msRest.RequestOptionsBase): Promise<Models.VaultExtendedInfoUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    vaultName: string,
+    resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VaultExtendedInfoUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -117,7 +164,12 @@ export class VaultExtendedInfoOperations {
    * @param resourceResourceExtendedInfoDetails Details of ResourceExtendedInfo
    * @param callback The callback
    */
-  update(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): void;
+  update(
+    resourceGroupName: string,
+    vaultName: string,
+    resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource,
+    callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -126,8 +178,20 @@ export class VaultExtendedInfoOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): void;
-  update(resourceGroupName: string, vaultName: string, resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultExtendedInfoResource>, callback?: msRest.ServiceCallback<Models.VaultExtendedInfoResource>): Promise<Models.VaultExtendedInfoUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    vaultName: string,
+    resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VaultExtendedInfoResource>
+  ): void;
+  update(
+    resourceGroupName: string,
+    vaultName: string,
+    resourceResourceExtendedInfoDetails: Models.VaultExtendedInfoResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultExtendedInfoResource>,
+    callback?: msRest.ServiceCallback<Models.VaultExtendedInfoResource>
+  ): Promise<Models.VaultExtendedInfoUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +200,8 @@ export class VaultExtendedInfoOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.VaultExtendedInfoUpdateResponse>;
+      callback
+    ) as Promise<Models.VaultExtendedInfoUpdateResponse>;
   }
 }
 
@@ -144,18 +209,11 @@ export class VaultExtendedInfoOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.vaultName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VaultExtendedInfoResource
@@ -169,18 +227,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.vaultName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "resourceResourceExtendedInfoDetails",
     mapper: {
@@ -201,18 +252,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.vaultName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "resourceResourceExtendedInfoDetails",
     mapper: {

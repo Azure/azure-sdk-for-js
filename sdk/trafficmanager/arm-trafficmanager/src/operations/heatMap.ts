@@ -33,21 +33,39 @@ export class HeatMap {
    * @param [options] The optional parameters
    * @returns Promise<Models.HeatMapGetResponse>
    */
-  get(resourceGroupName: string, profileName: string, options?: Models.HeatMapGetOptionalParams): Promise<Models.HeatMapGetResponse>;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    options?: Models.HeatMapGetOptionalParams
+  ): Promise<Models.HeatMapGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint.
    * @param profileName The name of the Traffic Manager profile.
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, callback: msRest.ServiceCallback<Models.HeatMapModel>): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    callback: msRest.ServiceCallback<Models.HeatMapModel>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint.
    * @param profileName The name of the Traffic Manager profile.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, options: Models.HeatMapGetOptionalParams, callback: msRest.ServiceCallback<Models.HeatMapModel>): void;
-  get(resourceGroupName: string, profileName: string, options?: Models.HeatMapGetOptionalParams | msRest.ServiceCallback<Models.HeatMapModel>, callback?: msRest.ServiceCallback<Models.HeatMapModel>): Promise<Models.HeatMapGetResponse> {
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    options: Models.HeatMapGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.HeatMapModel>
+  ): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    options?: Models.HeatMapGetOptionalParams | msRest.ServiceCallback<Models.HeatMapModel>,
+    callback?: msRest.ServiceCallback<Models.HeatMapModel>
+  ): Promise<Models.HeatMapGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class HeatMap {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.HeatMapGetResponse>;
+      callback
+    ) as Promise<Models.HeatMapGetResponse>;
   }
 }
 
@@ -63,21 +82,16 @@ export class HeatMap {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/heatMaps/{heatMapType}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/heatMaps/{heatMapType}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.heatMapType
   ],
-  queryParameters: [
-    Parameters.topLeft,
-    Parameters.botRight,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.topLeft, Parameters.botRight, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HeatMapModel

@@ -2570,10 +2570,9 @@ export const UserList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'BaseResource.FileEvent' : FileEventTrigger,
-  'BaseResource.IOT' : IoTRole,
-  'BaseResource.PeriodicTimerEvent' : PeriodicTimerEventTrigger,
-  'BaseResource.Role' : Role,
-  'BaseResource.Trigger' : Trigger
-
+  "BaseResource.FileEvent": FileEventTrigger,
+  "BaseResource.IOT": IoTRole,
+  "BaseResource.PeriodicTimerEvent": PeriodicTimerEventTrigger,
+  "BaseResource.Role": Role,
+  "BaseResource.Trigger": Trigger
 };

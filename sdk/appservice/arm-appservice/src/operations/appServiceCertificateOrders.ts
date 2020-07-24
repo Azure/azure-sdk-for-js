@@ -33,7 +33,9 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersListResponse>;
+  list(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersListResponse>;
   /**
    * @param callback The callback
    */
@@ -42,14 +44,23 @@ export class AppServiceCertificateOrders {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>, callback?: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>): Promise<Models.AppServiceCertificateOrdersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>,
+    callback?: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>
+  ): Promise<Models.AppServiceCertificateOrdersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersListResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersListResponse>;
   }
 
   /**
@@ -59,26 +70,41 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  validatePurchaseInformation(appServiceCertificateOrder: Models.AppServiceCertificateOrder, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  validatePurchaseInformation(
+    appServiceCertificateOrder: Models.AppServiceCertificateOrder,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param appServiceCertificateOrder Information for a certificate order.
    * @param callback The callback
    */
-  validatePurchaseInformation(appServiceCertificateOrder: Models.AppServiceCertificateOrder, callback: msRest.ServiceCallback<void>): void;
+  validatePurchaseInformation(
+    appServiceCertificateOrder: Models.AppServiceCertificateOrder,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param appServiceCertificateOrder Information for a certificate order.
    * @param options The optional parameters
    * @param callback The callback
    */
-  validatePurchaseInformation(appServiceCertificateOrder: Models.AppServiceCertificateOrder, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  validatePurchaseInformation(appServiceCertificateOrder: Models.AppServiceCertificateOrder, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  validatePurchaseInformation(
+    appServiceCertificateOrder: Models.AppServiceCertificateOrder,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  validatePurchaseInformation(
+    appServiceCertificateOrder: Models.AppServiceCertificateOrder,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         appServiceCertificateOrder,
         options
       },
       validatePurchaseInformationOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -88,26 +114,43 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>, callback?: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>): Promise<Models.AppServiceCertificateOrdersListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>,
+    callback?: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>
+  ): Promise<Models.AppServiceCertificateOrdersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersListByResourceGroupResponse>;
   }
 
   /**
@@ -118,21 +161,39 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersGetResponse>
    */
-  get(resourceGroupName: string, certificateOrderName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersGetResponse>;
+  get(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order..
    * @param callback The callback
    */
-  get(resourceGroupName: string, certificateOrderName: string, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrder>): void;
+  get(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateOrder>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order..
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, certificateOrderName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrder>): void;
-  get(resourceGroupName: string, certificateOrderName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceCertificateOrder>, callback?: msRest.ServiceCallback<Models.AppServiceCertificateOrder>): Promise<Models.AppServiceCertificateOrdersGetResponse> {
+  get(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateOrder>
+  ): void;
+  get(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceCertificateOrder>,
+    callback?: msRest.ServiceCallback<Models.AppServiceCertificateOrder>
+  ): Promise<Models.AppServiceCertificateOrdersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +201,8 @@ export class AppServiceCertificateOrders {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersGetResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersGetResponse>;
   }
 
   /**
@@ -152,9 +214,20 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, certificateOrderName: string, certificateDistinguishedName: Models.AppServiceCertificateOrder, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,certificateOrderName,certificateDistinguishedName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AppServiceCertificateOrdersCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    certificateDistinguishedName: Models.AppServiceCertificateOrder,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      certificateOrderName,
+      certificateDistinguishedName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.AppServiceCertificateOrdersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -165,21 +238,39 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, certificateOrderName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, certificateOrderName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, certificateOrderName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, certificateOrderName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -187,7 +278,8 @@ export class AppServiceCertificateOrders {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -199,14 +291,24 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersUpdateResponse>
    */
-  update(resourceGroupName: string, certificateOrderName: string, certificateDistinguishedName: Models.AppServiceCertificateOrderPatchResource, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    certificateDistinguishedName: Models.AppServiceCertificateOrderPatchResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param certificateDistinguishedName Distinguished name to use for the certificate order.
    * @param callback The callback
    */
-  update(resourceGroupName: string, certificateOrderName: string, certificateDistinguishedName: Models.AppServiceCertificateOrderPatchResource, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrder>): void;
+  update(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    certificateDistinguishedName: Models.AppServiceCertificateOrderPatchResource,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateOrder>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -214,8 +316,20 @@ export class AppServiceCertificateOrders {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, certificateOrderName: string, certificateDistinguishedName: Models.AppServiceCertificateOrderPatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrder>): void;
-  update(resourceGroupName: string, certificateOrderName: string, certificateDistinguishedName: Models.AppServiceCertificateOrderPatchResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceCertificateOrder>, callback?: msRest.ServiceCallback<Models.AppServiceCertificateOrder>): Promise<Models.AppServiceCertificateOrdersUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    certificateDistinguishedName: Models.AppServiceCertificateOrderPatchResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateOrder>
+  ): void;
+  update(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    certificateDistinguishedName: Models.AppServiceCertificateOrderPatchResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceCertificateOrder>,
+    callback?: msRest.ServiceCallback<Models.AppServiceCertificateOrder>
+  ): Promise<Models.AppServiceCertificateOrdersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -224,7 +338,8 @@ export class AppServiceCertificateOrders {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersUpdateResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersUpdateResponse>;
   }
 
   /**
@@ -235,21 +350,41 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersListCertificatesResponse>
    */
-  listCertificates(resourceGroupName: string, certificateOrderName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersListCertificatesResponse>;
+  listCertificates(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersListCertificatesResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param callback The callback
    */
-  listCertificates(resourceGroupName: string, certificateOrderName: string, callback: msRest.ServiceCallback<Models.AppServiceCertificateCollection>): void;
+  listCertificates(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCertificates(resourceGroupName: string, certificateOrderName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceCertificateCollection>): void;
-  listCertificates(resourceGroupName: string, certificateOrderName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceCertificateCollection>, callback?: msRest.ServiceCallback<Models.AppServiceCertificateCollection>): Promise<Models.AppServiceCertificateOrdersListCertificatesResponse> {
+  listCertificates(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateCollection>
+  ): void;
+  listCertificates(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AppServiceCertificateCollection>,
+    callback?: msRest.ServiceCallback<Models.AppServiceCertificateCollection>
+  ): Promise<Models.AppServiceCertificateOrdersListCertificatesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -257,7 +392,8 @@ export class AppServiceCertificateOrders {
         options
       },
       listCertificatesOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersListCertificatesResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersListCertificatesResponse>;
   }
 
   /**
@@ -269,14 +405,24 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersGetCertificateResponse>
    */
-  getCertificate(resourceGroupName: string, certificateOrderName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersGetCertificateResponse>;
+  getCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersGetCertificateResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param name Name of the certificate.
    * @param callback The callback
    */
-  getCertificate(resourceGroupName: string, certificateOrderName: string, name: string, callback: msRest.ServiceCallback<Models.AppServiceCertificateResource>): void;
+  getCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateResource>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -284,8 +430,22 @@ export class AppServiceCertificateOrders {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificate(resourceGroupName: string, certificateOrderName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceCertificateResource>): void;
-  getCertificate(resourceGroupName: string, certificateOrderName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceCertificateResource>, callback?: msRest.ServiceCallback<Models.AppServiceCertificateResource>): Promise<Models.AppServiceCertificateOrdersGetCertificateResponse> {
+  getCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateResource>
+  ): void;
+  getCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AppServiceCertificateResource>,
+    callback?: msRest.ServiceCallback<Models.AppServiceCertificateResource>
+  ): Promise<Models.AppServiceCertificateOrdersGetCertificateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -294,7 +454,8 @@ export class AppServiceCertificateOrders {
         options
       },
       getCertificateOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersGetCertificateResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersGetCertificateResponse>;
   }
 
   /**
@@ -307,9 +468,22 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersCreateOrUpdateCertificateResponse>
    */
-  createOrUpdateCertificate(resourceGroupName: string, certificateOrderName: string, name: string, keyVaultCertificate: Models.AppServiceCertificateResource, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersCreateOrUpdateCertificateResponse> {
-    return this.beginCreateOrUpdateCertificate(resourceGroupName,certificateOrderName,name,keyVaultCertificate,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AppServiceCertificateOrdersCreateOrUpdateCertificateResponse>;
+  createOrUpdateCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    keyVaultCertificate: Models.AppServiceCertificateResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersCreateOrUpdateCertificateResponse> {
+    return this.beginCreateOrUpdateCertificate(
+      resourceGroupName,
+      certificateOrderName,
+      name,
+      keyVaultCertificate,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.AppServiceCertificateOrdersCreateOrUpdateCertificateResponse
+    >;
   }
 
   /**
@@ -321,14 +495,24 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteCertificate(resourceGroupName: string, certificateOrderName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param name Name of the certificate.
    * @param callback The callback
    */
-  deleteCertificate(resourceGroupName: string, certificateOrderName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  deleteCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -336,8 +520,20 @@ export class AppServiceCertificateOrders {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCertificate(resourceGroupName: string, certificateOrderName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteCertificate(resourceGroupName: string, certificateOrderName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -346,7 +542,8 @@ export class AppServiceCertificateOrders {
         options
       },
       deleteCertificateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -359,7 +556,13 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersUpdateCertificateResponse>
    */
-  updateCertificate(resourceGroupName: string, certificateOrderName: string, name: string, keyVaultCertificate: Models.AppServiceCertificatePatchResource, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersUpdateCertificateResponse>;
+  updateCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    keyVaultCertificate: Models.AppServiceCertificatePatchResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersUpdateCertificateResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -367,7 +570,13 @@ export class AppServiceCertificateOrders {
    * @param keyVaultCertificate Key vault certificate resource Id.
    * @param callback The callback
    */
-  updateCertificate(resourceGroupName: string, certificateOrderName: string, name: string, keyVaultCertificate: Models.AppServiceCertificatePatchResource, callback: msRest.ServiceCallback<Models.AppServiceCertificateResource>): void;
+  updateCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    keyVaultCertificate: Models.AppServiceCertificatePatchResource,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateResource>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -376,8 +585,24 @@ export class AppServiceCertificateOrders {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCertificate(resourceGroupName: string, certificateOrderName: string, name: string, keyVaultCertificate: Models.AppServiceCertificatePatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceCertificateResource>): void;
-  updateCertificate(resourceGroupName: string, certificateOrderName: string, name: string, keyVaultCertificate: Models.AppServiceCertificatePatchResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceCertificateResource>, callback?: msRest.ServiceCallback<Models.AppServiceCertificateResource>): Promise<Models.AppServiceCertificateOrdersUpdateCertificateResponse> {
+  updateCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    keyVaultCertificate: Models.AppServiceCertificatePatchResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateResource>
+  ): void;
+  updateCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    keyVaultCertificate: Models.AppServiceCertificatePatchResource,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AppServiceCertificateResource>,
+    callback?: msRest.ServiceCallback<Models.AppServiceCertificateResource>
+  ): Promise<Models.AppServiceCertificateOrdersUpdateCertificateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -387,7 +612,8 @@ export class AppServiceCertificateOrders {
         options
       },
       updateCertificateOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersUpdateCertificateResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersUpdateCertificateResponse>;
   }
 
   /**
@@ -399,14 +625,24 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  reissue(resourceGroupName: string, certificateOrderName: string, reissueCertificateOrderRequest: Models.ReissueCertificateOrderRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  reissue(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    reissueCertificateOrderRequest: Models.ReissueCertificateOrderRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param reissueCertificateOrderRequest Parameters for the reissue.
    * @param callback The callback
    */
-  reissue(resourceGroupName: string, certificateOrderName: string, reissueCertificateOrderRequest: Models.ReissueCertificateOrderRequest, callback: msRest.ServiceCallback<void>): void;
+  reissue(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    reissueCertificateOrderRequest: Models.ReissueCertificateOrderRequest,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -414,8 +650,20 @@ export class AppServiceCertificateOrders {
    * @param options The optional parameters
    * @param callback The callback
    */
-  reissue(resourceGroupName: string, certificateOrderName: string, reissueCertificateOrderRequest: Models.ReissueCertificateOrderRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  reissue(resourceGroupName: string, certificateOrderName: string, reissueCertificateOrderRequest: Models.ReissueCertificateOrderRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reissue(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    reissueCertificateOrderRequest: Models.ReissueCertificateOrderRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  reissue(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    reissueCertificateOrderRequest: Models.ReissueCertificateOrderRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -424,7 +672,8 @@ export class AppServiceCertificateOrders {
         options
       },
       reissueOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -436,14 +685,24 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  renew(resourceGroupName: string, certificateOrderName: string, renewCertificateOrderRequest: Models.RenewCertificateOrderRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  renew(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    renewCertificateOrderRequest: Models.RenewCertificateOrderRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param renewCertificateOrderRequest Renew parameters
    * @param callback The callback
    */
-  renew(resourceGroupName: string, certificateOrderName: string, renewCertificateOrderRequest: Models.RenewCertificateOrderRequest, callback: msRest.ServiceCallback<void>): void;
+  renew(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    renewCertificateOrderRequest: Models.RenewCertificateOrderRequest,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -451,8 +710,20 @@ export class AppServiceCertificateOrders {
    * @param options The optional parameters
    * @param callback The callback
    */
-  renew(resourceGroupName: string, certificateOrderName: string, renewCertificateOrderRequest: Models.RenewCertificateOrderRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  renew(resourceGroupName: string, certificateOrderName: string, renewCertificateOrderRequest: Models.RenewCertificateOrderRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  renew(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    renewCertificateOrderRequest: Models.RenewCertificateOrderRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  renew(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    renewCertificateOrderRequest: Models.RenewCertificateOrderRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -461,7 +732,8 @@ export class AppServiceCertificateOrders {
         options
       },
       renewOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -472,21 +744,39 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resendEmail(resourceGroupName: string, certificateOrderName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  resendEmail(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param callback The callback
    */
-  resendEmail(resourceGroupName: string, certificateOrderName: string, callback: msRest.ServiceCallback<void>): void;
+  resendEmail(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The optional parameters
    * @param callback The callback
    */
-  resendEmail(resourceGroupName: string, certificateOrderName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  resendEmail(resourceGroupName: string, certificateOrderName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resendEmail(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  resendEmail(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -494,7 +784,8 @@ export class AppServiceCertificateOrders {
         options
       },
       resendEmailOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -505,21 +796,41 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resendRequestEmails(resourceGroupName: string, certificateOrderName: string, options?: Models.AppServiceCertificateOrdersResendRequestEmailsOptionalParams): Promise<msRest.RestResponse>;
+  resendRequestEmails(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options?: Models.AppServiceCertificateOrdersResendRequestEmailsOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param callback The callback
    */
-  resendRequestEmails(resourceGroupName: string, certificateOrderName: string, callback: msRest.ServiceCallback<void>): void;
+  resendRequestEmails(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The optional parameters
    * @param callback The callback
    */
-  resendRequestEmails(resourceGroupName: string, certificateOrderName: string, options: Models.AppServiceCertificateOrdersResendRequestEmailsOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  resendRequestEmails(resourceGroupName: string, certificateOrderName: string, options?: Models.AppServiceCertificateOrdersResendRequestEmailsOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resendRequestEmails(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options: Models.AppServiceCertificateOrdersResendRequestEmailsOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  resendRequestEmails(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options?:
+      | Models.AppServiceCertificateOrdersResendRequestEmailsOptionalParams
+      | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -527,7 +838,8 @@ export class AppServiceCertificateOrders {
         options
       },
       resendRequestEmailsOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -539,14 +851,24 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersRetrieveSiteSealResponse>
    */
-  retrieveSiteSeal(resourceGroupName: string, certificateOrderName: string, siteSealRequest: Models.SiteSealRequest, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersRetrieveSiteSealResponse>;
+  retrieveSiteSeal(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    siteSealRequest: Models.SiteSealRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersRetrieveSiteSealResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param siteSealRequest Site seal request.
    * @param callback The callback
    */
-  retrieveSiteSeal(resourceGroupName: string, certificateOrderName: string, siteSealRequest: Models.SiteSealRequest, callback: msRest.ServiceCallback<Models.SiteSeal>): void;
+  retrieveSiteSeal(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    siteSealRequest: Models.SiteSealRequest,
+    callback: msRest.ServiceCallback<Models.SiteSeal>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
@@ -554,8 +876,20 @@ export class AppServiceCertificateOrders {
    * @param options The optional parameters
    * @param callback The callback
    */
-  retrieveSiteSeal(resourceGroupName: string, certificateOrderName: string, siteSealRequest: Models.SiteSealRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SiteSeal>): void;
-  retrieveSiteSeal(resourceGroupName: string, certificateOrderName: string, siteSealRequest: Models.SiteSealRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteSeal>, callback?: msRest.ServiceCallback<Models.SiteSeal>): Promise<Models.AppServiceCertificateOrdersRetrieveSiteSealResponse> {
+  retrieveSiteSeal(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    siteSealRequest: Models.SiteSealRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SiteSeal>
+  ): void;
+  retrieveSiteSeal(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    siteSealRequest: Models.SiteSealRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SiteSeal>,
+    callback?: msRest.ServiceCallback<Models.SiteSeal>
+  ): Promise<Models.AppServiceCertificateOrdersRetrieveSiteSealResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -564,7 +898,8 @@ export class AppServiceCertificateOrders {
         options
       },
       retrieveSiteSealOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersRetrieveSiteSealResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersRetrieveSiteSealResponse>;
   }
 
   /**
@@ -575,21 +910,39 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  verifyDomainOwnership(resourceGroupName: string, certificateOrderName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  verifyDomainOwnership(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param callback The callback
    */
-  verifyDomainOwnership(resourceGroupName: string, certificateOrderName: string, callback: msRest.ServiceCallback<void>): void;
+  verifyDomainOwnership(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The optional parameters
    * @param callback The callback
    */
-  verifyDomainOwnership(resourceGroupName: string, certificateOrderName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  verifyDomainOwnership(resourceGroupName: string, certificateOrderName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  verifyDomainOwnership(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  verifyDomainOwnership(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -597,7 +950,8 @@ export class AppServiceCertificateOrders {
         options
       },
       verifyDomainOwnershipOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -608,21 +962,39 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersRetrieveCertificateActionsResponse>
    */
-  retrieveCertificateActions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersRetrieveCertificateActionsResponse>;
+  retrieveCertificateActions(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersRetrieveCertificateActionsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate order.
    * @param callback The callback
    */
-  retrieveCertificateActions(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.CertificateOrderAction[]>): void;
+  retrieveCertificateActions(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.CertificateOrderAction[]>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate order.
    * @param options The optional parameters
    * @param callback The callback
    */
-  retrieveCertificateActions(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateOrderAction[]>): void;
-  retrieveCertificateActions(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateOrderAction[]>, callback?: msRest.ServiceCallback<Models.CertificateOrderAction[]>): Promise<Models.AppServiceCertificateOrdersRetrieveCertificateActionsResponse> {
+  retrieveCertificateActions(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateOrderAction[]>
+  ): void;
+  retrieveCertificateActions(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateOrderAction[]>,
+    callback?: msRest.ServiceCallback<Models.CertificateOrderAction[]>
+  ): Promise<Models.AppServiceCertificateOrdersRetrieveCertificateActionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -630,7 +1002,8 @@ export class AppServiceCertificateOrders {
         options
       },
       retrieveCertificateActionsOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersRetrieveCertificateActionsResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersRetrieveCertificateActionsResponse>;
   }
 
   /**
@@ -641,21 +1014,39 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse>
    */
-  retrieveCertificateEmailHistory(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse>;
+  retrieveCertificateEmailHistory(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate order.
    * @param callback The callback
    */
-  retrieveCertificateEmailHistory(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.CertificateEmail[]>): void;
+  retrieveCertificateEmailHistory(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.CertificateEmail[]>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate order.
    * @param options The optional parameters
    * @param callback The callback
    */
-  retrieveCertificateEmailHistory(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateEmail[]>): void;
-  retrieveCertificateEmailHistory(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateEmail[]>, callback?: msRest.ServiceCallback<Models.CertificateEmail[]>): Promise<Models.AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse> {
+  retrieveCertificateEmailHistory(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateEmail[]>
+  ): void;
+  retrieveCertificateEmailHistory(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateEmail[]>,
+    callback?: msRest.ServiceCallback<Models.CertificateEmail[]>
+  ): Promise<Models.AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -663,7 +1054,8 @@ export class AppServiceCertificateOrders {
         options
       },
       retrieveCertificateEmailHistoryOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse>;
   }
 
   /**
@@ -675,7 +1067,12 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, certificateOrderName: string, certificateDistinguishedName: Models.AppServiceCertificateOrder, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    certificateDistinguishedName: Models.AppServiceCertificateOrder,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -684,7 +1081,8 @@ export class AppServiceCertificateOrders {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -697,7 +1095,13 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdateCertificate(resourceGroupName: string, certificateOrderName: string, name: string, keyVaultCertificate: Models.AppServiceCertificateResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdateCertificate(
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    keyVaultCertificate: Models.AppServiceCertificateResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -707,7 +1111,8 @@ export class AppServiceCertificateOrders {
         options
       },
       beginCreateOrUpdateCertificateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -717,26 +1122,43 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>, callback?: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>): Promise<Models.AppServiceCertificateOrdersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>,
+    callback?: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>
+  ): Promise<Models.AppServiceCertificateOrdersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersListNextResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersListNextResponse>;
   }
 
   /**
@@ -746,26 +1168,43 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>, callback?: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>): Promise<Models.AppServiceCertificateOrdersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>,
+    callback?: msRest.ServiceCallback<Models.AppServiceCertificateOrderCollection>
+  ): Promise<Models.AppServiceCertificateOrdersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersListByResourceGroupNextResponse>;
   }
 
   /**
@@ -775,26 +1214,43 @@ export class AppServiceCertificateOrders {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppServiceCertificateOrdersListCertificatesNextResponse>
    */
-  listCertificatesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceCertificateOrdersListCertificatesNextResponse>;
+  listCertificatesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AppServiceCertificateOrdersListCertificatesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listCertificatesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AppServiceCertificateCollection>): void;
+  listCertificatesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCertificatesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppServiceCertificateCollection>): void;
-  listCertificatesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppServiceCertificateCollection>, callback?: msRest.ServiceCallback<Models.AppServiceCertificateCollection>): Promise<Models.AppServiceCertificateOrdersListCertificatesNextResponse> {
+  listCertificatesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppServiceCertificateCollection>
+  ): void;
+  listCertificatesNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AppServiceCertificateCollection>,
+    callback?: msRest.ServiceCallback<Models.AppServiceCertificateCollection>
+  ): Promise<Models.AppServiceCertificateOrdersListCertificatesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listCertificatesNextOperationSpec,
-      callback) as Promise<Models.AppServiceCertificateOrdersListCertificatesNextResponse>;
+      callback
+    ) as Promise<Models.AppServiceCertificateOrdersListCertificatesNextResponse>;
   }
 }
 
@@ -802,16 +1258,11 @@ export class AppServiceCertificateOrders {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.CertificateRegistration/certificateOrders",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.CertificateRegistration/certificateOrders",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServiceCertificateOrderCollection
@@ -825,16 +1276,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const validatePurchaseInformationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.CertificateRegistration/validateCertificateRegistrationInformation",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.CertificateRegistration/validateCertificateRegistrationInformation",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "appServiceCertificateOrder",
     mapper: {
@@ -853,17 +1299,11 @@ const validatePurchaseInformationOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServiceCertificateOrderCollection
@@ -877,18 +1317,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServiceCertificateOrder
@@ -902,18 +1339,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -926,18 +1360,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "certificateDistinguishedName",
     mapper: {
@@ -961,18 +1392,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listCertificatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServiceCertificateCollection
@@ -986,19 +1414,16 @@ const listCertificatesOperationSpec: msRest.OperationSpec = {
 
 const getCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.name,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServiceCertificateResource
@@ -1012,19 +1437,16 @@ const getCertificateOperationSpec: msRest.OperationSpec = {
 
 const deleteCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.name,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -1037,19 +1459,16 @@ const deleteCertificateOperationSpec: msRest.OperationSpec = {
 
 const updateCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.name,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "keyVaultCertificate",
     mapper: {
@@ -1073,18 +1492,15 @@ const updateCertificateOperationSpec: msRest.OperationSpec = {
 
 const reissueOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/reissue",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/reissue",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "reissueCertificateOrderRequest",
     mapper: {
@@ -1103,18 +1519,15 @@ const reissueOperationSpec: msRest.OperationSpec = {
 
 const renewOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/renew",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/renew",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "renewCertificateOrderRequest",
     mapper: {
@@ -1133,18 +1546,15 @@ const renewOperationSpec: msRest.OperationSpec = {
 
 const resendEmailOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/resendEmail",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/resendEmail",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -1156,24 +1566,18 @@ const resendEmailOperationSpec: msRest.OperationSpec = {
 
 const resendRequestEmailsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/resendRequestEmails",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/resendRequestEmails",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      name: [
-        "options",
-        "name"
-      ]
+      name: ["options", "name"]
     },
     mapper: {
       ...Mappers.NameIdentifier,
@@ -1191,18 +1595,15 @@ const resendRequestEmailsOperationSpec: msRest.OperationSpec = {
 
 const retrieveSiteSealOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/retrieveSiteSeal",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/retrieveSiteSeal",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "siteSealRequest",
     mapper: {
@@ -1223,18 +1624,15 @@ const retrieveSiteSealOperationSpec: msRest.OperationSpec = {
 
 const verifyDomainOwnershipOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/verifyDomainOwnership",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/verifyDomainOwnership",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -1246,18 +1644,11 @@ const verifyDomainOwnershipOperationSpec: msRest.OperationSpec = {
 
 const retrieveCertificateActionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveCertificateActions",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveCertificateActions",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -1282,18 +1673,11 @@ const retrieveCertificateActionsOperationSpec: msRest.OperationSpec = {
 
 const retrieveCertificateEmailHistoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveEmailHistory",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveEmailHistory",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -1318,18 +1702,15 @@ const retrieveCertificateEmailHistoryOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "certificateDistinguishedName",
     mapper: {
@@ -1353,19 +1734,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.certificateOrderName,
     Parameters.name,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "keyVaultCertificate",
     mapper: {
@@ -1391,12 +1769,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServiceCertificateOrderCollection
@@ -1412,12 +1786,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServiceCertificateOrderCollection
@@ -1433,12 +1803,8 @@ const listCertificatesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppServiceCertificateCollection

@@ -35,9 +35,18 @@ export class NetworkInterfaceTapConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,networkInterfaceName,tapConfigurationName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    tapConfigurationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      networkInterfaceName,
+      tapConfigurationName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -48,14 +57,24 @@ export class NetworkInterfaceTapConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfaceTapConfigurationsGetResponse>
    */
-  get(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfaceTapConfigurationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    tapConfigurationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkInterfaceTapConfigurationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
    * @param tapConfigurationName The name of the tap configuration.
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfiguration>): void;
+  get(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    tapConfigurationName: string,
+    callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfiguration>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
@@ -63,8 +82,22 @@ export class NetworkInterfaceTapConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfiguration>): void;
-  get(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceTapConfiguration>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceTapConfiguration>): Promise<Models.NetworkInterfaceTapConfigurationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    tapConfigurationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfiguration>
+  ): void;
+  get(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    tapConfigurationName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkInterfaceTapConfiguration>,
+    callback?: msRest.ServiceCallback<Models.NetworkInterfaceTapConfiguration>
+  ): Promise<Models.NetworkInterfaceTapConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,7 +106,8 @@ export class NetworkInterfaceTapConfigurations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.NetworkInterfaceTapConfigurationsGetResponse>;
+      callback
+    ) as Promise<Models.NetworkInterfaceTapConfigurationsGetResponse>;
   }
 
   /**
@@ -86,9 +120,22 @@ export class NetworkInterfaceTapConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, tapConfigurationParameters: Models.NetworkInterfaceTapConfiguration, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfaceTapConfigurationsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,networkInterfaceName,tapConfigurationName,tapConfigurationParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkInterfaceTapConfigurationsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    tapConfigurationName: string,
+    tapConfigurationParameters: Models.NetworkInterfaceTapConfiguration,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkInterfaceTapConfigurationsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      networkInterfaceName,
+      tapConfigurationName,
+      tapConfigurationParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.NetworkInterfaceTapConfigurationsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -98,21 +145,41 @@ export class NetworkInterfaceTapConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfaceTapConfigurationsListResponse>
    */
-  list(resourceGroupName: string, networkInterfaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfaceTapConfigurationsListResponse>;
+  list(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkInterfaceTapConfigurationsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkInterfaceName: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>): void;
+  list(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkInterfaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>): void;
-  list(resourceGroupName: string, networkInterfaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>): Promise<Models.NetworkInterfaceTapConfigurationsListResponse> {
+  list(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>,
+    callback?: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>
+  ): Promise<Models.NetworkInterfaceTapConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +187,8 @@ export class NetworkInterfaceTapConfigurations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.NetworkInterfaceTapConfigurationsListResponse>;
+      callback
+    ) as Promise<Models.NetworkInterfaceTapConfigurationsListResponse>;
   }
 
   /**
@@ -131,7 +199,12 @@ export class NetworkInterfaceTapConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    tapConfigurationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -140,7 +213,8 @@ export class NetworkInterfaceTapConfigurations {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -153,7 +227,13 @@ export class NetworkInterfaceTapConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, networkInterfaceName: string, tapConfigurationName: string, tapConfigurationParameters: Models.NetworkInterfaceTapConfiguration, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    tapConfigurationName: string,
+    tapConfigurationParameters: Models.NetworkInterfaceTapConfiguration,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -163,7 +243,8 @@ export class NetworkInterfaceTapConfigurations {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -172,26 +253,43 @@ export class NetworkInterfaceTapConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfaceTapConfigurationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfaceTapConfigurationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkInterfaceTapConfigurationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>): Promise<Models.NetworkInterfaceTapConfigurationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>,
+    callback?: msRest.ServiceCallback<Models.NetworkInterfaceTapConfigurationListResult>
+  ): Promise<Models.NetworkInterfaceTapConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.NetworkInterfaceTapConfigurationsListNextResponse>;
+      callback
+    ) as Promise<Models.NetworkInterfaceTapConfigurationsListNextResponse>;
   }
 }
 
@@ -199,19 +297,16 @@ export class NetworkInterfaceTapConfigurations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkInterfaceName,
     Parameters.tapConfigurationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkInterfaceTapConfiguration
@@ -225,18 +320,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkInterfaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkInterfaceTapConfigurationListResult
@@ -250,19 +342,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkInterfaceName,
     Parameters.tapConfigurationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -276,19 +365,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkInterfaceName,
     Parameters.tapConfigurationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "tapConfigurationParameters",
     mapper: {
@@ -314,12 +400,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkInterfaceTapConfigurationListResult

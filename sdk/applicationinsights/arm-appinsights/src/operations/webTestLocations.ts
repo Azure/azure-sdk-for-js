@@ -33,21 +33,41 @@ export class WebTestLocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestLocationsListResponse>
    */
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebTestLocationsListResponse>;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebTestLocationsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsWebTestLocationsListResult>): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsWebTestLocationsListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsWebTestLocationsListResult>): void;
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsWebTestLocationsListResult>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsWebTestLocationsListResult>): Promise<Models.WebTestLocationsListResponse> {
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsWebTestLocationsListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsWebTestLocationsListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsWebTestLocationsListResult>
+  ): Promise<Models.WebTestLocationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class WebTestLocations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.WebTestLocationsListResponse>;
+      callback
+    ) as Promise<Models.WebTestLocationsListResponse>;
   }
 }
 
@@ -63,18 +84,11 @@ export class WebTestLocations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/syntheticmonitorlocations",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/syntheticmonitorlocations",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsWebTestLocationsListResult

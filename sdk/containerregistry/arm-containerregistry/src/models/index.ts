@@ -1437,7 +1437,12 @@ export interface AgentPoolQueueStatus {
 /**
  * Contains the possible cases for RunRequest.
  */
-export type RunRequestUnion = RunRequest | DockerBuildRequest | FileTaskRunRequest | TaskRunRequest | EncodedTaskRunRequest;
+export type RunRequestUnion =
+  | RunRequest
+  | DockerBuildRequest
+  | FileTaskRunRequest
+  | TaskRunRequest
+  | EncodedTaskRunRequest;
 
 /**
  * The request parameters for scheduling a run.
@@ -1829,7 +1834,11 @@ export interface BaseImageDependency {
 /**
  * Contains the possible cases for TaskStepProperties.
  */
-export type TaskStepPropertiesUnion = TaskStepProperties | DockerBuildStep | FileTaskStep | EncodedTaskStep;
+export type TaskStepPropertiesUnion =
+  | TaskStepProperties
+  | DockerBuildStep
+  | FileTaskStep
+  | EncodedTaskStep;
 
 /**
  * Base properties for any task step.
@@ -2139,7 +2148,11 @@ export interface PlatformUpdateParameters {
 /**
  * Contains the possible cases for TaskStepUpdateParameters.
  */
-export type TaskStepUpdateParametersUnion = TaskStepUpdateParameters | DockerBuildStepUpdateParameters | FileTaskStepUpdateParameters | EncodedTaskStepUpdateParameters;
+export type TaskStepUpdateParametersUnion =
+  | TaskStepUpdateParameters
+  | DockerBuildStepUpdateParameters
+  | FileTaskStepUpdateParameters
+  | EncodedTaskStepUpdateParameters;
 
 /**
  * Base properties for updating any task step.
@@ -3319,7 +3332,11 @@ export interface TokenListResult extends Array<Token> {
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 
 /**
  * Defines values for PipelineOptions.
@@ -3328,7 +3345,11 @@ export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAs
  * @readonly
  * @enum {string}
  */
-export type PipelineOptions = 'OverwriteTags' | 'OverwriteBlobs' | 'DeleteSourceBlobOnSuccess' | 'ContinueOnErrors';
+export type PipelineOptions =
+  | "OverwriteTags"
+  | "OverwriteBlobs"
+  | "DeleteSourceBlobOnSuccess"
+  | "ContinueOnErrors";
 
 /**
  * Defines values for ProvisioningState.
@@ -3336,7 +3357,13 @@ export type PipelineOptions = 'OverwriteTags' | 'OverwriteBlobs' | 'DeleteSource
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export type ProvisioningState =
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled";
 
 /**
  * Defines values for ImportMode.
@@ -3344,7 +3371,7 @@ export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeede
  * @readonly
  * @enum {string}
  */
-export type ImportMode = 'NoForce' | 'Force';
+export type ImportMode = "NoForce" | "Force";
 
 /**
  * Defines values for PipelineSourceType.
@@ -3352,7 +3379,7 @@ export type ImportMode = 'NoForce' | 'Force';
  * @readonly
  * @enum {string}
  */
-export type PipelineSourceType = 'AzureStorageBlobContainer';
+export type PipelineSourceType = "AzureStorageBlobContainer";
 
 /**
  * Defines values for TriggerStatus.
@@ -3360,7 +3387,7 @@ export type PipelineSourceType = 'AzureStorageBlobContainer';
  * @readonly
  * @enum {string}
  */
-export type TriggerStatus = 'Enabled' | 'Disabled';
+export type TriggerStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for PipelineRunSourceType.
@@ -3368,7 +3395,7 @@ export type TriggerStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type PipelineRunSourceType = 'AzureStorageBlob';
+export type PipelineRunSourceType = "AzureStorageBlob";
 
 /**
  * Defines values for PipelineRunTargetType.
@@ -3376,7 +3403,7 @@ export type PipelineRunSourceType = 'AzureStorageBlob';
  * @readonly
  * @enum {string}
  */
-export type PipelineRunTargetType = 'AzureStorageBlob';
+export type PipelineRunTargetType = "AzureStorageBlob";
 
 /**
  * Defines values for ConnectionStatus.
@@ -3384,7 +3411,7 @@ export type PipelineRunTargetType = 'AzureStorageBlob';
  * @readonly
  * @enum {string}
  */
-export type ConnectionStatus = 'Approved' | 'Pending' | 'Rejected' | 'Disconnected';
+export type ConnectionStatus = "Approved" | "Pending" | "Rejected" | "Disconnected";
 
 /**
  * Defines values for ActionsRequired.
@@ -3392,7 +3419,7 @@ export type ConnectionStatus = 'Approved' | 'Pending' | 'Rejected' | 'Disconnect
  * @readonly
  * @enum {string}
  */
-export type ActionsRequired = 'None' | 'Recreate';
+export type ActionsRequired = "None" | "Recreate";
 
 /**
  * Defines values for SkuName.
@@ -3400,7 +3427,7 @@ export type ActionsRequired = 'None' | 'Recreate';
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Classic' | 'Basic' | 'Standard' | 'Premium';
+export type SkuName = "Classic" | "Basic" | "Standard" | "Premium";
 
 /**
  * Defines values for SkuTier.
@@ -3408,7 +3435,7 @@ export type SkuName = 'Classic' | 'Basic' | 'Standard' | 'Premium';
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Classic' | 'Basic' | 'Standard' | 'Premium';
+export type SkuTier = "Classic" | "Basic" | "Standard" | "Premium";
 
 /**
  * Defines values for DefaultAction.
@@ -3416,7 +3443,7 @@ export type SkuTier = 'Classic' | 'Basic' | 'Standard' | 'Premium';
  * @readonly
  * @enum {string}
  */
-export type DefaultAction = 'Allow' | 'Deny';
+export type DefaultAction = "Allow" | "Deny";
 
 /**
  * Defines values for Action.
@@ -3424,7 +3451,7 @@ export type DefaultAction = 'Allow' | 'Deny';
  * @readonly
  * @enum {string}
  */
-export type Action = 'Allow';
+export type Action = "Allow";
 
 /**
  * Defines values for PolicyStatus.
@@ -3432,7 +3459,7 @@ export type Action = 'Allow';
  * @readonly
  * @enum {string}
  */
-export type PolicyStatus = 'enabled' | 'disabled';
+export type PolicyStatus = "enabled" | "disabled";
 
 /**
  * Defines values for TrustPolicyType.
@@ -3440,7 +3467,7 @@ export type PolicyStatus = 'enabled' | 'disabled';
  * @readonly
  * @enum {string}
  */
-export type TrustPolicyType = 'Notary';
+export type TrustPolicyType = "Notary";
 
 /**
  * Defines values for EncryptionStatus.
@@ -3448,7 +3475,7 @@ export type TrustPolicyType = 'Notary';
  * @readonly
  * @enum {string}
  */
-export type EncryptionStatus = 'enabled' | 'disabled';
+export type EncryptionStatus = "enabled" | "disabled";
 
 /**
  * Defines values for PublicNetworkAccess.
@@ -3456,7 +3483,7 @@ export type EncryptionStatus = 'enabled' | 'disabled';
  * @readonly
  * @enum {string}
  */
-export type PublicNetworkAccess = 'Enabled' | 'Disabled';
+export type PublicNetworkAccess = "Enabled" | "Disabled";
 
 /**
  * Defines values for PasswordName.
@@ -3464,7 +3491,7 @@ export type PublicNetworkAccess = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type PasswordName = 'password' | 'password2';
+export type PasswordName = "password" | "password2";
 
 /**
  * Defines values for RegistryUsageUnit.
@@ -3472,7 +3499,7 @@ export type PasswordName = 'password' | 'password2';
  * @readonly
  * @enum {string}
  */
-export type RegistryUsageUnit = 'Count' | 'Bytes';
+export type RegistryUsageUnit = "Count" | "Bytes";
 
 /**
  * Defines values for WebhookStatus.
@@ -3480,7 +3507,7 @@ export type RegistryUsageUnit = 'Count' | 'Bytes';
  * @readonly
  * @enum {string}
  */
-export type WebhookStatus = 'enabled' | 'disabled';
+export type WebhookStatus = "enabled" | "disabled";
 
 /**
  * Defines values for WebhookAction.
@@ -3488,7 +3515,7 @@ export type WebhookStatus = 'enabled' | 'disabled';
  * @readonly
  * @enum {string}
  */
-export type WebhookAction = 'push' | 'delete' | 'quarantine' | 'chart_push' | 'chart_delete';
+export type WebhookAction = "push" | "delete" | "quarantine" | "chart_push" | "chart_delete";
 
 /**
  * Defines values for OS.
@@ -3496,7 +3523,7 @@ export type WebhookAction = 'push' | 'delete' | 'quarantine' | 'chart_push' | 'c
  * @readonly
  * @enum {string}
  */
-export type OS = 'Windows' | 'Linux';
+export type OS = "Windows" | "Linux";
 
 /**
  * Defines values for RunStatus.
@@ -3505,7 +3532,15 @@ export type OS = 'Windows' | 'Linux';
  * @readonly
  * @enum {string}
  */
-export type RunStatus = 'Queued' | 'Started' | 'Running' | 'Succeeded' | 'Failed' | 'Canceled' | 'Error' | 'Timeout';
+export type RunStatus =
+  | "Queued"
+  | "Started"
+  | "Running"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Error"
+  | "Timeout";
 
 /**
  * Defines values for RunType.
@@ -3513,7 +3548,7 @@ export type RunStatus = 'Queued' | 'Started' | 'Running' | 'Succeeded' | 'Failed
  * @readonly
  * @enum {string}
  */
-export type RunType = 'QuickBuild' | 'QuickRun' | 'AutoBuild' | 'AutoRun';
+export type RunType = "QuickBuild" | "QuickRun" | "AutoBuild" | "AutoRun";
 
 /**
  * Defines values for Architecture.
@@ -3521,7 +3556,7 @@ export type RunType = 'QuickBuild' | 'QuickRun' | 'AutoBuild' | 'AutoRun';
  * @readonly
  * @enum {string}
  */
-export type Architecture = 'amd64' | 'x86' | '386' | 'arm' | 'arm64';
+export type Architecture = "amd64" | "x86" | "386" | "arm" | "arm64";
 
 /**
  * Defines values for Variant.
@@ -3529,7 +3564,7 @@ export type Architecture = 'amd64' | 'x86' | '386' | 'arm' | 'arm64';
  * @readonly
  * @enum {string}
  */
-export type Variant = 'v6' | 'v7' | 'v8';
+export type Variant = "v6" | "v7" | "v8";
 
 /**
  * Defines values for TaskStatus.
@@ -3537,7 +3572,7 @@ export type Variant = 'v6' | 'v7' | 'v8';
  * @readonly
  * @enum {string}
  */
-export type TaskStatus = 'Disabled' | 'Enabled';
+export type TaskStatus = "Disabled" | "Enabled";
 
 /**
  * Defines values for BaseImageDependencyType.
@@ -3545,7 +3580,7 @@ export type TaskStatus = 'Disabled' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type BaseImageDependencyType = 'BuildTime' | 'RunTime';
+export type BaseImageDependencyType = "BuildTime" | "RunTime";
 
 /**
  * Defines values for SourceControlType.
@@ -3553,7 +3588,7 @@ export type BaseImageDependencyType = 'BuildTime' | 'RunTime';
  * @readonly
  * @enum {string}
  */
-export type SourceControlType = 'Github' | 'VisualStudioTeamService';
+export type SourceControlType = "Github" | "VisualStudioTeamService";
 
 /**
  * Defines values for TokenType.
@@ -3561,7 +3596,7 @@ export type SourceControlType = 'Github' | 'VisualStudioTeamService';
  * @readonly
  * @enum {string}
  */
-export type TokenType = 'PAT' | 'OAuth';
+export type TokenType = "PAT" | "OAuth";
 
 /**
  * Defines values for SourceTriggerEvent.
@@ -3569,7 +3604,7 @@ export type TokenType = 'PAT' | 'OAuth';
  * @readonly
  * @enum {string}
  */
-export type SourceTriggerEvent = 'commit' | 'pullrequest';
+export type SourceTriggerEvent = "commit" | "pullrequest";
 
 /**
  * Defines values for BaseImageTriggerType.
@@ -3577,7 +3612,7 @@ export type SourceTriggerEvent = 'commit' | 'pullrequest';
  * @readonly
  * @enum {string}
  */
-export type BaseImageTriggerType = 'All' | 'Runtime';
+export type BaseImageTriggerType = "All" | "Runtime";
 
 /**
  * Defines values for UpdateTriggerPayloadType.
@@ -3585,7 +3620,7 @@ export type BaseImageTriggerType = 'All' | 'Runtime';
  * @readonly
  * @enum {string}
  */
-export type UpdateTriggerPayloadType = 'Default' | 'Token';
+export type UpdateTriggerPayloadType = "Default" | "Token";
 
 /**
  * Defines values for SourceRegistryLoginMode.
@@ -3593,7 +3628,7 @@ export type UpdateTriggerPayloadType = 'Default' | 'Token';
  * @readonly
  * @enum {string}
  */
-export type SourceRegistryLoginMode = 'None' | 'Default';
+export type SourceRegistryLoginMode = "None" | "Default";
 
 /**
  * Defines values for SecretObjectType.
@@ -3601,7 +3636,7 @@ export type SourceRegistryLoginMode = 'None' | 'Default';
  * @readonly
  * @enum {string}
  */
-export type SecretObjectType = 'Opaque' | 'Vaultsecret';
+export type SecretObjectType = "Opaque" | "Vaultsecret";
 
 /**
  * Defines values for TokenCertificateName.
@@ -3609,7 +3644,7 @@ export type SecretObjectType = 'Opaque' | 'Vaultsecret';
  * @readonly
  * @enum {string}
  */
-export type TokenCertificateName = 'certificate1' | 'certificate2';
+export type TokenCertificateName = "certificate1" | "certificate2";
 
 /**
  * Defines values for TokenPasswordName.
@@ -3617,7 +3652,7 @@ export type TokenCertificateName = 'certificate1' | 'certificate2';
  * @readonly
  * @enum {string}
  */
-export type TokenPasswordName = 'password1' | 'password2';
+export type TokenPasswordName = "password1" | "password2";
 
 /**
  * Defines values for TokenStatus.
@@ -3625,7 +3660,7 @@ export type TokenPasswordName = 'password1' | 'password2';
  * @readonly
  * @enum {string}
  */
-export type TokenStatus = 'enabled' | 'disabled';
+export type TokenStatus = "enabled" | "disabled";
 
 /**
  * Contains response data for the get operation.
@@ -3635,16 +3670,16 @@ export type ExportPipelinesGetResponse = ExportPipeline & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExportPipeline;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExportPipeline;
+  };
 };
 
 /**
@@ -3655,16 +3690,16 @@ export type ExportPipelinesCreateResponse = ExportPipeline & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExportPipeline;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExportPipeline;
+  };
 };
 
 /**
@@ -3675,16 +3710,16 @@ export type ExportPipelinesListResponse = ExportPipelineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExportPipelineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExportPipelineListResult;
+  };
 };
 
 /**
@@ -3695,16 +3730,16 @@ export type ExportPipelinesBeginCreateResponse = ExportPipeline & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExportPipeline;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExportPipeline;
+  };
 };
 
 /**
@@ -3715,16 +3750,16 @@ export type ExportPipelinesListNextResponse = ExportPipelineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExportPipelineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExportPipelineListResult;
+  };
 };
 
 /**
@@ -3735,16 +3770,16 @@ export type RegistriesCheckNameAvailabilityResponse = RegistryNameStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistryNameStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegistryNameStatus;
+  };
 };
 
 /**
@@ -3755,16 +3790,16 @@ export type RegistriesGetResponse = Registry & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Registry;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Registry;
+  };
 };
 
 /**
@@ -3775,16 +3810,16 @@ export type RegistriesCreateResponse = Registry & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Registry;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Registry;
+  };
 };
 
 /**
@@ -3795,16 +3830,16 @@ export type RegistriesUpdateResponse = Registry & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Registry;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Registry;
+  };
 };
 
 /**
@@ -3815,16 +3850,16 @@ export type RegistriesListByResourceGroupResponse = RegistryListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistryListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegistryListResult;
+  };
 };
 
 /**
@@ -3835,16 +3870,16 @@ export type RegistriesListResponse = RegistryListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistryListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegistryListResult;
+  };
 };
 
 /**
@@ -3855,16 +3890,16 @@ export type RegistriesListCredentialsResponse = RegistryListCredentialsResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistryListCredentialsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegistryListCredentialsResult;
+  };
 };
 
 /**
@@ -3875,16 +3910,16 @@ export type RegistriesRegenerateCredentialResponse = RegistryListCredentialsResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistryListCredentialsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegistryListCredentialsResult;
+  };
 };
 
 /**
@@ -3895,16 +3930,16 @@ export type RegistriesListUsagesResponse = RegistryUsageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistryUsageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegistryUsageListResult;
+  };
 };
 
 /**
@@ -3915,16 +3950,16 @@ export type RegistriesListPrivateLinkResourcesResponse = PrivateLinkResourceList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResourceListResult;
+  };
 };
 
 /**
@@ -3935,16 +3970,16 @@ export type RegistriesScheduleRunResponse = Run & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Run;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Run;
+  };
 };
 
 /**
@@ -3955,16 +3990,16 @@ export type RegistriesGetBuildSourceUploadUrlResponse = SourceUploadDefinition &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceUploadDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceUploadDefinition;
+  };
 };
 
 /**
@@ -3975,16 +4010,16 @@ export type RegistriesGenerateCredentialsResponse = GenerateCredentialsResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GenerateCredentialsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GenerateCredentialsResult;
+  };
 };
 
 /**
@@ -3995,16 +4030,16 @@ export type RegistriesBeginCreateResponse = Registry & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Registry;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Registry;
+  };
 };
 
 /**
@@ -4015,16 +4050,16 @@ export type RegistriesBeginUpdateResponse = Registry & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Registry;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Registry;
+  };
 };
 
 /**
@@ -4035,16 +4070,16 @@ export type RegistriesBeginScheduleRunResponse = Run & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Run;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Run;
+  };
 };
 
 /**
@@ -4055,16 +4090,16 @@ export type RegistriesBeginGenerateCredentialsResponse = GenerateCredentialsResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GenerateCredentialsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GenerateCredentialsResult;
+  };
 };
 
 /**
@@ -4075,16 +4110,16 @@ export type RegistriesListByResourceGroupNextResponse = RegistryListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistryListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegistryListResult;
+  };
 };
 
 /**
@@ -4095,16 +4130,16 @@ export type RegistriesListNextResponse = RegistryListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegistryListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegistryListResult;
+  };
 };
 
 /**
@@ -4115,16 +4150,16 @@ export type RegistriesListPrivateLinkResourcesNextResponse = PrivateLinkResource
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResourceListResult;
+  };
 };
 
 /**
@@ -4135,16 +4170,16 @@ export type ImportPipelinesGetResponse = ImportPipeline & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImportPipeline;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImportPipeline;
+  };
 };
 
 /**
@@ -4155,16 +4190,16 @@ export type ImportPipelinesCreateResponse = ImportPipeline & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImportPipeline;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImportPipeline;
+  };
 };
 
 /**
@@ -4175,16 +4210,16 @@ export type ImportPipelinesListResponse = ImportPipelineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImportPipelineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImportPipelineListResult;
+  };
 };
 
 /**
@@ -4195,16 +4230,16 @@ export type ImportPipelinesBeginCreateResponse = ImportPipeline & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImportPipeline;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImportPipeline;
+  };
 };
 
 /**
@@ -4215,16 +4250,16 @@ export type ImportPipelinesListNextResponse = ImportPipelineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImportPipelineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImportPipelineListResult;
+  };
 };
 
 /**
@@ -4235,16 +4270,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -4255,16 +4290,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -4275,16 +4310,16 @@ export type PipelineRunsGetResponse = PipelineRun & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PipelineRun;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PipelineRun;
+  };
 };
 
 /**
@@ -4295,16 +4330,16 @@ export type PipelineRunsCreateResponse = PipelineRun & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PipelineRun;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PipelineRun;
+  };
 };
 
 /**
@@ -4315,16 +4350,16 @@ export type PipelineRunsListResponse = PipelineRunListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PipelineRunListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PipelineRunListResult;
+  };
 };
 
 /**
@@ -4335,16 +4370,16 @@ export type PipelineRunsBeginCreateResponse = PipelineRun & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PipelineRun;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PipelineRun;
+  };
 };
 
 /**
@@ -4355,16 +4390,16 @@ export type PipelineRunsListNextResponse = PipelineRunListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PipelineRunListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PipelineRunListResult;
+  };
 };
 
 /**
@@ -4375,16 +4410,16 @@ export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -4395,16 +4430,16 @@ export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointCo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -4415,16 +4450,16 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnectionListResult;
+  };
 };
 
 /**
@@ -4435,16 +4470,16 @@ export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -4455,16 +4490,16 @@ export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnecti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnectionListResult;
+  };
 };
 
 /**
@@ -4475,16 +4510,16 @@ export type ReplicationsGetResponse = Replication & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Replication;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Replication;
+  };
 };
 
 /**
@@ -4495,16 +4530,16 @@ export type ReplicationsCreateResponse = Replication & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Replication;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Replication;
+  };
 };
 
 /**
@@ -4515,16 +4550,16 @@ export type ReplicationsUpdateResponse = Replication & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Replication;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Replication;
+  };
 };
 
 /**
@@ -4535,16 +4570,16 @@ export type ReplicationsListResponse = ReplicationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationListResult;
+  };
 };
 
 /**
@@ -4555,16 +4590,16 @@ export type ReplicationsBeginCreateResponse = Replication & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Replication;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Replication;
+  };
 };
 
 /**
@@ -4575,16 +4610,16 @@ export type ReplicationsBeginUpdateResponse = Replication & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Replication;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Replication;
+  };
 };
 
 /**
@@ -4595,16 +4630,16 @@ export type ReplicationsListNextResponse = ReplicationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationListResult;
+  };
 };
 
 /**
@@ -4615,16 +4650,16 @@ export type WebhooksGetResponse = Webhook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Webhook;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Webhook;
+  };
 };
 
 /**
@@ -4635,16 +4670,16 @@ export type WebhooksCreateResponse = Webhook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Webhook;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Webhook;
+  };
 };
 
 /**
@@ -4655,16 +4690,16 @@ export type WebhooksUpdateResponse = Webhook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Webhook;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Webhook;
+  };
 };
 
 /**
@@ -4675,16 +4710,16 @@ export type WebhooksListResponse = WebhookListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebhookListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebhookListResult;
+  };
 };
 
 /**
@@ -4695,16 +4730,16 @@ export type WebhooksPingResponse = EventInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventInfo;
+  };
 };
 
 /**
@@ -4715,16 +4750,16 @@ export type WebhooksGetCallbackConfigResponse = CallbackConfig & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CallbackConfig;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CallbackConfig;
+  };
 };
 
 /**
@@ -4735,16 +4770,16 @@ export type WebhooksListEventsResponse = EventListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventListResult;
+  };
 };
 
 /**
@@ -4755,16 +4790,16 @@ export type WebhooksBeginCreateResponse = Webhook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Webhook;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Webhook;
+  };
 };
 
 /**
@@ -4775,16 +4810,16 @@ export type WebhooksBeginUpdateResponse = Webhook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Webhook;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Webhook;
+  };
 };
 
 /**
@@ -4795,16 +4830,16 @@ export type WebhooksListNextResponse = WebhookListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebhookListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebhookListResult;
+  };
 };
 
 /**
@@ -4815,16 +4850,16 @@ export type WebhooksListEventsNextResponse = EventListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventListResult;
+  };
 };
 
 /**
@@ -4835,16 +4870,16 @@ export type AgentPoolsGetResponse = AgentPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPool;
+  };
 };
 
 /**
@@ -4855,16 +4890,16 @@ export type AgentPoolsCreateResponse = AgentPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPool;
+  };
 };
 
 /**
@@ -4875,16 +4910,16 @@ export type AgentPoolsUpdateResponse = AgentPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPool;
+  };
 };
 
 /**
@@ -4895,16 +4930,16 @@ export type AgentPoolsListResponse = AgentPoolListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPoolListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPoolListResult;
+  };
 };
 
 /**
@@ -4915,16 +4950,16 @@ export type AgentPoolsGetQueueStatusResponse = AgentPoolQueueStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPoolQueueStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPoolQueueStatus;
+  };
 };
 
 /**
@@ -4935,16 +4970,16 @@ export type AgentPoolsBeginCreateResponse = AgentPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPool;
+  };
 };
 
 /**
@@ -4955,16 +4990,16 @@ export type AgentPoolsBeginUpdateResponse = AgentPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPool;
+  };
 };
 
 /**
@@ -4975,16 +5010,16 @@ export type AgentPoolsListNextResponse = AgentPoolListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPoolListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPoolListResult;
+  };
 };
 
 /**
@@ -4995,16 +5030,16 @@ export type RunsListResponse = RunListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunListResult;
+  };
 };
 
 /**
@@ -5015,16 +5050,16 @@ export type RunsGetResponse = Run & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Run;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Run;
+  };
 };
 
 /**
@@ -5035,16 +5070,16 @@ export type RunsUpdateResponse = Run & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Run;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Run;
+  };
 };
 
 /**
@@ -5055,16 +5090,16 @@ export type RunsGetLogSasUrlResponse = RunGetLogResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunGetLogResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunGetLogResult;
+  };
 };
 
 /**
@@ -5075,16 +5110,16 @@ export type RunsBeginUpdateResponse = Run & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Run;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Run;
+  };
 };
 
 /**
@@ -5095,16 +5130,16 @@ export type RunsListNextResponse = RunListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RunListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RunListResult;
+  };
 };
 
 /**
@@ -5115,16 +5150,16 @@ export type TaskRunsGetResponse = TaskRun & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskRun;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskRun;
+  };
 };
 
 /**
@@ -5135,16 +5170,16 @@ export type TaskRunsCreateResponse = TaskRun & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskRun;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskRun;
+  };
 };
 
 /**
@@ -5155,16 +5190,16 @@ export type TaskRunsUpdateResponse = TaskRun & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskRun;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskRun;
+  };
 };
 
 /**
@@ -5175,16 +5210,16 @@ export type TaskRunsGetDetailsResponse = TaskRun & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskRun;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskRun;
+  };
 };
 
 /**
@@ -5195,16 +5230,16 @@ export type TaskRunsListResponse = TaskRunListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskRunListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskRunListResult;
+  };
 };
 
 /**
@@ -5215,16 +5250,16 @@ export type TaskRunsBeginCreateResponse = TaskRun & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskRun;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskRun;
+  };
 };
 
 /**
@@ -5235,16 +5270,16 @@ export type TaskRunsBeginUpdateResponse = TaskRun & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskRun;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskRun;
+  };
 };
 
 /**
@@ -5255,16 +5290,16 @@ export type TaskRunsListNextResponse = TaskRunListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskRunListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskRunListResult;
+  };
 };
 
 /**
@@ -5275,16 +5310,16 @@ export type TasksListResponse = TaskListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskListResult;
+  };
 };
 
 /**
@@ -5295,16 +5330,16 @@ export type TasksGetResponse = Task & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Task;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Task;
+  };
 };
 
 /**
@@ -5315,16 +5350,16 @@ export type TasksCreateResponse = Task & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Task;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Task;
+  };
 };
 
 /**
@@ -5335,16 +5370,16 @@ export type TasksUpdateResponse = Task & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Task;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Task;
+  };
 };
 
 /**
@@ -5355,16 +5390,16 @@ export type TasksGetDetailsResponse = Task & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Task;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Task;
+  };
 };
 
 /**
@@ -5375,16 +5410,16 @@ export type TasksBeginCreateResponse = Task & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Task;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Task;
+  };
 };
 
 /**
@@ -5395,16 +5430,16 @@ export type TasksBeginUpdateResponse = Task & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Task;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Task;
+  };
 };
 
 /**
@@ -5415,16 +5450,16 @@ export type TasksListNextResponse = TaskListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskListResult;
+  };
 };
 
 /**
@@ -5435,16 +5470,16 @@ export type ScopeMapsGetResponse = ScopeMap & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScopeMap;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScopeMap;
+  };
 };
 
 /**
@@ -5455,16 +5490,16 @@ export type ScopeMapsCreateResponse = ScopeMap & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScopeMap;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScopeMap;
+  };
 };
 
 /**
@@ -5475,16 +5510,16 @@ export type ScopeMapsUpdateResponse = ScopeMap & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScopeMap;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScopeMap;
+  };
 };
 
 /**
@@ -5495,16 +5530,16 @@ export type ScopeMapsListResponse = ScopeMapListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScopeMapListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScopeMapListResult;
+  };
 };
 
 /**
@@ -5515,16 +5550,16 @@ export type ScopeMapsBeginCreateResponse = ScopeMap & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScopeMap;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScopeMap;
+  };
 };
 
 /**
@@ -5535,16 +5570,16 @@ export type ScopeMapsBeginUpdateResponse = ScopeMap & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScopeMap;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScopeMap;
+  };
 };
 
 /**
@@ -5555,16 +5590,16 @@ export type ScopeMapsListNextResponse = ScopeMapListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScopeMapListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScopeMapListResult;
+  };
 };
 
 /**
@@ -5575,16 +5610,16 @@ export type TokensGetResponse = Token & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Token;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Token;
+  };
 };
 
 /**
@@ -5595,16 +5630,16 @@ export type TokensCreateResponse = Token & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Token;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Token;
+  };
 };
 
 /**
@@ -5615,16 +5650,16 @@ export type TokensUpdateResponse = Token & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Token;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Token;
+  };
 };
 
 /**
@@ -5635,16 +5670,16 @@ export type TokensListResponse = TokenListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TokenListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TokenListResult;
+  };
 };
 
 /**
@@ -5655,16 +5690,16 @@ export type TokensBeginCreateResponse = Token & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Token;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Token;
+  };
 };
 
 /**
@@ -5675,16 +5710,16 @@ export type TokensBeginUpdateResponse = Token & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Token;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Token;
+  };
 };
 
 /**
@@ -5695,14 +5730,14 @@ export type TokensListNextResponse = TokenListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TokenListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TokenListResult;
+  };
 };

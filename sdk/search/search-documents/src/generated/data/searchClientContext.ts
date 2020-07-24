@@ -25,7 +25,12 @@ export class SearchClientContext extends coreHttp.ServiceClient {
    * @param indexName The name of the index.
    * @param [options] The parameter options
    */
-  constructor(apiVersion: string, endpoint: string, indexName: string, options?: coreHttp.ServiceClientOptions) {
+  constructor(
+    apiVersion: string,
+    endpoint: string,
+    indexName: string,
+    options?: coreHttp.ServiceClientOptions
+  ) {
     if (apiVersion == undefined) {
       throw new Error("'apiVersion' cannot be null.");
     }

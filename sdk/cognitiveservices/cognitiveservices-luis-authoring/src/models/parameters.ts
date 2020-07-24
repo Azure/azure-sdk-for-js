@@ -21,10 +21,7 @@ export const appId: msRest.OperationURLParameter = {
   }
 };
 export const appName: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "appName"
-  ],
+  parameterPath: ["options", "appName"],
   mapper: {
     serializedName: "appName",
     type: {
@@ -33,10 +30,7 @@ export const appName: msRest.OperationQueryParameter = {
   }
 };
 export const armToken: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "armToken"
-  ],
+  parameterPath: ["options", "armToken"],
   mapper: {
     serializedName: "ArmToken",
     type: {
@@ -85,10 +79,7 @@ export const culture: msRest.OperationURLParameter = {
   }
 };
 export const deleteUtterances: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "deleteUtterances"
-  ],
+  parameterPath: ["options", "deleteUtterances"],
   mapper: {
     serializedName: "deleteUtterances",
     defaultValue: false,
@@ -108,10 +99,7 @@ export const domainName: msRest.OperationURLParameter = {
   }
 };
 export const enableNestedChildren: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "enableNestedChildren"
-  ],
+  parameterPath: ["options", "enableNestedChildren"],
   mapper: {
     serializedName: "enableNestedChildren",
     defaultValue: false,
@@ -125,7 +113,7 @@ export const endpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -153,10 +141,7 @@ export const exampleId: msRest.OperationURLParameter = {
   }
 };
 export const force: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "force"
-  ],
+  parameterPath: ["options", "force"],
   mapper: {
     serializedName: "force",
     defaultValue: false,
@@ -171,7 +156,7 @@ export const format: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "format",
-    defaultValue: 'lu',
+    defaultValue: "lu",
     type: {
       name: "String"
     }
@@ -278,10 +263,7 @@ export const roleId: msRest.OperationURLParameter = {
   }
 };
 export const skip: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skip"
-  ],
+  parameterPath: ["options", "skip"],
   mapper: {
     serializedName: "skip",
     defaultValue: 0,
@@ -314,10 +296,7 @@ export const subListId: msRest.OperationURLParameter = {
   }
 };
 export const take: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "take"
-  ],
+  parameterPath: ["options", "take"],
   mapper: {
     serializedName: "take",
     defaultValue: 100,
@@ -341,10 +320,7 @@ export const versionId0: msRest.OperationURLParameter = {
   }
 };
 export const versionId1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "versionId"
-  ],
+  parameterPath: ["options", "versionId"],
   mapper: {
     serializedName: "versionId",
     type: {

@@ -35,7 +35,13 @@ export class ActivityOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ActivityGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, moduleName: string, activityName: string, options?: msRest.RequestOptionsBase): Promise<Models.ActivityGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    activityName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ActivityGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -43,7 +49,13 @@ export class ActivityOperations {
    * @param activityName The name of activity.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, moduleName: string, activityName: string, callback: msRest.ServiceCallback<Models.Activity>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    activityName: string,
+    callback: msRest.ServiceCallback<Models.Activity>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -52,8 +64,22 @@ export class ActivityOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, moduleName: string, activityName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Activity>): void;
-  get(resourceGroupName: string, automationAccountName: string, moduleName: string, activityName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Activity>, callback?: msRest.ServiceCallback<Models.Activity>): Promise<Models.ActivityGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    activityName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Activity>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    activityName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Activity>,
+    callback?: msRest.ServiceCallback<Models.Activity>
+  ): Promise<Models.ActivityGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class ActivityOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ActivityGetResponse>;
+      callback
+    ) as Promise<Models.ActivityGetResponse>;
   }
 
   /**
@@ -74,14 +101,24 @@ export class ActivityOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ActivityListByModuleResponse>
    */
-  listByModule(resourceGroupName: string, automationAccountName: string, moduleName: string, options?: msRest.RequestOptionsBase): Promise<Models.ActivityListByModuleResponse>;
+  listByModule(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ActivityListByModuleResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param moduleName The name of module.
    * @param callback The callback
    */
-  listByModule(resourceGroupName: string, automationAccountName: string, moduleName: string, callback: msRest.ServiceCallback<Models.ActivityListResult>): void;
+  listByModule(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    callback: msRest.ServiceCallback<Models.ActivityListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -89,8 +126,20 @@ export class ActivityOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByModule(resourceGroupName: string, automationAccountName: string, moduleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivityListResult>): void;
-  listByModule(resourceGroupName: string, automationAccountName: string, moduleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityListResult>, callback?: msRest.ServiceCallback<Models.ActivityListResult>): Promise<Models.ActivityListByModuleResponse> {
+  listByModule(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ActivityListResult>
+  ): void;
+  listByModule(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityListResult>,
+    callback?: msRest.ServiceCallback<Models.ActivityListResult>
+  ): Promise<Models.ActivityListByModuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +148,8 @@ export class ActivityOperations {
         options
       },
       listByModuleOperationSpec,
-      callback) as Promise<Models.ActivityListByModuleResponse>;
+      callback
+    ) as Promise<Models.ActivityListByModuleResponse>;
   }
 
   /**
@@ -108,26 +158,41 @@ export class ActivityOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ActivityListByModuleNextResponse>
    */
-  listByModuleNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ActivityListByModuleNextResponse>;
+  listByModuleNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ActivityListByModuleNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByModuleNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ActivityListResult>): void;
+  listByModuleNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ActivityListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByModuleNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivityListResult>): void;
-  listByModuleNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityListResult>, callback?: msRest.ServiceCallback<Models.ActivityListResult>): Promise<Models.ActivityListByModuleNextResponse> {
+  listByModuleNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ActivityListResult>
+  ): void;
+  listByModuleNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityListResult>,
+    callback?: msRest.ServiceCallback<Models.ActivityListResult>
+  ): Promise<Models.ActivityListByModuleNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByModuleNextOperationSpec,
-      callback) as Promise<Models.ActivityListByModuleNextResponse>;
+      callback
+    ) as Promise<Models.ActivityListByModuleNextResponse>;
   }
 }
 
@@ -135,7 +200,8 @@ export class ActivityOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities/{activityName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities/{activityName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
@@ -143,12 +209,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.activityName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Activity
@@ -162,19 +224,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByModuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.moduleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ActivityListResult
@@ -190,12 +249,8 @@ const listByModuleNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ActivityListResult

@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -41,10 +41,7 @@ export const availabilityGroupListenerName: msRest.OperationURLParameter = {
   }
 };
 export const expand: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
+  parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {

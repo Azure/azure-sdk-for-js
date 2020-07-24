@@ -33,21 +33,39 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsListByManagerResponse>
    */
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.AlertsListByManagerOptionalParams): Promise<Models.AlertsListByManagerResponse>;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.AlertsListByManagerOptionalParams
+  ): Promise<Models.AlertsListByManagerResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.AlertList>): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, options: Models.AlertsListByManagerOptionalParams, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.AlertsListByManagerOptionalParams | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListByManagerResponse> {
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.AlertsListByManagerOptionalParams,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.AlertsListByManagerOptionalParams | msRest.ServiceCallback<Models.AlertList>,
+    callback?: msRest.ServiceCallback<Models.AlertList>
+  ): Promise<Models.AlertsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class Alerts {
         options
       },
       listByManagerOperationSpec,
-      callback) as Promise<Models.AlertsListByManagerResponse>;
+      callback
+    ) as Promise<Models.AlertsListByManagerResponse>;
   }
 
   /**
@@ -66,14 +85,24 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  clear(request: Models.ClearAlertRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  clear(
+    request: Models.ClearAlertRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param request The clear alert request.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  clear(request: Models.ClearAlertRequest, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<void>): void;
+  clear(
+    request: Models.ClearAlertRequest,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param request The clear alert request.
    * @param resourceGroupName The resource group name
@@ -81,8 +110,20 @@ export class Alerts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  clear(request: Models.ClearAlertRequest, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  clear(request: Models.ClearAlertRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  clear(
+    request: Models.ClearAlertRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  clear(
+    request: Models.ClearAlertRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         request,
@@ -91,7 +132,8 @@ export class Alerts {
         options
       },
       clearOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -103,7 +145,13 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  sendTestEmail(deviceName: string, request: Models.SendTestAlertEmailRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  sendTestEmail(
+    deviceName: string,
+    request: Models.SendTestAlertEmailRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param deviceName The device name.
    * @param request The send test alert email request.
@@ -111,7 +159,13 @@ export class Alerts {
    * @param managerName The manager name
    * @param callback The callback
    */
-  sendTestEmail(deviceName: string, request: Models.SendTestAlertEmailRequest, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<void>): void;
+  sendTestEmail(
+    deviceName: string,
+    request: Models.SendTestAlertEmailRequest,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param request The send test alert email request.
@@ -120,8 +174,22 @@ export class Alerts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  sendTestEmail(deviceName: string, request: Models.SendTestAlertEmailRequest, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  sendTestEmail(deviceName: string, request: Models.SendTestAlertEmailRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  sendTestEmail(
+    deviceName: string,
+    request: Models.SendTestAlertEmailRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  sendTestEmail(
+    deviceName: string,
+    request: Models.SendTestAlertEmailRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -131,7 +199,8 @@ export class Alerts {
         options
       },
       sendTestEmailOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -140,7 +209,10 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsListByManagerNextResponse>
    */
-  listByManagerNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AlertsListByManagerNextResponse>;
+  listByManagerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertsListByManagerNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -151,15 +223,24 @@ export class Alerts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManagerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listByManagerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListByManagerNextResponse> {
+  listByManagerNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
+  listByManagerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>,
+    callback?: msRest.ServiceCallback<Models.AlertList>
+  ): Promise<Models.AlertsListByManagerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByManagerNextOperationSpec,
-      callback) as Promise<Models.AlertsListByManagerNextResponse>;
+      callback
+    ) as Promise<Models.AlertsListByManagerNextResponse>;
   }
 }
 
@@ -167,19 +248,11 @@ export class Alerts {
 const serializer = new msRest.Serializer(Mappers);
 const listByManagerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/alerts",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/alerts",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertList
@@ -193,18 +266,11 @@ const listByManagerOperationSpec: msRest.OperationSpec = {
 
 const clearOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/clearAlerts",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/clearAlerts",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {
@@ -223,19 +289,16 @@ const clearOperationSpec: msRest.OperationSpec = {
 
 const sendTestEmailOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/sendTestAlertEmail",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/sendTestAlertEmail",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {
@@ -256,12 +319,8 @@ const listByManagerNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertList

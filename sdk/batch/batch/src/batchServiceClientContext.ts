@@ -25,36 +25,43 @@ export class BatchServiceClientContext extends msRestAzure.AzureServiceClient {
    * @param batchUrl The base URL for all Azure Batch service requests.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, batchUrl: string, options?: msRestAzure.AzureServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    batchUrl: string,
+    options?: msRestAzure.AzureServiceClientOptions
+  ) {
     if (credentials == undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+      throw new Error("'credentials' cannot be null.");
     }
     if (batchUrl == undefined) {
-      throw new Error('\'batchUrl\' cannot be null.');
+      throw new Error("'batchUrl' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+    if (!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = '2018-12-01.8.0';
-    this.acceptLanguage = 'en-US';
+    this.apiVersion = "2018-12-01.8.0";
+    this.acceptLanguage = "en-US";
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = "{batchUrl}";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.batchUrl = batchUrl;
 
-    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (
+      options.longRunningOperationRetryTimeout !== null &&
+      options.longRunningOperationRetryTimeout !== undefined
+    ) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

@@ -35,7 +35,12 @@ export class DatabaseBlobAuditingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseBlobAuditingPoliciesGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseBlobAuditingPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseBlobAuditingPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -43,7 +48,12 @@ export class DatabaseBlobAuditingPolicies {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -52,8 +62,20 @@ export class DatabaseBlobAuditingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>, callback?: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>): Promise<Models.DatabaseBlobAuditingPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>,
+    callback?: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>
+  ): Promise<Models.DatabaseBlobAuditingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +84,8 @@ export class DatabaseBlobAuditingPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DatabaseBlobAuditingPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.DatabaseBlobAuditingPoliciesGetResponse>;
   }
 
   /**
@@ -75,7 +98,13 @@ export class DatabaseBlobAuditingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseBlobAuditingPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseBlobAuditingPolicy, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseBlobAuditingPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseBlobAuditingPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseBlobAuditingPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -84,7 +113,13 @@ export class DatabaseBlobAuditingPolicies {
    * @param parameters The database blob auditing policy.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseBlobAuditingPolicy, callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseBlobAuditingPolicy,
+    callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -94,8 +129,22 @@ export class DatabaseBlobAuditingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseBlobAuditingPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseBlobAuditingPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>, callback?: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>): Promise<Models.DatabaseBlobAuditingPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseBlobAuditingPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseBlobAuditingPolicy,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>,
+    callback?: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicy>
+  ): Promise<Models.DatabaseBlobAuditingPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +154,8 @@ export class DatabaseBlobAuditingPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DatabaseBlobAuditingPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.DatabaseBlobAuditingPoliciesCreateOrUpdateResponse>;
   }
 
   /**
@@ -117,7 +167,12 @@ export class DatabaseBlobAuditingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseResponse>
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseResponse>;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -125,7 +180,12 @@ export class DatabaseBlobAuditingPolicies {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -134,8 +194,22 @@ export class DatabaseBlobAuditingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>, callback?: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>): Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseResponse> {
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>
+  ): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>,
+    callback?: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>
+  ): Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,7 +218,8 @@ export class DatabaseBlobAuditingPolicies {
         options
       },
       listByDatabaseOperationSpec,
-      callback) as Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseResponse>;
+      callback
+    ) as Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseResponse>;
   }
 
   /**
@@ -153,26 +228,43 @@ export class DatabaseBlobAuditingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseNextResponse>
    */
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseNextResponse>;
+  listByDatabaseNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByDatabaseNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>): void;
+  listByDatabaseNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>): void;
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>, callback?: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>): Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseNextResponse> {
+  listByDatabaseNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>
+  ): void;
+  listByDatabaseNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>,
+    callback?: msRest.ServiceCallback<Models.DatabaseBlobAuditingPolicyListResult>
+  ): Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByDatabaseNextOperationSpec,
-      callback) as Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseNextResponse>;
+      callback
+    ) as Promise<Models.DatabaseBlobAuditingPoliciesListByDatabaseNextResponse>;
   }
 }
 
@@ -180,7 +272,8 @@ export class DatabaseBlobAuditingPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -188,12 +281,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.blobAuditingPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseBlobAuditingPolicy
@@ -207,7 +296,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings/{blobAuditingPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -215,12 +305,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.blobAuditingPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -244,19 +330,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/auditingSettings",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseBlobAuditingPolicyListResult
@@ -272,12 +355,8 @@ const listByDatabaseNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseBlobAuditingPolicyListResult

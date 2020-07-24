@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 import { CommandBuilder } from "yargs";
 import {
-  EventProcessorHost, OnReceivedMessage, PartitionContext, OnReceivedError
+  EventProcessorHost,
+  OnReceivedMessage,
+  PartitionContext,
+  OnReceivedError
 } from "@azure/event-processor-host";
 import { log, setCurrentCommand } from "../utils/util";
 import { EventHubClient, EventPosition, EventData, Dictionary } from "@azure/event-hubs";
@@ -68,7 +71,9 @@ function validateArgs(argv: any) {
   }
 
   if (!argv.connStr && (!argv.key || !argv.keyName || !argv.address)) {
-    throw new Error(`Either provide --conn-str OR (--address "sb://{yournamespace}.servicebus.windows.net" --key-name "<shared-access-key-name>" --key "<shared-access-key-value>")`);
+    throw new Error(
+      `Either provide --conn-str OR (--address "sb://{yournamespace}.servicebus.windows.net" --key-name "<shared-access-key-name>" --key "<shared-access-key-value>")`
+    );
   }
 
   if (!argv.storageStr) {
@@ -106,7 +111,8 @@ export async function handler(argv: any): Promise<void> {
     log("Creating %d EPH(s).", ephCount);
     for (let i = 0; i < ephCount; i++) {
       const hostName = `${hostPrefix}-${i + 1}`;
-      ephCache[hostName] = EventProcessorHost.createFromConnectionString(hostName,
+      ephCache[hostName] = EventProcessorHost.createFromConnectionString(
+        hostName,
         storageStr,
         leaseContainerName,
         connectionString,
@@ -119,7 +125,8 @@ export async function handler(argv: any): Promise<void> {
           onEphError: (error) => {
             log(">>>>>>> [%s] Error: %O", hostName, error);
           }
-        });
+        }
+      );
     }
     const startedEphs: Array<Promise<void>> = [];
     for (let ephName of Object.keys(ephCache)) {
@@ -132,18 +139,40 @@ export async function handler(argv: any): Promise<void> {
         // Checkpointing every 1000th event
         if (count % 1000 === 0) {
           try {
-            log("##### [%s] %d - Checkpointing message from partition '%s', with offset " +
-              "'%s', sequenceNumber %d.", eph, count, context.partitionId, data.offset,
-              data.sequenceNumber);
-            log("***** [%s] Number of partitions: %O", eph.hostName, eph.receivingFromPartitions.length);
-            log("***** [%s] EPH is currently receiving messages from partitions: %s, total number %d.",
-              eph.hostName, eph.receivingFromPartitions.toString(), eph.receivingFromPartitions.length);
+            log(
+              "##### [%s] %d - Checkpointing message from partition '%s', with offset " +
+                "'%s', sequenceNumber %d.",
+              eph,
+              count,
+              context.partitionId,
+              data.offset,
+              data.sequenceNumber
+            );
+            log(
+              "***** [%s] Number of partitions: %O",
+              eph.hostName,
+              eph.receivingFromPartitions.length
+            );
+            log(
+              "***** [%s] EPH is currently receiving messages from partitions: %s, total number %d.",
+              eph.hostName,
+              eph.receivingFromPartitions.toString(),
+              eph.receivingFromPartitions.length
+            );
             await context.checkpoint();
-            log("$$$$ [%s] Successfully checkpointed message number %d for partition '%s'",
-              eph.hostName, count, context.partitionId);
+            log(
+              "$$$$ [%s] Successfully checkpointed message number %d for partition '%s'",
+              eph.hostName,
+              count,
+              context.partitionId
+            );
           } catch (err) {
-            log(">>>>>>> [%s] An error occurred while checkpointing msg number %d: %O",
-              eph.hostName, count, err);
+            log(
+              ">>>>>>> [%s] An error occurred while checkpointing msg number %d: %O",
+              eph.hostName,
+              count,
+              err
+            );
           }
         }
       };

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { HanaManagementClientContext } from "./hanaManagementClientContext";
 
-
 class HanaManagementClient extends HanaManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -28,7 +27,11 @@ class HanaManagementClient extends HanaManagementClientContext {
    * subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.HanaManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.HanaManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.hanaInstances = new operations.HanaInstances(this);

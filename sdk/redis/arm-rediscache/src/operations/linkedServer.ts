@@ -36,9 +36,22 @@ export class LinkedServer {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedServerCreateResponse>
    */
-  create(resourceGroupName: string, name: string, linkedServerName: string, parameters: Models.RedisLinkedServerCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.LinkedServerCreateResponse> {
-    return this.beginCreate(resourceGroupName,name,linkedServerName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LinkedServerCreateResponse>;
+  create(
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    parameters: Models.RedisLinkedServerCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LinkedServerCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      name,
+      linkedServerName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.LinkedServerCreateResponse
+    >;
   }
 
   /**
@@ -49,14 +62,24 @@ export class LinkedServer {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, name: string, linkedServerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the redis cache.
    * @param linkedServerName The name of the linked server that is being added to the Redis cache.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, name: string, linkedServerName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the redis cache.
@@ -64,8 +87,20 @@ export class LinkedServer {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, name: string, linkedServerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, name: string, linkedServerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +109,8 @@ export class LinkedServer {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -85,14 +121,24 @@ export class LinkedServer {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedServerGetResponse>
    */
-  get(resourceGroupName: string, name: string, linkedServerName: string, options?: msRest.RequestOptionsBase): Promise<Models.LinkedServerGetResponse>;
+  get(
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LinkedServerGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the redis cache.
    * @param linkedServerName The name of the linked server.
    * @param callback The callback
    */
-  get(resourceGroupName: string, name: string, linkedServerName: string, callback: msRest.ServiceCallback<Models.RedisLinkedServerWithProperties>): void;
+  get(
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    callback: msRest.ServiceCallback<Models.RedisLinkedServerWithProperties>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the redis cache.
@@ -100,8 +146,22 @@ export class LinkedServer {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, name: string, linkedServerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisLinkedServerWithProperties>): void;
-  get(resourceGroupName: string, name: string, linkedServerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisLinkedServerWithProperties>, callback?: msRest.ServiceCallback<Models.RedisLinkedServerWithProperties>): Promise<Models.LinkedServerGetResponse> {
+  get(
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RedisLinkedServerWithProperties>
+  ): void;
+  get(
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RedisLinkedServerWithProperties>,
+    callback?: msRest.ServiceCallback<Models.RedisLinkedServerWithProperties>
+  ): Promise<Models.LinkedServerGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -110,7 +170,8 @@ export class LinkedServer {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.LinkedServerGetResponse>;
+      callback
+    ) as Promise<Models.LinkedServerGetResponse>;
   }
 
   /**
@@ -120,21 +181,41 @@ export class LinkedServer {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedServerListResponse>
    */
-  list(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.LinkedServerListResponse>;
+  list(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LinkedServerListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the redis cache.
    * @param callback The callback
    */
-  list(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>): void;
+  list(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the redis cache.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>): void;
-  list(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>, callback?: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>): Promise<Models.LinkedServerListResponse> {
+  list(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    name: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>,
+    callback?: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>
+  ): Promise<Models.LinkedServerListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -142,7 +223,8 @@ export class LinkedServer {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.LinkedServerListResponse>;
+      callback
+    ) as Promise<Models.LinkedServerListResponse>;
   }
 
   /**
@@ -154,7 +236,13 @@ export class LinkedServer {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, name: string, linkedServerName: string, parameters: Models.RedisLinkedServerCreateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    name: string,
+    linkedServerName: string,
+    parameters: Models.RedisLinkedServerCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -164,7 +252,8 @@ export class LinkedServer {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -173,26 +262,43 @@ export class LinkedServer {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedServerListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LinkedServerListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LinkedServerListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>, callback?: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>): Promise<Models.LinkedServerListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>,
+    callback?: msRest.ServiceCallback<Models.RedisLinkedServerWithPropertiesList>
+  ): Promise<Models.LinkedServerListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.LinkedServerListNextResponse>;
+      callback
+    ) as Promise<Models.LinkedServerListNextResponse>;
   }
 }
 
@@ -200,19 +306,16 @@ export class LinkedServer {
 const serializer = new msRest.Serializer(Mappers);
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/linkedServers/{linkedServerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/linkedServers/{linkedServerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.linkedServerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -224,19 +327,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/linkedServers/{linkedServerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/linkedServers/{linkedServerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.linkedServerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RedisLinkedServerWithProperties
@@ -250,18 +350,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/linkedServers",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/linkedServers",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RedisLinkedServerWithPropertiesList
@@ -275,19 +368,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/linkedServers/{linkedServerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/linkedServers/{linkedServerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.linkedServerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -313,12 +403,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RedisLinkedServerWithPropertiesList

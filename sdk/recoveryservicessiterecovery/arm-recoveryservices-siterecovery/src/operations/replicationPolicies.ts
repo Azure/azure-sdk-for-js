@@ -42,14 +42,21 @@ export class ReplicationPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyCollection>, callback?: msRest.ServiceCallback<Models.PolicyCollection>): Promise<Models.ReplicationPoliciesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyCollection>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyCollection>,
+    callback?: msRest.ServiceCallback<Models.PolicyCollection>
+  ): Promise<Models.ReplicationPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ReplicationPoliciesListResponse>;
+      callback
+    ) as Promise<Models.ReplicationPoliciesListResponse>;
   }
 
   /**
@@ -59,7 +66,10 @@ export class ReplicationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationPoliciesGetResponse>
    */
-  get(policyName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationPoliciesGetResponse>;
+  get(
+    policyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationPoliciesGetResponse>;
   /**
    * @param policyName Replication policy name.
    * @param callback The callback
@@ -70,15 +80,24 @@ export class ReplicationPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(policyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Policy>): void;
-  get(policyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Policy>, callback?: msRest.ServiceCallback<Models.Policy>): Promise<Models.ReplicationPoliciesGetResponse> {
+  get(
+    policyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Policy>
+  ): void;
+  get(
+    policyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Policy>,
+    callback?: msRest.ServiceCallback<Models.Policy>
+  ): Promise<Models.ReplicationPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         policyName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReplicationPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.ReplicationPoliciesGetResponse>;
   }
 
   /**
@@ -89,9 +108,14 @@ export class ReplicationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationPoliciesCreateResponse>
    */
-  create(policyName: string, input: Models.CreatePolicyInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationPoliciesCreateResponse> {
-    return this.beginCreate(policyName,input,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationPoliciesCreateResponse>;
+  create(
+    policyName: string,
+    input: Models.CreatePolicyInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationPoliciesCreateResponse> {
+    return this.beginCreate(policyName, input, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationPoliciesCreateResponse>;
   }
 
   /**
@@ -101,9 +125,13 @@ export class ReplicationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(policyName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(policyName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    policyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(policyName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -114,9 +142,14 @@ export class ReplicationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationPoliciesUpdateResponse>
    */
-  update(policyName: string, input: Models.UpdatePolicyInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationPoliciesUpdateResponse> {
-    return this.beginUpdate(policyName,input,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationPoliciesUpdateResponse>;
+  update(
+    policyName: string,
+    input: Models.UpdatePolicyInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationPoliciesUpdateResponse> {
+    return this.beginUpdate(policyName, input, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationPoliciesUpdateResponse>;
   }
 
   /**
@@ -127,7 +160,11 @@ export class ReplicationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(policyName: string, input: Models.CreatePolicyInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    policyName: string,
+    input: Models.CreatePolicyInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         policyName,
@@ -135,7 +172,8 @@ export class ReplicationPolicies {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -145,14 +183,18 @@ export class ReplicationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(policyName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    policyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         policyName,
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -163,7 +205,11 @@ export class ReplicationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(policyName: string, input: Models.UpdatePolicyInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    policyName: string,
+    input: Models.UpdatePolicyInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         policyName,
@@ -171,7 +217,8 @@ export class ReplicationPolicies {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -181,7 +228,10 @@ export class ReplicationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationPoliciesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationPoliciesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationPoliciesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -192,15 +242,24 @@ export class ReplicationPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyCollection>, callback?: msRest.ServiceCallback<Models.PolicyCollection>): Promise<Models.ReplicationPoliciesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyCollection>,
+    callback?: msRest.ServiceCallback<Models.PolicyCollection>
+  ): Promise<Models.ReplicationPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ReplicationPoliciesListNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationPoliciesListNextResponse>;
   }
 }
 
@@ -208,18 +267,11 @@ export class ReplicationPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies",
+  urlParameters: [Parameters.resourceName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyCollection
@@ -233,19 +285,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.policyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Policy
@@ -259,19 +308,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.policyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -293,19 +339,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.policyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -318,19 +361,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.policyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -354,12 +394,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyCollection

@@ -33,21 +33,39 @@ export class DataExports {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataExportsListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataExportsListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataExportsListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.DataExportListResult>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.DataExportListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataExportListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataExportListResult>, callback?: msRest.ServiceCallback<Models.DataExportListResult>): Promise<Models.DataExportsListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataExportListResult>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataExportListResult>,
+    callback?: msRest.ServiceCallback<Models.DataExportListResult>
+  ): Promise<Models.DataExportsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class DataExports {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.DataExportsListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.DataExportsListByWorkspaceResponse>;
   }
 
   /**
@@ -67,7 +86,13 @@ export class DataExports {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataExportsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataExportName: string, parameters: Models.DataExport, options?: msRest.RequestOptionsBase): Promise<Models.DataExportsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataExportName: string,
+    parameters: Models.DataExport,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataExportsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -75,7 +100,13 @@ export class DataExports {
    * @param parameters The parameters required to create or update a data export.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataExportName: string, parameters: Models.DataExport, callback: msRest.ServiceCallback<Models.DataExport>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataExportName: string,
+    parameters: Models.DataExport,
+    callback: msRest.ServiceCallback<Models.DataExport>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -84,8 +115,22 @@ export class DataExports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataExportName: string, parameters: Models.DataExport, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataExport>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataExportName: string, parameters: Models.DataExport, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataExport>, callback?: msRest.ServiceCallback<Models.DataExport>): Promise<Models.DataExportsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataExportName: string,
+    parameters: Models.DataExport,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataExport>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataExportName: string,
+    parameters: Models.DataExport,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataExport>,
+    callback?: msRest.ServiceCallback<Models.DataExport>
+  ): Promise<Models.DataExportsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +140,8 @@ export class DataExports {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DataExportsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.DataExportsCreateOrUpdateResponse>;
   }
 
   /**
@@ -106,14 +152,24 @@ export class DataExports {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataExportsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, dataExportName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataExportsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataExportName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataExportsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataExportName The data export rule name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, dataExportName: string, callback: msRest.ServiceCallback<Models.DataExport>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataExportName: string,
+    callback: msRest.ServiceCallback<Models.DataExport>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -121,8 +177,20 @@ export class DataExports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, dataExportName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataExport>): void;
-  get(resourceGroupName: string, workspaceName: string, dataExportName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataExport>, callback?: msRest.ServiceCallback<Models.DataExport>): Promise<Models.DataExportsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataExportName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataExport>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataExportName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataExport>,
+    callback?: msRest.ServiceCallback<Models.DataExport>
+  ): Promise<Models.DataExportsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +199,8 @@ export class DataExports {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DataExportsGetResponse>;
+      callback
+    ) as Promise<Models.DataExportsGetResponse>;
   }
 
   /**
@@ -142,14 +211,24 @@ export class DataExports {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataExportName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataExportName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataExportName The data export rule name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataExportName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataExportName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -157,8 +236,20 @@ export class DataExports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataExportName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataExportName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataExportName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataExportName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +258,8 @@ export class DataExports {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -175,18 +267,15 @@ export class DataExports {
 const serializer = new msRest.Serializer(Mappers);
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataExportListResult
@@ -200,19 +289,16 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.dataExportName0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -236,19 +322,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.dataExportName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataExport
@@ -262,19 +345,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.dataExportName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     404: {},

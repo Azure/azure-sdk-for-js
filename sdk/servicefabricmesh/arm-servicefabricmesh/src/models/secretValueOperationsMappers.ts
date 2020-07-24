@@ -74,4 +74,3 @@ export {
   AzureInternalMonitoringPipelineSinkDescription,
   AutoScalingResourceMetric
 } from "../models/mappers";
-

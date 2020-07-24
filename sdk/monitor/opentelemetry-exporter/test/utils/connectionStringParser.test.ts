@@ -57,7 +57,7 @@ describe("ConnectionStringParser", () => {
         expectedAuthorization: undefined,
         expectedInstrumentationKey: "00000000-0000-0000-0000-000000000000",
         expectedBreezeEndpoint: Constants.DEFAULT_BREEZE_ENDPOINT,
-        expectedLiveMetricsEndpoint: Constants.DEFAULT_LIVEMETRICS_ENDPOINT,
+        expectedLiveMetricsEndpoint: Constants.DEFAULT_LIVEMETRICS_ENDPOINT
       });
     });
 
@@ -66,7 +66,7 @@ describe("ConnectionStringParser", () => {
         connectionString:
           "InstrumentationKey=00000000-0000-0000-0000-000000000000;EndpointSuffix=ai.contoso.com",
         expectedBreezeEndpoint: "https://dc.ai.contoso.com",
-        expectedLiveMetricsEndpoint: "https://live.ai.contoso.com",
+        expectedLiveMetricsEndpoint: "https://live.ai.contoso.com"
       });
     });
 
@@ -75,7 +75,7 @@ describe("ConnectionStringParser", () => {
         connectionString:
           "InstrumentationKey=00000000-0000-0000-0000-000000000000;EndpointSuffix=ai.contoso.com;LiveEndpoint=https://custom.live.contoso.com:444",
         expectedBreezeEndpoint: "https://dc.ai.contoso.com",
-        expectedLiveMetricsEndpoint: "https://custom.live.contoso.com:444",
+        expectedLiveMetricsEndpoint: "https://custom.live.contoso.com:444"
       });
     });
 
@@ -84,7 +84,7 @@ describe("ConnectionStringParser", () => {
         connectionString:
           "InstrumentationKey=00000000-0000-0000-0000-000000000000;EndpointSuffix=ai.contoso.com;Location=westus2",
         expectedBreezeEndpoint: "https://westus2.dc.ai.contoso.com",
-        expectedLiveMetricsEndpoint: "https://westus2.live.ai.contoso.com",
+        expectedLiveMetricsEndpoint: "https://westus2.live.ai.contoso.com"
       });
     });
 
@@ -93,7 +93,7 @@ describe("ConnectionStringParser", () => {
         connectionString:
           "InstrumentationKey=00000000-0000-0000-0000-000000000000;EndpointSuffix=ai.contoso.com;Location=westus2;LiveEndpoint=https://custom.contoso.com:444",
         expectedBreezeEndpoint: "https://westus2.dc.ai.contoso.com",
-        expectedLiveMetricsEndpoint: "https://custom.contoso.com:444",
+        expectedLiveMetricsEndpoint: "https://custom.contoso.com:444"
       });
     });
 
@@ -102,7 +102,7 @@ describe("ConnectionStringParser", () => {
         connectionString:
           "InstrumentationKey=00000000-0000-0000-0000-000000000000;LiveEndpoint=http://custom.live.endpoint.com:444",
         expectedBreezeEndpoint: Constants.DEFAULT_BREEZE_ENDPOINT,
-        expectedLiveMetricsEndpoint: "http://custom.live.endpoint.com:444",
+        expectedLiveMetricsEndpoint: "http://custom.live.endpoint.com:444"
       });
     });
   });

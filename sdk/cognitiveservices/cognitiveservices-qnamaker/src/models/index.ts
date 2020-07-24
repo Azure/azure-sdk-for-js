@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as msRest from "@azure/ms-rest-js";
 
 /**
@@ -30,8 +29,7 @@ export interface CreateKbInputDTO {
 /**
  * An instance of CreateKbInputDTO for add operation
  */
-export interface UpdateKbOperationDTOAdd extends CreateKbInputDTO {
-}
+export interface UpdateKbOperationDTOAdd extends CreateKbInputDTO {}
 
 /**
  * PATCH body schema of Delete Operation in UpdateKb
@@ -50,8 +48,7 @@ export interface DeleteKbContentsDTO {
 /**
  * An instance of DeleteKbContentsDTO for delete Operation
  */
-export interface UpdateKbOperationDTODelete extends DeleteKbContentsDTO {
-}
+export interface UpdateKbOperationDTODelete extends DeleteKbContentsDTO {}
 
 /**
  * PATCH body schema for Update operation in Update Kb
@@ -74,8 +71,7 @@ export interface UpdateKbContentsDTO {
 /**
  * An instance of UpdateKbContentsDTO for Update Operation
  */
-export interface UpdateKbOperationDTOUpdate extends UpdateKbContentsDTO {
-}
+export interface UpdateKbOperationDTOUpdate extends UpdateKbContentsDTO {}
 
 /**
  * Contains list of QnAs to be updated
@@ -122,8 +118,7 @@ export interface UpdateQuestionsDTO {
 /**
  * List of questions associated with the answer.
  */
-export interface UpdateQnaDTOQuestions extends UpdateQuestionsDTO {
-}
+export interface UpdateQnaDTOQuestions extends UpdateQuestionsDTO {}
 
 /**
  * PATCH Body schema to represent list of Metadata to be updated
@@ -142,8 +137,7 @@ export interface UpdateMetadataDTO {
 /**
  * List of metadata associated with the answer to be updated
  */
-export interface UpdateQnaDTOMetadata extends UpdateMetadataDTO {
-}
+export interface UpdateQnaDTOMetadata extends UpdateMetadataDTO {}
 
 /**
  * Update Body schema to represent context to be updated
@@ -168,8 +162,7 @@ export interface UpdateContextDTO {
 /**
  * Context associated with Qna to be updated.
  */
-export interface UpdateQnaDTOContext extends UpdateContextDTO {
-}
+export interface UpdateQnaDTOContext extends UpdateContextDTO {}
 
 /**
  * PATCH Body schema for Update Qna List
@@ -250,8 +243,7 @@ export interface QnADTO {
 /**
  * QnADTO - Either QnaId or QnADTO needs to be present in a PromptDTO object
  */
-export interface PromptDTOQna extends QnADTO {
-}
+export interface PromptDTOQna extends QnADTO {}
 
 /**
  * Prompt for an answer.
@@ -294,8 +286,7 @@ export interface ContextDTO {
 /**
  * Context of a QnA
  */
-export interface QnADTOContext extends ContextDTO {
-}
+export interface QnADTOContext extends ContextDTO {}
 
 /**
  * DTO to hold details of uploaded files.
@@ -402,8 +393,7 @@ export interface ErrorModel {
 /**
  * The error object.
  */
-export interface ErrorResponseError extends ErrorModel {
-}
+export interface ErrorResponseError extends ErrorModel {}
 
 /**
  * Error response. As per Microsoft One API guidelines -
@@ -531,8 +521,7 @@ export interface ActiveLearningSettingsDTO {
 /**
  * Active Learning settings of the endpoint.
  */
-export interface EndpointSettingsDTOActiveLearning extends ActiveLearningSettingsDTO {
-}
+export interface EndpointSettingsDTOActiveLearning extends ActiveLearningSettingsDTO {}
 
 /**
  * Endpoint settings.
@@ -620,7 +609,21 @@ export interface KnowledgebaseUpdateHeaders {
  * @readonly
  * @enum {string}
  */
-export type ErrorCodeType = 'BadArgument' | 'Forbidden' | 'NotFound' | 'KbNotFound' | 'Unauthorized' | 'Unspecified' | 'EndpointKeysError' | 'QuotaExceeded' | 'QnaRuntimeError' | 'SKULimitExceeded' | 'OperationNotFound' | 'ServiceError' | 'ValidationFailure' | 'ExtractionFailure';
+export type ErrorCodeType =
+  | "BadArgument"
+  | "Forbidden"
+  | "NotFound"
+  | "KbNotFound"
+  | "Unauthorized"
+  | "Unspecified"
+  | "EndpointKeysError"
+  | "QuotaExceeded"
+  | "QnaRuntimeError"
+  | "SKULimitExceeded"
+  | "OperationNotFound"
+  | "ServiceError"
+  | "ValidationFailure"
+  | "ExtractionFailure";
 
 /**
  * Defines values for OperationStateType.
@@ -628,7 +631,7 @@ export type ErrorCodeType = 'BadArgument' | 'Forbidden' | 'NotFound' | 'KbNotFou
  * @readonly
  * @enum {string}
  */
-export type OperationStateType = 'Failed' | 'NotStarted' | 'Running' | 'Succeeded';
+export type OperationStateType = "Failed" | "NotStarted" | "Running" | "Succeeded";
 
 /**
  * Defines values for EnvironmentType.
@@ -636,7 +639,7 @@ export type OperationStateType = 'Failed' | 'NotStarted' | 'Running' | 'Succeede
  * @readonly
  * @enum {string}
  */
-export type EnvironmentType = 'Prod' | 'Test';
+export type EnvironmentType = "Prod" | "Test";
 
 /**
  * Contains response data for the getSettings operation.
@@ -646,16 +649,16 @@ export type EndpointSettingsGetSettingsResponse = EndpointSettingsDTO & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EndpointSettingsDTO;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EndpointSettingsDTO;
+  };
 };
 
 /**
@@ -671,16 +674,16 @@ export type EndpointSettingsUpdateSettingsResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -691,16 +694,16 @@ export type EndpointKeysGetKeysResponse = EndpointKeysDTO & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EndpointKeysDTO;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EndpointKeysDTO;
+  };
 };
 
 /**
@@ -711,16 +714,16 @@ export type EndpointKeysRefreshKeysResponse = EndpointKeysDTO & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EndpointKeysDTO;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EndpointKeysDTO;
+  };
 };
 
 /**
@@ -731,16 +734,16 @@ export type AlterationsGetResponse = WordAlterationsDTO & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WordAlterationsDTO;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WordAlterationsDTO;
+  };
 };
 
 /**
@@ -751,16 +754,16 @@ export type KnowledgebaseListAllResponse = KnowledgebasesDTO & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KnowledgebasesDTO;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KnowledgebasesDTO;
+  };
 };
 
 /**
@@ -771,26 +774,27 @@ export type KnowledgebaseGetDetailsResponse = KnowledgebaseDTO & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KnowledgebaseDTO;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KnowledgebaseDTO;
+  };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type KnowledgebaseUpdateResponse = Operation & KnowledgebaseUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type KnowledgebaseUpdateResponse = Operation &
+  KnowledgebaseUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -806,7 +810,7 @@ export type KnowledgebaseUpdateResponse = Operation & KnowledgebaseUpdateHeaders
        */
       parsedBody: Operation;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
@@ -816,16 +820,16 @@ export type KnowledgebaseCreateResponse = Operation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Operation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Operation;
+  };
 };
 
 /**
@@ -836,26 +840,27 @@ export type KnowledgebaseDownloadResponse = QnADocumentsDTO & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QnADocumentsDTO;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QnADocumentsDTO;
+  };
 };
 
 /**
  * Contains response data for the getDetails operation.
  */
-export type OperationsGetDetailsResponse = Operation & OperationsGetDetailsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type OperationsGetDetailsResponse = Operation &
+  OperationsGetDetailsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -871,4 +876,4 @@ export type OperationsGetDetailsResponse = Operation & OperationsGetDetailsHeade
        */
       parsedBody: Operation;
     };
-};
+  };

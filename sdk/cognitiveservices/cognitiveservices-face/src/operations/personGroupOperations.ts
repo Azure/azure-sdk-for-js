@@ -63,7 +63,10 @@ export class PersonGroupOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  create(personGroupId: string, options?: Models.PersonGroupCreateOptionalParams): Promise<msRest.RestResponse>;
+  create(
+    personGroupId: string,
+    options?: Models.PersonGroupCreateOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param personGroupId Id referencing a particular person group.
    * @param callback The callback
@@ -74,15 +77,24 @@ export class PersonGroupOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(personGroupId: string, options: Models.PersonGroupCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(personGroupId: string, options?: Models.PersonGroupCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  create(
+    personGroupId: string,
+    options: Models.PersonGroupCreateOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  create(
+    personGroupId: string,
+    options?: Models.PersonGroupCreateOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
         options
       },
       createOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -92,7 +104,10 @@ export class PersonGroupOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(personGroupId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    personGroupId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param personGroupId Id referencing a particular person group.
    * @param callback The callback
@@ -103,15 +118,24 @@ export class PersonGroupOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(personGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(personGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    personGroupId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    personGroupId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -122,7 +146,10 @@ export class PersonGroupOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PersonGroupGetResponse>
    */
-  get(personGroupId: string, options?: Models.PersonGroupGetOptionalParams): Promise<Models.PersonGroupGetResponse>;
+  get(
+    personGroupId: string,
+    options?: Models.PersonGroupGetOptionalParams
+  ): Promise<Models.PersonGroupGetResponse>;
   /**
    * @param personGroupId Id referencing a particular person group.
    * @param callback The callback
@@ -133,15 +160,24 @@ export class PersonGroupOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(personGroupId: string, options: Models.PersonGroupGetOptionalParams, callback: msRest.ServiceCallback<Models.PersonGroup>): void;
-  get(personGroupId: string, options?: Models.PersonGroupGetOptionalParams | msRest.ServiceCallback<Models.PersonGroup>, callback?: msRest.ServiceCallback<Models.PersonGroup>): Promise<Models.PersonGroupGetResponse> {
+  get(
+    personGroupId: string,
+    options: Models.PersonGroupGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.PersonGroup>
+  ): void;
+  get(
+    personGroupId: string,
+    options?: Models.PersonGroupGetOptionalParams | msRest.ServiceCallback<Models.PersonGroup>,
+    callback?: msRest.ServiceCallback<Models.PersonGroup>
+  ): Promise<Models.PersonGroupGetResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PersonGroupGetResponse>;
+      callback
+    ) as Promise<Models.PersonGroupGetResponse>;
   }
 
   /**
@@ -151,7 +187,10 @@ export class PersonGroupOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(personGroupId: string, options?: Models.PersonGroupUpdateOptionalParams): Promise<msRest.RestResponse>;
+  update(
+    personGroupId: string,
+    options?: Models.PersonGroupUpdateOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param personGroupId Id referencing a particular person group.
    * @param callback The callback
@@ -162,15 +201,24 @@ export class PersonGroupOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(personGroupId: string, options: Models.PersonGroupUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(personGroupId: string, options?: Models.PersonGroupUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    personGroupId: string,
+    options: Models.PersonGroupUpdateOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    personGroupId: string,
+    options?: Models.PersonGroupUpdateOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -179,26 +227,41 @@ export class PersonGroupOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PersonGroupGetTrainingStatusResponse>
    */
-  getTrainingStatus(personGroupId: string, options?: msRest.RequestOptionsBase): Promise<Models.PersonGroupGetTrainingStatusResponse>;
+  getTrainingStatus(
+    personGroupId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PersonGroupGetTrainingStatusResponse>;
   /**
    * @param personGroupId Id referencing a particular person group.
    * @param callback The callback
    */
-  getTrainingStatus(personGroupId: string, callback: msRest.ServiceCallback<Models.TrainingStatus>): void;
+  getTrainingStatus(
+    personGroupId: string,
+    callback: msRest.ServiceCallback<Models.TrainingStatus>
+  ): void;
   /**
    * @param personGroupId Id referencing a particular person group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getTrainingStatus(personGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TrainingStatus>): void;
-  getTrainingStatus(personGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrainingStatus>, callback?: msRest.ServiceCallback<Models.TrainingStatus>): Promise<Models.PersonGroupGetTrainingStatusResponse> {
+  getTrainingStatus(
+    personGroupId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TrainingStatus>
+  ): void;
+  getTrainingStatus(
+    personGroupId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrainingStatus>,
+    callback?: msRest.ServiceCallback<Models.TrainingStatus>
+  ): Promise<Models.PersonGroupGetTrainingStatusResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
         options
       },
       getTrainingStatusOperationSpec,
-      callback) as Promise<Models.PersonGroupGetTrainingStatusResponse>;
+      callback
+    ) as Promise<Models.PersonGroupGetTrainingStatusResponse>;
   }
 
   /**
@@ -227,14 +290,21 @@ export class PersonGroupOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.PersonGroupListOptionalParams, callback: msRest.ServiceCallback<Models.PersonGroup[]>): void;
-  list(options?: Models.PersonGroupListOptionalParams | msRest.ServiceCallback<Models.PersonGroup[]>, callback?: msRest.ServiceCallback<Models.PersonGroup[]>): Promise<Models.PersonGroupListResponse> {
+  list(
+    options: Models.PersonGroupListOptionalParams,
+    callback: msRest.ServiceCallback<Models.PersonGroup[]>
+  ): void;
+  list(
+    options?: Models.PersonGroupListOptionalParams | msRest.ServiceCallback<Models.PersonGroup[]>,
+    callback?: msRest.ServiceCallback<Models.PersonGroup[]>
+  ): Promise<Models.PersonGroupListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PersonGroupListResponse>;
+      callback
+    ) as Promise<Models.PersonGroupListResponse>;
   }
 
   /**
@@ -254,15 +324,24 @@ export class PersonGroupOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  train(personGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  train(personGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  train(
+    personGroupId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  train(
+    personGroupId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
         options
       },
       trainOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -271,24 +350,12 @@ const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "persongroups/{personGroupId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.personGroupId],
   requestBody: {
     parameterPath: {
-      name: [
-        "options",
-        "name"
-      ],
-      userData: [
-        "options",
-        "userData"
-      ],
-      recognitionModel: [
-        "options",
-        "recognitionModel"
-      ]
+      name: ["options", "name"],
+      userData: ["options", "userData"],
+      recognitionModel: ["options", "recognitionModel"]
     },
     mapper: {
       ...Mappers.MetaDataContract,
@@ -307,10 +374,7 @@ const createOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "persongroups/{personGroupId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.personGroupId],
   responses: {
     200: {},
     default: {
@@ -323,13 +387,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "persongroups/{personGroupId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId
-  ],
-  queryParameters: [
-    Parameters.returnRecognitionModel
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.personGroupId],
+  queryParameters: [Parameters.returnRecognitionModel],
   responses: {
     200: {
       bodyMapper: Mappers.PersonGroup
@@ -344,20 +403,11 @@ const getOperationSpec: msRest.OperationSpec = {
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "persongroups/{personGroupId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.personGroupId],
   requestBody: {
     parameterPath: {
-      name: [
-        "options",
-        "name"
-      ],
-      userData: [
-        "options",
-        "userData"
-      ]
+      name: ["options", "name"],
+      userData: ["options", "userData"]
     },
     mapper: {
       ...Mappers.NameAndUserDataContract,
@@ -376,10 +426,7 @@ const updateOperationSpec: msRest.OperationSpec = {
 const getTrainingStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "persongroups/{personGroupId}/training",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.personGroupId],
   responses: {
     200: {
       bodyMapper: Mappers.TrainingStatus
@@ -394,14 +441,8 @@ const getTrainingStatusOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "persongroups",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.start1,
-    Parameters.top1,
-    Parameters.returnRecognitionModel
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.start1, Parameters.top1, Parameters.returnRecognitionModel],
   responses: {
     200: {
       bodyMapper: {
@@ -427,10 +468,7 @@ const listOperationSpec: msRest.OperationSpec = {
 const trainOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "persongroups/{personGroupId}/train",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.personGroupId],
   responses: {
     202: {},
     default: {

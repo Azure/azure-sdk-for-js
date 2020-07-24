@@ -35,21 +35,39 @@ export class MeshService {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshServiceGetResponse>
    */
-  get(applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshServiceGetResponse>;
+  get(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshServiceGetResponse>;
   /**
    * @param applicationResourceName The identity of the application.
    * @param serviceResourceName The identity of the service.
    * @param callback The callback
    */
-  get(applicationResourceName: string, serviceResourceName: string, callback: msRest.ServiceCallback<Models.ServiceResourceDescription>): void;
+  get(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    callback: msRest.ServiceCallback<Models.ServiceResourceDescription>
+  ): void;
   /**
    * @param applicationResourceName The identity of the application.
    * @param serviceResourceName The identity of the service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(applicationResourceName: string, serviceResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResourceDescription>): void;
-  get(applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResourceDescription>, callback?: msRest.ServiceCallback<Models.ServiceResourceDescription>): Promise<Models.MeshServiceGetResponse> {
+  get(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceResourceDescription>
+  ): void;
+  get(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.ServiceResourceDescription>
+  ): Promise<Models.MeshServiceGetResponse> {
     return this.client.sendOperationRequest(
       {
         applicationResourceName,
@@ -57,7 +75,8 @@ export class MeshService {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MeshServiceGetResponse>;
+      callback
+    ) as Promise<Models.MeshServiceGetResponse>;
   }
 
   /**
@@ -68,26 +87,43 @@ export class MeshService {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshServiceListResponse>
    */
-  list(applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshServiceListResponse>;
+  list(
+    applicationResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshServiceListResponse>;
   /**
    * @param applicationResourceName The identity of the application.
    * @param callback The callback
    */
-  list(applicationResourceName: string, callback: msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>): void;
+  list(
+    applicationResourceName: string,
+    callback: msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>
+  ): void;
   /**
    * @param applicationResourceName The identity of the application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>): void;
-  list(applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>): Promise<Models.MeshServiceListResponse> {
+  list(
+    applicationResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>
+  ): void;
+  list(
+    applicationResourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>
+  ): Promise<Models.MeshServiceListResponse> {
     return this.client.sendOperationRequest(
       {
         applicationResourceName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MeshServiceListResponse>;
+      callback
+    ) as Promise<Models.MeshServiceListResponse>;
   }
 }
 
@@ -96,13 +132,8 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Applications/{applicationResourceName}/Services/{serviceResourceName}",
-  urlParameters: [
-    Parameters.applicationResourceName,
-    Parameters.serviceResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.applicationResourceName, Parameters.serviceResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceResourceDescription
@@ -117,12 +148,8 @@ const getOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Applications/{applicationResourceName}/Services",
-  urlParameters: [
-    Parameters.applicationResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.applicationResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.PagedServiceResourceDescriptionList

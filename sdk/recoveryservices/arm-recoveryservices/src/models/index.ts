@@ -36,7 +36,10 @@ export interface CertificateRequest {
 /**
  * Contains the possible cases for ResourceCertificateDetails.
  */
-export type ResourceCertificateDetailsUnion = ResourceCertificateDetails | ResourceCertificateAndAadDetails | ResourceCertificateAndAcsDetails;
+export type ResourceCertificateDetailsUnion =
+  | ResourceCertificateDetails
+  | ResourceCertificateAndAadDetails
+  | ResourceCertificateAndAcsDetails;
 
 /**
  * Certificate details representing the Vault credentials.
@@ -760,8 +763,7 @@ export interface RecoveryServicesClientOptions extends AzureServiceClientOptions
  * Replication usages for vault.
  * @extends Array<ReplicationUsage>
  */
-export interface ReplicationUsageList extends Array<ReplicationUsage> {
-}
+export interface ReplicationUsageList extends Array<ReplicationUsage> {}
 
 /**
  * @interface
@@ -804,8 +806,7 @@ export interface ClientDiscoveryResponse extends Array<ClientDiscoveryValueForSi
  * Usage for vault.
  * @extends Array<VaultUsage>
  */
-export interface VaultUsageList extends Array<VaultUsage> {
-}
+export interface VaultUsageList extends Array<VaultUsage> {}
 
 /**
  * Defines values for AuthType.
@@ -813,7 +814,7 @@ export interface VaultUsageList extends Array<VaultUsage> {
  * @readonly
  * @enum {string}
  */
-export type AuthType = 'Invalid' | 'ACS' | 'AAD' | 'AccessControlService' | 'AzureActiveDirectory';
+export type AuthType = "Invalid" | "ACS" | "AAD" | "AccessControlService" | "AzureActiveDirectory";
 
 /**
  * Defines values for SkuName.
@@ -821,7 +822,7 @@ export type AuthType = 'Invalid' | 'ACS' | 'AAD' | 'AccessControlService' | 'Azu
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Standard' | 'RS0';
+export type SkuName = "Standard" | "RS0";
 
 /**
  * Defines values for VaultUpgradeState.
@@ -829,7 +830,7 @@ export type SkuName = 'Standard' | 'RS0';
  * @readonly
  * @enum {string}
  */
-export type VaultUpgradeState = 'Unknown' | 'InProgress' | 'Upgraded' | 'Failed';
+export type VaultUpgradeState = "Unknown" | "InProgress" | "Upgraded" | "Failed";
 
 /**
  * Defines values for TriggerType.
@@ -837,7 +838,7 @@ export type VaultUpgradeState = 'Unknown' | 'InProgress' | 'Upgraded' | 'Failed'
  * @readonly
  * @enum {string}
  */
-export type TriggerType = 'UserTriggered' | 'ForcedUpgrade';
+export type TriggerType = "UserTriggered" | "ForcedUpgrade";
 
 /**
  * Defines values for ResourceIdentityType.
@@ -845,7 +846,7 @@ export type TriggerType = 'UserTriggered' | 'ForcedUpgrade';
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'None';
+export type ResourceIdentityType = "SystemAssigned" | "None";
 
 /**
  * Defines values for ProvisioningState.
@@ -853,7 +854,7 @@ export type ResourceIdentityType = 'SystemAssigned' | 'None';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Succeeded' | 'Deleting' | 'Failed' | 'Pending';
+export type ProvisioningState = "Succeeded" | "Deleting" | "Failed" | "Pending";
 
 /**
  * Defines values for PrivateEndpointConnectionStatus.
@@ -861,7 +862,7 @@ export type ProvisioningState = 'Succeeded' | 'Deleting' | 'Failed' | 'Pending';
  * @readonly
  * @enum {string}
  */
-export type PrivateEndpointConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+export type PrivateEndpointConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 /**
  * Defines values for VaultPrivateEndpointState.
@@ -869,7 +870,7 @@ export type PrivateEndpointConnectionStatus = 'Pending' | 'Approved' | 'Rejected
  * @readonly
  * @enum {string}
  */
-export type VaultPrivateEndpointState = 'None' | 'Enabled';
+export type VaultPrivateEndpointState = "None" | "Enabled";
 
 /**
  * Defines values for UsagesUnit.
@@ -878,7 +879,13 @@ export type VaultPrivateEndpointState = 'None' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type UsagesUnit = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSecond' | 'BytesPerSecond';
+export type UsagesUnit =
+  | "Count"
+  | "Bytes"
+  | "Seconds"
+  | "Percent"
+  | "CountPerSecond"
+  | "BytesPerSecond";
 
 /**
  * Contains response data for the create operation.
@@ -888,16 +895,16 @@ export type VaultCertificatesCreateResponse = VaultCertificateResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultCertificateResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultCertificateResponse;
+  };
 };
 
 /**
@@ -908,16 +915,16 @@ export type ReplicationUsagesListResponse = ReplicationUsageList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationUsageList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationUsageList;
+  };
 };
 
 /**
@@ -928,16 +935,16 @@ export type PrivateLinkResourcesListResponse = PrivateLinkResources & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResources;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResources;
+  };
 };
 
 /**
@@ -948,16 +955,16 @@ export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResource;
+  };
 };
 
 /**
@@ -968,16 +975,16 @@ export type PrivateLinkResourcesListNextResponse = PrivateLinkResources & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResources;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResources;
+  };
 };
 
 /**
@@ -988,16 +995,16 @@ export type RecoveryServicesCheckNameAvailabilityResponse = CheckNameAvailabilit
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResult;
+  };
 };
 
 /**
@@ -1008,16 +1015,16 @@ export type VaultsListBySubscriptionIdResponse = VaultList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultList;
+  };
 };
 
 /**
@@ -1028,16 +1035,16 @@ export type VaultsListByResourceGroupResponse = VaultList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultList;
+  };
 };
 
 /**
@@ -1048,16 +1055,16 @@ export type VaultsGetResponse = Vault & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Vault;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Vault;
+  };
 };
 
 /**
@@ -1068,16 +1075,16 @@ export type VaultsCreateOrUpdateResponse = Vault & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Vault;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Vault;
+  };
 };
 
 /**
@@ -1088,16 +1095,16 @@ export type VaultsUpdateResponse = Vault & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Vault;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Vault;
+  };
 };
 
 /**
@@ -1108,16 +1115,16 @@ export type VaultsListBySubscriptionIdNextResponse = VaultList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultList;
+  };
 };
 
 /**
@@ -1128,16 +1135,16 @@ export type VaultsListByResourceGroupNextResponse = VaultList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultList;
+  };
 };
 
 /**
@@ -1148,16 +1155,16 @@ export type OperationsListResponse = ClientDiscoveryResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClientDiscoveryResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClientDiscoveryResponse;
+  };
 };
 
 /**
@@ -1168,16 +1175,16 @@ export type OperationsListNextResponse = ClientDiscoveryResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClientDiscoveryResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClientDiscoveryResponse;
+  };
 };
 
 /**
@@ -1188,16 +1195,16 @@ export type VaultExtendedInfoGetResponse = VaultExtendedInfoResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultExtendedInfoResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultExtendedInfoResource;
+  };
 };
 
 /**
@@ -1208,16 +1215,16 @@ export type VaultExtendedInfoCreateOrUpdateResponse = VaultExtendedInfoResource 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultExtendedInfoResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultExtendedInfoResource;
+  };
 };
 
 /**
@@ -1228,16 +1235,16 @@ export type VaultExtendedInfoUpdateResponse = VaultExtendedInfoResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultExtendedInfoResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultExtendedInfoResource;
+  };
 };
 
 /**
@@ -1248,14 +1255,14 @@ export type UsagesListByVaultsResponse = VaultUsageList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultUsageList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultUsageList;
+  };
 };

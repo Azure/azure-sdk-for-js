@@ -33,21 +33,41 @@ export class WorkflowVersions {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowVersionsListResponse>
    */
-  list(resourceGroupName: string, workflowName: string, options?: Models.WorkflowVersionsListOptionalParams): Promise<Models.WorkflowVersionsListResponse>;
+  list(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: Models.WorkflowVersionsListOptionalParams
+  ): Promise<Models.WorkflowVersionsListResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, workflowName: string, callback: msRest.ServiceCallback<Models.WorkflowVersionListResult>): void;
+  list(
+    resourceGroupName: string,
+    workflowName: string,
+    callback: msRest.ServiceCallback<Models.WorkflowVersionListResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, workflowName: string, options: Models.WorkflowVersionsListOptionalParams, callback: msRest.ServiceCallback<Models.WorkflowVersionListResult>): void;
-  list(resourceGroupName: string, workflowName: string, options?: Models.WorkflowVersionsListOptionalParams | msRest.ServiceCallback<Models.WorkflowVersionListResult>, callback?: msRest.ServiceCallback<Models.WorkflowVersionListResult>): Promise<Models.WorkflowVersionsListResponse> {
+  list(
+    resourceGroupName: string,
+    workflowName: string,
+    options: Models.WorkflowVersionsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.WorkflowVersionListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    workflowName: string,
+    options?:
+      | Models.WorkflowVersionsListOptionalParams
+      | msRest.ServiceCallback<Models.WorkflowVersionListResult>,
+    callback?: msRest.ServiceCallback<Models.WorkflowVersionListResult>
+  ): Promise<Models.WorkflowVersionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class WorkflowVersions {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.WorkflowVersionsListResponse>;
+      callback
+    ) as Promise<Models.WorkflowVersionsListResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class WorkflowVersions {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowVersionsGetResponse>
    */
-  get(resourceGroupName: string, workflowName: string, versionId: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowVersionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    versionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowVersionsGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param versionId The workflow versionId.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workflowName: string, versionId: string, callback: msRest.ServiceCallback<Models.WorkflowVersion>): void;
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    versionId: string,
+    callback: msRest.ServiceCallback<Models.WorkflowVersion>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -81,8 +112,20 @@ export class WorkflowVersions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workflowName: string, versionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowVersion>): void;
-  get(resourceGroupName: string, workflowName: string, versionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowVersion>, callback?: msRest.ServiceCallback<Models.WorkflowVersion>): Promise<Models.WorkflowVersionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    versionId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkflowVersion>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    versionId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowVersion>,
+    callback?: msRest.ServiceCallback<Models.WorkflowVersion>
+  ): Promise<Models.WorkflowVersionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +134,8 @@ export class WorkflowVersions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WorkflowVersionsGetResponse>;
+      callback
+    ) as Promise<Models.WorkflowVersionsGetResponse>;
   }
 
   /**
@@ -100,26 +144,41 @@ export class WorkflowVersions {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowVersionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowVersionsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowVersionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WorkflowVersionListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.WorkflowVersionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowVersionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowVersionListResult>, callback?: msRest.ServiceCallback<Models.WorkflowVersionListResult>): Promise<Models.WorkflowVersionsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkflowVersionListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowVersionListResult>,
+    callback?: msRest.ServiceCallback<Models.WorkflowVersionListResult>
+  ): Promise<Models.WorkflowVersionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.WorkflowVersionsListNextResponse>;
+      callback
+    ) as Promise<Models.WorkflowVersionsListNextResponse>;
   }
 }
 
@@ -127,19 +186,11 @@ export class WorkflowVersions {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkflowVersionListResult
@@ -153,19 +204,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions/{versionId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions/{versionId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowName,
     Parameters.versionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkflowVersion
@@ -181,12 +229,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkflowVersionListResult

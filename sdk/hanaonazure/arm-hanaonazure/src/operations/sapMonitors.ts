@@ -43,14 +43,21 @@ export class SapMonitors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SapMonitorListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SapMonitorListResult>, callback?: msRest.ServiceCallback<Models.SapMonitorListResult>): Promise<Models.SapMonitorsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SapMonitorListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SapMonitorListResult>,
+    callback?: msRest.ServiceCallback<Models.SapMonitorListResult>
+  ): Promise<Models.SapMonitorsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SapMonitorsListResponse>;
+      callback
+    ) as Promise<Models.SapMonitorsListResponse>;
   }
 
   /**
@@ -62,21 +69,39 @@ export class SapMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.SapMonitorsGetResponse>
    */
-  get(resourceGroupName: string, sapMonitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.SapMonitorsGetResponse>;
+  get(
+    resourceGroupName: string,
+    sapMonitorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SapMonitorsGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, sapMonitorName: string, callback: msRest.ServiceCallback<Models.SapMonitor>): void;
+  get(
+    resourceGroupName: string,
+    sapMonitorName: string,
+    callback: msRest.ServiceCallback<Models.SapMonitor>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, sapMonitorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SapMonitor>): void;
-  get(resourceGroupName: string, sapMonitorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SapMonitor>, callback?: msRest.ServiceCallback<Models.SapMonitor>): Promise<Models.SapMonitorsGetResponse> {
+  get(
+    resourceGroupName: string,
+    sapMonitorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SapMonitor>
+  ): void;
+  get(
+    resourceGroupName: string,
+    sapMonitorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SapMonitor>,
+    callback?: msRest.ServiceCallback<Models.SapMonitor>
+  ): Promise<Models.SapMonitorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +109,8 @@ export class SapMonitors {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SapMonitorsGetResponse>;
+      callback
+    ) as Promise<Models.SapMonitorsGetResponse>;
   }
 
   /**
@@ -96,9 +122,20 @@ export class SapMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.SapMonitorsCreateResponse>
    */
-  create(resourceGroupName: string, sapMonitorName: string, sapMonitorParameter: Models.SapMonitor, options?: msRest.RequestOptionsBase): Promise<Models.SapMonitorsCreateResponse> {
-    return this.beginCreate(resourceGroupName,sapMonitorName,sapMonitorParameter,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SapMonitorsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    sapMonitorName: string,
+    sapMonitorParameter: Models.SapMonitor,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SapMonitorsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      sapMonitorName,
+      sapMonitorParameter,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SapMonitorsCreateResponse
+    >;
   }
 
   /**
@@ -109,9 +146,14 @@ export class SapMonitors {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, sapMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,sapMonitorName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    sapMonitorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, sapMonitorName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -124,14 +166,24 @@ export class SapMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.SapMonitorsUpdateResponse>
    */
-  update(resourceGroupName: string, sapMonitorName: string, tagsParameter: Models.Tags, options?: msRest.RequestOptionsBase): Promise<Models.SapMonitorsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    sapMonitorName: string,
+    tagsParameter: Models.Tags,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SapMonitorsUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param tagsParameter Request body that only contains the new Tags field
    * @param callback The callback
    */
-  update(resourceGroupName: string, sapMonitorName: string, tagsParameter: Models.Tags, callback: msRest.ServiceCallback<Models.SapMonitor>): void;
+  update(
+    resourceGroupName: string,
+    sapMonitorName: string,
+    tagsParameter: Models.Tags,
+    callback: msRest.ServiceCallback<Models.SapMonitor>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
@@ -139,8 +191,20 @@ export class SapMonitors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, sapMonitorName: string, tagsParameter: Models.Tags, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SapMonitor>): void;
-  update(resourceGroupName: string, sapMonitorName: string, tagsParameter: Models.Tags, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SapMonitor>, callback?: msRest.ServiceCallback<Models.SapMonitor>): Promise<Models.SapMonitorsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    sapMonitorName: string,
+    tagsParameter: Models.Tags,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SapMonitor>
+  ): void;
+  update(
+    resourceGroupName: string,
+    sapMonitorName: string,
+    tagsParameter: Models.Tags,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SapMonitor>,
+    callback?: msRest.ServiceCallback<Models.SapMonitor>
+  ): Promise<Models.SapMonitorsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -149,7 +213,8 @@ export class SapMonitors {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.SapMonitorsUpdateResponse>;
+      callback
+    ) as Promise<Models.SapMonitorsUpdateResponse>;
   }
 
   /**
@@ -161,7 +226,12 @@ export class SapMonitors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, sapMonitorName: string, sapMonitorParameter: Models.SapMonitor, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    sapMonitorName: string,
+    sapMonitorParameter: Models.SapMonitor,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -170,7 +240,8 @@ export class SapMonitors {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -181,7 +252,11 @@ export class SapMonitors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, sapMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    sapMonitorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -189,7 +264,8 @@ export class SapMonitors {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -200,26 +276,41 @@ export class SapMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.SapMonitorsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SapMonitorsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SapMonitorsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SapMonitorListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SapMonitorListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SapMonitorListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SapMonitorListResult>, callback?: msRest.ServiceCallback<Models.SapMonitorListResult>): Promise<Models.SapMonitorsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SapMonitorListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SapMonitorListResult>,
+    callback?: msRest.ServiceCallback<Models.SapMonitorListResult>
+  ): Promise<Models.SapMonitorsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SapMonitorsListNextResponse>;
+      callback
+    ) as Promise<Models.SapMonitorsListNextResponse>;
   }
 }
 
@@ -228,15 +319,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.HanaOnAzure/sapMonitors",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SapMonitorListResult
@@ -250,18 +335,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapMonitorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SapMonitor
@@ -275,18 +357,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapMonitorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "tagsParameter",
     mapper: {
@@ -307,18 +386,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapMonitorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "sapMonitorParameter",
     mapper: {
@@ -342,18 +418,15 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapMonitorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -369,12 +442,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SapMonitorListResult

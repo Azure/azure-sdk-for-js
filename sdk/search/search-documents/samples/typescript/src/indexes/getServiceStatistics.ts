@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  SearchIndexClient,
-  AzureKeyCredential
-} from "@azure/search-documents";
+import { SearchIndexClient, AzureKeyCredential } from "@azure/search-documents";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -15,7 +12,7 @@ async function main(): Promise<void> {
   console.log(`Running Get Service Statistics Sample....`);
 
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
-  const {counters, limits} = await client.getServiceStatistics();
+  const { counters, limits } = await client.getServiceStatistics();
   console.log(`Counters`);
   console.log(`========`);
   console.log(`\tDocument Counter`);
@@ -41,8 +38,12 @@ async function main(): Promise<void> {
   console.log(`======`);
   console.log(`\tMax Fields Per Index: ${limits.maxFieldsPerIndex}`);
   console.log(`\tMax Field Nesting Depth Per Index: ${limits.maxFieldNestingDepthPerIndex}`);
-  console.log(`\tMax Complex Collection Fields Per Index: ${limits.maxComplexCollectionFieldsPerIndex}`);
-  console.log(`\tMax Complex Objects In Collections Per Document: ${limits.maxComplexObjectsInCollectionsPerDocument}`);
+  console.log(
+    `\tMax Complex Collection Fields Per Index: ${limits.maxComplexCollectionFieldsPerIndex}`
+  );
+  console.log(
+    `\tMax Complex Objects In Collections Per Document: ${limits.maxComplexObjectsInCollectionsPerDocument}`
+  );
 }
 
 main();

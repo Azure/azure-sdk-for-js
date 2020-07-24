@@ -33,21 +33,39 @@ export class IdentityProvider {
    * @param [options] The optional parameters
    * @returns Promise<Models.IdentityProviderListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.IdentityProviderListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IdentityProviderListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.IdentityProviderList>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.IdentityProviderList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IdentityProviderList>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentityProviderList>, callback?: msRest.ServiceCallback<Models.IdentityProviderList>): Promise<Models.IdentityProviderListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IdentityProviderList>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentityProviderList>,
+    callback?: msRest.ServiceCallback<Models.IdentityProviderList>
+  ): Promise<Models.IdentityProviderListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class IdentityProvider {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.IdentityProviderListByServiceResponse>;
+      callback
+    ) as Promise<Models.IdentityProviderListByServiceResponse>;
   }
 
   /**
@@ -67,7 +86,12 @@ export class IdentityProvider {
    * @param [options] The optional parameters
    * @returns Promise<Models.IdentityProviderGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options?: msRest.RequestOptionsBase): Promise<Models.IdentityProviderGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IdentityProviderGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -75,7 +99,12 @@ export class IdentityProvider {
    * 'facebook', 'google', 'microsoft', 'twitter', 'aad', 'aadB2C'
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -84,8 +113,20 @@ export class IdentityProvider {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.IdentityProviderGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.IdentityProviderGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +135,8 @@ export class IdentityProvider {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.IdentityProviderGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.IdentityProviderGetEntityTagResponse>;
   }
 
   /**
@@ -107,7 +149,12 @@ export class IdentityProvider {
    * @param [options] The optional parameters
    * @returns Promise<Models.IdentityProviderGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options?: msRest.RequestOptionsBase): Promise<Models.IdentityProviderGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IdentityProviderGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -115,7 +162,12 @@ export class IdentityProvider {
    * 'facebook', 'google', 'microsoft', 'twitter', 'aad', 'aadB2C'
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, callback: msRest.ServiceCallback<Models.IdentityProviderContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    callback: msRest.ServiceCallback<Models.IdentityProviderContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -124,8 +176,20 @@ export class IdentityProvider {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IdentityProviderContract>): void;
-  get(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentityProviderContract>, callback?: msRest.ServiceCallback<Models.IdentityProviderContract>): Promise<Models.IdentityProviderGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IdentityProviderContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentityProviderContract>,
+    callback?: msRest.ServiceCallback<Models.IdentityProviderContract>
+  ): Promise<Models.IdentityProviderGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +198,8 @@ export class IdentityProvider {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IdentityProviderGetResponse>;
+      callback
+    ) as Promise<Models.IdentityProviderGetResponse>;
   }
 
   /**
@@ -147,7 +212,13 @@ export class IdentityProvider {
    * @param [options] The optional parameters
    * @returns Promise<Models.IdentityProviderCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderCreateContract, options?: Models.IdentityProviderCreateOrUpdateOptionalParams): Promise<Models.IdentityProviderCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    parameters: Models.IdentityProviderCreateContract,
+    options?: Models.IdentityProviderCreateOrUpdateOptionalParams
+  ): Promise<Models.IdentityProviderCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -156,7 +227,13 @@ export class IdentityProvider {
    * @param parameters Create parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderCreateContract, callback: msRest.ServiceCallback<Models.IdentityProviderContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    parameters: Models.IdentityProviderCreateContract,
+    callback: msRest.ServiceCallback<Models.IdentityProviderContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -166,8 +243,24 @@ export class IdentityProvider {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderCreateContract, options: Models.IdentityProviderCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.IdentityProviderContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderCreateContract, options?: Models.IdentityProviderCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.IdentityProviderContract>, callback?: msRest.ServiceCallback<Models.IdentityProviderContract>): Promise<Models.IdentityProviderCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    parameters: Models.IdentityProviderCreateContract,
+    options: Models.IdentityProviderCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.IdentityProviderContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    parameters: Models.IdentityProviderCreateContract,
+    options?:
+      | Models.IdentityProviderCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.IdentityProviderContract>,
+    callback?: msRest.ServiceCallback<Models.IdentityProviderContract>
+  ): Promise<Models.IdentityProviderCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,7 +270,8 @@ export class IdentityProvider {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.IdentityProviderCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.IdentityProviderCreateOrUpdateResponse>;
   }
 
   /**
@@ -192,7 +286,14 @@ export class IdentityProvider {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    parameters: Models.IdentityProviderUpdateParameters,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -203,7 +304,14 @@ export class IdentityProvider {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    parameters: Models.IdentityProviderUpdateParameters,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -215,8 +323,24 @@ export class IdentityProvider {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, parameters: Models.IdentityProviderUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    parameters: Models.IdentityProviderUpdateParameters,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    parameters: Models.IdentityProviderUpdateParameters,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -227,7 +351,8 @@ export class IdentityProvider {
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -241,7 +366,13 @@ export class IdentityProvider {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -251,7 +382,13 @@ export class IdentityProvider {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -262,8 +399,22 @@ export class IdentityProvider {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -273,7 +424,8 @@ export class IdentityProvider {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -285,7 +437,12 @@ export class IdentityProvider {
    * @param [options] The optional parameters
    * @returns Promise<Models.IdentityProviderListSecretsResponse>
    */
-  listSecrets(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options?: msRest.RequestOptionsBase): Promise<Models.IdentityProviderListSecretsResponse>;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IdentityProviderListSecretsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -293,7 +450,12 @@ export class IdentityProvider {
    * 'facebook', 'google', 'microsoft', 'twitter', 'aad', 'aadB2C'
    * @param callback The callback
    */
-  listSecrets(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, callback: msRest.ServiceCallback<Models.ClientSecretContract>): void;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    callback: msRest.ServiceCallback<Models.ClientSecretContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -302,8 +464,20 @@ export class IdentityProvider {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSecrets(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClientSecretContract>): void;
-  listSecrets(resourceGroupName: string, serviceName: string, identityProviderName: Models.IdentityProviderType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClientSecretContract>, callback?: msRest.ServiceCallback<Models.ClientSecretContract>): Promise<Models.IdentityProviderListSecretsResponse> {
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClientSecretContract>
+  ): void;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    identityProviderName: Models.IdentityProviderType,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClientSecretContract>,
+    callback?: msRest.ServiceCallback<Models.ClientSecretContract>
+  ): Promise<Models.IdentityProviderListSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -312,7 +486,8 @@ export class IdentityProvider {
         options
       },
       listSecretsOperationSpec,
-      callback) as Promise<Models.IdentityProviderListSecretsResponse>;
+      callback
+    ) as Promise<Models.IdentityProviderListSecretsResponse>;
   }
 
   /**
@@ -321,26 +496,41 @@ export class IdentityProvider {
    * @param [options] The optional parameters
    * @returns Promise<Models.IdentityProviderListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IdentityProviderListByServiceNextResponse>;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IdentityProviderListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IdentityProviderList>): void;
+  listByServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IdentityProviderList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IdentityProviderList>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentityProviderList>, callback?: msRest.ServiceCallback<Models.IdentityProviderList>): Promise<Models.IdentityProviderListByServiceNextResponse> {
+  listByServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IdentityProviderList>
+  ): void;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IdentityProviderList>,
+    callback?: msRest.ServiceCallback<Models.IdentityProviderList>
+  ): Promise<Models.IdentityProviderListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.IdentityProviderListByServiceNextResponse>;
+      callback
+    ) as Promise<Models.IdentityProviderListByServiceNextResponse>;
   }
 }
 
@@ -348,18 +538,11 @@ export class IdentityProvider {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IdentityProviderList
@@ -373,19 +556,16 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.identityProviderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.IdentityProviderGetEntityTagHeaders
@@ -399,19 +579,16 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.identityProviderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IdentityProviderContract,
@@ -426,20 +603,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.identityProviderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -465,20 +638,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.identityProviderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -497,20 +666,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.identityProviderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -523,19 +688,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listSecretsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}/listSecrets",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/identityProviders/{identityProviderName}/listSecrets",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.identityProviderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClientSecretContract
@@ -551,12 +713,8 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IdentityProviderList

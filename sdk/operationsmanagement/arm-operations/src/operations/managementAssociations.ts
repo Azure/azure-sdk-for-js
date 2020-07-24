@@ -32,23 +32,36 @@ export class ManagementAssociations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementAssociationsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.ManagementAssociationsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementAssociationsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.ManagementAssociationPropertiesList>): void;
+  listBySubscription(
+    callback: msRest.ServiceCallback<Models.ManagementAssociationPropertiesList>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementAssociationPropertiesList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementAssociationPropertiesList>, callback?: msRest.ServiceCallback<Models.ManagementAssociationPropertiesList>): Promise<Models.ManagementAssociationsListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementAssociationPropertiesList>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagementAssociationPropertiesList>,
+    callback?: msRest.ServiceCallback<Models.ManagementAssociationPropertiesList>
+  ): Promise<Models.ManagementAssociationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.ManagementAssociationsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.ManagementAssociationsListBySubscriptionResponse>;
   }
 
   /**
@@ -60,14 +73,24 @@ export class ManagementAssociations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementAssociationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, managementAssociationName: string, parameters: Models.ManagementAssociation, options?: msRest.RequestOptionsBase): Promise<Models.ManagementAssociationsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    managementAssociationName: string,
+    parameters: Models.ManagementAssociation,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementAssociationsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param managementAssociationName User ManagementAssociation Name.
    * @param parameters The parameters required to create ManagementAssociation extension.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, managementAssociationName: string, parameters: Models.ManagementAssociation, callback: msRest.ServiceCallback<Models.ManagementAssociation>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    managementAssociationName: string,
+    parameters: Models.ManagementAssociation,
+    callback: msRest.ServiceCallback<Models.ManagementAssociation>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param managementAssociationName User ManagementAssociation Name.
@@ -75,8 +98,20 @@ export class ManagementAssociations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, managementAssociationName: string, parameters: Models.ManagementAssociation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementAssociation>): void;
-  createOrUpdate(resourceGroupName: string, managementAssociationName: string, parameters: Models.ManagementAssociation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementAssociation>, callback?: msRest.ServiceCallback<Models.ManagementAssociation>): Promise<Models.ManagementAssociationsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    managementAssociationName: string,
+    parameters: Models.ManagementAssociation,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementAssociation>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    managementAssociationName: string,
+    parameters: Models.ManagementAssociation,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementAssociation>,
+    callback?: msRest.ServiceCallback<Models.ManagementAssociation>
+  ): Promise<Models.ManagementAssociationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +120,8 @@ export class ManagementAssociations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ManagementAssociationsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ManagementAssociationsCreateOrUpdateResponse>;
   }
 
   /**
@@ -96,21 +132,39 @@ export class ManagementAssociations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, managementAssociationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    managementAssociationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param managementAssociationName User ManagementAssociation Name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, managementAssociationName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    managementAssociationName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param managementAssociationName User ManagementAssociation Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, managementAssociationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, managementAssociationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    managementAssociationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    managementAssociationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +172,8 @@ export class ManagementAssociations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -129,21 +184,39 @@ export class ManagementAssociations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementAssociationsGetResponse>
    */
-  get(resourceGroupName: string, managementAssociationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementAssociationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    managementAssociationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementAssociationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param managementAssociationName User ManagementAssociation Name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, managementAssociationName: string, callback: msRest.ServiceCallback<Models.ManagementAssociation>): void;
+  get(
+    resourceGroupName: string,
+    managementAssociationName: string,
+    callback: msRest.ServiceCallback<Models.ManagementAssociation>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param managementAssociationName User ManagementAssociation Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managementAssociationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementAssociation>): void;
-  get(resourceGroupName: string, managementAssociationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementAssociation>, callback?: msRest.ServiceCallback<Models.ManagementAssociation>): Promise<Models.ManagementAssociationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    managementAssociationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementAssociation>
+  ): void;
+  get(
+    resourceGroupName: string,
+    managementAssociationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementAssociation>,
+    callback?: msRest.ServiceCallback<Models.ManagementAssociation>
+  ): Promise<Models.ManagementAssociationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -151,7 +224,8 @@ export class ManagementAssociations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagementAssociationsGetResponse>;
+      callback
+    ) as Promise<Models.ManagementAssociationsGetResponse>;
   }
 }
 
@@ -159,16 +233,11 @@ export class ManagementAssociations {
 const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.OperationsManagement/ManagementAssociations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.OperationsManagement/ManagementAssociations",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementAssociationPropertiesList
@@ -182,7 +251,8 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.OperationsManagement/ManagementAssociations/{managementAssociationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.OperationsManagement/ManagementAssociations/{managementAssociationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -191,12 +261,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName,
     Parameters.managementAssociationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -217,7 +283,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.OperationsManagement/ManagementAssociations/{managementAssociationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.OperationsManagement/ManagementAssociations/{managementAssociationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -226,12 +293,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName,
     Parameters.managementAssociationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -243,7 +306,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.OperationsManagement/ManagementAssociations/{managementAssociationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.OperationsManagement/ManagementAssociations/{managementAssociationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -252,12 +316,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName,
     Parameters.managementAssociationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementAssociation

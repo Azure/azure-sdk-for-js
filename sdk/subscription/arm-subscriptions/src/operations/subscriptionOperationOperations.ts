@@ -33,28 +33,43 @@ export class SubscriptionOperationOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionOperationGetResponse>
    */
-  get(operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionOperationGetResponse>;
+  get(
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubscriptionOperationGetResponse>;
   /**
    * @param operationId The operation ID, which can be found from the Location field in the generate
    * recommendation response header.
    * @param callback The callback
    */
-  get(operationId: string, callback: msRest.ServiceCallback<Models.SubscriptionCreationResult>): void;
+  get(
+    operationId: string,
+    callback: msRest.ServiceCallback<Models.SubscriptionCreationResult>
+  ): void;
   /**
    * @param operationId The operation ID, which can be found from the Location field in the generate
    * recommendation response header.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionCreationResult>): void;
-  get(operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionCreationResult>, callback?: msRest.ServiceCallback<Models.SubscriptionCreationResult>): Promise<Models.SubscriptionOperationGetResponse> {
+  get(
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SubscriptionCreationResult>
+  ): void;
+  get(
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionCreationResult>,
+    callback?: msRest.ServiceCallback<Models.SubscriptionCreationResult>
+  ): Promise<Models.SubscriptionOperationGetResponse> {
     return this.client.sendOperationRequest(
       {
         operationId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SubscriptionOperationGetResponse>;
+      callback
+    ) as Promise<Models.SubscriptionOperationGetResponse>;
   }
 }
 
@@ -63,15 +78,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Subscription/subscriptionOperations/{operationId}",
-  urlParameters: [
-    Parameters.operationId
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.operationId],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SubscriptionCreationResult,

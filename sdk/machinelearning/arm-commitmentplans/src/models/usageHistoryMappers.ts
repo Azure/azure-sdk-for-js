@@ -8,9 +8,4 @@
  * regenerated.
  */
 
-export {
-  PlanUsageHistoryListResult,
-  PlanUsageHistory,
-  CloudError
-} from "../models/mappers";
-
+export { PlanUsageHistoryListResult, PlanUsageHistory, CloudError } from "../models/mappers";

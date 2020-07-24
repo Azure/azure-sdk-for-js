@@ -35,7 +35,13 @@ export class VpnSiteLinkConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnSiteLinkConnectionsGetResponse>
    */
-  get(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnSiteLinkConnectionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    linkConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VpnSiteLinkConnectionsGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param gatewayName The name of the gateway.
@@ -43,7 +49,13 @@ export class VpnSiteLinkConnections {
    * @param linkConnectionName The name of the vpn connection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, callback: msRest.ServiceCallback<Models.VpnSiteLinkConnection>): void;
+  get(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    linkConnectionName: string,
+    callback: msRest.ServiceCallback<Models.VpnSiteLinkConnection>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param gatewayName The name of the gateway.
@@ -52,8 +64,22 @@ export class VpnSiteLinkConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VpnSiteLinkConnection>): void;
-  get(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VpnSiteLinkConnection>, callback?: msRest.ServiceCallback<Models.VpnSiteLinkConnection>): Promise<Models.VpnSiteLinkConnectionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    linkConnectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VpnSiteLinkConnection>
+  ): void;
+  get(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    linkConnectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VpnSiteLinkConnection>,
+    callback?: msRest.ServiceCallback<Models.VpnSiteLinkConnection>
+  ): Promise<Models.VpnSiteLinkConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class VpnSiteLinkConnections {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VpnSiteLinkConnectionsGetResponse>;
+      callback
+    ) as Promise<Models.VpnSiteLinkConnectionsGetResponse>;
   }
 }
 
@@ -71,7 +98,8 @@ export class VpnSiteLinkConnections {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -79,12 +107,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.connectionName,
     Parameters.linkConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VpnSiteLinkConnection

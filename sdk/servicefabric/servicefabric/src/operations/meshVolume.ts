@@ -36,21 +36,39 @@ export class MeshVolume {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshVolumeCreateOrUpdateResponse>
    */
-  createOrUpdate(volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.MeshVolumeCreateOrUpdateResponse>;
+  createOrUpdate(
+    volumeResourceName: string,
+    volumeResourceDescription: Models.VolumeResourceDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshVolumeCreateOrUpdateResponse>;
   /**
    * @param volumeResourceName The identity of the volume.
    * @param volumeResourceDescription Description for creating a Volume resource.
    * @param callback The callback
    */
-  createOrUpdate(volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
+  createOrUpdate(
+    volumeResourceName: string,
+    volumeResourceDescription: Models.VolumeResourceDescription,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescription>
+  ): void;
   /**
    * @param volumeResourceName The identity of the volume.
    * @param volumeResourceDescription Description for creating a Volume resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
-  createOrUpdate(volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescription>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>): Promise<Models.MeshVolumeCreateOrUpdateResponse> {
+  createOrUpdate(
+    volumeResourceName: string,
+    volumeResourceDescription: Models.VolumeResourceDescription,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescription>
+  ): void;
+  createOrUpdate(
+    volumeResourceName: string,
+    volumeResourceDescription: Models.VolumeResourceDescription,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>
+  ): Promise<Models.MeshVolumeCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         volumeResourceName,
@@ -58,7 +76,8 @@ export class MeshVolume {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.MeshVolumeCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.MeshVolumeCreateOrUpdateResponse>;
   }
 
   /**
@@ -69,26 +88,41 @@ export class MeshVolume {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshVolumeGetResponse>
    */
-  get(volumeResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshVolumeGetResponse>;
+  get(
+    volumeResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshVolumeGetResponse>;
   /**
    * @param volumeResourceName The identity of the volume.
    * @param callback The callback
    */
-  get(volumeResourceName: string, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
+  get(
+    volumeResourceName: string,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescription>
+  ): void;
   /**
    * @param volumeResourceName The identity of the volume.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(volumeResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
-  get(volumeResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescription>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>): Promise<Models.MeshVolumeGetResponse> {
+  get(
+    volumeResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescription>
+  ): void;
+  get(
+    volumeResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>
+  ): Promise<Models.MeshVolumeGetResponse> {
     return this.client.sendOperationRequest(
       {
         volumeResourceName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MeshVolumeGetResponse>;
+      callback
+    ) as Promise<Models.MeshVolumeGetResponse>;
   }
 
   /**
@@ -98,7 +132,10 @@ export class MeshVolume {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(volumeResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    volumeResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param volumeResourceName The identity of the volume.
    * @param callback The callback
@@ -109,15 +146,24 @@ export class MeshVolume {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(volumeResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(volumeResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    volumeResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    volumeResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         volumeResourceName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -136,14 +182,23 @@ export class MeshVolume {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PagedVolumeResourceDescriptionList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PagedVolumeResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.PagedVolumeResourceDescriptionList>): Promise<Models.MeshVolumeListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PagedVolumeResourceDescriptionList>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PagedVolumeResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.PagedVolumeResourceDescriptionList>
+  ): Promise<Models.MeshVolumeListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MeshVolumeListResponse>;
+      callback
+    ) as Promise<Models.MeshVolumeListResponse>;
   }
 }
 
@@ -152,12 +207,8 @@ const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "Resources/Volumes/{volumeResourceName}",
-  urlParameters: [
-    Parameters.volumeResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.volumeResourceName],
+  queryParameters: [Parameters.apiVersion8],
   requestBody: {
     parameterPath: "volumeResourceDescription",
     mapper: {
@@ -183,12 +234,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Volumes/{volumeResourceName}",
-  urlParameters: [
-    Parameters.volumeResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.volumeResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.VolumeResourceDescription
@@ -203,12 +250,8 @@ const getOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "Resources/Volumes/{volumeResourceName}",
-  urlParameters: [
-    Parameters.volumeResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.volumeResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {},
     202: {},
@@ -223,9 +266,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Volumes",
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.PagedVolumeResourceDescriptionList

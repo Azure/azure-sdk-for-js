@@ -29,21 +29,41 @@ export class SparkBatch {
    * @param [options] The optional parameters
    * @returns Promise<Models.SparkBatchListResponse>
    */
-  list(workspaceName: string, sparkPoolName: string, options?: Models.SparkBatchListOptionalParams): Promise<Models.SparkBatchListResponse>;
+  list(
+    workspaceName: string,
+    sparkPoolName: string,
+    options?: Models.SparkBatchListOptionalParams
+  ): Promise<Models.SparkBatchListResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
    * @param callback The callback
    */
-  list(workspaceName: string, sparkPoolName: string, callback: msRest.ServiceCallback<Models.ExtendedLivyListBatchResponse>): void;
+  list(
+    workspaceName: string,
+    sparkPoolName: string,
+    callback: msRest.ServiceCallback<Models.ExtendedLivyListBatchResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(workspaceName: string, sparkPoolName: string, options: Models.SparkBatchListOptionalParams, callback: msRest.ServiceCallback<Models.ExtendedLivyListBatchResponse>): void;
-  list(workspaceName: string, sparkPoolName: string, options?: Models.SparkBatchListOptionalParams | msRest.ServiceCallback<Models.ExtendedLivyListBatchResponse>, callback?: msRest.ServiceCallback<Models.ExtendedLivyListBatchResponse>): Promise<Models.SparkBatchListResponse> {
+  list(
+    workspaceName: string,
+    sparkPoolName: string,
+    options: Models.SparkBatchListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ExtendedLivyListBatchResponse>
+  ): void;
+  list(
+    workspaceName: string,
+    sparkPoolName: string,
+    options?:
+      | Models.SparkBatchListOptionalParams
+      | msRest.ServiceCallback<Models.ExtendedLivyListBatchResponse>,
+    callback?: msRest.ServiceCallback<Models.ExtendedLivyListBatchResponse>
+  ): Promise<Models.SparkBatchListResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -51,7 +71,8 @@ export class SparkBatch {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SparkBatchListResponse>;
+      callback
+    ) as Promise<Models.SparkBatchListResponse>;
   }
 
   /**
@@ -62,14 +83,24 @@ export class SparkBatch {
    * @param [options] The optional parameters
    * @returns Promise<Models.SparkBatchCreateResponse>
    */
-  create(workspaceName: string, sparkPoolName: string, livyRequest: Models.ExtendedLivyBatchRequest, options?: Models.SparkBatchCreateOptionalParams): Promise<Models.SparkBatchCreateResponse>;
+  create(
+    workspaceName: string,
+    sparkPoolName: string,
+    livyRequest: Models.ExtendedLivyBatchRequest,
+    options?: Models.SparkBatchCreateOptionalParams
+  ): Promise<Models.SparkBatchCreateResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
    * @param livyRequest Livy compatible batch job request payload.
    * @param callback The callback
    */
-  create(workspaceName: string, sparkPoolName: string, livyRequest: Models.ExtendedLivyBatchRequest, callback: msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>): void;
+  create(
+    workspaceName: string,
+    sparkPoolName: string,
+    livyRequest: Models.ExtendedLivyBatchRequest,
+    callback: msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
@@ -77,8 +108,22 @@ export class SparkBatch {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(workspaceName: string, sparkPoolName: string, livyRequest: Models.ExtendedLivyBatchRequest, options: Models.SparkBatchCreateOptionalParams, callback: msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>): void;
-  create(workspaceName: string, sparkPoolName: string, livyRequest: Models.ExtendedLivyBatchRequest, options?: Models.SparkBatchCreateOptionalParams | msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>, callback?: msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>): Promise<Models.SparkBatchCreateResponse> {
+  create(
+    workspaceName: string,
+    sparkPoolName: string,
+    livyRequest: Models.ExtendedLivyBatchRequest,
+    options: Models.SparkBatchCreateOptionalParams,
+    callback: msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>
+  ): void;
+  create(
+    workspaceName: string,
+    sparkPoolName: string,
+    livyRequest: Models.ExtendedLivyBatchRequest,
+    options?:
+      | Models.SparkBatchCreateOptionalParams
+      | msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>,
+    callback?: msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>
+  ): Promise<Models.SparkBatchCreateResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -87,7 +132,8 @@ export class SparkBatch {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.SparkBatchCreateResponse>;
+      callback
+    ) as Promise<Models.SparkBatchCreateResponse>;
   }
 
   /**
@@ -98,14 +144,24 @@ export class SparkBatch {
    * @param [options] The optional parameters
    * @returns Promise<Models.SparkBatchGetResponse>
    */
-  get(workspaceName: string, sparkPoolName: string, batchId: number, options?: Models.SparkBatchGetOptionalParams): Promise<Models.SparkBatchGetResponse>;
+  get(
+    workspaceName: string,
+    sparkPoolName: string,
+    batchId: number,
+    options?: Models.SparkBatchGetOptionalParams
+  ): Promise<Models.SparkBatchGetResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
    * @param batchId Identifier for the batch job.
    * @param callback The callback
    */
-  get(workspaceName: string, sparkPoolName: string, batchId: number, callback: msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>): void;
+  get(
+    workspaceName: string,
+    sparkPoolName: string,
+    batchId: number,
+    callback: msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
@@ -113,8 +169,22 @@ export class SparkBatch {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(workspaceName: string, sparkPoolName: string, batchId: number, options: Models.SparkBatchGetOptionalParams, callback: msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>): void;
-  get(workspaceName: string, sparkPoolName: string, batchId: number, options?: Models.SparkBatchGetOptionalParams | msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>, callback?: msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>): Promise<Models.SparkBatchGetResponse> {
+  get(
+    workspaceName: string,
+    sparkPoolName: string,
+    batchId: number,
+    options: Models.SparkBatchGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>
+  ): void;
+  get(
+    workspaceName: string,
+    sparkPoolName: string,
+    batchId: number,
+    options?:
+      | Models.SparkBatchGetOptionalParams
+      | msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>,
+    callback?: msRest.ServiceCallback<Models.ExtendedLivyBatchResponse>
+  ): Promise<Models.SparkBatchGetResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -123,7 +193,8 @@ export class SparkBatch {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SparkBatchGetResponse>;
+      callback
+    ) as Promise<Models.SparkBatchGetResponse>;
   }
 
   /**
@@ -134,14 +205,24 @@ export class SparkBatch {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(workspaceName: string, sparkPoolName: string, batchId: number, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    workspaceName: string,
+    sparkPoolName: string,
+    batchId: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
    * @param batchId Identifier for the batch job.
    * @param callback The callback
    */
-  deleteMethod(workspaceName: string, sparkPoolName: string, batchId: number, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    workspaceName: string,
+    sparkPoolName: string,
+    batchId: number,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
@@ -149,8 +230,20 @@ export class SparkBatch {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(workspaceName: string, sparkPoolName: string, batchId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(workspaceName: string, sparkPoolName: string, batchId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    workspaceName: string,
+    sparkPoolName: string,
+    batchId: number,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    workspaceName: string,
+    sparkPoolName: string,
+    batchId: number,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -159,7 +252,8 @@ export class SparkBatch {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -174,14 +268,8 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.livyApiVersion,
     Parameters.sparkPoolName
   ],
-  queryParameters: [
-    Parameters.from,
-    Parameters.size,
-    Parameters.detailed
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.from, Parameters.size, Parameters.detailed],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExtendedLivyListBatchResponse
@@ -202,12 +290,8 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.livyApiVersion,
     Parameters.sparkPoolName
   ],
-  queryParameters: [
-    Parameters.detailed
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.detailed],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "livyRequest",
     mapper: {
@@ -236,12 +320,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.sparkPoolName,
     Parameters.batchId
   ],
-  queryParameters: [
-    Parameters.detailed
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.detailed],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExtendedLivyBatchResponse
@@ -263,9 +343,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.sparkPoolName,
     Parameters.batchId
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {

@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const KeyValuePair: msRest.CompositeMapper = {
   serializedName: "KeyValuePair",
   type: {
@@ -1728,7 +1727,7 @@ export const ImageUrl: msRest.CompositeMapper = {
     modelProperties: {
       dataRepresentation: {
         serializedName: "DataRepresentation",
-        defaultValue: 'URL',
+        defaultValue: "URL",
         type: {
           name: "String"
         }
@@ -1904,7 +1903,7 @@ export const CreateVideoReviewsBodyItem: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "Type",
-        defaultValue: 'Video',
+        defaultValue: "Video",
         type: {
           name: "String"
         }

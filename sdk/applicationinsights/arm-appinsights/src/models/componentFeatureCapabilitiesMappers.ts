@@ -8,8 +8,4 @@
  * regenerated.
  */
 
-export {
-  ApplicationInsightsComponentFeatureCapabilities,
-  CloudError
-} from "../models/mappers";
-
+export { ApplicationInsightsComponentFeatureCapabilities, CloudError } from "../models/mappers";

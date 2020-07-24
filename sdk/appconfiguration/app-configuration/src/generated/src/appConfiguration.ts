@@ -21,7 +21,11 @@ class AppConfiguration extends AppConfigurationContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, options?: Models.AppConfigurationOptions) {
+  constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    apiVersion: string,
+    options?: Models.AppConfigurationOptions
+  ) {
     super(credentials, apiVersion, options);
   }
 
@@ -39,14 +43,23 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKeys(options: Models.AppConfigurationGetKeysOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyListResult>): void;
-  getKeys(options?: Models.AppConfigurationGetKeysOptionalParams | coreHttp.ServiceCallback<Models.KeyListResult>, callback?: coreHttp.ServiceCallback<Models.KeyListResult>): Promise<Models.GetKeysResponse> {
+  getKeys(
+    options: Models.AppConfigurationGetKeysOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.KeyListResult>
+  ): void;
+  getKeys(
+    options?:
+      | Models.AppConfigurationGetKeysOptionalParams
+      | coreHttp.ServiceCallback<Models.KeyListResult>,
+    callback?: coreHttp.ServiceCallback<Models.KeyListResult>
+  ): Promise<Models.GetKeysResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       getKeysOperationSpec,
-      callback) as Promise<Models.GetKeysResponse>;
+      callback
+    ) as Promise<Models.GetKeysResponse>;
   }
 
   /**
@@ -54,7 +67,9 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckKeysResponse>
    */
-  checkKeys(options?: Models.AppConfigurationCheckKeysOptionalParams): Promise<Models.CheckKeysResponse>;
+  checkKeys(
+    options?: Models.AppConfigurationCheckKeysOptionalParams
+  ): Promise<Models.CheckKeysResponse>;
   /**
    * @param callback The callback
    */
@@ -63,14 +78,21 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkKeys(options: Models.AppConfigurationCheckKeysOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  checkKeys(options?: Models.AppConfigurationCheckKeysOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.CheckKeysResponse> {
+  checkKeys(
+    options: Models.AppConfigurationCheckKeysOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  checkKeys(
+    options?: Models.AppConfigurationCheckKeysOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.CheckKeysResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       checkKeysOperationSpec,
-      callback) as Promise<Models.CheckKeysResponse>;
+      callback
+    ) as Promise<Models.CheckKeysResponse>;
   }
 
   /**
@@ -78,7 +100,9 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetKeyValuesResponse>
    */
-  getKeyValues(options?: Models.AppConfigurationGetKeyValuesOptionalParams): Promise<Models.GetKeyValuesResponse>;
+  getKeyValues(
+    options?: Models.AppConfigurationGetKeyValuesOptionalParams
+  ): Promise<Models.GetKeyValuesResponse>;
   /**
    * @param callback The callback
    */
@@ -87,14 +111,23 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKeyValues(options: Models.AppConfigurationGetKeyValuesOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyValueListResult>): void;
-  getKeyValues(options?: Models.AppConfigurationGetKeyValuesOptionalParams | coreHttp.ServiceCallback<Models.KeyValueListResult>, callback?: coreHttp.ServiceCallback<Models.KeyValueListResult>): Promise<Models.GetKeyValuesResponse> {
+  getKeyValues(
+    options: Models.AppConfigurationGetKeyValuesOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.KeyValueListResult>
+  ): void;
+  getKeyValues(
+    options?:
+      | Models.AppConfigurationGetKeyValuesOptionalParams
+      | coreHttp.ServiceCallback<Models.KeyValueListResult>,
+    callback?: coreHttp.ServiceCallback<Models.KeyValueListResult>
+  ): Promise<Models.GetKeyValuesResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       getKeyValuesOperationSpec,
-      callback) as Promise<Models.GetKeyValuesResponse>;
+      callback
+    ) as Promise<Models.GetKeyValuesResponse>;
   }
 
   /**
@@ -102,7 +135,9 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckKeyValuesResponse>
    */
-  checkKeyValues(options?: Models.AppConfigurationCheckKeyValuesOptionalParams): Promise<Models.CheckKeyValuesResponse>;
+  checkKeyValues(
+    options?: Models.AppConfigurationCheckKeyValuesOptionalParams
+  ): Promise<Models.CheckKeyValuesResponse>;
   /**
    * @param callback The callback
    */
@@ -111,14 +146,21 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkKeyValues(options: Models.AppConfigurationCheckKeyValuesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  checkKeyValues(options?: Models.AppConfigurationCheckKeyValuesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.CheckKeyValuesResponse> {
+  checkKeyValues(
+    options: Models.AppConfigurationCheckKeyValuesOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  checkKeyValues(
+    options?: Models.AppConfigurationCheckKeyValuesOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.CheckKeyValuesResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       checkKeyValuesOperationSpec,
-      callback) as Promise<Models.CheckKeyValuesResponse>;
+      callback
+    ) as Promise<Models.CheckKeyValuesResponse>;
   }
 
   /**
@@ -127,7 +169,10 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetKeyValueResponse>
    */
-  getKeyValue(key: string, options?: Models.AppConfigurationGetKeyValueOptionalParams): Promise<Models.GetKeyValueResponse>;
+  getKeyValue(
+    key: string,
+    options?: Models.AppConfigurationGetKeyValueOptionalParams
+  ): Promise<Models.GetKeyValueResponse>;
   /**
    * @param key The key of the key-value to retrieve.
    * @param callback The callback
@@ -138,15 +183,26 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKeyValue(key: string, options: Models.AppConfigurationGetKeyValueOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyValue>): void;
-  getKeyValue(key: string, options?: Models.AppConfigurationGetKeyValueOptionalParams | coreHttp.ServiceCallback<Models.KeyValue>, callback?: coreHttp.ServiceCallback<Models.KeyValue>): Promise<Models.GetKeyValueResponse> {
+  getKeyValue(
+    key: string,
+    options: Models.AppConfigurationGetKeyValueOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.KeyValue>
+  ): void;
+  getKeyValue(
+    key: string,
+    options?:
+      | Models.AppConfigurationGetKeyValueOptionalParams
+      | coreHttp.ServiceCallback<Models.KeyValue>,
+    callback?: coreHttp.ServiceCallback<Models.KeyValue>
+  ): Promise<Models.GetKeyValueResponse> {
     return this.sendOperationRequest(
       {
         key,
         options
       },
       getKeyValueOperationSpec,
-      callback) as Promise<Models.GetKeyValueResponse>;
+      callback
+    ) as Promise<Models.GetKeyValueResponse>;
   }
 
   /**
@@ -155,7 +211,10 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.PutKeyValueResponse>
    */
-  putKeyValue(key: string, options?: Models.AppConfigurationPutKeyValueOptionalParams): Promise<Models.PutKeyValueResponse>;
+  putKeyValue(
+    key: string,
+    options?: Models.AppConfigurationPutKeyValueOptionalParams
+  ): Promise<Models.PutKeyValueResponse>;
   /**
    * @param key The key of the key-value to create.
    * @param callback The callback
@@ -166,15 +225,26 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  putKeyValue(key: string, options: Models.AppConfigurationPutKeyValueOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyValue>): void;
-  putKeyValue(key: string, options?: Models.AppConfigurationPutKeyValueOptionalParams | coreHttp.ServiceCallback<Models.KeyValue>, callback?: coreHttp.ServiceCallback<Models.KeyValue>): Promise<Models.PutKeyValueResponse> {
+  putKeyValue(
+    key: string,
+    options: Models.AppConfigurationPutKeyValueOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.KeyValue>
+  ): void;
+  putKeyValue(
+    key: string,
+    options?:
+      | Models.AppConfigurationPutKeyValueOptionalParams
+      | coreHttp.ServiceCallback<Models.KeyValue>,
+    callback?: coreHttp.ServiceCallback<Models.KeyValue>
+  ): Promise<Models.PutKeyValueResponse> {
     return this.sendOperationRequest(
       {
         key,
         options
       },
       putKeyValueOperationSpec,
-      callback) as Promise<Models.PutKeyValueResponse>;
+      callback
+    ) as Promise<Models.PutKeyValueResponse>;
   }
 
   /**
@@ -183,7 +253,10 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteKeyValueResponse>
    */
-  deleteKeyValue(key: string, options?: Models.AppConfigurationDeleteKeyValueOptionalParams): Promise<Models.DeleteKeyValueResponse>;
+  deleteKeyValue(
+    key: string,
+    options?: Models.AppConfigurationDeleteKeyValueOptionalParams
+  ): Promise<Models.DeleteKeyValueResponse>;
   /**
    * @param key The key of the key-value to delete.
    * @param callback The callback
@@ -194,15 +267,26 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteKeyValue(key: string, options: Models.AppConfigurationDeleteKeyValueOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyValue>): void;
-  deleteKeyValue(key: string, options?: Models.AppConfigurationDeleteKeyValueOptionalParams | coreHttp.ServiceCallback<Models.KeyValue>, callback?: coreHttp.ServiceCallback<Models.KeyValue>): Promise<Models.DeleteKeyValueResponse> {
+  deleteKeyValue(
+    key: string,
+    options: Models.AppConfigurationDeleteKeyValueOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.KeyValue>
+  ): void;
+  deleteKeyValue(
+    key: string,
+    options?:
+      | Models.AppConfigurationDeleteKeyValueOptionalParams
+      | coreHttp.ServiceCallback<Models.KeyValue>,
+    callback?: coreHttp.ServiceCallback<Models.KeyValue>
+  ): Promise<Models.DeleteKeyValueResponse> {
     return this.sendOperationRequest(
       {
         key,
         options
       },
       deleteKeyValueOperationSpec,
-      callback) as Promise<Models.DeleteKeyValueResponse>;
+      callback
+    ) as Promise<Models.DeleteKeyValueResponse>;
   }
 
   /**
@@ -211,7 +295,10 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckKeyValueResponse>
    */
-  checkKeyValue(key: string, options?: Models.AppConfigurationCheckKeyValueOptionalParams): Promise<Models.CheckKeyValueResponse>;
+  checkKeyValue(
+    key: string,
+    options?: Models.AppConfigurationCheckKeyValueOptionalParams
+  ): Promise<Models.CheckKeyValueResponse>;
   /**
    * @param key The key of the key-value to retrieve.
    * @param callback The callback
@@ -222,15 +309,24 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkKeyValue(key: string, options: Models.AppConfigurationCheckKeyValueOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  checkKeyValue(key: string, options?: Models.AppConfigurationCheckKeyValueOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.CheckKeyValueResponse> {
+  checkKeyValue(
+    key: string,
+    options: Models.AppConfigurationCheckKeyValueOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  checkKeyValue(
+    key: string,
+    options?: Models.AppConfigurationCheckKeyValueOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.CheckKeyValueResponse> {
     return this.sendOperationRequest(
       {
         key,
         options
       },
       checkKeyValueOperationSpec,
-      callback) as Promise<Models.CheckKeyValueResponse>;
+      callback
+    ) as Promise<Models.CheckKeyValueResponse>;
   }
 
   /**
@@ -238,7 +334,9 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetLabelsResponse>
    */
-  getLabels(options?: Models.AppConfigurationGetLabelsOptionalParams): Promise<Models.GetLabelsResponse>;
+  getLabels(
+    options?: Models.AppConfigurationGetLabelsOptionalParams
+  ): Promise<Models.GetLabelsResponse>;
   /**
    * @param callback The callback
    */
@@ -247,14 +345,23 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getLabels(options: Models.AppConfigurationGetLabelsOptionalParams, callback: coreHttp.ServiceCallback<Models.LabelListResult>): void;
-  getLabels(options?: Models.AppConfigurationGetLabelsOptionalParams | coreHttp.ServiceCallback<Models.LabelListResult>, callback?: coreHttp.ServiceCallback<Models.LabelListResult>): Promise<Models.GetLabelsResponse> {
+  getLabels(
+    options: Models.AppConfigurationGetLabelsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.LabelListResult>
+  ): void;
+  getLabels(
+    options?:
+      | Models.AppConfigurationGetLabelsOptionalParams
+      | coreHttp.ServiceCallback<Models.LabelListResult>,
+    callback?: coreHttp.ServiceCallback<Models.LabelListResult>
+  ): Promise<Models.GetLabelsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       getLabelsOperationSpec,
-      callback) as Promise<Models.GetLabelsResponse>;
+      callback
+    ) as Promise<Models.GetLabelsResponse>;
   }
 
   /**
@@ -262,7 +369,9 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckLabelsResponse>
    */
-  checkLabels(options?: Models.AppConfigurationCheckLabelsOptionalParams): Promise<Models.CheckLabelsResponse>;
+  checkLabels(
+    options?: Models.AppConfigurationCheckLabelsOptionalParams
+  ): Promise<Models.CheckLabelsResponse>;
   /**
    * @param callback The callback
    */
@@ -271,14 +380,21 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkLabels(options: Models.AppConfigurationCheckLabelsOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  checkLabels(options?: Models.AppConfigurationCheckLabelsOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.CheckLabelsResponse> {
+  checkLabels(
+    options: Models.AppConfigurationCheckLabelsOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  checkLabels(
+    options?: Models.AppConfigurationCheckLabelsOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.CheckLabelsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       checkLabelsOperationSpec,
-      callback) as Promise<Models.CheckLabelsResponse>;
+      callback
+    ) as Promise<Models.CheckLabelsResponse>;
   }
 
   /**
@@ -287,7 +403,10 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.PutLockResponse>
    */
-  putLock(key: string, options?: Models.AppConfigurationPutLockOptionalParams): Promise<Models.PutLockResponse>;
+  putLock(
+    key: string,
+    options?: Models.AppConfigurationPutLockOptionalParams
+  ): Promise<Models.PutLockResponse>;
   /**
    * @param key The key of the key-value to lock.
    * @param callback The callback
@@ -298,15 +417,26 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  putLock(key: string, options: Models.AppConfigurationPutLockOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyValue>): void;
-  putLock(key: string, options?: Models.AppConfigurationPutLockOptionalParams | coreHttp.ServiceCallback<Models.KeyValue>, callback?: coreHttp.ServiceCallback<Models.KeyValue>): Promise<Models.PutLockResponse> {
+  putLock(
+    key: string,
+    options: Models.AppConfigurationPutLockOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.KeyValue>
+  ): void;
+  putLock(
+    key: string,
+    options?:
+      | Models.AppConfigurationPutLockOptionalParams
+      | coreHttp.ServiceCallback<Models.KeyValue>,
+    callback?: coreHttp.ServiceCallback<Models.KeyValue>
+  ): Promise<Models.PutLockResponse> {
     return this.sendOperationRequest(
       {
         key,
         options
       },
       putLockOperationSpec,
-      callback) as Promise<Models.PutLockResponse>;
+      callback
+    ) as Promise<Models.PutLockResponse>;
   }
 
   /**
@@ -315,7 +445,10 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteLockResponse>
    */
-  deleteLock(key: string, options?: Models.AppConfigurationDeleteLockOptionalParams): Promise<Models.DeleteLockResponse>;
+  deleteLock(
+    key: string,
+    options?: Models.AppConfigurationDeleteLockOptionalParams
+  ): Promise<Models.DeleteLockResponse>;
   /**
    * @param key The key of the key-value to unlock.
    * @param callback The callback
@@ -326,15 +459,26 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteLock(key: string, options: Models.AppConfigurationDeleteLockOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyValue>): void;
-  deleteLock(key: string, options?: Models.AppConfigurationDeleteLockOptionalParams | coreHttp.ServiceCallback<Models.KeyValue>, callback?: coreHttp.ServiceCallback<Models.KeyValue>): Promise<Models.DeleteLockResponse> {
+  deleteLock(
+    key: string,
+    options: Models.AppConfigurationDeleteLockOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.KeyValue>
+  ): void;
+  deleteLock(
+    key: string,
+    options?:
+      | Models.AppConfigurationDeleteLockOptionalParams
+      | coreHttp.ServiceCallback<Models.KeyValue>,
+    callback?: coreHttp.ServiceCallback<Models.KeyValue>
+  ): Promise<Models.DeleteLockResponse> {
     return this.sendOperationRequest(
       {
         key,
         options
       },
       deleteLockOperationSpec,
-      callback) as Promise<Models.DeleteLockResponse>;
+      callback
+    ) as Promise<Models.DeleteLockResponse>;
   }
 
   /**
@@ -342,7 +486,9 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetRevisionsResponse>
    */
-  getRevisions(options?: Models.AppConfigurationGetRevisionsOptionalParams): Promise<Models.GetRevisionsResponse>;
+  getRevisions(
+    options?: Models.AppConfigurationGetRevisionsOptionalParams
+  ): Promise<Models.GetRevisionsResponse>;
   /**
    * @param callback The callback
    */
@@ -351,14 +497,23 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRevisions(options: Models.AppConfigurationGetRevisionsOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyValueListResult>): void;
-  getRevisions(options?: Models.AppConfigurationGetRevisionsOptionalParams | coreHttp.ServiceCallback<Models.KeyValueListResult>, callback?: coreHttp.ServiceCallback<Models.KeyValueListResult>): Promise<Models.GetRevisionsResponse> {
+  getRevisions(
+    options: Models.AppConfigurationGetRevisionsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.KeyValueListResult>
+  ): void;
+  getRevisions(
+    options?:
+      | Models.AppConfigurationGetRevisionsOptionalParams
+      | coreHttp.ServiceCallback<Models.KeyValueListResult>,
+    callback?: coreHttp.ServiceCallback<Models.KeyValueListResult>
+  ): Promise<Models.GetRevisionsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       getRevisionsOperationSpec,
-      callback) as Promise<Models.GetRevisionsResponse>;
+      callback
+    ) as Promise<Models.GetRevisionsResponse>;
   }
 
   /**
@@ -366,7 +521,9 @@ class AppConfiguration extends AppConfigurationContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckRevisionsResponse>
    */
-  checkRevisions(options?: Models.AppConfigurationCheckRevisionsOptionalParams): Promise<Models.CheckRevisionsResponse>;
+  checkRevisions(
+    options?: Models.AppConfigurationCheckRevisionsOptionalParams
+  ): Promise<Models.CheckRevisionsResponse>;
   /**
    * @param callback The callback
    */
@@ -375,14 +532,21 @@ class AppConfiguration extends AppConfigurationContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkRevisions(options: Models.AppConfigurationCheckRevisionsOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  checkRevisions(options?: Models.AppConfigurationCheckRevisionsOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.CheckRevisionsResponse> {
+  checkRevisions(
+    options: Models.AppConfigurationCheckRevisionsOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  checkRevisions(
+    options?: Models.AppConfigurationCheckRevisionsOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.CheckRevisionsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       checkRevisionsOperationSpec,
-      callback) as Promise<Models.CheckRevisionsResponse>;
+      callback
+    ) as Promise<Models.CheckRevisionsResponse>;
   }
 }
 
@@ -391,15 +555,8 @@ const serializer = new coreHttp.Serializer(Mappers);
 const getKeysOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "keys",
-  queryParameters: [
-    Parameters.name,
-    Parameters.apiVersion,
-    Parameters.after
-  ],
-  headerParameters: [
-    Parameters.syncToken,
-    Parameters.acceptDatetime
-  ],
+  queryParameters: [Parameters.name, Parameters.apiVersion, Parameters.after],
+  headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult,
@@ -415,15 +572,8 @@ const getKeysOperationSpec: coreHttp.OperationSpec = {
 const checkKeysOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "keys",
-  queryParameters: [
-    Parameters.name,
-    Parameters.apiVersion,
-    Parameters.after
-  ],
-  headerParameters: [
-    Parameters.syncToken,
-    Parameters.acceptDatetime
-  ],
+  queryParameters: [Parameters.name, Parameters.apiVersion, Parameters.after],
+  headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   responses: {
     200: {
       headersMapper: Mappers.CheckKeysHeaders
@@ -443,10 +593,7 @@ const getKeyValuesOperationSpec: coreHttp.OperationSpec = {
     Parameters.after,
     Parameters.select
   ],
-  headerParameters: [
-    Parameters.syncToken,
-    Parameters.acceptDatetime
-  ],
+  headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   responses: {
     200: {
       bodyMapper: Mappers.KeyValueListResult,
@@ -469,10 +616,7 @@ const checkKeyValuesOperationSpec: coreHttp.OperationSpec = {
     Parameters.after,
     Parameters.select
   ],
-  headerParameters: [
-    Parameters.syncToken,
-    Parameters.acceptDatetime
-  ],
+  headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   responses: {
     200: {
       headersMapper: Mappers.CheckKeyValuesHeaders
@@ -485,14 +629,8 @@ const checkKeyValuesOperationSpec: coreHttp.OperationSpec = {
 const getKeyValueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "kv/{key}",
-  urlParameters: [
-    Parameters.key1
-  ],
-  queryParameters: [
-    Parameters.label,
-    Parameters.apiVersion,
-    Parameters.select
-  ],
+  urlParameters: [Parameters.key1],
+  queryParameters: [Parameters.label, Parameters.apiVersion, Parameters.select],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
@@ -517,23 +655,11 @@ const getKeyValueOperationSpec: coreHttp.OperationSpec = {
 const putKeyValueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "kv/{key}",
-  urlParameters: [
-    Parameters.key1
-  ],
-  queryParameters: [
-    Parameters.label,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.syncToken,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch
-  ],
+  urlParameters: [Parameters.key1],
+  queryParameters: [Parameters.label, Parameters.apiVersion],
+  headerParameters: [Parameters.syncToken, Parameters.ifMatch, Parameters.ifNoneMatch],
   requestBody: {
-    parameterPath: [
-      "options",
-      "entity"
-    ],
+    parameterPath: ["options", "entity"],
     mapper: Mappers.KeyValue
   },
   responses: {
@@ -551,17 +677,9 @@ const putKeyValueOperationSpec: coreHttp.OperationSpec = {
 const deleteKeyValueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "kv/{key}",
-  urlParameters: [
-    Parameters.key1
-  ],
-  queryParameters: [
-    Parameters.label,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.syncToken,
-    Parameters.ifMatch
-  ],
+  urlParameters: [Parameters.key1],
+  queryParameters: [Parameters.label, Parameters.apiVersion],
+  headerParameters: [Parameters.syncToken, Parameters.ifMatch],
   responses: {
     200: {
       bodyMapper: Mappers.KeyValue,
@@ -580,14 +698,8 @@ const deleteKeyValueOperationSpec: coreHttp.OperationSpec = {
 const checkKeyValueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "kv/{key}",
-  urlParameters: [
-    Parameters.key1
-  ],
-  queryParameters: [
-    Parameters.label,
-    Parameters.apiVersion,
-    Parameters.select
-  ],
+  urlParameters: [Parameters.key1],
+  queryParameters: [Parameters.label, Parameters.apiVersion, Parameters.select],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
@@ -609,16 +721,8 @@ const checkKeyValueOperationSpec: coreHttp.OperationSpec = {
 const getLabelsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "labels",
-  queryParameters: [
-    Parameters.name,
-    Parameters.apiVersion,
-    Parameters.after,
-    Parameters.select
-  ],
-  headerParameters: [
-    Parameters.syncToken,
-    Parameters.acceptDatetime
-  ],
+  queryParameters: [Parameters.name, Parameters.apiVersion, Parameters.after, Parameters.select],
+  headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   responses: {
     200: {
       bodyMapper: Mappers.LabelListResult,
@@ -634,16 +738,8 @@ const getLabelsOperationSpec: coreHttp.OperationSpec = {
 const checkLabelsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "labels",
-  queryParameters: [
-    Parameters.name,
-    Parameters.apiVersion,
-    Parameters.after,
-    Parameters.select
-  ],
-  headerParameters: [
-    Parameters.syncToken,
-    Parameters.acceptDatetime
-  ],
+  queryParameters: [Parameters.name, Parameters.apiVersion, Parameters.after, Parameters.select],
+  headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   responses: {
     200: {
       headersMapper: Mappers.CheckLabelsHeaders
@@ -656,18 +752,9 @@ const checkLabelsOperationSpec: coreHttp.OperationSpec = {
 const putLockOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "locks/{key}",
-  urlParameters: [
-    Parameters.key1
-  ],
-  queryParameters: [
-    Parameters.label,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.syncToken,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch
-  ],
+  urlParameters: [Parameters.key1],
+  queryParameters: [Parameters.label, Parameters.apiVersion],
+  headerParameters: [Parameters.syncToken, Parameters.ifMatch, Parameters.ifNoneMatch],
   responses: {
     200: {
       bodyMapper: Mappers.KeyValue,
@@ -683,18 +770,9 @@ const putLockOperationSpec: coreHttp.OperationSpec = {
 const deleteLockOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "locks/{key}",
-  urlParameters: [
-    Parameters.key1
-  ],
-  queryParameters: [
-    Parameters.label,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.syncToken,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch
-  ],
+  urlParameters: [Parameters.key1],
+  queryParameters: [Parameters.label, Parameters.apiVersion],
+  headerParameters: [Parameters.syncToken, Parameters.ifMatch, Parameters.ifNoneMatch],
   responses: {
     200: {
       bodyMapper: Mappers.KeyValue,
@@ -717,10 +795,7 @@ const getRevisionsOperationSpec: coreHttp.OperationSpec = {
     Parameters.after,
     Parameters.select
   ],
-  headerParameters: [
-    Parameters.syncToken,
-    Parameters.acceptDatetime
-  ],
+  headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   responses: {
     200: {
       bodyMapper: Mappers.KeyValueListResult,
@@ -743,10 +818,7 @@ const checkRevisionsOperationSpec: coreHttp.OperationSpec = {
     Parameters.after,
     Parameters.select
   ],
-  headerParameters: [
-    Parameters.syncToken,
-    Parameters.acceptDatetime
-  ],
+  headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   responses: {
     200: {
       headersMapper: Mappers.CheckRevisionsHeaders

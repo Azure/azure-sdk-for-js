@@ -32,7 +32,9 @@ export class Provider {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProviderGetAvailableStacksResponse>
    */
-  getAvailableStacks(options?: Models.ProviderGetAvailableStacksOptionalParams): Promise<Models.ProviderGetAvailableStacksResponse>;
+  getAvailableStacks(
+    options?: Models.ProviderGetAvailableStacksOptionalParams
+  ): Promise<Models.ProviderGetAvailableStacksResponse>;
   /**
    * @param callback The callback
    */
@@ -41,14 +43,23 @@ export class Provider {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAvailableStacks(options: Models.ProviderGetAvailableStacksOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationStackCollection>): void;
-  getAvailableStacks(options?: Models.ProviderGetAvailableStacksOptionalParams | msRest.ServiceCallback<Models.ApplicationStackCollection>, callback?: msRest.ServiceCallback<Models.ApplicationStackCollection>): Promise<Models.ProviderGetAvailableStacksResponse> {
+  getAvailableStacks(
+    options: Models.ProviderGetAvailableStacksOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApplicationStackCollection>
+  ): void;
+  getAvailableStacks(
+    options?:
+      | Models.ProviderGetAvailableStacksOptionalParams
+      | msRest.ServiceCallback<Models.ApplicationStackCollection>,
+    callback?: msRest.ServiceCallback<Models.ApplicationStackCollection>
+  ): Promise<Models.ProviderGetAvailableStacksResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getAvailableStacksOperationSpec,
-      callback) as Promise<Models.ProviderGetAvailableStacksResponse>;
+      callback
+    ) as Promise<Models.ProviderGetAvailableStacksResponse>;
   }
 
   /**
@@ -59,7 +70,9 @@ export class Provider {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProviderListOperationsResponse>
    */
-  listOperations(options?: msRest.RequestOptionsBase): Promise<Models.ProviderListOperationsResponse>;
+  listOperations(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProviderListOperationsResponse>;
   /**
    * @param callback The callback
    */
@@ -68,14 +81,21 @@ export class Provider {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmOperationCollection>): void;
-  listOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmOperationCollection>, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.ProviderListOperationsResponse> {
+  listOperations(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CsmOperationCollection>
+  ): void;
+  listOperations(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmOperationCollection>,
+    callback?: msRest.ServiceCallback<Models.CsmOperationCollection>
+  ): Promise<Models.ProviderListOperationsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationsOperationSpec,
-      callback) as Promise<Models.ProviderListOperationsResponse>;
+      callback
+    ) as Promise<Models.ProviderListOperationsResponse>;
   }
 
   /**
@@ -84,23 +104,36 @@ export class Provider {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProviderGetAvailableStacksOnPremResponse>
    */
-  getAvailableStacksOnPrem(options?: Models.ProviderGetAvailableStacksOnPremOptionalParams): Promise<Models.ProviderGetAvailableStacksOnPremResponse>;
+  getAvailableStacksOnPrem(
+    options?: Models.ProviderGetAvailableStacksOnPremOptionalParams
+  ): Promise<Models.ProviderGetAvailableStacksOnPremResponse>;
   /**
    * @param callback The callback
    */
-  getAvailableStacksOnPrem(callback: msRest.ServiceCallback<Models.ApplicationStackCollection>): void;
+  getAvailableStacksOnPrem(
+    callback: msRest.ServiceCallback<Models.ApplicationStackCollection>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAvailableStacksOnPrem(options: Models.ProviderGetAvailableStacksOnPremOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationStackCollection>): void;
-  getAvailableStacksOnPrem(options?: Models.ProviderGetAvailableStacksOnPremOptionalParams | msRest.ServiceCallback<Models.ApplicationStackCollection>, callback?: msRest.ServiceCallback<Models.ApplicationStackCollection>): Promise<Models.ProviderGetAvailableStacksOnPremResponse> {
+  getAvailableStacksOnPrem(
+    options: Models.ProviderGetAvailableStacksOnPremOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApplicationStackCollection>
+  ): void;
+  getAvailableStacksOnPrem(
+    options?:
+      | Models.ProviderGetAvailableStacksOnPremOptionalParams
+      | msRest.ServiceCallback<Models.ApplicationStackCollection>,
+    callback?: msRest.ServiceCallback<Models.ApplicationStackCollection>
+  ): Promise<Models.ProviderGetAvailableStacksOnPremResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getAvailableStacksOnPremOperationSpec,
-      callback) as Promise<Models.ProviderGetAvailableStacksOnPremResponse>;
+      callback
+    ) as Promise<Models.ProviderGetAvailableStacksOnPremResponse>;
   }
 
   /**
@@ -110,26 +143,41 @@ export class Provider {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProviderGetAvailableStacksNextResponse>
    */
-  getAvailableStacksNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProviderGetAvailableStacksNextResponse>;
+  getAvailableStacksNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProviderGetAvailableStacksNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getAvailableStacksNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationStackCollection>): void;
+  getAvailableStacksNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplicationStackCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAvailableStacksNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationStackCollection>): void;
-  getAvailableStacksNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationStackCollection>, callback?: msRest.ServiceCallback<Models.ApplicationStackCollection>): Promise<Models.ProviderGetAvailableStacksNextResponse> {
+  getAvailableStacksNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationStackCollection>
+  ): void;
+  getAvailableStacksNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationStackCollection>,
+    callback?: msRest.ServiceCallback<Models.ApplicationStackCollection>
+  ): Promise<Models.ProviderGetAvailableStacksNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getAvailableStacksNextOperationSpec,
-      callback) as Promise<Models.ProviderGetAvailableStacksNextResponse>;
+      callback
+    ) as Promise<Models.ProviderGetAvailableStacksNextResponse>;
   }
 
   /**
@@ -141,26 +189,41 @@ export class Provider {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProviderListOperationsNextResponse>
    */
-  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProviderListOperationsNextResponse>;
+  listOperationsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProviderListOperationsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listOperationsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CsmOperationCollection>): void;
+  listOperationsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CsmOperationCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOperationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmOperationCollection>): void;
-  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmOperationCollection>, callback?: msRest.ServiceCallback<Models.CsmOperationCollection>): Promise<Models.ProviderListOperationsNextResponse> {
+  listOperationsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CsmOperationCollection>
+  ): void;
+  listOperationsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmOperationCollection>,
+    callback?: msRest.ServiceCallback<Models.CsmOperationCollection>
+  ): Promise<Models.ProviderListOperationsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listOperationsNextOperationSpec,
-      callback) as Promise<Models.ProviderListOperationsNextResponse>;
+      callback
+    ) as Promise<Models.ProviderListOperationsNextResponse>;
   }
 
   /**
@@ -170,26 +233,41 @@ export class Provider {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProviderGetAvailableStacksOnPremNextResponse>
    */
-  getAvailableStacksOnPremNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProviderGetAvailableStacksOnPremNextResponse>;
+  getAvailableStacksOnPremNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProviderGetAvailableStacksOnPremNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  getAvailableStacksOnPremNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationStackCollection>): void;
+  getAvailableStacksOnPremNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplicationStackCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAvailableStacksOnPremNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationStackCollection>): void;
-  getAvailableStacksOnPremNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationStackCollection>, callback?: msRest.ServiceCallback<Models.ApplicationStackCollection>): Promise<Models.ProviderGetAvailableStacksOnPremNextResponse> {
+  getAvailableStacksOnPremNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationStackCollection>
+  ): void;
+  getAvailableStacksOnPremNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationStackCollection>,
+    callback?: msRest.ServiceCallback<Models.ApplicationStackCollection>
+  ): Promise<Models.ProviderGetAvailableStacksOnPremNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       getAvailableStacksOnPremNextOperationSpec,
-      callback) as Promise<Models.ProviderGetAvailableStacksOnPremNextResponse>;
+      callback
+    ) as Promise<Models.ProviderGetAvailableStacksOnPremNextResponse>;
   }
 }
 
@@ -198,13 +276,8 @@ const serializer = new msRest.Serializer(Mappers);
 const getAvailableStacksOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Web/availableStacks",
-  queryParameters: [
-    Parameters.osTypeSelected,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.osTypeSelected, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationStackCollection
@@ -219,12 +292,8 @@ const getAvailableStacksOperationSpec: msRest.OperationSpec = {
 const listOperationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Web/operations",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CsmOperationCollection
@@ -239,16 +308,9 @@ const listOperationsOperationSpec: msRest.OperationSpec = {
 const getAvailableStacksOnPremOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/availableStacks",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.osTypeSelected,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.osTypeSelected, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationStackCollection
@@ -264,12 +326,8 @@ const getAvailableStacksNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationStackCollection
@@ -285,12 +343,8 @@ const listOperationsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CsmOperationCollection
@@ -306,12 +360,8 @@ const getAvailableStacksOnPremNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationStackCollection

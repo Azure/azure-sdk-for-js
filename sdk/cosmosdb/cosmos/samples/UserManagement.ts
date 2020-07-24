@@ -23,8 +23,12 @@ async function run() {
   // So let's go ahead and set these up initially
   // --------------------------------------------------------------------------------------------------
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
-  const { container: container1 } = await database.containers.createIfNotExists({ id: container1Name });
-  const { container: container2 } = await database.containers.createIfNotExists({ id: container2Name });
+  const { container: container1 } = await database.containers.createIfNotExists({
+    id: container1Name
+  });
+  const { container: container2 } = await database.containers.createIfNotExists({
+    id: container2Name
+  });
 
   let itemSpec = { id: item1Name };
 
@@ -113,7 +117,11 @@ async function getResourceToken(container: Container, permission: Permission) {
   return { [container.url]: permDef._token };
 }
 
-async function attemptWriteWithReadPermission(container: Container, user: User, permission: Permission) {
+async function attemptWriteWithReadPermission(
+  container: Container,
+  user: User,
+  permission: Permission
+) {
   const resourceTokens = await getResourceToken(container, permission);
   const client = new CosmosClient({
     endpoint,
@@ -158,7 +166,9 @@ async function attemptReadFromTwoCollections(
     .container(container1.id)
     .items.readAll()
     .fetchAll();
-  console.log(user1.id + " able to read items from container 1. Document count is " + items1.length);
+  console.log(
+    user1.id + " able to read items from container 1. Document count is " + items1.length
+  );
 
   const { resources: items2 } = await client
     .database(databaseId)
@@ -166,7 +176,9 @@ async function attemptReadFromTwoCollections(
     .items.readAll()
     .fetchAll();
 
-  console.log(user1.id + " able to read items from container 2. Document count is " + items2.length);
+  console.log(
+    user1.id + " able to read items from container 2. Document count is " + items2.length
+  );
 
   const itemDef = { id: "not allowed" };
 

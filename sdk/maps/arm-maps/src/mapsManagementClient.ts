@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { MapsManagementClientContext } from "./mapsManagementClientContext";
 
-
 class MapsManagementClient extends MapsManagementClientContext {
   // Operation groups
   accounts: operations.Accounts;
@@ -26,7 +25,11 @@ class MapsManagementClient extends MapsManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MapsManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.MapsManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.accounts = new operations.Accounts(this);
   }

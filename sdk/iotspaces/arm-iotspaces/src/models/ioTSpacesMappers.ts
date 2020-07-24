@@ -21,4 +21,3 @@ export {
   OperationInputs,
   IoTSpacesNameAvailabilityInfo
 } from "../models/mappers";
-

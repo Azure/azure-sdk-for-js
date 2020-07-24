@@ -34,14 +34,24 @@ export class DisasterRecoveryConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisasterRecoveryConfigsCheckNameAvailabilityMethodResponse>
    */
-  checkNameAvailabilityMethod(resourceGroupName: string, namespaceName: string, parameters: Models.CheckNameAvailability, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsCheckNameAvailabilityMethodResponse>;
+  checkNameAvailabilityMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.CheckNameAvailability,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisasterRecoveryConfigsCheckNameAvailabilityMethodResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param parameters Parameters to check availability of the given namespace name
    * @param callback The callback
    */
-  checkNameAvailabilityMethod(resourceGroupName: string, namespaceName: string, parameters: Models.CheckNameAvailability, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
+  checkNameAvailabilityMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.CheckNameAvailability,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -49,8 +59,22 @@ export class DisasterRecoveryConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailabilityMethod(resourceGroupName: string, namespaceName: string, parameters: Models.CheckNameAvailability, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailabilityMethod(resourceGroupName: string, namespaceName: string, parameters: Models.CheckNameAvailability, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.DisasterRecoveryConfigsCheckNameAvailabilityMethodResponse> {
+  checkNameAvailabilityMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.CheckNameAvailability,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
+  checkNameAvailabilityMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.CheckNameAvailability,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): Promise<Models.DisasterRecoveryConfigsCheckNameAvailabilityMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +83,8 @@ export class DisasterRecoveryConfigs {
         options
       },
       checkNameAvailabilityMethodOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsCheckNameAvailabilityMethodResponse>;
+      callback
+    ) as Promise<Models.DisasterRecoveryConfigsCheckNameAvailabilityMethodResponse>;
   }
 
   /**
@@ -69,21 +94,41 @@ export class DisasterRecoveryConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisasterRecoveryConfigsListResponse>
    */
-  list(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsListResponse>;
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisasterRecoveryConfigsListResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param callback The callback
    */
-  list(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>): void;
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>): void;
-  list(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>, callback?: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>): Promise<Models.DisasterRecoveryConfigsListResponse> {
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>,
+    callback?: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>
+  ): Promise<Models.DisasterRecoveryConfigsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +136,8 @@ export class DisasterRecoveryConfigs {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsListResponse>;
+      callback
+    ) as Promise<Models.DisasterRecoveryConfigsListResponse>;
   }
 
   /**
@@ -103,7 +149,13 @@ export class DisasterRecoveryConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisasterRecoveryConfigsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, alias: string, parameters: Models.ArmDisasterRecovery, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    parameters: Models.ArmDisasterRecovery,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisasterRecoveryConfigsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -111,7 +163,13 @@ export class DisasterRecoveryConfigs {
    * @param parameters Parameters required to create an Alias(Disaster Recovery configuration)
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, alias: string, parameters: Models.ArmDisasterRecovery, callback: msRest.ServiceCallback<Models.ArmDisasterRecovery>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    parameters: Models.ArmDisasterRecovery,
+    callback: msRest.ServiceCallback<Models.ArmDisasterRecovery>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -120,8 +178,22 @@ export class DisasterRecoveryConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, alias: string, parameters: Models.ArmDisasterRecovery, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArmDisasterRecovery>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, alias: string, parameters: Models.ArmDisasterRecovery, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmDisasterRecovery>, callback?: msRest.ServiceCallback<Models.ArmDisasterRecovery>): Promise<Models.DisasterRecoveryConfigsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    parameters: Models.ArmDisasterRecovery,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ArmDisasterRecovery>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    parameters: Models.ArmDisasterRecovery,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmDisasterRecovery>,
+    callback?: msRest.ServiceCallback<Models.ArmDisasterRecovery>
+  ): Promise<Models.DisasterRecoveryConfigsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +203,8 @@ export class DisasterRecoveryConfigs {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.DisasterRecoveryConfigsCreateOrUpdateResponse>;
   }
 
   /**
@@ -142,14 +215,24 @@ export class DisasterRecoveryConfigs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param alias The Disaster Recovery configuration name
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, alias: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -157,8 +240,20 @@ export class DisasterRecoveryConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, alias: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +262,8 @@ export class DisasterRecoveryConfigs {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -178,14 +274,24 @@ export class DisasterRecoveryConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisasterRecoveryConfigsGetResponse>
    */
-  get(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsGetResponse>;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisasterRecoveryConfigsGetResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param alias The Disaster Recovery configuration name
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, alias: string, callback: msRest.ServiceCallback<Models.ArmDisasterRecovery>): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    callback: msRest.ServiceCallback<Models.ArmDisasterRecovery>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -193,8 +299,20 @@ export class DisasterRecoveryConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, alias: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArmDisasterRecovery>): void;
-  get(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmDisasterRecovery>, callback?: msRest.ServiceCallback<Models.ArmDisasterRecovery>): Promise<Models.DisasterRecoveryConfigsGetResponse> {
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ArmDisasterRecovery>
+  ): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmDisasterRecovery>,
+    callback?: msRest.ServiceCallback<Models.ArmDisasterRecovery>
+  ): Promise<Models.DisasterRecoveryConfigsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +321,8 @@ export class DisasterRecoveryConfigs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsGetResponse>;
+      callback
+    ) as Promise<Models.DisasterRecoveryConfigsGetResponse>;
   }
 
   /**
@@ -215,14 +334,24 @@ export class DisasterRecoveryConfigs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  breakPairing(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  breakPairing(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param alias The Disaster Recovery configuration name
    * @param callback The callback
    */
-  breakPairing(resourceGroupName: string, namespaceName: string, alias: string, callback: msRest.ServiceCallback<void>): void;
+  breakPairing(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -230,8 +359,20 @@ export class DisasterRecoveryConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  breakPairing(resourceGroupName: string, namespaceName: string, alias: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  breakPairing(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  breakPairing(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  breakPairing(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -240,7 +381,8 @@ export class DisasterRecoveryConfigs {
         options
       },
       breakPairingOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -251,14 +393,24 @@ export class DisasterRecoveryConfigs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  failOver(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  failOver(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param alias The Disaster Recovery configuration name
    * @param callback The callback
    */
-  failOver(resourceGroupName: string, namespaceName: string, alias: string, callback: msRest.ServiceCallback<void>): void;
+  failOver(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -266,8 +418,20 @@ export class DisasterRecoveryConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  failOver(resourceGroupName: string, namespaceName: string, alias: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  failOver(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  failOver(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  failOver(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -276,7 +440,8 @@ export class DisasterRecoveryConfigs {
         options
       },
       failOverOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -287,14 +452,24 @@ export class DisasterRecoveryConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse>
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse>;
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param alias The Disaster Recovery configuration name
    * @param callback The callback
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, callback: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>): void;
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    callback: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -302,8 +477,22 @@ export class DisasterRecoveryConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>): void;
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse> {
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>
+  ): void;
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>
+  ): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -312,7 +501,8 @@ export class DisasterRecoveryConfigs {
         options
       },
       listAuthorizationRulesOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse>;
+      callback
+    ) as Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse>;
   }
 
   /**
@@ -324,7 +514,13 @@ export class DisasterRecoveryConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse>
    */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -332,7 +528,13 @@ export class DisasterRecoveryConfigs {
    * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.SBAuthorizationRule>): void;
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    authorizationRuleName: string,
+    callback: msRest.ServiceCallback<Models.SBAuthorizationRule>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -341,8 +543,22 @@ export class DisasterRecoveryConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBAuthorizationRule>): void;
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBAuthorizationRule>, callback?: msRest.ServiceCallback<Models.SBAuthorizationRule>): Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse> {
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    authorizationRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SBAuthorizationRule>
+  ): void;
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBAuthorizationRule>,
+    callback?: msRest.ServiceCallback<Models.SBAuthorizationRule>
+  ): Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -352,7 +568,8 @@ export class DisasterRecoveryConfigs {
         options
       },
       getAuthorizationRuleOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
+      callback
+    ) as Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
   }
 
   /**
@@ -364,7 +581,13 @@ export class DisasterRecoveryConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisasterRecoveryConfigsListKeysResponse>
    */
-  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisasterRecoveryConfigsListKeysResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -372,7 +595,13 @@ export class DisasterRecoveryConfigs {
    * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    authorizationRuleName: string,
+    callback: msRest.ServiceCallback<Models.AccessKeys>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -381,8 +610,22 @@ export class DisasterRecoveryConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.DisasterRecoveryConfigsListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    authorizationRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessKeys>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    alias: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>,
+    callback?: msRest.ServiceCallback<Models.AccessKeys>
+  ): Promise<Models.DisasterRecoveryConfigsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -392,7 +635,8 @@ export class DisasterRecoveryConfigs {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsListKeysResponse>;
+      callback
+    ) as Promise<Models.DisasterRecoveryConfigsListKeysResponse>;
   }
 
   /**
@@ -401,26 +645,43 @@ export class DisasterRecoveryConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisasterRecoveryConfigsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisasterRecoveryConfigsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>, callback?: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>): Promise<Models.DisasterRecoveryConfigsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>,
+    callback?: msRest.ServiceCallback<Models.ArmDisasterRecoveryListResult>
+  ): Promise<Models.DisasterRecoveryConfigsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsListNextResponse>;
+      callback
+    ) as Promise<Models.DisasterRecoveryConfigsListNextResponse>;
   }
 
   /**
@@ -429,26 +690,43 @@ export class DisasterRecoveryConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse>
    */
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse>;
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAuthorizationRulesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>): void;
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAuthorizationRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>): void;
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse> {
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>
+  ): void;
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.SBAuthorizationRuleListResult>
+  ): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAuthorizationRulesNextOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse>;
+      callback
+    ) as Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse>;
   }
 }
 
@@ -456,18 +734,15 @@ export class DisasterRecoveryConfigs {
 const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/CheckNameAvailability",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/CheckNameAvailability",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -488,18 +763,15 @@ const checkNameAvailabilityMethodOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ArmDisasterRecoveryListResult
@@ -513,19 +785,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.alias,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -547,19 +816,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.alias,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -571,19 +837,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.alias,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ArmDisasterRecovery
@@ -597,19 +860,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const breakPairingOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/breakPairing",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/breakPairing",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.alias,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -621,19 +881,16 @@ const breakPairingOperationSpec: msRest.OperationSpec = {
 
 const failOverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/failover",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/failover",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.alias,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -645,19 +902,16 @@ const failOverOperationSpec: msRest.OperationSpec = {
 
 const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/AuthorizationRules",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/AuthorizationRules",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.alias,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SBAuthorizationRuleListResult
@@ -671,7 +925,8 @@ const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
 
 const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/AuthorizationRules/{authorizationRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/AuthorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
@@ -679,12 +934,8 @@ const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SBAuthorizationRule
@@ -698,7 +949,8 @@ const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/AuthorizationRules/{authorizationRuleName}/listKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/AuthorizationRules/{authorizationRuleName}/listKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
@@ -706,12 +958,8 @@ const listKeysOperationSpec: msRest.OperationSpec = {
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccessKeys
@@ -727,12 +975,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ArmDisasterRecoveryListResult
@@ -748,12 +992,8 @@ const listAuthorizationRulesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SBAuthorizationRuleListResult

@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing InfoField.
@@ -142,7 +141,11 @@ export interface RateCardQueryParameters {
 /**
  * Contains the possible cases for OfferTermInfo.
  */
-export type OfferTermInfoUnion = OfferTermInfo | MonetaryCredit | MonetaryCommitment | RecurringCharge;
+export type OfferTermInfoUnion =
+  | OfferTermInfo
+  | MonetaryCredit
+  | MonetaryCommitment
+  | RecurringCharge;
 
 /**
  * @interface
@@ -397,7 +400,6 @@ export interface UsageManagementClientOptions extends AzureServiceClientOptions 
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the UsageAggregationListResult.
@@ -419,7 +421,7 @@ export interface UsageAggregationListResult extends Array<UsageAggregation> {
  * @readonly
  * @enum {string}
  */
-export type AggregationGranularity = 'Daily' | 'Hourly';
+export type AggregationGranularity = "Daily" | "Hourly";
 
 /**
  * Contains response data for the list operation.
@@ -429,15 +431,15 @@ export type UsageAggregatesListResponse = UsageAggregationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageAggregationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageAggregationListResult;
+  };
 };
 
 /**
@@ -448,15 +450,15 @@ export type UsageAggregatesListNextResponse = UsageAggregationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageAggregationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageAggregationListResult;
+  };
 };
 
 /**
@@ -467,13 +469,13 @@ export type RateCardGetResponse = ResourceRateCardInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceRateCardInfo;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceRateCardInfo;
+  };
 };

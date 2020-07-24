@@ -37,7 +37,12 @@ export class QueryKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.QueryKeysCreateResponse>
    */
-  create(resourceGroupName: string, searchServiceName: string, name: string, options?: Models.QueryKeysCreateOptionalParams): Promise<Models.QueryKeysCreateResponse>;
+  create(
+    resourceGroupName: string,
+    searchServiceName: string,
+    name: string,
+    options?: Models.QueryKeysCreateOptionalParams
+  ): Promise<Models.QueryKeysCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -46,7 +51,12 @@ export class QueryKeys {
    * @param name The name of the new query API key.
    * @param callback The callback
    */
-  create(resourceGroupName: string, searchServiceName: string, name: string, callback: msRest.ServiceCallback<Models.QueryKey>): void;
+  create(
+    resourceGroupName: string,
+    searchServiceName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.QueryKey>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -56,8 +66,20 @@ export class QueryKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, searchServiceName: string, name: string, options: Models.QueryKeysCreateOptionalParams, callback: msRest.ServiceCallback<Models.QueryKey>): void;
-  create(resourceGroupName: string, searchServiceName: string, name: string, options?: Models.QueryKeysCreateOptionalParams | msRest.ServiceCallback<Models.QueryKey>, callback?: msRest.ServiceCallback<Models.QueryKey>): Promise<Models.QueryKeysCreateResponse> {
+  create(
+    resourceGroupName: string,
+    searchServiceName: string,
+    name: string,
+    options: Models.QueryKeysCreateOptionalParams,
+    callback: msRest.ServiceCallback<Models.QueryKey>
+  ): void;
+  create(
+    resourceGroupName: string,
+    searchServiceName: string,
+    name: string,
+    options?: Models.QueryKeysCreateOptionalParams | msRest.ServiceCallback<Models.QueryKey>,
+    callback?: msRest.ServiceCallback<Models.QueryKey>
+  ): Promise<Models.QueryKeysCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +88,8 @@ export class QueryKeys {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.QueryKeysCreateResponse>;
+      callback
+    ) as Promise<Models.QueryKeysCreateResponse>;
   }
 
   /**
@@ -78,7 +101,11 @@ export class QueryKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.QueryKeysListBySearchServiceResponse>
    */
-  listBySearchService(resourceGroupName: string, searchServiceName: string, options?: Models.QueryKeysListBySearchServiceOptionalParams): Promise<Models.QueryKeysListBySearchServiceResponse>;
+  listBySearchService(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: Models.QueryKeysListBySearchServiceOptionalParams
+  ): Promise<Models.QueryKeysListBySearchServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -86,7 +113,11 @@ export class QueryKeys {
    * resource group.
    * @param callback The callback
    */
-  listBySearchService(resourceGroupName: string, searchServiceName: string, callback: msRest.ServiceCallback<Models.ListQueryKeysResult>): void;
+  listBySearchService(
+    resourceGroupName: string,
+    searchServiceName: string,
+    callback: msRest.ServiceCallback<Models.ListQueryKeysResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -95,8 +126,20 @@ export class QueryKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySearchService(resourceGroupName: string, searchServiceName: string, options: Models.QueryKeysListBySearchServiceOptionalParams, callback: msRest.ServiceCallback<Models.ListQueryKeysResult>): void;
-  listBySearchService(resourceGroupName: string, searchServiceName: string, options?: Models.QueryKeysListBySearchServiceOptionalParams | msRest.ServiceCallback<Models.ListQueryKeysResult>, callback?: msRest.ServiceCallback<Models.ListQueryKeysResult>): Promise<Models.QueryKeysListBySearchServiceResponse> {
+  listBySearchService(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options: Models.QueryKeysListBySearchServiceOptionalParams,
+    callback: msRest.ServiceCallback<Models.ListQueryKeysResult>
+  ): void;
+  listBySearchService(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?:
+      | Models.QueryKeysListBySearchServiceOptionalParams
+      | msRest.ServiceCallback<Models.ListQueryKeysResult>,
+    callback?: msRest.ServiceCallback<Models.ListQueryKeysResult>
+  ): Promise<Models.QueryKeysListBySearchServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -104,7 +147,8 @@ export class QueryKeys {
         options
       },
       listBySearchServiceOperationSpec,
-      callback) as Promise<Models.QueryKeysListBySearchServiceResponse>;
+      callback
+    ) as Promise<Models.QueryKeysListBySearchServiceResponse>;
   }
 
   /**
@@ -118,7 +162,12 @@ export class QueryKeys {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, searchServiceName: string, key: string, options?: Models.QueryKeysDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    searchServiceName: string,
+    key: string,
+    options?: Models.QueryKeysDeleteMethodOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -127,7 +176,12 @@ export class QueryKeys {
    * @param key The query key to be deleted. Query keys are identified by value, not by name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, searchServiceName: string, key: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    searchServiceName: string,
+    key: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -137,8 +191,20 @@ export class QueryKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, searchServiceName: string, key: string, options: Models.QueryKeysDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, searchServiceName: string, key: string, options?: Models.QueryKeysDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    searchServiceName: string,
+    key: string,
+    options: Models.QueryKeysDeleteMethodOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    searchServiceName: string,
+    key: string,
+    options?: Models.QueryKeysDeleteMethodOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -147,7 +213,8 @@ export class QueryKeys {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -155,20 +222,16 @@ export class QueryKeys {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/createQueryKey/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/createQueryKey/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.name,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage, Parameters.clientRequestId],
   responses: {
     200: {
       bodyMapper: Mappers.QueryKey
@@ -182,19 +245,15 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const listBySearchServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listQueryKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listQueryKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage, Parameters.clientRequestId],
   responses: {
     200: {
       bodyMapper: Mappers.ListQueryKeysResult
@@ -208,20 +267,16 @@ const listBySearchServiceOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/deleteQueryKey/{key}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/deleteQueryKey/{key}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.key,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage, Parameters.clientRequestId],
   responses: {
     200: {},
     204: {},

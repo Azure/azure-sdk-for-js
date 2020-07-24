@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -81,10 +81,7 @@ export const baseAddress: msRest.OperationURLParameter = {
   }
 };
 export const billingLocation: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "billingLocation"
-  ],
+  parameterPath: ["options", "billingLocation"],
   mapper: {
     serializedName: "billingLocation",
     type: {
@@ -113,10 +110,7 @@ export const deletedSiteId: msRest.OperationURLParameter = {
   }
 };
 export const deleteEmptyServerFarm: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "deleteEmptyServerFarm"
-  ],
+  parameterPath: ["options", "deleteEmptyServerFarm"],
   mapper: {
     serializedName: "deleteEmptyServerFarm",
     type: {
@@ -125,10 +119,7 @@ export const deleteEmptyServerFarm: msRest.OperationQueryParameter = {
   }
 };
 export const deleteMetrics: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "deleteMetrics"
-  ],
+  parameterPath: ["options", "deleteMetrics"],
   mapper: {
     serializedName: "deleteMetrics",
     type: {
@@ -137,10 +128,7 @@ export const deleteMetrics: msRest.OperationQueryParameter = {
   }
 };
 export const detailed: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "detailed"
-  ],
+  parameterPath: ["options", "detailed"],
   mapper: {
     serializedName: "detailed",
     type: {
@@ -212,10 +200,7 @@ export const domainOwnershipIdentifierName: msRest.OperationURLParameter = {
   }
 };
 export const durationInSeconds: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "durationInSeconds"
-  ],
+  parameterPath: ["options", "durationInSeconds"],
   mapper: {
     serializedName: "durationInSeconds",
     type: {
@@ -224,10 +209,7 @@ export const durationInSeconds: msRest.OperationQueryParameter = {
   }
 };
 export const endTime: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "endTime"
-  ],
+  parameterPath: ["options", "endTime"],
   mapper: {
     serializedName: "endTime",
     type: {
@@ -256,10 +238,7 @@ export const environmentName: msRest.OperationQueryParameter = {
   }
 };
 export const expiredOnly: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expiredOnly"
-  ],
+  parameterPath: ["options", "expiredOnly"],
   mapper: {
     serializedName: "expiredOnly",
     type: {
@@ -268,10 +247,7 @@ export const expiredOnly: msRest.OperationQueryParameter = {
   }
 };
 export const featured: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "featured"
-  ],
+  parameterPath: ["options", "featured"],
   mapper: {
     serializedName: "featured",
     type: {
@@ -280,10 +256,7 @@ export const featured: msRest.OperationQueryParameter = {
   }
 };
 export const filter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -293,10 +266,7 @@ export const filter: msRest.OperationQueryParameter = {
   skipEncoding: true
 };
 export const forceDelete: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "forceDelete"
-  ],
+  parameterPath: ["options", "forceDelete"],
   mapper: {
     serializedName: "forceDelete",
     type: {
@@ -305,10 +275,7 @@ export const forceDelete: msRest.OperationQueryParameter = {
   }
 };
 export const forceHardDeleteDomain: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "forceHardDeleteDomain"
-  ],
+  parameterPath: ["options", "forceHardDeleteDomain"],
   mapper: {
     serializedName: "forceHardDeleteDomain",
     type: {
@@ -347,10 +314,7 @@ export const hostingEnvironmentName: msRest.OperationURLParameter = {
   }
 };
 export const hostName0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "hostName"
-  ],
+  parameterPath: ["options", "hostName"],
   mapper: {
     serializedName: "hostName",
     type: {
@@ -379,10 +343,7 @@ export const id: msRest.OperationURLParameter = {
   }
 };
 export const includeSlots: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeSlots"
-  ],
+  parameterPath: ["options", "includeSlots"],
   mapper: {
     serializedName: "includeSlots",
     type: {
@@ -431,10 +392,7 @@ export const keyType: msRest.OperationURLParameter = {
   }
 };
 export const linuxDynamicWorkersEnabled: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "linuxDynamicWorkersEnabled"
-  ],
+  parameterPath: ["options", "linuxDynamicWorkersEnabled"],
   mapper: {
     serializedName: "linuxDynamicWorkersEnabled",
     type: {
@@ -443,10 +401,7 @@ export const linuxDynamicWorkersEnabled: msRest.OperationQueryParameter = {
   }
 };
 export const linuxWorkersEnabled: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "linuxWorkersEnabled"
-  ],
+  parameterPath: ["options", "linuxWorkersEnabled"],
   mapper: {
     serializedName: "linuxWorkersEnabled",
     type: {
@@ -465,10 +420,7 @@ export const location: msRest.OperationURLParameter = {
   }
 };
 export const maxFrameLength: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "maxFrameLength"
-  ],
+  parameterPath: ["options", "maxFrameLength"],
   mapper: {
     serializedName: "maxFrameLength",
     type: {
@@ -518,10 +470,7 @@ export const operationId: msRest.OperationURLParameter = {
   }
 };
 export const osType: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "osType"
-  ],
+  parameterPath: ["options", "osType"],
   mapper: {
     serializedName: "osType",
     type: {
@@ -530,10 +479,7 @@ export const osType: msRest.OperationQueryParameter = {
   }
 };
 export const osTypeSelected: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "osTypeSelected"
-  ],
+  parameterPath: ["options", "osTypeSelected"],
   mapper: {
     serializedName: "osTypeSelected",
     type: {
@@ -572,10 +518,7 @@ export const processId: msRest.OperationURLParameter = {
   }
 };
 export const propertiesToInclude: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "propertiesToInclude"
-  ],
+  parameterPath: ["options", "propertiesToInclude"],
   mapper: {
     serializedName: "propertiesToInclude",
     type: {
@@ -594,10 +537,7 @@ export const publicCertificateName: msRest.OperationURLParameter = {
   }
 };
 export const recommendationId: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "recommendationId"
-  ],
+  parameterPath: ["options", "recommendationId"],
   mapper: {
     serializedName: "recommendationId",
     type: {
@@ -641,10 +581,7 @@ export const routeName: msRest.OperationURLParameter = {
   }
 };
 export const sasUrl: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "sasUrl"
-  ],
+  parameterPath: ["options", "sasUrl"],
   mapper: {
     serializedName: "sasUrl",
     type: {
@@ -673,10 +610,7 @@ export const siteName: msRest.OperationURLParameter = {
   }
 };
 export const skipToken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skipToken"
-  ],
+  parameterPath: ["options", "skipToken"],
   mapper: {
     serializedName: "$skipToken",
     type: {
@@ -685,10 +619,7 @@ export const skipToken: msRest.OperationQueryParameter = {
   }
 };
 export const sku: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "sku"
-  ],
+  parameterPath: ["options", "sku"],
   mapper: {
     serializedName: "sku",
     type: {
@@ -717,10 +648,7 @@ export const snapshotId: msRest.OperationURLParameter = {
   }
 };
 export const softRestart: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "softRestart"
-  ],
+  parameterPath: ["options", "softRestart"],
   mapper: {
     serializedName: "softRestart",
     type: {
@@ -739,10 +667,7 @@ export const sourceControlType: msRest.OperationURLParameter = {
   }
 };
 export const startTime: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "startTime"
-  ],
+  parameterPath: ["options", "startTime"],
   mapper: {
     serializedName: "startTime",
     type: {
@@ -771,10 +696,7 @@ export const subscriptionName: msRest.OperationQueryParameter = {
   }
 };
 export const synchronous: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "synchronous"
-  ],
+  parameterPath: ["options", "synchronous"],
   mapper: {
     serializedName: "synchronous",
     type: {
@@ -783,10 +705,7 @@ export const synchronous: msRest.OperationQueryParameter = {
   }
 };
 export const timeGrain: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "timeGrain"
-  ],
+  parameterPath: ["options", "timeGrain"],
   mapper: {
     serializedName: "timeGrain",
     constraints: {
@@ -798,10 +717,7 @@ export const timeGrain: msRest.OperationQueryParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "$top",
     type: {
@@ -810,10 +726,7 @@ export const top: msRest.OperationQueryParameter = {
   }
 };
 export const updateSeen: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "updateSeen"
-  ],
+  parameterPath: ["options", "updateSeen"],
   mapper: {
     serializedName: "updateSeen",
     type: {
@@ -882,10 +795,7 @@ export const workerPoolName: msRest.OperationURLParameter = {
   }
 };
 export const xenonWorkersEnabled: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "xenonWorkersEnabled"
-  ],
+  parameterPath: ["options", "xenonWorkersEnabled"],
   mapper: {
     serializedName: "xenonWorkersEnabled",
     type: {

@@ -39,9 +39,24 @@ export class ServiceUnits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceUnitsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, serviceUnitInfo: Models.ServiceUnitResource, options?: msRest.RequestOptionsBase): Promise<Models.ServiceUnitsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serviceTopologyName,serviceName,serviceUnitName,serviceUnitInfo,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServiceUnitsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceUnitName: string,
+    serviceUnitInfo: Models.ServiceUnitResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceUnitsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serviceTopologyName,
+      serviceName,
+      serviceUnitName,
+      serviceUnitInfo,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ServiceUnitsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -53,7 +68,13 @@ export class ServiceUnits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceUnitsGetResponse>
    */
-  get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceUnitsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceUnitName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceUnitsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
@@ -61,7 +82,13 @@ export class ServiceUnits {
    * @param serviceUnitName The name of the service unit resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, callback: msRest.ServiceCallback<Models.ServiceUnitResource>): void;
+  get(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceUnitName: string,
+    callback: msRest.ServiceCallback<Models.ServiceUnitResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
@@ -70,8 +97,22 @@ export class ServiceUnits {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceUnitResource>): void;
-  get(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceUnitResource>, callback?: msRest.ServiceCallback<Models.ServiceUnitResource>): Promise<Models.ServiceUnitsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceUnitName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceUnitResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceUnitName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceUnitResource>,
+    callback?: msRest.ServiceCallback<Models.ServiceUnitResource>
+  ): Promise<Models.ServiceUnitsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -81,7 +122,8 @@ export class ServiceUnits {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServiceUnitsGetResponse>;
+      callback
+    ) as Promise<Models.ServiceUnitsGetResponse>;
   }
 
   /**
@@ -93,7 +135,13 @@ export class ServiceUnits {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceUnitName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
@@ -101,7 +149,13 @@ export class ServiceUnits {
    * @param serviceUnitName The name of the service unit resource.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceUnitName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
@@ -110,8 +164,22 @@ export class ServiceUnits {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceUnitName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceUnitName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +189,8 @@ export class ServiceUnits {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -132,14 +201,24 @@ export class ServiceUnits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceUnitsListResponse>
    */
-  list(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceUnitsListResponse>;
+  list(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceUnitsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
    * @param serviceName The name of the service resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceTopologyName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ServiceUnitResource[]>): void;
+  list(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.ServiceUnitResource[]>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceTopologyName The name of the service topology .
@@ -147,8 +226,20 @@ export class ServiceUnits {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceUnitResource[]>): void;
-  list(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceUnitResource[]>, callback?: msRest.ServiceCallback<Models.ServiceUnitResource[]>): Promise<Models.ServiceUnitsListResponse> {
+  list(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceUnitResource[]>
+  ): void;
+  list(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceUnitResource[]>,
+    callback?: msRest.ServiceCallback<Models.ServiceUnitResource[]>
+  ): Promise<Models.ServiceUnitsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +248,8 @@ export class ServiceUnits {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ServiceUnitsListResponse>;
+      callback
+    ) as Promise<Models.ServiceUnitsListResponse>;
   }
 
   /**
@@ -172,7 +264,14 @@ export class ServiceUnits {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serviceTopologyName: string, serviceName: string, serviceUnitName: string, serviceUnitInfo: Models.ServiceUnitResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serviceTopologyName: string,
+    serviceName: string,
+    serviceUnitName: string,
+    serviceUnitInfo: Models.ServiceUnitResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -183,7 +282,8 @@ export class ServiceUnits {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -191,7 +291,8 @@ export class ServiceUnits {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -199,12 +300,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.serviceName,
     Parameters.serviceUnitName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceUnitResource
@@ -218,7 +315,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -226,12 +324,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.serviceName,
     Parameters.serviceUnitName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -244,19 +338,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceTopologyName,
     Parameters.serviceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -281,7 +372,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits/{serviceUnitName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -289,12 +381,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.serviceName,
     Parameters.serviceUnitName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "serviceUnitInfo",
     mapper: {

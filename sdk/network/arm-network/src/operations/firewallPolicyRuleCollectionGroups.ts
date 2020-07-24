@@ -35,9 +35,18 @@ export class FirewallPolicyRuleCollectionGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,firewallPolicyName,ruleCollectionGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      firewallPolicyName,
+      ruleCollectionGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -48,14 +57,24 @@ export class FirewallPolicyRuleCollectionGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.FirewallPolicyRuleCollectionGroupsGetResponse>
    */
-  get(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.FirewallPolicyRuleCollectionGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FirewallPolicyRuleCollectionGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param firewallPolicyName The name of the Firewall Policy.
    * @param ruleCollectionGroupName The name of the FirewallPolicyRuleCollectionGroup.
    * @param callback The callback
    */
-  get(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, callback: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroup>): void;
+  get(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    callback: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param firewallPolicyName The name of the Firewall Policy.
@@ -63,8 +82,22 @@ export class FirewallPolicyRuleCollectionGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroup>): void;
-  get(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroup>, callback?: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroup>): Promise<Models.FirewallPolicyRuleCollectionGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroup>
+  ): void;
+  get(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroup>,
+    callback?: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroup>
+  ): Promise<Models.FirewallPolicyRuleCollectionGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,7 +106,8 @@ export class FirewallPolicyRuleCollectionGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.FirewallPolicyRuleCollectionGroupsGetResponse>;
+      callback
+    ) as Promise<Models.FirewallPolicyRuleCollectionGroupsGetResponse>;
   }
 
   /**
@@ -86,9 +120,22 @@ export class FirewallPolicyRuleCollectionGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, parameters: Models.FirewallPolicyRuleCollectionGroup, options?: msRest.RequestOptionsBase): Promise<Models.FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,firewallPolicyName,ruleCollectionGroupName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    parameters: Models.FirewallPolicyRuleCollectionGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      firewallPolicyName,
+      ruleCollectionGroupName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -98,21 +145,41 @@ export class FirewallPolicyRuleCollectionGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.FirewallPolicyRuleCollectionGroupsListResponse>
    */
-  list(resourceGroupName: string, firewallPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.FirewallPolicyRuleCollectionGroupsListResponse>;
+  list(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FirewallPolicyRuleCollectionGroupsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param firewallPolicyName The name of the Firewall Policy.
    * @param callback The callback
    */
-  list(resourceGroupName: string, firewallPolicyName: string, callback: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>): void;
+  list(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    callback: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param firewallPolicyName The name of the Firewall Policy.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, firewallPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>): void;
-  list(resourceGroupName: string, firewallPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>, callback?: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>): Promise<Models.FirewallPolicyRuleCollectionGroupsListResponse> {
+  list(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>
+  ): Promise<Models.FirewallPolicyRuleCollectionGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +187,8 @@ export class FirewallPolicyRuleCollectionGroups {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.FirewallPolicyRuleCollectionGroupsListResponse>;
+      callback
+    ) as Promise<Models.FirewallPolicyRuleCollectionGroupsListResponse>;
   }
 
   /**
@@ -131,7 +199,12 @@ export class FirewallPolicyRuleCollectionGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -140,7 +213,8 @@ export class FirewallPolicyRuleCollectionGroups {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -153,7 +227,13 @@ export class FirewallPolicyRuleCollectionGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, firewallPolicyName: string, ruleCollectionGroupName: string, parameters: Models.FirewallPolicyRuleCollectionGroup, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    firewallPolicyName: string,
+    ruleCollectionGroupName: string,
+    parameters: Models.FirewallPolicyRuleCollectionGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -163,7 +243,8 @@ export class FirewallPolicyRuleCollectionGroups {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -172,26 +253,43 @@ export class FirewallPolicyRuleCollectionGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.FirewallPolicyRuleCollectionGroupsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FirewallPolicyRuleCollectionGroupsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FirewallPolicyRuleCollectionGroupsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>, callback?: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>): Promise<Models.FirewallPolicyRuleCollectionGroupsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.FirewallPolicyRuleCollectionGroupListResult>
+  ): Promise<Models.FirewallPolicyRuleCollectionGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.FirewallPolicyRuleCollectionGroupsListNextResponse>;
+      callback
+    ) as Promise<Models.FirewallPolicyRuleCollectionGroupsListNextResponse>;
   }
 }
 
@@ -199,19 +297,16 @@ export class FirewallPolicyRuleCollectionGroups {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.firewallPolicyName,
     Parameters.ruleCollectionGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FirewallPolicyRuleCollectionGroup
@@ -225,18 +320,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.firewallPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FirewallPolicyRuleCollectionGroupListResult
@@ -250,19 +342,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.firewallPolicyName,
     Parameters.ruleCollectionGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -276,19 +365,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.firewallPolicyName,
     Parameters.ruleCollectionGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -314,12 +400,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FirewallPolicyRuleCollectionGroupListResult

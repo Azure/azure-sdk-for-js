@@ -58,4 +58,3 @@ export {
   ResizeOperationStatus,
   ResizeError
 } from "../models/mappers";
-

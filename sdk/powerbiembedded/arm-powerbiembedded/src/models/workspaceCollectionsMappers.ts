@@ -22,4 +22,3 @@ export {
   WorkspaceCollectionAccessKey,
   MigrateWorkspaceCollectionRequest
 } from "../models/mappers";
-

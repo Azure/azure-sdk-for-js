@@ -36,9 +36,20 @@ export class Solutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SolutionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, solutionName: string, parameters: Models.Solution, options?: msRest.RequestOptionsBase): Promise<Models.SolutionsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,solutionName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SolutionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    solutionName: string,
+    parameters: Models.Solution,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SolutionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      solutionName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SolutionsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -49,9 +60,14 @@ export class Solutions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,solutionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    solutionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, solutionName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -62,21 +78,39 @@ export class Solutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SolutionsGetResponse>
    */
-  get(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase): Promise<Models.SolutionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SolutionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param solutionName User Solution Name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, solutionName: string, callback: msRest.ServiceCallback<Models.Solution>): void;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    callback: msRest.ServiceCallback<Models.Solution>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param solutionName User Solution Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, solutionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Solution>): void;
-  get(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Solution>, callback?: msRest.ServiceCallback<Models.Solution>): Promise<Models.SolutionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Solution>
+  ): void;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Solution>,
+    callback?: msRest.ServiceCallback<Models.Solution>
+  ): Promise<Models.SolutionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -84,7 +118,8 @@ export class Solutions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SolutionsGetResponse>;
+      callback
+    ) as Promise<Models.SolutionsGetResponse>;
   }
 
   /**
@@ -94,26 +129,41 @@ export class Solutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SolutionsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SolutionsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SolutionsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.SolutionPropertiesList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.SolutionPropertiesList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SolutionPropertiesList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SolutionPropertiesList>, callback?: msRest.ServiceCallback<Models.SolutionPropertiesList>): Promise<Models.SolutionsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SolutionPropertiesList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SolutionPropertiesList>,
+    callback?: msRest.ServiceCallback<Models.SolutionPropertiesList>
+  ): Promise<Models.SolutionsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.SolutionsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.SolutionsListByResourceGroupResponse>;
   }
 
   /**
@@ -122,7 +172,9 @@ export class Solutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SolutionsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.SolutionsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SolutionsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -131,14 +183,21 @@ export class Solutions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SolutionPropertiesList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SolutionPropertiesList>, callback?: msRest.ServiceCallback<Models.SolutionPropertiesList>): Promise<Models.SolutionsListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SolutionPropertiesList>
+  ): void;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SolutionPropertiesList>,
+    callback?: msRest.ServiceCallback<Models.SolutionPropertiesList>
+  ): Promise<Models.SolutionsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.SolutionsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.SolutionsListBySubscriptionResponse>;
   }
 
   /**
@@ -150,7 +209,12 @@ export class Solutions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, solutionName: string, parameters: Models.Solution, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    solutionName: string,
+    parameters: Models.Solution,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -159,7 +223,8 @@ export class Solutions {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,7 +235,11 @@ export class Solutions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, solutionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    solutionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -178,7 +247,8 @@ export class Solutions {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -186,18 +256,11 @@ export class Solutions {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/solutions/{solutionName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.solutionName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/solutions/{solutionName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.solutionName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Solution
@@ -211,17 +274,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/solutions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/solutions",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SolutionPropertiesList
@@ -236,15 +293,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.OperationsManagement/solutions",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SolutionPropertiesList
@@ -258,18 +309,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/solutions/{solutionName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.solutionName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/solutions/{solutionName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.solutionName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -290,18 +334,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/solutions/{solutionName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.solutionName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/solutions/{solutionName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.solutionName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {

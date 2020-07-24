@@ -42,14 +42,21 @@ export class FileSystemOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(options: Models.FileSystemCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  create(options?: Models.FileSystemCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileSystemCreateResponse> {
+  create(
+    options: Models.FileSystemCreateOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  create(
+    options?: Models.FileSystemCreateOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileSystemCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.FileSystemCreateResponse>;
+      callback
+    ) as Promise<Models.FileSystemCreateResponse>;
   }
 
   /**
@@ -60,7 +67,9 @@ export class FileSystemOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSystemSetPropertiesResponse>
    */
-  setProperties(options?: Models.FileSystemSetPropertiesOptionalParams): Promise<Models.FileSystemSetPropertiesResponse>;
+  setProperties(
+    options?: Models.FileSystemSetPropertiesOptionalParams
+  ): Promise<Models.FileSystemSetPropertiesResponse>;
   /**
    * @param callback The callback
    */
@@ -69,14 +78,21 @@ export class FileSystemOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setProperties(options: Models.FileSystemSetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setProperties(options?: Models.FileSystemSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileSystemSetPropertiesResponse> {
+  setProperties(
+    options: Models.FileSystemSetPropertiesOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setProperties(
+    options?: Models.FileSystemSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileSystemSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setPropertiesOperationSpec,
-      callback) as Promise<Models.FileSystemSetPropertiesResponse>;
+      callback
+    ) as Promise<Models.FileSystemSetPropertiesResponse>;
   }
 
   /**
@@ -85,7 +101,9 @@ export class FileSystemOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSystemGetPropertiesResponse>
    */
-  getProperties(options?: Models.FileSystemGetPropertiesOptionalParams): Promise<Models.FileSystemGetPropertiesResponse>;
+  getProperties(
+    options?: Models.FileSystemGetPropertiesOptionalParams
+  ): Promise<Models.FileSystemGetPropertiesResponse>;
   /**
    * @param callback The callback
    */
@@ -94,14 +112,21 @@ export class FileSystemOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.FileSystemGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  getProperties(options?: Models.FileSystemGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileSystemGetPropertiesResponse> {
+  getProperties(
+    options: Models.FileSystemGetPropertiesOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  getProperties(
+    options?: Models.FileSystemGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileSystemGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getPropertiesOperationSpec,
-      callback) as Promise<Models.FileSystemGetPropertiesResponse>;
+      callback
+    ) as Promise<Models.FileSystemGetPropertiesResponse>;
   }
 
   /**
@@ -118,7 +143,9 @@ export class FileSystemOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSystemDeleteResponse>
    */
-  deleteMethod(options?: Models.FileSystemDeleteMethodOptionalParams): Promise<Models.FileSystemDeleteResponse>;
+  deleteMethod(
+    options?: Models.FileSystemDeleteMethodOptionalParams
+  ): Promise<Models.FileSystemDeleteResponse>;
   /**
    * @param callback The callback
    */
@@ -127,14 +154,21 @@ export class FileSystemOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(options: Models.FileSystemDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.FileSystemDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileSystemDeleteResponse> {
+  deleteMethod(
+    options: Models.FileSystemDeleteMethodOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    options?: Models.FileSystemDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileSystemDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.FileSystemDeleteResponse>;
+      callback
+    ) as Promise<Models.FileSystemDeleteResponse>;
   }
 
   /**
@@ -144,7 +178,10 @@ export class FileSystemOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSystemListPathsResponse>
    */
-  listPaths(recursive: boolean, options?: Models.FileSystemListPathsOptionalParams): Promise<Models.FileSystemListPathsResponse>;
+  listPaths(
+    recursive: boolean,
+    options?: Models.FileSystemListPathsOptionalParams
+  ): Promise<Models.FileSystemListPathsResponse>;
   /**
    * @param recursive Required
    * @param callback The callback
@@ -155,15 +192,24 @@ export class FileSystemOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPaths(recursive: boolean, options: Models.FileSystemListPathsOptionalParams, callback: coreHttp.ServiceCallback<Models.PathList>): void;
-  listPaths(recursive: boolean, options?: Models.FileSystemListPathsOptionalParams | coreHttp.ServiceCallback<Models.PathList>, callback?: coreHttp.ServiceCallback<Models.PathList>): Promise<Models.FileSystemListPathsResponse> {
+  listPaths(
+    recursive: boolean,
+    options: Models.FileSystemListPathsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.PathList>
+  ): void;
+  listPaths(
+    recursive: boolean,
+    options?: Models.FileSystemListPathsOptionalParams | coreHttp.ServiceCallback<Models.PathList>,
+    callback?: coreHttp.ServiceCallback<Models.PathList>
+  ): Promise<Models.FileSystemListPathsResponse> {
     return this.client.sendOperationRequest(
       {
         recursive,
         options
       },
       listPathsOperationSpec,
-      callback) as Promise<Models.FileSystemListPathsResponse>;
+      callback
+    ) as Promise<Models.FileSystemListPathsResponse>;
   }
 }
 
@@ -172,18 +218,9 @@ const serializer = new coreHttp.Serializer(Mappers);
 const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{filesystem}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.resource1,
-    Parameters.timeout
-  ],
-  headerParameters: [
-    Parameters.properties,
-    Parameters.requestId,
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.resource1, Parameters.timeout],
+  headerParameters: [Parameters.properties, Parameters.requestId, Parameters.version],
   responses: {
     201: {
       headersMapper: Mappers.FileSystemCreateHeaders
@@ -199,13 +236,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
 const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "{filesystem}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.resource1,
-    Parameters.timeout
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.resource1, Parameters.timeout],
   headerParameters: [
     Parameters.properties,
     Parameters.requestId,
@@ -228,17 +260,9 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
 const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "{filesystem}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.resource1,
-    Parameters.timeout
-  ],
-  headerParameters: [
-    Parameters.requestId,
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.resource1, Parameters.timeout],
+  headerParameters: [Parameters.requestId, Parameters.version],
   responses: {
     200: {
       headersMapper: Mappers.FileSystemGetPropertiesHeaders
@@ -254,13 +278,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
 const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{filesystem}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.resource1,
-    Parameters.timeout
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.resource1, Parameters.timeout],
   headerParameters: [
     Parameters.requestId,
     Parameters.version,
@@ -282,9 +301,7 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
 const listPathsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{filesystem}",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.continuation,
     Parameters.path,
@@ -294,10 +311,7 @@ const listPathsOperationSpec: coreHttp.OperationSpec = {
     Parameters.resource1,
     Parameters.timeout
   ],
-  headerParameters: [
-    Parameters.requestId,
-    Parameters.version
-  ],
+  headerParameters: [Parameters.requestId, Parameters.version],
   responses: {
     200: {
       bodyMapper: Mappers.PathList,

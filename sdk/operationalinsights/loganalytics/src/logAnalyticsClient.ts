@@ -23,7 +23,10 @@ class LogAnalyticsClient extends LogAnalyticsClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.LogAnalyticsClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.LogAnalyticsClientOptions
+  ) {
     super(credentials, options);
     this.query = new operations.Query(this);
   }

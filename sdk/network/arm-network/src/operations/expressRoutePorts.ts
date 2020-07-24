@@ -34,9 +34,16 @@ export class ExpressRoutePorts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, expressRoutePortName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,expressRoutePortName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      expressRoutePortName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -46,21 +53,39 @@ export class ExpressRoutePorts {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsGetResponse>
    */
-  get(resourceGroupName: string, expressRoutePortName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRoutePortsGetResponse>;
+  get(
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRoutePortsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRoutePortName The name of ExpressRoutePort.
    * @param callback The callback
    */
-  get(resourceGroupName: string, expressRoutePortName: string, callback: msRest.ServiceCallback<Models.ExpressRoutePort>): void;
+  get(
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePort>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRoutePortName The name of ExpressRoutePort.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, expressRoutePortName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePort>): void;
-  get(resourceGroupName: string, expressRoutePortName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePort>, callback?: msRest.ServiceCallback<Models.ExpressRoutePort>): Promise<Models.ExpressRoutePortsGetResponse> {
+  get(
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePort>
+  ): void;
+  get(
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePort>,
+    callback?: msRest.ServiceCallback<Models.ExpressRoutePort>
+  ): Promise<Models.ExpressRoutePortsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +93,8 @@ export class ExpressRoutePorts {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ExpressRoutePortsGetResponse>;
+      callback
+    ) as Promise<Models.ExpressRoutePortsGetResponse>;
   }
 
   /**
@@ -79,9 +105,20 @@ export class ExpressRoutePorts {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, expressRoutePortName: string, parameters: Models.ExpressRoutePort, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRoutePortsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,expressRoutePortName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRoutePortsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    parameters: Models.ExpressRoutePort,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRoutePortsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      expressRoutePortName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ExpressRoutePortsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -92,14 +129,24 @@ export class ExpressRoutePorts {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, expressRoutePortName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRoutePortsUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRoutePortsUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRoutePortName The name of the ExpressRoutePort resource.
    * @param parameters Parameters supplied to update ExpressRoutePort resource tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, expressRoutePortName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.ExpressRoutePort>): void;
+  updateTags(
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    parameters: Models.TagsObject,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePort>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param expressRoutePortName The name of the ExpressRoutePort resource.
@@ -107,8 +154,20 @@ export class ExpressRoutePorts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, expressRoutePortName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePort>): void;
-  updateTags(resourceGroupName: string, expressRoutePortName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePort>, callback?: msRest.ServiceCallback<Models.ExpressRoutePort>): Promise<Models.ExpressRoutePortsUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    parameters: Models.TagsObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePort>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePort>,
+    callback?: msRest.ServiceCallback<Models.ExpressRoutePort>
+  ): Promise<Models.ExpressRoutePortsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +176,8 @@ export class ExpressRoutePorts {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.ExpressRoutePortsUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.ExpressRoutePortsUpdateTagsResponse>;
   }
 
   /**
@@ -126,26 +186,41 @@ export class ExpressRoutePorts {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRoutePortsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRoutePortsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): Promise<Models.ExpressRoutePortsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortListResult>,
+    callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>
+  ): Promise<Models.ExpressRoutePortsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ExpressRoutePortsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ExpressRoutePortsListByResourceGroupResponse>;
   }
 
   /**
@@ -162,14 +237,21 @@ export class ExpressRoutePorts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): Promise<Models.ExpressRoutePortsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortListResult>,
+    callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>
+  ): Promise<Models.ExpressRoutePortsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ExpressRoutePortsListResponse>;
+      callback
+    ) as Promise<Models.ExpressRoutePortsListResponse>;
   }
 
   /**
@@ -179,7 +261,11 @@ export class ExpressRoutePorts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, expressRoutePortName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -187,7 +273,8 @@ export class ExpressRoutePorts {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -198,7 +285,12 @@ export class ExpressRoutePorts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, expressRoutePortName: string, parameters: Models.ExpressRoutePort, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    expressRoutePortName: string,
+    parameters: Models.ExpressRoutePort,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -207,7 +299,8 @@ export class ExpressRoutePorts {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -216,26 +309,41 @@ export class ExpressRoutePorts {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRoutePortsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRoutePortsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): Promise<Models.ExpressRoutePortsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortListResult>,
+    callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>
+  ): Promise<Models.ExpressRoutePortsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ExpressRoutePortsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ExpressRoutePortsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -244,26 +352,41 @@ export class ExpressRoutePorts {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRoutePortsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRoutePortsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRoutePortsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortListResult>, callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>): Promise<Models.ExpressRoutePortsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRoutePortListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRoutePortListResult>,
+    callback?: msRest.ServiceCallback<Models.ExpressRoutePortListResult>
+  ): Promise<Models.ExpressRoutePortsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ExpressRoutePortsListNextResponse>;
+      callback
+    ) as Promise<Models.ExpressRoutePortsListNextResponse>;
   }
 }
 
@@ -271,18 +394,15 @@ export class ExpressRoutePorts {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.expressRoutePortName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRoutePort
@@ -296,18 +416,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.expressRoutePortName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -328,17 +445,11 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRoutePortListResult
@@ -353,15 +464,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePorts",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRoutePortListResult
@@ -375,18 +480,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.expressRoutePortName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -400,18 +502,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.expressRoutePortName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -437,12 +536,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRoutePortListResult
@@ -458,12 +553,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRoutePortListResult

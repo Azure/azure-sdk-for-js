@@ -34,14 +34,24 @@ export class ActionGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ActionGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, actionGroupName: string, actionGroup: Models.ActionGroupResource, options?: msRest.RequestOptionsBase): Promise<Models.ActionGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    actionGroupName: string,
+    actionGroup: Models.ActionGroupResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ActionGroupsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param actionGroupName The name of the action group.
    * @param actionGroup The action group to create or use for the update.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, actionGroupName: string, actionGroup: Models.ActionGroupResource, callback: msRest.ServiceCallback<Models.ActionGroupResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    actionGroupName: string,
+    actionGroup: Models.ActionGroupResource,
+    callback: msRest.ServiceCallback<Models.ActionGroupResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param actionGroupName The name of the action group.
@@ -49,8 +59,20 @@ export class ActionGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, actionGroupName: string, actionGroup: Models.ActionGroupResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActionGroupResource>): void;
-  createOrUpdate(resourceGroupName: string, actionGroupName: string, actionGroup: Models.ActionGroupResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActionGroupResource>, callback?: msRest.ServiceCallback<Models.ActionGroupResource>): Promise<Models.ActionGroupsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    actionGroupName: string,
+    actionGroup: Models.ActionGroupResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ActionGroupResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    actionGroupName: string,
+    actionGroup: Models.ActionGroupResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActionGroupResource>,
+    callback?: msRest.ServiceCallback<Models.ActionGroupResource>
+  ): Promise<Models.ActionGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class ActionGroups {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ActionGroupsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ActionGroupsCreateOrUpdateResponse>;
   }
 
   /**
@@ -69,21 +92,39 @@ export class ActionGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ActionGroupsGetResponse>
    */
-  get(resourceGroupName: string, actionGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ActionGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    actionGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ActionGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param actionGroupName The name of the action group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, actionGroupName: string, callback: msRest.ServiceCallback<Models.ActionGroupResource>): void;
+  get(
+    resourceGroupName: string,
+    actionGroupName: string,
+    callback: msRest.ServiceCallback<Models.ActionGroupResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param actionGroupName The name of the action group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, actionGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActionGroupResource>): void;
-  get(resourceGroupName: string, actionGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActionGroupResource>, callback?: msRest.ServiceCallback<Models.ActionGroupResource>): Promise<Models.ActionGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    actionGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ActionGroupResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    actionGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActionGroupResource>,
+    callback?: msRest.ServiceCallback<Models.ActionGroupResource>
+  ): Promise<Models.ActionGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +132,8 @@ export class ActionGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ActionGroupsGetResponse>;
+      callback
+    ) as Promise<Models.ActionGroupsGetResponse>;
   }
 
   /**
@@ -101,21 +143,39 @@ export class ActionGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, actionGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    actionGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param actionGroupName The name of the action group.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, actionGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    actionGroupName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param actionGroupName The name of the action group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, actionGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, actionGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    actionGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    actionGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -123,7 +183,8 @@ export class ActionGroups {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -134,14 +195,24 @@ export class ActionGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ActionGroupsUpdateResponse>
    */
-  update(resourceGroupName: string, actionGroupName: string, actionGroupPatch: Models.ActionGroupPatchBody, options?: msRest.RequestOptionsBase): Promise<Models.ActionGroupsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    actionGroupName: string,
+    actionGroupPatch: Models.ActionGroupPatchBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ActionGroupsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param actionGroupName The name of the action group.
    * @param actionGroupPatch Parameters supplied to the operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, actionGroupName: string, actionGroupPatch: Models.ActionGroupPatchBody, callback: msRest.ServiceCallback<Models.ActionGroupResource>): void;
+  update(
+    resourceGroupName: string,
+    actionGroupName: string,
+    actionGroupPatch: Models.ActionGroupPatchBody,
+    callback: msRest.ServiceCallback<Models.ActionGroupResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param actionGroupName The name of the action group.
@@ -149,8 +220,20 @@ export class ActionGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, actionGroupName: string, actionGroupPatch: Models.ActionGroupPatchBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActionGroupResource>): void;
-  update(resourceGroupName: string, actionGroupName: string, actionGroupPatch: Models.ActionGroupPatchBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActionGroupResource>, callback?: msRest.ServiceCallback<Models.ActionGroupResource>): Promise<Models.ActionGroupsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    actionGroupName: string,
+    actionGroupPatch: Models.ActionGroupPatchBody,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ActionGroupResource>
+  ): void;
+  update(
+    resourceGroupName: string,
+    actionGroupName: string,
+    actionGroupPatch: Models.ActionGroupPatchBody,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActionGroupResource>,
+    callback?: msRest.ServiceCallback<Models.ActionGroupResource>
+  ): Promise<Models.ActionGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +242,8 @@ export class ActionGroups {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ActionGroupsUpdateResponse>;
+      callback
+    ) as Promise<Models.ActionGroupsUpdateResponse>;
   }
 
   /**
@@ -167,7 +251,9 @@ export class ActionGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ActionGroupsListBySubscriptionIdResponse>
    */
-  listBySubscriptionId(options?: msRest.RequestOptionsBase): Promise<Models.ActionGroupsListBySubscriptionIdResponse>;
+  listBySubscriptionId(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ActionGroupsListBySubscriptionIdResponse>;
   /**
    * @param callback The callback
    */
@@ -176,14 +262,21 @@ export class ActionGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionId(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActionGroupList>): void;
-  listBySubscriptionId(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActionGroupList>, callback?: msRest.ServiceCallback<Models.ActionGroupList>): Promise<Models.ActionGroupsListBySubscriptionIdResponse> {
+  listBySubscriptionId(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ActionGroupList>
+  ): void;
+  listBySubscriptionId(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActionGroupList>,
+    callback?: msRest.ServiceCallback<Models.ActionGroupList>
+  ): Promise<Models.ActionGroupsListBySubscriptionIdResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionIdOperationSpec,
-      callback) as Promise<Models.ActionGroupsListBySubscriptionIdResponse>;
+      callback
+    ) as Promise<Models.ActionGroupsListBySubscriptionIdResponse>;
   }
 
   /**
@@ -192,26 +285,41 @@ export class ActionGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ActionGroupsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ActionGroupsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ActionGroupsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ActionGroupList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ActionGroupList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActionGroupList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActionGroupList>, callback?: msRest.ServiceCallback<Models.ActionGroupList>): Promise<Models.ActionGroupsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ActionGroupList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActionGroupList>,
+    callback?: msRest.ServiceCallback<Models.ActionGroupList>
+  ): Promise<Models.ActionGroupsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ActionGroupsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ActionGroupsListByResourceGroupResponse>;
   }
 
   /**
@@ -223,14 +331,24 @@ export class ActionGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  enableReceiver(resourceGroupName: string, actionGroupName: string, receiverName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  enableReceiver(
+    resourceGroupName: string,
+    actionGroupName: string,
+    receiverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param actionGroupName The name of the action group.
    * @param receiverName The name of the receiver to resubscribe.
    * @param callback The callback
    */
-  enableReceiver(resourceGroupName: string, actionGroupName: string, receiverName: string, callback: msRest.ServiceCallback<void>): void;
+  enableReceiver(
+    resourceGroupName: string,
+    actionGroupName: string,
+    receiverName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param actionGroupName The name of the action group.
@@ -238,8 +356,20 @@ export class ActionGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  enableReceiver(resourceGroupName: string, actionGroupName: string, receiverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  enableReceiver(resourceGroupName: string, actionGroupName: string, receiverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  enableReceiver(
+    resourceGroupName: string,
+    actionGroupName: string,
+    receiverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  enableReceiver(
+    resourceGroupName: string,
+    actionGroupName: string,
+    receiverName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -248,7 +378,8 @@ export class ActionGroups {
         options
       },
       enableReceiverOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -256,18 +387,15 @@ export class ActionGroups {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.actionGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "actionGroup",
     mapper: {
@@ -291,18 +419,15 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.actionGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ActionGroupResource
@@ -316,18 +441,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.actionGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -340,18 +462,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.actionGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "actionGroupPatch",
     mapper: {
@@ -373,15 +492,9 @@ const updateOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/microsoft.insights/actionGroups",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ActionGroupList
@@ -395,17 +508,11 @@ const listBySubscriptionIdOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ActionGroupList
@@ -419,18 +526,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const enableReceiverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}/subscribe",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/actionGroups/{actionGroupName}/subscribe",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.actionGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       receiverName: "receiverName"

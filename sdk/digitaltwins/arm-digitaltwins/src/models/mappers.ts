@@ -22,7 +22,7 @@ export const DigitalTwinsSkuInfo: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "name",
-        defaultValue: 'F1',
+        defaultValue: "F1",
         type: {
           name: "String"
         }
@@ -285,7 +285,7 @@ export const CheckNameRequest: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.DigitalTwins/digitalTwinsInstances',
+        defaultValue: "Microsoft.DigitalTwins/digitalTwinsInstances",
         type: {
           name: "String"
         }
@@ -599,9 +599,8 @@ export const OperationListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'DigitalTwinsEndpointResourceProperties' : DigitalTwinsEndpointResourceProperties,
-  'DigitalTwinsEndpointResourceProperties.ServiceBus' : ServiceBus,
-  'DigitalTwinsEndpointResourceProperties.EventHub' : EventHub,
-  'DigitalTwinsEndpointResourceProperties.EventGrid' : EventGrid
-
+  DigitalTwinsEndpointResourceProperties: DigitalTwinsEndpointResourceProperties,
+  "DigitalTwinsEndpointResourceProperties.ServiceBus": ServiceBus,
+  "DigitalTwinsEndpointResourceProperties.EventHub": EventHub,
+  "DigitalTwinsEndpointResourceProperties.EventGrid": EventGrid
 };

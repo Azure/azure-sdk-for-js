@@ -33,7 +33,9 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachinesListBySubscriptionResponse>
    */
-  listBySubscription(options?: Models.VirtualMachinesListBySubscriptionOptionalParams): Promise<Models.VirtualMachinesListBySubscriptionResponse>;
+  listBySubscription(
+    options?: Models.VirtualMachinesListBySubscriptionOptionalParams
+  ): Promise<Models.VirtualMachinesListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -42,14 +44,23 @@ export class VirtualMachines {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: Models.VirtualMachinesListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>): void;
-  listBySubscription(options?: Models.VirtualMachinesListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.VirtualMachineListResponse>, callback?: msRest.ServiceCallback<Models.VirtualMachineListResponse>): Promise<Models.VirtualMachinesListBySubscriptionResponse> {
+  listBySubscription(
+    options: Models.VirtualMachinesListBySubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>
+  ): void;
+  listBySubscription(
+    options?:
+      | Models.VirtualMachinesListBySubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.VirtualMachineListResponse>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineListResponse>
+  ): Promise<Models.VirtualMachinesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.VirtualMachinesListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.VirtualMachinesListBySubscriptionResponse>;
   }
 
   /**
@@ -59,26 +70,43 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachinesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.VirtualMachinesListByResourceGroupOptionalParams): Promise<Models.VirtualMachinesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.VirtualMachinesListByResourceGroupOptionalParams
+  ): Promise<Models.VirtualMachinesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.VirtualMachinesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.VirtualMachinesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.VirtualMachineListResponse>, callback?: msRest.ServiceCallback<Models.VirtualMachineListResponse>): Promise<Models.VirtualMachinesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.VirtualMachinesListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.VirtualMachinesListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.VirtualMachineListResponse>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineListResponse>
+  ): Promise<Models.VirtualMachinesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.VirtualMachinesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.VirtualMachinesListByResourceGroupResponse>;
   }
 
   /**
@@ -89,21 +117,39 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachinesGetResponse>
    */
-  get(resourceGroupName: string, virtualMachineName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachinesGetResponse>;
+  get(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachinesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group
    * @param virtualMachineName virtual machine name
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualMachineName: string, callback: msRest.ServiceCallback<Models.VirtualMachine>): void;
+  get(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachine>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group
    * @param virtualMachineName virtual machine name
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualMachineName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachine>): void;
-  get(resourceGroupName: string, virtualMachineName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachine>, callback?: msRest.ServiceCallback<Models.VirtualMachine>): Promise<Models.VirtualMachinesGetResponse> {
+  get(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualMachine>
+  ): void;
+  get(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachine>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachine>
+  ): Promise<Models.VirtualMachinesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +157,8 @@ export class VirtualMachines {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VirtualMachinesGetResponse>;
+      callback
+    ) as Promise<Models.VirtualMachinesGetResponse>;
   }
 
   /**
@@ -123,9 +170,20 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachinesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualMachineName: string, virtualMachineRequest: Models.VirtualMachine, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachinesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,virtualMachineName,virtualMachineRequest,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachinesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    virtualMachineRequest: Models.VirtualMachine,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachinesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      virtualMachineName,
+      virtualMachineRequest,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.VirtualMachinesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -136,9 +194,18 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachinesDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualMachineName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachinesDeleteResponse> {
-    return this.beginDeleteMethod(resourceGroupName,virtualMachineName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachinesDeleteResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachinesDeleteResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      virtualMachineName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.VirtualMachinesDeleteResponse
+    >;
   }
 
   /**
@@ -149,9 +216,14 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachinesUpdateResponse>
    */
-  update(resourceGroupName: string, virtualMachineName: string, options?: Models.VirtualMachinesUpdateOptionalParams): Promise<Models.VirtualMachinesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,virtualMachineName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachinesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    options?: Models.VirtualMachinesUpdateOptionalParams
+  ): Promise<Models.VirtualMachinesUpdateResponse> {
+    return this.beginUpdate(resourceGroupName, virtualMachineName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.VirtualMachinesUpdateResponse>;
   }
 
   /**
@@ -162,9 +234,14 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachinesStartResponse>
    */
-  start(resourceGroupName: string, virtualMachineName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachinesStartResponse> {
-    return this.beginStart(resourceGroupName,virtualMachineName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachinesStartResponse>;
+  start(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachinesStartResponse> {
+    return this.beginStart(resourceGroupName, virtualMachineName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.VirtualMachinesStartResponse>;
   }
 
   /**
@@ -175,9 +252,14 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachinesStopResponse>
    */
-  stop(resourceGroupName: string, virtualMachineName: string, options?: Models.VirtualMachinesStopOptionalParams): Promise<Models.VirtualMachinesStopResponse> {
-    return this.beginStop(resourceGroupName,virtualMachineName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachinesStopResponse>;
+  stop(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    options?: Models.VirtualMachinesStopOptionalParams
+  ): Promise<Models.VirtualMachinesStopResponse> {
+    return this.beginStop(resourceGroupName, virtualMachineName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.VirtualMachinesStopResponse>;
   }
 
   /**
@@ -189,7 +271,12 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualMachineName: string, virtualMachineRequest: Models.VirtualMachine, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    virtualMachineRequest: Models.VirtualMachine,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -198,7 +285,8 @@ export class VirtualMachines {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -209,7 +297,11 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualMachineName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -217,7 +309,8 @@ export class VirtualMachines {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -228,7 +321,11 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, virtualMachineName: string, options?: Models.VirtualMachinesBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    options?: Models.VirtualMachinesBeginUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -236,7 +333,8 @@ export class VirtualMachines {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -247,7 +345,11 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, virtualMachineName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -255,7 +357,8 @@ export class VirtualMachines {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -266,7 +369,11 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStop(resourceGroupName: string, virtualMachineName: string, options?: Models.VirtualMachinesBeginStopOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginStop(
+    resourceGroupName: string,
+    virtualMachineName: string,
+    options?: Models.VirtualMachinesBeginStopOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -274,7 +381,8 @@ export class VirtualMachines {
         options
       },
       beginStopOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -284,26 +392,41 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachinesListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachinesListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachinesListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineListResponse>, callback?: msRest.ServiceCallback<Models.VirtualMachineListResponse>): Promise<Models.VirtualMachinesListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineListResponse>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineListResponse>
+  ): Promise<Models.VirtualMachinesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.VirtualMachinesListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.VirtualMachinesListBySubscriptionNextResponse>;
   }
 
   /**
@@ -313,26 +436,41 @@ export class VirtualMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachinesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachinesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachinesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineListResponse>, callback?: msRest.ServiceCallback<Models.VirtualMachineListResponse>): Promise<Models.VirtualMachinesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualMachineListResponse>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineListResponse>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineListResponse>
+  ): Promise<Models.VirtualMachinesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.VirtualMachinesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.VirtualMachinesListByResourceGroupNextResponse>;
   }
 }
 
@@ -341,18 +479,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/virtualMachines",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineListResponse
@@ -366,20 +495,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineListResponse
@@ -393,18 +513,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines/{virtualMachineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines/{virtualMachineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualMachineName0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachine
@@ -418,19 +535,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines/{virtualMachineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines/{virtualMachineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualMachineName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.referer,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.referer, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "virtualMachineRequest",
     mapper: {
@@ -456,19 +569,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines/{virtualMachineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines/{virtualMachineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualMachineName0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.referer,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.referer, Parameters.acceptLanguage],
   responses: {
     202: {
       headersMapper: Mappers.VirtualMachinesDeleteHeaders
@@ -485,24 +594,18 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines/{virtualMachineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines/{virtualMachineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualMachineName0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      tags: [
-        "options",
-        "tags"
-      ]
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.PatchPayload,
@@ -522,19 +625,15 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines/{virtualMachineName}/start",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines/{virtualMachineName}/start",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualMachineName0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.referer,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.referer, Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.VirtualMachinesStartHeaders
@@ -551,26 +650,18 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginStopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines/{virtualMachineName}/stop",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/virtualMachines/{virtualMachineName}/stop",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualMachineName0
   ],
-  queryParameters: [
-    Parameters.mode,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.referer,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.mode, Parameters.apiVersion],
+  headerParameters: [Parameters.referer, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      mode: [
-        "options",
-        "mode1"
-      ]
+      mode: ["options", "mode1"]
     },
     mapper: Mappers.VirtualMachineStopMode
   },
@@ -592,12 +683,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineListResponse
@@ -613,12 +700,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineListResponse

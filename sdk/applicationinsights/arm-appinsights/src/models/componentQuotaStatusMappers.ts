@@ -8,8 +8,4 @@
  * regenerated.
  */
 
-export {
-  ApplicationInsightsComponentQuotaStatus,
-  CloudError
-} from "../models/mappers";
-
+export { ApplicationInsightsComponentQuotaStatus, CloudError } from "../models/mappers";

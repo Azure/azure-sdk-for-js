@@ -5,7 +5,7 @@ import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
 import {
   successfulBreezeResponse,
   failedBreezeResponse,
-  partialBreezeResponse,
+  partialBreezeResponse
 } from "../../breezeTestUtils";
 import nock = require("nock");
 

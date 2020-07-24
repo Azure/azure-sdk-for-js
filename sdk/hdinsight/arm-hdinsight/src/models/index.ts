@@ -967,8 +967,7 @@ export interface OperationResource {
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * Describes the format of Error response.
@@ -1610,7 +1609,7 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type DirectoryType = 'ActiveDirectory';
+export type DirectoryType = "ActiveDirectory";
 
 /**
  * Defines values for DaysOfWeek.
@@ -1619,7 +1618,14 @@ export type DirectoryType = 'ActiveDirectory';
  * @readonly
  * @enum {string}
  */
-export type DaysOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+export type DaysOfWeek =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
 
 /**
  * Defines values for PublicNetworkAccess.
@@ -1627,7 +1633,7 @@ export type DaysOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Frid
  * @readonly
  * @enum {string}
  */
-export type PublicNetworkAccess = 'InboundAndOutbound' | 'OutboundOnly';
+export type PublicNetworkAccess = "InboundAndOutbound" | "OutboundOnly";
 
 /**
  * Defines values for OutboundOnlyPublicNetworkAccessType.
@@ -1635,7 +1641,7 @@ export type PublicNetworkAccess = 'InboundAndOutbound' | 'OutboundOnly';
  * @readonly
  * @enum {string}
  */
-export type OutboundOnlyPublicNetworkAccessType = 'PublicLoadBalancer' | 'UDR';
+export type OutboundOnlyPublicNetworkAccessType = "PublicLoadBalancer" | "UDR";
 
 /**
  * Defines values for OSType.
@@ -1643,7 +1649,7 @@ export type OutboundOnlyPublicNetworkAccessType = 'PublicLoadBalancer' | 'UDR';
  * @readonly
  * @enum {string}
  */
-export type OSType = 'Windows' | 'Linux';
+export type OSType = "Windows" | "Linux";
 
 /**
  * Defines values for Tier.
@@ -1651,7 +1657,7 @@ export type OSType = 'Windows' | 'Linux';
  * @readonly
  * @enum {string}
  */
-export type Tier = 'Standard' | 'Premium';
+export type Tier = "Standard" | "Premium";
 
 /**
  * Defines values for JsonWebKeyEncryptionAlgorithm.
@@ -1659,7 +1665,7 @@ export type Tier = 'Standard' | 'Premium';
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyEncryptionAlgorithm = 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_5';
+export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 /**
  * Defines values for ResourceIdentityType.
@@ -1668,7 +1674,11 @@ export type JsonWebKeyEncryptionAlgorithm = 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 
 /**
  * Defines values for HDInsightClusterProvisioningState.
@@ -1676,7 +1686,12 @@ export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAs
  * @readonly
  * @enum {string}
  */
-export type HDInsightClusterProvisioningState = 'InProgress' | 'Failed' | 'Succeeded' | 'Canceled' | 'Deleting';
+export type HDInsightClusterProvisioningState =
+  | "InProgress"
+  | "Failed"
+  | "Succeeded"
+  | "Canceled"
+  | "Deleting";
 
 /**
  * Defines values for AsyncOperationState.
@@ -1684,7 +1699,7 @@ export type HDInsightClusterProvisioningState = 'InProgress' | 'Failed' | 'Succe
  * @readonly
  * @enum {string}
  */
-export type AsyncOperationState = 'InProgress' | 'Succeeded' | 'Failed';
+export type AsyncOperationState = "InProgress" | "Succeeded" | "Failed";
 
 /**
  * Defines values for FilterMode.
@@ -1692,7 +1707,7 @@ export type AsyncOperationState = 'InProgress' | 'Succeeded' | 'Failed';
  * @readonly
  * @enum {string}
  */
-export type FilterMode = 'Exclude' | 'Include';
+export type FilterMode = "Exclude" | "Include";
 
 /**
  * Contains response data for the create operation.
@@ -1702,16 +1717,16 @@ export type ClustersCreateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -1722,16 +1737,16 @@ export type ClustersUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -1742,16 +1757,16 @@ export type ClustersGetResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -1762,16 +1777,16 @@ export type ClustersListByResourceGroupResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterListResult;
+  };
 };
 
 /**
@@ -1782,16 +1797,16 @@ export type ClustersListResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterListResult;
+  };
 };
 
 /**
@@ -1802,16 +1817,16 @@ export type ClustersGetGatewaySettingsResponse = GatewaySettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewaySettings;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewaySettings;
+  };
 };
 
 /**
@@ -1822,16 +1837,16 @@ export type ClustersBeginCreateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -1842,16 +1857,16 @@ export type ClustersListByResourceGroupNextResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterListResult;
+  };
 };
 
 /**
@@ -1862,16 +1877,16 @@ export type ClustersListNextResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterListResult;
+  };
 };
 
 /**
@@ -1882,16 +1897,16 @@ export type ApplicationsListByClusterResponse = ApplicationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationListResult;
+  };
 };
 
 /**
@@ -1902,16 +1917,16 @@ export type ApplicationsGetResponse = Application & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Application;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Application;
+  };
 };
 
 /**
@@ -1922,16 +1937,16 @@ export type ApplicationsCreateResponse = Application & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Application;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Application;
+  };
 };
 
 /**
@@ -1942,16 +1957,16 @@ export type ApplicationsBeginCreateResponse = Application & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Application;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Application;
+  };
 };
 
 /**
@@ -1962,16 +1977,16 @@ export type ApplicationsListByClusterNextResponse = ApplicationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationListResult;
+  };
 };
 
 /**
@@ -1982,16 +1997,16 @@ export type LocationsGetCapabilitiesResponse = CapabilitiesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CapabilitiesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CapabilitiesResult;
+  };
 };
 
 /**
@@ -2002,16 +2017,16 @@ export type LocationsListUsagesResponse = UsagesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsagesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsagesListResult;
+  };
 };
 
 /**
@@ -2022,16 +2037,16 @@ export type LocationsListBillingSpecsResponse = BillingResponseListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BillingResponseListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BillingResponseListResult;
+  };
 };
 
 /**
@@ -2042,16 +2057,16 @@ export type ConfigurationsListResponse = ClusterConfigurations & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterConfigurations;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterConfigurations;
+  };
 };
 
 /**
@@ -2067,16 +2082,16 @@ export type ConfigurationsGetResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: { [propertyName: string]: string };
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: { [propertyName: string]: string };
+  };
 };
 
 /**
@@ -2087,16 +2102,16 @@ export type ExtensionsGetMonitoringStatusResponse = ClusterMonitoringResponse & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterMonitoringResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterMonitoringResponse;
+  };
 };
 
 /**
@@ -2107,16 +2122,16 @@ export type ExtensionsGetResponse = Extension & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Extension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Extension;
+  };
 };
 
 /**
@@ -2127,16 +2142,16 @@ export type ScriptActionsListByClusterResponse = ScriptActionsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScriptActionsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScriptActionsList;
+  };
 };
 
 /**
@@ -2147,16 +2162,16 @@ export type ScriptActionsGetExecutionDetailResponse = RuntimeScriptActionDetail 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RuntimeScriptActionDetail;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RuntimeScriptActionDetail;
+  };
 };
 
 /**
@@ -2167,16 +2182,16 @@ export type ScriptActionsListByClusterNextResponse = ScriptActionsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScriptActionsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScriptActionsList;
+  };
 };
 
 /**
@@ -2187,16 +2202,16 @@ export type ScriptExecutionHistoryListByClusterResponse = ScriptActionExecutionH
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScriptActionExecutionHistoryList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScriptActionExecutionHistoryList;
+  };
 };
 
 /**
@@ -2207,16 +2222,16 @@ export type ScriptExecutionHistoryListByClusterNextResponse = ScriptActionExecut
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScriptActionExecutionHistoryList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScriptActionExecutionHistoryList;
+  };
 };
 
 /**
@@ -2227,16 +2242,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2247,16 +2262,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2267,14 +2282,14 @@ export type VirtualMachinesListHostsResponse = Array<HostInfo> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HostInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HostInfo[];
+  };
 };

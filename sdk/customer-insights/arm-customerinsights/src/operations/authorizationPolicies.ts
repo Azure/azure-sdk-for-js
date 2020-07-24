@@ -35,7 +35,13 @@ export class AuthorizationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, authorizationPolicyName: string, parameters: Models.AuthorizationPolicyResourceFormat, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    parameters: Models.AuthorizationPolicyResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AuthorizationPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -43,7 +49,13 @@ export class AuthorizationPolicies {
    * @param parameters Parameters supplied to the CreateOrUpdate authorization policy operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, authorizationPolicyName: string, parameters: Models.AuthorizationPolicyResourceFormat, callback: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    parameters: Models.AuthorizationPolicyResourceFormat,
+    callback: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -52,8 +64,24 @@ export class AuthorizationPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, authorizationPolicyName: string, parameters: Models.AuthorizationPolicyResourceFormat, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>): void;
-  createOrUpdate(resourceGroupName: string, hubName: string, authorizationPolicyName: string, parameters: Models.AuthorizationPolicyResourceFormat, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>, callback?: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>): Promise<Models.AuthorizationPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    parameters: Models.AuthorizationPolicyResourceFormat,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    parameters: Models.AuthorizationPolicyResourceFormat,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>
+  ): Promise<Models.AuthorizationPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +91,8 @@ export class AuthorizationPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.AuthorizationPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.AuthorizationPoliciesCreateOrUpdateResponse>;
   }
 
   /**
@@ -74,14 +103,24 @@ export class AuthorizationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationPoliciesGetResponse>
    */
-  get(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AuthorizationPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param authorizationPolicyName The name of the policy.
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, authorizationPolicyName: string, callback: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -89,8 +128,22 @@ export class AuthorizationPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>, callback?: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>): Promise<Models.AuthorizationPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>
+  ): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationPolicyResourceFormat>
+  ): Promise<Models.AuthorizationPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +152,8 @@ export class AuthorizationPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AuthorizationPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.AuthorizationPoliciesGetResponse>;
   }
 
   /**
@@ -109,21 +163,41 @@ export class AuthorizationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationPoliciesListByHubResponse>
    */
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationPoliciesListByHubResponse>;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AuthorizationPoliciesListByHubResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, callback: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicyListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>): Promise<Models.AuthorizationPoliciesListByHubResponse> {
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>
+  ): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AuthorizationPolicyListResult>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>
+  ): Promise<Models.AuthorizationPoliciesListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +205,8 @@ export class AuthorizationPolicies {
         options
       },
       listByHubOperationSpec,
-      callback) as Promise<Models.AuthorizationPoliciesListByHubResponse>;
+      callback
+    ) as Promise<Models.AuthorizationPoliciesListByHubResponse>;
   }
 
   /**
@@ -142,14 +217,24 @@ export class AuthorizationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationPoliciesRegeneratePrimaryKeyResponse>
    */
-  regeneratePrimaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationPoliciesRegeneratePrimaryKeyResponse>;
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AuthorizationPoliciesRegeneratePrimaryKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param authorizationPolicyName The name of the policy.
    * @param callback The callback
    */
-  regeneratePrimaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, callback: msRest.ServiceCallback<Models.AuthorizationPolicy>): void;
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -157,8 +242,20 @@ export class AuthorizationPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regeneratePrimaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationPolicy>): void;
-  regeneratePrimaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicy>, callback?: msRest.ServiceCallback<Models.AuthorizationPolicy>): Promise<Models.AuthorizationPoliciesRegeneratePrimaryKeyResponse> {
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationPolicy>
+  ): void;
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicy>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationPolicy>
+  ): Promise<Models.AuthorizationPoliciesRegeneratePrimaryKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +264,8 @@ export class AuthorizationPolicies {
         options
       },
       regeneratePrimaryKeyOperationSpec,
-      callback) as Promise<Models.AuthorizationPoliciesRegeneratePrimaryKeyResponse>;
+      callback
+    ) as Promise<Models.AuthorizationPoliciesRegeneratePrimaryKeyResponse>;
   }
 
   /**
@@ -178,14 +276,24 @@ export class AuthorizationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationPoliciesRegenerateSecondaryKeyResponse>
    */
-  regenerateSecondaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationPoliciesRegenerateSecondaryKeyResponse>;
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AuthorizationPoliciesRegenerateSecondaryKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param authorizationPolicyName The name of the policy.
    * @param callback The callback
    */
-  regenerateSecondaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, callback: msRest.ServiceCallback<Models.AuthorizationPolicy>): void;
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -193,8 +301,20 @@ export class AuthorizationPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateSecondaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationPolicy>): void;
-  regenerateSecondaryKey(resourceGroupName: string, hubName: string, authorizationPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicy>, callback?: msRest.ServiceCallback<Models.AuthorizationPolicy>): Promise<Models.AuthorizationPoliciesRegenerateSecondaryKeyResponse> {
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationPolicy>
+  ): void;
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    hubName: string,
+    authorizationPolicyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicy>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationPolicy>
+  ): Promise<Models.AuthorizationPoliciesRegenerateSecondaryKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +323,8 @@ export class AuthorizationPolicies {
         options
       },
       regenerateSecondaryKeyOperationSpec,
-      callback) as Promise<Models.AuthorizationPoliciesRegenerateSecondaryKeyResponse>;
+      callback
+    ) as Promise<Models.AuthorizationPoliciesRegenerateSecondaryKeyResponse>;
   }
 
   /**
@@ -212,26 +333,43 @@ export class AuthorizationPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationPoliciesListByHubNextResponse>
    */
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationPoliciesListByHubNextResponse>;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AuthorizationPoliciesListByHubNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>): void;
+  listByHubNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationPolicyListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>): Promise<Models.AuthorizationPoliciesListByHubNextResponse> {
+  listByHubNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>
+  ): void;
+  listByHubNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AuthorizationPolicyListResult>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationPolicyListResult>
+  ): Promise<Models.AuthorizationPoliciesListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByHubNextOperationSpec,
-      callback) as Promise<Models.AuthorizationPoliciesListByHubNextResponse>;
+      callback
+    ) as Promise<Models.AuthorizationPoliciesListByHubNextResponse>;
   }
 }
 
@@ -239,19 +377,16 @@ export class AuthorizationPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/authorizationPolicies/{authorizationPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/authorizationPolicies/{authorizationPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.authorizationPolicyName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -275,19 +410,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/authorizationPolicies/{authorizationPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/authorizationPolicies/{authorizationPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.authorizationPolicyName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationPolicyResourceFormat
@@ -301,18 +433,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByHubOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/authorizationPolicies",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.hubName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/authorizationPolicies",
+  urlParameters: [Parameters.resourceGroupName, Parameters.hubName1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationPolicyListResult
@@ -326,19 +451,16 @@ const listByHubOperationSpec: msRest.OperationSpec = {
 
 const regeneratePrimaryKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/authorizationPolicies/{authorizationPolicyName}/regeneratePrimaryKey",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/authorizationPolicies/{authorizationPolicyName}/regeneratePrimaryKey",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.authorizationPolicyName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationPolicy
@@ -352,19 +474,16 @@ const regeneratePrimaryKeyOperationSpec: msRest.OperationSpec = {
 
 const regenerateSecondaryKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/authorizationPolicies/{authorizationPolicyName}/regenerateSecondaryKey",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/authorizationPolicies/{authorizationPolicyName}/regenerateSecondaryKey",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.authorizationPolicyName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationPolicy
@@ -380,12 +499,8 @@ const listByHubNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationPolicyListResult

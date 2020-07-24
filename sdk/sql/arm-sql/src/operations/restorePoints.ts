@@ -36,7 +36,12 @@ export class RestorePoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorePointsListByDatabaseResponse>
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.RestorePointsListByDatabaseResponse>;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestorePointsListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -44,7 +49,12 @@ export class RestorePoints {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.RestorePointListResult>): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.RestorePointListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -53,8 +63,20 @@ export class RestorePoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePointListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointListResult>, callback?: msRest.ServiceCallback<Models.RestorePointListResult>): Promise<Models.RestorePointsListByDatabaseResponse> {
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RestorePointListResult>
+  ): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointListResult>,
+    callback?: msRest.ServiceCallback<Models.RestorePointListResult>
+  ): Promise<Models.RestorePointsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +85,8 @@ export class RestorePoints {
         options
       },
       listByDatabaseOperationSpec,
-      callback) as Promise<Models.RestorePointsListByDatabaseResponse>;
+      callback
+    ) as Promise<Models.RestorePointsListByDatabaseResponse>;
   }
 
   /**
@@ -76,9 +99,22 @@ export class RestorePoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorePointsCreateResponse>
    */
-  create(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.CreateDatabaseRestorePointDefinition, options?: msRest.RequestOptionsBase): Promise<Models.RestorePointsCreateResponse> {
-    return this.beginCreate(resourceGroupName,serverName,databaseName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RestorePointsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.CreateDatabaseRestorePointDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestorePointsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.RestorePointsCreateResponse
+    >;
   }
 
   /**
@@ -91,7 +127,13 @@ export class RestorePoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorePointsGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options?: msRest.RequestOptionsBase): Promise<Models.RestorePointsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    restorePointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RestorePointsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -100,7 +142,13 @@ export class RestorePoints {
    * @param restorePointName The name of the restore point.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, callback: msRest.ServiceCallback<Models.RestorePoint>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    restorePointName: string,
+    callback: msRest.ServiceCallback<Models.RestorePoint>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -110,8 +158,22 @@ export class RestorePoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePoint>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePoint>, callback?: msRest.ServiceCallback<Models.RestorePoint>): Promise<Models.RestorePointsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    restorePointName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RestorePoint>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    restorePointName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePoint>,
+    callback?: msRest.ServiceCallback<Models.RestorePoint>
+  ): Promise<Models.RestorePointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +183,8 @@ export class RestorePoints {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RestorePointsGetResponse>;
+      callback
+    ) as Promise<Models.RestorePointsGetResponse>;
   }
 
   /**
@@ -134,7 +197,13 @@ export class RestorePoints {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    restorePointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -143,7 +212,13 @@ export class RestorePoints {
    * @param restorePointName The name of the restore point.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    restorePointName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -153,8 +228,22 @@ export class RestorePoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, restorePointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    restorePointName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    restorePointName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -164,7 +253,8 @@ export class RestorePoints {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -177,7 +267,13 @@ export class RestorePoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.CreateDatabaseRestorePointDefinition, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.CreateDatabaseRestorePointDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -187,7 +283,8 @@ export class RestorePoints {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -195,19 +292,16 @@ export class RestorePoints {
 const serializer = new msRest.Serializer(Mappers);
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RestorePointListResult
@@ -221,7 +315,8 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints/{restorePointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints/{restorePointName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -229,12 +324,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.restorePointName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RestorePoint
@@ -248,7 +339,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints/{restorePointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints/{restorePointName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -256,12 +348,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.restorePointName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -273,19 +361,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/restorePoints",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

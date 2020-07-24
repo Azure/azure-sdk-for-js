@@ -17,4 +17,3 @@ export {
   ResourceRecommendationBase,
   ShortDescription
 } from "../models/mappers";
-

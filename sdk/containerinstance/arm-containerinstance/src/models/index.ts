@@ -439,7 +439,9 @@ export interface ContainerGroupIdentity {
    * key references will be ARM resource ids in the form:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
    */
-  userAssignedIdentities?: { [propertyName: string]: ContainerGroupIdentityUserAssignedIdentitiesValue };
+  userAssignedIdentities?: {
+    [propertyName: string]: ContainerGroupIdentityUserAssignedIdentitiesValue;
+  };
 }
 
 /**
@@ -1011,8 +1013,7 @@ export interface OperationListResult extends Array<Operation> {
  * The response containing the usage data
  * @extends Array<Usage>
  */
-export interface UsageListResult extends Array<Usage> {
-}
+export interface UsageListResult extends Array<Usage> {}
 
 /**
  * @interface
@@ -1044,7 +1045,7 @@ export interface CapabilitiesListResult extends Array<Capabilities> {
  * @readonly
  * @enum {string}
  */
-export type ContainerNetworkProtocol = 'TCP' | 'UDP';
+export type ContainerNetworkProtocol = "TCP" | "UDP";
 
 /**
  * Defines values for GpuSku.
@@ -1052,7 +1053,7 @@ export type ContainerNetworkProtocol = 'TCP' | 'UDP';
  * @readonly
  * @enum {string}
  */
-export type GpuSku = 'K80' | 'P100' | 'V100';
+export type GpuSku = "K80" | "P100" | "V100";
 
 /**
  * Defines values for Scheme.
@@ -1060,7 +1061,7 @@ export type GpuSku = 'K80' | 'P100' | 'V100';
  * @readonly
  * @enum {string}
  */
-export type Scheme = 'http' | 'https';
+export type Scheme = "http" | "https";
 
 /**
  * Defines values for ResourceIdentityType.
@@ -1069,7 +1070,11 @@ export type Scheme = 'http' | 'https';
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 
 /**
  * Defines values for ContainerGroupRestartPolicy.
@@ -1077,7 +1082,7 @@ export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAs
  * @readonly
  * @enum {string}
  */
-export type ContainerGroupRestartPolicy = 'Always' | 'OnFailure' | 'Never';
+export type ContainerGroupRestartPolicy = "Always" | "OnFailure" | "Never";
 
 /**
  * Defines values for ContainerGroupNetworkProtocol.
@@ -1085,7 +1090,7 @@ export type ContainerGroupRestartPolicy = 'Always' | 'OnFailure' | 'Never';
  * @readonly
  * @enum {string}
  */
-export type ContainerGroupNetworkProtocol = 'TCP' | 'UDP';
+export type ContainerGroupNetworkProtocol = "TCP" | "UDP";
 
 /**
  * Defines values for ContainerGroupIpAddressType.
@@ -1093,7 +1098,7 @@ export type ContainerGroupNetworkProtocol = 'TCP' | 'UDP';
  * @readonly
  * @enum {string}
  */
-export type ContainerGroupIpAddressType = 'Public' | 'Private';
+export type ContainerGroupIpAddressType = "Public" | "Private";
 
 /**
  * Defines values for OperatingSystemTypes.
@@ -1101,7 +1106,7 @@ export type ContainerGroupIpAddressType = 'Public' | 'Private';
  * @readonly
  * @enum {string}
  */
-export type OperatingSystemTypes = 'Windows' | 'Linux';
+export type OperatingSystemTypes = "Windows" | "Linux";
 
 /**
  * Defines values for LogAnalyticsLogType.
@@ -1109,7 +1114,7 @@ export type OperatingSystemTypes = 'Windows' | 'Linux';
  * @readonly
  * @enum {string}
  */
-export type LogAnalyticsLogType = 'ContainerInsights' | 'ContainerInstanceLogs';
+export type LogAnalyticsLogType = "ContainerInsights" | "ContainerInstanceLogs";
 
 /**
  * Defines values for ContainerGroupSku.
@@ -1117,7 +1122,7 @@ export type LogAnalyticsLogType = 'ContainerInsights' | 'ContainerInstanceLogs';
  * @readonly
  * @enum {string}
  */
-export type ContainerGroupSku = 'Standard' | 'Dedicated';
+export type ContainerGroupSku = "Standard" | "Dedicated";
 
 /**
  * Defines values for ContainerInstanceOperationsOrigin.
@@ -1125,7 +1130,7 @@ export type ContainerGroupSku = 'Standard' | 'Dedicated';
  * @readonly
  * @enum {string}
  */
-export type ContainerInstanceOperationsOrigin = 'User' | 'System';
+export type ContainerInstanceOperationsOrigin = "User" | "System";
 
 /**
  * Contains response data for the list operation.
@@ -1135,16 +1140,16 @@ export type ContainerGroupsListResponse = ContainerGroupListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerGroupListResult;
+  };
 };
 
 /**
@@ -1155,16 +1160,16 @@ export type ContainerGroupsListByResourceGroupResponse = ContainerGroupListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerGroupListResult;
+  };
 };
 
 /**
@@ -1175,16 +1180,16 @@ export type ContainerGroupsGetResponse = ContainerGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerGroup;
+  };
 };
 
 /**
@@ -1195,16 +1200,16 @@ export type ContainerGroupsCreateOrUpdateResponse = ContainerGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerGroup;
+  };
 };
 
 /**
@@ -1215,16 +1220,16 @@ export type ContainerGroupsUpdateResponse = ContainerGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerGroup;
+  };
 };
 
 /**
@@ -1235,16 +1240,16 @@ export type ContainerGroupsDeleteMethodResponse = ContainerGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerGroup;
+  };
 };
 
 /**
@@ -1255,16 +1260,16 @@ export type ContainerGroupsBeginCreateOrUpdateResponse = ContainerGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerGroup;
+  };
 };
 
 /**
@@ -1275,16 +1280,16 @@ export type ContainerGroupsBeginDeleteMethodResponse = ContainerGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerGroup;
+  };
 };
 
 /**
@@ -1295,16 +1300,16 @@ export type ContainerGroupsListNextResponse = ContainerGroupListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerGroupListResult;
+  };
 };
 
 /**
@@ -1315,16 +1320,16 @@ export type ContainerGroupsListByResourceGroupNextResponse = ContainerGroupListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerGroupListResult;
+  };
 };
 
 /**
@@ -1335,16 +1340,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1355,16 +1360,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1375,16 +1380,16 @@ export type LocationListUsageResponse = UsageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageListResult;
+  };
 };
 
 /**
@@ -1395,16 +1400,16 @@ export type LocationListCachedImagesResponse = CachedImagesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CachedImagesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CachedImagesListResult;
+  };
 };
 
 /**
@@ -1415,16 +1420,16 @@ export type LocationListCapabilitiesResponse = CapabilitiesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CapabilitiesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CapabilitiesListResult;
+  };
 };
 
 /**
@@ -1435,16 +1440,16 @@ export type LocationListCachedImagesNextResponse = CachedImagesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CachedImagesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CachedImagesListResult;
+  };
 };
 
 /**
@@ -1455,16 +1460,16 @@ export type LocationListCapabilitiesNextResponse = CapabilitiesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CapabilitiesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CapabilitiesListResult;
+  };
 };
 
 /**
@@ -1475,16 +1480,16 @@ export type ContainersListLogsResponse = Logs & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Logs;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Logs;
+  };
 };
 
 /**
@@ -1495,14 +1500,14 @@ export type ContainersExecuteCommandResponse = ContainerExecResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerExecResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerExecResponse;
+  };
 };

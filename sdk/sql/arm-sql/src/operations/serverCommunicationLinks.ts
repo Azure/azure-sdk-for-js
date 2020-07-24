@@ -36,7 +36,12 @@ export class ServerCommunicationLinks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serverName: string, communicationLinkName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    communicationLinkName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -44,7 +49,12 @@ export class ServerCommunicationLinks {
    * @param communicationLinkName The name of the server communication link.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serverName: string, communicationLinkName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    communicationLinkName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -53,8 +63,20 @@ export class ServerCommunicationLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serverName: string, communicationLinkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serverName: string, communicationLinkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    communicationLinkName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    communicationLinkName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +85,8 @@ export class ServerCommunicationLinks {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -75,7 +98,12 @@ export class ServerCommunicationLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerCommunicationLinksGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, communicationLinkName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerCommunicationLinksGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    communicationLinkName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerCommunicationLinksGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -83,7 +111,12 @@ export class ServerCommunicationLinks {
    * @param communicationLinkName The name of the server communication link.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, communicationLinkName: string, callback: msRest.ServiceCallback<Models.ServerCommunicationLink>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    communicationLinkName: string,
+    callback: msRest.ServiceCallback<Models.ServerCommunicationLink>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -92,8 +125,20 @@ export class ServerCommunicationLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, communicationLinkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerCommunicationLink>): void;
-  get(resourceGroupName: string, serverName: string, communicationLinkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerCommunicationLink>, callback?: msRest.ServiceCallback<Models.ServerCommunicationLink>): Promise<Models.ServerCommunicationLinksGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    communicationLinkName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServerCommunicationLink>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    communicationLinkName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerCommunicationLink>,
+    callback?: msRest.ServiceCallback<Models.ServerCommunicationLink>
+  ): Promise<Models.ServerCommunicationLinksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -102,7 +147,8 @@ export class ServerCommunicationLinks {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServerCommunicationLinksGetResponse>;
+      callback
+    ) as Promise<Models.ServerCommunicationLinksGetResponse>;
   }
 
   /**
@@ -115,9 +161,22 @@ export class ServerCommunicationLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerCommunicationLinksCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, communicationLinkName: string, parameters: Models.ServerCommunicationLink, options?: msRest.RequestOptionsBase): Promise<Models.ServerCommunicationLinksCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serverName,communicationLinkName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServerCommunicationLinksCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    communicationLinkName: string,
+    parameters: Models.ServerCommunicationLink,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerCommunicationLinksCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      communicationLinkName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ServerCommunicationLinksCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -128,14 +187,22 @@ export class ServerCommunicationLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerCommunicationLinksListByServerResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerCommunicationLinksListByServerResponse>;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerCommunicationLinksListByServerResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ServerCommunicationLinkListResult>): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.ServerCommunicationLinkListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -143,8 +210,20 @@ export class ServerCommunicationLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerCommunicationLinkListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerCommunicationLinkListResult>, callback?: msRest.ServiceCallback<Models.ServerCommunicationLinkListResult>): Promise<Models.ServerCommunicationLinksListByServerResponse> {
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServerCommunicationLinkListResult>
+  ): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ServerCommunicationLinkListResult>,
+    callback?: msRest.ServiceCallback<Models.ServerCommunicationLinkListResult>
+  ): Promise<Models.ServerCommunicationLinksListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -152,7 +231,8 @@ export class ServerCommunicationLinks {
         options
       },
       listByServerOperationSpec,
-      callback) as Promise<Models.ServerCommunicationLinksListByServerResponse>;
+      callback
+    ) as Promise<Models.ServerCommunicationLinksListByServerResponse>;
   }
 
   /**
@@ -165,7 +245,13 @@ export class ServerCommunicationLinks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serverName: string, communicationLinkName: string, parameters: Models.ServerCommunicationLink, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    communicationLinkName: string,
+    parameters: Models.ServerCommunicationLink,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -175,7 +261,8 @@ export class ServerCommunicationLinks {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -183,19 +270,16 @@ export class ServerCommunicationLinks {
 const serializer = new msRest.Serializer(Mappers);
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.communicationLinkName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -207,19 +291,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.communicationLinkName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServerCommunicationLink
@@ -233,18 +314,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.serverName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServerCommunicationLinkListResult
@@ -258,19 +332,16 @@ const listByServerOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.communicationLinkName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

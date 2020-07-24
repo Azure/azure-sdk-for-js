@@ -34,21 +34,39 @@ export class Orders {
    * @param [options] The optional parameters
    * @returns Promise<Models.OrdersListByDataBoxEdgeDeviceResponse>
    */
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.OrdersListByDataBoxEdgeDeviceResponse>;
+  listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OrdersListByDataBoxEdgeDeviceResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param callback The callback
    */
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.OrderList>): void;
+  listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.OrderList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OrderList>): void;
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OrderList>, callback?: msRest.ServiceCallback<Models.OrderList>): Promise<Models.OrdersListByDataBoxEdgeDeviceResponse> {
+  listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OrderList>
+  ): void;
+  listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OrderList>,
+    callback?: msRest.ServiceCallback<Models.OrderList>
+  ): Promise<Models.OrdersListByDataBoxEdgeDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -56,7 +74,8 @@ export class Orders {
         options
       },
       listByDataBoxEdgeDeviceOperationSpec,
-      callback) as Promise<Models.OrdersListByDataBoxEdgeDeviceResponse>;
+      callback
+    ) as Promise<Models.OrdersListByDataBoxEdgeDeviceResponse>;
   }
 
   /**
@@ -66,21 +85,39 @@ export class Orders {
    * @param [options] The optional parameters
    * @returns Promise<Models.OrdersGetResponse>
    */
-  get(deviceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.OrdersGetResponse>;
+  get(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OrdersGetResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param callback The callback
    */
-  get(deviceName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.Order>): void;
+  get(
+    deviceName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.Order>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(deviceName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Order>): void;
-  get(deviceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Order>, callback?: msRest.ServiceCallback<Models.Order>): Promise<Models.OrdersGetResponse> {
+  get(
+    deviceName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Order>
+  ): void;
+  get(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Order>,
+    callback?: msRest.ServiceCallback<Models.Order>
+  ): Promise<Models.OrdersGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -88,7 +125,8 @@ export class Orders {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.OrdersGetResponse>;
+      callback
+    ) as Promise<Models.OrdersGetResponse>;
   }
 
   /**
@@ -99,9 +137,20 @@ export class Orders {
    * @param [options] The optional parameters
    * @returns Promise<Models.OrdersCreateOrUpdateResponse>
    */
-  createOrUpdate(deviceName: string, order: Models.Order, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.OrdersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(deviceName,order,resourceGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.OrdersCreateOrUpdateResponse>;
+  createOrUpdate(
+    deviceName: string,
+    order: Models.Order,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OrdersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      deviceName,
+      order,
+      resourceGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.OrdersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -111,9 +160,14 @@ export class Orders {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(deviceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(deviceName,resourceGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(deviceName, resourceGroupName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -124,7 +178,12 @@ export class Orders {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(deviceName: string, order: Models.Order, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    deviceName: string,
+    order: Models.Order,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -133,7 +192,8 @@ export class Orders {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -143,7 +203,11 @@ export class Orders {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(deviceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -151,7 +215,8 @@ export class Orders {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -160,26 +225,41 @@ export class Orders {
    * @param [options] The optional parameters
    * @returns Promise<Models.OrdersListByDataBoxEdgeDeviceNextResponse>
    */
-  listByDataBoxEdgeDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OrdersListByDataBoxEdgeDeviceNextResponse>;
+  listByDataBoxEdgeDeviceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OrdersListByDataBoxEdgeDeviceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByDataBoxEdgeDeviceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OrderList>): void;
+  listByDataBoxEdgeDeviceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.OrderList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDataBoxEdgeDeviceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OrderList>): void;
-  listByDataBoxEdgeDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OrderList>, callback?: msRest.ServiceCallback<Models.OrderList>): Promise<Models.OrdersListByDataBoxEdgeDeviceNextResponse> {
+  listByDataBoxEdgeDeviceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OrderList>
+  ): void;
+  listByDataBoxEdgeDeviceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OrderList>,
+    callback?: msRest.ServiceCallback<Models.OrderList>
+  ): Promise<Models.OrdersListByDataBoxEdgeDeviceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByDataBoxEdgeDeviceNextOperationSpec,
-      callback) as Promise<Models.OrdersListByDataBoxEdgeDeviceNextResponse>;
+      callback
+    ) as Promise<Models.OrdersListByDataBoxEdgeDeviceNextResponse>;
   }
 }
 
@@ -187,18 +267,11 @@ export class Orders {
 const serializer = new msRest.Serializer(Mappers);
 const listByDataBoxEdgeDeviceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders",
-  urlParameters: [
-    Parameters.deviceName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders",
+  urlParameters: [Parameters.deviceName, Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OrderList
@@ -212,18 +285,11 @@ const listByDataBoxEdgeDeviceOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default",
-  urlParameters: [
-    Parameters.deviceName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default",
+  urlParameters: [Parameters.deviceName, Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Order
@@ -237,18 +303,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default",
-  urlParameters: [
-    Parameters.deviceName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default",
+  urlParameters: [Parameters.deviceName, Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "order",
     mapper: {
@@ -270,18 +329,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default",
-  urlParameters: [
-    Parameters.deviceName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default",
+  urlParameters: [Parameters.deviceName, Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -297,12 +349,8 @@ const listByDataBoxEdgeDeviceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OrderList

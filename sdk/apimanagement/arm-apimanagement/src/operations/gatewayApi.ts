@@ -35,7 +35,12 @@ export class GatewayApi {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayApiListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, gatewayId: string, options?: Models.GatewayApiListByServiceOptionalParams): Promise<Models.GatewayApiListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options?: Models.GatewayApiListByServiceOptionalParams
+  ): Promise<Models.GatewayApiListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -43,7 +48,12 @@ export class GatewayApi {
    * instance. Must not have value 'managed'
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, gatewayId: string, callback: msRest.ServiceCallback<Models.ApiCollection>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    callback: msRest.ServiceCallback<Models.ApiCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -52,8 +62,22 @@ export class GatewayApi {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, gatewayId: string, options: Models.GatewayApiListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.ApiCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, gatewayId: string, options?: Models.GatewayApiListByServiceOptionalParams | msRest.ServiceCallback<Models.ApiCollection>, callback?: msRest.ServiceCallback<Models.ApiCollection>): Promise<Models.GatewayApiListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options: Models.GatewayApiListByServiceOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApiCollection>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    options?:
+      | Models.GatewayApiListByServiceOptionalParams
+      | msRest.ServiceCallback<Models.ApiCollection>,
+    callback?: msRest.ServiceCallback<Models.ApiCollection>
+  ): Promise<Models.GatewayApiListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +86,8 @@ export class GatewayApi {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.GatewayApiListByServiceResponse>;
+      callback
+    ) as Promise<Models.GatewayApiListByServiceResponse>;
   }
 
   /**
@@ -75,7 +100,13 @@ export class GatewayApi {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayApiGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, gatewayId: string, apiId: string, options?: msRest.RequestOptionsBase): Promise<Models.GatewayApiGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    apiId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GatewayApiGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -84,7 +115,13 @@ export class GatewayApi {
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, gatewayId: string, apiId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    apiId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -94,8 +131,22 @@ export class GatewayApi {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, gatewayId: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, gatewayId: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.GatewayApiGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    apiId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    apiId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.GatewayApiGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +156,8 @@ export class GatewayApi {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.GatewayApiGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.GatewayApiGetEntityTagResponse>;
   }
 
   /**
@@ -118,7 +170,13 @@ export class GatewayApi {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayApiCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, apiId: string, options?: Models.GatewayApiCreateOrUpdateOptionalParams): Promise<Models.GatewayApiCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    apiId: string,
+    options?: Models.GatewayApiCreateOrUpdateOptionalParams
+  ): Promise<Models.GatewayApiCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -127,7 +185,13 @@ export class GatewayApi {
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, apiId: string, callback: msRest.ServiceCallback<Models.ApiContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    apiId: string,
+    callback: msRest.ServiceCallback<Models.ApiContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -137,8 +201,24 @@ export class GatewayApi {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, apiId: string, options: Models.GatewayApiCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.ApiContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, gatewayId: string, apiId: string, options?: Models.GatewayApiCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.ApiContract>, callback?: msRest.ServiceCallback<Models.ApiContract>): Promise<Models.GatewayApiCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    apiId: string,
+    options: Models.GatewayApiCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApiContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    apiId: string,
+    options?:
+      | Models.GatewayApiCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.ApiContract>,
+    callback?: msRest.ServiceCallback<Models.ApiContract>
+  ): Promise<Models.GatewayApiCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -148,7 +228,8 @@ export class GatewayApi {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.GatewayApiCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.GatewayApiCreateOrUpdateResponse>;
   }
 
   /**
@@ -161,7 +242,13 @@ export class GatewayApi {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, apiId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    apiId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -170,7 +257,13 @@ export class GatewayApi {
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, apiId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    apiId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -180,8 +273,22 @@ export class GatewayApi {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, gatewayId: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    apiId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayId: string,
+    apiId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -191,7 +298,8 @@ export class GatewayApi {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -200,26 +308,41 @@ export class GatewayApi {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayApiListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GatewayApiListByServiceNextResponse>;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GatewayApiListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApiCollection>): void;
+  listByServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApiCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiCollection>, callback?: msRest.ServiceCallback<Models.ApiCollection>): Promise<Models.GatewayApiListByServiceNextResponse> {
+  listByServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApiCollection>
+  ): void;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiCollection>,
+    callback?: msRest.ServiceCallback<Models.ApiCollection>
+  ): Promise<Models.GatewayApiListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.GatewayApiListByServiceNextResponse>;
+      callback
+    ) as Promise<Models.GatewayApiListByServiceNextResponse>;
   }
 }
 
@@ -227,21 +350,16 @@ export class GatewayApi {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.gatewayId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiCollection
@@ -255,7 +373,8 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -263,12 +382,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
     Parameters.apiId1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.GatewayApiGetEntityTagHeaders
@@ -282,7 +397,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -290,17 +406,10 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiId1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: Mappers.AssociationContract
   },
   responses: {
@@ -319,7 +428,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -327,12 +437,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiId1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -347,12 +453,8 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiCollection

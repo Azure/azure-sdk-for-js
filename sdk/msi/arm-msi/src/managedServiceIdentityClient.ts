@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ManagedServiceIdentityClientContext } from "./managedServiceIdentityClientContext";
 
-
 class ManagedServiceIdentityClient extends ManagedServiceIdentityClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -26,7 +25,11 @@ class ManagedServiceIdentityClient extends ManagedServiceIdentityClientContext {
    * @param subscriptionId The Id of the Subscription to which the identity belongs.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ManagedServiceIdentityClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ManagedServiceIdentityClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.userAssignedIdentities = new operations.UserAssignedIdentities(this);

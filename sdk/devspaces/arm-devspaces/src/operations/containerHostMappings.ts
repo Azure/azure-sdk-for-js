@@ -34,21 +34,39 @@ export class ContainerHostMappings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerHostMappingsGetContainerHostMappingResponse>
    */
-  getContainerHostMapping(containerHostMapping: Models.ContainerHostMapping, location: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerHostMappingsGetContainerHostMappingResponse>;
+  getContainerHostMapping(
+    containerHostMapping: Models.ContainerHostMapping,
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ContainerHostMappingsGetContainerHostMappingResponse>;
   /**
    * @param containerHostMapping
    * @param location Location of the container host.
    * @param callback The callback
    */
-  getContainerHostMapping(containerHostMapping: Models.ContainerHostMapping, location: string, callback: msRest.ServiceCallback<any>): void;
+  getContainerHostMapping(
+    containerHostMapping: Models.ContainerHostMapping,
+    location: string,
+    callback: msRest.ServiceCallback<any>
+  ): void;
   /**
    * @param containerHostMapping
    * @param location Location of the container host.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getContainerHostMapping(containerHostMapping: Models.ContainerHostMapping, location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getContainerHostMapping(containerHostMapping: Models.ContainerHostMapping, location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.ContainerHostMappingsGetContainerHostMappingResponse> {
+  getContainerHostMapping(
+    containerHostMapping: Models.ContainerHostMapping,
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<any>
+  ): void;
+  getContainerHostMapping(
+    containerHostMapping: Models.ContainerHostMapping,
+    location: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>,
+    callback?: msRest.ServiceCallback<any>
+  ): Promise<Models.ContainerHostMappingsGetContainerHostMappingResponse> {
     return this.client.sendOperationRequest(
       {
         containerHostMapping,
@@ -56,7 +74,8 @@ export class ContainerHostMappings {
         options
       },
       getContainerHostMappingOperationSpec,
-      callback) as Promise<Models.ContainerHostMappingsGetContainerHostMappingResponse>;
+      callback
+    ) as Promise<Models.ContainerHostMappingsGetContainerHostMappingResponse>;
   }
 }
 
@@ -65,15 +84,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getContainerHostMappingOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.DevSpaces/locations/{location}/checkContainerHostMapping",
-  urlParameters: [
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "containerHostMapping",
     mapper: {

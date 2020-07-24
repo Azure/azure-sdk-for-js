@@ -6,8 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  ErrorModel,
-  PrivateLinkResource,
-  PrivateLinkResourceListResult
-} from "../models/mappers";
+export { ErrorModel, PrivateLinkResource, PrivateLinkResourceListResult } from "../models/mappers";

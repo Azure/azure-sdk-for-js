@@ -39,7 +39,12 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse>
    */
-  createOrUpdateAtResourceGroupLevel(resourceGroupName: string, lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse>;
+  createOrUpdateAtResourceGroupLevel(
+    resourceGroupName: string,
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse>;
   /**
    * @param resourceGroupName The name of the resource group to lock.
    * @param lockName The lock name. The lock name can be a maximum of 260 characters. It cannot
@@ -47,7 +52,12 @@ export class ManagementLocks {
    * @param parameters The management lock parameters.
    * @param callback The callback
    */
-  createOrUpdateAtResourceGroupLevel(resourceGroupName: string, lockName: string, parameters: Models.ManagementLockObject, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
+  createOrUpdateAtResourceGroupLevel(
+    resourceGroupName: string,
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to lock.
    * @param lockName The lock name. The lock name can be a maximum of 260 characters. It cannot
@@ -56,8 +66,20 @@ export class ManagementLocks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateAtResourceGroupLevel(resourceGroupName: string, lockName: string, parameters: Models.ManagementLockObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  createOrUpdateAtResourceGroupLevel(resourceGroupName: string, lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse> {
+  createOrUpdateAtResourceGroupLevel(
+    resourceGroupName: string,
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
+  createOrUpdateAtResourceGroupLevel(
+    resourceGroupName: string,
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): Promise<Models.ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +88,8 @@ export class ManagementLocks {
         options
       },
       createOrUpdateAtResourceGroupLevelOperationSpec,
-      callback) as Promise<Models.ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse>;
   }
 
   /**
@@ -79,21 +102,39 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteAtResourceGroupLevel(resourceGroupName: string, lockName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteAtResourceGroupLevel(
+    resourceGroupName: string,
+    lockName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the lock.
    * @param lockName The name of lock to delete.
    * @param callback The callback
    */
-  deleteAtResourceGroupLevel(resourceGroupName: string, lockName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteAtResourceGroupLevel(
+    resourceGroupName: string,
+    lockName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the lock.
    * @param lockName The name of lock to delete.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteAtResourceGroupLevel(resourceGroupName: string, lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAtResourceGroupLevel(resourceGroupName: string, lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAtResourceGroupLevel(
+    resourceGroupName: string,
+    lockName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteAtResourceGroupLevel(
+    resourceGroupName: string,
+    lockName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +142,8 @@ export class ManagementLocks {
         options
       },
       deleteAtResourceGroupLevelOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -111,21 +153,39 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksGetAtResourceGroupLevelResponse>
    */
-  getAtResourceGroupLevel(resourceGroupName: string, lockName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksGetAtResourceGroupLevelResponse>;
+  getAtResourceGroupLevel(
+    resourceGroupName: string,
+    lockName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementLocksGetAtResourceGroupLevelResponse>;
   /**
    * @param resourceGroupName The name of the locked resource group.
    * @param lockName The name of the lock to get.
    * @param callback The callback
    */
-  getAtResourceGroupLevel(resourceGroupName: string, lockName: string, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
+  getAtResourceGroupLevel(
+    resourceGroupName: string,
+    lockName: string,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
   /**
    * @param resourceGroupName The name of the locked resource group.
    * @param lockName The name of the lock to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAtResourceGroupLevel(resourceGroupName: string, lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  getAtResourceGroupLevel(resourceGroupName: string, lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksGetAtResourceGroupLevelResponse> {
+  getAtResourceGroupLevel(
+    resourceGroupName: string,
+    lockName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
+  getAtResourceGroupLevel(
+    resourceGroupName: string,
+    lockName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): Promise<Models.ManagementLocksGetAtResourceGroupLevelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +193,8 @@ export class ManagementLocks {
         options
       },
       getAtResourceGroupLevelOperationSpec,
-      callback) as Promise<Models.ManagementLocksGetAtResourceGroupLevelResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksGetAtResourceGroupLevelResponse>;
   }
 
   /**
@@ -148,7 +209,12 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksCreateOrUpdateByScopeResponse>
    */
-  createOrUpdateByScope(scope: string, lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksCreateOrUpdateByScopeResponse>;
+  createOrUpdateByScope(
+    scope: string,
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementLocksCreateOrUpdateByScopeResponse>;
   /**
    * @param scope The scope for the lock. When providing a scope for the assignment, use
    * '/subscriptions/{subscriptionId}' for subscriptions,
@@ -159,7 +225,12 @@ export class ManagementLocks {
    * @param parameters Create or update management lock parameters.
    * @param callback The callback
    */
-  createOrUpdateByScope(scope: string, lockName: string, parameters: Models.ManagementLockObject, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
+  createOrUpdateByScope(
+    scope: string,
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
   /**
    * @param scope The scope for the lock. When providing a scope for the assignment, use
    * '/subscriptions/{subscriptionId}' for subscriptions,
@@ -171,8 +242,20 @@ export class ManagementLocks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateByScope(scope: string, lockName: string, parameters: Models.ManagementLockObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  createOrUpdateByScope(scope: string, lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksCreateOrUpdateByScopeResponse> {
+  createOrUpdateByScope(
+    scope: string,
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
+  createOrUpdateByScope(
+    scope: string,
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): Promise<Models.ManagementLocksCreateOrUpdateByScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -181,7 +264,8 @@ export class ManagementLocks {
         options
       },
       createOrUpdateByScopeOperationSpec,
-      callback) as Promise<Models.ManagementLocksCreateOrUpdateByScopeResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksCreateOrUpdateByScopeResponse>;
   }
 
   /**
@@ -191,7 +275,11 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteByScope(scope: string, lockName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteByScope(
+    scope: string,
+    lockName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param scope The scope for the lock.
    * @param lockName The name of lock.
@@ -204,8 +292,18 @@ export class ManagementLocks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteByScope(scope: string, lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteByScope(scope: string, lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteByScope(
+    scope: string,
+    lockName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteByScope(
+    scope: string,
+    lockName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -213,7 +311,8 @@ export class ManagementLocks {
         options
       },
       deleteByScopeOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -223,21 +322,39 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksGetByScopeResponse>
    */
-  getByScope(scope: string, lockName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksGetByScopeResponse>;
+  getByScope(
+    scope: string,
+    lockName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementLocksGetByScopeResponse>;
   /**
    * @param scope The scope for the lock.
    * @param lockName The name of lock.
    * @param callback The callback
    */
-  getByScope(scope: string, lockName: string, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
+  getByScope(
+    scope: string,
+    lockName: string,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
   /**
    * @param scope The scope for the lock.
    * @param lockName The name of lock.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getByScope(scope: string, lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  getByScope(scope: string, lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksGetByScopeResponse> {
+  getByScope(
+    scope: string,
+    lockName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
+  getByScope(
+    scope: string,
+    lockName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): Promise<Models.ManagementLocksGetByScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -245,7 +362,8 @@ export class ManagementLocks {
         options
       },
       getByScopeOperationSpec,
-      callback) as Promise<Models.ManagementLocksGetByScopeResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksGetByScopeResponse>;
   }
 
   /**
@@ -266,7 +384,16 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksCreateOrUpdateAtResourceLevelResponse>
    */
-  createOrUpdateAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksCreateOrUpdateAtResourceLevelResponse>;
+  createOrUpdateAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementLocksCreateOrUpdateAtResourceLevelResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the resource to lock.
    * @param resourceProviderNamespace The resource provider namespace of the resource to lock.
@@ -278,7 +405,16 @@ export class ManagementLocks {
    * @param parameters Parameters for creating or updating a  management lock.
    * @param callback The callback
    */
-  createOrUpdateAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, parameters: Models.ManagementLockObject, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
+  createOrUpdateAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the resource to lock.
    * @param resourceProviderNamespace The resource provider namespace of the resource to lock.
@@ -291,8 +427,28 @@ export class ManagementLocks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, parameters: Models.ManagementLockObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  createOrUpdateAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksCreateOrUpdateAtResourceLevelResponse> {
+  createOrUpdateAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
+  createOrUpdateAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): Promise<Models.ManagementLocksCreateOrUpdateAtResourceLevelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -305,7 +461,8 @@ export class ManagementLocks {
         options
       },
       createOrUpdateAtResourceLevelOperationSpec,
-      callback) as Promise<Models.ManagementLocksCreateOrUpdateAtResourceLevelResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksCreateOrUpdateAtResourceLevelResponse>;
   }
 
   /**
@@ -324,7 +481,15 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    lockName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the resource with the lock to
    * delete.
@@ -336,7 +501,15 @@ export class ManagementLocks {
    * @param lockName The name of the lock to delete.
    * @param callback The callback
    */
-  deleteAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    lockName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the resource with the lock to
    * delete.
@@ -349,8 +522,26 @@ export class ManagementLocks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    lockName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    lockName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -362,7 +553,8 @@ export class ManagementLocks {
         options
       },
       deleteAtResourceLevelOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -376,7 +568,15 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksGetAtResourceLevelResponse>
    */
-  getAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksGetAtResourceLevelResponse>;
+  getAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    lockName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementLocksGetAtResourceLevelResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceProviderNamespace The namespace of the resource provider.
@@ -386,7 +586,15 @@ export class ManagementLocks {
    * @param lockName The name of lock.
    * @param callback The callback
    */
-  getAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
+  getAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    lockName: string,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceProviderNamespace The namespace of the resource provider.
@@ -397,8 +605,26 @@ export class ManagementLocks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  getAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksGetAtResourceLevelResponse> {
+  getAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    lockName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
+  getAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    lockName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): Promise<Models.ManagementLocksGetAtResourceLevelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -410,7 +636,8 @@ export class ManagementLocks {
         options
       },
       getAtResourceLevelOperationSpec,
-      callback) as Promise<Models.ManagementLocksGetAtResourceLevelResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksGetAtResourceLevelResponse>;
   }
 
   /**
@@ -425,14 +652,22 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksCreateOrUpdateAtSubscriptionLevelResponse>
    */
-  createOrUpdateAtSubscriptionLevel(lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksCreateOrUpdateAtSubscriptionLevelResponse>;
+  createOrUpdateAtSubscriptionLevel(
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementLocksCreateOrUpdateAtSubscriptionLevelResponse>;
   /**
    * @param lockName The name of lock. The lock name can be a maximum of 260 characters. It cannot
    * contain <, > %, &, :, \, ?, /, or any control characters.
    * @param parameters The management lock parameters.
    * @param callback The callback
    */
-  createOrUpdateAtSubscriptionLevel(lockName: string, parameters: Models.ManagementLockObject, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
+  createOrUpdateAtSubscriptionLevel(
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
   /**
    * @param lockName The name of lock. The lock name can be a maximum of 260 characters. It cannot
    * contain <, > %, &, :, \, ?, /, or any control characters.
@@ -440,8 +675,18 @@ export class ManagementLocks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateAtSubscriptionLevel(lockName: string, parameters: Models.ManagementLockObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  createOrUpdateAtSubscriptionLevel(lockName: string, parameters: Models.ManagementLockObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksCreateOrUpdateAtSubscriptionLevelResponse> {
+  createOrUpdateAtSubscriptionLevel(
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
+  createOrUpdateAtSubscriptionLevel(
+    lockName: string,
+    parameters: Models.ManagementLockObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): Promise<Models.ManagementLocksCreateOrUpdateAtSubscriptionLevelResponse> {
     return this.client.sendOperationRequest(
       {
         lockName,
@@ -449,7 +694,8 @@ export class ManagementLocks {
         options
       },
       createOrUpdateAtSubscriptionLevelOperationSpec,
-      callback) as Promise<Models.ManagementLocksCreateOrUpdateAtSubscriptionLevelResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksCreateOrUpdateAtSubscriptionLevelResponse>;
   }
 
   /**
@@ -461,7 +707,10 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteAtSubscriptionLevel(lockName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteAtSubscriptionLevel(
+    lockName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param lockName The name of lock to delete.
    * @param callback The callback
@@ -472,15 +721,24 @@ export class ManagementLocks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteAtSubscriptionLevel(lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAtSubscriptionLevel(lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAtSubscriptionLevel(
+    lockName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteAtSubscriptionLevel(
+    lockName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         lockName,
         options
       },
       deleteAtSubscriptionLevelOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -489,26 +747,41 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksGetAtSubscriptionLevelResponse>
    */
-  getAtSubscriptionLevel(lockName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksGetAtSubscriptionLevelResponse>;
+  getAtSubscriptionLevel(
+    lockName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementLocksGetAtSubscriptionLevelResponse>;
   /**
    * @param lockName The name of the lock to get.
    * @param callback The callback
    */
-  getAtSubscriptionLevel(lockName: string, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
+  getAtSubscriptionLevel(
+    lockName: string,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
   /**
    * @param lockName The name of the lock to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAtSubscriptionLevel(lockName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockObject>): void;
-  getAtSubscriptionLevel(lockName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>, callback?: msRest.ServiceCallback<Models.ManagementLockObject>): Promise<Models.ManagementLocksGetAtSubscriptionLevelResponse> {
+  getAtSubscriptionLevel(
+    lockName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): void;
+  getAtSubscriptionLevel(
+    lockName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockObject>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockObject>
+  ): Promise<Models.ManagementLocksGetAtSubscriptionLevelResponse> {
     return this.client.sendOperationRequest(
       {
         lockName,
         options
       },
       getAtSubscriptionLevelOperationSpec,
-      callback) as Promise<Models.ManagementLocksGetAtSubscriptionLevelResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksGetAtSubscriptionLevelResponse>;
   }
 
   /**
@@ -517,26 +790,43 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksListAtResourceGroupLevelResponse>
    */
-  listAtResourceGroupLevel(resourceGroupName: string, options?: Models.ManagementLocksListAtResourceGroupLevelOptionalParams): Promise<Models.ManagementLocksListAtResourceGroupLevelResponse>;
+  listAtResourceGroupLevel(
+    resourceGroupName: string,
+    options?: Models.ManagementLocksListAtResourceGroupLevelOptionalParams
+  ): Promise<Models.ManagementLocksListAtResourceGroupLevelResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the locks to get.
    * @param callback The callback
    */
-  listAtResourceGroupLevel(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
+  listAtResourceGroupLevel(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the locks to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtResourceGroupLevel(resourceGroupName: string, options: Models.ManagementLocksListAtResourceGroupLevelOptionalParams, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listAtResourceGroupLevel(resourceGroupName: string, options?: Models.ManagementLocksListAtResourceGroupLevelOptionalParams | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtResourceGroupLevelResponse> {
+  listAtResourceGroupLevel(
+    resourceGroupName: string,
+    options: Models.ManagementLocksListAtResourceGroupLevelOptionalParams,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
+  listAtResourceGroupLevel(
+    resourceGroupName: string,
+    options?:
+      | Models.ManagementLocksListAtResourceGroupLevelOptionalParams
+      | msRest.ServiceCallback<Models.ManagementLockListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): Promise<Models.ManagementLocksListAtResourceGroupLevelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listAtResourceGroupLevelOperationSpec,
-      callback) as Promise<Models.ManagementLocksListAtResourceGroupLevelResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksListAtResourceGroupLevelResponse>;
   }
 
   /**
@@ -550,7 +840,14 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksListAtResourceLevelResponse>
    */
-  listAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.ManagementLocksListAtResourceLevelOptionalParams): Promise<Models.ManagementLocksListAtResourceLevelResponse>;
+  listAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options?: Models.ManagementLocksListAtResourceLevelOptionalParams
+  ): Promise<Models.ManagementLocksListAtResourceLevelResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the locked resource. The name
    * is case insensitive.
@@ -560,7 +857,14 @@ export class ManagementLocks {
    * @param resourceName The name of the locked resource.
    * @param callback The callback
    */
-  listAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
+  listAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the locked resource. The name
    * is case insensitive.
@@ -571,8 +875,26 @@ export class ManagementLocks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: Models.ManagementLocksListAtResourceLevelOptionalParams, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listAtResourceLevel(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.ManagementLocksListAtResourceLevelOptionalParams | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtResourceLevelResponse> {
+  listAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options: Models.ManagementLocksListAtResourceLevelOptionalParams,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
+  listAtResourceLevel(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options?:
+      | Models.ManagementLocksListAtResourceLevelOptionalParams
+      | msRest.ServiceCallback<Models.ManagementLockListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): Promise<Models.ManagementLocksListAtResourceLevelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -583,7 +905,8 @@ export class ManagementLocks {
         options
       },
       listAtResourceLevelOperationSpec,
-      callback) as Promise<Models.ManagementLocksListAtResourceLevelResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksListAtResourceLevelResponse>;
   }
 
   /**
@@ -591,7 +914,9 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksListAtSubscriptionLevelResponse>
    */
-  listAtSubscriptionLevel(options?: Models.ManagementLocksListAtSubscriptionLevelOptionalParams): Promise<Models.ManagementLocksListAtSubscriptionLevelResponse>;
+  listAtSubscriptionLevel(
+    options?: Models.ManagementLocksListAtSubscriptionLevelOptionalParams
+  ): Promise<Models.ManagementLocksListAtSubscriptionLevelResponse>;
   /**
    * @param callback The callback
    */
@@ -600,14 +925,23 @@ export class ManagementLocks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtSubscriptionLevel(options: Models.ManagementLocksListAtSubscriptionLevelOptionalParams, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listAtSubscriptionLevel(options?: Models.ManagementLocksListAtSubscriptionLevelOptionalParams | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtSubscriptionLevelResponse> {
+  listAtSubscriptionLevel(
+    options: Models.ManagementLocksListAtSubscriptionLevelOptionalParams,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
+  listAtSubscriptionLevel(
+    options?:
+      | Models.ManagementLocksListAtSubscriptionLevelOptionalParams
+      | msRest.ServiceCallback<Models.ManagementLockListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): Promise<Models.ManagementLocksListAtSubscriptionLevelResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAtSubscriptionLevelOperationSpec,
-      callback) as Promise<Models.ManagementLocksListAtSubscriptionLevelResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksListAtSubscriptionLevelResponse>;
   }
 
   /**
@@ -620,7 +954,10 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksListByScopeResponse>
    */
-  listByScope(scope: string, options?: Models.ManagementLocksListByScopeOptionalParams): Promise<Models.ManagementLocksListByScopeResponse>;
+  listByScope(
+    scope: string,
+    options?: Models.ManagementLocksListByScopeOptionalParams
+  ): Promise<Models.ManagementLocksListByScopeResponse>;
   /**
    * @param scope The scope for the lock. When providing a scope for the assignment, use
    * '/subscriptions/{subscriptionId}' for subscriptions,
@@ -629,7 +966,10 @@ export class ManagementLocks {
    * for resources.
    * @param callback The callback
    */
-  listByScope(scope: string, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
+  listByScope(
+    scope: string,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
   /**
    * @param scope The scope for the lock. When providing a scope for the assignment, use
    * '/subscriptions/{subscriptionId}' for subscriptions,
@@ -639,15 +979,26 @@ export class ManagementLocks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByScope(scope: string, options: Models.ManagementLocksListByScopeOptionalParams, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listByScope(scope: string, options?: Models.ManagementLocksListByScopeOptionalParams | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListByScopeResponse> {
+  listByScope(
+    scope: string,
+    options: Models.ManagementLocksListByScopeOptionalParams,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
+  listByScope(
+    scope: string,
+    options?:
+      | Models.ManagementLocksListByScopeOptionalParams
+      | msRest.ServiceCallback<Models.ManagementLockListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): Promise<Models.ManagementLocksListByScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       listByScopeOperationSpec,
-      callback) as Promise<Models.ManagementLocksListByScopeResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksListByScopeResponse>;
   }
 
   /**
@@ -656,26 +1007,41 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksListAtResourceGroupLevelNextResponse>
    */
-  listAtResourceGroupLevelNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksListAtResourceGroupLevelNextResponse>;
+  listAtResourceGroupLevelNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementLocksListAtResourceGroupLevelNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAtResourceGroupLevelNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
+  listAtResourceGroupLevelNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtResourceGroupLevelNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listAtResourceGroupLevelNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtResourceGroupLevelNextResponse> {
+  listAtResourceGroupLevelNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
+  listAtResourceGroupLevelNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): Promise<Models.ManagementLocksListAtResourceGroupLevelNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAtResourceGroupLevelNextOperationSpec,
-      callback) as Promise<Models.ManagementLocksListAtResourceGroupLevelNextResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksListAtResourceGroupLevelNextResponse>;
   }
 
   /**
@@ -684,26 +1050,41 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksListAtResourceLevelNextResponse>
    */
-  listAtResourceLevelNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksListAtResourceLevelNextResponse>;
+  listAtResourceLevelNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementLocksListAtResourceLevelNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAtResourceLevelNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
+  listAtResourceLevelNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtResourceLevelNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listAtResourceLevelNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtResourceLevelNextResponse> {
+  listAtResourceLevelNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
+  listAtResourceLevelNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): Promise<Models.ManagementLocksListAtResourceLevelNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAtResourceLevelNextOperationSpec,
-      callback) as Promise<Models.ManagementLocksListAtResourceLevelNextResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksListAtResourceLevelNextResponse>;
   }
 
   /**
@@ -712,26 +1093,41 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksListAtSubscriptionLevelNextResponse>
    */
-  listAtSubscriptionLevelNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksListAtSubscriptionLevelNextResponse>;
+  listAtSubscriptionLevelNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementLocksListAtSubscriptionLevelNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAtSubscriptionLevelNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
+  listAtSubscriptionLevelNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtSubscriptionLevelNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listAtSubscriptionLevelNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListAtSubscriptionLevelNextResponse> {
+  listAtSubscriptionLevelNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
+  listAtSubscriptionLevelNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): Promise<Models.ManagementLocksListAtSubscriptionLevelNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAtSubscriptionLevelNextOperationSpec,
-      callback) as Promise<Models.ManagementLocksListAtSubscriptionLevelNextResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksListAtSubscriptionLevelNextResponse>;
   }
 
   /**
@@ -740,26 +1136,41 @@ export class ManagementLocks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementLocksListByScopeNextResponse>
    */
-  listByScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementLocksListByScopeNextResponse>;
+  listByScopeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementLocksListByScopeNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByScopeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
+  listByScopeNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementLockListResult>): void;
-  listByScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockListResult>, callback?: msRest.ServiceCallback<Models.ManagementLockListResult>): Promise<Models.ManagementLocksListByScopeNextResponse> {
+  listByScopeNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): void;
+  listByScopeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementLockListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagementLockListResult>
+  ): Promise<Models.ManagementLocksListByScopeNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByScopeNextOperationSpec,
-      callback) as Promise<Models.ManagementLocksListByScopeNextResponse>;
+      callback
+    ) as Promise<Models.ManagementLocksListByScopeNextResponse>;
   }
 }
 
@@ -767,18 +1178,11 @@ export class ManagementLocks {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateAtResourceGroupLevelOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks/{lockName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.lockName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks/{lockName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.lockName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -802,18 +1206,11 @@ const createOrUpdateAtResourceGroupLevelOperationSpec: msRest.OperationSpec = {
 
 const deleteAtResourceGroupLevelOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks/{lockName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.lockName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks/{lockName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.lockName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -826,18 +1223,11 @@ const deleteAtResourceGroupLevelOperationSpec: msRest.OperationSpec = {
 
 const getAtResourceGroupLevelOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks/{lockName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.lockName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks/{lockName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.lockName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockObject
@@ -852,16 +1242,9 @@ const getAtResourceGroupLevelOperationSpec: msRest.OperationSpec = {
 const createOrUpdateByScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{scope}/providers/Microsoft.Authorization/locks/{lockName}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.lockName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.lockName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -886,16 +1269,9 @@ const createOrUpdateByScopeOperationSpec: msRest.OperationSpec = {
 const deleteByScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{scope}/providers/Microsoft.Authorization/locks/{lockName}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.lockName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.lockName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -909,16 +1285,9 @@ const deleteByScopeOperationSpec: msRest.OperationSpec = {
 const getByScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Authorization/locks/{lockName}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.lockName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.lockName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockObject
@@ -932,7 +1301,8 @@ const getByScopeOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateAtResourceLevelOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/locks/{lockName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/locks/{lockName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
@@ -942,12 +1312,8 @@ const createOrUpdateAtResourceLevelOperationSpec: msRest.OperationSpec = {
     Parameters.lockName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -971,7 +1337,8 @@ const createOrUpdateAtResourceLevelOperationSpec: msRest.OperationSpec = {
 
 const deleteAtResourceLevelOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/locks/{lockName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/locks/{lockName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
@@ -981,12 +1348,8 @@ const deleteAtResourceLevelOperationSpec: msRest.OperationSpec = {
     Parameters.lockName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -999,7 +1362,8 @@ const deleteAtResourceLevelOperationSpec: msRest.OperationSpec = {
 
 const getAtResourceLevelOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/locks/{lockName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/locks/{lockName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
@@ -1009,12 +1373,8 @@ const getAtResourceLevelOperationSpec: msRest.OperationSpec = {
     Parameters.lockName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockObject
@@ -1029,16 +1389,9 @@ const getAtResourceLevelOperationSpec: msRest.OperationSpec = {
 const createOrUpdateAtSubscriptionLevelOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/locks/{lockName}",
-  urlParameters: [
-    Parameters.lockName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.lockName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -1063,16 +1416,9 @@ const createOrUpdateAtSubscriptionLevelOperationSpec: msRest.OperationSpec = {
 const deleteAtSubscriptionLevelOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/locks/{lockName}",
-  urlParameters: [
-    Parameters.lockName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.lockName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -1086,16 +1432,9 @@ const deleteAtSubscriptionLevelOperationSpec: msRest.OperationSpec = {
 const getAtSubscriptionLevelOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/locks/{lockName}",
-  urlParameters: [
-    Parameters.lockName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.lockName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockObject
@@ -1109,18 +1448,11 @@ const getAtSubscriptionLevelOperationSpec: msRest.OperationSpec = {
 
 const listAtResourceGroupLevelOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
@@ -1134,7 +1466,8 @@ const listAtResourceGroupLevelOperationSpec: msRest.OperationSpec = {
 
 const listAtResourceLevelOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/locks",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/locks",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
@@ -1143,13 +1476,8 @@ const listAtResourceLevelOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
@@ -1164,16 +1492,9 @@ const listAtResourceLevelOperationSpec: msRest.OperationSpec = {
 const listAtSubscriptionLevelOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/locks",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
@@ -1188,16 +1509,9 @@ const listAtSubscriptionLevelOperationSpec: msRest.OperationSpec = {
 const listByScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Authorization/locks",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
@@ -1213,12 +1527,8 @@ const listAtResourceGroupLevelNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
@@ -1234,12 +1544,8 @@ const listAtResourceLevelNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
@@ -1255,12 +1561,8 @@ const listAtSubscriptionLevelNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
@@ -1276,12 +1578,8 @@ const listByScopeNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult

@@ -40,14 +40,21 @@ export class ProviderOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProviderOperationResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProviderOperationResult>, callback?: msRest.ServiceCallback<Models.ProviderOperationResult>): Promise<Models.ProviderOperationsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProviderOperationResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProviderOperationResult>,
+    callback?: msRest.ServiceCallback<Models.ProviderOperationResult>
+  ): Promise<Models.ProviderOperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ProviderOperationsListResponse>;
+      callback
+    ) as Promise<Models.ProviderOperationsListResponse>;
   }
 
   /**
@@ -56,26 +63,41 @@ export class ProviderOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProviderOperationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProviderOperationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProviderOperationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProviderOperationResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ProviderOperationResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProviderOperationResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProviderOperationResult>, callback?: msRest.ServiceCallback<Models.ProviderOperationResult>): Promise<Models.ProviderOperationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProviderOperationResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProviderOperationResult>,
+    callback?: msRest.ServiceCallback<Models.ProviderOperationResult>
+  ): Promise<Models.ProviderOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ProviderOperationsListNextResponse>;
+      callback
+    ) as Promise<Models.ProviderOperationsListNextResponse>;
   }
 }
 
@@ -84,12 +106,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.LabServices/operations",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProviderOperationResult
@@ -105,12 +123,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProviderOperationResult

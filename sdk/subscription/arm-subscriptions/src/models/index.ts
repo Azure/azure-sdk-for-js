@@ -388,8 +388,7 @@ export interface SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders
  * Location list operation response.
  * @extends Array<Location>
  */
-export interface LocationListResult extends Array<Location> {
-}
+export interface LocationListResult extends Array<Location> {}
 
 /**
  * @interface
@@ -421,7 +420,7 @@ export interface TenantListResult extends Array<TenantIdDescription> {
  * @readonly
  * @enum {string}
  */
-export type OfferType = 'MS-AZR-0017P' | 'MS-AZR-0148P';
+export type OfferType = "MS-AZR-0017P" | "MS-AZR-0148P";
 
 /**
  * Defines values for SubscriptionState.
@@ -429,7 +428,7 @@ export type OfferType = 'MS-AZR-0017P' | 'MS-AZR-0148P';
  * @readonly
  * @enum {string}
  */
-export type SubscriptionState = 'Enabled' | 'Warned' | 'PastDue' | 'Disabled' | 'Deleted';
+export type SubscriptionState = "Enabled" | "Warned" | "PastDue" | "Disabled" | "Deleted";
 
 /**
  * Defines values for SpendingLimit.
@@ -437,7 +436,7 @@ export type SubscriptionState = 'Enabled' | 'Warned' | 'PastDue' | 'Disabled' | 
  * @readonly
  * @enum {string}
  */
-export type SpendingLimit = 'On' | 'Off' | 'CurrentPeriodOff';
+export type SpendingLimit = "On" | "Off" | "CurrentPeriodOff";
 
 /**
  * Contains response data for the cancel operation.
@@ -447,16 +446,16 @@ export type SubscriptionsCancelResponse = CanceledSubscriptionId & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CanceledSubscriptionId;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CanceledSubscriptionId;
+  };
 };
 
 /**
@@ -467,16 +466,16 @@ export type SubscriptionsRenameResponse = RenamedSubscriptionId & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RenamedSubscriptionId;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RenamedSubscriptionId;
+  };
 };
 
 /**
@@ -487,16 +486,16 @@ export type SubscriptionsListLocationsResponse = LocationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LocationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LocationListResult;
+  };
 };
 
 /**
@@ -507,16 +506,16 @@ export type SubscriptionsGetResponse = Subscription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Subscription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Subscription;
+  };
 };
 
 /**
@@ -527,16 +526,16 @@ export type SubscriptionsListResponse = SubscriptionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionListResult;
+  };
 };
 
 /**
@@ -547,26 +546,27 @@ export type SubscriptionsListNextResponse = SubscriptionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionListResult;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type SubscriptionOperationGetResponse = SubscriptionCreationResult & SubscriptionOperationGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type SubscriptionOperationGetResponse = SubscriptionCreationResult &
+  SubscriptionOperationGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -582,16 +582,17 @@ export type SubscriptionOperationGetResponse = SubscriptionCreationResult & Subs
        */
       parsedBody: SubscriptionCreationResult;
     };
-};
+  };
 
 /**
  * Contains response data for the createSubscription operation.
  */
-export type SubscriptionFactoryCreateSubscriptionResponse = SubscriptionCreationResult & SubscriptionFactoryCreateSubscriptionHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type SubscriptionFactoryCreateSubscriptionResponse = SubscriptionCreationResult &
+  SubscriptionFactoryCreateSubscriptionHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -607,16 +608,17 @@ export type SubscriptionFactoryCreateSubscriptionResponse = SubscriptionCreation
        */
       parsedBody: SubscriptionCreationResult;
     };
-};
+  };
 
 /**
  * Contains response data for the createSubscriptionInEnrollmentAccount operation.
  */
-export type SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse = SubscriptionCreationResult & SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse = SubscriptionCreationResult &
+  SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -632,7 +634,7 @@ export type SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse = S
        */
       parsedBody: SubscriptionCreationResult;
     };
-};
+  };
 
 /**
  * Contains response data for the list operation.
@@ -642,16 +644,16 @@ export type SubscriptionOperationsListResponse = SubscriptionOperationListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionOperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionOperationListResult;
+  };
 };
 
 /**
@@ -662,16 +664,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -682,16 +684,16 @@ export type TenantsListResponse = TenantListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TenantListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TenantListResult;
+  };
 };
 
 /**
@@ -702,14 +704,14 @@ export type TenantsListNextResponse = TenantListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TenantListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TenantListResult;
+  };
 };

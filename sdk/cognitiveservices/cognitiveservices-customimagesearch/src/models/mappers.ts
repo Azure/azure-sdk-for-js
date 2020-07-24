@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const ResponseBase: msRest.CompositeMapper = {
   serializedName: "ResponseBase",
   type: {
@@ -406,7 +405,7 @@ export const ErrorModel: msRest.CompositeMapper = {
       code: {
         required: true,
         serializedName: "code",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -490,17 +489,16 @@ export const WebPage: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ResponseBase.ImageObject' : ImageObject,
-  'ResponseBase.Images' : Images,
-  'ResponseBase.SearchResultsAnswer' : SearchResultsAnswer,
-  'ResponseBase.Answer' : Answer,
-  'ResponseBase.MediaObject' : MediaObject,
-  'ResponseBase.Response' : Response,
-  'ResponseBase.Thing' : Thing,
-  'ResponseBase.CreativeWork' : CreativeWork,
-  'ResponseBase.Identifiable' : Identifiable,
-  'ResponseBase.ErrorResponse' : ErrorResponse,
-  'ResponseBase.WebPage' : WebPage,
-  'ResponseBase' : ResponseBase
-
+  "ResponseBase.ImageObject": ImageObject,
+  "ResponseBase.Images": Images,
+  "ResponseBase.SearchResultsAnswer": SearchResultsAnswer,
+  "ResponseBase.Answer": Answer,
+  "ResponseBase.MediaObject": MediaObject,
+  "ResponseBase.Response": Response,
+  "ResponseBase.Thing": Thing,
+  "ResponseBase.CreativeWork": CreativeWork,
+  "ResponseBase.Identifiable": Identifiable,
+  "ResponseBase.ErrorResponse": ErrorResponse,
+  "ResponseBase.WebPage": WebPage,
+  ResponseBase: ResponseBase
 };

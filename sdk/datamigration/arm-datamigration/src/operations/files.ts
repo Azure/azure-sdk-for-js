@@ -36,14 +36,24 @@ export class Files {
    * @param [options] The optional parameters
    * @returns Promise<Models.FilesListResponse>
    */
-  list(groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase): Promise<Models.FilesListResponse>;
+  list(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FilesListResponse>;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
    * @param callback The callback
    */
-  list(groupName: string, serviceName: string, projectName: string, callback: msRest.ServiceCallback<Models.FileList>): void;
+  list(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    callback: msRest.ServiceCallback<Models.FileList>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -51,8 +61,20 @@ export class Files {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(groupName: string, serviceName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileList>): void;
-  list(groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileList>, callback?: msRest.ServiceCallback<Models.FileList>): Promise<Models.FilesListResponse> {
+  list(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileList>
+  ): void;
+  list(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileList>,
+    callback?: msRest.ServiceCallback<Models.FileList>
+  ): Promise<Models.FilesListResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -61,7 +83,8 @@ export class Files {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.FilesListResponse>;
+      callback
+    ) as Promise<Models.FilesListResponse>;
   }
 
   /**
@@ -75,7 +98,13 @@ export class Files {
    * @param [options] The optional parameters
    * @returns Promise<Models.FilesGetResponse>
    */
-  get(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase): Promise<Models.FilesGetResponse>;
+  get(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FilesGetResponse>;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -83,7 +112,13 @@ export class Files {
    * @param fileName Name of the File
    * @param callback The callback
    */
-  get(groupName: string, serviceName: string, projectName: string, fileName: string, callback: msRest.ServiceCallback<Models.ProjectFile>): void;
+  get(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    callback: msRest.ServiceCallback<Models.ProjectFile>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -92,8 +127,22 @@ export class Files {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(groupName: string, serviceName: string, projectName: string, fileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectFile>): void;
-  get(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectFile>, callback?: msRest.ServiceCallback<Models.ProjectFile>): Promise<Models.FilesGetResponse> {
+  get(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProjectFile>
+  ): void;
+  get(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectFile>,
+    callback?: msRest.ServiceCallback<Models.ProjectFile>
+  ): Promise<Models.FilesGetResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -103,7 +152,8 @@ export class Files {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.FilesGetResponse>;
+      callback
+    ) as Promise<Models.FilesGetResponse>;
   }
 
   /**
@@ -117,7 +167,14 @@ export class Files {
    * @param [options] The optional parameters
    * @returns Promise<Models.FilesCreateOrUpdateResponse>
    */
-  createOrUpdate(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase): Promise<Models.FilesCreateOrUpdateResponse>;
+  createOrUpdate(
+    parameters: Models.ProjectFile,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FilesCreateOrUpdateResponse>;
   /**
    * @param parameters Information about the file
    * @param groupName Name of the resource group
@@ -126,7 +183,14 @@ export class Files {
    * @param fileName Name of the File
    * @param callback The callback
    */
-  createOrUpdate(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, callback: msRest.ServiceCallback<Models.ProjectFile>): void;
+  createOrUpdate(
+    parameters: Models.ProjectFile,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    callback: msRest.ServiceCallback<Models.ProjectFile>
+  ): void;
   /**
    * @param parameters Information about the file
    * @param groupName Name of the resource group
@@ -136,8 +200,24 @@ export class Files {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectFile>): void;
-  createOrUpdate(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectFile>, callback?: msRest.ServiceCallback<Models.ProjectFile>): Promise<Models.FilesCreateOrUpdateResponse> {
+  createOrUpdate(
+    parameters: Models.ProjectFile,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProjectFile>
+  ): void;
+  createOrUpdate(
+    parameters: Models.ProjectFile,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectFile>,
+    callback?: msRest.ServiceCallback<Models.ProjectFile>
+  ): Promise<Models.FilesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -148,7 +228,8 @@ export class Files {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.FilesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.FilesCreateOrUpdateResponse>;
   }
 
   /**
@@ -161,7 +242,13 @@ export class Files {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -169,7 +256,13 @@ export class Files {
    * @param fileName Name of the File
    * @param callback The callback
    */
-  deleteMethod(groupName: string, serviceName: string, projectName: string, fileName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -178,8 +271,22 @@ export class Files {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(groupName: string, serviceName: string, projectName: string, fileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -189,7 +296,8 @@ export class Files {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -203,7 +311,14 @@ export class Files {
    * @param [options] The optional parameters
    * @returns Promise<Models.FilesUpdateResponse>
    */
-  update(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase): Promise<Models.FilesUpdateResponse>;
+  update(
+    parameters: Models.ProjectFile,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FilesUpdateResponse>;
   /**
    * @param parameters Information about the file
    * @param groupName Name of the resource group
@@ -212,7 +327,14 @@ export class Files {
    * @param fileName Name of the File
    * @param callback The callback
    */
-  update(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, callback: msRest.ServiceCallback<Models.ProjectFile>): void;
+  update(
+    parameters: Models.ProjectFile,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    callback: msRest.ServiceCallback<Models.ProjectFile>
+  ): void;
   /**
    * @param parameters Information about the file
    * @param groupName Name of the resource group
@@ -222,8 +344,24 @@ export class Files {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectFile>): void;
-  update(parameters: Models.ProjectFile, groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectFile>, callback?: msRest.ServiceCallback<Models.ProjectFile>): Promise<Models.FilesUpdateResponse> {
+  update(
+    parameters: Models.ProjectFile,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProjectFile>
+  ): void;
+  update(
+    parameters: Models.ProjectFile,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectFile>,
+    callback?: msRest.ServiceCallback<Models.ProjectFile>
+  ): Promise<Models.FilesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -234,7 +372,8 @@ export class Files {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.FilesUpdateResponse>;
+      callback
+    ) as Promise<Models.FilesUpdateResponse>;
   }
 
   /**
@@ -248,7 +387,13 @@ export class Files {
    * @param [options] The optional parameters
    * @returns Promise<Models.FilesReadResponse>
    */
-  read(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase): Promise<Models.FilesReadResponse>;
+  read(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FilesReadResponse>;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -256,7 +401,13 @@ export class Files {
    * @param fileName Name of the File
    * @param callback The callback
    */
-  read(groupName: string, serviceName: string, projectName: string, fileName: string, callback: msRest.ServiceCallback<Models.FileStorageInfo>): void;
+  read(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    callback: msRest.ServiceCallback<Models.FileStorageInfo>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -265,8 +416,22 @@ export class Files {
    * @param options The optional parameters
    * @param callback The callback
    */
-  read(groupName: string, serviceName: string, projectName: string, fileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileStorageInfo>): void;
-  read(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileStorageInfo>, callback?: msRest.ServiceCallback<Models.FileStorageInfo>): Promise<Models.FilesReadResponse> {
+  read(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileStorageInfo>
+  ): void;
+  read(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileStorageInfo>,
+    callback?: msRest.ServiceCallback<Models.FileStorageInfo>
+  ): Promise<Models.FilesReadResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -276,7 +441,8 @@ export class Files {
         options
       },
       readOperationSpec,
-      callback) as Promise<Models.FilesReadResponse>;
+      callback
+    ) as Promise<Models.FilesReadResponse>;
   }
 
   /**
@@ -289,7 +455,13 @@ export class Files {
    * @param [options] The optional parameters
    * @returns Promise<Models.FilesReadWriteResponse>
    */
-  readWrite(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase): Promise<Models.FilesReadWriteResponse>;
+  readWrite(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FilesReadWriteResponse>;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -297,7 +469,13 @@ export class Files {
    * @param fileName Name of the File
    * @param callback The callback
    */
-  readWrite(groupName: string, serviceName: string, projectName: string, fileName: string, callback: msRest.ServiceCallback<Models.FileStorageInfo>): void;
+  readWrite(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    callback: msRest.ServiceCallback<Models.FileStorageInfo>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -306,8 +484,22 @@ export class Files {
    * @param options The optional parameters
    * @param callback The callback
    */
-  readWrite(groupName: string, serviceName: string, projectName: string, fileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileStorageInfo>): void;
-  readWrite(groupName: string, serviceName: string, projectName: string, fileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileStorageInfo>, callback?: msRest.ServiceCallback<Models.FileStorageInfo>): Promise<Models.FilesReadWriteResponse> {
+  readWrite(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileStorageInfo>
+  ): void;
+  readWrite(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    fileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileStorageInfo>,
+    callback?: msRest.ServiceCallback<Models.FileStorageInfo>
+  ): Promise<Models.FilesReadWriteResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -317,7 +509,8 @@ export class Files {
         options
       },
       readWriteOperationSpec,
-      callback) as Promise<Models.FilesReadWriteResponse>;
+      callback
+    ) as Promise<Models.FilesReadWriteResponse>;
   }
 
   /**
@@ -328,7 +521,10 @@ export class Files {
    * @param [options] The optional parameters
    * @returns Promise<Models.FilesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FilesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FilesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -339,15 +535,24 @@ export class Files {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileList>, callback?: msRest.ServiceCallback<Models.FileList>): Promise<Models.FilesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileList>,
+    callback?: msRest.ServiceCallback<Models.FileList>
+  ): Promise<Models.FilesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.FilesListNextResponse>;
+      callback
+    ) as Promise<Models.FilesListNextResponse>;
   }
 }
 
@@ -355,19 +560,16 @@ export class Files {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileList
@@ -381,7 +583,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.groupName,
@@ -389,12 +592,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.projectName,
     Parameters.fileName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProjectFile
@@ -408,7 +607,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.groupName,
@@ -416,12 +616,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.projectName,
     Parameters.fileName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -445,7 +641,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.groupName,
@@ -453,12 +650,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.projectName,
     Parameters.fileName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -471,7 +664,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.groupName,
@@ -479,12 +673,8 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.projectName,
     Parameters.fileName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -505,7 +695,8 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const readOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}/read",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}/read",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.groupName,
@@ -513,12 +704,8 @@ const readOperationSpec: msRest.OperationSpec = {
     Parameters.projectName,
     Parameters.fileName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileStorageInfo
@@ -532,7 +719,8 @@ const readOperationSpec: msRest.OperationSpec = {
 
 const readWriteOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}/readwrite",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}/readwrite",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.groupName,
@@ -540,12 +728,8 @@ const readWriteOperationSpec: msRest.OperationSpec = {
     Parameters.projectName,
     Parameters.fileName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileStorageInfo
@@ -561,12 +745,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileList

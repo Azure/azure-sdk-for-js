@@ -35,7 +35,13 @@ export class JobStreamOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobStreamGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, jobName: string, jobStreamId: string, options?: Models.JobStreamGetOptionalParams): Promise<Models.JobStreamGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobName: string,
+    jobStreamId: string,
+    options?: Models.JobStreamGetOptionalParams
+  ): Promise<Models.JobStreamGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -43,7 +49,13 @@ export class JobStreamOperations {
    * @param jobStreamId The job stream id.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, jobName: string, jobStreamId: string, callback: msRest.ServiceCallback<Models.JobStream>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobName: string,
+    jobStreamId: string,
+    callback: msRest.ServiceCallback<Models.JobStream>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -52,8 +64,22 @@ export class JobStreamOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, jobName: string, jobStreamId: string, options: Models.JobStreamGetOptionalParams, callback: msRest.ServiceCallback<Models.JobStream>): void;
-  get(resourceGroupName: string, automationAccountName: string, jobName: string, jobStreamId: string, options?: Models.JobStreamGetOptionalParams | msRest.ServiceCallback<Models.JobStream>, callback?: msRest.ServiceCallback<Models.JobStream>): Promise<Models.JobStreamGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobName: string,
+    jobStreamId: string,
+    options: Models.JobStreamGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobStream>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobName: string,
+    jobStreamId: string,
+    options?: Models.JobStreamGetOptionalParams | msRest.ServiceCallback<Models.JobStream>,
+    callback?: msRest.ServiceCallback<Models.JobStream>
+  ): Promise<Models.JobStreamGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class JobStreamOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.JobStreamGetResponse>;
+      callback
+    ) as Promise<Models.JobStreamGetResponse>;
   }
 
   /**
@@ -74,14 +101,24 @@ export class JobStreamOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobStreamListByJobResponse>
    */
-  listByJob(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobStreamListByJobOptionalParams): Promise<Models.JobStreamListByJobResponse>;
+  listByJob(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobName: string,
+    options?: Models.JobStreamListByJobOptionalParams
+  ): Promise<Models.JobStreamListByJobResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param jobName The job name.
    * @param callback The callback
    */
-  listByJob(resourceGroupName: string, automationAccountName: string, jobName: string, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
+  listByJob(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -89,8 +126,22 @@ export class JobStreamOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByJob(resourceGroupName: string, automationAccountName: string, jobName: string, options: Models.JobStreamListByJobOptionalParams, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
-  listByJob(resourceGroupName: string, automationAccountName: string, jobName: string, options?: Models.JobStreamListByJobOptionalParams | msRest.ServiceCallback<Models.JobStreamListResult>, callback?: msRest.ServiceCallback<Models.JobStreamListResult>): Promise<Models.JobStreamListByJobResponse> {
+  listByJob(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobName: string,
+    options: Models.JobStreamListByJobOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): void;
+  listByJob(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobName: string,
+    options?:
+      | Models.JobStreamListByJobOptionalParams
+      | msRest.ServiceCallback<Models.JobStreamListResult>,
+    callback?: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): Promise<Models.JobStreamListByJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +150,8 @@ export class JobStreamOperations {
         options
       },
       listByJobOperationSpec,
-      callback) as Promise<Models.JobStreamListByJobResponse>;
+      callback
+    ) as Promise<Models.JobStreamListByJobResponse>;
   }
 
   /**
@@ -108,26 +160,43 @@ export class JobStreamOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobStreamListByJobNextResponse>
    */
-  listByJobNext(nextPageLink: string, options?: Models.JobStreamListByJobNextOptionalParams): Promise<Models.JobStreamListByJobNextResponse>;
+  listByJobNext(
+    nextPageLink: string,
+    options?: Models.JobStreamListByJobNextOptionalParams
+  ): Promise<Models.JobStreamListByJobNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByJobNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
+  listByJobNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByJobNext(nextPageLink: string, options: Models.JobStreamListByJobNextOptionalParams, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
-  listByJobNext(nextPageLink: string, options?: Models.JobStreamListByJobNextOptionalParams | msRest.ServiceCallback<Models.JobStreamListResult>, callback?: msRest.ServiceCallback<Models.JobStreamListResult>): Promise<Models.JobStreamListByJobNextResponse> {
+  listByJobNext(
+    nextPageLink: string,
+    options: Models.JobStreamListByJobNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): void;
+  listByJobNext(
+    nextPageLink: string,
+    options?:
+      | Models.JobStreamListByJobNextOptionalParams
+      | msRest.ServiceCallback<Models.JobStreamListResult>,
+    callback?: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): Promise<Models.JobStreamListByJobNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByJobNextOperationSpec,
-      callback) as Promise<Models.JobStreamListByJobNextResponse>;
+      callback
+    ) as Promise<Models.JobStreamListByJobNextResponse>;
   }
 }
 
@@ -135,7 +204,8 @@ export class JobStreamOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/streams/{jobStreamId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/streams/{jobStreamId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -143,13 +213,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.jobName,
     Parameters.jobStreamId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.clientRequestId,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.clientRequestId, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobStream
@@ -163,21 +228,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByJobOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/streams",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/streams",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.jobName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.clientRequestId,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  headerParameters: [Parameters.clientRequestId, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobStreamListResult
@@ -193,13 +253,8 @@ const listByJobNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.clientRequestId,
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.clientRequestId, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobStreamListResult

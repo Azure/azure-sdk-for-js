@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as msRest from "@azure/ms-rest-js";
 
 /**
@@ -444,16 +443,16 @@ export type DetectLanguageResponse = LanguageBatchResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LanguageBatchResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LanguageBatchResult;
+  };
 };
 
 /**
@@ -464,16 +463,16 @@ export type EntitiesResponse = EntitiesBatchResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntitiesBatchResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntitiesBatchResult;
+  };
 };
 
 /**
@@ -484,16 +483,16 @@ export type KeyPhrasesResponse = KeyPhraseBatchResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyPhraseBatchResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyPhraseBatchResult;
+  };
 };
 
 /**
@@ -509,14 +508,14 @@ export type SentimentResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };

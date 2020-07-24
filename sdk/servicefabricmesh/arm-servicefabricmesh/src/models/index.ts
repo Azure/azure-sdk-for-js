@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing AvailableOperationDisplay.
@@ -175,8 +174,7 @@ export interface Resource extends BaseResource {
  *
  * @extends Resource
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * @interface
@@ -231,7 +229,9 @@ export interface TrackedResource extends Resource {
 /**
  * Contains the possible cases for SecretResourcePropertiesBase.
  */
-export type SecretResourcePropertiesBaseUnion = SecretResourcePropertiesBase | SecretResourcePropertiesUnion;
+export type SecretResourcePropertiesBaseUnion =
+  | SecretResourcePropertiesBase
+  | SecretResourcePropertiesUnion;
 
 /**
  * @interface
@@ -255,7 +255,9 @@ export interface SecretResourcePropertiesBase {
 /**
  * Contains the possible cases for SecretResourceProperties.
  */
-export type SecretResourcePropertiesUnion = SecretResourceProperties | InlinedValueSecretResourceProperties;
+export type SecretResourcePropertiesUnion =
+  | SecretResourceProperties
+  | InlinedValueSecretResourceProperties;
 
 /**
  * @interface
@@ -491,7 +493,9 @@ export interface VolumeReference {
 /**
  * Contains the possible cases for ApplicationScopedVolumeCreationParameters.
  */
-export type ApplicationScopedVolumeCreationParametersUnion = ApplicationScopedVolumeCreationParameters | ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk;
+export type ApplicationScopedVolumeCreationParametersUnion =
+  | ApplicationScopedVolumeCreationParameters
+  | ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk;
 
 /**
  * @interface
@@ -591,7 +595,9 @@ export interface VolumeResourceDescription extends TrackedResource {
 /**
  * Contains the possible cases for NetworkResourcePropertiesBase.
  */
-export type NetworkResourcePropertiesBaseUnion = NetworkResourcePropertiesBase | NetworkResourcePropertiesUnion;
+export type NetworkResourcePropertiesBaseUnion =
+  | NetworkResourcePropertiesBase
+  | NetworkResourcePropertiesUnion;
 
 /**
  * @interface
@@ -616,7 +622,9 @@ export interface NetworkResourcePropertiesBase {
 /**
  * Contains the possible cases for NetworkResourceProperties.
  */
-export type NetworkResourcePropertiesUnion = NetworkResourceProperties | LocalNetworkResourceProperties;
+export type NetworkResourcePropertiesUnion =
+  | NetworkResourceProperties
+  | LocalNetworkResourceProperties;
 
 /**
  * @interface
@@ -1541,7 +1549,9 @@ export interface ServiceResourceDescription extends ManagedProxyResource {
 /**
  * Contains the possible cases for DiagnosticsSinkProperties.
  */
-export type DiagnosticsSinkPropertiesUnion = DiagnosticsSinkProperties | AzureInternalMonitoringPipelineSinkDescription;
+export type DiagnosticsSinkPropertiesUnion =
+  | DiagnosticsSinkProperties
+  | AzureInternalMonitoringPipelineSinkDescription;
 
 /**
  * @interface
@@ -2017,7 +2027,6 @@ export interface ServiceFabricMeshManagementClientOptions extends AzureServiceCl
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the OperationListResult.
@@ -2154,7 +2163,7 @@ export interface ServiceReplicaDescriptionList extends Array<ServiceReplicaDescr
  * @readonly
  * @enum {string}
  */
-export type ResourceStatus = 'Unknown' | 'Ready' | 'Upgrading' | 'Creating' | 'Deleting' | 'Failed';
+export type ResourceStatus = "Unknown" | "Ready" | "Upgrading" | "Creating" | "Deleting" | "Failed";
 
 /**
  * Defines values for HealthState.
@@ -2162,7 +2171,7 @@ export type ResourceStatus = 'Unknown' | 'Ready' | 'Upgrading' | 'Creating' | 'D
  * @readonly
  * @enum {string}
  */
-export type HealthState = 'Invalid' | 'Ok' | 'Warning' | 'Error' | 'Unknown';
+export type HealthState = "Invalid" | "Ok" | "Warning" | "Error" | "Unknown";
 
 /**
  * Defines values for SecretKind.
@@ -2170,7 +2179,7 @@ export type HealthState = 'Invalid' | 'Ok' | 'Warning' | 'Error' | 'Unknown';
  * @readonly
  * @enum {string}
  */
-export type SecretKind = 'inlinedValue';
+export type SecretKind = "inlinedValue";
 
 /**
  * Defines values for VolumeProvider.
@@ -2178,7 +2187,7 @@ export type SecretKind = 'inlinedValue';
  * @readonly
  * @enum {string}
  */
-export type VolumeProvider = 'SFAzureFile';
+export type VolumeProvider = "SFAzureFile";
 
 /**
  * Defines values for SizeTypes.
@@ -2186,7 +2195,7 @@ export type VolumeProvider = 'SFAzureFile';
  * @readonly
  * @enum {string}
  */
-export type SizeTypes = 'Small' | 'Medium' | 'Large';
+export type SizeTypes = "Small" | "Medium" | "Large";
 
 /**
  * Defines values for ApplicationScopedVolumeKind.
@@ -2194,7 +2203,7 @@ export type SizeTypes = 'Small' | 'Medium' | 'Large';
  * @readonly
  * @enum {string}
  */
-export type ApplicationScopedVolumeKind = 'ServiceFabricVolumeDisk';
+export type ApplicationScopedVolumeKind = "ServiceFabricVolumeDisk";
 
 /**
  * Defines values for NetworkKind.
@@ -2202,7 +2211,7 @@ export type ApplicationScopedVolumeKind = 'ServiceFabricVolumeDisk';
  * @readonly
  * @enum {string}
  */
-export type NetworkKind = 'Local';
+export type NetworkKind = "Local";
 
 /**
  * Defines values for HeaderMatchType.
@@ -2210,7 +2219,7 @@ export type NetworkKind = 'Local';
  * @readonly
  * @enum {string}
  */
-export type HeaderMatchType = 'exact';
+export type HeaderMatchType = "exact";
 
 /**
  * Defines values for OperatingSystemType.
@@ -2218,7 +2227,7 @@ export type HeaderMatchType = 'exact';
  * @readonly
  * @enum {string}
  */
-export type OperatingSystemType = 'Linux' | 'Windows';
+export type OperatingSystemType = "Linux" | "Windows";
 
 /**
  * Defines values for DiagnosticsSinkKind.
@@ -2226,7 +2235,7 @@ export type OperatingSystemType = 'Linux' | 'Windows';
  * @readonly
  * @enum {string}
  */
-export type DiagnosticsSinkKind = 'Invalid' | 'AzureInternalMonitoringPipeline';
+export type DiagnosticsSinkKind = "Invalid" | "AzureInternalMonitoringPipeline";
 
 /**
  * Defines values for AutoScalingMechanismKind.
@@ -2234,7 +2243,7 @@ export type DiagnosticsSinkKind = 'Invalid' | 'AzureInternalMonitoringPipeline';
  * @readonly
  * @enum {string}
  */
-export type AutoScalingMechanismKind = 'AddRemoveReplica';
+export type AutoScalingMechanismKind = "AddRemoveReplica";
 
 /**
  * Defines values for AutoScalingMetricKind.
@@ -2242,7 +2251,7 @@ export type AutoScalingMechanismKind = 'AddRemoveReplica';
  * @readonly
  * @enum {string}
  */
-export type AutoScalingMetricKind = 'Resource';
+export type AutoScalingMetricKind = "Resource";
 
 /**
  * Defines values for AutoScalingResourceMetricName.
@@ -2250,7 +2259,7 @@ export type AutoScalingMetricKind = 'Resource';
  * @readonly
  * @enum {string}
  */
-export type AutoScalingResourceMetricName = 'cpu' | 'memoryInGB';
+export type AutoScalingResourceMetricName = "cpu" | "memoryInGB";
 
 /**
  * Defines values for AutoScalingTriggerKind.
@@ -2258,7 +2267,7 @@ export type AutoScalingResourceMetricName = 'cpu' | 'memoryInGB';
  * @readonly
  * @enum {string}
  */
-export type AutoScalingTriggerKind = 'AverageLoad';
+export type AutoScalingTriggerKind = "AverageLoad";
 
 /**
  * Contains response data for the list operation.
@@ -2268,15 +2277,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2287,15 +2296,15 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2306,15 +2315,15 @@ export type SecretCreateResponse = SecretResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretResourceDescription;
+  };
 };
 
 /**
@@ -2325,15 +2334,15 @@ export type SecretGetResponse = SecretResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretResourceDescription;
+  };
 };
 
 /**
@@ -2344,15 +2353,15 @@ export type SecretListByResourceGroupResponse = SecretResourceDescriptionList & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretResourceDescriptionList;
+  };
 };
 
 /**
@@ -2363,15 +2372,15 @@ export type SecretListBySubscriptionResponse = SecretResourceDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretResourceDescriptionList;
+  };
 };
 
 /**
@@ -2382,15 +2391,15 @@ export type SecretListByResourceGroupNextResponse = SecretResourceDescriptionLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretResourceDescriptionList;
+  };
 };
 
 /**
@@ -2401,15 +2410,15 @@ export type SecretListBySubscriptionNextResponse = SecretResourceDescriptionList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretResourceDescriptionList;
+  };
 };
 
 /**
@@ -2420,15 +2429,15 @@ export type SecretValueCreateResponse = SecretValueResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretValueResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretValueResourceDescription;
+  };
 };
 
 /**
@@ -2439,15 +2448,15 @@ export type SecretValueGetResponse = SecretValueResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretValueResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretValueResourceDescription;
+  };
 };
 
 /**
@@ -2458,15 +2467,15 @@ export type SecretValueListResponse = SecretValueResourceDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretValueResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretValueResourceDescriptionList;
+  };
 };
 
 /**
@@ -2477,15 +2486,15 @@ export type SecretValueListValueResponse = SecretValue & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretValue;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretValue;
+  };
 };
 
 /**
@@ -2496,15 +2505,15 @@ export type SecretValueListNextResponse = SecretValueResourceDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretValueResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretValueResourceDescriptionList;
+  };
 };
 
 /**
@@ -2515,15 +2524,15 @@ export type VolumeCreateResponse = VolumeResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeResourceDescription;
+  };
 };
 
 /**
@@ -2534,15 +2543,15 @@ export type VolumeGetResponse = VolumeResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeResourceDescription;
+  };
 };
 
 /**
@@ -2553,15 +2562,15 @@ export type VolumeListByResourceGroupResponse = VolumeResourceDescriptionList & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeResourceDescriptionList;
+  };
 };
 
 /**
@@ -2572,15 +2581,15 @@ export type VolumeListBySubscriptionResponse = VolumeResourceDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeResourceDescriptionList;
+  };
 };
 
 /**
@@ -2591,15 +2600,15 @@ export type VolumeListByResourceGroupNextResponse = VolumeResourceDescriptionLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeResourceDescriptionList;
+  };
 };
 
 /**
@@ -2610,15 +2619,15 @@ export type VolumeListBySubscriptionNextResponse = VolumeResourceDescriptionList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeResourceDescriptionList;
+  };
 };
 
 /**
@@ -2629,15 +2638,15 @@ export type NetworkCreateResponse = NetworkResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkResourceDescription;
+  };
 };
 
 /**
@@ -2648,15 +2657,15 @@ export type NetworkGetResponse = NetworkResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkResourceDescription;
+  };
 };
 
 /**
@@ -2667,15 +2676,15 @@ export type NetworkListByResourceGroupResponse = NetworkResourceDescriptionList 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkResourceDescriptionList;
+  };
 };
 
 /**
@@ -2686,15 +2695,15 @@ export type NetworkListBySubscriptionResponse = NetworkResourceDescriptionList &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkResourceDescriptionList;
+  };
 };
 
 /**
@@ -2705,15 +2714,15 @@ export type NetworkListByResourceGroupNextResponse = NetworkResourceDescriptionL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkResourceDescriptionList;
+  };
 };
 
 /**
@@ -2724,15 +2733,15 @@ export type NetworkListBySubscriptionNextResponse = NetworkResourceDescriptionLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkResourceDescriptionList;
+  };
 };
 
 /**
@@ -2743,15 +2752,15 @@ export type GatewayCreateResponse = GatewayResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayResourceDescription;
+  };
 };
 
 /**
@@ -2762,15 +2771,15 @@ export type GatewayGetResponse = GatewayResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayResourceDescription;
+  };
 };
 
 /**
@@ -2781,15 +2790,15 @@ export type GatewayListByResourceGroupResponse = GatewayResourceDescriptionList 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayResourceDescriptionList;
+  };
 };
 
 /**
@@ -2800,15 +2809,15 @@ export type GatewayListBySubscriptionResponse = GatewayResourceDescriptionList &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayResourceDescriptionList;
+  };
 };
 
 /**
@@ -2819,15 +2828,15 @@ export type GatewayListByResourceGroupNextResponse = GatewayResourceDescriptionL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayResourceDescriptionList;
+  };
 };
 
 /**
@@ -2838,15 +2847,15 @@ export type GatewayListBySubscriptionNextResponse = GatewayResourceDescriptionLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayResourceDescriptionList;
+  };
 };
 
 /**
@@ -2857,15 +2866,15 @@ export type ApplicationCreateResponse = ApplicationResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationResourceDescription;
+  };
 };
 
 /**
@@ -2876,15 +2885,15 @@ export type ApplicationGetResponse = ApplicationResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationResourceDescription;
+  };
 };
 
 /**
@@ -2895,15 +2904,15 @@ export type ApplicationListByResourceGroupResponse = ApplicationResourceDescript
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationResourceDescriptionList;
+  };
 };
 
 /**
@@ -2914,15 +2923,15 @@ export type ApplicationListBySubscriptionResponse = ApplicationResourceDescripti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationResourceDescriptionList;
+  };
 };
 
 /**
@@ -2933,15 +2942,15 @@ export type ApplicationListByResourceGroupNextResponse = ApplicationResourceDesc
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationResourceDescriptionList;
+  };
 };
 
 /**
@@ -2952,15 +2961,15 @@ export type ApplicationListBySubscriptionNextResponse = ApplicationResourceDescr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationResourceDescriptionList;
+  };
 };
 
 /**
@@ -2971,15 +2980,15 @@ export type ServiceGetResponse = ServiceResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResourceDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceResourceDescription;
+  };
 };
 
 /**
@@ -2990,15 +2999,15 @@ export type ServiceListResponse = ServiceResourceDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceResourceDescriptionList;
+  };
 };
 
 /**
@@ -3009,15 +3018,15 @@ export type ServiceListNextResponse = ServiceResourceDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResourceDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceResourceDescriptionList;
+  };
 };
 
 /**
@@ -3028,15 +3037,15 @@ export type ServiceReplicaGetResponse = ServiceReplicaDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceReplicaDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceReplicaDescription;
+  };
 };
 
 /**
@@ -3047,15 +3056,15 @@ export type ServiceReplicaListResponse = ServiceReplicaDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceReplicaDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceReplicaDescriptionList;
+  };
 };
 
 /**
@@ -3066,15 +3075,15 @@ export type ServiceReplicaListNextResponse = ServiceReplicaDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceReplicaDescriptionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceReplicaDescriptionList;
+  };
 };
 
 /**
@@ -3085,13 +3094,13 @@ export type CodePackageGetContainerLogsResponse = ContainerLogs & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerLogs;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerLogs;
+  };
 };

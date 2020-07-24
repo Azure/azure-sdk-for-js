@@ -33,21 +33,41 @@ export class User {
    * @param [options] The optional parameters
    * @returns Promise<Models.UserListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.UserListByServiceOptionalParams): Promise<Models.UserListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: Models.UserListByServiceOptionalParams
+  ): Promise<Models.UserListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.UserCollection>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.UserCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.UserListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.UserCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.UserListByServiceOptionalParams | msRest.ServiceCallback<Models.UserCollection>, callback?: msRest.ServiceCallback<Models.UserCollection>): Promise<Models.UserListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options: Models.UserListByServiceOptionalParams,
+    callback: msRest.ServiceCallback<Models.UserCollection>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?:
+      | Models.UserListByServiceOptionalParams
+      | msRest.ServiceCallback<Models.UserCollection>,
+    callback?: msRest.ServiceCallback<Models.UserCollection>
+  ): Promise<Models.UserListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class User {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.UserListByServiceResponse>;
+      callback
+    ) as Promise<Models.UserListByServiceResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class User {
    * @param [options] The optional parameters
    * @returns Promise<Models.UserGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.UserGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UserGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, userId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -81,8 +112,20 @@ export class User {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.UserGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.UserGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +134,8 @@ export class User {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.UserGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.UserGetEntityTagResponse>;
   }
 
   /**
@@ -102,14 +146,24 @@ export class User {
    * @param [options] The optional parameters
    * @returns Promise<Models.UserGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.UserGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UserGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, userId: string, callback: msRest.ServiceCallback<Models.UserContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    callback: msRest.ServiceCallback<Models.UserContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -117,8 +171,20 @@ export class User {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserContract>): void;
-  get(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserContract>, callback?: msRest.ServiceCallback<Models.UserContract>): Promise<Models.UserGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UserContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserContract>,
+    callback?: msRest.ServiceCallback<Models.UserContract>
+  ): Promise<Models.UserGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +193,8 @@ export class User {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.UserGetResponse>;
+      callback
+    ) as Promise<Models.UserGetResponse>;
   }
 
   /**
@@ -139,7 +206,13 @@ export class User {
    * @param [options] The optional parameters
    * @returns Promise<Models.UserCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, userId: string, parameters: Models.UserCreateParameters, options?: Models.UserCreateOrUpdateOptionalParams): Promise<Models.UserCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: Models.UserCreateParameters,
+    options?: Models.UserCreateOrUpdateOptionalParams
+  ): Promise<Models.UserCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -147,7 +220,13 @@ export class User {
    * @param parameters Create or update parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, userId: string, parameters: Models.UserCreateParameters, callback: msRest.ServiceCallback<Models.UserContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: Models.UserCreateParameters,
+    callback: msRest.ServiceCallback<Models.UserContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -156,8 +235,22 @@ export class User {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, userId: string, parameters: Models.UserCreateParameters, options: Models.UserCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.UserContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, userId: string, parameters: Models.UserCreateParameters, options?: Models.UserCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.UserContract>, callback?: msRest.ServiceCallback<Models.UserContract>): Promise<Models.UserCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: Models.UserCreateParameters,
+    options: Models.UserCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.UserContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: Models.UserCreateParameters,
+    options?: Models.UserCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.UserContract>,
+    callback?: msRest.ServiceCallback<Models.UserContract>
+  ): Promise<Models.UserCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +260,8 @@ export class User {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.UserCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.UserCreateOrUpdateResponse>;
   }
 
   /**
@@ -181,7 +275,14 @@ export class User {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, userId: string, parameters: Models.UserUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: Models.UserUpdateParameters,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -191,7 +292,14 @@ export class User {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, userId: string, parameters: Models.UserUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: Models.UserUpdateParameters,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -202,8 +310,24 @@ export class User {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, userId: string, parameters: Models.UserUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, userId: string, parameters: Models.UserUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: Models.UserUpdateParameters,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: Models.UserUpdateParameters,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -214,7 +338,8 @@ export class User {
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -227,7 +352,13 @@ export class User {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, userId: string, ifMatch: string, options?: Models.UserDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    ifMatch: string,
+    options?: Models.UserDeleteMethodOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -236,7 +367,13 @@ export class User {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, userId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -246,8 +383,22 @@ export class User {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, userId: string, ifMatch: string, options: Models.UserDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, userId: string, ifMatch: string, options?: Models.UserDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    ifMatch: string,
+    options: Models.UserDeleteMethodOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    ifMatch: string,
+    options?: Models.UserDeleteMethodOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -257,7 +408,8 @@ export class User {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -269,14 +421,24 @@ export class User {
    * @param [options] The optional parameters
    * @returns Promise<Models.UserGenerateSsoUrlResponse>
    */
-  generateSsoUrl(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.UserGenerateSsoUrlResponse>;
+  generateSsoUrl(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UserGenerateSsoUrlResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  generateSsoUrl(resourceGroupName: string, serviceName: string, userId: string, callback: msRest.ServiceCallback<Models.GenerateSsoUrlResult>): void;
+  generateSsoUrl(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    callback: msRest.ServiceCallback<Models.GenerateSsoUrlResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -284,8 +446,20 @@ export class User {
    * @param options The optional parameters
    * @param callback The callback
    */
-  generateSsoUrl(resourceGroupName: string, serviceName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenerateSsoUrlResult>): void;
-  generateSsoUrl(resourceGroupName: string, serviceName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenerateSsoUrlResult>, callback?: msRest.ServiceCallback<Models.GenerateSsoUrlResult>): Promise<Models.UserGenerateSsoUrlResponse> {
+  generateSsoUrl(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GenerateSsoUrlResult>
+  ): void;
+  generateSsoUrl(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenerateSsoUrlResult>,
+    callback?: msRest.ServiceCallback<Models.GenerateSsoUrlResult>
+  ): Promise<Models.UserGenerateSsoUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -294,7 +468,8 @@ export class User {
         options
       },
       generateSsoUrlOperationSpec,
-      callback) as Promise<Models.UserGenerateSsoUrlResponse>;
+      callback
+    ) as Promise<Models.UserGenerateSsoUrlResponse>;
   }
 
   /**
@@ -306,7 +481,13 @@ export class User {
    * @param [options] The optional parameters
    * @returns Promise<Models.UserGetSharedAccessTokenResponse>
    */
-  getSharedAccessToken(resourceGroupName: string, serviceName: string, userId: string, parameters: Models.UserTokenParameters, options?: msRest.RequestOptionsBase): Promise<Models.UserGetSharedAccessTokenResponse>;
+  getSharedAccessToken(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: Models.UserTokenParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UserGetSharedAccessTokenResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -314,7 +495,13 @@ export class User {
    * @param parameters Create Authorization Token parameters.
    * @param callback The callback
    */
-  getSharedAccessToken(resourceGroupName: string, serviceName: string, userId: string, parameters: Models.UserTokenParameters, callback: msRest.ServiceCallback<Models.UserTokenResult>): void;
+  getSharedAccessToken(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: Models.UserTokenParameters,
+    callback: msRest.ServiceCallback<Models.UserTokenResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -323,8 +510,22 @@ export class User {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSharedAccessToken(resourceGroupName: string, serviceName: string, userId: string, parameters: Models.UserTokenParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserTokenResult>): void;
-  getSharedAccessToken(resourceGroupName: string, serviceName: string, userId: string, parameters: Models.UserTokenParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserTokenResult>, callback?: msRest.ServiceCallback<Models.UserTokenResult>): Promise<Models.UserGetSharedAccessTokenResponse> {
+  getSharedAccessToken(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: Models.UserTokenParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UserTokenResult>
+  ): void;
+  getSharedAccessToken(
+    resourceGroupName: string,
+    serviceName: string,
+    userId: string,
+    parameters: Models.UserTokenParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserTokenResult>,
+    callback?: msRest.ServiceCallback<Models.UserTokenResult>
+  ): Promise<Models.UserGetSharedAccessTokenResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -334,7 +535,8 @@ export class User {
         options
       },
       getSharedAccessTokenOperationSpec,
-      callback) as Promise<Models.UserGetSharedAccessTokenResponse>;
+      callback
+    ) as Promise<Models.UserGetSharedAccessTokenResponse>;
   }
 
   /**
@@ -343,26 +545,41 @@ export class User {
    * @param [options] The optional parameters
    * @returns Promise<Models.UserListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.UserListByServiceNextResponse>;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UserListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.UserCollection>): void;
+  listByServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.UserCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserCollection>, callback?: msRest.ServiceCallback<Models.UserCollection>): Promise<Models.UserListByServiceNextResponse> {
+  listByServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UserCollection>
+  ): void;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserCollection>,
+    callback?: msRest.ServiceCallback<Models.UserCollection>
+  ): Promise<Models.UserListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.UserListByServiceNextResponse>;
+      callback
+    ) as Promise<Models.UserListByServiceNextResponse>;
   }
 }
 
@@ -370,12 +587,9 @@ export class User {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
   queryParameters: [
     Parameters.filter0,
     Parameters.top,
@@ -383,9 +597,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
     Parameters.expandGroups,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UserCollection
@@ -399,19 +611,16 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.userId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.UserGetEntityTagHeaders
@@ -425,19 +634,16 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.userId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UserContract,
@@ -452,20 +658,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.userId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -491,20 +693,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.userId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -523,22 +721,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.userId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.deleteSubscriptions,
-    Parameters.notify,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.deleteSubscriptions, Parameters.notify, Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -551,19 +743,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const generateSsoUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/generateSsoUrl",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/generateSsoUrl",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.userId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GenerateSsoUrlResult
@@ -577,19 +766,16 @@ const generateSsoUrlOperationSpec: msRest.OperationSpec = {
 
 const getSharedAccessTokenOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/token",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/token",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.userId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -612,12 +798,8 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UserCollection

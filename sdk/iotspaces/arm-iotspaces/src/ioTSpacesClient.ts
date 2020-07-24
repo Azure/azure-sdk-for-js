@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { IoTSpacesClientContext } from "./ioTSpacesClientContext";
 
-
 class IoTSpacesClient extends IoTSpacesClientContext {
   // Operation groups
   ioTSpaces: operations.IoTSpaces;
@@ -26,7 +25,11 @@ class IoTSpacesClient extends IoTSpacesClientContext {
    * @param subscriptionId The subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.IoTSpacesClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.IoTSpacesClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.ioTSpaces = new operations.IoTSpaces(this);
     this.operations = new operations.Operations(this);

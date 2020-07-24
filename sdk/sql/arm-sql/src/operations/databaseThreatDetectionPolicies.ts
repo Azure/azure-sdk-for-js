@@ -36,7 +36,12 @@ export class DatabaseThreatDetectionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseThreatDetectionPoliciesGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseThreatDetectionPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseThreatDetectionPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -45,7 +50,12 @@ export class DatabaseThreatDetectionPolicies {
    * defined.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -55,8 +65,22 @@ export class DatabaseThreatDetectionPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>, callback?: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>): Promise<Models.DatabaseThreatDetectionPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>,
+    callback?: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>
+  ): Promise<Models.DatabaseThreatDetectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -65,7 +89,8 @@ export class DatabaseThreatDetectionPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DatabaseThreatDetectionPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.DatabaseThreatDetectionPoliciesGetResponse>;
   }
 
   /**
@@ -79,7 +104,13 @@ export class DatabaseThreatDetectionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseThreatDetectionPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseSecurityAlertPolicy, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseThreatDetectionPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseSecurityAlertPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseThreatDetectionPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -89,7 +120,13 @@ export class DatabaseThreatDetectionPolicies {
    * @param parameters The database Threat Detection policy.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseSecurityAlertPolicy, callback: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseSecurityAlertPolicy,
+    callback: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -100,8 +137,24 @@ export class DatabaseThreatDetectionPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseSecurityAlertPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseSecurityAlertPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>, callback?: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>): Promise<Models.DatabaseThreatDetectionPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseSecurityAlertPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseSecurityAlertPolicy,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>,
+    callback?: msRest.ServiceCallback<Models.DatabaseSecurityAlertPolicy>
+  ): Promise<Models.DatabaseThreatDetectionPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +164,8 @@ export class DatabaseThreatDetectionPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DatabaseThreatDetectionPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.DatabaseThreatDetectionPoliciesCreateOrUpdateResponse>;
   }
 }
 
@@ -119,7 +173,8 @@ export class DatabaseThreatDetectionPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -127,12 +182,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.securityAlertPolicyName0
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseSecurityAlertPolicy
@@ -146,7 +197,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -154,12 +206,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.securityAlertPolicyName0
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

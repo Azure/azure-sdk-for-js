@@ -524,7 +524,7 @@ export interface TranslatorTransliterateOptionalParams extends msRest.RequestOpt
  * @readonly
  * @enum {string}
  */
-export type TextType = 'plain' | 'html';
+export type TextType = "plain" | "html";
 
 /**
  * Defines values for ProfanityAction.
@@ -532,7 +532,7 @@ export type TextType = 'plain' | 'html';
  * @readonly
  * @enum {string}
  */
-export type ProfanityAction = 'NoAction' | 'Marked' | 'Deleted';
+export type ProfanityAction = "NoAction" | "Marked" | "Deleted";
 
 /**
  * Contains response data for the breakSentence operation.
@@ -542,16 +542,16 @@ export type TranslatorBreakSentenceResponse = Array<BreakSentenceResultItem> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BreakSentenceResultItem[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BreakSentenceResultItem[];
+  };
 };
 
 /**
@@ -562,16 +562,16 @@ export type TranslatorDetectResponse = Array<DetectResultItem> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DetectResultItem[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DetectResultItem[];
+  };
 };
 
 /**
@@ -582,16 +582,16 @@ export type TranslatorDictionaryLookupResponse = Array<DictionaryLookupResultIte
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DictionaryLookupResultItem[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DictionaryLookupResultItem[];
+  };
 };
 
 /**
@@ -602,16 +602,16 @@ export type TranslatorDictionaryExamplesResponse = Array<DictionaryExampleResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DictionaryExampleResultItem[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DictionaryExampleResultItem[];
+  };
 };
 
 /**
@@ -622,16 +622,16 @@ export type TranslatorLanguagesResponse = LanguagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LanguagesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LanguagesResult;
+  };
 };
 
 /**
@@ -642,16 +642,16 @@ export type TranslatorTranslateResponse = Array<TranslateResultAllItem> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TranslateResultAllItem[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TranslateResultAllItem[];
+  };
 };
 
 /**
@@ -662,14 +662,14 @@ export type TranslatorTransliterateResponse = Array<TransliterateResultItem> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TransliterateResultItem[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TransliterateResultItem[];
+  };
 };

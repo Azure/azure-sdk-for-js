@@ -33,7 +33,9 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsCheckAvailabilityResponse>
    */
-  checkAvailability(options?: Models.DomainsCheckAvailabilityOptionalParams): Promise<Models.DomainsCheckAvailabilityResponse>;
+  checkAvailability(
+    options?: Models.DomainsCheckAvailabilityOptionalParams
+  ): Promise<Models.DomainsCheckAvailabilityResponse>;
   /**
    * @param callback The callback
    */
@@ -42,14 +44,23 @@ export class Domains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkAvailability(options: Models.DomainsCheckAvailabilityOptionalParams, callback: msRest.ServiceCallback<Models.DomainAvailabilityCheckResult>): void;
-  checkAvailability(options?: Models.DomainsCheckAvailabilityOptionalParams | msRest.ServiceCallback<Models.DomainAvailabilityCheckResult>, callback?: msRest.ServiceCallback<Models.DomainAvailabilityCheckResult>): Promise<Models.DomainsCheckAvailabilityResponse> {
+  checkAvailability(
+    options: Models.DomainsCheckAvailabilityOptionalParams,
+    callback: msRest.ServiceCallback<Models.DomainAvailabilityCheckResult>
+  ): void;
+  checkAvailability(
+    options?:
+      | Models.DomainsCheckAvailabilityOptionalParams
+      | msRest.ServiceCallback<Models.DomainAvailabilityCheckResult>,
+    callback?: msRest.ServiceCallback<Models.DomainAvailabilityCheckResult>
+  ): Promise<Models.DomainsCheckAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       checkAvailabilityOperationSpec,
-      callback) as Promise<Models.DomainsCheckAvailabilityResponse>;
+      callback
+    ) as Promise<Models.DomainsCheckAvailabilityResponse>;
   }
 
   /**
@@ -67,14 +78,21 @@ export class Domains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainCollection>, callback?: msRest.ServiceCallback<Models.DomainCollection>): Promise<Models.DomainsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DomainCollection>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainCollection>,
+    callback?: msRest.ServiceCallback<Models.DomainCollection>
+  ): Promise<Models.DomainsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DomainsListResponse>;
+      callback
+    ) as Promise<Models.DomainsListResponse>;
   }
 
   /**
@@ -83,23 +101,36 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsGetControlCenterSsoRequestResponse>
    */
-  getControlCenterSsoRequest(options?: msRest.RequestOptionsBase): Promise<Models.DomainsGetControlCenterSsoRequestResponse>;
+  getControlCenterSsoRequest(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsGetControlCenterSsoRequestResponse>;
   /**
    * @param callback The callback
    */
-  getControlCenterSsoRequest(callback: msRest.ServiceCallback<Models.DomainControlCenterSsoRequest>): void;
+  getControlCenterSsoRequest(
+    callback: msRest.ServiceCallback<Models.DomainControlCenterSsoRequest>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getControlCenterSsoRequest(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainControlCenterSsoRequest>): void;
-  getControlCenterSsoRequest(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainControlCenterSsoRequest>, callback?: msRest.ServiceCallback<Models.DomainControlCenterSsoRequest>): Promise<Models.DomainsGetControlCenterSsoRequestResponse> {
+  getControlCenterSsoRequest(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DomainControlCenterSsoRequest>
+  ): void;
+  getControlCenterSsoRequest(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DomainControlCenterSsoRequest>,
+    callback?: msRest.ServiceCallback<Models.DomainControlCenterSsoRequest>
+  ): Promise<Models.DomainsGetControlCenterSsoRequestResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getControlCenterSsoRequestOperationSpec,
-      callback) as Promise<Models.DomainsGetControlCenterSsoRequestResponse>;
+      callback
+    ) as Promise<Models.DomainsGetControlCenterSsoRequestResponse>;
   }
 
   /**
@@ -109,26 +140,41 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListRecommendationsResponse>
    */
-  listRecommendations(parameters: Models.DomainRecommendationSearchParameters, options?: msRest.RequestOptionsBase): Promise<Models.DomainsListRecommendationsResponse>;
+  listRecommendations(
+    parameters: Models.DomainRecommendationSearchParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsListRecommendationsResponse>;
   /**
    * @param parameters Search parameters for domain name recommendations.
    * @param callback The callback
    */
-  listRecommendations(parameters: Models.DomainRecommendationSearchParameters, callback: msRest.ServiceCallback<Models.NameIdentifierCollection>): void;
+  listRecommendations(
+    parameters: Models.DomainRecommendationSearchParameters,
+    callback: msRest.ServiceCallback<Models.NameIdentifierCollection>
+  ): void;
   /**
    * @param parameters Search parameters for domain name recommendations.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRecommendations(parameters: Models.DomainRecommendationSearchParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameIdentifierCollection>): void;
-  listRecommendations(parameters: Models.DomainRecommendationSearchParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameIdentifierCollection>, callback?: msRest.ServiceCallback<Models.NameIdentifierCollection>): Promise<Models.DomainsListRecommendationsResponse> {
+  listRecommendations(
+    parameters: Models.DomainRecommendationSearchParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NameIdentifierCollection>
+  ): void;
+  listRecommendations(
+    parameters: Models.DomainRecommendationSearchParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameIdentifierCollection>,
+    callback?: msRest.ServiceCallback<Models.NameIdentifierCollection>
+  ): Promise<Models.DomainsListRecommendationsResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
         options
       },
       listRecommendationsOperationSpec,
-      callback) as Promise<Models.DomainsListRecommendationsResponse>;
+      callback
+    ) as Promise<Models.DomainsListRecommendationsResponse>;
   }
 
   /**
@@ -138,26 +184,41 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DomainCollection>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.DomainCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainCollection>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainCollection>, callback?: msRest.ServiceCallback<Models.DomainCollection>): Promise<Models.DomainsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DomainCollection>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainCollection>,
+    callback?: msRest.ServiceCallback<Models.DomainCollection>
+  ): Promise<Models.DomainsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.DomainsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.DomainsListByResourceGroupResponse>;
   }
 
   /**
@@ -168,21 +229,39 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsGetResponse>
    */
-  get(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainsGetResponse>;
+  get(
+    resourceGroupName: string,
+    domainName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param callback The callback
    */
-  get(resourceGroupName: string, domainName: string, callback: msRest.ServiceCallback<Models.Domain>): void;
+  get(
+    resourceGroupName: string,
+    domainName: string,
+    callback: msRest.ServiceCallback<Models.Domain>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Domain>): void;
-  get(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Domain>, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.DomainsGetResponse> {
+  get(
+    resourceGroupName: string,
+    domainName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Domain>
+  ): void;
+  get(
+    resourceGroupName: string,
+    domainName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Domain>,
+    callback?: msRest.ServiceCallback<Models.Domain>
+  ): Promise<Models.DomainsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -190,7 +269,8 @@ export class Domains {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DomainsGetResponse>;
+      callback
+    ) as Promise<Models.DomainsGetResponse>;
   }
 
   /**
@@ -202,9 +282,20 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, domainName: string, domain: Models.Domain, options?: msRest.RequestOptionsBase): Promise<Models.DomainsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,domainName,domain,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DomainsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    domainName: string,
+    domain: Models.Domain,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      domainName,
+      domain,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DomainsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -215,21 +306,39 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, domainName: string, options?: Models.DomainsDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    domainName: string,
+    options?: Models.DomainsDeleteMethodOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, domainName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    domainName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, domainName: string, options: Models.DomainsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, domainName: string, options?: Models.DomainsDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    domainName: string,
+    options: Models.DomainsDeleteMethodOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    domainName: string,
+    options?: Models.DomainsDeleteMethodOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -237,7 +346,8 @@ export class Domains {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -249,14 +359,24 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsUpdateResponse>
    */
-  update(resourceGroupName: string, domainName: string, domain: Models.DomainPatchResource, options?: msRest.RequestOptionsBase): Promise<Models.DomainsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    domainName: string,
+    domain: Models.DomainPatchResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param domain Domain registration information.
    * @param callback The callback
    */
-  update(resourceGroupName: string, domainName: string, domain: Models.DomainPatchResource, callback: msRest.ServiceCallback<Models.Domain>): void;
+  update(
+    resourceGroupName: string,
+    domainName: string,
+    domain: Models.DomainPatchResource,
+    callback: msRest.ServiceCallback<Models.Domain>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
@@ -264,8 +384,20 @@ export class Domains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, domainName: string, domain: Models.DomainPatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Domain>): void;
-  update(resourceGroupName: string, domainName: string, domain: Models.DomainPatchResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Domain>, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.DomainsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    domainName: string,
+    domain: Models.DomainPatchResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Domain>
+  ): void;
+  update(
+    resourceGroupName: string,
+    domainName: string,
+    domain: Models.DomainPatchResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Domain>,
+    callback?: msRest.ServiceCallback<Models.Domain>
+  ): Promise<Models.DomainsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -274,7 +406,8 @@ export class Domains {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.DomainsUpdateResponse>;
+      callback
+    ) as Promise<Models.DomainsUpdateResponse>;
   }
 
   /**
@@ -285,21 +418,41 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListOwnershipIdentifiersResponse>
    */
-  listOwnershipIdentifiers(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainsListOwnershipIdentifiersResponse>;
+  listOwnershipIdentifiers(
+    resourceGroupName: string,
+    domainName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsListOwnershipIdentifiersResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
    * @param callback The callback
    */
-  listOwnershipIdentifiers(resourceGroupName: string, domainName: string, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>): void;
+  listOwnershipIdentifiers(
+    resourceGroupName: string,
+    domainName: string,
+    callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOwnershipIdentifiers(resourceGroupName: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>): void;
-  listOwnershipIdentifiers(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>): Promise<Models.DomainsListOwnershipIdentifiersResponse> {
+  listOwnershipIdentifiers(
+    resourceGroupName: string,
+    domainName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>
+  ): void;
+  listOwnershipIdentifiers(
+    resourceGroupName: string,
+    domainName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>,
+    callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>
+  ): Promise<Models.DomainsListOwnershipIdentifiersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -307,7 +460,8 @@ export class Domains {
         options
       },
       listOwnershipIdentifiersOperationSpec,
-      callback) as Promise<Models.DomainsListOwnershipIdentifiersResponse>;
+      callback
+    ) as Promise<Models.DomainsListOwnershipIdentifiersResponse>;
   }
 
   /**
@@ -319,14 +473,24 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsGetOwnershipIdentifierResponse>
    */
-  getOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainsGetOwnershipIdentifierResponse>;
+  getOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsGetOwnershipIdentifierResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
    * @param name Name of identifier.
    * @param callback The callback
    */
-  getOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): void;
+  getOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
@@ -334,8 +498,20 @@ export class Domains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): void;
-  getOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifier>, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): Promise<Models.DomainsGetOwnershipIdentifierResponse> {
+  getOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>
+  ): void;
+  getOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifier>,
+    callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>
+  ): Promise<Models.DomainsGetOwnershipIdentifierResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -344,7 +520,8 @@ export class Domains {
         options
       },
       getOwnershipIdentifierOperationSpec,
-      callback) as Promise<Models.DomainsGetOwnershipIdentifierResponse>;
+      callback
+    ) as Promise<Models.DomainsGetOwnershipIdentifierResponse>;
   }
 
   /**
@@ -359,7 +536,13 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsCreateOrUpdateOwnershipIdentifierResponse>
    */
-  createOrUpdateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, options?: msRest.RequestOptionsBase): Promise<Models.DomainsCreateOrUpdateOwnershipIdentifierResponse>;
+  createOrUpdateOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    domainOwnershipIdentifier: Models.DomainOwnershipIdentifier,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsCreateOrUpdateOwnershipIdentifierResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
@@ -367,7 +550,13 @@ export class Domains {
    * @param domainOwnershipIdentifier A JSON representation of the domain ownership properties.
    * @param callback The callback
    */
-  createOrUpdateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): void;
+  createOrUpdateOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    domainOwnershipIdentifier: Models.DomainOwnershipIdentifier,
+    callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
@@ -376,8 +565,22 @@ export class Domains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): void;
-  createOrUpdateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifier>, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): Promise<Models.DomainsCreateOrUpdateOwnershipIdentifierResponse> {
+  createOrUpdateOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    domainOwnershipIdentifier: Models.DomainOwnershipIdentifier,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>
+  ): void;
+  createOrUpdateOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    domainOwnershipIdentifier: Models.DomainOwnershipIdentifier,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifier>,
+    callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>
+  ): Promise<Models.DomainsCreateOrUpdateOwnershipIdentifierResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -387,7 +590,8 @@ export class Domains {
         options
       },
       createOrUpdateOwnershipIdentifierOperationSpec,
-      callback) as Promise<Models.DomainsCreateOrUpdateOwnershipIdentifierResponse>;
+      callback
+    ) as Promise<Models.DomainsCreateOrUpdateOwnershipIdentifierResponse>;
   }
 
   /**
@@ -399,14 +603,24 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
    * @param name Name of identifier.
    * @param callback The callback
    */
-  deleteOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  deleteOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
@@ -414,8 +628,20 @@ export class Domains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -424,7 +650,8 @@ export class Domains {
         options
       },
       deleteOwnershipIdentifierOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -439,7 +666,13 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsUpdateOwnershipIdentifierResponse>
    */
-  updateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, options?: msRest.RequestOptionsBase): Promise<Models.DomainsUpdateOwnershipIdentifierResponse>;
+  updateOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    domainOwnershipIdentifier: Models.DomainOwnershipIdentifier,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsUpdateOwnershipIdentifierResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
@@ -447,7 +680,13 @@ export class Domains {
    * @param domainOwnershipIdentifier A JSON representation of the domain ownership properties.
    * @param callback The callback
    */
-  updateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): void;
+  updateOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    domainOwnershipIdentifier: Models.DomainOwnershipIdentifier,
+    callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
@@ -456,8 +695,22 @@ export class Domains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): void;
-  updateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: Models.DomainOwnershipIdentifier, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifier>, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>): Promise<Models.DomainsUpdateOwnershipIdentifierResponse> {
+  updateOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    domainOwnershipIdentifier: Models.DomainOwnershipIdentifier,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>
+  ): void;
+  updateOwnershipIdentifier(
+    resourceGroupName: string,
+    domainName: string,
+    name: string,
+    domainOwnershipIdentifier: Models.DomainOwnershipIdentifier,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifier>,
+    callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifier>
+  ): Promise<Models.DomainsUpdateOwnershipIdentifierResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -467,7 +720,8 @@ export class Domains {
         options
       },
       updateOwnershipIdentifierOperationSpec,
-      callback) as Promise<Models.DomainsUpdateOwnershipIdentifierResponse>;
+      callback
+    ) as Promise<Models.DomainsUpdateOwnershipIdentifierResponse>;
   }
 
   /**
@@ -478,21 +732,39 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  renew(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  renew(
+    resourceGroupName: string,
+    domainName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param callback The callback
    */
-  renew(resourceGroupName: string, domainName: string, callback: msRest.ServiceCallback<void>): void;
+  renew(
+    resourceGroupName: string,
+    domainName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param options The optional parameters
    * @param callback The callback
    */
-  renew(resourceGroupName: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  renew(resourceGroupName: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  renew(
+    resourceGroupName: string,
+    domainName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  renew(
+    resourceGroupName: string,
+    domainName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -500,7 +772,8 @@ export class Domains {
         options
       },
       renewOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -512,7 +785,12 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, domainName: string, domain: Models.Domain, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    domainName: string,
+    domain: Models.Domain,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -521,7 +799,8 @@ export class Domains {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -531,7 +810,10 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -542,15 +824,24 @@ export class Domains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainCollection>, callback?: msRest.ServiceCallback<Models.DomainCollection>): Promise<Models.DomainsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DomainCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainCollection>,
+    callback?: msRest.ServiceCallback<Models.DomainCollection>
+  ): Promise<Models.DomainsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DomainsListNextResponse>;
+      callback
+    ) as Promise<Models.DomainsListNextResponse>;
   }
 
   /**
@@ -560,26 +851,41 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListRecommendationsNextResponse>
    */
-  listRecommendationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainsListRecommendationsNextResponse>;
+  listRecommendationsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsListRecommendationsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listRecommendationsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NameIdentifierCollection>): void;
+  listRecommendationsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.NameIdentifierCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRecommendationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameIdentifierCollection>): void;
-  listRecommendationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameIdentifierCollection>, callback?: msRest.ServiceCallback<Models.NameIdentifierCollection>): Promise<Models.DomainsListRecommendationsNextResponse> {
+  listRecommendationsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NameIdentifierCollection>
+  ): void;
+  listRecommendationsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameIdentifierCollection>,
+    callback?: msRest.ServiceCallback<Models.NameIdentifierCollection>
+  ): Promise<Models.DomainsListRecommendationsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listRecommendationsNextOperationSpec,
-      callback) as Promise<Models.DomainsListRecommendationsNextResponse>;
+      callback
+    ) as Promise<Models.DomainsListRecommendationsNextResponse>;
   }
 
   /**
@@ -589,26 +895,41 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DomainCollection>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DomainCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainCollection>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainCollection>, callback?: msRest.ServiceCallback<Models.DomainCollection>): Promise<Models.DomainsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DomainCollection>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainCollection>,
+    callback?: msRest.ServiceCallback<Models.DomainCollection>
+  ): Promise<Models.DomainsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.DomainsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.DomainsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -618,26 +939,43 @@ export class Domains {
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListOwnershipIdentifiersNextResponse>
    */
-  listOwnershipIdentifiersNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainsListOwnershipIdentifiersNextResponse>;
+  listOwnershipIdentifiersNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DomainsListOwnershipIdentifiersNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listOwnershipIdentifiersNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>): void;
+  listOwnershipIdentifiersNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOwnershipIdentifiersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>): void;
-  listOwnershipIdentifiersNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>, callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>): Promise<Models.DomainsListOwnershipIdentifiersNextResponse> {
+  listOwnershipIdentifiersNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>
+  ): void;
+  listOwnershipIdentifiersNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>,
+    callback?: msRest.ServiceCallback<Models.DomainOwnershipIdentifierCollection>
+  ): Promise<Models.DomainsListOwnershipIdentifiersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listOwnershipIdentifiersNextOperationSpec,
-      callback) as Promise<Models.DomainsListOwnershipIdentifiersNextResponse>;
+      callback
+    ) as Promise<Models.DomainsListOwnershipIdentifiersNextResponse>;
   }
 }
 
@@ -645,22 +983,14 @@ export class Domains {
 const serializer = new msRest.Serializer(Mappers);
 const checkAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/checkDomainAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/checkDomainAvailability",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      name: [
-        "options",
-        "name"
-      ]
+      name: ["options", "name"]
     },
     mapper: {
       ...Mappers.NameIdentifier,
@@ -681,15 +1011,9 @@ const checkAvailabilityOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/domains",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DomainCollection
@@ -704,15 +1028,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getControlCenterSsoRequestOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/generateSsoRequest",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DomainControlCenterSsoRequest
@@ -726,16 +1044,11 @@ const getControlCenterSsoRequestOperationSpec: msRest.OperationSpec = {
 
 const listRecommendationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/listDomainRecommendations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/listDomainRecommendations",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -756,17 +1069,11 @@ const listRecommendationsOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DomainCollection
@@ -780,18 +1087,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.domainName0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.domainName0, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Domain
@@ -805,19 +1105,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.domainName0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.forceHardDeleteDomain,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.domainName0, Parameters.subscriptionId],
+  queryParameters: [Parameters.forceHardDeleteDomain, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -830,18 +1122,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.domainName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.domainName1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "domain",
     mapper: {
@@ -865,18 +1150,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listOwnershipIdentifiersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.domainName0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers",
+  urlParameters: [Parameters.resourceGroupName, Parameters.domainName0, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DomainOwnershipIdentifierCollection
@@ -890,19 +1168,16 @@ const listOwnershipIdentifiersOperationSpec: msRest.OperationSpec = {
 
 const getOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.domainName0,
     Parameters.name,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DomainOwnershipIdentifier
@@ -916,19 +1191,16 @@ const getOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.domainName0,
     Parameters.name,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "domainOwnershipIdentifier",
     mapper: {
@@ -949,19 +1221,16 @@ const createOrUpdateOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
 
 const deleteOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.domainName0,
     Parameters.name,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -974,19 +1243,16 @@ const deleteOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
 
 const updateOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.domainName0,
     Parameters.name,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "domainOwnershipIdentifier",
     mapper: {
@@ -1007,18 +1273,11 @@ const updateOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
 
 const renewOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/renew",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.domainName0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/renew",
+  urlParameters: [Parameters.resourceGroupName, Parameters.domainName0, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -1032,18 +1291,11 @@ const renewOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.domainName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.domainName1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "domain",
     mapper: {
@@ -1069,12 +1321,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DomainCollection
@@ -1090,12 +1338,8 @@ const listRecommendationsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NameIdentifierCollection
@@ -1111,12 +1355,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DomainCollection
@@ -1132,12 +1372,8 @@ const listOwnershipIdentifiersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DomainOwnershipIdentifierCollection

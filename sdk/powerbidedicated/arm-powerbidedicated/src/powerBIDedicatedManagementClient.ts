@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { PowerBIDedicatedManagementClientContext } from "./powerBIDedicatedManagementClientContext";
 
-
 class PowerBIDedicatedManagementClient extends PowerBIDedicatedManagementClientContext {
   // Operation groups
   capacities: operations.Capacities;
@@ -27,7 +26,11 @@ class PowerBIDedicatedManagementClient extends PowerBIDedicatedManagementClientC
    * ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PowerBIDedicatedManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.PowerBIDedicatedManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.capacities = new operations.Capacities(this);
     this.operations = new operations.Operations(this);

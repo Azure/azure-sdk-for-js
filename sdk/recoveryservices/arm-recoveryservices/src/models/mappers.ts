@@ -1272,8 +1272,7 @@ export const VaultUsageList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ResourceCertificateDetails.AzureActiveDirectory' : ResourceCertificateAndAadDetails,
-  'ResourceCertificateDetails.AccessControlService' : ResourceCertificateAndAcsDetails,
-  'ResourceCertificateDetails' : ResourceCertificateDetails
-
+  "ResourceCertificateDetails.AzureActiveDirectory": ResourceCertificateAndAadDetails,
+  "ResourceCertificateDetails.AccessControlService": ResourceCertificateAndAcsDetails,
+  ResourceCertificateDetails: ResourceCertificateDetails
 };

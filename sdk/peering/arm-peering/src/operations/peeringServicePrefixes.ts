@@ -34,14 +34,24 @@ export class PeeringServicePrefixes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringServicePrefixesGetResponse>
    */
-  get(resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: msRest.RequestOptionsBase): Promise<Models.PeeringServicePrefixesGetResponse>;
+  get(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    prefixName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeeringServicePrefixesGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param peeringServiceName The peering service name.
    * @param prefixName The prefix name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, peeringServiceName: string, prefixName: string, callback: msRest.ServiceCallback<Models.PeeringServicePrefix>): void;
+  get(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    prefixName: string,
+    callback: msRest.ServiceCallback<Models.PeeringServicePrefix>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param peeringServiceName The peering service name.
@@ -49,8 +59,20 @@ export class PeeringServicePrefixes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, peeringServiceName: string, prefixName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServicePrefix>): void;
-  get(resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServicePrefix>, callback?: msRest.ServiceCallback<Models.PeeringServicePrefix>): Promise<Models.PeeringServicePrefixesGetResponse> {
+  get(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    prefixName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeeringServicePrefix>
+  ): void;
+  get(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    prefixName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServicePrefix>,
+    callback?: msRest.ServiceCallback<Models.PeeringServicePrefix>
+  ): Promise<Models.PeeringServicePrefixesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class PeeringServicePrefixes {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PeeringServicePrefixesGetResponse>;
+      callback
+    ) as Promise<Models.PeeringServicePrefixesGetResponse>;
   }
 
   /**
@@ -71,7 +94,13 @@ export class PeeringServicePrefixes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringServicePrefixesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, peeringServiceName: string, prefixName: string, peeringServicePrefix: Models.PeeringServicePrefix, options?: msRest.RequestOptionsBase): Promise<Models.PeeringServicePrefixesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    prefixName: string,
+    peeringServicePrefix: Models.PeeringServicePrefix,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeeringServicePrefixesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param peeringServiceName The peering service name.
@@ -79,7 +108,13 @@ export class PeeringServicePrefixes {
    * @param peeringServicePrefix The IP prefix for an peering
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, peeringServiceName: string, prefixName: string, peeringServicePrefix: Models.PeeringServicePrefix, callback: msRest.ServiceCallback<Models.PeeringServicePrefix>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    prefixName: string,
+    peeringServicePrefix: Models.PeeringServicePrefix,
+    callback: msRest.ServiceCallback<Models.PeeringServicePrefix>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param peeringServiceName The peering service name.
@@ -88,8 +123,22 @@ export class PeeringServicePrefixes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, peeringServiceName: string, prefixName: string, peeringServicePrefix: Models.PeeringServicePrefix, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServicePrefix>): void;
-  createOrUpdate(resourceGroupName: string, peeringServiceName: string, prefixName: string, peeringServicePrefix: Models.PeeringServicePrefix, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServicePrefix>, callback?: msRest.ServiceCallback<Models.PeeringServicePrefix>): Promise<Models.PeeringServicePrefixesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    prefixName: string,
+    peeringServicePrefix: Models.PeeringServicePrefix,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeeringServicePrefix>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    prefixName: string,
+    peeringServicePrefix: Models.PeeringServicePrefix,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServicePrefix>,
+    callback?: msRest.ServiceCallback<Models.PeeringServicePrefix>
+  ): Promise<Models.PeeringServicePrefixesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +148,8 @@ export class PeeringServicePrefixes {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.PeeringServicePrefixesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.PeeringServicePrefixesCreateOrUpdateResponse>;
   }
 
   /**
@@ -110,14 +160,24 @@ export class PeeringServicePrefixes {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    prefixName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param peeringServiceName The peering service name.
    * @param prefixName The prefix name
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, peeringServiceName: string, prefixName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    prefixName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param peeringServiceName The peering service name.
@@ -125,8 +185,20 @@ export class PeeringServicePrefixes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, peeringServiceName: string, prefixName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, peeringServiceName: string, prefixName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    prefixName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    prefixName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +207,8 @@ export class PeeringServicePrefixes {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -143,19 +216,16 @@ export class PeeringServicePrefixes {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.peeringServiceName,
     Parameters.prefixName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeeringServicePrefix
@@ -169,19 +239,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.peeringServiceName,
     Parameters.prefixName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "peeringServicePrefix",
     mapper: {
@@ -205,19 +272,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.peeringServiceName,
     Parameters.prefixName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},

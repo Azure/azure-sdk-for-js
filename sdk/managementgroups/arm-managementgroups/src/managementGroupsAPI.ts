@@ -15,7 +15,6 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { ManagementGroupsAPIContext } from "./managementGroupsAPIContext";
 
-
 class ManagementGroupsAPI extends ManagementGroupsAPIContext {
   // Operation groups
   managementGroups: operations.ManagementGroups;
@@ -28,7 +27,10 @@ class ManagementGroupsAPI extends ManagementGroupsAPIContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.ManagementGroupsAPIOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.ManagementGroupsAPIOptions
+  ) {
     super(credentials, options);
     this.managementGroups = new operations.ManagementGroups(this);
     this.managementGroupSubscriptions = new operations.ManagementGroupSubscriptions(this);
@@ -42,26 +44,43 @@ class ManagementGroupsAPI extends ManagementGroupsAPIContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckNameAvailabilityResponse>
    */
-  checkNameAvailability(checkNameAvailabilityRequest: Models.CheckNameAvailabilityRequest, options?: msRest.RequestOptionsBase): Promise<Models.CheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    checkNameAvailabilityRequest: Models.CheckNameAvailabilityRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CheckNameAvailabilityResponse>;
   /**
    * @param checkNameAvailabilityRequest Management group name availability check parameters.
    * @param callback The callback
    */
-  checkNameAvailability(checkNameAvailabilityRequest: Models.CheckNameAvailabilityRequest, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
+  checkNameAvailability(
+    checkNameAvailabilityRequest: Models.CheckNameAvailabilityRequest,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
   /**
    * @param checkNameAvailabilityRequest Management group name availability check parameters.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(checkNameAvailabilityRequest: Models.CheckNameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(checkNameAvailabilityRequest: Models.CheckNameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.CheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    checkNameAvailabilityRequest: Models.CheckNameAvailabilityRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
+  checkNameAvailability(
+    checkNameAvailabilityRequest: Models.CheckNameAvailabilityRequest,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): Promise<Models.CheckNameAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         checkNameAvailabilityRequest,
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.CheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.CheckNameAvailabilityResponse>;
   }
 
   /**
@@ -69,7 +88,9 @@ class ManagementGroupsAPI extends ManagementGroupsAPIContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.StartTenantBackfillResponse>
    */
-  startTenantBackfill(options?: msRest.RequestOptionsBase): Promise<Models.StartTenantBackfillResponse>;
+  startTenantBackfill(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StartTenantBackfillResponse>;
   /**
    * @param callback The callback
    */
@@ -78,14 +99,21 @@ class ManagementGroupsAPI extends ManagementGroupsAPIContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  startTenantBackfill(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantBackfillStatusResult>): void;
-  startTenantBackfill(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantBackfillStatusResult>, callback?: msRest.ServiceCallback<Models.TenantBackfillStatusResult>): Promise<Models.StartTenantBackfillResponse> {
+  startTenantBackfill(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TenantBackfillStatusResult>
+  ): void;
+  startTenantBackfill(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantBackfillStatusResult>,
+    callback?: msRest.ServiceCallback<Models.TenantBackfillStatusResult>
+  ): Promise<Models.StartTenantBackfillResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       startTenantBackfillOperationSpec,
-      callback) as Promise<Models.StartTenantBackfillResponse>;
+      callback
+    ) as Promise<Models.StartTenantBackfillResponse>;
   }
 
   /**
@@ -93,7 +121,9 @@ class ManagementGroupsAPI extends ManagementGroupsAPIContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantBackfillStatusResponse>
    */
-  tenantBackfillStatus(options?: msRest.RequestOptionsBase): Promise<Models.TenantBackfillStatusResponse>;
+  tenantBackfillStatus(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TenantBackfillStatusResponse>;
   /**
    * @param callback The callback
    */
@@ -102,14 +132,21 @@ class ManagementGroupsAPI extends ManagementGroupsAPIContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  tenantBackfillStatus(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantBackfillStatusResult>): void;
-  tenantBackfillStatus(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantBackfillStatusResult>, callback?: msRest.ServiceCallback<Models.TenantBackfillStatusResult>): Promise<Models.TenantBackfillStatusResponse> {
+  tenantBackfillStatus(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TenantBackfillStatusResult>
+  ): void;
+  tenantBackfillStatus(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantBackfillStatusResult>,
+    callback?: msRest.ServiceCallback<Models.TenantBackfillStatusResult>
+  ): Promise<Models.TenantBackfillStatusResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       tenantBackfillStatusOperationSpec,
-      callback) as Promise<Models.TenantBackfillStatusResponse>;
+      callback
+    ) as Promise<Models.TenantBackfillStatusResponse>;
   }
 }
 
@@ -118,12 +155,8 @@ const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Management/checkNameAvailability",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "checkNameAvailabilityRequest",
     mapper: {
@@ -145,12 +178,8 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 const startTenantBackfillOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Management/startTenantBackfill",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TenantBackfillStatusResult
@@ -165,12 +194,8 @@ const startTenantBackfillOperationSpec: msRest.OperationSpec = {
 const tenantBackfillStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Management/tenantBackfillStatus",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TenantBackfillStatusResult

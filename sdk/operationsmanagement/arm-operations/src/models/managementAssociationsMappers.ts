@@ -22,4 +22,3 @@ export {
   SolutionPlan,
   ManagementConfiguration
 } from "../models/mappers";
-

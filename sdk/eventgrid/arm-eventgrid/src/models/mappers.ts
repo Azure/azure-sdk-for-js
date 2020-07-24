@@ -330,7 +330,7 @@ export const Domain: msRest.CompositeMapper = {
       },
       inputSchema: {
         serializedName: "properties.inputSchema",
-        defaultValue: 'EventGridSchema',
+        defaultValue: "EventGridSchema",
         type: {
           name: "String"
         }
@@ -1401,7 +1401,7 @@ export const Topic: msRest.CompositeMapper = {
       },
       inputSchema: {
         serializedName: "properties.inputSchema",
-        defaultValue: 'EventGridSchema',
+        defaultValue: "EventGridSchema",
         type: {
           name: "String"
         }
@@ -1848,30 +1848,29 @@ export const TopicTypesListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'InputSchemaMapping' : InputSchemaMapping,
-  'InputSchemaMapping.Json' : JsonInputSchemaMapping,
-  'EventSubscriptionDestination' : EventSubscriptionDestination,
-  'AdvancedFilter' : AdvancedFilter,
-  'DeadLetterDestination' : DeadLetterDestination,
-  'AdvancedFilter.NumberIn' : NumberInAdvancedFilter,
-  'DeadLetterDestination.StorageBlob' : StorageBlobDeadLetterDestination,
-  'AdvancedFilter.NumberNotIn' : NumberNotInAdvancedFilter,
-  'AdvancedFilter.NumberLessThan' : NumberLessThanAdvancedFilter,
-  'AdvancedFilter.NumberGreaterThan' : NumberGreaterThanAdvancedFilter,
-  'AdvancedFilter.NumberLessThanOrEquals' : NumberLessThanOrEqualsAdvancedFilter,
-  'AdvancedFilter.NumberGreaterThanOrEquals' : NumberGreaterThanOrEqualsAdvancedFilter,
-  'AdvancedFilter.BoolEquals' : BoolEqualsAdvancedFilter,
-  'AdvancedFilter.StringIn' : StringInAdvancedFilter,
-  'AdvancedFilter.StringNotIn' : StringNotInAdvancedFilter,
-  'AdvancedFilter.StringBeginsWith' : StringBeginsWithAdvancedFilter,
-  'AdvancedFilter.StringEndsWith' : StringEndsWithAdvancedFilter,
-  'AdvancedFilter.StringContains' : StringContainsAdvancedFilter,
-  'EventSubscriptionDestination.WebHook' : WebHookEventSubscriptionDestination,
-  'EventSubscriptionDestination.EventHub' : EventHubEventSubscriptionDestination,
-  'EventSubscriptionDestination.StorageQueue' : StorageQueueEventSubscriptionDestination,
-  'EventSubscriptionDestination.HybridConnection' : HybridConnectionEventSubscriptionDestination,
-  'EventSubscriptionDestination.ServiceBusQueue' : ServiceBusQueueEventSubscriptionDestination,
-  'EventSubscriptionDestination.ServiceBusTopic' : ServiceBusTopicEventSubscriptionDestination,
-  'EventSubscriptionDestination.AzureFunction' : AzureFunctionEventSubscriptionDestination
-
+  InputSchemaMapping: InputSchemaMapping,
+  "InputSchemaMapping.Json": JsonInputSchemaMapping,
+  EventSubscriptionDestination: EventSubscriptionDestination,
+  AdvancedFilter: AdvancedFilter,
+  DeadLetterDestination: DeadLetterDestination,
+  "AdvancedFilter.NumberIn": NumberInAdvancedFilter,
+  "DeadLetterDestination.StorageBlob": StorageBlobDeadLetterDestination,
+  "AdvancedFilter.NumberNotIn": NumberNotInAdvancedFilter,
+  "AdvancedFilter.NumberLessThan": NumberLessThanAdvancedFilter,
+  "AdvancedFilter.NumberGreaterThan": NumberGreaterThanAdvancedFilter,
+  "AdvancedFilter.NumberLessThanOrEquals": NumberLessThanOrEqualsAdvancedFilter,
+  "AdvancedFilter.NumberGreaterThanOrEquals": NumberGreaterThanOrEqualsAdvancedFilter,
+  "AdvancedFilter.BoolEquals": BoolEqualsAdvancedFilter,
+  "AdvancedFilter.StringIn": StringInAdvancedFilter,
+  "AdvancedFilter.StringNotIn": StringNotInAdvancedFilter,
+  "AdvancedFilter.StringBeginsWith": StringBeginsWithAdvancedFilter,
+  "AdvancedFilter.StringEndsWith": StringEndsWithAdvancedFilter,
+  "AdvancedFilter.StringContains": StringContainsAdvancedFilter,
+  "EventSubscriptionDestination.WebHook": WebHookEventSubscriptionDestination,
+  "EventSubscriptionDestination.EventHub": EventHubEventSubscriptionDestination,
+  "EventSubscriptionDestination.StorageQueue": StorageQueueEventSubscriptionDestination,
+  "EventSubscriptionDestination.HybridConnection": HybridConnectionEventSubscriptionDestination,
+  "EventSubscriptionDestination.ServiceBusQueue": ServiceBusQueueEventSubscriptionDestination,
+  "EventSubscriptionDestination.ServiceBusTopic": ServiceBusTopicEventSubscriptionDestination,
+  "EventSubscriptionDestination.AzureFunction": AzureFunctionEventSubscriptionDestination
 };

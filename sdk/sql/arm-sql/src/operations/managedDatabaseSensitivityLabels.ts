@@ -40,7 +40,16 @@ export class ManagedDatabaseSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabaseSensitivityLabelsGetResponse>
    */
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, sensitivityLabelSource: Models.SensitivityLabelSource, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabaseSensitivityLabelsGetResponse>;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    sensitivityLabelSource: Models.SensitivityLabelSource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabaseSensitivityLabelsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -53,7 +62,16 @@ export class ManagedDatabaseSensitivityLabels {
    * 'current', 'recommended'
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, sensitivityLabelSource: Models.SensitivityLabelSource, callback: msRest.ServiceCallback<Models.SensitivityLabel>): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    sensitivityLabelSource: Models.SensitivityLabelSource,
+    callback: msRest.ServiceCallback<Models.SensitivityLabel>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -67,8 +85,28 @@ export class ManagedDatabaseSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, sensitivityLabelSource: Models.SensitivityLabelSource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SensitivityLabel>): void;
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, sensitivityLabelSource: Models.SensitivityLabelSource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabel>, callback?: msRest.ServiceCallback<Models.SensitivityLabel>): Promise<Models.ManagedDatabaseSensitivityLabelsGetResponse> {
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    sensitivityLabelSource: Models.SensitivityLabelSource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SensitivityLabel>
+  ): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    sensitivityLabelSource: Models.SensitivityLabelSource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabel>,
+    callback?: msRest.ServiceCallback<Models.SensitivityLabel>
+  ): Promise<Models.ManagedDatabaseSensitivityLabelsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -81,7 +119,8 @@ export class ManagedDatabaseSensitivityLabels {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagedDatabaseSensitivityLabelsGetResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabaseSensitivityLabelsGetResponse>;
   }
 
   /**
@@ -97,7 +136,16 @@ export class ManagedDatabaseSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabaseSensitivityLabelsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, parameters: Models.SensitivityLabel, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabaseSensitivityLabelsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    parameters: Models.SensitivityLabel,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabaseSensitivityLabelsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -109,7 +157,16 @@ export class ManagedDatabaseSensitivityLabels {
    * @param parameters The column sensitivity label resource.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, parameters: Models.SensitivityLabel, callback: msRest.ServiceCallback<Models.SensitivityLabel>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    parameters: Models.SensitivityLabel,
+    callback: msRest.ServiceCallback<Models.SensitivityLabel>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -122,8 +179,28 @@ export class ManagedDatabaseSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, parameters: Models.SensitivityLabel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SensitivityLabel>): void;
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, parameters: Models.SensitivityLabel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabel>, callback?: msRest.ServiceCallback<Models.SensitivityLabel>): Promise<Models.ManagedDatabaseSensitivityLabelsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    parameters: Models.SensitivityLabel,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SensitivityLabel>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    parameters: Models.SensitivityLabel,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabel>,
+    callback?: msRest.ServiceCallback<Models.SensitivityLabel>
+  ): Promise<Models.ManagedDatabaseSensitivityLabelsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +213,8 @@ export class ManagedDatabaseSensitivityLabels {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ManagedDatabaseSensitivityLabelsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabaseSensitivityLabelsCreateOrUpdateResponse>;
   }
 
   /**
@@ -151,7 +229,15 @@ export class ManagedDatabaseSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -162,7 +248,15 @@ export class ManagedDatabaseSensitivityLabels {
    * @param columnName The name of the column.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -174,8 +268,26 @@ export class ManagedDatabaseSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -187,7 +299,8 @@ export class ManagedDatabaseSensitivityLabels {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -202,7 +315,15 @@ export class ManagedDatabaseSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  disableRecommendation(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  disableRecommendation(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -213,7 +334,15 @@ export class ManagedDatabaseSensitivityLabels {
    * @param columnName The name of the column.
    * @param callback The callback
    */
-  disableRecommendation(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, callback: msRest.ServiceCallback<void>): void;
+  disableRecommendation(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -225,8 +354,26 @@ export class ManagedDatabaseSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  disableRecommendation(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disableRecommendation(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableRecommendation(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  disableRecommendation(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -238,7 +385,8 @@ export class ManagedDatabaseSensitivityLabels {
         options
       },
       disableRecommendationOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -254,7 +402,15 @@ export class ManagedDatabaseSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  enableRecommendation(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  enableRecommendation(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -265,7 +421,15 @@ export class ManagedDatabaseSensitivityLabels {
    * @param columnName The name of the column.
    * @param callback The callback
    */
-  enableRecommendation(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, callback: msRest.ServiceCallback<void>): void;
+  enableRecommendation(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -277,8 +441,26 @@ export class ManagedDatabaseSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  enableRecommendation(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  enableRecommendation(resourceGroupName: string, managedInstanceName: string, databaseName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  enableRecommendation(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  enableRecommendation(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -290,7 +472,8 @@ export class ManagedDatabaseSensitivityLabels {
         options
       },
       enableRecommendationOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -302,7 +485,12 @@ export class ManagedDatabaseSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseResponse>
    */
-  listCurrentByDatabase(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams): Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseResponse>;
+  listCurrentByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?: Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams
+  ): Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -310,7 +498,12 @@ export class ManagedDatabaseSensitivityLabels {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  listCurrentByDatabase(resourceGroupName: string, managedInstanceName: string, databaseName: string, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
+  listCurrentByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -319,8 +512,22 @@ export class ManagedDatabaseSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCurrentByDatabase(resourceGroupName: string, managedInstanceName: string, databaseName: string, options: Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
-  listCurrentByDatabase(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams | msRest.ServiceCallback<Models.SensitivityLabelListResult>, callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>): Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseResponse> {
+  listCurrentByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options: Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
+  listCurrentByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?:
+      | Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseOptionalParams
+      | msRest.ServiceCallback<Models.SensitivityLabelListResult>,
+    callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -329,7 +536,8 @@ export class ManagedDatabaseSensitivityLabels {
         options
       },
       listCurrentByDatabaseOperationSpec,
-      callback) as Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseResponse>;
   }
 
   /**
@@ -341,7 +549,12 @@ export class ManagedDatabaseSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseResponse>
    */
-  listRecommendedByDatabase(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams): Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseResponse>;
+  listRecommendedByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?: Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams
+  ): Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -349,7 +562,12 @@ export class ManagedDatabaseSensitivityLabels {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  listRecommendedByDatabase(resourceGroupName: string, managedInstanceName: string, databaseName: string, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
+  listRecommendedByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -358,8 +576,22 @@ export class ManagedDatabaseSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRecommendedByDatabase(resourceGroupName: string, managedInstanceName: string, databaseName: string, options: Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
-  listRecommendedByDatabase(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams | msRest.ServiceCallback<Models.SensitivityLabelListResult>, callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>): Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseResponse> {
+  listRecommendedByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options: Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
+  listRecommendedByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?:
+      | Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseOptionalParams
+      | msRest.ServiceCallback<Models.SensitivityLabelListResult>,
+    callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -368,7 +600,8 @@ export class ManagedDatabaseSensitivityLabels {
         options
       },
       listRecommendedByDatabaseOperationSpec,
-      callback) as Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseResponse>;
   }
 
   /**
@@ -377,26 +610,41 @@ export class ManagedDatabaseSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse>
    */
-  listCurrentByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse>;
+  listCurrentByDatabaseNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listCurrentByDatabaseNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
+  listCurrentByDatabaseNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCurrentByDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
-  listCurrentByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabelListResult>, callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>): Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse> {
+  listCurrentByDatabaseNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
+  listCurrentByDatabaseNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabelListResult>,
+    callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listCurrentByDatabaseNextOperationSpec,
-      callback) as Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabaseSensitivityLabelsListCurrentByDatabaseNextResponse>;
   }
 
   /**
@@ -405,26 +653,41 @@ export class ManagedDatabaseSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse>
    */
-  listRecommendedByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse>;
+  listRecommendedByDatabaseNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listRecommendedByDatabaseNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
+  listRecommendedByDatabaseNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRecommendedByDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
-  listRecommendedByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabelListResult>, callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>): Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse> {
+  listRecommendedByDatabaseNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
+  listRecommendedByDatabaseNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabelListResult>,
+    callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listRecommendedByDatabaseNextOperationSpec,
-      callback) as Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabaseSensitivityLabelsListRecommendedByDatabaseNextResponse>;
   }
 }
 
@@ -432,7 +695,8 @@ export class ManagedDatabaseSensitivityLabels {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
@@ -443,12 +707,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.sensitivityLabelSource1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SensitivityLabel
@@ -462,7 +722,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
@@ -473,12 +734,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.sensitivityLabelSource2,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -502,7 +759,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
@@ -513,12 +771,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.sensitivityLabelSource2,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -530,7 +784,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const disableRecommendationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
@@ -541,12 +796,8 @@ const disableRecommendationOperationSpec: msRest.OperationSpec = {
     Parameters.sensitivityLabelSource0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -558,7 +809,8 @@ const disableRecommendationOperationSpec: msRest.OperationSpec = {
 
 const enableRecommendationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
@@ -569,12 +821,8 @@ const enableRecommendationOperationSpec: msRest.OperationSpec = {
     Parameters.sensitivityLabelSource0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -586,20 +834,16 @@ const enableRecommendationOperationSpec: msRest.OperationSpec = {
 
 const listCurrentByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/currentSensitivityLabels",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/currentSensitivityLabels",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter1,
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter1, Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SensitivityLabelListResult
@@ -613,7 +857,8 @@ const listCurrentByDatabaseOperationSpec: msRest.OperationSpec = {
 
 const listRecommendedByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/recommendedSensitivityLabels",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/recommendedSensitivityLabels",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
@@ -626,9 +871,7 @@ const listRecommendedByDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.filter1,
     Parameters.apiVersion3
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SensitivityLabelListResult
@@ -644,12 +887,8 @@ const listCurrentByDatabaseNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SensitivityLabelListResult
@@ -665,12 +904,8 @@ const listRecommendedByDatabaseNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SensitivityLabelListResult

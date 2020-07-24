@@ -41,14 +41,21 @@ export class ReplicationAlertSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertCollection>, callback?: msRest.ServiceCallback<Models.AlertCollection>): Promise<Models.ReplicationAlertSettingsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertCollection>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertCollection>,
+    callback?: msRest.ServiceCallback<Models.AlertCollection>
+  ): Promise<Models.ReplicationAlertSettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ReplicationAlertSettingsListResponse>;
+      callback
+    ) as Promise<Models.ReplicationAlertSettingsListResponse>;
   }
 
   /**
@@ -58,7 +65,10 @@ export class ReplicationAlertSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationAlertSettingsGetResponse>
    */
-  get(alertSettingName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationAlertSettingsGetResponse>;
+  get(
+    alertSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationAlertSettingsGetResponse>;
   /**
    * @param alertSettingName The name of the email notification configuration.
    * @param callback The callback
@@ -69,15 +79,24 @@ export class ReplicationAlertSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(alertSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Alert>): void;
-  get(alertSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Alert>, callback?: msRest.ServiceCallback<Models.Alert>): Promise<Models.ReplicationAlertSettingsGetResponse> {
+  get(
+    alertSettingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Alert>
+  ): void;
+  get(
+    alertSettingName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Alert>,
+    callback?: msRest.ServiceCallback<Models.Alert>
+  ): Promise<Models.ReplicationAlertSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         alertSettingName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReplicationAlertSettingsGetResponse>;
+      callback
+    ) as Promise<Models.ReplicationAlertSettingsGetResponse>;
   }
 
   /**
@@ -88,21 +107,39 @@ export class ReplicationAlertSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationAlertSettingsCreateResponse>
    */
-  create(alertSettingName: string, request: Models.ConfigureAlertRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationAlertSettingsCreateResponse>;
+  create(
+    alertSettingName: string,
+    request: Models.ConfigureAlertRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationAlertSettingsCreateResponse>;
   /**
    * @param alertSettingName The name of the email notification(alert) configuration.
    * @param request The input to configure the email notification(alert).
    * @param callback The callback
    */
-  create(alertSettingName: string, request: Models.ConfigureAlertRequest, callback: msRest.ServiceCallback<Models.Alert>): void;
+  create(
+    alertSettingName: string,
+    request: Models.ConfigureAlertRequest,
+    callback: msRest.ServiceCallback<Models.Alert>
+  ): void;
   /**
    * @param alertSettingName The name of the email notification(alert) configuration.
    * @param request The input to configure the email notification(alert).
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(alertSettingName: string, request: Models.ConfigureAlertRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Alert>): void;
-  create(alertSettingName: string, request: Models.ConfigureAlertRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Alert>, callback?: msRest.ServiceCallback<Models.Alert>): Promise<Models.ReplicationAlertSettingsCreateResponse> {
+  create(
+    alertSettingName: string,
+    request: Models.ConfigureAlertRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Alert>
+  ): void;
+  create(
+    alertSettingName: string,
+    request: Models.ConfigureAlertRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Alert>,
+    callback?: msRest.ServiceCallback<Models.Alert>
+  ): Promise<Models.ReplicationAlertSettingsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         alertSettingName,
@@ -110,7 +147,8 @@ export class ReplicationAlertSettings {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.ReplicationAlertSettingsCreateResponse>;
+      callback
+    ) as Promise<Models.ReplicationAlertSettingsCreateResponse>;
   }
 
   /**
@@ -120,7 +158,10 @@ export class ReplicationAlertSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationAlertSettingsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationAlertSettingsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationAlertSettingsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -131,15 +172,24 @@ export class ReplicationAlertSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertCollection>, callback?: msRest.ServiceCallback<Models.AlertCollection>): Promise<Models.ReplicationAlertSettingsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertCollection>,
+    callback?: msRest.ServiceCallback<Models.AlertCollection>
+  ): Promise<Models.ReplicationAlertSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ReplicationAlertSettingsListNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationAlertSettingsListNextResponse>;
   }
 }
 
@@ -147,18 +197,11 @@ export class ReplicationAlertSettings {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings",
+  urlParameters: [Parameters.resourceName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertCollection
@@ -172,19 +215,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.alertSettingName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Alert
@@ -198,19 +238,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.alertSettingName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {
@@ -233,12 +270,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertCollection

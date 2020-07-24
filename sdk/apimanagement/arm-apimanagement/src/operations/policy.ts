@@ -33,21 +33,39 @@ export class Policy {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.PolicyCollection>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.PolicyCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyCollection>, callback?: msRest.ServiceCallback<Models.PolicyCollection>): Promise<Models.PolicyListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyCollection>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyCollection>,
+    callback?: msRest.ServiceCallback<Models.PolicyCollection>
+  ): Promise<Models.PolicyListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class Policy {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.PolicyListByServiceResponse>;
+      callback
+    ) as Promise<Models.PolicyListByServiceResponse>;
   }
 
   /**
@@ -66,21 +85,39 @@ export class Policy {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PolicyGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.PolicyGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +125,8 @@ export class Policy {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.PolicyGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.PolicyGetEntityTagResponse>;
   }
 
   /**
@@ -98,21 +136,39 @@ export class Policy {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, options?: Models.PolicyGetOptionalParams): Promise<Models.PolicyGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: Models.PolicyGetOptionalParams
+  ): Promise<Models.PolicyGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.PolicyContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, options: Models.PolicyGetOptionalParams, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
-  get(resourceGroupName: string, serviceName: string, options?: Models.PolicyGetOptionalParams | msRest.ServiceCallback<Models.PolicyContract>, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.PolicyGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options: Models.PolicyGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: Models.PolicyGetOptionalParams | msRest.ServiceCallback<Models.PolicyContract>,
+    callback?: msRest.ServiceCallback<Models.PolicyContract>
+  ): Promise<Models.PolicyGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +176,8 @@ export class Policy {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PolicyGetResponse>;
+      callback
+    ) as Promise<Models.PolicyGetResponse>;
   }
 
   /**
@@ -131,14 +188,24 @@ export class Policy {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PolicyContract, options?: Models.PolicyCreateOrUpdateOptionalParams): Promise<Models.PolicyCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PolicyContract,
+    options?: Models.PolicyCreateOrUpdateOptionalParams
+  ): Promise<Models.PolicyCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param parameters The policy contents to apply.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PolicyContract, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PolicyContract,
+    callback: msRest.ServiceCallback<Models.PolicyContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -146,8 +213,22 @@ export class Policy {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PolicyContract, options: Models.PolicyCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PolicyContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PolicyContract, options?: Models.PolicyCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PolicyContract>, callback?: msRest.ServiceCallback<Models.PolicyContract>): Promise<Models.PolicyCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PolicyContract,
+    options: Models.PolicyCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PolicyContract,
+    options?:
+      | Models.PolicyCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.PolicyContract>,
+    callback?: msRest.ServiceCallback<Models.PolicyContract>
+  ): Promise<Models.PolicyCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -156,7 +237,8 @@ export class Policy {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.PolicyCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.PolicyCreateOrUpdateResponse>;
   }
 
   /**
@@ -168,7 +250,12 @@ export class Policy {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -176,7 +263,12 @@ export class Policy {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -185,8 +277,20 @@ export class Policy {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -195,7 +299,8 @@ export class Policy {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -203,18 +308,11 @@ export class Policy {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyCollection
@@ -228,19 +326,16 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.policyId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.PolicyGetEntityTagHeaders
@@ -254,20 +349,16 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.policyId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.format0,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.format0, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyContract,
@@ -282,20 +373,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.policyId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -321,20 +408,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policies/{policyId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.policyId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},

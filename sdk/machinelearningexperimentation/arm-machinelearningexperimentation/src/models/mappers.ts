@@ -109,13 +109,7 @@ export const Workspace: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Creating",
-            "Succeeded",
-            "Updating",
-            "Deleting",
-            "Failed"
-          ]
+          allowedValues: ["Creating", "Succeeded", "Updating", "Deleting", "Failed"]
         }
       }
     }
@@ -214,13 +208,7 @@ export const Project: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Creating",
-            "Succeeded",
-            "Updating",
-            "Deleting",
-            "Failed"
-          ]
+          allowedValues: ["Creating", "Succeeded", "Updating", "Deleting", "Failed"]
         }
       }
     }
@@ -387,13 +375,7 @@ export const Account: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Creating",
-            "Succeeded",
-            "Updating",
-            "Deleting",
-            "Failed"
-          ]
+          allowedValues: ["Creating", "Succeeded", "Updating", "Deleting", "Failed"]
         }
       }
     }

@@ -15,4 +15,3 @@ export {
   ConnectionTypeCreateOrUpdateParameters,
   ConnectionTypeListResult
 } from "../models/mappers";
-

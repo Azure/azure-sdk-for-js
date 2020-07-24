@@ -1046,7 +1046,8 @@ export interface QueryOptions {
 /**
  * Optional Parameters.
  */
-export interface PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1056,7 +1057,8 @@ export interface PolicyTrackedResourcesListQueryResultsForManagementGroupOptiona
 /**
  * Optional Parameters.
  */
-export interface PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1066,7 +1068,8 @@ export interface PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalPa
 /**
  * Optional Parameters.
  */
-export interface PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1076,7 +1079,8 @@ export interface PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalP
 /**
  * Optional Parameters.
  */
-export interface PolicyTrackedResourcesListQueryResultsForResourceOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1086,7 +1090,8 @@ export interface PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
 /**
  * Optional Parameters.
  */
-export interface RemediationsListDeploymentsAtManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface RemediationsListDeploymentsAtManagementGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1096,7 +1101,8 @@ export interface RemediationsListDeploymentsAtManagementGroupOptionalParams exte
 /**
  * Optional Parameters.
  */
-export interface RemediationsListForManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface RemediationsListForManagementGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1106,7 +1112,8 @@ export interface RemediationsListForManagementGroupOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface RemediationsListDeploymentsAtSubscriptionOptionalParams extends msRest.RequestOptionsBase {
+export interface RemediationsListDeploymentsAtSubscriptionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1126,7 +1133,8 @@ export interface RemediationsListForSubscriptionOptionalParams extends msRest.Re
 /**
  * Optional Parameters.
  */
-export interface RemediationsListDeploymentsAtResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface RemediationsListDeploymentsAtResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1146,7 +1154,8 @@ export interface RemediationsListForResourceGroupOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface RemediationsListDeploymentsAtResourceOptionalParams extends msRest.RequestOptionsBase {
+export interface RemediationsListDeploymentsAtResourceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1166,7 +1175,8 @@ export interface RemediationsListForResourceOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
-export interface PolicyEventsListQueryResultsForManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyEventsListQueryResultsForManagementGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1176,7 +1186,8 @@ export interface PolicyEventsListQueryResultsForManagementGroupOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface PolicyEventsListQueryResultsForSubscriptionOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyEventsListQueryResultsForSubscriptionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1186,7 +1197,8 @@ export interface PolicyEventsListQueryResultsForSubscriptionOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface PolicyEventsListQueryResultsForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyEventsListQueryResultsForResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1196,7 +1208,8 @@ export interface PolicyEventsListQueryResultsForResourceGroupOptionalParams exte
 /**
  * Optional Parameters.
  */
-export interface PolicyEventsListQueryResultsForResourceOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyEventsListQueryResultsForResourceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1206,7 +1219,8 @@ export interface PolicyEventsListQueryResultsForResourceOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1216,7 +1230,8 @@ export interface PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParam
 /**
  * Optional Parameters.
  */
-export interface PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1226,7 +1241,8 @@ export interface PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams e
 /**
  * Optional Parameters.
  */
-export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1236,7 +1252,8 @@ export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmen
 /**
  * Optional Parameters.
  */
-export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1246,7 +1263,8 @@ export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignme
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesListQueryResultsForManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesListQueryResultsForManagementGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1256,7 +1274,8 @@ export interface PolicyStatesListQueryResultsForManagementGroupOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesSummarizeForManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesSummarizeForManagementGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1266,7 +1285,8 @@ export interface PolicyStatesSummarizeForManagementGroupOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesListQueryResultsForSubscriptionOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesListQueryResultsForSubscriptionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1276,7 +1296,8 @@ export interface PolicyStatesListQueryResultsForSubscriptionOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesSummarizeForSubscriptionOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesSummarizeForSubscriptionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1286,7 +1307,8 @@ export interface PolicyStatesSummarizeForSubscriptionOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesListQueryResultsForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesListQueryResultsForResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1296,7 +1318,8 @@ export interface PolicyStatesListQueryResultsForResourceGroupOptionalParams exte
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesSummarizeForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesSummarizeForResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1306,7 +1329,8 @@ export interface PolicyStatesSummarizeForResourceGroupOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesListQueryResultsForResourceOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesListQueryResultsForResourceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1326,7 +1350,8 @@ export interface PolicyStatesSummarizeForResourceOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1336,7 +1361,8 @@ export interface PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParam
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesSummarizeForPolicySetDefinitionOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesSummarizeForPolicySetDefinitionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1346,7 +1372,8 @@ export interface PolicyStatesSummarizeForPolicySetDefinitionOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1356,7 +1383,8 @@ export interface PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams e
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesSummarizeForPolicyDefinitionOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesSummarizeForPolicyDefinitionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1366,7 +1394,8 @@ export interface PolicyStatesSummarizeForPolicyDefinitionOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1376,7 +1405,8 @@ export interface PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmen
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1386,7 +1416,8 @@ export interface PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOption
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1396,7 +1427,8 @@ export interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignme
 /**
  * Optional Parameters.
  */
-export interface PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
@@ -1478,7 +1510,7 @@ export interface PolicyMetadataCollection extends Array<SlimPolicyMetadata> {
  * @readonly
  * @enum {string}
  */
-export type ResourceDiscoveryMode = 'ExistingNonCompliant' | 'ReEvaluateCompliance';
+export type ResourceDiscoveryMode = "ExistingNonCompliant" | "ReEvaluateCompliance";
 
 /**
  * Defines values for PolicyStatesResource.
@@ -1486,7 +1518,7 @@ export type ResourceDiscoveryMode = 'ExistingNonCompliant' | 'ReEvaluateComplian
  * @readonly
  * @enum {string}
  */
-export type PolicyStatesResource = 'default' | 'latest';
+export type PolicyStatesResource = "default" | "latest";
 
 /**
  * Contains response data for the listQueryResultsForManagementGroup operation.
@@ -1496,16 +1528,16 @@ export type PolicyTrackedResourcesListQueryResultsForManagementGroupResponse = P
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyTrackedResourcesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyTrackedResourcesQueryResults;
+  };
 };
 
 /**
@@ -1516,16 +1548,16 @@ export type PolicyTrackedResourcesListQueryResultsForSubscriptionResponse = Poli
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyTrackedResourcesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyTrackedResourcesQueryResults;
+  };
 };
 
 /**
@@ -1536,16 +1568,16 @@ export type PolicyTrackedResourcesListQueryResultsForResourceGroupResponse = Pol
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyTrackedResourcesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyTrackedResourcesQueryResults;
+  };
 };
 
 /**
@@ -1556,16 +1588,16 @@ export type PolicyTrackedResourcesListQueryResultsForResourceResponse = PolicyTr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyTrackedResourcesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyTrackedResourcesQueryResults;
+  };
 };
 
 /**
@@ -1576,16 +1608,16 @@ export type PolicyTrackedResourcesListQueryResultsForManagementGroupNextResponse
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyTrackedResourcesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyTrackedResourcesQueryResults;
+  };
 };
 
 /**
@@ -1596,16 +1628,16 @@ export type PolicyTrackedResourcesListQueryResultsForSubscriptionNextResponse = 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyTrackedResourcesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyTrackedResourcesQueryResults;
+  };
 };
 
 /**
@@ -1616,16 +1648,16 @@ export type PolicyTrackedResourcesListQueryResultsForResourceGroupNextResponse =
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyTrackedResourcesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyTrackedResourcesQueryResults;
+  };
 };
 
 /**
@@ -1636,16 +1668,16 @@ export type PolicyTrackedResourcesListQueryResultsForResourceNextResponse = Poli
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyTrackedResourcesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyTrackedResourcesQueryResults;
+  };
 };
 
 /**
@@ -1656,16 +1688,16 @@ export type RemediationsListDeploymentsAtManagementGroupResponse = RemediationDe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationDeploymentsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationDeploymentsListResult;
+  };
 };
 
 /**
@@ -1676,16 +1708,16 @@ export type RemediationsCancelAtManagementGroupResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -1696,16 +1728,16 @@ export type RemediationsListForManagementGroupResponse = RemediationListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationListResult;
+  };
 };
 
 /**
@@ -1716,16 +1748,16 @@ export type RemediationsCreateOrUpdateAtManagementGroupResponse = Remediation & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -1736,16 +1768,16 @@ export type RemediationsGetAtManagementGroupResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -1756,16 +1788,16 @@ export type RemediationsDeleteAtManagementGroupResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -1776,16 +1808,16 @@ export type RemediationsListDeploymentsAtSubscriptionResponse = RemediationDeplo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationDeploymentsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationDeploymentsListResult;
+  };
 };
 
 /**
@@ -1796,16 +1828,16 @@ export type RemediationsCancelAtSubscriptionResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -1816,16 +1848,16 @@ export type RemediationsListForSubscriptionResponse = RemediationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationListResult;
+  };
 };
 
 /**
@@ -1836,16 +1868,16 @@ export type RemediationsCreateOrUpdateAtSubscriptionResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -1856,16 +1888,16 @@ export type RemediationsGetAtSubscriptionResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -1876,16 +1908,16 @@ export type RemediationsDeleteAtSubscriptionResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -1896,16 +1928,16 @@ export type RemediationsListDeploymentsAtResourceGroupResponse = RemediationDepl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationDeploymentsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationDeploymentsListResult;
+  };
 };
 
 /**
@@ -1916,16 +1948,16 @@ export type RemediationsCancelAtResourceGroupResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -1936,16 +1968,16 @@ export type RemediationsListForResourceGroupResponse = RemediationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationListResult;
+  };
 };
 
 /**
@@ -1956,16 +1988,16 @@ export type RemediationsCreateOrUpdateAtResourceGroupResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -1976,16 +2008,16 @@ export type RemediationsGetAtResourceGroupResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -1996,16 +2028,16 @@ export type RemediationsDeleteAtResourceGroupResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -2016,16 +2048,16 @@ export type RemediationsListDeploymentsAtResourceResponse = RemediationDeploymen
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationDeploymentsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationDeploymentsListResult;
+  };
 };
 
 /**
@@ -2036,16 +2068,16 @@ export type RemediationsCancelAtResourceResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -2056,16 +2088,16 @@ export type RemediationsListForResourceResponse = RemediationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationListResult;
+  };
 };
 
 /**
@@ -2076,16 +2108,16 @@ export type RemediationsCreateOrUpdateAtResourceResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -2096,16 +2128,16 @@ export type RemediationsGetAtResourceResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -2116,16 +2148,16 @@ export type RemediationsDeleteAtResourceResponse = Remediation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Remediation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Remediation;
+  };
 };
 
 /**
@@ -2136,16 +2168,16 @@ export type RemediationsListDeploymentsAtManagementGroupNextResponse = Remediati
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationDeploymentsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationDeploymentsListResult;
+  };
 };
 
 /**
@@ -2156,16 +2188,16 @@ export type RemediationsListForManagementGroupNextResponse = RemediationListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationListResult;
+  };
 };
 
 /**
@@ -2176,16 +2208,16 @@ export type RemediationsListDeploymentsAtSubscriptionNextResponse = RemediationD
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationDeploymentsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationDeploymentsListResult;
+  };
 };
 
 /**
@@ -2196,16 +2228,16 @@ export type RemediationsListForSubscriptionNextResponse = RemediationListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationListResult;
+  };
 };
 
 /**
@@ -2216,16 +2248,16 @@ export type RemediationsListDeploymentsAtResourceGroupNextResponse = Remediation
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationDeploymentsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationDeploymentsListResult;
+  };
 };
 
 /**
@@ -2236,16 +2268,16 @@ export type RemediationsListForResourceGroupNextResponse = RemediationListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationListResult;
+  };
 };
 
 /**
@@ -2256,16 +2288,16 @@ export type RemediationsListDeploymentsAtResourceNextResponse = RemediationDeplo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationDeploymentsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationDeploymentsListResult;
+  };
 };
 
 /**
@@ -2276,16 +2308,16 @@ export type RemediationsListForResourceNextResponse = RemediationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemediationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemediationListResult;
+  };
 };
 
 /**
@@ -2296,16 +2328,16 @@ export type PolicyEventsListQueryResultsForManagementGroupResponse = PolicyEvent
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyEventsQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyEventsQueryResults;
+  };
 };
 
 /**
@@ -2316,16 +2348,16 @@ export type PolicyEventsListQueryResultsForSubscriptionResponse = PolicyEventsQu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyEventsQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyEventsQueryResults;
+  };
 };
 
 /**
@@ -2336,16 +2368,16 @@ export type PolicyEventsListQueryResultsForResourceGroupResponse = PolicyEventsQ
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyEventsQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyEventsQueryResults;
+  };
 };
 
 /**
@@ -2356,16 +2388,16 @@ export type PolicyEventsListQueryResultsForResourceResponse = PolicyEventsQueryR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyEventsQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyEventsQueryResults;
+  };
 };
 
 /**
@@ -2376,16 +2408,16 @@ export type PolicyEventsListQueryResultsForPolicySetDefinitionResponse = PolicyE
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyEventsQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyEventsQueryResults;
+  };
 };
 
 /**
@@ -2396,16 +2428,16 @@ export type PolicyEventsListQueryResultsForPolicyDefinitionResponse = PolicyEven
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyEventsQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyEventsQueryResults;
+  };
 };
 
 /**
@@ -2416,16 +2448,16 @@ export type PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyEventsQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyEventsQueryResults;
+  };
 };
 
 /**
@@ -2436,16 +2468,16 @@ export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyEventsQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyEventsQueryResults;
+  };
 };
 
 /**
@@ -2461,16 +2493,16 @@ export type PolicyEventsGetMetadataResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -2481,16 +2513,16 @@ export type PolicyStatesListQueryResultsForManagementGroupResponse = PolicyState
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyStatesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyStatesQueryResults;
+  };
 };
 
 /**
@@ -2501,16 +2533,16 @@ export type PolicyStatesSummarizeForManagementGroupResponse = SummarizeResults &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SummarizeResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SummarizeResults;
+  };
 };
 
 /**
@@ -2521,16 +2553,16 @@ export type PolicyStatesListQueryResultsForSubscriptionResponse = PolicyStatesQu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyStatesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyStatesQueryResults;
+  };
 };
 
 /**
@@ -2541,16 +2573,16 @@ export type PolicyStatesSummarizeForSubscriptionResponse = SummarizeResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SummarizeResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SummarizeResults;
+  };
 };
 
 /**
@@ -2561,16 +2593,16 @@ export type PolicyStatesListQueryResultsForResourceGroupResponse = PolicyStatesQ
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyStatesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyStatesQueryResults;
+  };
 };
 
 /**
@@ -2581,16 +2613,16 @@ export type PolicyStatesSummarizeForResourceGroupResponse = SummarizeResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SummarizeResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SummarizeResults;
+  };
 };
 
 /**
@@ -2601,16 +2633,16 @@ export type PolicyStatesListQueryResultsForResourceResponse = PolicyStatesQueryR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyStatesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyStatesQueryResults;
+  };
 };
 
 /**
@@ -2621,16 +2653,16 @@ export type PolicyStatesSummarizeForResourceResponse = SummarizeResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SummarizeResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SummarizeResults;
+  };
 };
 
 /**
@@ -2641,16 +2673,16 @@ export type PolicyStatesListQueryResultsForPolicySetDefinitionResponse = PolicyS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyStatesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyStatesQueryResults;
+  };
 };
 
 /**
@@ -2661,16 +2693,16 @@ export type PolicyStatesSummarizeForPolicySetDefinitionResponse = SummarizeResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SummarizeResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SummarizeResults;
+  };
 };
 
 /**
@@ -2681,16 +2713,16 @@ export type PolicyStatesListQueryResultsForPolicyDefinitionResponse = PolicyStat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyStatesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyStatesQueryResults;
+  };
 };
 
 /**
@@ -2701,16 +2733,16 @@ export type PolicyStatesSummarizeForPolicyDefinitionResponse = SummarizeResults 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SummarizeResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SummarizeResults;
+  };
 };
 
 /**
@@ -2721,16 +2753,16 @@ export type PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyStatesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyStatesQueryResults;
+  };
 };
 
 /**
@@ -2741,16 +2773,16 @@ export type PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse = 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SummarizeResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SummarizeResults;
+  };
 };
 
 /**
@@ -2761,16 +2793,16 @@ export type PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyStatesQueryResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyStatesQueryResults;
+  };
 };
 
 /**
@@ -2781,16 +2813,16 @@ export type PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse =
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SummarizeResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SummarizeResults;
+  };
 };
 
 /**
@@ -2801,16 +2833,16 @@ export type OperationsListResponse = OperationsListResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationsListResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationsListResults;
+  };
 };
 
 /**
@@ -2821,16 +2853,16 @@ export type PolicyMetadataGetResourceResponse = PolicyMetadata & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyMetadata;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyMetadata;
+  };
 };
 
 /**
@@ -2841,16 +2873,16 @@ export type PolicyMetadataListResponse = PolicyMetadataCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyMetadataCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyMetadataCollection;
+  };
 };
 
 /**
@@ -2861,14 +2893,14 @@ export type PolicyMetadataListNextResponse = PolicyMetadataCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyMetadataCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyMetadataCollection;
+  };
 };

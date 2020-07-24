@@ -37,7 +37,13 @@ export class ServiceReplica {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceReplicaGetResponse>
    */
-  get(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, replicaName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceReplicaGetResponse>;
+  get(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceReplicaGetResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param applicationResourceName The identity of the application.
@@ -45,7 +51,13 @@ export class ServiceReplica {
    * @param replicaName Service Fabric replica name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, replicaName: string, callback: msRest.ServiceCallback<Models.ServiceReplicaDescription>): void;
+  get(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    callback: msRest.ServiceCallback<Models.ServiceReplicaDescription>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param applicationResourceName The identity of the application.
@@ -54,8 +66,22 @@ export class ServiceReplica {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, replicaName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceReplicaDescription>): void;
-  get(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, replicaName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceReplicaDescription>, callback?: msRest.ServiceCallback<Models.ServiceReplicaDescription>): Promise<Models.ServiceReplicaGetResponse> {
+  get(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceReplicaDescription>
+  ): void;
+  get(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceReplicaDescription>,
+    callback?: msRest.ServiceCallback<Models.ServiceReplicaDescription>
+  ): Promise<Models.ServiceReplicaGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -65,7 +91,8 @@ export class ServiceReplica {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServiceReplicaGetResponse>;
+      callback
+    ) as Promise<Models.ServiceReplicaGetResponse>;
   }
 
   /**
@@ -78,14 +105,24 @@ export class ServiceReplica {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceReplicaListResponse>
    */
-  list(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceReplicaListResponse>;
+  list(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    serviceResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceReplicaListResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param applicationResourceName The identity of the application.
    * @param serviceResourceName The identity of the service.
    * @param callback The callback
    */
-  list(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, callback: msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>): void;
+  list(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    serviceResourceName: string,
+    callback: msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param applicationResourceName The identity of the application.
@@ -93,8 +130,22 @@ export class ServiceReplica {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>): void;
-  list(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>, callback?: msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>): Promise<Models.ServiceReplicaListResponse> {
+  list(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    serviceResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    serviceResourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>
+  ): Promise<Models.ServiceReplicaListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +154,8 @@ export class ServiceReplica {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ServiceReplicaListResponse>;
+      callback
+    ) as Promise<Models.ServiceReplicaListResponse>;
   }
 
   /**
@@ -114,26 +166,43 @@ export class ServiceReplica {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceReplicaListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceReplicaListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceReplicaListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>, callback?: msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>): Promise<Models.ServiceReplicaListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.ServiceReplicaDescriptionList>
+  ): Promise<Models.ServiceReplicaListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ServiceReplicaListNextResponse>;
+      callback
+    ) as Promise<Models.ServiceReplicaListNextResponse>;
   }
 }
 
@@ -141,7 +210,8 @@ export class ServiceReplica {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas/{replicaName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas/{replicaName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -149,12 +219,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.serviceResourceName,
     Parameters.replicaName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceReplicaDescription
@@ -168,19 +234,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationResourceName,
     Parameters.serviceResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceReplicaDescriptionList
@@ -196,12 +259,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceReplicaDescriptionList

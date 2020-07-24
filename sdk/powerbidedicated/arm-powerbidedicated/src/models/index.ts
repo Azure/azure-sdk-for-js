@@ -238,8 +238,7 @@ export interface PowerBIDedicatedManagementClientOptions extends AzureServiceCli
  * An array of Dedicated capacities resources.
  * @extends Array<DedicatedCapacity>
  */
-export interface DedicatedCapacities extends Array<DedicatedCapacity> {
-}
+export interface DedicatedCapacities extends Array<DedicatedCapacity> {}
 
 /**
  * @interface
@@ -261,7 +260,7 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'PBIE_Azure';
+export type SkuTier = "PBIE_Azure";
 
 /**
  * Defines values for State.
@@ -270,7 +269,19 @@ export type SkuTier = 'PBIE_Azure';
  * @readonly
  * @enum {string}
  */
-export type State = 'Deleting' | 'Succeeded' | 'Failed' | 'Paused' | 'Suspended' | 'Provisioning' | 'Updating' | 'Suspending' | 'Pausing' | 'Resuming' | 'Preparing' | 'Scaling';
+export type State =
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Paused"
+  | "Suspended"
+  | "Provisioning"
+  | "Updating"
+  | "Suspending"
+  | "Pausing"
+  | "Resuming"
+  | "Preparing"
+  | "Scaling";
 
 /**
  * Defines values for ProvisioningState.
@@ -279,7 +290,19 @@ export type State = 'Deleting' | 'Succeeded' | 'Failed' | 'Paused' | 'Suspended'
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Deleting' | 'Succeeded' | 'Failed' | 'Paused' | 'Suspended' | 'Provisioning' | 'Updating' | 'Suspending' | 'Pausing' | 'Resuming' | 'Preparing' | 'Scaling';
+export type ProvisioningState =
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Paused"
+  | "Suspended"
+  | "Provisioning"
+  | "Updating"
+  | "Suspending"
+  | "Pausing"
+  | "Resuming"
+  | "Preparing"
+  | "Scaling";
 
 /**
  * Contains response data for the getDetails operation.
@@ -289,16 +312,16 @@ export type CapacitiesGetDetailsResponse = DedicatedCapacity & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedCapacity;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedCapacity;
+  };
 };
 
 /**
@@ -309,16 +332,16 @@ export type CapacitiesCreateResponse = DedicatedCapacity & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedCapacity;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedCapacity;
+  };
 };
 
 /**
@@ -329,16 +352,16 @@ export type CapacitiesUpdateResponse = DedicatedCapacity & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedCapacity;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedCapacity;
+  };
 };
 
 /**
@@ -349,16 +372,16 @@ export type CapacitiesListByResourceGroupResponse = DedicatedCapacities & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedCapacities;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedCapacities;
+  };
 };
 
 /**
@@ -369,16 +392,16 @@ export type CapacitiesListResponse = DedicatedCapacities & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedCapacities;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedCapacities;
+  };
 };
 
 /**
@@ -389,16 +412,16 @@ export type CapacitiesListSkusResponse = SkuEnumerationForNewResourceResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SkuEnumerationForNewResourceResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SkuEnumerationForNewResourceResult;
+  };
 };
 
 /**
@@ -409,16 +432,16 @@ export type CapacitiesListSkusForCapacityResponse = SkuEnumerationForExistingRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SkuEnumerationForExistingResourceResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SkuEnumerationForExistingResourceResult;
+  };
 };
 
 /**
@@ -429,16 +452,16 @@ export type CapacitiesCheckNameAvailabilityResponse = CheckCapacityNameAvailabil
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckCapacityNameAvailabilityResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckCapacityNameAvailabilityResult;
+  };
 };
 
 /**
@@ -449,16 +472,16 @@ export type CapacitiesBeginCreateResponse = DedicatedCapacity & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedCapacity;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedCapacity;
+  };
 };
 
 /**
@@ -469,16 +492,16 @@ export type CapacitiesBeginUpdateResponse = DedicatedCapacity & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DedicatedCapacity;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DedicatedCapacity;
+  };
 };
 
 /**
@@ -489,16 +512,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -509,14 +532,14 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

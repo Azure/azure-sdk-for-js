@@ -34,21 +34,39 @@ export class DigitalTwins {
    * @param [options] The optional parameters
    * @returns Promise<Models.DigitalTwinsGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DigitalTwinsGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DigitalTwinsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the DigitalTwinsInstance.
    * @param resourceName The name of the DigitalTwinsInstance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.DigitalTwinsDescription>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.DigitalTwinsDescription>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the DigitalTwinsInstance.
    * @param resourceName The name of the DigitalTwinsInstance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DigitalTwinsDescription>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DigitalTwinsDescription>, callback?: msRest.ServiceCallback<Models.DigitalTwinsDescription>): Promise<Models.DigitalTwinsGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DigitalTwinsDescription>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DigitalTwinsDescription>,
+    callback?: msRest.ServiceCallback<Models.DigitalTwinsDescription>
+  ): Promise<Models.DigitalTwinsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class DigitalTwins {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DigitalTwinsGetResponse>;
+      callback
+    ) as Promise<Models.DigitalTwinsGetResponse>;
   }
 
   /**
@@ -69,9 +88,20 @@ export class DigitalTwins {
    * @param [options] The optional parameters
    * @returns Promise<Models.DigitalTwinsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, digitalTwinsCreate: Models.DigitalTwinsDescription, options?: msRest.RequestOptionsBase): Promise<Models.DigitalTwinsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,resourceName,digitalTwinsCreate,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DigitalTwinsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    digitalTwinsCreate: Models.DigitalTwinsDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DigitalTwinsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      resourceName,
+      digitalTwinsCreate,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DigitalTwinsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -81,9 +111,14 @@ export class DigitalTwins {
    * @param [options] The optional parameters
    * @returns Promise<Models.DigitalTwinsUpdateResponse>
    */
-  update(resourceGroupName: string, resourceName: string, options?: Models.DigitalTwinsUpdateOptionalParams): Promise<Models.DigitalTwinsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DigitalTwinsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: Models.DigitalTwinsUpdateOptionalParams
+  ): Promise<Models.DigitalTwinsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName, resourceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.DigitalTwinsUpdateResponse>;
   }
 
   /**
@@ -93,9 +128,14 @@ export class DigitalTwins {
    * @param [options] The optional parameters
    * @returns Promise<Models.DigitalTwinsDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DigitalTwinsDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DigitalTwinsDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DigitalTwinsDeleteMethodResponse> {
+    return this.beginDeleteMethod(resourceGroupName, resourceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.DigitalTwinsDeleteMethodResponse>;
   }
 
   /**
@@ -112,14 +152,23 @@ export class DigitalTwins {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>, callback?: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>): Promise<Models.DigitalTwinsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>,
+    callback?: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>
+  ): Promise<Models.DigitalTwinsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DigitalTwinsListResponse>;
+      callback
+    ) as Promise<Models.DigitalTwinsListResponse>;
   }
 
   /**
@@ -128,26 +177,43 @@ export class DigitalTwins {
    * @param [options] The optional parameters
    * @returns Promise<Models.DigitalTwinsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.DigitalTwinsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DigitalTwinsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the DigitalTwinsInstance.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the DigitalTwinsInstance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>, callback?: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>): Promise<Models.DigitalTwinsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>,
+    callback?: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>
+  ): Promise<Models.DigitalTwinsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.DigitalTwinsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.DigitalTwinsListByResourceGroupResponse>;
   }
 
   /**
@@ -157,21 +223,39 @@ export class DigitalTwins {
    * @param [options] The optional parameters
    * @returns Promise<Models.DigitalTwinsCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(location: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.DigitalTwinsCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    location: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DigitalTwinsCheckNameAvailabilityResponse>;
   /**
    * @param location Location of DigitalTwinsInstance.
    * @param name Resource name.
    * @param callback The callback
    */
-  checkNameAvailability(location: string, name: string, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
+  checkNameAvailability(
+    location: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.CheckNameResult>
+  ): void;
   /**
    * @param location Location of DigitalTwinsInstance.
    * @param name Resource name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(location: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
-  checkNameAvailability(location: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>, callback?: msRest.ServiceCallback<Models.CheckNameResult>): Promise<Models.DigitalTwinsCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    location: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameResult>
+  ): void;
+  checkNameAvailability(
+    location: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>,
+    callback?: msRest.ServiceCallback<Models.CheckNameResult>
+  ): Promise<Models.DigitalTwinsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -179,7 +263,8 @@ export class DigitalTwins {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.DigitalTwinsCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.DigitalTwinsCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -192,7 +277,12 @@ export class DigitalTwins {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, resourceName: string, digitalTwinsCreate: Models.DigitalTwinsDescription, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    digitalTwinsCreate: Models.DigitalTwinsDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -201,7 +291,8 @@ export class DigitalTwins {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -211,7 +302,11 @@ export class DigitalTwins {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, resourceName: string, options?: Models.DigitalTwinsBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: Models.DigitalTwinsBeginUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -219,7 +314,8 @@ export class DigitalTwins {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -229,7 +325,11 @@ export class DigitalTwins {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -237,7 +337,8 @@ export class DigitalTwins {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -246,26 +347,43 @@ export class DigitalTwins {
    * @param [options] The optional parameters
    * @returns Promise<Models.DigitalTwinsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DigitalTwinsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DigitalTwinsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>, callback?: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>): Promise<Models.DigitalTwinsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>,
+    callback?: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>
+  ): Promise<Models.DigitalTwinsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DigitalTwinsListNextResponse>;
+      callback
+    ) as Promise<Models.DigitalTwinsListNextResponse>;
   }
 
   /**
@@ -274,26 +392,43 @@ export class DigitalTwins {
    * @param [options] The optional parameters
    * @returns Promise<Models.DigitalTwinsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DigitalTwinsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DigitalTwinsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>, callback?: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>): Promise<Models.DigitalTwinsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>,
+    callback?: msRest.ServiceCallback<Models.DigitalTwinsDescriptionListResult>
+  ): Promise<Models.DigitalTwinsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.DigitalTwinsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.DigitalTwinsListByResourceGroupNextResponse>;
   }
 }
 
@@ -301,18 +436,11 @@ export class DigitalTwins {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DigitalTwinsDescription
@@ -327,15 +455,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DigitalTwins/digitalTwinsInstances",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DigitalTwinsDescriptionListResult
@@ -349,17 +471,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DigitalTwinsDescriptionListResult
@@ -373,17 +489,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DigitalTwins/locations/{location}/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.DigitalTwins/locations/{location}/checkNameAvailability",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       name: "name"
@@ -406,18 +516,11 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "digitalTwinsCreate",
     mapper: {
@@ -441,24 +544,14 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      tags: [
-        "options",
-        "tags"
-      ]
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.DigitalTwinsPatchDescription,
@@ -479,18 +572,11 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {
@@ -508,12 +594,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DigitalTwinsDescriptionListResult
@@ -529,12 +611,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DigitalTwinsDescriptionListResult

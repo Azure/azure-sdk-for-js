@@ -33,21 +33,41 @@ export class ServiceRunners {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceRunnersListResponse>
    */
-  list(resourceGroupName: string, labName: string, options?: Models.ServiceRunnersListOptionalParams): Promise<Models.ServiceRunnersListResponse>;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options?: Models.ServiceRunnersListOptionalParams
+  ): Promise<Models.ServiceRunnersListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.ServiceRunnerList>): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    callback: msRest.ServiceCallback<Models.ServiceRunnerList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.ServiceRunnersListOptionalParams, callback: msRest.ServiceCallback<Models.ServiceRunnerList>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.ServiceRunnersListOptionalParams | msRest.ServiceCallback<Models.ServiceRunnerList>, callback?: msRest.ServiceCallback<Models.ServiceRunnerList>): Promise<Models.ServiceRunnersListResponse> {
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options: Models.ServiceRunnersListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ServiceRunnerList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options?:
+      | Models.ServiceRunnersListOptionalParams
+      | msRest.ServiceCallback<Models.ServiceRunnerList>,
+    callback?: msRest.ServiceCallback<Models.ServiceRunnerList>
+  ): Promise<Models.ServiceRunnersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class ServiceRunners {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ServiceRunnersListResponse>;
+      callback
+    ) as Promise<Models.ServiceRunnersListResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class ServiceRunners {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceRunnersGetResponse>
    */
-  get(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceRunnersGetResponse>;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceRunnersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the service runner.
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, name: string, callback: msRest.ServiceCallback<Models.ServiceRunner>): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.ServiceRunner>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -81,8 +112,20 @@ export class ServiceRunners {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceRunner>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceRunner>, callback?: msRest.ServiceCallback<Models.ServiceRunner>): Promise<Models.ServiceRunnersGetResponse> {
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceRunner>
+  ): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceRunner>,
+    callback?: msRest.ServiceCallback<Models.ServiceRunner>
+  ): Promise<Models.ServiceRunnersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +134,8 @@ export class ServiceRunners {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServiceRunnersGetResponse>;
+      callback
+    ) as Promise<Models.ServiceRunnersGetResponse>;
   }
 
   /**
@@ -103,7 +147,13 @@ export class ServiceRunners {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceRunnersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, serviceRunner: Models.ServiceRunner, options?: msRest.RequestOptionsBase): Promise<Models.ServiceRunnersCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    serviceRunner: Models.ServiceRunner,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceRunnersCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -111,7 +161,13 @@ export class ServiceRunners {
    * @param serviceRunner A container for a managed identity to execute DevTest lab services.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, serviceRunner: Models.ServiceRunner, callback: msRest.ServiceCallback<Models.ServiceRunner>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    serviceRunner: Models.ServiceRunner,
+    callback: msRest.ServiceCallback<Models.ServiceRunner>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -120,8 +176,22 @@ export class ServiceRunners {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, serviceRunner: Models.ServiceRunner, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceRunner>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, serviceRunner: Models.ServiceRunner, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceRunner>, callback?: msRest.ServiceCallback<Models.ServiceRunner>): Promise<Models.ServiceRunnersCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    serviceRunner: Models.ServiceRunner,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceRunner>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    serviceRunner: Models.ServiceRunner,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceRunner>,
+    callback?: msRest.ServiceCallback<Models.ServiceRunner>
+  ): Promise<Models.ServiceRunnersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +201,8 @@ export class ServiceRunners {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ServiceRunnersCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ServiceRunnersCreateOrUpdateResponse>;
   }
 
   /**
@@ -142,14 +213,24 @@ export class ServiceRunners {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the service runner.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, labName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -157,8 +238,20 @@ export class ServiceRunners {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +260,8 @@ export class ServiceRunners {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -176,7 +270,10 @@ export class ServiceRunners {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceRunnersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceRunnersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceRunnersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -187,15 +284,24 @@ export class ServiceRunners {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceRunnerList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceRunnerList>, callback?: msRest.ServiceCallback<Models.ServiceRunnerList>): Promise<Models.ServiceRunnersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceRunnerList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceRunnerList>,
+    callback?: msRest.ServiceCallback<Models.ServiceRunnerList>
+  ): Promise<Models.ServiceRunnersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ServiceRunnersListNextResponse>;
+      callback
+    ) as Promise<Models.ServiceRunnersListNextResponse>;
   }
 }
 
@@ -203,21 +309,11 @@ export class ServiceRunners {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.labName
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.labName],
+  queryParameters: [Parameters.filter, Parameters.top, Parameters.orderby, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceRunnerList
@@ -231,19 +327,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceRunner
@@ -257,19 +350,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "serviceRunner",
     mapper: {
@@ -293,19 +383,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -320,12 +407,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceRunnerList

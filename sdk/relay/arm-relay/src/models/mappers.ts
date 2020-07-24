@@ -187,10 +187,7 @@ export const WcfRelay: msRest.CompositeMapper = {
         serializedName: "properties.relayType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NetTcp",
-            "Http"
-          ]
+          allowedValues: ["NetTcp", "Http"]
         }
       },
       requiresClientAuthorization: {
@@ -225,7 +222,7 @@ export const Sku: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "name",
-        defaultValue: 'Standard',
+        defaultValue: "Standard",
         type: {
           name: "String"
         }
@@ -234,9 +231,7 @@ export const Sku: msRest.CompositeMapper = {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Standard"
-          ]
+          allowedValues: ["Standard"]
         }
       }
     }
@@ -262,14 +257,7 @@ export const RelayNamespace: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Created",
-            "Succeeded",
-            "Deleted",
-            "Failed",
-            "Updating",
-            "Unknown"
-          ]
+          allowedValues: ["Created", "Succeeded", "Deleted", "Failed", "Updating", "Unknown"]
         }
       },
       createdAt: {
@@ -323,14 +311,7 @@ export const RelayUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Created",
-            "Succeeded",
-            "Deleted",
-            "Failed",
-            "Updating",
-            "Unknown"
-          ]
+          allowedValues: ["Created", "Succeeded", "Deleted", "Failed", "Updating", "Unknown"]
         }
       },
       createdAt: {
@@ -383,11 +364,7 @@ export const AuthorizationRule: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Manage",
-                "Send",
-                "Listen"
-              ]
+              allowedValues: ["Manage", "Send", "Listen"]
             }
           }
         }
@@ -447,10 +424,7 @@ export const RegenerateAccessKeyParameters: msRest.CompositeMapper = {
         serializedName: "keyType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "PrimaryKey",
-            "SecondaryKey"
-          ]
+          allowedValues: ["PrimaryKey", "SecondaryKey"]
         }
       },
       key: {

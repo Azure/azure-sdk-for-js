@@ -40,14 +40,21 @@ export class Domains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.DomainsListOptionalParams, callback: msRest.ServiceCallback<Models.DomainListResult>): void;
-  list(options?: Models.DomainsListOptionalParams | msRest.ServiceCallback<Models.DomainListResult>, callback?: msRest.ServiceCallback<Models.DomainListResult>): Promise<Models.DomainsListResponse> {
+  list(
+    options: Models.DomainsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.DomainListResult>
+  ): void;
+  list(
+    options?: Models.DomainsListOptionalParams | msRest.ServiceCallback<Models.DomainListResult>,
+    callback?: msRest.ServiceCallback<Models.DomainListResult>
+  ): Promise<Models.DomainsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DomainsListResponse>;
+      callback
+    ) as Promise<Models.DomainsListResponse>;
   }
 
   /**
@@ -67,15 +74,24 @@ export class Domains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Domain>): void;
-  get(domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Domain>, callback?: msRest.ServiceCallback<Models.Domain>): Promise<Models.DomainsGetResponse> {
+  get(
+    domainName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Domain>
+  ): void;
+  get(
+    domainName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Domain>,
+    callback?: msRest.ServiceCallback<Models.Domain>
+  ): Promise<Models.DomainsGetResponse> {
     return this.client.sendOperationRequest(
       {
         domainName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DomainsGetResponse>;
+      callback
+    ) as Promise<Models.DomainsGetResponse>;
   }
 }
 
@@ -84,16 +100,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/domains",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DomainListResult
@@ -108,16 +117,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/domains/{domainName}",
-  urlParameters: [
-    Parameters.domainName,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.domainName, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Domain

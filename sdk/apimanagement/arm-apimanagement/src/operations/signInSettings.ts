@@ -33,21 +33,39 @@ export class SignInSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignInSettingsGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignInSettingsGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignInSettingsGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.SignInSettingsGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.SignInSettingsGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class SignInSettings {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.SignInSettingsGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.SignInSettingsGetEntityTagResponse>;
   }
 
   /**
@@ -65,21 +84,39 @@ export class SignInSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignInSettingsGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignInSettingsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignInSettingsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.PortalSigninSettings>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.PortalSigninSettings>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalSigninSettings>): void;
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalSigninSettings>, callback?: msRest.ServiceCallback<Models.PortalSigninSettings>): Promise<Models.SignInSettingsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PortalSigninSettings>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalSigninSettings>,
+    callback?: msRest.ServiceCallback<Models.PortalSigninSettings>
+  ): Promise<Models.SignInSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -87,7 +124,8 @@ export class SignInSettings {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SignInSettingsGetResponse>;
+      callback
+    ) as Promise<Models.SignInSettingsGetResponse>;
   }
 
   /**
@@ -100,7 +138,13 @@ export class SignInSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSigninSettings,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -109,7 +153,13 @@ export class SignInSettings {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSigninSettings,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -119,8 +169,22 @@ export class SignInSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSigninSettings,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSigninSettings,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,7 +194,8 @@ export class SignInSettings {
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -141,14 +206,24 @@ export class SignInSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignInSettingsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, options?: Models.SignInSettingsCreateOrUpdateOptionalParams): Promise<Models.SignInSettingsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSigninSettings,
+    options?: Models.SignInSettingsCreateOrUpdateOptionalParams
+  ): Promise<Models.SignInSettingsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param parameters Create or update parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, callback: msRest.ServiceCallback<Models.PortalSigninSettings>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSigninSettings,
+    callback: msRest.ServiceCallback<Models.PortalSigninSettings>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -156,8 +231,22 @@ export class SignInSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, options: Models.SignInSettingsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PortalSigninSettings>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSigninSettings, options?: Models.SignInSettingsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PortalSigninSettings>, callback?: msRest.ServiceCallback<Models.PortalSigninSettings>): Promise<Models.SignInSettingsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSigninSettings,
+    options: Models.SignInSettingsCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.PortalSigninSettings>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSigninSettings,
+    options?:
+      | Models.SignInSettingsCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.PortalSigninSettings>,
+    callback?: msRest.ServiceCallback<Models.PortalSigninSettings>
+  ): Promise<Models.SignInSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +255,8 @@ export class SignInSettings {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.SignInSettingsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.SignInSettingsCreateOrUpdateResponse>;
   }
 }
 
@@ -174,18 +264,11 @@ export class SignInSettings {
 const serializer = new msRest.Serializer(Mappers);
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.SignInSettingsGetEntityTagHeaders
@@ -199,18 +282,11 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PortalSigninSettings,
@@ -225,19 +301,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -256,19 +324,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signin",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

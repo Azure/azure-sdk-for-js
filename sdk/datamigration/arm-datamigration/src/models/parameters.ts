@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -31,10 +31,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
   }
 };
 export const deleteRunningTasks: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "deleteRunningTasks"
-  ],
+  parameterPath: ["options", "deleteRunningTasks"],
   mapper: {
     serializedName: "deleteRunningTasks",
     type: {
@@ -43,10 +40,7 @@ export const deleteRunningTasks: msRest.OperationQueryParameter = {
   }
 };
 export const expand: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
+  parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
@@ -136,10 +130,7 @@ export const taskName: msRest.OperationURLParameter = {
   }
 };
 export const taskType: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "taskType"
-  ],
+  parameterPath: ["options", "taskType"],
   mapper: {
     serializedName: "taskType",
     type: {

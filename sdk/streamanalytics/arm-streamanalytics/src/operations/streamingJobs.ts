@@ -37,9 +37,20 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingJobsCreateOrReplaceResponse>
    */
-  createOrReplace(streamingJob: Models.StreamingJob, resourceGroupName: string, jobName: string, options?: Models.StreamingJobsCreateOrReplaceOptionalParams): Promise<Models.StreamingJobsCreateOrReplaceResponse> {
-    return this.beginCreateOrReplace(streamingJob,resourceGroupName,jobName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StreamingJobsCreateOrReplaceResponse>;
+  createOrReplace(
+    streamingJob: Models.StreamingJob,
+    resourceGroupName: string,
+    jobName: string,
+    options?: Models.StreamingJobsCreateOrReplaceOptionalParams
+  ): Promise<Models.StreamingJobsCreateOrReplaceResponse> {
+    return this.beginCreateOrReplace(
+      streamingJob,
+      resourceGroupName,
+      jobName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.StreamingJobsCreateOrReplaceResponse
+    >;
   }
 
   /**
@@ -55,7 +66,12 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingJobsUpdateResponse>
    */
-  update(streamingJob: Models.StreamingJob, resourceGroupName: string, jobName: string, options?: Models.StreamingJobsUpdateOptionalParams): Promise<Models.StreamingJobsUpdateResponse>;
+  update(
+    streamingJob: Models.StreamingJob,
+    resourceGroupName: string,
+    jobName: string,
+    options?: Models.StreamingJobsUpdateOptionalParams
+  ): Promise<Models.StreamingJobsUpdateResponse>;
   /**
    * @param streamingJob A streaming job object. The properties specified here will overwrite the
    * corresponding properties in the existing streaming job (ie. Those properties will be updated).
@@ -66,7 +82,12 @@ export class StreamingJobs {
    * @param jobName The name of the streaming job.
    * @param callback The callback
    */
-  update(streamingJob: Models.StreamingJob, resourceGroupName: string, jobName: string, callback: msRest.ServiceCallback<Models.StreamingJob>): void;
+  update(
+    streamingJob: Models.StreamingJob,
+    resourceGroupName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<Models.StreamingJob>
+  ): void;
   /**
    * @param streamingJob A streaming job object. The properties specified here will overwrite the
    * corresponding properties in the existing streaming job (ie. Those properties will be updated).
@@ -78,8 +99,22 @@ export class StreamingJobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(streamingJob: Models.StreamingJob, resourceGroupName: string, jobName: string, options: Models.StreamingJobsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.StreamingJob>): void;
-  update(streamingJob: Models.StreamingJob, resourceGroupName: string, jobName: string, options?: Models.StreamingJobsUpdateOptionalParams | msRest.ServiceCallback<Models.StreamingJob>, callback?: msRest.ServiceCallback<Models.StreamingJob>): Promise<Models.StreamingJobsUpdateResponse> {
+  update(
+    streamingJob: Models.StreamingJob,
+    resourceGroupName: string,
+    jobName: string,
+    options: Models.StreamingJobsUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.StreamingJob>
+  ): void;
+  update(
+    streamingJob: Models.StreamingJob,
+    resourceGroupName: string,
+    jobName: string,
+    options?:
+      | Models.StreamingJobsUpdateOptionalParams
+      | msRest.ServiceCallback<Models.StreamingJob>,
+    callback?: msRest.ServiceCallback<Models.StreamingJob>
+  ): Promise<Models.StreamingJobsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         streamingJob,
@@ -88,7 +123,8 @@ export class StreamingJobs {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.StreamingJobsUpdateResponse>;
+      callback
+    ) as Promise<Models.StreamingJobsUpdateResponse>;
   }
 
   /**
@@ -99,9 +135,14 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,jobName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, jobName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -112,14 +153,22 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingJobsGetResponse>
    */
-  get(resourceGroupName: string, jobName: string, options?: Models.StreamingJobsGetOptionalParams): Promise<Models.StreamingJobsGetResponse>;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    options?: Models.StreamingJobsGetOptionalParams
+  ): Promise<Models.StreamingJobsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param jobName The name of the streaming job.
    * @param callback The callback
    */
-  get(resourceGroupName: string, jobName: string, callback: msRest.ServiceCallback<Models.StreamingJob>): void;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<Models.StreamingJob>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -127,8 +176,18 @@ export class StreamingJobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, jobName: string, options: Models.StreamingJobsGetOptionalParams, callback: msRest.ServiceCallback<Models.StreamingJob>): void;
-  get(resourceGroupName: string, jobName: string, options?: Models.StreamingJobsGetOptionalParams | msRest.ServiceCallback<Models.StreamingJob>, callback?: msRest.ServiceCallback<Models.StreamingJob>): Promise<Models.StreamingJobsGetResponse> {
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    options: Models.StreamingJobsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.StreamingJob>
+  ): void;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    options?: Models.StreamingJobsGetOptionalParams | msRest.ServiceCallback<Models.StreamingJob>,
+    callback?: msRest.ServiceCallback<Models.StreamingJob>
+  ): Promise<Models.StreamingJobsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +195,8 @@ export class StreamingJobs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.StreamingJobsGetResponse>;
+      callback
+    ) as Promise<Models.StreamingJobsGetResponse>;
   }
 
   /**
@@ -146,28 +206,45 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingJobsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.StreamingJobsListByResourceGroupOptionalParams): Promise<Models.StreamingJobsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.StreamingJobsListByResourceGroupOptionalParams
+  ): Promise<Models.StreamingJobsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.StreamingJobListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.StreamingJobListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.StreamingJobsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.StreamingJobListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.StreamingJobsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.StreamingJobListResult>, callback?: msRest.ServiceCallback<Models.StreamingJobListResult>): Promise<Models.StreamingJobsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.StreamingJobsListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.StreamingJobListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.StreamingJobsListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.StreamingJobListResult>,
+    callback?: msRest.ServiceCallback<Models.StreamingJobListResult>
+  ): Promise<Models.StreamingJobsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.StreamingJobsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.StreamingJobsListByResourceGroupResponse>;
   }
 
   /**
@@ -184,14 +261,23 @@ export class StreamingJobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.StreamingJobsListOptionalParams, callback: msRest.ServiceCallback<Models.StreamingJobListResult>): void;
-  list(options?: Models.StreamingJobsListOptionalParams | msRest.ServiceCallback<Models.StreamingJobListResult>, callback?: msRest.ServiceCallback<Models.StreamingJobListResult>): Promise<Models.StreamingJobsListResponse> {
+  list(
+    options: Models.StreamingJobsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.StreamingJobListResult>
+  ): void;
+  list(
+    options?:
+      | Models.StreamingJobsListOptionalParams
+      | msRest.ServiceCallback<Models.StreamingJobListResult>,
+    callback?: msRest.ServiceCallback<Models.StreamingJobListResult>
+  ): Promise<Models.StreamingJobsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.StreamingJobsListResponse>;
+      callback
+    ) as Promise<Models.StreamingJobsListResponse>;
   }
 
   /**
@@ -203,9 +289,14 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, jobName: string, options?: Models.StreamingJobsStartOptionalParams): Promise<msRest.RestResponse> {
-    return this.beginStart(resourceGroupName,jobName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  start(
+    resourceGroupName: string,
+    jobName: string,
+    options?: Models.StreamingJobsStartOptionalParams
+  ): Promise<msRest.RestResponse> {
+    return this.beginStart(resourceGroupName, jobName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -217,9 +308,14 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStop(resourceGroupName,jobName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  stop(
+    resourceGroupName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStop(resourceGroupName, jobName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -232,7 +328,12 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrReplace(streamingJob: Models.StreamingJob, resourceGroupName: string, jobName: string, options?: Models.StreamingJobsBeginCreateOrReplaceOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrReplace(
+    streamingJob: Models.StreamingJob,
+    resourceGroupName: string,
+    jobName: string,
+    options?: Models.StreamingJobsBeginCreateOrReplaceOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         streamingJob,
@@ -241,7 +342,8 @@ export class StreamingJobs {
         options
       },
       beginCreateOrReplaceOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -252,7 +354,11 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -260,7 +366,8 @@ export class StreamingJobs {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -272,7 +379,11 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, jobName: string, options?: Models.StreamingJobsBeginStartOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    jobName: string,
+    options?: Models.StreamingJobsBeginStartOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -280,7 +391,8 @@ export class StreamingJobs {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -292,7 +404,11 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStop(resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(
+    resourceGroupName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -300,7 +416,8 @@ export class StreamingJobs {
         options
       },
       beginStopOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -309,26 +426,41 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingJobsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StreamingJobsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingJobsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StreamingJobListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.StreamingJobListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingJobListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingJobListResult>, callback?: msRest.ServiceCallback<Models.StreamingJobListResult>): Promise<Models.StreamingJobsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StreamingJobListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingJobListResult>,
+    callback?: msRest.ServiceCallback<Models.StreamingJobListResult>
+  ): Promise<Models.StreamingJobsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.StreamingJobsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.StreamingJobsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -337,26 +469,41 @@ export class StreamingJobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingJobsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StreamingJobsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingJobsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StreamingJobListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.StreamingJobListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingJobListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingJobListResult>, callback?: msRest.ServiceCallback<Models.StreamingJobListResult>): Promise<Models.StreamingJobsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StreamingJobListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingJobListResult>,
+    callback?: msRest.ServiceCallback<Models.StreamingJobListResult>
+  ): Promise<Models.StreamingJobsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.StreamingJobsListNextResponse>;
+      callback
+    ) as Promise<Models.StreamingJobsListNextResponse>;
   }
 }
 
@@ -364,19 +511,11 @@ export class StreamingJobs {
 const serializer = new msRest.Serializer(Mappers);
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "streamingJob",
     mapper: {
@@ -398,19 +537,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingJob,
@@ -425,18 +556,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingJobListResult
@@ -451,16 +575,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.StreamAnalytics/streamingjobs",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingJobListResult
@@ -474,20 +591,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrReplaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.ifNoneMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "streamingJob",
     mapper: {
@@ -513,18 +621,11 @@ const beginCreateOrReplaceOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -538,23 +639,13 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/start",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/start",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "startJobParameters"
-    ],
+    parameterPath: ["options", "startJobParameters"],
     mapper: Mappers.StartStreamingJobParameters
   },
   responses: {
@@ -569,18 +660,11 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginStopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/stop",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/stop",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -595,12 +679,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingJobListResult
@@ -616,12 +696,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingJobListResult

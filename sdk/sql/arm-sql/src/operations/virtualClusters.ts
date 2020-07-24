@@ -41,14 +41,21 @@ export class VirtualClusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualClusterListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualClusterListResult>, callback?: msRest.ServiceCallback<Models.VirtualClusterListResult>): Promise<Models.VirtualClustersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualClusterListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.VirtualClusterListResult>
+  ): Promise<Models.VirtualClustersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.VirtualClustersListResponse>;
+      callback
+    ) as Promise<Models.VirtualClustersListResponse>;
   }
 
   /**
@@ -58,28 +65,43 @@ export class VirtualClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualClustersListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualClustersListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualClustersListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.VirtualClusterListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.VirtualClusterListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualClusterListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualClusterListResult>, callback?: msRest.ServiceCallback<Models.VirtualClusterListResult>): Promise<Models.VirtualClustersListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualClusterListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.VirtualClusterListResult>
+  ): Promise<Models.VirtualClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.VirtualClustersListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.VirtualClustersListByResourceGroupResponse>;
   }
 
   /**
@@ -90,14 +112,22 @@ export class VirtualClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualClustersGetResponse>
    */
-  get(resourceGroupName: string, virtualClusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualClustersGetResponse>;
+  get(
+    resourceGroupName: string,
+    virtualClusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualClustersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param virtualClusterName The name of the virtual cluster.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualClusterName: string, callback: msRest.ServiceCallback<Models.VirtualCluster>): void;
+  get(
+    resourceGroupName: string,
+    virtualClusterName: string,
+    callback: msRest.ServiceCallback<Models.VirtualCluster>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -105,8 +135,18 @@ export class VirtualClusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualClusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualCluster>): void;
-  get(resourceGroupName: string, virtualClusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualCluster>, callback?: msRest.ServiceCallback<Models.VirtualCluster>): Promise<Models.VirtualClustersGetResponse> {
+  get(
+    resourceGroupName: string,
+    virtualClusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualCluster>
+  ): void;
+  get(
+    resourceGroupName: string,
+    virtualClusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualCluster>,
+    callback?: msRest.ServiceCallback<Models.VirtualCluster>
+  ): Promise<Models.VirtualClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +154,8 @@ export class VirtualClusters {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VirtualClustersGetResponse>;
+      callback
+    ) as Promise<Models.VirtualClustersGetResponse>;
   }
 
   /**
@@ -125,9 +166,16 @@ export class VirtualClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualClusterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,virtualClusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    virtualClusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      virtualClusterName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -139,9 +187,20 @@ export class VirtualClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualClustersUpdateResponse>
    */
-  update(resourceGroupName: string, virtualClusterName: string, parameters: Models.VirtualClusterUpdate, options?: msRest.RequestOptionsBase): Promise<Models.VirtualClustersUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,virtualClusterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualClustersUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    virtualClusterName: string,
+    parameters: Models.VirtualClusterUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualClustersUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      virtualClusterName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.VirtualClustersUpdateResponse
+    >;
   }
 
   /**
@@ -152,7 +211,11 @@ export class VirtualClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualClusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    virtualClusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -160,7 +223,8 @@ export class VirtualClusters {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -172,7 +236,12 @@ export class VirtualClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, virtualClusterName: string, parameters: Models.VirtualClusterUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    virtualClusterName: string,
+    parameters: Models.VirtualClusterUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -181,7 +250,8 @@ export class VirtualClusters {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -190,26 +260,41 @@ export class VirtualClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualClustersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualClustersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualClustersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualClusterListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VirtualClusterListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualClusterListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualClusterListResult>, callback?: msRest.ServiceCallback<Models.VirtualClusterListResult>): Promise<Models.VirtualClustersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualClusterListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.VirtualClusterListResult>
+  ): Promise<Models.VirtualClustersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.VirtualClustersListNextResponse>;
+      callback
+    ) as Promise<Models.VirtualClustersListNextResponse>;
   }
 
   /**
@@ -218,26 +303,41 @@ export class VirtualClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualClustersListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualClustersListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualClustersListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualClusterListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VirtualClusterListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualClusterListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualClusterListResult>, callback?: msRest.ServiceCallback<Models.VirtualClusterListResult>): Promise<Models.VirtualClustersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualClusterListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.VirtualClusterListResult>
+  ): Promise<Models.VirtualClustersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.VirtualClustersListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.VirtualClustersListByResourceGroupNextResponse>;
   }
 }
 
@@ -246,15 +346,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Sql/virtualClusters",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualClusterListResult
@@ -268,17 +362,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualClusterListResult
@@ -292,18 +380,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters/{virtualClusterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters/{virtualClusterName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualClusterName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualCluster
@@ -317,18 +402,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters/{virtualClusterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters/{virtualClusterName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualClusterName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -342,18 +424,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters/{virtualClusterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/virtualClusters/{virtualClusterName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualClusterName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -377,12 +456,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualClusterListResult
@@ -398,12 +473,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualClusterListResult

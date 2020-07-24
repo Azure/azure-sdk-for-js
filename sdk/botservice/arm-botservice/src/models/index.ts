@@ -142,7 +142,18 @@ export interface Bot extends Resource {
 /**
  * Contains the possible cases for Channel.
  */
-export type ChannelUnion = Channel | FacebookChannel | EmailChannel | MsTeamsChannel | SkypeChannel | KikChannel | WebChatChannel | DirectLineChannel | TelegramChannel | SmsChannel | SlackChannel;
+export type ChannelUnion =
+  | Channel
+  | FacebookChannel
+  | EmailChannel
+  | MsTeamsChannel
+  | SkypeChannel
+  | KikChannel
+  | WebChatChannel
+  | DirectLineChannel
+  | TelegramChannel
+  | SmsChannel
+  | SlackChannel;
 
 /**
  * Channel definition
@@ -1195,7 +1206,7 @@ export interface EnterpriseChannelResponseList extends Array<EnterpriseChannel> 
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'F0' | 'S1';
+export type SkuName = "F0" | "S1";
 
 /**
  * Defines values for SkuTier.
@@ -1203,7 +1214,7 @@ export type SkuName = 'F0' | 'S1';
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Free' | 'Standard';
+export type SkuTier = "Free" | "Standard";
 
 /**
  * Defines values for Kind.
@@ -1211,7 +1222,7 @@ export type SkuTier = 'Free' | 'Standard';
  * @readonly
  * @enum {string}
  */
-export type Kind = 'sdk' | 'designer' | 'bot' | 'function';
+export type Kind = "sdk" | "designer" | "bot" | "function";
 
 /**
  * Defines values for EnterpriseChannelState.
@@ -1220,7 +1231,17 @@ export type Kind = 'sdk' | 'designer' | 'bot' | 'function';
  * @readonly
  * @enum {string}
  */
-export type EnterpriseChannelState = 'Creating' | 'CreateFailed' | 'Started' | 'Starting' | 'StartFailed' | 'Stopped' | 'Stopping' | 'StopFailed' | 'Deleting' | 'DeleteFailed';
+export type EnterpriseChannelState =
+  | "Creating"
+  | "CreateFailed"
+  | "Started"
+  | "Starting"
+  | "StartFailed"
+  | "Stopped"
+  | "Stopping"
+  | "StopFailed"
+  | "Deleting"
+  | "DeleteFailed";
 
 /**
  * Defines values for EnterpriseChannelNodeState.
@@ -1229,7 +1250,17 @@ export type EnterpriseChannelState = 'Creating' | 'CreateFailed' | 'Started' | '
  * @readonly
  * @enum {string}
  */
-export type EnterpriseChannelNodeState = 'Creating' | 'CreateFailed' | 'Started' | 'Starting' | 'StartFailed' | 'Stopped' | 'Stopping' | 'StopFailed' | 'Deleting' | 'DeleteFailed';
+export type EnterpriseChannelNodeState =
+  | "Creating"
+  | "CreateFailed"
+  | "Started"
+  | "Starting"
+  | "StartFailed"
+  | "Stopped"
+  | "Stopping"
+  | "StopFailed"
+  | "Deleting"
+  | "DeleteFailed";
 
 /**
  * Defines values for ChannelName.
@@ -1239,7 +1270,17 @@ export type EnterpriseChannelNodeState = 'Creating' | 'CreateFailed' | 'Started'
  * @readonly
  * @enum {string}
  */
-export type ChannelName = 'FacebookChannel' | 'EmailChannel' | 'KikChannel' | 'TelegramChannel' | 'SlackChannel' | 'MsTeamsChannel' | 'SkypeChannel' | 'WebChatChannel' | 'DirectLineChannel' | 'SmsChannel';
+export type ChannelName =
+  | "FacebookChannel"
+  | "EmailChannel"
+  | "KikChannel"
+  | "TelegramChannel"
+  | "SlackChannel"
+  | "MsTeamsChannel"
+  | "SkypeChannel"
+  | "WebChatChannel"
+  | "DirectLineChannel"
+  | "SmsChannel";
 
 /**
  * Contains response data for the create operation.
@@ -1249,16 +1290,16 @@ export type BotsCreateResponse = Bot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Bot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Bot;
+  };
 };
 
 /**
@@ -1269,16 +1310,16 @@ export type BotsUpdateResponse = Bot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Bot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Bot;
+  };
 };
 
 /**
@@ -1289,16 +1330,16 @@ export type BotsGetResponse = Bot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Bot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Bot;
+  };
 };
 
 /**
@@ -1309,16 +1350,16 @@ export type BotsListByResourceGroupResponse = BotResponseList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BotResponseList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BotResponseList;
+  };
 };
 
 /**
@@ -1329,16 +1370,16 @@ export type BotsListResponse = BotResponseList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BotResponseList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BotResponseList;
+  };
 };
 
 /**
@@ -1349,16 +1390,16 @@ export type BotsGetCheckNameAvailabilityResponse = CheckNameAvailabilityResponse
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResponseBody;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResponseBody;
+  };
 };
 
 /**
@@ -1369,16 +1410,16 @@ export type BotsListByResourceGroupNextResponse = BotResponseList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BotResponseList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BotResponseList;
+  };
 };
 
 /**
@@ -1389,16 +1430,16 @@ export type BotsListNextResponse = BotResponseList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BotResponseList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BotResponseList;
+  };
 };
 
 /**
@@ -1409,16 +1450,16 @@ export type ChannelsCreateResponse = BotChannel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BotChannel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BotChannel;
+  };
 };
 
 /**
@@ -1429,16 +1470,16 @@ export type ChannelsUpdateResponse = BotChannel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BotChannel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BotChannel;
+  };
 };
 
 /**
@@ -1449,16 +1490,16 @@ export type ChannelsGetResponse = BotChannel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BotChannel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BotChannel;
+  };
 };
 
 /**
@@ -1469,16 +1510,16 @@ export type ChannelsListWithKeysResponse = BotChannel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BotChannel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BotChannel;
+  };
 };
 
 /**
@@ -1489,16 +1530,16 @@ export type ChannelsListByResourceGroupResponse = ChannelResponseList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChannelResponseList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ChannelResponseList;
+  };
 };
 
 /**
@@ -1509,16 +1550,16 @@ export type ChannelsListByResourceGroupNextResponse = ChannelResponseList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChannelResponseList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ChannelResponseList;
+  };
 };
 
 /**
@@ -1529,16 +1570,16 @@ export type OperationsListResponse = OperationEntityListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationEntityListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationEntityListResult;
+  };
 };
 
 /**
@@ -1549,16 +1590,16 @@ export type OperationsListNextResponse = OperationEntityListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationEntityListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationEntityListResult;
+  };
 };
 
 /**
@@ -1569,16 +1610,16 @@ export type BotConnectionListServiceProvidersResponse = ServiceProviderResponseL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceProviderResponseList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceProviderResponseList;
+  };
 };
 
 /**
@@ -1589,16 +1630,16 @@ export type BotConnectionListWithSecretsResponse = ConnectionSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionSetting;
+  };
 };
 
 /**
@@ -1609,16 +1650,16 @@ export type BotConnectionCreateResponse = ConnectionSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionSetting;
+  };
 };
 
 /**
@@ -1629,16 +1670,16 @@ export type BotConnectionUpdateResponse = ConnectionSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionSetting;
+  };
 };
 
 /**
@@ -1649,16 +1690,16 @@ export type BotConnectionGetResponse = ConnectionSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionSetting;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionSetting;
+  };
 };
 
 /**
@@ -1669,16 +1710,16 @@ export type BotConnectionListByBotServiceResponse = ConnectionSettingResponseLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionSettingResponseList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionSettingResponseList;
+  };
 };
 
 /**
@@ -1689,16 +1730,16 @@ export type BotConnectionListByBotServiceNextResponse = ConnectionSettingRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionSettingResponseList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionSettingResponseList;
+  };
 };
 
 /**
@@ -1709,16 +1750,16 @@ export type EnterpriseChannelsCheckNameAvailabilityResponse = EnterpriseChannelC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannelCheckNameAvailabilityResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnterpriseChannelCheckNameAvailabilityResponse;
+  };
 };
 
 /**
@@ -1729,16 +1770,16 @@ export type EnterpriseChannelsListByResourceGroupResponse = EnterpriseChannelRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannelResponseList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnterpriseChannelResponseList;
+  };
 };
 
 /**
@@ -1749,16 +1790,16 @@ export type EnterpriseChannelsCreateResponse = EnterpriseChannel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnterpriseChannel;
+  };
 };
 
 /**
@@ -1769,16 +1810,16 @@ export type EnterpriseChannelsUpdateResponse = EnterpriseChannel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnterpriseChannel;
+  };
 };
 
 /**
@@ -1789,16 +1830,16 @@ export type EnterpriseChannelsGetResponse = EnterpriseChannel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnterpriseChannel;
+  };
 };
 
 /**
@@ -1809,16 +1850,16 @@ export type EnterpriseChannelsBeginCreateResponse = EnterpriseChannel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnterpriseChannel;
+  };
 };
 
 /**
@@ -1829,16 +1870,16 @@ export type EnterpriseChannelsBeginUpdateResponse = EnterpriseChannel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnterpriseChannel;
+  };
 };
 
 /**
@@ -1849,14 +1890,14 @@ export type EnterpriseChannelsListByResourceGroupNextResponse = EnterpriseChanne
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnterpriseChannelResponseList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnterpriseChannelResponseList;
+  };
 };

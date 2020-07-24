@@ -34,21 +34,39 @@ export class Peerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringsGetResponse>
    */
-  get(resourceGroupName: string, peeringName: string, options?: msRest.RequestOptionsBase): Promise<Models.PeeringsGetResponse>;
+  get(
+    resourceGroupName: string,
+    peeringName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeeringsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param peeringName The name of the peering.
    * @param callback The callback
    */
-  get(resourceGroupName: string, peeringName: string, callback: msRest.ServiceCallback<Models.Peering>): void;
+  get(
+    resourceGroupName: string,
+    peeringName: string,
+    callback: msRest.ServiceCallback<Models.Peering>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param peeringName The name of the peering.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, peeringName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Peering>): void;
-  get(resourceGroupName: string, peeringName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Peering>, callback?: msRest.ServiceCallback<Models.Peering>): Promise<Models.PeeringsGetResponse> {
+  get(
+    resourceGroupName: string,
+    peeringName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Peering>
+  ): void;
+  get(
+    resourceGroupName: string,
+    peeringName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Peering>,
+    callback?: msRest.ServiceCallback<Models.Peering>
+  ): Promise<Models.PeeringsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class Peerings {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PeeringsGetResponse>;
+      callback
+    ) as Promise<Models.PeeringsGetResponse>;
   }
 
   /**
@@ -68,14 +87,24 @@ export class Peerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, peeringName: string, peering: Models.Peering, options?: msRest.RequestOptionsBase): Promise<Models.PeeringsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    peeringName: string,
+    peering: Models.Peering,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeeringsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param peeringName The name of the peering.
    * @param peering The properties needed to create or update a peering.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, peeringName: string, peering: Models.Peering, callback: msRest.ServiceCallback<Models.Peering>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    peeringName: string,
+    peering: Models.Peering,
+    callback: msRest.ServiceCallback<Models.Peering>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param peeringName The name of the peering.
@@ -83,8 +112,20 @@ export class Peerings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, peeringName: string, peering: Models.Peering, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Peering>): void;
-  createOrUpdate(resourceGroupName: string, peeringName: string, peering: Models.Peering, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Peering>, callback?: msRest.ServiceCallback<Models.Peering>): Promise<Models.PeeringsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    peeringName: string,
+    peering: Models.Peering,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Peering>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    peeringName: string,
+    peering: Models.Peering,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Peering>,
+    callback?: msRest.ServiceCallback<Models.Peering>
+  ): Promise<Models.PeeringsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -93,7 +134,8 @@ export class Peerings {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.PeeringsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.PeeringsCreateOrUpdateResponse>;
   }
 
   /**
@@ -104,21 +146,39 @@ export class Peerings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, peeringName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    peeringName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param peeringName The name of the peering.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, peeringName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    peeringName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param peeringName The name of the peering.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, peeringName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, peeringName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    peeringName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    peeringName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -126,7 +186,8 @@ export class Peerings {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -137,21 +198,39 @@ export class Peerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringsUpdateResponse>
    */
-  update(resourceGroupName: string, peeringName: string, options?: Models.PeeringsUpdateOptionalParams): Promise<Models.PeeringsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    peeringName: string,
+    options?: Models.PeeringsUpdateOptionalParams
+  ): Promise<Models.PeeringsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param peeringName The name of the peering.
    * @param callback The callback
    */
-  update(resourceGroupName: string, peeringName: string, callback: msRest.ServiceCallback<Models.Peering>): void;
+  update(
+    resourceGroupName: string,
+    peeringName: string,
+    callback: msRest.ServiceCallback<Models.Peering>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param peeringName The name of the peering.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, peeringName: string, options: Models.PeeringsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Peering>): void;
-  update(resourceGroupName: string, peeringName: string, options?: Models.PeeringsUpdateOptionalParams | msRest.ServiceCallback<Models.Peering>, callback?: msRest.ServiceCallback<Models.Peering>): Promise<Models.PeeringsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    peeringName: string,
+    options: Models.PeeringsUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.Peering>
+  ): void;
+  update(
+    resourceGroupName: string,
+    peeringName: string,
+    options?: Models.PeeringsUpdateOptionalParams | msRest.ServiceCallback<Models.Peering>,
+    callback?: msRest.ServiceCallback<Models.Peering>
+  ): Promise<Models.PeeringsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +238,8 @@ export class Peerings {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.PeeringsUpdateResponse>;
+      callback
+    ) as Promise<Models.PeeringsUpdateResponse>;
   }
 
   /**
@@ -168,26 +248,41 @@ export class Peerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PeeringsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeeringsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PeeringListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.PeeringListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringListResult>, callback?: msRest.ServiceCallback<Models.PeeringListResult>): Promise<Models.PeeringsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeeringListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringListResult>,
+    callback?: msRest.ServiceCallback<Models.PeeringListResult>
+  ): Promise<Models.PeeringsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.PeeringsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.PeeringsListByResourceGroupResponse>;
   }
 
   /**
@@ -195,7 +290,9 @@ export class Peerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.PeeringsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeeringsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -204,14 +301,21 @@ export class Peerings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringListResult>, callback?: msRest.ServiceCallback<Models.PeeringListResult>): Promise<Models.PeeringsListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeeringListResult>
+  ): void;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringListResult>,
+    callback?: msRest.ServiceCallback<Models.PeeringListResult>
+  ): Promise<Models.PeeringsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.PeeringsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.PeeringsListBySubscriptionResponse>;
   }
 
   /**
@@ -220,26 +324,41 @@ export class Peerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PeeringsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeeringsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PeeringListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PeeringListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringListResult>, callback?: msRest.ServiceCallback<Models.PeeringListResult>): Promise<Models.PeeringsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeeringListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringListResult>,
+    callback?: msRest.ServiceCallback<Models.PeeringListResult>
+  ): Promise<Models.PeeringsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.PeeringsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.PeeringsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -248,26 +367,41 @@ export class Peerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PeeringsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeeringsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PeeringListResult>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PeeringListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringListResult>, callback?: msRest.ServiceCallback<Models.PeeringListResult>): Promise<Models.PeeringsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeeringListResult>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringListResult>,
+    callback?: msRest.ServiceCallback<Models.PeeringListResult>
+  ): Promise<Models.PeeringsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.PeeringsListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.PeeringsListBySubscriptionNextResponse>;
   }
 }
 
@@ -275,18 +409,11 @@ export class Peerings {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.peeringName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.peeringName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Peering
@@ -300,18 +427,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.peeringName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.peeringName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "peering",
     mapper: {
@@ -335,18 +455,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.peeringName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.peeringName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -359,24 +472,14 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.peeringName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.peeringName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      tags: [
-        "options",
-        "tags"
-      ]
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.ResourceTags,
@@ -396,17 +499,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeeringListResult
@@ -421,15 +518,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerings",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeeringListResult
@@ -445,12 +536,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeeringListResult
@@ -466,12 +553,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeeringListResult

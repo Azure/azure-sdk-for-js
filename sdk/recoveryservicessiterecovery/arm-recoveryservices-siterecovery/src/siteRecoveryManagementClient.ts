@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { SiteRecoveryManagementClientContext } from "./siteRecoveryManagementClientContext";
 
-
 class SiteRecoveryManagementClient extends SiteRecoveryManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -48,7 +47,13 @@ class SiteRecoveryManagementClient extends SiteRecoveryManagementClientContext {
    * @param resourceName The name of the recovery services vault.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, resourceGroupName: string, resourceName: string, options?: Models.SiteRecoveryManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: Models.SiteRecoveryManagementClientOptions
+  ) {
     super(credentials, subscriptionId, resourceGroupName, resourceName, options);
     this.operations = new operations.Operations(this);
     this.replicationAlertSettings = new operations.ReplicationAlertSettings(this);
@@ -62,10 +67,16 @@ class SiteRecoveryManagementClient extends SiteRecoveryManagementClientContext {
     this.replicationProtectedItems = new operations.ReplicationProtectedItems(this);
     this.recoveryPoints = new operations.RecoveryPoints(this);
     this.targetComputeSizes = new operations.TargetComputeSizes(this);
-    this.replicationProtectionContainerMappings = new operations.ReplicationProtectionContainerMappings(this);
-    this.replicationRecoveryServicesProviders = new operations.ReplicationRecoveryServicesProviders(this);
+    this.replicationProtectionContainerMappings = new operations.ReplicationProtectionContainerMappings(
+      this
+    );
+    this.replicationRecoveryServicesProviders = new operations.ReplicationRecoveryServicesProviders(
+      this
+    );
     this.replicationStorageClassifications = new operations.ReplicationStorageClassifications(this);
-    this.replicationStorageClassificationMappings = new operations.ReplicationStorageClassificationMappings(this);
+    this.replicationStorageClassificationMappings = new operations.ReplicationStorageClassificationMappings(
+      this
+    );
     this.replicationvCenters = new operations.ReplicationvCenters(this);
     this.replicationJobs = new operations.ReplicationJobs(this);
     this.replicationPolicies = new operations.ReplicationPolicies(this);

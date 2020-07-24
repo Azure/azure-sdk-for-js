@@ -33,7 +33,10 @@ export class AzureAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureAccountsAssignToAppResponse>
    */
-  assignToApp(appId: string, options?: Models.AzureAccountsAssignToAppOptionalParams): Promise<Models.AzureAccountsAssignToAppResponse>;
+  assignToApp(
+    appId: string,
+    options?: Models.AzureAccountsAssignToAppOptionalParams
+  ): Promise<Models.AzureAccountsAssignToAppResponse>;
   /**
    * @param appId The application ID.
    * @param callback The callback
@@ -44,15 +47,26 @@ export class AzureAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  assignToApp(appId: string, options: Models.AzureAccountsAssignToAppOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  assignToApp(appId: string, options?: Models.AzureAccountsAssignToAppOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AzureAccountsAssignToAppResponse> {
+  assignToApp(
+    appId: string,
+    options: Models.AzureAccountsAssignToAppOptionalParams,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  assignToApp(
+    appId: string,
+    options?:
+      | Models.AzureAccountsAssignToAppOptionalParams
+      | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.AzureAccountsAssignToAppResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         options
       },
       assignToAppOperationSpec,
-      callback) as Promise<Models.AzureAccountsAssignToAppResponse>;
+      callback
+    ) as Promise<Models.AzureAccountsAssignToAppResponse>;
   }
 
   /**
@@ -62,26 +76,43 @@ export class AzureAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureAccountsGetAssignedResponse>
    */
-  getAssigned(appId: string, options?: Models.AzureAccountsGetAssignedOptionalParams): Promise<Models.AzureAccountsGetAssignedResponse>;
+  getAssigned(
+    appId: string,
+    options?: Models.AzureAccountsGetAssignedOptionalParams
+  ): Promise<Models.AzureAccountsGetAssignedResponse>;
   /**
    * @param appId The application ID.
    * @param callback The callback
    */
-  getAssigned(appId: string, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
+  getAssigned(
+    appId: string,
+    callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>
+  ): void;
   /**
    * @param appId The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAssigned(appId: string, options: Models.AzureAccountsGetAssignedOptionalParams, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
-  getAssigned(appId: string, options?: Models.AzureAccountsGetAssignedOptionalParams | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsGetAssignedResponse> {
+  getAssigned(
+    appId: string,
+    options: Models.AzureAccountsGetAssignedOptionalParams,
+    callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>
+  ): void;
+  getAssigned(
+    appId: string,
+    options?:
+      | Models.AzureAccountsGetAssignedOptionalParams
+      | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>,
+    callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>
+  ): Promise<Models.AzureAccountsGetAssignedResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         options
       },
       getAssignedOperationSpec,
-      callback) as Promise<Models.AzureAccountsGetAssignedResponse>;
+      callback
+    ) as Promise<Models.AzureAccountsGetAssignedResponse>;
   }
 
   /**
@@ -91,7 +122,10 @@ export class AzureAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureAccountsRemoveFromAppResponse>
    */
-  removeFromApp(appId: string, options?: Models.AzureAccountsRemoveFromAppOptionalParams): Promise<Models.AzureAccountsRemoveFromAppResponse>;
+  removeFromApp(
+    appId: string,
+    options?: Models.AzureAccountsRemoveFromAppOptionalParams
+  ): Promise<Models.AzureAccountsRemoveFromAppResponse>;
   /**
    * @param appId The application ID.
    * @param callback The callback
@@ -102,15 +136,26 @@ export class AzureAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  removeFromApp(appId: string, options: Models.AzureAccountsRemoveFromAppOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  removeFromApp(appId: string, options?: Models.AzureAccountsRemoveFromAppOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.AzureAccountsRemoveFromAppResponse> {
+  removeFromApp(
+    appId: string,
+    options: Models.AzureAccountsRemoveFromAppOptionalParams,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  removeFromApp(
+    appId: string,
+    options?:
+      | Models.AzureAccountsRemoveFromAppOptionalParams
+      | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.AzureAccountsRemoveFromAppResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         options
       },
       removeFromAppOperationSpec,
-      callback) as Promise<Models.AzureAccountsRemoveFromAppResponse>;
+      callback
+    ) as Promise<Models.AzureAccountsRemoveFromAppResponse>;
   }
 
   /**
@@ -119,7 +164,9 @@ export class AzureAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureAccountsListUserLUISAccountsResponse>
    */
-  listUserLUISAccounts(options?: Models.AzureAccountsListUserLUISAccountsOptionalParams): Promise<Models.AzureAccountsListUserLUISAccountsResponse>;
+  listUserLUISAccounts(
+    options?: Models.AzureAccountsListUserLUISAccountsOptionalParams
+  ): Promise<Models.AzureAccountsListUserLUISAccountsResponse>;
   /**
    * @param callback The callback
    */
@@ -128,14 +175,23 @@ export class AzureAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUserLUISAccounts(options: Models.AzureAccountsListUserLUISAccountsOptionalParams, callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): void;
-  listUserLUISAccounts(options?: Models.AzureAccountsListUserLUISAccountsOptionalParams | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>, callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>): Promise<Models.AzureAccountsListUserLUISAccountsResponse> {
+  listUserLUISAccounts(
+    options: Models.AzureAccountsListUserLUISAccountsOptionalParams,
+    callback: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>
+  ): void;
+  listUserLUISAccounts(
+    options?:
+      | Models.AzureAccountsListUserLUISAccountsOptionalParams
+      | msRest.ServiceCallback<Models.AzureAccountInfoObject[]>,
+    callback?: msRest.ServiceCallback<Models.AzureAccountInfoObject[]>
+  ): Promise<Models.AzureAccountsListUserLUISAccountsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listUserLUISAccountsOperationSpec,
-      callback) as Promise<Models.AzureAccountsListUserLUISAccountsResponse>;
+      callback
+    ) as Promise<Models.AzureAccountsListUserLUISAccountsResponse>;
   }
 }
 
@@ -144,18 +200,10 @@ const serializer = new msRest.Serializer(Mappers);
 const assignToAppOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/azureaccounts",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId
-  ],
-  headerParameters: [
-    Parameters.armToken
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.appId],
+  headerParameters: [Parameters.armToken],
   requestBody: {
-    parameterPath: [
-      "options",
-      "azureAccountInfoObject"
-    ],
+    parameterPath: ["options", "azureAccountInfoObject"],
     mapper: Mappers.AzureAccountInfoObject
   },
   responses: {
@@ -172,13 +220,8 @@ const assignToAppOperationSpec: msRest.OperationSpec = {
 const getAssignedOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/azureaccounts",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId
-  ],
-  headerParameters: [
-    Parameters.armToken
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.appId],
+  headerParameters: [Parameters.armToken],
   responses: {
     200: {
       bodyMapper: {
@@ -204,18 +247,10 @@ const getAssignedOperationSpec: msRest.OperationSpec = {
 const removeFromAppOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "apps/{appId}/azureaccounts",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId
-  ],
-  headerParameters: [
-    Parameters.armToken
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.appId],
+  headerParameters: [Parameters.armToken],
   requestBody: {
-    parameterPath: [
-      "options",
-      "azureAccountInfoObject"
-    ],
+    parameterPath: ["options", "azureAccountInfoObject"],
     mapper: Mappers.AzureAccountInfoObject
   },
   responses: {
@@ -232,12 +267,8 @@ const removeFromAppOperationSpec: msRest.OperationSpec = {
 const listUserLUISAccountsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "azureaccounts",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  headerParameters: [
-    Parameters.armToken
-  ],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.armToken],
   responses: {
     200: {
       bodyMapper: {

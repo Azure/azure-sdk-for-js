@@ -33,21 +33,39 @@ export class CustomerSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomerSubscriptionsListResponse>
    */
-  list(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomerSubscriptionsListResponse>;
+  list(
+    resourceGroup: string,
+    registrationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomerSubscriptionsListResponse>;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
    * @param callback The callback
    */
-  list(resourceGroup: string, registrationName: string, callback: msRest.ServiceCallback<Models.CustomerSubscriptionList>): void;
+  list(
+    resourceGroup: string,
+    registrationName: string,
+    callback: msRest.ServiceCallback<Models.CustomerSubscriptionList>
+  ): void;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroup: string, registrationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomerSubscriptionList>): void;
-  list(resourceGroup: string, registrationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomerSubscriptionList>, callback?: msRest.ServiceCallback<Models.CustomerSubscriptionList>): Promise<Models.CustomerSubscriptionsListResponse> {
+  list(
+    resourceGroup: string,
+    registrationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CustomerSubscriptionList>
+  ): void;
+  list(
+    resourceGroup: string,
+    registrationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomerSubscriptionList>,
+    callback?: msRest.ServiceCallback<Models.CustomerSubscriptionList>
+  ): Promise<Models.CustomerSubscriptionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -55,7 +73,8 @@ export class CustomerSubscriptions {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.CustomerSubscriptionsListResponse>;
+      callback
+    ) as Promise<Models.CustomerSubscriptionsListResponse>;
   }
 
   /**
@@ -66,14 +85,24 @@ export class CustomerSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomerSubscriptionsGetResponse>
    */
-  get(resourceGroup: string, registrationName: string, customerSubscriptionName: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomerSubscriptionsGetResponse>;
+  get(
+    resourceGroup: string,
+    registrationName: string,
+    customerSubscriptionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomerSubscriptionsGetResponse>;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
    * @param customerSubscriptionName Name of the product.
    * @param callback The callback
    */
-  get(resourceGroup: string, registrationName: string, customerSubscriptionName: string, callback: msRest.ServiceCallback<Models.CustomerSubscription>): void;
+  get(
+    resourceGroup: string,
+    registrationName: string,
+    customerSubscriptionName: string,
+    callback: msRest.ServiceCallback<Models.CustomerSubscription>
+  ): void;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
@@ -81,8 +110,20 @@ export class CustomerSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroup: string, registrationName: string, customerSubscriptionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomerSubscription>): void;
-  get(resourceGroup: string, registrationName: string, customerSubscriptionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomerSubscription>, callback?: msRest.ServiceCallback<Models.CustomerSubscription>): Promise<Models.CustomerSubscriptionsGetResponse> {
+  get(
+    resourceGroup: string,
+    registrationName: string,
+    customerSubscriptionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CustomerSubscription>
+  ): void;
+  get(
+    resourceGroup: string,
+    registrationName: string,
+    customerSubscriptionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomerSubscription>,
+    callback?: msRest.ServiceCallback<Models.CustomerSubscription>
+  ): Promise<Models.CustomerSubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -91,7 +132,8 @@ export class CustomerSubscriptions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CustomerSubscriptionsGetResponse>;
+      callback
+    ) as Promise<Models.CustomerSubscriptionsGetResponse>;
   }
 
   /**
@@ -102,14 +144,24 @@ export class CustomerSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroup: string, registrationName: string, customerSubscriptionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroup: string,
+    registrationName: string,
+    customerSubscriptionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
    * @param customerSubscriptionName Name of the product.
    * @param callback The callback
    */
-  deleteMethod(resourceGroup: string, registrationName: string, customerSubscriptionName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroup: string,
+    registrationName: string,
+    customerSubscriptionName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
@@ -117,8 +169,20 @@ export class CustomerSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroup: string, registrationName: string, customerSubscriptionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroup: string, registrationName: string, customerSubscriptionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroup: string,
+    registrationName: string,
+    customerSubscriptionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroup: string,
+    registrationName: string,
+    customerSubscriptionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -127,7 +191,8 @@ export class CustomerSubscriptions {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -139,7 +204,13 @@ export class CustomerSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomerSubscriptionsCreateResponse>
    */
-  create(resourceGroup: string, registrationName: string, customerSubscriptionName: string, customerCreationParameters: Models.CustomerSubscription, options?: msRest.RequestOptionsBase): Promise<Models.CustomerSubscriptionsCreateResponse>;
+  create(
+    resourceGroup: string,
+    registrationName: string,
+    customerSubscriptionName: string,
+    customerCreationParameters: Models.CustomerSubscription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomerSubscriptionsCreateResponse>;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
@@ -147,7 +218,13 @@ export class CustomerSubscriptions {
    * @param customerCreationParameters Parameters use to create a customer subscription.
    * @param callback The callback
    */
-  create(resourceGroup: string, registrationName: string, customerSubscriptionName: string, customerCreationParameters: Models.CustomerSubscription, callback: msRest.ServiceCallback<Models.CustomerSubscription>): void;
+  create(
+    resourceGroup: string,
+    registrationName: string,
+    customerSubscriptionName: string,
+    customerCreationParameters: Models.CustomerSubscription,
+    callback: msRest.ServiceCallback<Models.CustomerSubscription>
+  ): void;
   /**
    * @param resourceGroup Name of the resource group.
    * @param registrationName Name of the Azure Stack registration.
@@ -156,8 +233,22 @@ export class CustomerSubscriptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroup: string, registrationName: string, customerSubscriptionName: string, customerCreationParameters: Models.CustomerSubscription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomerSubscription>): void;
-  create(resourceGroup: string, registrationName: string, customerSubscriptionName: string, customerCreationParameters: Models.CustomerSubscription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomerSubscription>, callback?: msRest.ServiceCallback<Models.CustomerSubscription>): Promise<Models.CustomerSubscriptionsCreateResponse> {
+  create(
+    resourceGroup: string,
+    registrationName: string,
+    customerSubscriptionName: string,
+    customerCreationParameters: Models.CustomerSubscription,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CustomerSubscription>
+  ): void;
+  create(
+    resourceGroup: string,
+    registrationName: string,
+    customerSubscriptionName: string,
+    customerCreationParameters: Models.CustomerSubscription,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomerSubscription>,
+    callback?: msRest.ServiceCallback<Models.CustomerSubscription>
+  ): Promise<Models.CustomerSubscriptionsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroup,
@@ -167,7 +258,8 @@ export class CustomerSubscriptions {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.CustomerSubscriptionsCreateResponse>;
+      callback
+    ) as Promise<Models.CustomerSubscriptionsCreateResponse>;
   }
 
   /**
@@ -176,26 +268,41 @@ export class CustomerSubscriptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomerSubscriptionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomerSubscriptionsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomerSubscriptionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CustomerSubscriptionList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CustomerSubscriptionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomerSubscriptionList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomerSubscriptionList>, callback?: msRest.ServiceCallback<Models.CustomerSubscriptionList>): Promise<Models.CustomerSubscriptionsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CustomerSubscriptionList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomerSubscriptionList>,
+    callback?: msRest.ServiceCallback<Models.CustomerSubscriptionList>
+  ): Promise<Models.CustomerSubscriptionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.CustomerSubscriptionsListNextResponse>;
+      callback
+    ) as Promise<Models.CustomerSubscriptionsListNextResponse>;
   }
 }
 
@@ -203,18 +310,11 @@ export class CustomerSubscriptions {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroup,
-    Parameters.registrationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroup, Parameters.registrationName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CustomerSubscriptionList
@@ -228,19 +328,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions/{customerSubscriptionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions/{customerSubscriptionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.registrationName,
     Parameters.customerSubscriptionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CustomerSubscription
@@ -254,19 +351,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions/{customerSubscriptionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions/{customerSubscriptionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.registrationName,
     Parameters.customerSubscriptionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -279,19 +373,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions/{customerSubscriptionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.AzureStack/registrations/{registrationName}/customerSubscriptions/{customerSubscriptionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroup,
     Parameters.registrationName,
     Parameters.customerSubscriptionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "customerCreationParameters",
     mapper: {
@@ -314,12 +405,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CustomerSubscriptionList

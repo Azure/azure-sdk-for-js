@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as msRest from "@azure/ms-rest-js";
 
 /**
@@ -1076,7 +1075,8 @@ export interface PersonGroupPersonAddFaceFromUrlOptionalParams extends msRest.Re
 /**
  * Optional Parameters.
  */
-export interface PersonGroupPersonAddFaceFromStreamOptionalParams extends msRest.RequestOptionsBase {
+export interface PersonGroupPersonAddFaceFromStreamOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * User-specified data about the face for any purpose. The maximum length is 1KB.
    */
@@ -1319,7 +1319,8 @@ export interface LargePersonGroupPersonUpdateFaceOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface LargePersonGroupPersonAddFaceFromUrlOptionalParams extends msRest.RequestOptionsBase {
+export interface LargePersonGroupPersonAddFaceFromUrlOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * User-specified data about the face for any purpose. The maximum length is 1KB.
    */
@@ -1344,7 +1345,8 @@ export interface LargePersonGroupPersonAddFaceFromUrlOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface LargePersonGroupPersonAddFaceFromStreamOptionalParams extends msRest.RequestOptionsBase {
+export interface LargePersonGroupPersonAddFaceFromStreamOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * User-specified data about the face for any purpose. The maximum length is 1KB.
    */
@@ -1641,7 +1643,7 @@ export interface SnapshotApplyHeaders {
  * @readonly
  * @enum {string}
  */
-export type RecognitionModel = 'recognition_01' | 'recognition_02';
+export type RecognitionModel = "recognition_01" | "recognition_02";
 
 /**
  * Defines values for Gender.
@@ -1649,7 +1651,7 @@ export type RecognitionModel = 'recognition_01' | 'recognition_02';
  * @readonly
  * @enum {string}
  */
-export type Gender = 'male' | 'female';
+export type Gender = "male" | "female";
 
 /**
  * Defines values for GlassesType.
@@ -1657,7 +1659,7 @@ export type Gender = 'male' | 'female';
  * @readonly
  * @enum {string}
  */
-export type GlassesType = 'noGlasses' | 'readingGlasses' | 'sunglasses' | 'swimmingGoggles';
+export type GlassesType = "noGlasses" | "readingGlasses" | "sunglasses" | "swimmingGoggles";
 
 /**
  * Defines values for HairColorType.
@@ -1665,7 +1667,15 @@ export type GlassesType = 'noGlasses' | 'readingGlasses' | 'sunglasses' | 'swimm
  * @readonly
  * @enum {string}
  */
-export type HairColorType = 'unknown' | 'white' | 'gray' | 'blond' | 'brown' | 'red' | 'black' | 'other';
+export type HairColorType =
+  | "unknown"
+  | "white"
+  | "gray"
+  | "blond"
+  | "brown"
+  | "red"
+  | "black"
+  | "other";
 
 /**
  * Defines values for AccessoryType.
@@ -1673,7 +1683,7 @@ export type HairColorType = 'unknown' | 'white' | 'gray' | 'blond' | 'brown' | '
  * @readonly
  * @enum {string}
  */
-export type AccessoryType = 'headWear' | 'glasses' | 'mask';
+export type AccessoryType = "headWear" | "glasses" | "mask";
 
 /**
  * Defines values for BlurLevel.
@@ -1681,7 +1691,7 @@ export type AccessoryType = 'headWear' | 'glasses' | 'mask';
  * @readonly
  * @enum {string}
  */
-export type BlurLevel = 'Low' | 'Medium' | 'High';
+export type BlurLevel = "Low" | "Medium" | "High";
 
 /**
  * Defines values for ExposureLevel.
@@ -1689,7 +1699,7 @@ export type BlurLevel = 'Low' | 'Medium' | 'High';
  * @readonly
  * @enum {string}
  */
-export type ExposureLevel = 'UnderExposure' | 'GoodExposure' | 'OverExposure';
+export type ExposureLevel = "UnderExposure" | "GoodExposure" | "OverExposure";
 
 /**
  * Defines values for NoiseLevel.
@@ -1697,7 +1707,7 @@ export type ExposureLevel = 'UnderExposure' | 'GoodExposure' | 'OverExposure';
  * @readonly
  * @enum {string}
  */
-export type NoiseLevel = 'Low' | 'Medium' | 'High';
+export type NoiseLevel = "Low" | "Medium" | "High";
 
 /**
  * Defines values for FindSimilarMatchMode.
@@ -1705,7 +1715,7 @@ export type NoiseLevel = 'Low' | 'Medium' | 'High';
  * @readonly
  * @enum {string}
  */
-export type FindSimilarMatchMode = 'matchPerson' | 'matchFace';
+export type FindSimilarMatchMode = "matchPerson" | "matchFace";
 
 /**
  * Defines values for TrainingStatusType.
@@ -1713,7 +1723,7 @@ export type FindSimilarMatchMode = 'matchPerson' | 'matchFace';
  * @readonly
  * @enum {string}
  */
-export type TrainingStatusType = 'nonstarted' | 'running' | 'succeeded' | 'failed';
+export type TrainingStatusType = "nonstarted" | "running" | "succeeded" | "failed";
 
 /**
  * Defines values for SnapshotApplyMode.
@@ -1721,7 +1731,7 @@ export type TrainingStatusType = 'nonstarted' | 'running' | 'succeeded' | 'faile
  * @readonly
  * @enum {string}
  */
-export type SnapshotApplyMode = 'CreateNew';
+export type SnapshotApplyMode = "CreateNew";
 
 /**
  * Defines values for SnapshotObjectType.
@@ -1729,7 +1739,7 @@ export type SnapshotApplyMode = 'CreateNew';
  * @readonly
  * @enum {string}
  */
-export type SnapshotObjectType = 'FaceList' | 'LargeFaceList' | 'LargePersonGroup' | 'PersonGroup';
+export type SnapshotObjectType = "FaceList" | "LargeFaceList" | "LargePersonGroup" | "PersonGroup";
 
 /**
  * Defines values for OperationStatusType.
@@ -1737,7 +1747,7 @@ export type SnapshotObjectType = 'FaceList' | 'LargeFaceList' | 'LargePersonGrou
  * @readonly
  * @enum {string}
  */
-export type OperationStatusType = 'notstarted' | 'running' | 'succeeded' | 'failed';
+export type OperationStatusType = "notstarted" | "running" | "succeeded" | "failed";
 
 /**
  * Defines values for FaceAttributeType.
@@ -1746,7 +1756,21 @@ export type OperationStatusType = 'notstarted' | 'running' | 'succeeded' | 'fail
  * @readonly
  * @enum {string}
  */
-export type FaceAttributeType = 'age' | 'gender' | 'headPose' | 'smile' | 'facialHair' | 'glasses' | 'emotion' | 'hair' | 'makeup' | 'occlusion' | 'accessories' | 'blur' | 'exposure' | 'noise';
+export type FaceAttributeType =
+  | "age"
+  | "gender"
+  | "headPose"
+  | "smile"
+  | "facialHair"
+  | "glasses"
+  | "emotion"
+  | "hair"
+  | "makeup"
+  | "occlusion"
+  | "accessories"
+  | "blur"
+  | "exposure"
+  | "noise";
 
 /**
  * Defines values for DetectionModel.
@@ -1754,7 +1778,7 @@ export type FaceAttributeType = 'age' | 'gender' | 'headPose' | 'smile' | 'facia
  * @readonly
  * @enum {string}
  */
-export type DetectionModel = 'detection_01' | 'detection_02';
+export type DetectionModel = "detection_01" | "detection_02";
 
 /**
  * Contains response data for the findSimilar operation.
@@ -1764,16 +1788,16 @@ export type FaceFindSimilarResponse = Array<SimilarFace> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SimilarFace[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SimilarFace[];
+  };
 };
 
 /**
@@ -1784,16 +1808,16 @@ export type FaceGroupResponse = GroupResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GroupResult;
+  };
 };
 
 /**
@@ -1804,16 +1828,16 @@ export type FaceIdentifyResponse = Array<IdentifyResult> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IdentifyResult[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IdentifyResult[];
+  };
 };
 
 /**
@@ -1824,16 +1848,16 @@ export type FaceVerifyFaceToFaceResponse = VerifyResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VerifyResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VerifyResult;
+  };
 };
 
 /**
@@ -1844,16 +1868,16 @@ export type FaceDetectWithUrlResponse = Array<DetectedFace> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DetectedFace[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DetectedFace[];
+  };
 };
 
 /**
@@ -1864,16 +1888,16 @@ export type FaceVerifyFaceToPersonResponse = VerifyResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VerifyResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VerifyResult;
+  };
 };
 
 /**
@@ -1884,16 +1908,16 @@ export type FaceDetectWithStreamResponse = Array<DetectedFace> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DetectedFace[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DetectedFace[];
+  };
 };
 
 /**
@@ -1904,16 +1928,16 @@ export type PersonGroupPersonCreateResponse = Person & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Person;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Person;
+  };
 };
 
 /**
@@ -1924,16 +1948,16 @@ export type PersonGroupPersonListResponse = Array<Person> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Person[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Person[];
+  };
 };
 
 /**
@@ -1944,16 +1968,16 @@ export type PersonGroupPersonGetResponse = Person & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Person;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Person;
+  };
 };
 
 /**
@@ -1964,16 +1988,16 @@ export type PersonGroupPersonGetFaceResponse = PersistedFace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersistedFace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersistedFace;
+  };
 };
 
 /**
@@ -1984,16 +2008,16 @@ export type PersonGroupPersonAddFaceFromUrlResponse = PersistedFace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersistedFace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersistedFace;
+  };
 };
 
 /**
@@ -2004,16 +2028,16 @@ export type PersonGroupPersonAddFaceFromStreamResponse = PersistedFace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersistedFace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersistedFace;
+  };
 };
 
 /**
@@ -2024,16 +2048,16 @@ export type PersonGroupGetResponse = PersonGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersonGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersonGroup;
+  };
 };
 
 /**
@@ -2044,16 +2068,16 @@ export type PersonGroupGetTrainingStatusResponse = TrainingStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TrainingStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TrainingStatus;
+  };
 };
 
 /**
@@ -2064,16 +2088,16 @@ export type PersonGroupListResponse = Array<PersonGroup> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersonGroup[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersonGroup[];
+  };
 };
 
 /**
@@ -2084,16 +2108,16 @@ export type FaceListGetResponse = FaceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FaceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FaceList;
+  };
 };
 
 /**
@@ -2104,16 +2128,16 @@ export type FaceListListResponse = Array<FaceList> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FaceList[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FaceList[];
+  };
 };
 
 /**
@@ -2124,16 +2148,16 @@ export type FaceListAddFaceFromUrlResponse = PersistedFace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersistedFace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersistedFace;
+  };
 };
 
 /**
@@ -2144,16 +2168,16 @@ export type FaceListAddFaceFromStreamResponse = PersistedFace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersistedFace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersistedFace;
+  };
 };
 
 /**
@@ -2164,16 +2188,16 @@ export type LargePersonGroupPersonCreateResponse = Person & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Person;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Person;
+  };
 };
 
 /**
@@ -2184,16 +2208,16 @@ export type LargePersonGroupPersonListResponse = Array<Person> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Person[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Person[];
+  };
 };
 
 /**
@@ -2204,16 +2228,16 @@ export type LargePersonGroupPersonGetResponse = Person & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Person;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Person;
+  };
 };
 
 /**
@@ -2224,16 +2248,16 @@ export type LargePersonGroupPersonGetFaceResponse = PersistedFace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersistedFace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersistedFace;
+  };
 };
 
 /**
@@ -2244,16 +2268,16 @@ export type LargePersonGroupPersonAddFaceFromUrlResponse = PersistedFace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersistedFace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersistedFace;
+  };
 };
 
 /**
@@ -2264,16 +2288,16 @@ export type LargePersonGroupPersonAddFaceFromStreamResponse = PersistedFace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersistedFace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersistedFace;
+  };
 };
 
 /**
@@ -2284,16 +2308,16 @@ export type LargePersonGroupGetResponse = LargePersonGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LargePersonGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LargePersonGroup;
+  };
 };
 
 /**
@@ -2304,16 +2328,16 @@ export type LargePersonGroupGetTrainingStatusResponse = TrainingStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TrainingStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TrainingStatus;
+  };
 };
 
 /**
@@ -2324,16 +2348,16 @@ export type LargePersonGroupListResponse = Array<LargePersonGroup> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LargePersonGroup[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LargePersonGroup[];
+  };
 };
 
 /**
@@ -2344,16 +2368,16 @@ export type LargeFaceListGetResponse = LargeFaceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LargeFaceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LargeFaceList;
+  };
 };
 
 /**
@@ -2364,16 +2388,16 @@ export type LargeFaceListGetTrainingStatusResponse = TrainingStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TrainingStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TrainingStatus;
+  };
 };
 
 /**
@@ -2384,16 +2408,16 @@ export type LargeFaceListListResponse = Array<LargeFaceList> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LargeFaceList[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LargeFaceList[];
+  };
 };
 
 /**
@@ -2404,16 +2428,16 @@ export type LargeFaceListGetFaceResponse = PersistedFace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersistedFace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersistedFace;
+  };
 };
 
 /**
@@ -2424,16 +2448,16 @@ export type LargeFaceListAddFaceFromUrlResponse = PersistedFace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersistedFace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersistedFace;
+  };
 };
 
 /**
@@ -2444,16 +2468,16 @@ export type LargeFaceListListFacesResponse = Array<PersistedFace> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersistedFace[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersistedFace[];
+  };
 };
 
 /**
@@ -2464,16 +2488,16 @@ export type LargeFaceListAddFaceFromStreamResponse = PersistedFace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersistedFace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersistedFace;
+  };
 };
 
 /**
@@ -2484,11 +2508,11 @@ export type SnapshotTakeResponse = SnapshotTakeHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: SnapshotTakeHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: SnapshotTakeHeaders;
+  };
 };
 
 /**
@@ -2499,16 +2523,16 @@ export type SnapshotListResponse = Array<Snapshot> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot[];
+  };
 };
 
 /**
@@ -2519,16 +2543,16 @@ export type SnapshotGetResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -2539,11 +2563,11 @@ export type SnapshotApplyResponse = SnapshotApplyHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: SnapshotApplyHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: SnapshotApplyHeaders;
+  };
 };
 
 /**
@@ -2554,14 +2578,14 @@ export type SnapshotGetOperationStatusResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };

@@ -36,7 +36,11 @@ export class ManagementPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementPoliciesGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -45,7 +49,11 @@ export class ManagementPolicies {
    * letters only.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ManagementPolicy>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.ManagementPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -55,8 +63,18 @@ export class ManagementPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementPolicy>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementPolicy>, callback?: msRest.ServiceCallback<Models.ManagementPolicy>): Promise<Models.ManagementPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementPolicy>,
+    callback?: msRest.ServiceCallback<Models.ManagementPolicy>
+  ): Promise<Models.ManagementPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,7 +82,8 @@ export class ManagementPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagementPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.ManagementPoliciesGetResponse>;
   }
 
   /**
@@ -79,7 +98,12 @@ export class ManagementPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.ManagementPolicySchema, options?: msRest.RequestOptionsBase): Promise<Models.ManagementPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    policy: Models.ManagementPolicySchema,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -90,7 +114,12 @@ export class ManagementPolicies {
    * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.ManagementPolicySchema, callback: msRest.ServiceCallback<Models.ManagementPolicy>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    policy: Models.ManagementPolicySchema,
+    callback: msRest.ServiceCallback<Models.ManagementPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -102,8 +131,20 @@ export class ManagementPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.ManagementPolicySchema, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementPolicy>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.ManagementPolicySchema, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementPolicy>, callback?: msRest.ServiceCallback<Models.ManagementPolicy>): Promise<Models.ManagementPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    policy: Models.ManagementPolicySchema,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementPolicy>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    policy: Models.ManagementPolicySchema,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementPolicy>,
+    callback?: msRest.ServiceCallback<Models.ManagementPolicy>
+  ): Promise<Models.ManagementPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +153,8 @@ export class ManagementPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ManagementPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ManagementPoliciesCreateOrUpdateResponse>;
   }
 
   /**
@@ -125,7 +167,11 @@ export class ManagementPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -134,7 +180,11 @@ export class ManagementPolicies {
    * letters only.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -144,8 +194,18 @@ export class ManagementPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -153,7 +213,8 @@ export class ManagementPolicies {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -161,19 +222,16 @@ export class ManagementPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.managementPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementPolicy
@@ -187,19 +245,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.managementPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       policy: "policy"
@@ -222,19 +277,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.managementPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},

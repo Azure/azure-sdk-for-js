@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing Resource.
@@ -389,7 +388,6 @@ export interface DomainservicesManagementClientOptions extends AzureServiceClien
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the OperationEntityListResult.
@@ -430,7 +428,7 @@ export interface DomainServiceListResult extends Array<DomainService> {
  * @readonly
  * @enum {string}
  */
-export type Ldaps = 'Enabled' | 'Disabled';
+export type Ldaps = "Enabled" | "Disabled";
 
 /**
  * Defines values for ExternalAccess.
@@ -438,7 +436,7 @@ export type Ldaps = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type ExternalAccess = 'Enabled' | 'Disabled';
+export type ExternalAccess = "Enabled" | "Disabled";
 
 /**
  * Defines values for NotifyGlobalAdmins.
@@ -446,7 +444,7 @@ export type ExternalAccess = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type NotifyGlobalAdmins = 'Enabled' | 'Disabled';
+export type NotifyGlobalAdmins = "Enabled" | "Disabled";
 
 /**
  * Defines values for NotifyDcAdmins.
@@ -454,7 +452,7 @@ export type NotifyGlobalAdmins = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type NotifyDcAdmins = 'Enabled' | 'Disabled';
+export type NotifyDcAdmins = "Enabled" | "Disabled";
 
 /**
  * Defines values for NtlmV1.
@@ -462,7 +460,7 @@ export type NotifyDcAdmins = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type NtlmV1 = 'Enabled' | 'Disabled';
+export type NtlmV1 = "Enabled" | "Disabled";
 
 /**
  * Defines values for TlsV1.
@@ -470,7 +468,7 @@ export type NtlmV1 = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type TlsV1 = 'Enabled' | 'Disabled';
+export type TlsV1 = "Enabled" | "Disabled";
 
 /**
  * Defines values for SyncNtlmPasswords.
@@ -478,7 +476,7 @@ export type TlsV1 = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type SyncNtlmPasswords = 'Enabled' | 'Disabled';
+export type SyncNtlmPasswords = "Enabled" | "Disabled";
 
 /**
  * Defines values for FilteredSync.
@@ -486,7 +484,7 @@ export type SyncNtlmPasswords = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type FilteredSync = 'Enabled' | 'Disabled';
+export type FilteredSync = "Enabled" | "Disabled";
 
 /**
  * Contains response data for the list operation.
@@ -496,15 +494,15 @@ export type DomainServiceOperationsListResponse = OperationEntityListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationEntityListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationEntityListResult;
+  };
 };
 
 /**
@@ -515,15 +513,15 @@ export type DomainServiceOperationsListNextResponse = OperationEntityListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationEntityListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationEntityListResult;
+  };
 };
 
 /**
@@ -534,15 +532,15 @@ export type DomainServicesListResponse = DomainServiceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainServiceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainServiceListResult;
+  };
 };
 
 /**
@@ -553,15 +551,15 @@ export type DomainServicesListByResourceGroupResponse = DomainServiceListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainServiceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainServiceListResult;
+  };
 };
 
 /**
@@ -572,15 +570,15 @@ export type DomainServicesCreateOrUpdateResponse = DomainService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainService;
+  };
 };
 
 /**
@@ -591,15 +589,15 @@ export type DomainServicesGetResponse = DomainService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainService;
+  };
 };
 
 /**
@@ -610,15 +608,15 @@ export type DomainServicesDeleteMethodResponse = DomainService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainService;
+  };
 };
 
 /**
@@ -629,15 +627,15 @@ export type DomainServicesUpdateResponse = DomainService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainService;
+  };
 };
 
 /**
@@ -648,15 +646,15 @@ export type DomainServicesBeginCreateOrUpdateResponse = DomainService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainService;
+  };
 };
 
 /**
@@ -667,15 +665,15 @@ export type DomainServicesBeginDeleteMethodResponse = DomainService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainService;
+  };
 };
 
 /**
@@ -686,15 +684,15 @@ export type DomainServicesBeginUpdateResponse = DomainService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainService;
+  };
 };
 
 /**
@@ -705,15 +703,15 @@ export type DomainServicesListNextResponse = DomainServiceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainServiceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainServiceListResult;
+  };
 };
 
 /**
@@ -724,13 +722,13 @@ export type DomainServicesListByResourceGroupNextResponse = DomainServiceListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainServiceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainServiceListResult;
+  };
 };

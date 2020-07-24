@@ -1076,10 +1076,7 @@ export const GeoBackupPolicy: msRest.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Disabled",
-            "Enabled"
-          ]
+          allowedValues: ["Disabled", "Enabled"]
         }
       },
       storageType: {
@@ -1132,11 +1129,7 @@ export const QueryMetric: msRest.CompositeMapper = {
         serializedName: "unit",
         type: {
           name: "Enum",
-          allowedValues: [
-            "percentage",
-            "KB",
-            "microseconds"
-          ]
+          allowedValues: ["percentage", "KB", "microseconds"]
         }
       },
       value: {
@@ -1228,12 +1221,7 @@ export const TopQueries: msRest.CompositeMapper = {
         serializedName: "aggregationFunction",
         type: {
           name: "Enum",
-          allowedValues: [
-            "min",
-            "max",
-            "avg",
-            "sum"
-          ]
+          allowedValues: ["min", "max", "avg", "sum"]
         }
       },
       executionType: {
@@ -1241,13 +1229,7 @@ export const TopQueries: msRest.CompositeMapper = {
         serializedName: "executionType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "any",
-            "regular",
-            "irregular",
-            "aborted",
-            "exception"
-          ]
+          allowedValues: ["any", "regular", "irregular", "aborted", "exception"]
         }
       },
       intervalType: {
@@ -1283,13 +1265,7 @@ export const TopQueries: msRest.CompositeMapper = {
         serializedName: "observedMetric",
         type: {
           name: "Enum",
-          allowedValues: [
-            "cpu",
-            "io",
-            "logio",
-            "duration",
-            "executionCount"
-          ]
+          allowedValues: ["cpu", "io", "logio", "duration", "executionCount"]
         }
       },
       queries: {
@@ -1369,10 +1345,7 @@ export const RestorePoint: msRest.CompositeMapper = {
         serializedName: "properties.restorePointType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "CONTINUOUS",
-            "DISCRETE"
-          ]
+          allowedValues: ["CONTINUOUS", "DISCRETE"]
         }
       },
       earliestRestoreDate: {
@@ -1454,13 +1427,7 @@ export const ReplicationLink: msRest.CompositeMapper = {
         serializedName: "properties.role",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Primary",
-            "Secondary",
-            "NonReadableSecondary",
-            "Source",
-            "Copy"
-          ]
+          allowedValues: ["Primary", "Secondary", "NonReadableSecondary", "Source", "Copy"]
         }
       },
       partnerRole: {
@@ -1468,13 +1435,7 @@ export const ReplicationLink: msRest.CompositeMapper = {
         serializedName: "properties.partnerRole",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Primary",
-            "Secondary",
-            "NonReadableSecondary",
-            "Source",
-            "Copy"
-          ]
+          allowedValues: ["Primary", "Secondary", "NonReadableSecondary", "Source", "Copy"]
         }
       },
       startTime: {
@@ -1520,10 +1481,7 @@ export const TransparentDataEncryption: msRest.CompositeMapper = {
         serializedName: "properties.status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       }
     }
@@ -1549,10 +1507,7 @@ export const SqlPoolBlobAuditingPolicy: msRest.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       storageEndpoint: {
@@ -2101,11 +2056,7 @@ export const SqlPoolSecurityAlertPolicy: msRest.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "New",
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["New", "Enabled", "Disabled"]
         }
       },
       disabledAlerts: {
@@ -2403,10 +2354,7 @@ export const ManagedIdentity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "SystemAssigned"
-          ]
+          allowedValues: ["None", "SystemAssigned"]
         }
       }
     }
@@ -2576,7 +2524,8 @@ export const WorkspacePatchInfo: msRest.CompositeMapper = {
 };
 
 export const ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity: msRest.CompositeMapper = {
-  serializedName: "ManagedIdentitySqlControlSettingsModel_properties_grantSqlControlToManagedIdentity",
+  serializedName:
+    "ManagedIdentitySqlControlSettingsModel_properties_grantSqlControlToManagedIdentity",
   type: {
     name: "Composite",
     className: "ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity",
@@ -2609,7 +2558,8 @@ export const ManagedIdentitySqlControlSettingsModel: msRest.CompositeMapper = {
         serializedName: "properties.grantSqlControlToManagedIdentity",
         type: {
           name: "Composite",
-          className: "ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity"
+          className:
+            "ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity"
         }
       }
     }
@@ -5266,25 +5216,24 @@ export const PrivateLinkHubInfoListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'IntegrationRuntime' : IntegrationRuntime,
-  'SecretBase.SecureString' : SecureString,
-  'CustomSetupBase' : CustomSetupBase,
-  'IntegrationRuntime.Managed' : ManagedIntegrationRuntime,
-  'SecretBase' : SecretBase,
-  'CustomSetupBase.CmdkeySetup' : CmdkeySetup,
-  'CustomSetupBase.EnvironmentVariableSetup' : EnvironmentVariableSetup,
-  'CustomSetupBase.ComponentSetup' : ComponentSetup,
-  'LinkedIntegrationRuntimeType' : LinkedIntegrationRuntimeType,
-  'IntegrationRuntime.SelfHosted' : SelfHostedIntegrationRuntime,
-  'LinkedIntegrationRuntimeType.Key' : LinkedIntegrationRuntimeKeyAuthorization,
-  'LinkedIntegrationRuntimeType.RBAC' : LinkedIntegrationRuntimeRbacAuthorization,
-  'IntegrationRuntimeStatus' : IntegrationRuntimeStatus,
-  'IntegrationRuntimeStatus.Managed' : ManagedIntegrationRuntimeStatus,
-  'IntegrationRuntimeStatus.SelfHosted' : SelfHostedIntegrationRuntimeStatus,
-  'SsisObjectMetadata' : SsisObjectMetadata,
-  'SsisObjectMetadata.Folder' : SsisFolder,
-  'SsisObjectMetadata.Project' : SsisProject,
-  'SsisObjectMetadata.Package' : SsisPackage,
-  'SsisObjectMetadata.Environment' : SsisEnvironment
-
+  IntegrationRuntime: IntegrationRuntime,
+  "SecretBase.SecureString": SecureString,
+  CustomSetupBase: CustomSetupBase,
+  "IntegrationRuntime.Managed": ManagedIntegrationRuntime,
+  SecretBase: SecretBase,
+  "CustomSetupBase.CmdkeySetup": CmdkeySetup,
+  "CustomSetupBase.EnvironmentVariableSetup": EnvironmentVariableSetup,
+  "CustomSetupBase.ComponentSetup": ComponentSetup,
+  LinkedIntegrationRuntimeType: LinkedIntegrationRuntimeType,
+  "IntegrationRuntime.SelfHosted": SelfHostedIntegrationRuntime,
+  "LinkedIntegrationRuntimeType.Key": LinkedIntegrationRuntimeKeyAuthorization,
+  "LinkedIntegrationRuntimeType.RBAC": LinkedIntegrationRuntimeRbacAuthorization,
+  IntegrationRuntimeStatus: IntegrationRuntimeStatus,
+  "IntegrationRuntimeStatus.Managed": ManagedIntegrationRuntimeStatus,
+  "IntegrationRuntimeStatus.SelfHosted": SelfHostedIntegrationRuntimeStatus,
+  SsisObjectMetadata: SsisObjectMetadata,
+  "SsisObjectMetadata.Folder": SsisFolder,
+  "SsisObjectMetadata.Project": SsisProject,
+  "SsisObjectMetadata.Package": SsisPackage,
+  "SsisObjectMetadata.Environment": SsisEnvironment
 };

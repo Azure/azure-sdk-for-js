@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { StorSimple8000SeriesManagementClientContext } from "./storSimple8000SeriesManagementClientContext";
 
-
 class StorSimple8000SeriesManagementClient extends StorSimple8000SeriesManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -40,7 +39,11 @@ class StorSimple8000SeriesManagementClient extends StorSimple8000SeriesManagemen
    * @param subscriptionId The subscription id
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.StorSimple8000SeriesManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.StorSimple8000SeriesManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.managers = new operations.Managers(this);

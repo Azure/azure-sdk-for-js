@@ -34,14 +34,24 @@ export class IntelligencePacks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  disable(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  disable(
+    resourceGroupName: string,
+    workspaceName: string,
+    intelligencePackName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param intelligencePackName The name of the intelligence pack to be disabled.
    * @param callback The callback
    */
-  disable(resourceGroupName: string, workspaceName: string, intelligencePackName: string, callback: msRest.ServiceCallback<void>): void;
+  disable(
+    resourceGroupName: string,
+    workspaceName: string,
+    intelligencePackName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -49,8 +59,20 @@ export class IntelligencePacks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  disable(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disable(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disable(
+    resourceGroupName: string,
+    workspaceName: string,
+    intelligencePackName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  disable(
+    resourceGroupName: string,
+    workspaceName: string,
+    intelligencePackName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class IntelligencePacks {
         options
       },
       disableOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -70,14 +93,24 @@ export class IntelligencePacks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  enable(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  enable(
+    resourceGroupName: string,
+    workspaceName: string,
+    intelligencePackName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param intelligencePackName The name of the intelligence pack to be enabled.
    * @param callback The callback
    */
-  enable(resourceGroupName: string, workspaceName: string, intelligencePackName: string, callback: msRest.ServiceCallback<void>): void;
+  enable(
+    resourceGroupName: string,
+    workspaceName: string,
+    intelligencePackName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -85,8 +118,20 @@ export class IntelligencePacks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  enable(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  enable(resourceGroupName: string, workspaceName: string, intelligencePackName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  enable(
+    resourceGroupName: string,
+    workspaceName: string,
+    intelligencePackName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  enable(
+    resourceGroupName: string,
+    workspaceName: string,
+    intelligencePackName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +140,8 @@ export class IntelligencePacks {
         options
       },
       enableOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -106,21 +152,39 @@ export class IntelligencePacks {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntelligencePacksListResponse>
    */
-  list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntelligencePacksListResponse>;
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntelligencePacksListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.IntelligencePack[]>): void;
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.IntelligencePack[]>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntelligencePack[]>): void;
-  list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntelligencePack[]>, callback?: msRest.ServiceCallback<Models.IntelligencePack[]>): Promise<Models.IntelligencePacksListResponse> {
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IntelligencePack[]>
+  ): void;
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntelligencePack[]>,
+    callback?: msRest.ServiceCallback<Models.IntelligencePack[]>
+  ): Promise<Models.IntelligencePacksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -128,7 +192,8 @@ export class IntelligencePacks {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IntelligencePacksListResponse>;
+      callback
+    ) as Promise<Models.IntelligencePacksListResponse>;
   }
 }
 
@@ -136,19 +201,16 @@ export class IntelligencePacks {
 const serializer = new msRest.Serializer(Mappers);
 const disableOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks/{intelligencePackName}/Disable",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks/{intelligencePackName}/Disable",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.intelligencePackName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -160,19 +222,16 @@ const disableOperationSpec: msRest.OperationSpec = {
 
 const enableOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks/{intelligencePackName}/Enable",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks/{intelligencePackName}/Enable",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.intelligencePackName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -184,18 +243,15 @@ const enableOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {

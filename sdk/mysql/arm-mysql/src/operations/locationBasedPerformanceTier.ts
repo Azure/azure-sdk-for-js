@@ -32,26 +32,41 @@ export class LocationBasedPerformanceTier {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationBasedPerformanceTierListResponse>
    */
-  list(locationName: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationBasedPerformanceTierListResponse>;
+  list(
+    locationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocationBasedPerformanceTierListResponse>;
   /**
    * @param locationName The name of the location.
    * @param callback The callback
    */
-  list(locationName: string, callback: msRest.ServiceCallback<Models.PerformanceTierListResult>): void;
+  list(
+    locationName: string,
+    callback: msRest.ServiceCallback<Models.PerformanceTierListResult>
+  ): void;
   /**
    * @param locationName The name of the location.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PerformanceTierListResult>): void;
-  list(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PerformanceTierListResult>, callback?: msRest.ServiceCallback<Models.PerformanceTierListResult>): Promise<Models.LocationBasedPerformanceTierListResponse> {
+  list(
+    locationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PerformanceTierListResult>
+  ): void;
+  list(
+    locationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PerformanceTierListResult>,
+    callback?: msRest.ServiceCallback<Models.PerformanceTierListResult>
+  ): Promise<Models.LocationBasedPerformanceTierListResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.LocationBasedPerformanceTierListResponse>;
+      callback
+    ) as Promise<Models.LocationBasedPerformanceTierListResponse>;
   }
 }
 
@@ -59,17 +74,11 @@ export class LocationBasedPerformanceTier {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/locations/{locationName}/performanceTiers",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.locationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/locations/{locationName}/performanceTiers",
+  urlParameters: [Parameters.subscriptionId, Parameters.locationName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PerformanceTierListResult

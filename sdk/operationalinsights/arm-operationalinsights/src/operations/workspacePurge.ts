@@ -41,7 +41,12 @@ export class WorkspacePurge {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacePurgePurgeResponse>
    */
-  purge(resourceGroupName: string, workspaceName: string, body: Models.WorkspacePurgeBody, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacePurgePurgeResponse>;
+  purge(
+    resourceGroupName: string,
+    workspaceName: string,
+    body: Models.WorkspacePurgeBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspacePurgePurgeResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -49,7 +54,12 @@ export class WorkspacePurge {
    * Workspace
    * @param callback The callback
    */
-  purge(resourceGroupName: string, workspaceName: string, body: Models.WorkspacePurgeBody, callback: msRest.ServiceCallback<Models.WorkspacePurgeResponse>): void;
+  purge(
+    resourceGroupName: string,
+    workspaceName: string,
+    body: Models.WorkspacePurgeBody,
+    callback: msRest.ServiceCallback<Models.WorkspacePurgeResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -58,8 +68,20 @@ export class WorkspacePurge {
    * @param options The optional parameters
    * @param callback The callback
    */
-  purge(resourceGroupName: string, workspaceName: string, body: Models.WorkspacePurgeBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspacePurgeResponse>): void;
-  purge(resourceGroupName: string, workspaceName: string, body: Models.WorkspacePurgeBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspacePurgeResponse>, callback?: msRest.ServiceCallback<Models.WorkspacePurgeResponse>): Promise<Models.WorkspacePurgePurgeResponse> {
+  purge(
+    resourceGroupName: string,
+    workspaceName: string,
+    body: Models.WorkspacePurgeBody,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkspacePurgeResponse>
+  ): void;
+  purge(
+    resourceGroupName: string,
+    workspaceName: string,
+    body: Models.WorkspacePurgeBody,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspacePurgeResponse>,
+    callback?: msRest.ServiceCallback<Models.WorkspacePurgeResponse>
+  ): Promise<Models.WorkspacePurgePurgeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +90,8 @@ export class WorkspacePurge {
         options
       },
       purgeOperationSpec,
-      callback) as Promise<Models.WorkspacePurgePurgeResponse>;
+      callback
+    ) as Promise<Models.WorkspacePurgePurgeResponse>;
   }
 
   /**
@@ -80,7 +103,12 @@ export class WorkspacePurge {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacePurgeGetPurgeStatusResponse>
    */
-  getPurgeStatus(resourceGroupName: string, workspaceName: string, purgeId: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacePurgeGetPurgeStatusResponse>;
+  getPurgeStatus(
+    resourceGroupName: string,
+    workspaceName: string,
+    purgeId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspacePurgeGetPurgeStatusResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -88,7 +116,12 @@ export class WorkspacePurge {
    * returned.
    * @param callback The callback
    */
-  getPurgeStatus(resourceGroupName: string, workspaceName: string, purgeId: string, callback: msRest.ServiceCallback<Models.WorkspacePurgeStatusResponse>): void;
+  getPurgeStatus(
+    resourceGroupName: string,
+    workspaceName: string,
+    purgeId: string,
+    callback: msRest.ServiceCallback<Models.WorkspacePurgeStatusResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -97,8 +130,22 @@ export class WorkspacePurge {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPurgeStatus(resourceGroupName: string, workspaceName: string, purgeId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspacePurgeStatusResponse>): void;
-  getPurgeStatus(resourceGroupName: string, workspaceName: string, purgeId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspacePurgeStatusResponse>, callback?: msRest.ServiceCallback<Models.WorkspacePurgeStatusResponse>): Promise<Models.WorkspacePurgeGetPurgeStatusResponse> {
+  getPurgeStatus(
+    resourceGroupName: string,
+    workspaceName: string,
+    purgeId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkspacePurgeStatusResponse>
+  ): void;
+  getPurgeStatus(
+    resourceGroupName: string,
+    workspaceName: string,
+    purgeId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.WorkspacePurgeStatusResponse>,
+    callback?: msRest.ServiceCallback<Models.WorkspacePurgeStatusResponse>
+  ): Promise<Models.WorkspacePurgeGetPurgeStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +154,8 @@ export class WorkspacePurge {
         options
       },
       getPurgeStatusOperationSpec,
-      callback) as Promise<Models.WorkspacePurgeGetPurgeStatusResponse>;
+      callback
+    ) as Promise<Models.WorkspacePurgeGetPurgeStatusResponse>;
   }
 }
 
@@ -115,18 +163,15 @@ export class WorkspacePurge {
 const serializer = new msRest.Serializer(Mappers);
 const purgeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/purge",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/purge",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -149,19 +194,16 @@ const purgeOperationSpec: msRest.OperationSpec = {
 
 const getPurgeStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/operations/{purgeId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/operations/{purgeId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.workspaceName,
     Parameters.purgeId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkspacePurgeStatusResponse

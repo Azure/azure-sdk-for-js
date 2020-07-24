@@ -40,14 +40,21 @@ export class Console {
    * @param options The optional parameters
    * @param callback The callback
    */
-  enableConsole(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SetDisabledResult>): void;
-  enableConsole(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SetDisabledResult>, callback?: msRest.ServiceCallback<Models.SetDisabledResult>): Promise<Models.ConsoleEnableConsoleResponse> {
+  enableConsole(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SetDisabledResult>
+  ): void;
+  enableConsole(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SetDisabledResult>,
+    callback?: msRest.ServiceCallback<Models.SetDisabledResult>
+  ): Promise<Models.ConsoleEnableConsoleResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       enableConsoleOperationSpec,
-      callback) as Promise<Models.ConsoleEnableConsoleResponse>;
+      callback
+    ) as Promise<Models.ConsoleEnableConsoleResponse>;
   }
 
   /**
@@ -55,7 +62,9 @@ export class Console {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConsoleDisableConsoleResponse>
    */
-  disableConsole(options?: msRest.RequestOptionsBase): Promise<Models.ConsoleDisableConsoleResponse>;
+  disableConsole(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConsoleDisableConsoleResponse>;
   /**
    * @param callback The callback
    */
@@ -64,14 +73,21 @@ export class Console {
    * @param options The optional parameters
    * @param callback The callback
    */
-  disableConsole(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SetDisabledResult>): void;
-  disableConsole(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SetDisabledResult>, callback?: msRest.ServiceCallback<Models.SetDisabledResult>): Promise<Models.ConsoleDisableConsoleResponse> {
+  disableConsole(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SetDisabledResult>
+  ): void;
+  disableConsole(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SetDisabledResult>,
+    callback?: msRest.ServiceCallback<Models.SetDisabledResult>
+  ): Promise<Models.ConsoleDisableConsoleResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       disableConsoleOperationSpec,
-      callback) as Promise<Models.ConsoleDisableConsoleResponse>;
+      callback
+    ) as Promise<Models.ConsoleDisableConsoleResponse>;
   }
 }
 
@@ -79,17 +95,11 @@ export class Console {
 const serializer = new msRest.Serializer(Mappers);
 const enableConsoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/enableConsole",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.defaultParameter
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/enableConsole",
+  urlParameters: [Parameters.subscriptionId, Parameters.defaultParameter],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SetDisabledResult
@@ -103,17 +113,11 @@ const enableConsoleOperationSpec: msRest.OperationSpec = {
 
 const disableConsoleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/disableConsole",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.defaultParameter
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/disableConsole",
+  urlParameters: [Parameters.subscriptionId, Parameters.defaultParameter],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SetDisabledResult

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { GraphRbacManagementClientContext } from "./graphRbacManagementClientContext";
 
-
 class GraphRbacManagementClient extends GraphRbacManagementClientContext {
   // Operation groups
   signedInUser: operations.SignedInUser;
@@ -33,7 +32,11 @@ class GraphRbacManagementClient extends GraphRbacManagementClientContext {
    * @param tenantID The tenant ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, tenantID: string, options?: Models.GraphRbacManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    tenantID: string,
+    options?: Models.GraphRbacManagementClientOptions
+  ) {
     super(credentials, tenantID, options);
     this.signedInUser = new operations.SignedInUser(this);
     this.applications = new operations.Applications(this);

@@ -8,13 +8,13 @@ import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 import { LUISAuthoringClient } from "../src/lUISAuthoringClient";
 
 export class BaseTest {
-  static GlobalAppId = process.env['global_app_id'];
+  static GlobalAppId = process.env["global_app_id"];
   static GlobalVersionId = "0.1";
-  static GlobalAppIdError = process.env['global_app_id_error'];
-  static GlobalNoneId = process.env['global_none_id'];
-  static AuthoringKey = process.env['authoring_key'];
+  static GlobalAppIdError = process.env["global_app_id_error"];
+  static GlobalNoneId = process.env["global_none_id"];
+  static AuthoringKey = process.env["authoring_key"];
   static EmptyId = "00000000-0000-0000-0000-000000000000";
-  static OwnerEmail = process.env['owner_email'];
+  static OwnerEmail = process.env["owner_email"];
 
   static async useClientFor(test) {
     let client = new LUISAuthoringClient(

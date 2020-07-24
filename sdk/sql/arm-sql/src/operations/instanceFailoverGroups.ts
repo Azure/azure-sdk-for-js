@@ -36,7 +36,12 @@ export class InstanceFailoverGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.InstanceFailoverGroupsGetResponse>
    */
-  get(resourceGroupName: string, locationName: string, failoverGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.InstanceFailoverGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    locationName: string,
+    failoverGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InstanceFailoverGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -44,7 +49,12 @@ export class InstanceFailoverGroups {
    * @param failoverGroupName The name of the failover group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, locationName: string, failoverGroupName: string, callback: msRest.ServiceCallback<Models.InstanceFailoverGroup>): void;
+  get(
+    resourceGroupName: string,
+    locationName: string,
+    failoverGroupName: string,
+    callback: msRest.ServiceCallback<Models.InstanceFailoverGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -53,8 +63,20 @@ export class InstanceFailoverGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, locationName: string, failoverGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InstanceFailoverGroup>): void;
-  get(resourceGroupName: string, locationName: string, failoverGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InstanceFailoverGroup>, callback?: msRest.ServiceCallback<Models.InstanceFailoverGroup>): Promise<Models.InstanceFailoverGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    locationName: string,
+    failoverGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.InstanceFailoverGroup>
+  ): void;
+  get(
+    resourceGroupName: string,
+    locationName: string,
+    failoverGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InstanceFailoverGroup>,
+    callback?: msRest.ServiceCallback<Models.InstanceFailoverGroup>
+  ): Promise<Models.InstanceFailoverGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +85,8 @@ export class InstanceFailoverGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.InstanceFailoverGroupsGetResponse>;
+      callback
+    ) as Promise<Models.InstanceFailoverGroupsGetResponse>;
   }
 
   /**
@@ -76,9 +99,22 @@ export class InstanceFailoverGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.InstanceFailoverGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, locationName: string, failoverGroupName: string, parameters: Models.InstanceFailoverGroup, options?: msRest.RequestOptionsBase): Promise<Models.InstanceFailoverGroupsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,locationName,failoverGroupName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InstanceFailoverGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    locationName: string,
+    failoverGroupName: string,
+    parameters: Models.InstanceFailoverGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InstanceFailoverGroupsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      locationName,
+      failoverGroupName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.InstanceFailoverGroupsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -90,9 +126,18 @@ export class InstanceFailoverGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, locationName: string, failoverGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,locationName,failoverGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    locationName: string,
+    failoverGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      locationName,
+      failoverGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -103,14 +148,22 @@ export class InstanceFailoverGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.InstanceFailoverGroupsListByLocationResponse>
    */
-  listByLocation(resourceGroupName: string, locationName: string, options?: msRest.RequestOptionsBase): Promise<Models.InstanceFailoverGroupsListByLocationResponse>;
+  listByLocation(
+    resourceGroupName: string,
+    locationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InstanceFailoverGroupsListByLocationResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param locationName The name of the region where the resource is located.
    * @param callback The callback
    */
-  listByLocation(resourceGroupName: string, locationName: string, callback: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>): void;
+  listByLocation(
+    resourceGroupName: string,
+    locationName: string,
+    callback: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -118,8 +171,20 @@ export class InstanceFailoverGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByLocation(resourceGroupName: string, locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>): void;
-  listByLocation(resourceGroupName: string, locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>, callback?: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>): Promise<Models.InstanceFailoverGroupsListByLocationResponse> {
+  listByLocation(
+    resourceGroupName: string,
+    locationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>
+  ): void;
+  listByLocation(
+    resourceGroupName: string,
+    locationName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>
+  ): Promise<Models.InstanceFailoverGroupsListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +192,8 @@ export class InstanceFailoverGroups {
         options
       },
       listByLocationOperationSpec,
-      callback) as Promise<Models.InstanceFailoverGroupsListByLocationResponse>;
+      callback
+    ) as Promise<Models.InstanceFailoverGroupsListByLocationResponse>;
   }
 
   /**
@@ -139,9 +205,20 @@ export class InstanceFailoverGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.InstanceFailoverGroupsFailoverResponse>
    */
-  failover(resourceGroupName: string, locationName: string, failoverGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.InstanceFailoverGroupsFailoverResponse> {
-    return this.beginFailover(resourceGroupName,locationName,failoverGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InstanceFailoverGroupsFailoverResponse>;
+  failover(
+    resourceGroupName: string,
+    locationName: string,
+    failoverGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InstanceFailoverGroupsFailoverResponse> {
+    return this.beginFailover(
+      resourceGroupName,
+      locationName,
+      failoverGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.InstanceFailoverGroupsFailoverResponse
+    >;
   }
 
   /**
@@ -154,9 +231,20 @@ export class InstanceFailoverGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.InstanceFailoverGroupsForceFailoverAllowDataLossResponse>
    */
-  forceFailoverAllowDataLoss(resourceGroupName: string, locationName: string, failoverGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.InstanceFailoverGroupsForceFailoverAllowDataLossResponse> {
-    return this.beginForceFailoverAllowDataLoss(resourceGroupName,locationName,failoverGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InstanceFailoverGroupsForceFailoverAllowDataLossResponse>;
+  forceFailoverAllowDataLoss(
+    resourceGroupName: string,
+    locationName: string,
+    failoverGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InstanceFailoverGroupsForceFailoverAllowDataLossResponse> {
+    return this.beginForceFailoverAllowDataLoss(
+      resourceGroupName,
+      locationName,
+      failoverGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.InstanceFailoverGroupsForceFailoverAllowDataLossResponse
+    >;
   }
 
   /**
@@ -169,7 +257,13 @@ export class InstanceFailoverGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, locationName: string, failoverGroupName: string, parameters: Models.InstanceFailoverGroup, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    locationName: string,
+    failoverGroupName: string,
+    parameters: Models.InstanceFailoverGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -179,7 +273,8 @@ export class InstanceFailoverGroups {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -191,7 +286,12 @@ export class InstanceFailoverGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, locationName: string, failoverGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    locationName: string,
+    failoverGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -200,7 +300,8 @@ export class InstanceFailoverGroups {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -212,7 +313,12 @@ export class InstanceFailoverGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginFailover(resourceGroupName: string, locationName: string, failoverGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginFailover(
+    resourceGroupName: string,
+    locationName: string,
+    failoverGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -221,7 +327,8 @@ export class InstanceFailoverGroups {
         options
       },
       beginFailoverOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -234,7 +341,12 @@ export class InstanceFailoverGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginForceFailoverAllowDataLoss(resourceGroupName: string, locationName: string, failoverGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginForceFailoverAllowDataLoss(
+    resourceGroupName: string,
+    locationName: string,
+    failoverGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -243,7 +355,8 @@ export class InstanceFailoverGroups {
         options
       },
       beginForceFailoverAllowDataLossOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -252,26 +365,43 @@ export class InstanceFailoverGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.InstanceFailoverGroupsListByLocationNextResponse>
    */
-  listByLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.InstanceFailoverGroupsListByLocationNextResponse>;
+  listByLocationNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InstanceFailoverGroupsListByLocationNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByLocationNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>): void;
+  listByLocationNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByLocationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>): void;
-  listByLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>, callback?: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>): Promise<Models.InstanceFailoverGroupsListByLocationNextResponse> {
+  listByLocationNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>
+  ): void;
+  listByLocationNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.InstanceFailoverGroupListResult>
+  ): Promise<Models.InstanceFailoverGroupsListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByLocationNextOperationSpec,
-      callback) as Promise<Models.InstanceFailoverGroupsListByLocationNextResponse>;
+      callback
+    ) as Promise<Models.InstanceFailoverGroupsListByLocationNextResponse>;
   }
 }
 
@@ -279,19 +409,16 @@ export class InstanceFailoverGroups {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.locationName,
     Parameters.failoverGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InstanceFailoverGroup
@@ -305,18 +432,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByLocationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.locationName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups",
+  urlParameters: [Parameters.resourceGroupName, Parameters.locationName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InstanceFailoverGroupListResult
@@ -330,19 +450,16 @@ const listByLocationOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.locationName,
     Parameters.failoverGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -367,19 +484,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.locationName,
     Parameters.failoverGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -393,19 +507,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}/failover",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}/failover",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.locationName,
     Parameters.failoverGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InstanceFailoverGroup
@@ -420,19 +531,16 @@ const beginFailoverOperationSpec: msRest.OperationSpec = {
 
 const beginForceFailoverAllowDataLossOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}/forceFailoverAllowDataLoss",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/instanceFailoverGroups/{failoverGroupName}/forceFailoverAllowDataLoss",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.locationName,
     Parameters.failoverGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InstanceFailoverGroup
@@ -449,12 +557,8 @@ const listByLocationNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InstanceFailoverGroupListResult

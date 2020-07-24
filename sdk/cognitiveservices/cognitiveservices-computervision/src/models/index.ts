@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as msRest from "@azure/ms-rest-js";
 
 /**
@@ -813,7 +812,8 @@ export interface ComputerVisionClientDescribeImageOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface ComputerVisionClientAnalyzeImageByDomainOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientAnalyzeImageByDomainOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The desired language for output generation. If this parameter is not specified, the default
    * value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja -
@@ -826,7 +826,8 @@ export interface ComputerVisionClientAnalyzeImageByDomainOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ComputerVisionClientRecognizePrintedTextOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientRecognizePrintedTextOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The BCP-47 language code of the text to be detected in the image. The default value is 'unk'.
    * Possible values include: 'unk', 'zh-Hans', 'zh-Hant', 'cs', 'da', 'nl', 'en', 'fi', 'fr',
@@ -852,7 +853,8 @@ export interface ComputerVisionClientTagImageOptionalParams extends msRest.Reque
 /**
  * Optional Parameters.
  */
-export interface ComputerVisionClientGenerateThumbnailOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientGenerateThumbnailOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Boolean flag for enabling smart cropping. Default value: false.
    */
@@ -877,7 +879,8 @@ export interface ComputerVisionClientReadOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
-export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A string indicating what visual feature types to return. Multiple values should be
    * comma-separated. Valid visual feature types include: Categories - categorizes image content
@@ -916,7 +919,8 @@ export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ComputerVisionClientDescribeImageInStreamOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientDescribeImageInStreamOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Maximum number of candidate descriptions to be returned.  The default is 1. Default value: 1.
    */
@@ -937,7 +941,8 @@ export interface ComputerVisionClientDescribeImageInStreamOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface ComputerVisionClientGenerateThumbnailInStreamOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientGenerateThumbnailInStreamOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Boolean flag for enabling smart cropping. Default value: false.
    */
@@ -947,7 +952,8 @@ export interface ComputerVisionClientGenerateThumbnailInStreamOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The desired language for output generation. If this parameter is not specified, the default
    * value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja -
@@ -960,7 +966,8 @@ export interface ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams 
 /**
  * Optional Parameters.
  */
-export interface ComputerVisionClientRecognizePrintedTextInStreamOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientRecognizePrintedTextInStreamOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The BCP-47 language code of the text to be detected in the image. The default value is 'unk'.
    * Possible values include: 'unk', 'zh-Hans', 'zh-Hant', 'cs', 'da', 'nl', 'en', 'fi', 'fr',
@@ -973,7 +980,8 @@ export interface ComputerVisionClientRecognizePrintedTextInStreamOptionalParams 
 /**
  * Optional Parameters.
  */
-export interface ComputerVisionClientTagImageInStreamOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputerVisionClientTagImageInStreamOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The desired language for output generation. If this parameter is not specified, the default
    * value is &quot;en&quot;.Supported languages:en - English, Default. es - Spanish, ja -
@@ -1024,7 +1032,7 @@ export interface ReadInStreamHeaders {
  * @readonly
  * @enum {string}
  */
-export type Gender = 'Male' | 'Female';
+export type Gender = "Male" | "Female";
 
 /**
  * Defines values for OperationStatusCodes.
@@ -1032,7 +1040,7 @@ export type Gender = 'Male' | 'Female';
  * @readonly
  * @enum {string}
  */
-export type OperationStatusCodes = 'notStarted' | 'running' | 'failed' | 'succeeded';
+export type OperationStatusCodes = "notStarted" | "running" | "failed" | "succeeded";
 
 /**
  * Defines values for TextRecognitionResultDimensionUnit.
@@ -1040,7 +1048,7 @@ export type OperationStatusCodes = 'notStarted' | 'running' | 'failed' | 'succee
  * @readonly
  * @enum {string}
  */
-export type TextRecognitionResultDimensionUnit = 'pixel' | 'inch';
+export type TextRecognitionResultDimensionUnit = "pixel" | "inch";
 
 /**
  * Defines values for DescriptionExclude.
@@ -1048,7 +1056,7 @@ export type TextRecognitionResultDimensionUnit = 'pixel' | 'inch';
  * @readonly
  * @enum {string}
  */
-export type DescriptionExclude = 'Celebrities' | 'Landmarks';
+export type DescriptionExclude = "Celebrities" | "Landmarks";
 
 /**
  * Defines values for OcrLanguages.
@@ -1058,7 +1066,34 @@ export type DescriptionExclude = 'Celebrities' | 'Landmarks';
  * @readonly
  * @enum {string}
  */
-export type OcrLanguages = 'unk' | 'zh-Hans' | 'zh-Hant' | 'cs' | 'da' | 'nl' | 'en' | 'fi' | 'fr' | 'de' | 'el' | 'hu' | 'it' | 'ja' | 'ko' | 'nb' | 'pl' | 'pt' | 'ru' | 'es' | 'sv' | 'tr' | 'ar' | 'ro' | 'sr-Cyrl' | 'sr-Latn' | 'sk';
+export type OcrLanguages =
+  | "unk"
+  | "zh-Hans"
+  | "zh-Hant"
+  | "cs"
+  | "da"
+  | "nl"
+  | "en"
+  | "fi"
+  | "fr"
+  | "de"
+  | "el"
+  | "hu"
+  | "it"
+  | "ja"
+  | "ko"
+  | "nb"
+  | "pl"
+  | "pt"
+  | "ru"
+  | "es"
+  | "sv"
+  | "tr"
+  | "ar"
+  | "ro"
+  | "sr-Cyrl"
+  | "sr-Latn"
+  | "sk";
 
 /**
  * Defines values for VisualFeatureTypes.
@@ -1067,7 +1102,16 @@ export type OcrLanguages = 'unk' | 'zh-Hans' | 'zh-Hant' | 'cs' | 'da' | 'nl' | 
  * @readonly
  * @enum {string}
  */
-export type VisualFeatureTypes = 'ImageType' | 'Faces' | 'Adult' | 'Categories' | 'Color' | 'Tags' | 'Description' | 'Objects' | 'Brands';
+export type VisualFeatureTypes =
+  | "ImageType"
+  | "Faces"
+  | "Adult"
+  | "Categories"
+  | "Color"
+  | "Tags"
+  | "Description"
+  | "Objects"
+  | "Brands";
 
 /**
  * Defines values for OcrDetectionLanguage.
@@ -1075,7 +1119,7 @@ export type VisualFeatureTypes = 'ImageType' | 'Faces' | 'Adult' | 'Categories' 
  * @readonly
  * @enum {string}
  */
-export type OcrDetectionLanguage = 'en' | 'es' | 'fr' | 'de' | 'it' | 'nl' | 'pt';
+export type OcrDetectionLanguage = "en" | "es" | "fr" | "de" | "it" | "nl" | "pt";
 
 /**
  * Defines values for Details.
@@ -1083,7 +1127,7 @@ export type OcrDetectionLanguage = 'en' | 'es' | 'fr' | 'de' | 'it' | 'nl' | 'pt
  * @readonly
  * @enum {string}
  */
-export type Details = 'Celebrities' | 'Landmarks';
+export type Details = "Celebrities" | "Landmarks";
 
 /**
  * Defines values for Language.
@@ -1091,7 +1135,7 @@ export type Details = 'Celebrities' | 'Landmarks';
  * @readonly
  * @enum {string}
  */
-export type Language = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language = "en" | "es" | "ja" | "pt" | "zh";
 
 /**
  * Defines values for Language1.
@@ -1099,7 +1143,7 @@ export type Language = 'en' | 'es' | 'ja' | 'pt' | 'zh';
  * @readonly
  * @enum {string}
  */
-export type Language1 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language1 = "en" | "es" | "ja" | "pt" | "zh";
 
 /**
  * Defines values for Language2.
@@ -1107,7 +1151,7 @@ export type Language1 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
  * @readonly
  * @enum {string}
  */
-export type Language2 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language2 = "en" | "es" | "ja" | "pt" | "zh";
 
 /**
  * Defines values for Language3.
@@ -1115,7 +1159,7 @@ export type Language2 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
  * @readonly
  * @enum {string}
  */
-export type Language3 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language3 = "en" | "es" | "ja" | "pt" | "zh";
 
 /**
  * Defines values for Language4.
@@ -1123,7 +1167,7 @@ export type Language3 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
  * @readonly
  * @enum {string}
  */
-export type Language4 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language4 = "en" | "es" | "ja" | "pt" | "zh";
 
 /**
  * Defines values for Language5.
@@ -1131,7 +1175,7 @@ export type Language4 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
  * @readonly
  * @enum {string}
  */
-export type Language5 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language5 = "en" | "es" | "ja" | "pt" | "zh";
 
 /**
  * Defines values for Language6.
@@ -1139,7 +1183,7 @@ export type Language5 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
  * @readonly
  * @enum {string}
  */
-export type Language6 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language6 = "en" | "es" | "ja" | "pt" | "zh";
 
 /**
  * Defines values for Language7.
@@ -1147,7 +1191,7 @@ export type Language6 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
  * @readonly
  * @enum {string}
  */
-export type Language7 = 'en' | 'es' | 'ja' | 'pt' | 'zh';
+export type Language7 = "en" | "es" | "ja" | "pt" | "zh";
 
 /**
  * Contains response data for the analyzeImage operation.
@@ -1157,16 +1201,16 @@ export type AnalyzeImageResponse = ImageAnalysis & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageAnalysis;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageAnalysis;
+  };
 };
 
 /**
@@ -1177,16 +1221,16 @@ export type DescribeImageResponse = ImageDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageDescription;
+  };
 };
 
 /**
@@ -1197,16 +1241,16 @@ export type DetectObjectsResponse = DetectResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DetectResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DetectResult;
+  };
 };
 
 /**
@@ -1217,16 +1261,16 @@ export type ListModelsResponse = ListModelsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListModelsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListModelsResult;
+  };
 };
 
 /**
@@ -1237,16 +1281,16 @@ export type AnalyzeImageByDomainResponse = DomainModelResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainModelResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainModelResults;
+  };
 };
 
 /**
@@ -1257,16 +1301,16 @@ export type RecognizePrintedTextResponse = OcrResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OcrResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OcrResult;
+  };
 };
 
 /**
@@ -1277,16 +1321,16 @@ export type TagImageResponse = TagResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagResult;
+  };
 };
 
 /**
@@ -1323,16 +1367,16 @@ export type GetAreaOfInterestResponse = AreaOfInterestResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AreaOfInterestResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AreaOfInterestResult;
+  };
 };
 
 /**
@@ -1343,11 +1387,11 @@ export type ReadResponse = ReadHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ReadHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ReadHeaders;
+  };
 };
 
 /**
@@ -1358,16 +1402,16 @@ export type GetReadResultResponse = ReadOperationResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReadOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReadOperationResult;
+  };
 };
 
 /**
@@ -1378,16 +1422,16 @@ export type AnalyzeImageInStreamResponse = ImageAnalysis & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageAnalysis;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageAnalysis;
+  };
 };
 
 /**
@@ -1398,16 +1442,16 @@ export type GetAreaOfInterestInStreamResponse = AreaOfInterestResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AreaOfInterestResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AreaOfInterestResult;
+  };
 };
 
 /**
@@ -1418,16 +1462,16 @@ export type DescribeImageInStreamResponse = ImageDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageDescription;
+  };
 };
 
 /**
@@ -1438,16 +1482,16 @@ export type DetectObjectsInStreamResponse = DetectResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DetectResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DetectResult;
+  };
 };
 
 /**
@@ -1484,16 +1528,16 @@ export type AnalyzeImageByDomainInStreamResponse = DomainModelResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainModelResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainModelResults;
+  };
 };
 
 /**
@@ -1504,16 +1548,16 @@ export type RecognizePrintedTextInStreamResponse = OcrResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OcrResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OcrResult;
+  };
 };
 
 /**
@@ -1524,16 +1568,16 @@ export type TagImageInStreamResponse = TagResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagResult;
+  };
 };
 
 /**
@@ -1544,9 +1588,9 @@ export type ReadInStreamResponse = ReadInStreamHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ReadInStreamHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ReadInStreamHeaders;
+  };
 };

@@ -36,7 +36,13 @@ export class FirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.FirewallRulesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: Models.FirewallRule, options?: msRest.RequestOptionsBase): Promise<Models.FirewallRulesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    firewallRuleName: string,
+    parameters: Models.FirewallRule,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FirewallRulesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -45,7 +51,13 @@ export class FirewallRules {
    * @param parameters The required parameters for creating or updating a firewall rule.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: Models.FirewallRule, callback: msRest.ServiceCallback<Models.FirewallRule>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    firewallRuleName: string,
+    parameters: Models.FirewallRule,
+    callback: msRest.ServiceCallback<Models.FirewallRule>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -55,8 +67,22 @@ export class FirewallRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: Models.FirewallRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FirewallRule>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, firewallRuleName: string, parameters: Models.FirewallRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallRule>, callback?: msRest.ServiceCallback<Models.FirewallRule>): Promise<Models.FirewallRulesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    firewallRuleName: string,
+    parameters: Models.FirewallRule,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FirewallRule>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    firewallRuleName: string,
+    parameters: Models.FirewallRule,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallRule>,
+    callback?: msRest.ServiceCallback<Models.FirewallRule>
+  ): Promise<Models.FirewallRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +92,8 @@ export class FirewallRules {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.FirewallRulesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.FirewallRulesCreateOrUpdateResponse>;
   }
 
   /**
@@ -78,7 +105,12 @@ export class FirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    firewallRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -86,7 +118,12 @@ export class FirewallRules {
    * @param firewallRuleName The name of the firewall rule.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serverName: string, firewallRuleName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    firewallRuleName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -95,8 +132,20 @@ export class FirewallRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serverName: string, firewallRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    firewallRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    firewallRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +154,8 @@ export class FirewallRules {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -117,7 +167,12 @@ export class FirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.FirewallRulesGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.FirewallRulesGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    firewallRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FirewallRulesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -125,7 +180,12 @@ export class FirewallRules {
    * @param firewallRuleName The name of the firewall rule.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, firewallRuleName: string, callback: msRest.ServiceCallback<Models.FirewallRule>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    firewallRuleName: string,
+    callback: msRest.ServiceCallback<Models.FirewallRule>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -134,8 +194,20 @@ export class FirewallRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, firewallRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FirewallRule>): void;
-  get(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallRule>, callback?: msRest.ServiceCallback<Models.FirewallRule>): Promise<Models.FirewallRulesGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    firewallRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FirewallRule>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    firewallRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallRule>,
+    callback?: msRest.ServiceCallback<Models.FirewallRule>
+  ): Promise<Models.FirewallRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,7 +216,8 @@ export class FirewallRules {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.FirewallRulesGetResponse>;
+      callback
+    ) as Promise<Models.FirewallRulesGetResponse>;
   }
 
   /**
@@ -155,14 +228,22 @@ export class FirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.FirewallRulesListByServerResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.FirewallRulesListByServerResponse>;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FirewallRulesListByServerResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.FirewallRuleListResult>): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.FirewallRuleListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -170,8 +251,18 @@ export class FirewallRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FirewallRuleListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallRuleListResult>, callback?: msRest.ServiceCallback<Models.FirewallRuleListResult>): Promise<Models.FirewallRulesListByServerResponse> {
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FirewallRuleListResult>
+  ): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FirewallRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.FirewallRuleListResult>
+  ): Promise<Models.FirewallRulesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -179,7 +270,8 @@ export class FirewallRules {
         options
       },
       listByServerOperationSpec,
-      callback) as Promise<Models.FirewallRulesListByServerResponse>;
+      callback
+    ) as Promise<Models.FirewallRulesListByServerResponse>;
   }
 }
 
@@ -187,19 +279,16 @@ export class FirewallRules {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules/{firewallRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules/{firewallRuleName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.firewallRuleName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -223,19 +312,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules/{firewallRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules/{firewallRuleName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.firewallRuleName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -248,19 +334,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules/{firewallRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules/{firewallRuleName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.firewallRuleName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FirewallRule
@@ -274,18 +357,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/firewallRules",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.serverName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FirewallRuleListResult

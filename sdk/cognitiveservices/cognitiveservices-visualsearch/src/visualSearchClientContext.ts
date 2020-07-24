@@ -23,7 +23,10 @@ export class VisualSearchClientContext extends msRest.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.VisualSearchClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.VisualSearchClientOptions
+  ) {
     if (credentials == undefined) {
       throw new Error("'credentials' cannot be null.");
     }
@@ -39,7 +42,7 @@ export class VisualSearchClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.endpoint = 'https://api.cognitive.microsoft.com';
+    this.endpoint = "https://api.cognitive.microsoft.com";
     this.baseUri = "{Endpoint}/bing/v7.0";
     this.requestContentType = "multipart/form-data";
     this.credentials = credentials;

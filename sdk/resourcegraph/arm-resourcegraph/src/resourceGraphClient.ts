@@ -15,7 +15,6 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { ResourceGraphClientContext } from "./resourceGraphClientContext";
 
-
 class ResourceGraphClient extends ResourceGraphClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -25,7 +24,10 @@ class ResourceGraphClient extends ResourceGraphClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.ResourceGraphClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.ResourceGraphClientOptions
+  ) {
     super(credentials, options);
     this.operations = new operations.Operations(this);
   }
@@ -37,26 +39,41 @@ class ResourceGraphClient extends ResourceGraphClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesResponse>
    */
-  resources(query: Models.QueryRequest, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesResponse>;
+  resources(
+    query: Models.QueryRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourcesResponse>;
   /**
    * @param query Request specifying query and its options.
    * @param callback The callback
    */
-  resources(query: Models.QueryRequest, callback: msRest.ServiceCallback<Models.QueryResponse>): void;
+  resources(
+    query: Models.QueryRequest,
+    callback: msRest.ServiceCallback<Models.QueryResponse>
+  ): void;
   /**
    * @param query Request specifying query and its options.
    * @param options The optional parameters
    * @param callback The callback
    */
-  resources(query: Models.QueryRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QueryResponse>): void;
-  resources(query: Models.QueryRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryResponse>, callback?: msRest.ServiceCallback<Models.QueryResponse>): Promise<Models.ResourcesResponse> {
+  resources(
+    query: Models.QueryRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.QueryResponse>
+  ): void;
+  resources(
+    query: Models.QueryRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryResponse>,
+    callback?: msRest.ServiceCallback<Models.QueryResponse>
+  ): Promise<Models.ResourcesResponse> {
     return this.sendOperationRequest(
       {
         query,
         options
       },
       resourcesOperationSpec,
-      callback) as Promise<Models.ResourcesResponse>;
+      callback
+    ) as Promise<Models.ResourcesResponse>;
   }
 }
 
@@ -65,12 +82,8 @@ const serializer = new msRest.Serializer(Mappers);
 const resourcesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.ResourceGraph/resources",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "query",
     mapper: {

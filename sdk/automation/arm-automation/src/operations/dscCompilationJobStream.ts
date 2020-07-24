@@ -34,14 +34,24 @@ export class DscCompilationJobStream {
    * @param [options] The optional parameters
    * @returns Promise<Models.DscCompilationJobStreamListByJobResponse>
    */
-  listByJob(resourceGroupName: string, automationAccountName: string, jobId: string, options?: msRest.RequestOptionsBase): Promise<Models.DscCompilationJobStreamListByJobResponse>;
+  listByJob(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DscCompilationJobStreamListByJobResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param jobId The job id.
    * @param callback The callback
    */
-  listByJob(resourceGroupName: string, automationAccountName: string, jobId: string, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
+  listByJob(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobId: string,
+    callback: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -49,8 +59,20 @@ export class DscCompilationJobStream {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByJob(resourceGroupName: string, automationAccountName: string, jobId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
-  listByJob(resourceGroupName: string, automationAccountName: string, jobId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobStreamListResult>, callback?: msRest.ServiceCallback<Models.JobStreamListResult>): Promise<Models.DscCompilationJobStreamListByJobResponse> {
+  listByJob(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): void;
+  listByJob(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobStreamListResult>,
+    callback?: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): Promise<Models.DscCompilationJobStreamListByJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class DscCompilationJobStream {
         options
       },
       listByJobOperationSpec,
-      callback) as Promise<Models.DscCompilationJobStreamListByJobResponse>;
+      callback
+    ) as Promise<Models.DscCompilationJobStreamListByJobResponse>;
   }
 }
 
@@ -67,19 +90,16 @@ export class DscCompilationJobStream {
 const serializer = new msRest.Serializer(Mappers);
 const listByJobOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{jobId}/streams",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{jobId}/streams",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.jobId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobStreamListResult

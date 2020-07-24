@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { SubscriptionClientContext } from "./subscriptionClientContext";
 
-
 class SubscriptionClient extends SubscriptionClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -26,7 +25,10 @@ class SubscriptionClient extends SubscriptionClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SubscriptionClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.SubscriptionClientOptions
+  ) {
     super(credentials, options);
     this.operations = new operations.Operations(this);
     this.subscriptions = new operations.Subscriptions(this);

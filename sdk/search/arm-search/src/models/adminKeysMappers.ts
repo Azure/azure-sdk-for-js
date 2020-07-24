@@ -8,8 +8,4 @@
  * regenerated.
  */
 
-export {
-  AdminKeyResult,
-  CloudError
-} from "../models/mappers";
-
+export { AdminKeyResult, CloudError } from "../models/mappers";

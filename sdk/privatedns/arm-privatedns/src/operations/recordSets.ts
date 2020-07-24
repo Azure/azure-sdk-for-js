@@ -38,7 +38,14 @@ export class RecordSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecordSetsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, parameters: Models.RecordSet, options?: Models.RecordSetsCreateOrUpdateOptionalParams): Promise<Models.RecordSetsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    parameters: Models.RecordSet,
+    options?: Models.RecordSetsCreateOrUpdateOptionalParams
+  ): Promise<Models.RecordSetsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
@@ -49,7 +56,14 @@ export class RecordSets {
    * @param parameters Parameters supplied to the CreateOrUpdate operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, parameters: Models.RecordSet, callback: msRest.ServiceCallback<Models.RecordSet>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    parameters: Models.RecordSet,
+    callback: msRest.ServiceCallback<Models.RecordSet>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
@@ -61,8 +75,26 @@ export class RecordSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, parameters: Models.RecordSet, options: Models.RecordSetsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.RecordSet>): void;
-  createOrUpdate(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, parameters: Models.RecordSet, options?: Models.RecordSetsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.RecordSet>, callback?: msRest.ServiceCallback<Models.RecordSet>): Promise<Models.RecordSetsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    parameters: Models.RecordSet,
+    options: Models.RecordSetsCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.RecordSet>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    parameters: Models.RecordSet,
+    options?:
+      | Models.RecordSetsCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.RecordSet>,
+    callback?: msRest.ServiceCallback<Models.RecordSet>
+  ): Promise<Models.RecordSetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,7 +105,8 @@ export class RecordSets {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.RecordSetsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.RecordSetsCreateOrUpdateResponse>;
   }
 
   /**
@@ -87,7 +120,14 @@ export class RecordSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecordSetsUpdateResponse>
    */
-  update(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, parameters: Models.RecordSet, options?: Models.RecordSetsUpdateOptionalParams): Promise<Models.RecordSetsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    parameters: Models.RecordSet,
+    options?: Models.RecordSetsUpdateOptionalParams
+  ): Promise<Models.RecordSetsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
@@ -97,7 +137,14 @@ export class RecordSets {
    * @param parameters Parameters supplied to the Update operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, parameters: Models.RecordSet, callback: msRest.ServiceCallback<Models.RecordSet>): void;
+  update(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    parameters: Models.RecordSet,
+    callback: msRest.ServiceCallback<Models.RecordSet>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
@@ -108,8 +155,24 @@ export class RecordSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, parameters: Models.RecordSet, options: Models.RecordSetsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.RecordSet>): void;
-  update(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, parameters: Models.RecordSet, options?: Models.RecordSetsUpdateOptionalParams | msRest.ServiceCallback<Models.RecordSet>, callback?: msRest.ServiceCallback<Models.RecordSet>): Promise<Models.RecordSetsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    parameters: Models.RecordSet,
+    options: Models.RecordSetsUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.RecordSet>
+  ): void;
+  update(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    parameters: Models.RecordSet,
+    options?: Models.RecordSetsUpdateOptionalParams | msRest.ServiceCallback<Models.RecordSet>,
+    callback?: msRest.ServiceCallback<Models.RecordSet>
+  ): Promise<Models.RecordSetsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +183,8 @@ export class RecordSets {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.RecordSetsUpdateResponse>;
+      callback
+    ) as Promise<Models.RecordSetsUpdateResponse>;
   }
 
   /**
@@ -134,7 +198,13 @@ export class RecordSets {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, options?: Models.RecordSetsDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    options?: Models.RecordSetsDeleteMethodOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
@@ -144,7 +214,13 @@ export class RecordSets {
    * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
@@ -155,8 +231,22 @@ export class RecordSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, options: Models.RecordSetsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, options?: Models.RecordSetsDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    options: Models.RecordSetsDeleteMethodOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    options?: Models.RecordSetsDeleteMethodOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +256,8 @@ export class RecordSets {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -179,7 +270,13 @@ export class RecordSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecordSetsGetResponse>
    */
-  get(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecordSetsGetResponse>;
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecordSetsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
@@ -188,7 +285,13 @@ export class RecordSets {
    * @param relativeRecordSetName The name of the record set, relative to the name of the zone.
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, callback: msRest.ServiceCallback<Models.RecordSet>): void;
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    callback: msRest.ServiceCallback<Models.RecordSet>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
@@ -198,8 +301,22 @@ export class RecordSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecordSet>): void;
-  get(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, relativeRecordSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecordSet>, callback?: msRest.ServiceCallback<Models.RecordSet>): Promise<Models.RecordSetsGetResponse> {
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecordSet>
+  ): void;
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    relativeRecordSetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecordSet>,
+    callback?: msRest.ServiceCallback<Models.RecordSet>
+  ): Promise<Models.RecordSetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -209,7 +326,8 @@ export class RecordSets {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RecordSetsGetResponse>;
+      callback
+    ) as Promise<Models.RecordSetsGetResponse>;
   }
 
   /**
@@ -221,7 +339,12 @@ export class RecordSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecordSetsListByTypeResponse>
    */
-  listByType(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, options?: Models.RecordSetsListByTypeOptionalParams): Promise<Models.RecordSetsListByTypeResponse>;
+  listByType(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    options?: Models.RecordSetsListByTypeOptionalParams
+  ): Promise<Models.RecordSetsListByTypeResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
@@ -229,7 +352,12 @@ export class RecordSets {
    * 'CNAME', 'MX', 'PTR', 'SOA', 'SRV', 'TXT'
    * @param callback The callback
    */
-  listByType(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
+  listByType(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    callback: msRest.ServiceCallback<Models.RecordSetListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
@@ -238,8 +366,22 @@ export class RecordSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByType(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, options: Models.RecordSetsListByTypeOptionalParams, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
-  listByType(resourceGroupName: string, privateZoneName: string, recordType: Models.RecordType, options?: Models.RecordSetsListByTypeOptionalParams | msRest.ServiceCallback<Models.RecordSetListResult>, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListByTypeResponse> {
+  listByType(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    options: Models.RecordSetsListByTypeOptionalParams,
+    callback: msRest.ServiceCallback<Models.RecordSetListResult>
+  ): void;
+  listByType(
+    resourceGroupName: string,
+    privateZoneName: string,
+    recordType: Models.RecordType,
+    options?:
+      | Models.RecordSetsListByTypeOptionalParams
+      | msRest.ServiceCallback<Models.RecordSetListResult>,
+    callback?: msRest.ServiceCallback<Models.RecordSetListResult>
+  ): Promise<Models.RecordSetsListByTypeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -248,7 +390,8 @@ export class RecordSets {
         options
       },
       listByTypeOperationSpec,
-      callback) as Promise<Models.RecordSetsListByTypeResponse>;
+      callback
+    ) as Promise<Models.RecordSetsListByTypeResponse>;
   }
 
   /**
@@ -258,21 +401,41 @@ export class RecordSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecordSetsListResponse>
    */
-  list(resourceGroupName: string, privateZoneName: string, options?: Models.RecordSetsListOptionalParams): Promise<Models.RecordSetsListResponse>;
+  list(
+    resourceGroupName: string,
+    privateZoneName: string,
+    options?: Models.RecordSetsListOptionalParams
+  ): Promise<Models.RecordSetsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param callback The callback
    */
-  list(resourceGroupName: string, privateZoneName: string, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
+  list(
+    resourceGroupName: string,
+    privateZoneName: string,
+    callback: msRest.ServiceCallback<Models.RecordSetListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, privateZoneName: string, options: Models.RecordSetsListOptionalParams, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
-  list(resourceGroupName: string, privateZoneName: string, options?: Models.RecordSetsListOptionalParams | msRest.ServiceCallback<Models.RecordSetListResult>, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListResponse> {
+  list(
+    resourceGroupName: string,
+    privateZoneName: string,
+    options: Models.RecordSetsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.RecordSetListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    privateZoneName: string,
+    options?:
+      | Models.RecordSetsListOptionalParams
+      | msRest.ServiceCallback<Models.RecordSetListResult>,
+    callback?: msRest.ServiceCallback<Models.RecordSetListResult>
+  ): Promise<Models.RecordSetsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -280,7 +443,8 @@ export class RecordSets {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.RecordSetsListResponse>;
+      callback
+    ) as Promise<Models.RecordSetsListResponse>;
   }
 
   /**
@@ -289,26 +453,41 @@ export class RecordSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecordSetsListByTypeNextResponse>
    */
-  listByTypeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RecordSetsListByTypeNextResponse>;
+  listByTypeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecordSetsListByTypeNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByTypeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
+  listByTypeNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RecordSetListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTypeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
-  listByTypeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecordSetListResult>, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListByTypeNextResponse> {
+  listByTypeNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecordSetListResult>
+  ): void;
+  listByTypeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecordSetListResult>,
+    callback?: msRest.ServiceCallback<Models.RecordSetListResult>
+  ): Promise<Models.RecordSetsListByTypeNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByTypeNextOperationSpec,
-      callback) as Promise<Models.RecordSetsListByTypeNextResponse>;
+      callback
+    ) as Promise<Models.RecordSetsListByTypeNextResponse>;
   }
 
   /**
@@ -317,26 +496,41 @@ export class RecordSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecordSetsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RecordSetsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecordSetsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RecordSetListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecordSetListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecordSetListResult>, callback?: msRest.ServiceCallback<Models.RecordSetListResult>): Promise<Models.RecordSetsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecordSetListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecordSetListResult>,
+    callback?: msRest.ServiceCallback<Models.RecordSetListResult>
+  ): Promise<Models.RecordSetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.RecordSetsListNextResponse>;
+      callback
+    ) as Promise<Models.RecordSetsListNextResponse>;
   }
 }
 
@@ -344,7 +538,8 @@ export class RecordSets {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
@@ -352,14 +547,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.relativeRecordSetName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.ifNoneMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -383,7 +572,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
@@ -391,13 +581,8 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.relativeRecordSetName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -418,7 +603,8 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
@@ -426,13 +612,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.relativeRecordSetName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -445,7 +626,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
@@ -453,12 +635,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.relativeRecordSetName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecordSet
@@ -472,21 +650,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByTypeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
     Parameters.recordType,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.top,
-    Parameters.recordsetnamesuffix,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.top, Parameters.recordsetnamesuffix, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecordSetListResult
@@ -500,20 +673,15 @@ const listByTypeOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/ALL",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/ALL",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.top,
-    Parameters.recordsetnamesuffix,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.top, Parameters.recordsetnamesuffix, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecordSetListResult
@@ -529,12 +697,8 @@ const listByTypeNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecordSetListResult
@@ -550,12 +714,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecordSetListResult

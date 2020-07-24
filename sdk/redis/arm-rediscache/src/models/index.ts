@@ -116,8 +116,7 @@ export interface Resource extends BaseResource {
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * The resource model definition for a ARM tracked top level resource
@@ -705,7 +704,8 @@ export interface RedisPatchScheduleListResult extends Array<RedisPatchSchedule> 
  * List of linked servers (with properties) of a Redis cache.
  * @extends Array<RedisLinkedServerWithProperties>
  */
-export interface RedisLinkedServerWithPropertiesList extends Array<RedisLinkedServerWithProperties> {
+export interface RedisLinkedServerWithPropertiesList
+  extends Array<RedisLinkedServerWithProperties> {
   /**
    * Link for next set.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -719,7 +719,7 @@ export interface RedisLinkedServerWithPropertiesList extends Array<RedisLinkedSe
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Basic' | 'Standard' | 'Premium';
+export type SkuName = "Basic" | "Standard" | "Premium";
 
 /**
  * Defines values for SkuFamily.
@@ -727,7 +727,7 @@ export type SkuName = 'Basic' | 'Standard' | 'Premium';
  * @readonly
  * @enum {string}
  */
-export type SkuFamily = 'C' | 'P';
+export type SkuFamily = "C" | "P";
 
 /**
  * Defines values for TlsVersion.
@@ -735,7 +735,7 @@ export type SkuFamily = 'C' | 'P';
  * @readonly
  * @enum {string}
  */
-export type TlsVersion = '1.0' | '1.1' | '1.2';
+export type TlsVersion = "1.0" | "1.1" | "1.2";
 
 /**
  * Defines values for ProvisioningState.
@@ -745,7 +745,19 @@ export type TlsVersion = '1.0' | '1.1' | '1.2';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Creating' | 'Deleting' | 'Disabled' | 'Failed' | 'Linking' | 'Provisioning' | 'RecoveringScaleFailure' | 'Scaling' | 'Succeeded' | 'Unlinking' | 'Unprovisioning' | 'Updating';
+export type ProvisioningState =
+  | "Creating"
+  | "Deleting"
+  | "Disabled"
+  | "Failed"
+  | "Linking"
+  | "Provisioning"
+  | "RecoveringScaleFailure"
+  | "Scaling"
+  | "Succeeded"
+  | "Unlinking"
+  | "Unprovisioning"
+  | "Updating";
 
 /**
  * Defines values for RedisKeyType.
@@ -753,7 +765,7 @@ export type ProvisioningState = 'Creating' | 'Deleting' | 'Disabled' | 'Failed' 
  * @readonly
  * @enum {string}
  */
-export type RedisKeyType = 'Primary' | 'Secondary';
+export type RedisKeyType = "Primary" | "Secondary";
 
 /**
  * Defines values for RebootType.
@@ -761,7 +773,7 @@ export type RedisKeyType = 'Primary' | 'Secondary';
  * @readonly
  * @enum {string}
  */
-export type RebootType = 'PrimaryNode' | 'SecondaryNode' | 'AllNodes';
+export type RebootType = "PrimaryNode" | "SecondaryNode" | "AllNodes";
 
 /**
  * Defines values for DayOfWeek.
@@ -770,7 +782,16 @@ export type RebootType = 'PrimaryNode' | 'SecondaryNode' | 'AllNodes';
  * @readonly
  * @enum {string}
  */
-export type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday' | 'Everyday' | 'Weekend';
+export type DayOfWeek =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday"
+  | "Everyday"
+  | "Weekend";
 
 /**
  * Defines values for ReplicationRole.
@@ -778,7 +799,7 @@ export type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Frida
  * @readonly
  * @enum {string}
  */
-export type ReplicationRole = 'Primary' | 'Secondary';
+export type ReplicationRole = "Primary" | "Secondary";
 
 /**
  * Contains response data for the list operation.
@@ -788,16 +809,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -808,16 +829,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -828,16 +849,16 @@ export type RedisListUpgradeNotificationsResponse = NotificationListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotificationListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NotificationListResponse;
+  };
 };
 
 /**
@@ -848,16 +869,16 @@ export type RedisCreateResponse = RedisResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisResource;
+  };
 };
 
 /**
@@ -868,16 +889,16 @@ export type RedisUpdateResponse = RedisResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisResource;
+  };
 };
 
 /**
@@ -888,16 +909,16 @@ export type RedisGetResponse = RedisResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisResource;
+  };
 };
 
 /**
@@ -908,16 +929,16 @@ export type RedisListByResourceGroupResponse = RedisListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisListResult;
+  };
 };
 
 /**
@@ -928,16 +949,16 @@ export type RedisListResponse = RedisListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisListResult;
+  };
 };
 
 /**
@@ -948,16 +969,16 @@ export type RedisListKeysResponse = RedisAccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisAccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisAccessKeys;
+  };
 };
 
 /**
@@ -968,16 +989,16 @@ export type RedisRegenerateKeyResponse = RedisAccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisAccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisAccessKeys;
+  };
 };
 
 /**
@@ -988,16 +1009,16 @@ export type RedisForceRebootResponse2 = RedisForceRebootResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisForceRebootResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisForceRebootResponse;
+  };
 };
 
 /**
@@ -1008,16 +1029,16 @@ export type RedisBeginCreateResponse = RedisResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisResource;
+  };
 };
 
 /**
@@ -1028,16 +1049,16 @@ export type RedisListByResourceGroupNextResponse = RedisListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisListResult;
+  };
 };
 
 /**
@@ -1048,16 +1069,16 @@ export type RedisListNextResponse = RedisListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisListResult;
+  };
 };
 
 /**
@@ -1068,16 +1089,16 @@ export type FirewallRulesListByRedisResourceResponse = RedisFirewallRuleListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisFirewallRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisFirewallRuleListResult;
+  };
 };
 
 /**
@@ -1088,16 +1109,16 @@ export type FirewallRulesCreateOrUpdateResponse = RedisFirewallRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisFirewallRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisFirewallRule;
+  };
 };
 
 /**
@@ -1108,16 +1129,16 @@ export type FirewallRulesGetResponse = RedisFirewallRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisFirewallRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisFirewallRule;
+  };
 };
 
 /**
@@ -1128,16 +1149,16 @@ export type FirewallRulesListByRedisResourceNextResponse = RedisFirewallRuleList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisFirewallRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisFirewallRuleListResult;
+  };
 };
 
 /**
@@ -1148,16 +1169,16 @@ export type PatchSchedulesListByRedisResourceResponse = RedisPatchScheduleListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisPatchScheduleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisPatchScheduleListResult;
+  };
 };
 
 /**
@@ -1168,16 +1189,16 @@ export type PatchSchedulesCreateOrUpdateResponse = RedisPatchSchedule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisPatchSchedule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisPatchSchedule;
+  };
 };
 
 /**
@@ -1188,16 +1209,16 @@ export type PatchSchedulesGetResponse = RedisPatchSchedule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisPatchSchedule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisPatchSchedule;
+  };
 };
 
 /**
@@ -1208,16 +1229,16 @@ export type PatchSchedulesListByRedisResourceNextResponse = RedisPatchScheduleLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisPatchScheduleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisPatchScheduleListResult;
+  };
 };
 
 /**
@@ -1228,16 +1249,16 @@ export type LinkedServerCreateResponse = RedisLinkedServerWithProperties & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisLinkedServerWithProperties;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisLinkedServerWithProperties;
+  };
 };
 
 /**
@@ -1248,16 +1269,16 @@ export type LinkedServerGetResponse = RedisLinkedServerWithProperties & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisLinkedServerWithProperties;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisLinkedServerWithProperties;
+  };
 };
 
 /**
@@ -1268,16 +1289,16 @@ export type LinkedServerListResponse = RedisLinkedServerWithPropertiesList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisLinkedServerWithPropertiesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisLinkedServerWithPropertiesList;
+  };
 };
 
 /**
@@ -1288,16 +1309,16 @@ export type LinkedServerBeginCreateResponse = RedisLinkedServerWithProperties & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisLinkedServerWithProperties;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisLinkedServerWithProperties;
+  };
 };
 
 /**
@@ -1308,14 +1329,14 @@ export type LinkedServerListNextResponse = RedisLinkedServerWithPropertiesList &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RedisLinkedServerWithPropertiesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RedisLinkedServerWithPropertiesList;
+  };
 };

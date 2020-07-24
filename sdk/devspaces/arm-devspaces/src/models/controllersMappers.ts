@@ -24,4 +24,3 @@ export {
   OrchestratorSpecificConnectionDetails,
   KubernetesConnectionDetails
 } from "../models/mappers";
-

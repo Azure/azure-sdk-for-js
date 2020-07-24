@@ -33,21 +33,41 @@ export class Prefixes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrefixesListByPeeringServiceResponse>
    */
-  listByPeeringService(resourceGroupName: string, peeringServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrefixesListByPeeringServiceResponse>;
+  listByPeeringService(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrefixesListByPeeringServiceResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param peeringServiceName The peering service name.
    * @param callback The callback
    */
-  listByPeeringService(resourceGroupName: string, peeringServiceName: string, callback: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>): void;
+  listByPeeringService(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    callback: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param peeringServiceName The peering service name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByPeeringService(resourceGroupName: string, peeringServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>): void;
-  listByPeeringService(resourceGroupName: string, peeringServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServicePrefixListResult>, callback?: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>): Promise<Models.PrefixesListByPeeringServiceResponse> {
+  listByPeeringService(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>
+  ): void;
+  listByPeeringService(
+    resourceGroupName: string,
+    peeringServiceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PeeringServicePrefixListResult>,
+    callback?: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>
+  ): Promise<Models.PrefixesListByPeeringServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class Prefixes {
         options
       },
       listByPeeringServiceOperationSpec,
-      callback) as Promise<Models.PrefixesListByPeeringServiceResponse>;
+      callback
+    ) as Promise<Models.PrefixesListByPeeringServiceResponse>;
   }
 
   /**
@@ -64,26 +85,43 @@ export class Prefixes {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrefixesListByPeeringServiceNextResponse>
    */
-  listByPeeringServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrefixesListByPeeringServiceNextResponse>;
+  listByPeeringServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrefixesListByPeeringServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByPeeringServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>): void;
+  listByPeeringServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByPeeringServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>): void;
-  listByPeeringServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServicePrefixListResult>, callback?: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>): Promise<Models.PrefixesListByPeeringServiceNextResponse> {
+  listByPeeringServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>
+  ): void;
+  listByPeeringServiceNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PeeringServicePrefixListResult>,
+    callback?: msRest.ServiceCallback<Models.PeeringServicePrefixListResult>
+  ): Promise<Models.PrefixesListByPeeringServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByPeeringServiceNextOperationSpec,
-      callback) as Promise<Models.PrefixesListByPeeringServiceNextResponse>;
+      callback
+    ) as Promise<Models.PrefixesListByPeeringServiceNextResponse>;
   }
 }
 
@@ -91,18 +129,15 @@ export class Prefixes {
 const serializer = new msRest.Serializer(Mappers);
 const listByPeeringServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.peeringServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeeringServicePrefixListResult
@@ -118,12 +153,8 @@ const listByPeeringServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeeringServicePrefixListResult

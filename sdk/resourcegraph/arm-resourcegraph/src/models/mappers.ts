@@ -47,10 +47,7 @@ export const QueryRequestOptions: msRest.CompositeMapper = {
         serializedName: "resultFormat",
         type: {
           name: "Enum",
-          allowedValues: [
-            "table",
-            "objectArray"
-          ]
+          allowedValues: ["table", "objectArray"]
         }
       }
     }
@@ -71,13 +68,10 @@ export const FacetRequestOptions: msRest.CompositeMapper = {
       },
       sortOrder: {
         serializedName: "sortOrder",
-        defaultValue: 'desc',
+        defaultValue: "desc",
         type: {
           name: "Enum",
-          allowedValues: [
-            "asc",
-            "desc"
-          ]
+          allowedValues: ["asc", "desc"]
         }
       },
       filter: {
@@ -226,10 +220,7 @@ export const QueryResponse: msRest.CompositeMapper = {
         serializedName: "resultTruncated",
         type: {
           name: "Enum",
-          allowedValues: [
-            "true",
-            "false"
-          ]
+          allowedValues: ["true", "false"]
         }
       },
       skipToken: {
@@ -279,13 +270,7 @@ export const Column: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "string",
-            "integer",
-            "number",
-            "boolean",
-            "object"
-          ]
+          allowedValues: ["string", "integer", "number", "boolean", "object"]
         }
       }
     }
@@ -571,8 +556,7 @@ export const OperationListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'Facet' : Facet,
-  'Facet.FacetResult' : FacetResult,
-  'Facet.FacetError' : FacetError
-
+  Facet: Facet,
+  "Facet.FacetResult": FacetResult,
+  "Facet.FacetError": FacetError
 };

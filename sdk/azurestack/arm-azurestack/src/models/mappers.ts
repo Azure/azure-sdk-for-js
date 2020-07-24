@@ -80,7 +80,7 @@ export const TrackedResource: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "location",
-        defaultValue: 'global',
+        defaultValue: "global",
         type: {
           name: "String"
         }

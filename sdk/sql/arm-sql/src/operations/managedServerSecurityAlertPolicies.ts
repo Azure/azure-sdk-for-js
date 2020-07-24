@@ -35,14 +35,22 @@ export class ManagedServerSecurityAlertPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedServerSecurityAlertPoliciesGetResponse>
    */
-  get(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedServerSecurityAlertPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedServerSecurityAlertPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, callback: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicy>): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    callback: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -50,8 +58,20 @@ export class ManagedServerSecurityAlertPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicy>): void;
-  get(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicy>, callback?: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicy>): Promise<Models.ManagedServerSecurityAlertPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicy>,
+    callback?: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicy>
+  ): Promise<Models.ManagedServerSecurityAlertPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +79,8 @@ export class ManagedServerSecurityAlertPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagedServerSecurityAlertPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.ManagedServerSecurityAlertPoliciesGetResponse>;
   }
 
   /**
@@ -71,9 +92,20 @@ export class ManagedServerSecurityAlertPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, parameters: Models.ManagedServerSecurityAlertPolicy, options?: msRest.RequestOptionsBase): Promise<Models.ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,managedInstanceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    parameters: Models.ManagedServerSecurityAlertPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      managedInstanceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ManagedServerSecurityAlertPoliciesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -84,14 +116,22 @@ export class ManagedServerSecurityAlertPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceResponse>
    */
-  listByInstance(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceResponse>;
+  listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
    * @param callback The callback
    */
-  listByInstance(resourceGroupName: string, managedInstanceName: string, callback: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>): void;
+  listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    callback: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -99,8 +139,20 @@ export class ManagedServerSecurityAlertPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByInstance(resourceGroupName: string, managedInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>): void;
-  listByInstance(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>, callback?: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>): Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceResponse> {
+  listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>
+  ): void;
+  listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>
+  ): Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +160,8 @@ export class ManagedServerSecurityAlertPolicies {
         options
       },
       listByInstanceOperationSpec,
-      callback) as Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceResponse>;
+      callback
+    ) as Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceResponse>;
   }
 
   /**
@@ -120,7 +173,12 @@ export class ManagedServerSecurityAlertPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, managedInstanceName: string, parameters: Models.ManagedServerSecurityAlertPolicy, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    parameters: Models.ManagedServerSecurityAlertPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -129,7 +187,8 @@ export class ManagedServerSecurityAlertPolicies {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -138,26 +197,43 @@ export class ManagedServerSecurityAlertPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceNextResponse>
    */
-  listByInstanceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceNextResponse>;
+  listByInstanceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByInstanceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>): void;
+  listByInstanceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByInstanceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>): void;
-  listByInstanceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>, callback?: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>): Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceNextResponse> {
+  listByInstanceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>
+  ): void;
+  listByInstanceNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedServerSecurityAlertPolicyListResult>
+  ): Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByInstanceNextOperationSpec,
-      callback) as Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceNextResponse>;
+      callback
+    ) as Promise<Models.ManagedServerSecurityAlertPoliciesListByInstanceNextResponse>;
   }
 }
 
@@ -165,19 +241,16 @@ export class ManagedServerSecurityAlertPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/securityAlertPolicies/{securityAlertPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/securityAlertPolicies/{securityAlertPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.securityAlertPolicyName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedServerSecurityAlertPolicy
@@ -191,18 +264,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByInstanceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/securityAlertPolicies",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/securityAlertPolicies",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedServerSecurityAlertPolicyListResult
@@ -216,19 +286,16 @@ const listByInstanceOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/securityAlertPolicies/{securityAlertPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/securityAlertPolicies/{securityAlertPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.securityAlertPolicyName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -252,12 +319,8 @@ const listByInstanceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedServerSecurityAlertPolicyListResult

@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SearchIndexerClient, AzureKeyCredential, SearchIndexerStatus } from "@azure/search-documents";
+import {
+  SearchIndexerClient,
+  AzureKeyCredential,
+  SearchIndexerStatus
+} from "@azure/search-documents";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -17,8 +21,10 @@ async function main(): Promise<void> {
   console.log(`Status: ${indexerStatus.status}`);
   console.log(`Limits`);
   console.log(`******`);
-  console.log(`MaxDocumentContentCharactersToExtract: ${indexerStatus.limits.maxDocumentContentCharactersToExtract}`)
-  console.log(`MaxDocumentExtractionSize: ${indexerStatus.limits.maxDocumentExtractionSize}`)
+  console.log(
+    `MaxDocumentContentCharactersToExtract: ${indexerStatus.limits.maxDocumentContentCharactersToExtract}`
+  );
+  console.log(`MaxDocumentExtractionSize: ${indexerStatus.limits.maxDocumentExtractionSize}`);
   console.log(`MaxRunTime: ${indexerStatus.limits.maxRunTime}`);
 }
 

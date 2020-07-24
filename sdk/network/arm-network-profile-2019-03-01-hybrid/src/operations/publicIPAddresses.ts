@@ -34,9 +34,16 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, publicIpAddressName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,publicIpAddressName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      publicIpAddressName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -46,21 +53,41 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesGetResponse>
    */
-  get(resourceGroupName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetOptionalParams): Promise<Models.PublicIPAddressesGetResponse>;
+  get(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    options?: Models.PublicIPAddressesGetOptionalParams
+  ): Promise<Models.PublicIPAddressesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param publicIpAddressName The name of the subnet.
    * @param callback The callback
    */
-  get(resourceGroupName: string, publicIpAddressName: string, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
+  get(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    callback: msRest.ServiceCallback<Models.PublicIPAddress>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param publicIpAddressName The name of the subnet.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, publicIpAddressName: string, options: Models.PublicIPAddressesGetOptionalParams, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
-  get(resourceGroupName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetOptionalParams | msRest.ServiceCallback<Models.PublicIPAddress>, callback?: msRest.ServiceCallback<Models.PublicIPAddress>): Promise<Models.PublicIPAddressesGetResponse> {
+  get(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    options: Models.PublicIPAddressesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.PublicIPAddress>
+  ): void;
+  get(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    options?:
+      | Models.PublicIPAddressesGetOptionalParams
+      | msRest.ServiceCallback<Models.PublicIPAddress>,
+    callback?: msRest.ServiceCallback<Models.PublicIPAddress>
+  ): Promise<Models.PublicIPAddressesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +95,8 @@ export class PublicIPAddresses {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PublicIPAddressesGetResponse>;
+      callback
+    ) as Promise<Models.PublicIPAddressesGetResponse>;
   }
 
   /**
@@ -79,9 +107,20 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, publicIpAddressName: string, parameters: Models.PublicIPAddress, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,publicIpAddressName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PublicIPAddressesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    parameters: Models.PublicIPAddress,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PublicIPAddressesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      publicIpAddressName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PublicIPAddressesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -92,9 +131,20 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, publicIpAddressName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesUpdateTagsResponse> {
-    return this.beginUpdateTags(resourceGroupName,publicIpAddressName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PublicIPAddressesUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PublicIPAddressesUpdateTagsResponse> {
+    return this.beginUpdateTags(
+      resourceGroupName,
+      publicIpAddressName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PublicIPAddressesUpdateTagsResponse
+    >;
   }
 
   /**
@@ -111,14 +161,21 @@ export class PublicIPAddresses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListAllResponse> {
+  listAll(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>
+  ): void;
+  listAll(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>,
+    callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>
+  ): Promise<Models.PublicIPAddressesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAllOperationSpec,
-      callback) as Promise<Models.PublicIPAddressesListAllResponse>;
+      callback
+    ) as Promise<Models.PublicIPAddressesListAllResponse>;
   }
 
   /**
@@ -127,26 +184,41 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListResponse>;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PublicIPAddressesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  list(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListResponse> {
+  list(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>,
+    callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>
+  ): Promise<Models.PublicIPAddressesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PublicIPAddressesListResponse>;
+      callback
+    ) as Promise<Models.PublicIPAddressesListResponse>;
   }
 
   /**
@@ -156,7 +228,11 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, publicIpAddressName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -164,7 +240,8 @@ export class PublicIPAddresses {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -175,7 +252,12 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, publicIpAddressName: string, parameters: Models.PublicIPAddress, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    parameters: Models.PublicIPAddress,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -184,7 +266,8 @@ export class PublicIPAddresses {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -195,7 +278,12 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, publicIpAddressName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(
+    resourceGroupName: string,
+    publicIpAddressName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -204,7 +292,8 @@ export class PublicIPAddresses {
         options
       },
       beginUpdateTagsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -213,26 +302,41 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListAllNextResponse>;
+  listAllNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PublicIPAddressesListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listAllNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListAllNextResponse> {
+  listAllNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>
+  ): void;
+  listAllNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>,
+    callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>
+  ): Promise<Models.PublicIPAddressesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAllNextOperationSpec,
-      callback) as Promise<Models.PublicIPAddressesListAllNextResponse>;
+      callback
+    ) as Promise<Models.PublicIPAddressesListAllNextResponse>;
   }
 
   /**
@@ -241,26 +345,41 @@ export class PublicIPAddresses {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PublicIPAddressesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PublicIPAddressesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>, callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>): Promise<Models.PublicIPAddressesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PublicIPAddressListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PublicIPAddressListResult>,
+    callback?: msRest.ServiceCallback<Models.PublicIPAddressListResult>
+  ): Promise<Models.PublicIPAddressesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PublicIPAddressesListNextResponse>;
+      callback
+    ) as Promise<Models.PublicIPAddressesListNextResponse>;
   }
 }
 
@@ -268,19 +387,15 @@ export class PublicIPAddresses {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.publicIpAddressName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PublicIPAddress
@@ -295,15 +410,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listAllOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PublicIPAddressListResult
@@ -317,17 +426,11 @@ const listAllOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PublicIPAddressListResult
@@ -341,18 +444,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.publicIpAddressName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -366,18 +466,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.publicIpAddressName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -401,18 +498,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.publicIpAddressName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -435,12 +529,8 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PublicIPAddressListResult
@@ -456,12 +546,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PublicIPAddressListResult

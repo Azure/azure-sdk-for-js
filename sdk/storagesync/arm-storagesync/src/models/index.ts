@@ -142,8 +142,7 @@ export interface StorageSyncService extends TrackedResource {
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * Sync Group object.
@@ -1732,48 +1731,42 @@ export interface OperationEntityListResult extends Array<OperationEntity> {
  * Array of StorageSyncServices
  * @extends Array<StorageSyncService>
  */
-export interface StorageSyncServiceArray extends Array<StorageSyncService> {
-}
+export interface StorageSyncServiceArray extends Array<StorageSyncService> {}
 
 /**
  * @interface
  * Array of SyncGroup
  * @extends Array<SyncGroup>
  */
-export interface SyncGroupArray extends Array<SyncGroup> {
-}
+export interface SyncGroupArray extends Array<SyncGroup> {}
 
 /**
  * @interface
  * Array of CloudEndpoint
  * @extends Array<CloudEndpoint>
  */
-export interface CloudEndpointArray extends Array<CloudEndpoint> {
-}
+export interface CloudEndpointArray extends Array<CloudEndpoint> {}
 
 /**
  * @interface
  * Array of ServerEndpoint
  * @extends Array<ServerEndpoint>
  */
-export interface ServerEndpointArray extends Array<ServerEndpoint> {
-}
+export interface ServerEndpointArray extends Array<ServerEndpoint> {}
 
 /**
  * @interface
  * Array of RegisteredServer
  * @extends Array<RegisteredServer>
  */
-export interface RegisteredServerArray extends Array<RegisteredServer> {
-}
+export interface RegisteredServerArray extends Array<RegisteredServer> {}
 
 /**
  * @interface
  * Array of Workflow
  * @extends Array<Workflow>
  */
-export interface WorkflowArray extends Array<Workflow> {
-}
+export interface WorkflowArray extends Array<Workflow> {}
 
 /**
  * Defines values for Reason.
@@ -1781,7 +1774,7 @@ export interface WorkflowArray extends Array<Workflow> {
  * @readonly
  * @enum {string}
  */
-export type Reason = 'Registered' | 'Unregistered' | 'Warned' | 'Suspended' | 'Deleted';
+export type Reason = "Registered" | "Unregistered" | "Warned" | "Suspended" | "Deleted";
 
 /**
  * Defines values for ChangeDetectionMode.
@@ -1789,7 +1782,7 @@ export type Reason = 'Registered' | 'Unregistered' | 'Warned' | 'Suspended' | 'D
  * @readonly
  * @enum {string}
  */
-export type ChangeDetectionMode = 'Default' | 'Recursive';
+export type ChangeDetectionMode = "Default" | "Recursive";
 
 /**
  * Defines values for NameAvailabilityReason.
@@ -1797,7 +1790,7 @@ export type ChangeDetectionMode = 'Default' | 'Recursive';
  * @readonly
  * @enum {string}
  */
-export type NameAvailabilityReason = 'Invalid' | 'AlreadyExists';
+export type NameAvailabilityReason = "Invalid" | "AlreadyExists";
 
 /**
  * Defines values for CloudTiering.
@@ -1805,7 +1798,7 @@ export type NameAvailabilityReason = 'Invalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type CloudTiering = 'on' | 'off';
+export type CloudTiering = "on" | "off";
 
 /**
  * Defines values for OfflineDataTransfer.
@@ -1813,7 +1806,7 @@ export type CloudTiering = 'on' | 'off';
  * @readonly
  * @enum {string}
  */
-export type OfflineDataTransfer = 'on' | 'off';
+export type OfflineDataTransfer = "on" | "off";
 
 /**
  * Defines values for CloudTiering1.
@@ -1821,7 +1814,7 @@ export type OfflineDataTransfer = 'on' | 'off';
  * @readonly
  * @enum {string}
  */
-export type CloudTiering1 = 'on' | 'off';
+export type CloudTiering1 = "on" | "off";
 
 /**
  * Defines values for OfflineDataTransfer1.
@@ -1829,7 +1822,7 @@ export type CloudTiering1 = 'on' | 'off';
  * @readonly
  * @enum {string}
  */
-export type OfflineDataTransfer1 = 'on' | 'off';
+export type OfflineDataTransfer1 = "on" | "off";
 
 /**
  * Defines values for DownloadHealth.
@@ -1838,7 +1831,12 @@ export type OfflineDataTransfer1 = 'on' | 'off';
  * @readonly
  * @enum {string}
  */
-export type DownloadHealth = 'Healthy' | 'Error' | 'SyncBlockedForRestore' | 'SyncBlockedForChangeDetectionPostRestore' | 'NoActivity';
+export type DownloadHealth =
+  | "Healthy"
+  | "Error"
+  | "SyncBlockedForRestore"
+  | "SyncBlockedForChangeDetectionPostRestore"
+  | "NoActivity";
 
 /**
  * Defines values for UploadHealth.
@@ -1847,7 +1845,12 @@ export type DownloadHealth = 'Healthy' | 'Error' | 'SyncBlockedForRestore' | 'Sy
  * @readonly
  * @enum {string}
  */
-export type UploadHealth = 'Healthy' | 'Error' | 'SyncBlockedForRestore' | 'SyncBlockedForChangeDetectionPostRestore' | 'NoActivity';
+export type UploadHealth =
+  | "Healthy"
+  | "Error"
+  | "SyncBlockedForRestore"
+  | "SyncBlockedForChangeDetectionPostRestore"
+  | "NoActivity";
 
 /**
  * Defines values for CombinedHealth.
@@ -1856,7 +1859,12 @@ export type UploadHealth = 'Healthy' | 'Error' | 'SyncBlockedForRestore' | 'Sync
  * @readonly
  * @enum {string}
  */
-export type CombinedHealth = 'Healthy' | 'Error' | 'SyncBlockedForRestore' | 'SyncBlockedForChangeDetectionPostRestore' | 'NoActivity';
+export type CombinedHealth =
+  | "Healthy"
+  | "Error"
+  | "SyncBlockedForRestore"
+  | "SyncBlockedForChangeDetectionPostRestore"
+  | "NoActivity";
 
 /**
  * Defines values for SyncActivity.
@@ -1864,7 +1872,7 @@ export type CombinedHealth = 'Healthy' | 'Error' | 'SyncBlockedForRestore' | 'Sy
  * @readonly
  * @enum {string}
  */
-export type SyncActivity = 'Upload' | 'Download' | 'UploadAndDownload';
+export type SyncActivity = "Upload" | "Download" | "UploadAndDownload";
 
 /**
  * Defines values for OfflineDataTransferStatus.
@@ -1872,7 +1880,7 @@ export type SyncActivity = 'Upload' | 'Download' | 'UploadAndDownload';
  * @readonly
  * @enum {string}
  */
-export type OfflineDataTransferStatus = 'InProgress' | 'Stopping' | 'NotRunning' | 'Complete';
+export type OfflineDataTransferStatus = "InProgress" | "Stopping" | "NotRunning" | "Complete";
 
 /**
  * Defines values for Health.
@@ -1880,7 +1888,7 @@ export type OfflineDataTransferStatus = 'InProgress' | 'Stopping' | 'NotRunning'
  * @readonly
  * @enum {string}
  */
-export type Health = 'Healthy' | 'Error';
+export type Health = "Healthy" | "Error";
 
 /**
  * Defines values for CloudTiering2.
@@ -1888,7 +1896,7 @@ export type Health = 'Healthy' | 'Error';
  * @readonly
  * @enum {string}
  */
-export type CloudTiering2 = 'on' | 'off';
+export type CloudTiering2 = "on" | "off";
 
 /**
  * Defines values for OfflineDataTransfer2.
@@ -1896,7 +1904,7 @@ export type CloudTiering2 = 'on' | 'off';
  * @readonly
  * @enum {string}
  */
-export type OfflineDataTransfer2 = 'on' | 'off';
+export type OfflineDataTransfer2 = "on" | "off";
 
 /**
  * Defines values for Status.
@@ -1904,7 +1912,7 @@ export type OfflineDataTransfer2 = 'on' | 'off';
  * @readonly
  * @enum {string}
  */
-export type Status = 'active' | 'expired' | 'succeeded' | 'aborted' | 'failed';
+export type Status = "active" | "expired" | "succeeded" | "aborted" | "failed";
 
 /**
  * Defines values for Operation.
@@ -1912,16 +1920,17 @@ export type Status = 'active' | 'expired' | 'succeeded' | 'aborted' | 'failed';
  * @readonly
  * @enum {string}
  */
-export type Operation = 'do' | 'undo' | 'cancel';
+export type Operation = "do" | "undo" | "cancel";
 
 /**
  * Contains response data for the list operation.
  */
-export type OperationsListResponse = OperationEntityListResult & OperationsListHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type OperationsListResponse = OperationEntityListResult &
+  OperationsListHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1937,7 +1946,7 @@ export type OperationsListResponse = OperationEntityListResult & OperationsListH
        */
       parsedBody: OperationEntityListResult;
     };
-};
+  };
 
 /**
  * Contains response data for the checkNameAvailability operation.
@@ -1947,16 +1956,16 @@ export type StorageSyncServicesCheckNameAvailabilityResponse = CheckNameAvailabi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResult;
+  };
 };
 
 /**
@@ -1967,26 +1976,27 @@ export type StorageSyncServicesCreateResponse = StorageSyncService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageSyncService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageSyncService;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type StorageSyncServicesGetResponse = StorageSyncService & StorageSyncServicesGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type StorageSyncServicesGetResponse = StorageSyncService &
+  StorageSyncServicesGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2002,16 +2012,17 @@ export type StorageSyncServicesGetResponse = StorageSyncService & StorageSyncSer
        */
       parsedBody: StorageSyncService;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
  */
-export type StorageSyncServicesUpdateResponse = StorageSyncService & StorageSyncServicesUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type StorageSyncServicesUpdateResponse = StorageSyncService &
+  StorageSyncServicesUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2027,7 +2038,7 @@ export type StorageSyncServicesUpdateResponse = StorageSyncService & StorageSync
        */
       parsedBody: StorageSyncService;
     };
-};
+  };
 
 /**
  * Contains response data for the deleteMethod operation.
@@ -2037,21 +2048,22 @@ export type StorageSyncServicesDeleteResponse = StorageSyncServicesDeleteHeaders
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: StorageSyncServicesDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: StorageSyncServicesDeleteHeaders;
+  };
 };
 
 /**
  * Contains response data for the listByResourceGroup operation.
  */
-export type StorageSyncServicesListByResourceGroupResponse = StorageSyncServiceArray & StorageSyncServicesListByResourceGroupHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type StorageSyncServicesListByResourceGroupResponse = StorageSyncServiceArray &
+  StorageSyncServicesListByResourceGroupHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2067,16 +2079,17 @@ export type StorageSyncServicesListByResourceGroupResponse = StorageSyncServiceA
        */
       parsedBody: StorageSyncServiceArray;
     };
-};
+  };
 
 /**
  * Contains response data for the listBySubscription operation.
  */
-export type StorageSyncServicesListBySubscriptionResponse = StorageSyncServiceArray & StorageSyncServicesListBySubscriptionHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type StorageSyncServicesListBySubscriptionResponse = StorageSyncServiceArray &
+  StorageSyncServicesListBySubscriptionHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2092,16 +2105,17 @@ export type StorageSyncServicesListBySubscriptionResponse = StorageSyncServiceAr
        */
       parsedBody: StorageSyncServiceArray;
     };
-};
+  };
 
 /**
  * Contains response data for the listByStorageSyncService operation.
  */
-export type SyncGroupsListByStorageSyncServiceResponse = SyncGroupArray & SyncGroupsListByStorageSyncServiceHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type SyncGroupsListByStorageSyncServiceResponse = SyncGroupArray &
+  SyncGroupsListByStorageSyncServiceHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2117,16 +2131,17 @@ export type SyncGroupsListByStorageSyncServiceResponse = SyncGroupArray & SyncGr
        */
       parsedBody: SyncGroupArray;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
  */
-export type SyncGroupsCreateResponse = SyncGroup & SyncGroupsCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type SyncGroupsCreateResponse = SyncGroup &
+  SyncGroupsCreateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2142,16 +2157,17 @@ export type SyncGroupsCreateResponse = SyncGroup & SyncGroupsCreateHeaders & {
        */
       parsedBody: SyncGroup;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type SyncGroupsGetResponse = SyncGroup & SyncGroupsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type SyncGroupsGetResponse = SyncGroup &
+  SyncGroupsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2167,7 +2183,7 @@ export type SyncGroupsGetResponse = SyncGroup & SyncGroupsGetHeaders & {
        */
       parsedBody: SyncGroup;
     };
-};
+  };
 
 /**
  * Contains response data for the deleteMethod operation.
@@ -2177,21 +2193,22 @@ export type SyncGroupsDeleteResponse = SyncGroupsDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: SyncGroupsDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: SyncGroupsDeleteHeaders;
+  };
 };
 
 /**
  * Contains response data for the create operation.
  */
-export type CloudEndpointsCreateResponse = CloudEndpoint & CloudEndpointsCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type CloudEndpointsCreateResponse = CloudEndpoint &
+  CloudEndpointsCreateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2207,16 +2224,17 @@ export type CloudEndpointsCreateResponse = CloudEndpoint & CloudEndpointsCreateH
        */
       parsedBody: CloudEndpoint;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type CloudEndpointsGetResponse = CloudEndpoint & CloudEndpointsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type CloudEndpointsGetResponse = CloudEndpoint &
+  CloudEndpointsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2232,7 +2250,7 @@ export type CloudEndpointsGetResponse = CloudEndpoint & CloudEndpointsGetHeaders
        */
       parsedBody: CloudEndpoint;
     };
-};
+  };
 
 /**
  * Contains response data for the deleteMethod operation.
@@ -2242,21 +2260,22 @@ export type CloudEndpointsDeleteResponse = CloudEndpointsDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CloudEndpointsDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CloudEndpointsDeleteHeaders;
+  };
 };
 
 /**
  * Contains response data for the listBySyncGroup operation.
  */
-export type CloudEndpointsListBySyncGroupResponse = CloudEndpointArray & CloudEndpointsListBySyncGroupHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type CloudEndpointsListBySyncGroupResponse = CloudEndpointArray &
+  CloudEndpointsListBySyncGroupHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2272,7 +2291,7 @@ export type CloudEndpointsListBySyncGroupResponse = CloudEndpointArray & CloudEn
        */
       parsedBody: CloudEndpointArray;
     };
-};
+  };
 
 /**
  * Contains response data for the preBackup operation.
@@ -2282,21 +2301,22 @@ export type CloudEndpointsPreBackupResponse = CloudEndpointsPreBackupHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CloudEndpointsPreBackupHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CloudEndpointsPreBackupHeaders;
+  };
 };
 
 /**
  * Contains response data for the postBackup operation.
  */
-export type CloudEndpointsPostBackupResponse = PostBackupResponse & CloudEndpointsPostBackupHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type CloudEndpointsPostBackupResponse = PostBackupResponse &
+  CloudEndpointsPostBackupHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2312,7 +2332,7 @@ export type CloudEndpointsPostBackupResponse = PostBackupResponse & CloudEndpoin
        */
       parsedBody: PostBackupResponse;
     };
-};
+  };
 
 /**
  * Contains response data for the preRestore operation.
@@ -2322,11 +2342,11 @@ export type CloudEndpointsPreRestoreResponse = CloudEndpointsPreRestoreHeaders &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CloudEndpointsPreRestoreHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CloudEndpointsPreRestoreHeaders;
+  };
 };
 
 /**
@@ -2337,11 +2357,11 @@ export type CloudEndpointsRestoreheartbeatResponse = CloudEndpointsRestoreheartb
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CloudEndpointsRestoreheartbeatHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CloudEndpointsRestoreheartbeatHeaders;
+  };
 };
 
 /**
@@ -2352,11 +2372,11 @@ export type CloudEndpointsPostRestoreResponse = CloudEndpointsPostRestoreHeaders
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CloudEndpointsPostRestoreHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CloudEndpointsPostRestoreHeaders;
+  };
 };
 
 /**
@@ -2367,21 +2387,22 @@ export type CloudEndpointsTriggerChangeDetectionResponse = CloudEndpointsTrigger
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CloudEndpointsTriggerChangeDetectionHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CloudEndpointsTriggerChangeDetectionHeaders;
+  };
 };
 
 /**
  * Contains response data for the create operation.
  */
-export type ServerEndpointsCreateResponse = ServerEndpoint & ServerEndpointsCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ServerEndpointsCreateResponse = ServerEndpoint &
+  ServerEndpointsCreateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2397,16 +2418,17 @@ export type ServerEndpointsCreateResponse = ServerEndpoint & ServerEndpointsCrea
        */
       parsedBody: ServerEndpoint;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
  */
-export type ServerEndpointsUpdateResponse = ServerEndpoint & ServerEndpointsUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ServerEndpointsUpdateResponse = ServerEndpoint &
+  ServerEndpointsUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2422,16 +2444,17 @@ export type ServerEndpointsUpdateResponse = ServerEndpoint & ServerEndpointsUpda
        */
       parsedBody: ServerEndpoint;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type ServerEndpointsGetResponse = ServerEndpoint & ServerEndpointsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ServerEndpointsGetResponse = ServerEndpoint &
+  ServerEndpointsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2447,7 +2470,7 @@ export type ServerEndpointsGetResponse = ServerEndpoint & ServerEndpointsGetHead
        */
       parsedBody: ServerEndpoint;
     };
-};
+  };
 
 /**
  * Contains response data for the deleteMethod operation.
@@ -2457,21 +2480,22 @@ export type ServerEndpointsDeleteResponse = ServerEndpointsDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServerEndpointsDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ServerEndpointsDeleteHeaders;
+  };
 };
 
 /**
  * Contains response data for the listBySyncGroup operation.
  */
-export type ServerEndpointsListBySyncGroupResponse = ServerEndpointArray & ServerEndpointsListBySyncGroupHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ServerEndpointsListBySyncGroupResponse = ServerEndpointArray &
+  ServerEndpointsListBySyncGroupHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2487,7 +2511,7 @@ export type ServerEndpointsListBySyncGroupResponse = ServerEndpointArray & Serve
        */
       parsedBody: ServerEndpointArray;
     };
-};
+  };
 
 /**
  * Contains response data for the recallAction operation.
@@ -2497,21 +2521,22 @@ export type ServerEndpointsRecallActionResponse = ServerEndpointsRecallActionHea
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServerEndpointsRecallActionHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ServerEndpointsRecallActionHeaders;
+  };
 };
 
 /**
  * Contains response data for the listByStorageSyncService operation.
  */
-export type RegisteredServersListByStorageSyncServiceResponse = RegisteredServerArray & RegisteredServersListByStorageSyncServiceHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type RegisteredServersListByStorageSyncServiceResponse = RegisteredServerArray &
+  RegisteredServersListByStorageSyncServiceHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2527,16 +2552,17 @@ export type RegisteredServersListByStorageSyncServiceResponse = RegisteredServer
        */
       parsedBody: RegisteredServerArray;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type RegisteredServersGetResponse = RegisteredServer & RegisteredServersGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type RegisteredServersGetResponse = RegisteredServer &
+  RegisteredServersGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2552,16 +2578,17 @@ export type RegisteredServersGetResponse = RegisteredServer & RegisteredServersG
        */
       parsedBody: RegisteredServer;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
  */
-export type RegisteredServersCreateResponse = RegisteredServer & RegisteredServersCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type RegisteredServersCreateResponse = RegisteredServer &
+  RegisteredServersCreateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2577,7 +2604,7 @@ export type RegisteredServersCreateResponse = RegisteredServer & RegisteredServe
        */
       parsedBody: RegisteredServer;
     };
-};
+  };
 
 /**
  * Contains response data for the deleteMethod operation.
@@ -2587,11 +2614,11 @@ export type RegisteredServersDeleteResponse = RegisteredServersDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: RegisteredServersDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: RegisteredServersDeleteHeaders;
+  };
 };
 
 /**
@@ -2602,21 +2629,22 @@ export type RegisteredServersTriggerRolloverResponse = RegisteredServersTriggerR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: RegisteredServersTriggerRolloverHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: RegisteredServersTriggerRolloverHeaders;
+  };
 };
 
 /**
  * Contains response data for the listByStorageSyncService operation.
  */
-export type WorkflowsListByStorageSyncServiceResponse = WorkflowArray & WorkflowsListByStorageSyncServiceHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type WorkflowsListByStorageSyncServiceResponse = WorkflowArray &
+  WorkflowsListByStorageSyncServiceHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2632,16 +2660,17 @@ export type WorkflowsListByStorageSyncServiceResponse = WorkflowArray & Workflow
        */
       parsedBody: WorkflowArray;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type WorkflowsGetResponse = Workflow & WorkflowsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type WorkflowsGetResponse = Workflow &
+  WorkflowsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2657,7 +2686,7 @@ export type WorkflowsGetResponse = Workflow & WorkflowsGetHeaders & {
        */
       parsedBody: Workflow;
     };
-};
+  };
 
 /**
  * Contains response data for the abort operation.
@@ -2667,21 +2696,22 @@ export type WorkflowsAbortResponse = WorkflowsAbortHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: WorkflowsAbortHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: WorkflowsAbortHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type OperationStatusGetResponse = OperationStatus & OperationStatusGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type OperationStatusGetResponse = OperationStatus &
+  OperationStatusGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2697,4 +2727,4 @@ export type OperationStatusGetResponse = OperationStatus & OperationStatusGetHea
        */
       parsedBody: OperationStatus;
     };
-};
+  };

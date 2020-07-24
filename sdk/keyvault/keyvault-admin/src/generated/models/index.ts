@@ -351,8 +351,7 @@ export interface KeyVaultClientSelectiveKeyRestoreOperationHeaders {
 /**
  * Optional parameters.
  */
-export interface RoleDefinitionsListOptionalParams
-  extends coreHttp.OperationOptions {
+export interface RoleDefinitionsListOptionalParams extends coreHttp.OperationOptions {
   /**
    * The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
    */
@@ -382,8 +381,7 @@ export type RoleDefinitionsListResponse = RoleDefinitionListResult & {
 /**
  * Optional parameters.
  */
-export interface RoleDefinitionsListNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface RoleDefinitionsListNextOptionalParams extends coreHttp.OperationOptions {
   /**
    * The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
    */
@@ -473,8 +471,7 @@ export type RoleAssignmentsGetResponse = RoleAssignment & {
 /**
  * Optional parameters.
  */
-export interface RoleAssignmentsListForScopeOptionalParams
-  extends coreHttp.OperationOptions {
+export interface RoleAssignmentsListForScopeOptionalParams extends coreHttp.OperationOptions {
   /**
    * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
    */
@@ -504,8 +501,7 @@ export type RoleAssignmentsListForScopeResponse = RoleAssignmentListResult & {
 /**
  * Optional parameters.
  */
-export interface RoleAssignmentsListForScopeNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface RoleAssignmentsListForScopeNextOptionalParams extends coreHttp.OperationOptions {
   /**
    * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
    */
@@ -535,8 +531,7 @@ export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult &
 /**
  * Optional parameters.
  */
-export interface KeyVaultClientFullBackupOptionalParams
-  extends coreHttp.OperationOptions {
+export interface KeyVaultClientFullBackupOptionalParams extends coreHttp.OperationOptions {
   /**
    * Azure blob shared access signature token pointing to a valid Azure blob container where full backup needs to be stored. This token needs to be valid for at least next 24 hours from the time of making this call
    */
@@ -683,8 +678,7 @@ export type KeyVaultClientSelectiveKeyRestoreOperationResponse = KeyVaultClientS
 /**
  * Optional parameters.
  */
-export interface KeyVaultClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface KeyVaultClientOptionalParams extends coreHttp.ServiceClientOptions {
   /**
    * Api Version
    */

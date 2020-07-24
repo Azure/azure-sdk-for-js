@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const QueryContext: msRest.CompositeMapper = {
   serializedName: "QueryContext",
   type: {
@@ -94,7 +93,7 @@ export const EntitiesEntityPresentationInfo: msRest.CompositeMapper = {
       entityScenario: {
         required: true,
         serializedName: "entityScenario",
-        defaultValue: 'DominantEntity',
+        defaultValue: "DominantEntity",
         type: {
           name: "String"
         }
@@ -859,7 +858,7 @@ export const ErrorModel: msRest.CompositeMapper = {
       code: {
         required: true,
         serializedName: "code",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -984,25 +983,24 @@ export const SearchAction: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'QueryContext' : QueryContext,
-  'Entities/EntityPresentationInfo' : EntitiesEntityPresentationInfo,
-  'ResponseBase.Thing' : Thing,
-  'ResponseBase.Places' : Places,
-  'ResponseBase.SearchResultsAnswer' : SearchResultsAnswer,
-  'ResponseBase.SearchResponse' : SearchResponse,
-  'GeoCoordinates' : GeoCoordinates,
-  'ResponseBase.PostalAddress' : PostalAddress,
-  'ResponseBase.Place' : Place,
-  'ResponseBase.Action' : Action,
-  'ResponseBase.Response' : Response,
-  'ResponseBase.Identifiable' : Identifiable,
-  'ResponseBase.Answer' : Answer,
-  'Error' : ErrorModel,
-  'ResponseBase.ErrorResponse' : ErrorResponse,
-  'ResponseBase.CreativeWork' : CreativeWork,
-  'ResponseBase' : ResponseBase,
-  'ResponseBase.Intangible' : Intangible,
-  'ResponseBase.SearchAction' : SearchAction,
-  'ResponseBase.StructuredValue' : StructuredValue
-
+  QueryContext: QueryContext,
+  "Entities/EntityPresentationInfo": EntitiesEntityPresentationInfo,
+  "ResponseBase.Thing": Thing,
+  "ResponseBase.Places": Places,
+  "ResponseBase.SearchResultsAnswer": SearchResultsAnswer,
+  "ResponseBase.SearchResponse": SearchResponse,
+  GeoCoordinates: GeoCoordinates,
+  "ResponseBase.PostalAddress": PostalAddress,
+  "ResponseBase.Place": Place,
+  "ResponseBase.Action": Action,
+  "ResponseBase.Response": Response,
+  "ResponseBase.Identifiable": Identifiable,
+  "ResponseBase.Answer": Answer,
+  Error: ErrorModel,
+  "ResponseBase.ErrorResponse": ErrorResponse,
+  "ResponseBase.CreativeWork": CreativeWork,
+  ResponseBase: ResponseBase,
+  "ResponseBase.Intangible": Intangible,
+  "ResponseBase.SearchAction": SearchAction,
+  "ResponseBase.StructuredValue": StructuredValue
 };

@@ -115,16 +115,16 @@ export type ListOperationsResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -135,16 +135,16 @@ export type ListOperationsNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -155,16 +155,16 @@ export type FeaturesListAllResponse = FeatureOperationsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FeatureOperationsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FeatureOperationsListResult;
+  };
 };
 
 /**
@@ -175,16 +175,16 @@ export type FeaturesListResponse = FeatureOperationsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FeatureOperationsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FeatureOperationsListResult;
+  };
 };
 
 /**
@@ -195,16 +195,16 @@ export type FeaturesGetResponse = FeatureResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FeatureResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FeatureResult;
+  };
 };
 
 /**
@@ -215,16 +215,16 @@ export type FeaturesRegisterResponse = FeatureResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FeatureResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FeatureResult;
+  };
 };
 
 /**
@@ -235,16 +235,16 @@ export type FeaturesListAllNextResponse = FeatureOperationsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FeatureOperationsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FeatureOperationsListResult;
+  };
 };
 
 /**
@@ -255,14 +255,14 @@ export type FeaturesListNextResponse = FeatureOperationsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FeatureOperationsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FeatureOperationsListResult;
+  };
 };

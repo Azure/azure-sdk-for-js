@@ -41,14 +41,21 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.JobsListOptionalParams, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
-  list(options?: Models.JobsListOptionalParams | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.JobsListResponse> {
+  list(
+    options: Models.JobsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobResourceList>
+  ): void;
+  list(
+    options?: Models.JobsListOptionalParams | msRest.ServiceCallback<Models.JobResourceList>,
+    callback?: msRest.ServiceCallback<Models.JobResourceList>
+  ): Promise<Models.JobsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.JobsListResponse>;
+      callback
+    ) as Promise<Models.JobsListResponse>;
   }
 
   /**
@@ -57,26 +64,43 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.JobsListByResourceGroupOptionalParams): Promise<Models.JobsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.JobsListByResourceGroupOptionalParams
+  ): Promise<Models.JobsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.JobResourceList>
+  ): void;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.JobsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.JobsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.JobsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.JobsListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobResourceList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.JobsListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.JobResourceList>,
+    callback?: msRest.ServiceCallback<Models.JobResourceList>
+  ): Promise<Models.JobsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.JobsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.JobsListByResourceGroupResponse>;
   }
 
   /**
@@ -87,14 +111,22 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsGetResponse>
    */
-  get(resourceGroupName: string, jobName: string, options?: Models.JobsGetOptionalParams): Promise<Models.JobsGetResponse>;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    options?: Models.JobsGetOptionalParams
+  ): Promise<Models.JobsGetResponse>;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param jobName The name of the job Resource within the specified resource group. job names must
    * be between 3 and 24 characters in length and use any alphanumeric and underscore only
    * @param callback The callback
    */
-  get(resourceGroupName: string, jobName: string, callback: msRest.ServiceCallback<Models.JobResource>): void;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<Models.JobResource>
+  ): void;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param jobName The name of the job Resource within the specified resource group. job names must
@@ -102,8 +134,18 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, jobName: string, options: Models.JobsGetOptionalParams, callback: msRest.ServiceCallback<Models.JobResource>): void;
-  get(resourceGroupName: string, jobName: string, options?: Models.JobsGetOptionalParams | msRest.ServiceCallback<Models.JobResource>, callback?: msRest.ServiceCallback<Models.JobResource>): Promise<Models.JobsGetResponse> {
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    options: Models.JobsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    options?: Models.JobsGetOptionalParams | msRest.ServiceCallback<Models.JobResource>,
+    callback?: msRest.ServiceCallback<Models.JobResource>
+  ): Promise<Models.JobsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +153,8 @@ export class Jobs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.JobsGetResponse>;
+      callback
+    ) as Promise<Models.JobsGetResponse>;
   }
 
   /**
@@ -124,9 +167,15 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsCreateResponse>
    */
-  create(resourceGroupName: string, jobName: string, jobResource: Models.JobResource, options?: msRest.RequestOptionsBase): Promise<Models.JobsCreateResponse> {
-    return this.beginCreate(resourceGroupName,jobName,jobResource,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.JobsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    jobName: string,
+    jobResource: Models.JobResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsCreateResponse> {
+    return this.beginCreate(resourceGroupName, jobName, jobResource, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.JobsCreateResponse>;
   }
 
   /**
@@ -137,9 +186,14 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,jobName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, jobName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -151,9 +205,18 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsUpdateResponse>
    */
-  update(resourceGroupName: string, jobName: string, jobResourceUpdateParameter: Models.JobResourceUpdateParameter, options?: Models.JobsUpdateOptionalParams): Promise<Models.JobsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,jobName,jobResourceUpdateParameter,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.JobsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    jobName: string,
+    jobResourceUpdateParameter: Models.JobResourceUpdateParameter,
+    options?: Models.JobsUpdateOptionalParams
+  ): Promise<Models.JobsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      jobName,
+      jobResourceUpdateParameter,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.JobsUpdateResponse>;
   }
 
   /**
@@ -165,7 +228,12 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsBookShipmentPickUpResponse>
    */
-  bookShipmentPickUp(resourceGroupName: string, jobName: string, shipmentPickUpRequest: Models.ShipmentPickUpRequest, options?: msRest.RequestOptionsBase): Promise<Models.JobsBookShipmentPickUpResponse>;
+  bookShipmentPickUp(
+    resourceGroupName: string,
+    jobName: string,
+    shipmentPickUpRequest: Models.ShipmentPickUpRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsBookShipmentPickUpResponse>;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param jobName The name of the job Resource within the specified resource group. job names must
@@ -173,7 +241,12 @@ export class Jobs {
    * @param shipmentPickUpRequest Details of shipment pick up request.
    * @param callback The callback
    */
-  bookShipmentPickUp(resourceGroupName: string, jobName: string, shipmentPickUpRequest: Models.ShipmentPickUpRequest, callback: msRest.ServiceCallback<Models.ShipmentPickUpResponse>): void;
+  bookShipmentPickUp(
+    resourceGroupName: string,
+    jobName: string,
+    shipmentPickUpRequest: Models.ShipmentPickUpRequest,
+    callback: msRest.ServiceCallback<Models.ShipmentPickUpResponse>
+  ): void;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param jobName The name of the job Resource within the specified resource group. job names must
@@ -182,8 +255,20 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  bookShipmentPickUp(resourceGroupName: string, jobName: string, shipmentPickUpRequest: Models.ShipmentPickUpRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ShipmentPickUpResponse>): void;
-  bookShipmentPickUp(resourceGroupName: string, jobName: string, shipmentPickUpRequest: Models.ShipmentPickUpRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ShipmentPickUpResponse>, callback?: msRest.ServiceCallback<Models.ShipmentPickUpResponse>): Promise<Models.JobsBookShipmentPickUpResponse> {
+  bookShipmentPickUp(
+    resourceGroupName: string,
+    jobName: string,
+    shipmentPickUpRequest: Models.ShipmentPickUpRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ShipmentPickUpResponse>
+  ): void;
+  bookShipmentPickUp(
+    resourceGroupName: string,
+    jobName: string,
+    shipmentPickUpRequest: Models.ShipmentPickUpRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ShipmentPickUpResponse>,
+    callback?: msRest.ServiceCallback<Models.ShipmentPickUpResponse>
+  ): Promise<Models.JobsBookShipmentPickUpResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +277,8 @@ export class Jobs {
         options
       },
       bookShipmentPickUpOperationSpec,
-      callback) as Promise<Models.JobsBookShipmentPickUpResponse>;
+      callback
+    ) as Promise<Models.JobsBookShipmentPickUpResponse>;
   }
 
   /**
@@ -204,7 +290,12 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  cancel(resourceGroupName: string, jobName: string, reason: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  cancel(
+    resourceGroupName: string,
+    jobName: string,
+    reason: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param jobName The name of the job Resource within the specified resource group. job names must
@@ -212,7 +303,12 @@ export class Jobs {
    * @param reason Reason for cancellation.
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, jobName: string, reason: string, callback: msRest.ServiceCallback<void>): void;
+  cancel(
+    resourceGroupName: string,
+    jobName: string,
+    reason: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param jobName The name of the job Resource within the specified resource group. job names must
@@ -221,8 +317,20 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, jobName: string, reason: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancel(resourceGroupName: string, jobName: string, reason: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancel(
+    resourceGroupName: string,
+    jobName: string,
+    reason: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  cancel(
+    resourceGroupName: string,
+    jobName: string,
+    reason: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -231,7 +339,8 @@ export class Jobs {
         options
       },
       cancelOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -242,14 +351,22 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListCredentialsResponse>
    */
-  listCredentials(resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsListCredentialsResponse>;
+  listCredentials(
+    resourceGroupName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListCredentialsResponse>;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param jobName The name of the job Resource within the specified resource group. job names must
    * be between 3 and 24 characters in length and use any alphanumeric and underscore only
    * @param callback The callback
    */
-  listCredentials(resourceGroupName: string, jobName: string, callback: msRest.ServiceCallback<Models.UnencryptedCredentialsList>): void;
+  listCredentials(
+    resourceGroupName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<Models.UnencryptedCredentialsList>
+  ): void;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param jobName The name of the job Resource within the specified resource group. job names must
@@ -257,8 +374,18 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCredentials(resourceGroupName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UnencryptedCredentialsList>): void;
-  listCredentials(resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UnencryptedCredentialsList>, callback?: msRest.ServiceCallback<Models.UnencryptedCredentialsList>): Promise<Models.JobsListCredentialsResponse> {
+  listCredentials(
+    resourceGroupName: string,
+    jobName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UnencryptedCredentialsList>
+  ): void;
+  listCredentials(
+    resourceGroupName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UnencryptedCredentialsList>,
+    callback?: msRest.ServiceCallback<Models.UnencryptedCredentialsList>
+  ): Promise<Models.JobsListCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -266,7 +393,8 @@ export class Jobs {
         options
       },
       listCredentialsOperationSpec,
-      callback) as Promise<Models.JobsListCredentialsResponse>;
+      callback
+    ) as Promise<Models.JobsListCredentialsResponse>;
   }
 
   /**
@@ -279,7 +407,12 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, jobName: string, jobResource: Models.JobResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    jobName: string,
+    jobResource: Models.JobResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -288,7 +421,8 @@ export class Jobs {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -299,7 +433,11 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -307,7 +445,8 @@ export class Jobs {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -319,7 +458,12 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, jobName: string, jobResourceUpdateParameter: Models.JobResourceUpdateParameter, options?: Models.JobsBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    jobName: string,
+    jobResourceUpdateParameter: Models.JobResourceUpdateParameter,
+    options?: Models.JobsBeginUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -328,7 +472,8 @@ export class Jobs {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -337,7 +482,10 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -348,15 +496,24 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.JobsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobResourceList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResourceList>,
+    callback?: msRest.ServiceCallback<Models.JobResourceList>
+  ): Promise<Models.JobsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.JobsListNextResponse>;
+      callback
+    ) as Promise<Models.JobsListNextResponse>;
   }
 
   /**
@@ -365,26 +522,41 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.JobResourceList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResourceList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResourceList>, callback?: msRest.ServiceCallback<Models.JobResourceList>): Promise<Models.JobsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobResourceList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResourceList>,
+    callback?: msRest.ServiceCallback<Models.JobResourceList>
+  ): Promise<Models.JobsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.JobsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.JobsListByResourceGroupNextResponse>;
   }
 }
 
@@ -393,16 +565,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DataBox/jobs",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobResourceList
@@ -416,18 +581,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobResourceList
@@ -441,19 +599,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobResource
@@ -467,18 +617,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const bookShipmentPickUpOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/bookShipmentPickUp",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/bookShipmentPickUp",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "shipmentPickUpRequest",
     mapper: {
@@ -499,18 +642,11 @@ const bookShipmentPickUpOperationSpec: msRest.OperationSpec = {
 
 const cancelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/cancel",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/cancel",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       reason: "reason"
@@ -531,18 +667,11 @@ const cancelOperationSpec: msRest.OperationSpec = {
 
 const listCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/listCredentials",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/listCredentials",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UnencryptedCredentialsList
@@ -556,18 +685,11 @@ const listCredentialsOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "jobResource",
     mapper: {
@@ -589,18 +711,11 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -613,19 +728,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "jobResourceUpdateParameter",
     mapper: {
@@ -649,12 +756,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobResourceList
@@ -670,12 +773,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobResourceList

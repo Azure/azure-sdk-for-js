@@ -11,7 +11,7 @@ import { ServiceBusClientForTests, createServiceBusClientForTests } from "./util
 import { Sender } from "../src/sender";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
-import { ServiceBusClient } from '../src';
+import { ServiceBusClient } from "../src";
 
 describe("invalid parameters", () => {
   let serviceBusClient: ServiceBusClientForTests;
@@ -229,7 +229,8 @@ describe("invalid parameters", () => {
   });
 
   describe("Invalid parameters in Receiver", function(): void {
-    const mockConnectionString = "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test";
+    const mockConnectionString =
+      "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test";
     const sbClient = new ServiceBusClient(mockConnectionString);
     const receiver = sbClient.createReceiver("dummyQueue", "peekLock");
 
@@ -396,7 +397,8 @@ describe("invalid parameters", () => {
   });
 
   describe("Invalid parameters in Sender", function(): void {
-    const mockConnectionString = "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test";
+    const mockConnectionString =
+      "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test";
     const sbClient = new ServiceBusClient(mockConnectionString);
     const sender = sbClient.createSender("dummyQueue");
 

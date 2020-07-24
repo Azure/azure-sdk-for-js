@@ -34,21 +34,41 @@ export class Steps {
    * @param [options] The optional parameters
    * @returns Promise<Models.StepsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, stepName: string, options?: Models.StepsCreateOrUpdateOptionalParams): Promise<Models.StepsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    stepName: string,
+    options?: Models.StepsCreateOrUpdateOptionalParams
+  ): Promise<Models.StepsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param stepName The name of the deployment step.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, stepName: string, callback: msRest.ServiceCallback<Models.StepResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    stepName: string,
+    callback: msRest.ServiceCallback<Models.StepResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param stepName The name of the deployment step.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, stepName: string, options: Models.StepsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.StepResource>): void;
-  createOrUpdate(resourceGroupName: string, stepName: string, options?: Models.StepsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.StepResource>, callback?: msRest.ServiceCallback<Models.StepResource>): Promise<Models.StepsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    stepName: string,
+    options: Models.StepsCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.StepResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    stepName: string,
+    options?:
+      | Models.StepsCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.StepResource>,
+    callback?: msRest.ServiceCallback<Models.StepResource>
+  ): Promise<Models.StepsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class Steps {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.StepsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.StepsCreateOrUpdateResponse>;
   }
 
   /**
@@ -66,21 +87,39 @@ export class Steps {
    * @param [options] The optional parameters
    * @returns Promise<Models.StepsGetResponse>
    */
-  get(resourceGroupName: string, stepName: string, options?: msRest.RequestOptionsBase): Promise<Models.StepsGetResponse>;
+  get(
+    resourceGroupName: string,
+    stepName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StepsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param stepName The name of the deployment step.
    * @param callback The callback
    */
-  get(resourceGroupName: string, stepName: string, callback: msRest.ServiceCallback<Models.StepResource>): void;
+  get(
+    resourceGroupName: string,
+    stepName: string,
+    callback: msRest.ServiceCallback<Models.StepResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param stepName The name of the deployment step.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, stepName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StepResource>): void;
-  get(resourceGroupName: string, stepName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StepResource>, callback?: msRest.ServiceCallback<Models.StepResource>): Promise<Models.StepsGetResponse> {
+  get(
+    resourceGroupName: string,
+    stepName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StepResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    stepName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StepResource>,
+    callback?: msRest.ServiceCallback<Models.StepResource>
+  ): Promise<Models.StepsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +127,8 @@ export class Steps {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.StepsGetResponse>;
+      callback
+    ) as Promise<Models.StepsGetResponse>;
   }
 
   /**
@@ -98,21 +138,39 @@ export class Steps {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, stepName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    stepName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param stepName The name of the deployment step.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, stepName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    stepName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param stepName The name of the deployment step.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, stepName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, stepName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    stepName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    stepName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +178,8 @@ export class Steps {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -129,7 +188,10 @@ export class Steps {
    * @param [options] The optional parameters
    * @returns Promise<Models.StepsListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.StepsListResponse>;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StepsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
@@ -140,15 +202,24 @@ export class Steps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StepResource[]>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StepResource[]>, callback?: msRest.ServiceCallback<Models.StepResource[]>): Promise<Models.StepsListResponse> {
+  list(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StepResource[]>
+  ): void;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StepResource[]>,
+    callback?: msRest.ServiceCallback<Models.StepResource[]>
+  ): Promise<Models.StepsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.StepsListResponse>;
+      callback
+    ) as Promise<Models.StepsListResponse>;
   }
 }
 
@@ -156,23 +227,13 @@ export class Steps {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.stepName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.stepName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "stepInfo"
-    ],
+    parameterPath: ["options", "stepInfo"],
     mapper: Mappers.StepResource
   },
   responses: {
@@ -188,18 +249,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.stepName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.stepName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StepResource
@@ -213,18 +267,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.stepName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps/{stepName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.stepName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -237,17 +284,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {

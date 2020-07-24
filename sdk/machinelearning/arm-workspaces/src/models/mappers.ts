@@ -112,13 +112,7 @@ export const Workspace: msRest.CompositeMapper = {
         serializedName: "properties.workspaceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Production",
-            "Free",
-            "Anonymous",
-            "PaidStandard",
-            "PaidPremium"
-          ]
+          allowedValues: ["Production", "Free", "Anonymous", "PaidStandard", "PaidPremium"]
         }
       },
       workspaceState: {

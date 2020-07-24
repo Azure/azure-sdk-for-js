@@ -1017,7 +1017,14 @@ export interface AutoSuggestClientAutoSuggestOptionalParams extends msRest.Reque
  * @readonly
  * @enum {string}
  */
-export type ScenarioType = 'Unknown' | 'Web' | 'StoreApps' | 'SearchHistory' | 'PersonalSearchDocuments' | 'PersonalSearchTags' | 'Custom';
+export type ScenarioType =
+  | "Unknown"
+  | "Web"
+  | "StoreApps"
+  | "SearchHistory"
+  | "PersonalSearchDocuments"
+  | "PersonalSearchTags"
+  | "Custom";
 
 /**
  * Defines values for SearchKind.
@@ -1026,7 +1033,13 @@ export type ScenarioType = 'Unknown' | 'Web' | 'StoreApps' | 'SearchHistory' | '
  * @readonly
  * @enum {string}
  */
-export type SearchKind = 'WebSearch' | 'HistorySearch' | 'DocumentSearch' | 'TagSearch' | 'LocationSearch' | 'CustomSearch';
+export type SearchKind =
+  | "WebSearch"
+  | "HistorySearch"
+  | "DocumentSearch"
+  | "TagSearch"
+  | "LocationSearch"
+  | "CustomSearch";
 
 /**
  * Defines values for ErrorCode.
@@ -1035,7 +1048,13 @@ export type SearchKind = 'WebSearch' | 'HistorySearch' | 'DocumentSearch' | 'Tag
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export type ErrorCode =
+  | "None"
+  | "ServerError"
+  | "InvalidRequest"
+  | "RateLimitExceeded"
+  | "InvalidAuthorization"
+  | "InsufficientAuthorization";
 
 /**
  * Defines values for SafeSearch.
@@ -1043,7 +1062,7 @@ export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitEx
  * @readonly
  * @enum {string}
  */
-export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
+export type SafeSearch = "Off" | "Moderate" | "Strict";
 
 /**
  * Defines values for ResponseFormat.
@@ -1051,7 +1070,7 @@ export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
  * @readonly
  * @enum {string}
  */
-export type ResponseFormat = 'Json' | 'JsonLd';
+export type ResponseFormat = "Json" | "JsonLd";
 
 /**
  * Contains response data for the autoSuggest operation.
@@ -1061,14 +1080,14 @@ export type AutoSuggestResponse = Suggestions & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Suggestions;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Suggestions;
+  };
 };

@@ -40,14 +40,23 @@ export class Messages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  dequeue(options: Models.MessagesDequeueOptionalParams, callback: coreHttp.ServiceCallback<Models.DequeuedMessageItem[]>): void;
-  dequeue(options?: Models.MessagesDequeueOptionalParams | coreHttp.ServiceCallback<Models.DequeuedMessageItem[]>, callback?: coreHttp.ServiceCallback<Models.DequeuedMessageItem[]>): Promise<Models.MessagesDequeueResponse> {
+  dequeue(
+    options: Models.MessagesDequeueOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.DequeuedMessageItem[]>
+  ): void;
+  dequeue(
+    options?:
+      | Models.MessagesDequeueOptionalParams
+      | coreHttp.ServiceCallback<Models.DequeuedMessageItem[]>,
+    callback?: coreHttp.ServiceCallback<Models.DequeuedMessageItem[]>
+  ): Promise<Models.MessagesDequeueResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       dequeueOperationSpec,
-      callback) as Promise<Models.MessagesDequeueResponse>;
+      callback
+    ) as Promise<Models.MessagesDequeueResponse>;
   }
 
   /**
@@ -64,14 +73,21 @@ export class Messages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  clear(options: Models.MessagesClearOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  clear(options?: Models.MessagesClearOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.MessagesClearResponse> {
+  clear(
+    options: Models.MessagesClearOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  clear(
+    options?: Models.MessagesClearOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.MessagesClearResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       clearOperationSpec,
-      callback) as Promise<Models.MessagesClearResponse>;
+      callback
+    ) as Promise<Models.MessagesClearResponse>;
   }
 
   /**
@@ -84,26 +100,43 @@ export class Messages {
    * @param [options] The optional parameters
    * @returns Promise<Models.MessagesEnqueueResponse>
    */
-  enqueue(queueMessage: Models.QueueMessage, options?: Models.MessagesEnqueueOptionalParams): Promise<Models.MessagesEnqueueResponse>;
+  enqueue(
+    queueMessage: Models.QueueMessage,
+    options?: Models.MessagesEnqueueOptionalParams
+  ): Promise<Models.MessagesEnqueueResponse>;
   /**
    * @param queueMessage A Message object which can be stored in a Queue
    * @param callback The callback
    */
-  enqueue(queueMessage: Models.QueueMessage, callback: coreHttp.ServiceCallback<Models.EnqueuedMessage[]>): void;
+  enqueue(
+    queueMessage: Models.QueueMessage,
+    callback: coreHttp.ServiceCallback<Models.EnqueuedMessage[]>
+  ): void;
   /**
    * @param queueMessage A Message object which can be stored in a Queue
    * @param options The optional parameters
    * @param callback The callback
    */
-  enqueue(queueMessage: Models.QueueMessage, options: Models.MessagesEnqueueOptionalParams, callback: coreHttp.ServiceCallback<Models.EnqueuedMessage[]>): void;
-  enqueue(queueMessage: Models.QueueMessage, options?: Models.MessagesEnqueueOptionalParams | coreHttp.ServiceCallback<Models.EnqueuedMessage[]>, callback?: coreHttp.ServiceCallback<Models.EnqueuedMessage[]>): Promise<Models.MessagesEnqueueResponse> {
+  enqueue(
+    queueMessage: Models.QueueMessage,
+    options: Models.MessagesEnqueueOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.EnqueuedMessage[]>
+  ): void;
+  enqueue(
+    queueMessage: Models.QueueMessage,
+    options?:
+      | Models.MessagesEnqueueOptionalParams
+      | coreHttp.ServiceCallback<Models.EnqueuedMessage[]>,
+    callback?: coreHttp.ServiceCallback<Models.EnqueuedMessage[]>
+  ): Promise<Models.MessagesEnqueueResponse> {
     return this.client.sendOperationRequest(
       {
         queueMessage,
         options
       },
       enqueueOperationSpec,
-      callback) as Promise<Models.MessagesEnqueueResponse>;
+      callback
+    ) as Promise<Models.MessagesEnqueueResponse>;
   }
 
   /**
@@ -121,14 +154,23 @@ export class Messages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  peek(options: Models.MessagesPeekOptionalParams, callback: coreHttp.ServiceCallback<Models.PeekedMessageItem[]>): void;
-  peek(options?: Models.MessagesPeekOptionalParams | coreHttp.ServiceCallback<Models.PeekedMessageItem[]>, callback?: coreHttp.ServiceCallback<Models.PeekedMessageItem[]>): Promise<Models.MessagesPeekResponse> {
+  peek(
+    options: Models.MessagesPeekOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.PeekedMessageItem[]>
+  ): void;
+  peek(
+    options?:
+      | Models.MessagesPeekOptionalParams
+      | coreHttp.ServiceCallback<Models.PeekedMessageItem[]>,
+    callback?: coreHttp.ServiceCallback<Models.PeekedMessageItem[]>
+  ): Promise<Models.MessagesPeekResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       peekOperationSpec,
-      callback) as Promise<Models.MessagesPeekResponse>;
+      callback
+    ) as Promise<Models.MessagesPeekResponse>;
   }
 }
 
@@ -137,18 +179,13 @@ const serializer = new coreHttp.Serializer(Mappers, true);
 const dequeueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{queueName}/messages",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.numberOfMessages,
     Parameters.visibilityTimeout0,
     Parameters.timeoutInSeconds
   ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId],
   responses: {
     200: {
       bodyMapper: {
@@ -178,16 +215,9 @@ const dequeueOperationSpec: coreHttp.OperationSpec = {
 const clearOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{queueName}/messages",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds],
+  headerParameters: [Parameters.version, Parameters.requestId],
   responses: {
     204: {
       headersMapper: Mappers.MessagesClearHeaders
@@ -204,18 +234,13 @@ const clearOperationSpec: coreHttp.OperationSpec = {
 const enqueueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "{queueName}/messages",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.visibilityTimeout0,
     Parameters.messageTimeToLive,
     Parameters.timeoutInSeconds
   ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId],
   requestBody: {
     parameterPath: "queueMessage",
     mapper: {
@@ -253,18 +278,9 @@ const enqueueOperationSpec: coreHttp.OperationSpec = {
 const peekOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{queueName}/messages",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.numberOfMessages,
-    Parameters.timeoutInSeconds,
-    Parameters.peekonly
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.numberOfMessages, Parameters.timeoutInSeconds, Parameters.peekonly],
+  headerParameters: [Parameters.version, Parameters.requestId],
   responses: {
     200: {
       bodyMapper: {

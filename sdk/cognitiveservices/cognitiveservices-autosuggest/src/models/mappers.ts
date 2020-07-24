@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const ResponseBase: msRest.CompositeMapper = {
   serializedName: "ResponseBase",
   type: {
@@ -362,7 +361,7 @@ export const SearchAction: msRest.CompositeMapper = {
       searchKind: {
         readOnly: true,
         serializedName: "searchKind",
-        defaultValue: 'WebSearch',
+        defaultValue: "WebSearch",
         type: {
           name: "String"
         }
@@ -385,7 +384,7 @@ export const SuggestionsSuggestionGroup: msRest.CompositeMapper = {
       name: {
         required: true,
         serializedName: "name",
-        defaultValue: 'Unknown',
+        defaultValue: "Unknown",
         type: {
           name: "String"
         }
@@ -552,7 +551,7 @@ export const ErrorModel: msRest.CompositeMapper = {
       code: {
         required: true,
         serializedName: "code",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -623,19 +622,18 @@ export const ErrorResponse: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ResponseBase.SearchAction' : SearchAction,
-  'Suggestions/SuggestionGroup' : SuggestionsSuggestionGroup,
-  'ResponseBase.Suggestions' : Suggestions,
-  'QueryContext' : QueryContext,
-  'ResponseBase.SearchResultsAnswer' : SearchResultsAnswer,
-  'ResponseBase.Answer' : Answer,
-  'ResponseBase.Thing' : Thing,
-  'ResponseBase.Action' : Action,
-  'ResponseBase.Response' : Response,
-  'ResponseBase.Identifiable' : Identifiable,
-  'Error' : ErrorModel,
-  'ResponseBase.ErrorResponse' : ErrorResponse,
-  'ResponseBase.CreativeWork' : CreativeWork,
-  'ResponseBase' : ResponseBase
-
+  "ResponseBase.SearchAction": SearchAction,
+  "Suggestions/SuggestionGroup": SuggestionsSuggestionGroup,
+  "ResponseBase.Suggestions": Suggestions,
+  QueryContext: QueryContext,
+  "ResponseBase.SearchResultsAnswer": SearchResultsAnswer,
+  "ResponseBase.Answer": Answer,
+  "ResponseBase.Thing": Thing,
+  "ResponseBase.Action": Action,
+  "ResponseBase.Response": Response,
+  "ResponseBase.Identifiable": Identifiable,
+  Error: ErrorModel,
+  "ResponseBase.ErrorResponse": ErrorResponse,
+  "ResponseBase.CreativeWork": CreativeWork,
+  ResponseBase: ResponseBase
 };

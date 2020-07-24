@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing PartnerResponse.
@@ -172,7 +171,6 @@ export interface ACEProvisioningManagementPartnerAPIOptions extends AzureService
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the OperationList.
@@ -193,7 +191,7 @@ export interface OperationList extends Array<OperationResponse> {
  * @readonly
  * @enum {string}
  */
-export type State = 'Active' | 'Deleted';
+export type State = "Active" | "Deleted";
 
 /**
  * Defines values for Code.
@@ -201,7 +199,7 @@ export type State = 'Active' | 'Deleted';
  * @readonly
  * @enum {string}
  */
-export type Code = 'NotFound' | 'Conflict' | 'BadRequest';
+export type Code = "NotFound" | "Conflict" | "BadRequest";
 
 /**
  * Contains response data for the get operation.
@@ -211,15 +209,15 @@ export type PartnerGetResponse = PartnerResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PartnerResponse;
+  };
 };
 
 /**
@@ -230,15 +228,15 @@ export type PartnerCreateResponse = PartnerResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PartnerResponse;
+  };
 };
 
 /**
@@ -249,15 +247,15 @@ export type PartnerUpdateResponse = PartnerResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PartnerResponse;
+  };
 };
 
 /**
@@ -268,15 +266,15 @@ export type OperationListResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -287,13 +285,13 @@ export type OperationListNextResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };

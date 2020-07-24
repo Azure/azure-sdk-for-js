@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ManagementLinkClientContext } from "./managementLinkClientContext";
 
-
 class ManagementLinkClient extends ManagementLinkClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -26,7 +25,11 @@ class ManagementLinkClient extends ManagementLinkClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ManagementLinkClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ManagementLinkClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.resourceLinks = new operations.ResourceLinks(this);

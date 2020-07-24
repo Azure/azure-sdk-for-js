@@ -902,14 +902,12 @@ export interface DeviceLifeCycleEventProperties {
 /**
  * Event data for Microsoft.Devices.DeviceCreated event.
  */
-export interface IotHubDeviceCreatedEventData extends DeviceLifeCycleEventProperties {
-}
+export interface IotHubDeviceCreatedEventData extends DeviceLifeCycleEventProperties {}
 
 /**
  * Event data for Microsoft.Devices.DeviceDeleted event.
  */
-export interface IotHubDeviceDeletedEventData extends DeviceLifeCycleEventProperties {
-}
+export interface IotHubDeviceDeletedEventData extends DeviceLifeCycleEventProperties {}
 
 /**
  * Schema of the Data property of an EventGridEvent for a device connection state event
@@ -941,14 +939,12 @@ export interface DeviceConnectionStateEventProperties {
 /**
  * Event data for Microsoft.Devices.DeviceConnected event.
  */
-export interface IotHubDeviceConnectedEventData extends DeviceConnectionStateEventProperties {
-}
+export interface IotHubDeviceConnectedEventData extends DeviceConnectionStateEventProperties {}
 
 /**
  * Event data for Microsoft.Devices.DeviceDisconnected event.
  */
-export interface IotHubDeviceDisconnectedEventData extends DeviceConnectionStateEventProperties {
-}
+export interface IotHubDeviceDisconnectedEventData extends DeviceConnectionStateEventProperties {}
 
 /**
  * Schema of the Data property of an EventGridEvent for a device telemetry event (DeviceTelemetry).
@@ -972,8 +968,7 @@ export interface DeviceTelemetryEventProperties {
 /**
  * Event data for Microsoft.Devices.DeviceTelemetry event.
  */
-export interface IotHubDeviceTelemetryEventData extends DeviceTelemetryEventProperties {
-}
+export interface IotHubDeviceTelemetryEventData extends DeviceTelemetryEventProperties {}
 
 /**
  * Metadata information for the properties JSON document.
@@ -1138,15 +1133,13 @@ export interface ContainerRegistryEventData {
  * Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ImagePushed
  * event.
  */
-export interface ContainerRegistryImagePushedEventData extends ContainerRegistryEventData {
-}
+export interface ContainerRegistryImagePushedEventData extends ContainerRegistryEventData {}
 
 /**
  * Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ImageDeleted
  * event.
  */
-export interface ContainerRegistryImageDeletedEventData extends ContainerRegistryEventData {
-}
+export interface ContainerRegistryImageDeletedEventData extends ContainerRegistryEventData {}
 
 /**
  * The content of the event request message.
@@ -1174,15 +1167,14 @@ export interface ContainerRegistryArtifactEventData {
  * Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ChartPushed
  * event.
  */
-export interface ContainerRegistryChartPushedEventData extends ContainerRegistryArtifactEventData {
-}
+export interface ContainerRegistryChartPushedEventData extends ContainerRegistryArtifactEventData {}
 
 /**
  * Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ChartDeleted
  * event.
  */
-export interface ContainerRegistryChartDeletedEventData extends ContainerRegistryArtifactEventData {
-}
+export interface ContainerRegistryChartDeletedEventData
+  extends ContainerRegistryArtifactEventData {}
 
 /**
  * The target of the event.
@@ -1554,20 +1546,17 @@ export interface MediaJobOutputStateChangeEventData {
 /**
  * Job scheduled event data
  */
-export interface MediaJobScheduledEventData extends MediaJobStateChangeEventData {
-}
+export interface MediaJobScheduledEventData extends MediaJobStateChangeEventData {}
 
 /**
  * Job processing event data
  */
-export interface MediaJobProcessingEventData extends MediaJobStateChangeEventData {
-}
+export interface MediaJobProcessingEventData extends MediaJobStateChangeEventData {}
 
 /**
  * Job canceling event data
  */
-export interface MediaJobCancelingEventData extends MediaJobStateChangeEventData {
-}
+export interface MediaJobCancelingEventData extends MediaJobStateChangeEventData {}
 
 /**
  * Job finished event data
@@ -1602,38 +1591,32 @@ export interface MediaJobErroredEventData extends MediaJobStateChangeEventData {
 /**
  * Job output canceled event data
  */
-export interface MediaJobOutputCanceledEventData extends MediaJobOutputStateChangeEventData {
-}
+export interface MediaJobOutputCanceledEventData extends MediaJobOutputStateChangeEventData {}
 
 /**
  * Job output canceling event data
  */
-export interface MediaJobOutputCancelingEventData extends MediaJobOutputStateChangeEventData {
-}
+export interface MediaJobOutputCancelingEventData extends MediaJobOutputStateChangeEventData {}
 
 /**
  * Job output error event data
  */
-export interface MediaJobOutputErroredEventData extends MediaJobOutputStateChangeEventData {
-}
+export interface MediaJobOutputErroredEventData extends MediaJobOutputStateChangeEventData {}
 
 /**
  * Job output finished event data
  */
-export interface MediaJobOutputFinishedEventData extends MediaJobOutputStateChangeEventData {
-}
+export interface MediaJobOutputFinishedEventData extends MediaJobOutputStateChangeEventData {}
 
 /**
  * Job output processing event data
  */
-export interface MediaJobOutputProcessingEventData extends MediaJobOutputStateChangeEventData {
-}
+export interface MediaJobOutputProcessingEventData extends MediaJobOutputStateChangeEventData {}
 
 /**
  * Job output scheduled event data
  */
-export interface MediaJobOutputScheduledEventData extends MediaJobOutputStateChangeEventData {
-}
+export interface MediaJobOutputScheduledEventData extends MediaJobOutputStateChangeEventData {}
 
 /**
  * Encoder connect event data.
@@ -2014,20 +1997,17 @@ export interface MapsGeofenceEventProperties {
 /**
  * Schema of the Data property of an EventGridEvent for a Microsoft.Maps.GeofenceEntered event.
  */
-export interface MapsGeofenceEnteredEventData extends MapsGeofenceEventProperties {
-}
+export interface MapsGeofenceEnteredEventData extends MapsGeofenceEventProperties {}
 
 /**
  * Schema of the Data property of an EventGridEvent for a Microsoft.Maps.GeofenceExited event.
  */
-export interface MapsGeofenceExitedEventData extends MapsGeofenceEventProperties {
-}
+export interface MapsGeofenceExitedEventData extends MapsGeofenceEventProperties {}
 
 /**
  * Schema of the Data property of an EventGridEvent for a Microsoft.Maps.GeofenceResult event.
  */
-export interface MapsGeofenceResultEventData extends MapsGeofenceEventProperties {
-}
+export interface MapsGeofenceResultEventData extends MapsGeofenceEventProperties {}
 
 /**
  * The geofence geometry.
@@ -2588,7 +2568,14 @@ export interface MachineLearningServicesDatasetDriftDetectedEventData {
  * @readonly
  * @enum {string}
  */
-export type MediaJobState = 'Canceled' | 'Canceling' | 'Error' | 'Finished' | 'Processing' | 'Queued' | 'Scheduled';
+export type MediaJobState =
+  | "Canceled"
+  | "Canceling"
+  | "Error"
+  | "Finished"
+  | "Processing"
+  | "Queued"
+  | "Scheduled";
 
 /**
  * Defines values for MediaJobErrorCode.
@@ -2598,7 +2585,16 @@ export type MediaJobState = 'Canceled' | 'Canceling' | 'Error' | 'Finished' | 'P
  * @readonly
  * @enum {string}
  */
-export type MediaJobErrorCode = 'ServiceError' | 'ServiceTransientError' | 'DownloadNotAccessible' | 'DownloadTransientError' | 'UploadNotAccessible' | 'UploadTransientError' | 'ConfigurationUnsupported' | 'ContentMalformed' | 'ContentUnsupported';
+export type MediaJobErrorCode =
+  | "ServiceError"
+  | "ServiceTransientError"
+  | "DownloadNotAccessible"
+  | "DownloadTransientError"
+  | "UploadNotAccessible"
+  | "UploadTransientError"
+  | "ConfigurationUnsupported"
+  | "ContentMalformed"
+  | "ContentUnsupported";
 
 /**
  * Defines values for MediaJobErrorCategory.
@@ -2606,7 +2602,7 @@ export type MediaJobErrorCode = 'ServiceError' | 'ServiceTransientError' | 'Down
  * @readonly
  * @enum {string}
  */
-export type MediaJobErrorCategory = 'Service' | 'Download' | 'Upload' | 'Configuration' | 'Content';
+export type MediaJobErrorCategory = "Service" | "Download" | "Upload" | "Configuration" | "Content";
 
 /**
  * Defines values for MediaJobRetry.
@@ -2614,4 +2610,4 @@ export type MediaJobErrorCategory = 'Service' | 'Download' | 'Upload' | 'Configu
  * @readonly
  * @enum {string}
  */
-export type MediaJobRetry = 'DoNotRetry' | 'MayRetry';
+export type MediaJobRetry = "DoNotRetry" | "MayRetry";

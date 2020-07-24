@@ -37,7 +37,13 @@ export class TransparentDataEncryptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.TransparentDataEncryptionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.TransparentDataEncryption, options?: msRest.RequestOptionsBase): Promise<Models.TransparentDataEncryptionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.TransparentDataEncryption,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TransparentDataEncryptionsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -47,7 +53,13 @@ export class TransparentDataEncryptions {
    * @param parameters The required parameters for creating or updating transparent data encryption.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.TransparentDataEncryption, callback: msRest.ServiceCallback<Models.TransparentDataEncryption>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.TransparentDataEncryption,
+    callback: msRest.ServiceCallback<Models.TransparentDataEncryption>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -58,8 +70,22 @@ export class TransparentDataEncryptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.TransparentDataEncryption, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TransparentDataEncryption>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.TransparentDataEncryption, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransparentDataEncryption>, callback?: msRest.ServiceCallback<Models.TransparentDataEncryption>): Promise<Models.TransparentDataEncryptionsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.TransparentDataEncryption,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TransparentDataEncryption>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.TransparentDataEncryption,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransparentDataEncryption>,
+    callback?: msRest.ServiceCallback<Models.TransparentDataEncryption>
+  ): Promise<Models.TransparentDataEncryptionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -69,7 +95,8 @@ export class TransparentDataEncryptions {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.TransparentDataEncryptionsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.TransparentDataEncryptionsCreateOrUpdateResponse>;
   }
 
   /**
@@ -81,7 +108,12 @@ export class TransparentDataEncryptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.TransparentDataEncryptionsGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.TransparentDataEncryptionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TransparentDataEncryptionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -89,7 +121,12 @@ export class TransparentDataEncryptions {
    * @param databaseName The name of the database for which the transparent data encryption applies.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.TransparentDataEncryption>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.TransparentDataEncryption>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -98,8 +135,20 @@ export class TransparentDataEncryptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TransparentDataEncryption>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransparentDataEncryption>, callback?: msRest.ServiceCallback<Models.TransparentDataEncryption>): Promise<Models.TransparentDataEncryptionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TransparentDataEncryption>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransparentDataEncryption>,
+    callback?: msRest.ServiceCallback<Models.TransparentDataEncryption>
+  ): Promise<Models.TransparentDataEncryptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +157,8 @@ export class TransparentDataEncryptions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TransparentDataEncryptionsGetResponse>;
+      callback
+    ) as Promise<Models.TransparentDataEncryptionsGetResponse>;
   }
 }
 
@@ -116,7 +166,8 @@ export class TransparentDataEncryptions {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{transparentDataEncryptionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{transparentDataEncryptionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -124,12 +175,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.transparentDataEncryptionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -153,7 +200,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{transparentDataEncryptionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{transparentDataEncryptionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -161,12 +209,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.transparentDataEncryptionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TransparentDataEncryption

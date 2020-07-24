@@ -131,8 +131,7 @@ export interface Resource extends BaseResource {
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * Class representing a Traffic Manager HeatMap.
@@ -476,8 +475,7 @@ export interface TrafficManagerManagementClientOptions extends AzureServiceClien
  * The list Traffic Manager profiles operation response.
  * @extends Array<Profile>
  */
-export interface ProfileListResult extends Array<Profile> {
-}
+export interface ProfileListResult extends Array<Profile> {}
 
 /**
  * Defines values for EndpointStatus.
@@ -485,7 +483,7 @@ export interface ProfileListResult extends Array<Profile> {
  * @readonly
  * @enum {string}
  */
-export type EndpointStatus = 'Enabled' | 'Disabled';
+export type EndpointStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for EndpointMonitorStatus.
@@ -494,7 +492,13 @@ export type EndpointStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type EndpointMonitorStatus = 'CheckingEndpoint' | 'Online' | 'Degraded' | 'Disabled' | 'Inactive' | 'Stopped';
+export type EndpointMonitorStatus =
+  | "CheckingEndpoint"
+  | "Online"
+  | "Degraded"
+  | "Disabled"
+  | "Inactive"
+  | "Stopped";
 
 /**
  * Defines values for ProfileMonitorStatus.
@@ -502,7 +506,12 @@ export type EndpointMonitorStatus = 'CheckingEndpoint' | 'Online' | 'Degraded' |
  * @readonly
  * @enum {string}
  */
-export type ProfileMonitorStatus = 'CheckingEndpoints' | 'Online' | 'Degraded' | 'Disabled' | 'Inactive';
+export type ProfileMonitorStatus =
+  | "CheckingEndpoints"
+  | "Online"
+  | "Degraded"
+  | "Disabled"
+  | "Inactive";
 
 /**
  * Defines values for MonitorProtocol.
@@ -510,7 +519,7 @@ export type ProfileMonitorStatus = 'CheckingEndpoints' | 'Online' | 'Degraded' |
  * @readonly
  * @enum {string}
  */
-export type MonitorProtocol = 'HTTP' | 'HTTPS' | 'TCP';
+export type MonitorProtocol = "HTTP" | "HTTPS" | "TCP";
 
 /**
  * Defines values for ProfileStatus.
@@ -518,7 +527,7 @@ export type MonitorProtocol = 'HTTP' | 'HTTPS' | 'TCP';
  * @readonly
  * @enum {string}
  */
-export type ProfileStatus = 'Enabled' | 'Disabled';
+export type ProfileStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for TrafficRoutingMethod.
@@ -527,7 +536,13 @@ export type ProfileStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type TrafficRoutingMethod = 'Performance' | 'Priority' | 'Weighted' | 'Geographic' | 'MultiValue' | 'Subnet';
+export type TrafficRoutingMethod =
+  | "Performance"
+  | "Priority"
+  | "Weighted"
+  | "Geographic"
+  | "MultiValue"
+  | "Subnet";
 
 /**
  * Defines values for TrafficViewEnrollmentStatus.
@@ -535,7 +550,7 @@ export type TrafficRoutingMethod = 'Performance' | 'Priority' | 'Weighted' | 'Ge
  * @readonly
  * @enum {string}
  */
-export type TrafficViewEnrollmentStatus = 'Enabled' | 'Disabled';
+export type TrafficViewEnrollmentStatus = "Enabled" | "Disabled";
 
 /**
  * Contains response data for the update operation.
@@ -545,16 +560,16 @@ export type EndpointsUpdateResponse = Endpoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Endpoint;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Endpoint;
+  };
 };
 
 /**
@@ -565,16 +580,16 @@ export type EndpointsGetResponse = Endpoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Endpoint;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Endpoint;
+  };
 };
 
 /**
@@ -585,16 +600,16 @@ export type EndpointsCreateOrUpdateResponse = Endpoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Endpoint;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Endpoint;
+  };
 };
 
 /**
@@ -605,16 +620,16 @@ export type EndpointsDeleteMethodResponse = DeleteOperationResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeleteOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeleteOperationResult;
+  };
 };
 
 /**
@@ -625,16 +640,16 @@ export type ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse = Tra
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TrafficManagerNameAvailability;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TrafficManagerNameAvailability;
+  };
 };
 
 /**
@@ -645,16 +660,16 @@ export type ProfilesListByResourceGroupResponse = ProfileListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProfileListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProfileListResult;
+  };
 };
 
 /**
@@ -665,16 +680,16 @@ export type ProfilesListBySubscriptionResponse = ProfileListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProfileListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProfileListResult;
+  };
 };
 
 /**
@@ -685,16 +700,16 @@ export type ProfilesGetResponse = Profile & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Profile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Profile;
+  };
 };
 
 /**
@@ -705,16 +720,16 @@ export type ProfilesCreateOrUpdateResponse = Profile & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Profile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Profile;
+  };
 };
 
 /**
@@ -725,16 +740,16 @@ export type ProfilesDeleteMethodResponse = DeleteOperationResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeleteOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeleteOperationResult;
+  };
 };
 
 /**
@@ -745,16 +760,16 @@ export type ProfilesUpdateResponse = Profile & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Profile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Profile;
+  };
 };
 
 /**
@@ -765,16 +780,16 @@ export type GeographicHierarchiesGetDefaultResponse = TrafficManagerGeographicHi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TrafficManagerGeographicHierarchy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TrafficManagerGeographicHierarchy;
+  };
 };
 
 /**
@@ -785,16 +800,16 @@ export type HeatMapGetResponse = HeatMapModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HeatMapModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HeatMapModel;
+  };
 };
 
 /**
@@ -805,16 +820,16 @@ export type TrafficManagerUserMetricsKeysGetResponse = UserMetricsModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserMetricsModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserMetricsModel;
+  };
 };
 
 /**
@@ -825,16 +840,16 @@ export type TrafficManagerUserMetricsKeysCreateOrUpdateResponse = UserMetricsMod
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserMetricsModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserMetricsModel;
+  };
 };
 
 /**
@@ -845,14 +860,14 @@ export type TrafficManagerUserMetricsKeysDeleteMethodResponse = DeleteOperationR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeleteOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeleteOperationResult;
+  };
 };

@@ -35,14 +35,24 @@ export class CustomDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomDomainsListByEndpointResponse>
    */
-  listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomDomainsListByEndpointResponse>;
+  listByEndpoint(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomDomainsListByEndpointResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param callback The callback
    */
-  listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, callback: msRest.ServiceCallback<Models.CustomDomainListResult>): void;
+  listByEndpoint(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    callback: msRest.ServiceCallback<Models.CustomDomainListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -50,8 +60,20 @@ export class CustomDomains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomDomainListResult>): void;
-  listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomainListResult>, callback?: msRest.ServiceCallback<Models.CustomDomainListResult>): Promise<Models.CustomDomainsListByEndpointResponse> {
+  listByEndpoint(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CustomDomainListResult>
+  ): void;
+  listByEndpoint(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomainListResult>,
+    callback?: msRest.ServiceCallback<Models.CustomDomainListResult>
+  ): Promise<Models.CustomDomainsListByEndpointResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class CustomDomains {
         options
       },
       listByEndpointOperationSpec,
-      callback) as Promise<Models.CustomDomainsListByEndpointResponse>;
+      callback
+    ) as Promise<Models.CustomDomainsListByEndpointResponse>;
   }
 
   /**
@@ -72,7 +95,13 @@ export class CustomDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomDomainsGetResponse>
    */
-  get(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomDomainsGetResponse>;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomDomainsGetResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -80,7 +109,13 @@ export class CustomDomains {
    * @param customDomainName Name of the custom domain within an endpoint.
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    callback: msRest.ServiceCallback<Models.CustomDomain>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -89,8 +124,22 @@ export class CustomDomains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
-  get(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomain>, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsGetResponse> {
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CustomDomain>
+  ): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomain>,
+    callback?: msRest.ServiceCallback<Models.CustomDomain>
+  ): Promise<Models.CustomDomainsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +149,8 @@ export class CustomDomains {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CustomDomainsGetResponse>;
+      callback
+    ) as Promise<Models.CustomDomainsGetResponse>;
   }
 
   /**
@@ -113,9 +163,24 @@ export class CustomDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomDomainsCreateResponse>
    */
-  create(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, hostName: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomDomainsCreateResponse> {
-    return this.beginCreate(resourceGroupName,profileName,endpointName,customDomainName,hostName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CustomDomainsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    hostName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomDomainsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      profileName,
+      endpointName,
+      customDomainName,
+      hostName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CustomDomainsCreateResponse
+    >;
   }
 
   /**
@@ -127,9 +192,22 @@ export class CustomDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomDomainsDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomDomainsDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,profileName,endpointName,customDomainName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CustomDomainsDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomDomainsDeleteMethodResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      profileName,
+      endpointName,
+      customDomainName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CustomDomainsDeleteMethodResponse
+    >;
   }
 
   /**
@@ -141,7 +219,13 @@ export class CustomDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomDomainsDisableCustomHttpsResponse>
    */
-  disableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomDomainsDisableCustomHttpsResponse>;
+  disableCustomHttps(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomDomainsDisableCustomHttpsResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -149,7 +233,13 @@ export class CustomDomains {
    * @param customDomainName Name of the custom domain within an endpoint.
    * @param callback The callback
    */
-  disableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
+  disableCustomHttps(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    callback: msRest.ServiceCallback<Models.CustomDomain>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -158,8 +248,22 @@ export class CustomDomains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  disableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
-  disableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomain>, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsDisableCustomHttpsResponse> {
+  disableCustomHttps(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CustomDomain>
+  ): void;
+  disableCustomHttps(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomain>,
+    callback?: msRest.ServiceCallback<Models.CustomDomain>
+  ): Promise<Models.CustomDomainsDisableCustomHttpsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +273,8 @@ export class CustomDomains {
         options
       },
       disableCustomHttpsOperationSpec,
-      callback) as Promise<Models.CustomDomainsDisableCustomHttpsResponse>;
+      callback
+    ) as Promise<Models.CustomDomainsDisableCustomHttpsResponse>;
   }
 
   /**
@@ -181,7 +286,13 @@ export class CustomDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomDomainsEnableCustomHttpsResponse>
    */
-  enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: Models.CustomDomainsEnableCustomHttpsOptionalParams): Promise<Models.CustomDomainsEnableCustomHttpsResponse>;
+  enableCustomHttps(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    options?: Models.CustomDomainsEnableCustomHttpsOptionalParams
+  ): Promise<Models.CustomDomainsEnableCustomHttpsResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -189,7 +300,13 @@ export class CustomDomains {
    * @param customDomainName Name of the custom domain within an endpoint.
    * @param callback The callback
    */
-  enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
+  enableCustomHttps(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    callback: msRest.ServiceCallback<Models.CustomDomain>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -198,8 +315,24 @@ export class CustomDomains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options: Models.CustomDomainsEnableCustomHttpsOptionalParams, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
-  enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: Models.CustomDomainsEnableCustomHttpsOptionalParams | msRest.ServiceCallback<Models.CustomDomain>, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsEnableCustomHttpsResponse> {
+  enableCustomHttps(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    options: Models.CustomDomainsEnableCustomHttpsOptionalParams,
+    callback: msRest.ServiceCallback<Models.CustomDomain>
+  ): void;
+  enableCustomHttps(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    options?:
+      | Models.CustomDomainsEnableCustomHttpsOptionalParams
+      | msRest.ServiceCallback<Models.CustomDomain>,
+    callback?: msRest.ServiceCallback<Models.CustomDomain>
+  ): Promise<Models.CustomDomainsEnableCustomHttpsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -209,7 +342,8 @@ export class CustomDomains {
         options
       },
       enableCustomHttpsOperationSpec,
-      callback) as Promise<Models.CustomDomainsEnableCustomHttpsResponse>;
+      callback
+    ) as Promise<Models.CustomDomainsEnableCustomHttpsResponse>;
   }
 
   /**
@@ -222,7 +356,14 @@ export class CustomDomains {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, hostName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    hostName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -233,7 +374,8 @@ export class CustomDomains {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -245,7 +387,13 @@ export class CustomDomains {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    customDomainName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -255,7 +403,8 @@ export class CustomDomains {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -264,26 +413,41 @@ export class CustomDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomDomainsListByEndpointNextResponse>
    */
-  listByEndpointNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomDomainsListByEndpointNextResponse>;
+  listByEndpointNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomDomainsListByEndpointNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByEndpointNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CustomDomainListResult>): void;
+  listByEndpointNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CustomDomainListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByEndpointNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomDomainListResult>): void;
-  listByEndpointNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomainListResult>, callback?: msRest.ServiceCallback<Models.CustomDomainListResult>): Promise<Models.CustomDomainsListByEndpointNextResponse> {
+  listByEndpointNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CustomDomainListResult>
+  ): void;
+  listByEndpointNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomDomainListResult>,
+    callback?: msRest.ServiceCallback<Models.CustomDomainListResult>
+  ): Promise<Models.CustomDomainsListByEndpointNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByEndpointNextOperationSpec,
-      callback) as Promise<Models.CustomDomainsListByEndpointNextResponse>;
+      callback
+    ) as Promise<Models.CustomDomainsListByEndpointNextResponse>;
   }
 }
 
@@ -291,19 +455,16 @@ export class CustomDomains {
 const serializer = new msRest.Serializer(Mappers);
 const listByEndpointOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.endpointName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CustomDomainListResult
@@ -317,7 +478,8 @@ const listByEndpointOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
@@ -325,12 +487,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.customDomainName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CustomDomain
@@ -344,7 +502,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const disableCustomHttpsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/disableCustomHttps",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/disableCustomHttps",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
@@ -352,12 +511,8 @@ const disableCustomHttpsOperationSpec: msRest.OperationSpec = {
     Parameters.customDomainName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {
@@ -372,7 +527,8 @@ const disableCustomHttpsOperationSpec: msRest.OperationSpec = {
 
 const enableCustomHttpsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/enableCustomHttps",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/enableCustomHttps",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
@@ -380,17 +536,10 @@ const enableCustomHttpsOperationSpec: msRest.OperationSpec = {
     Parameters.customDomainName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "customDomainHttpsParameters"
-    ],
+    parameterPath: ["options", "customDomainHttpsParameters"],
     mapper: Mappers.CustomDomainHttpsParameters
   },
   responses: {
@@ -407,7 +556,8 @@ const enableCustomHttpsOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
@@ -415,12 +565,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.customDomainName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       hostName: "hostName"
@@ -449,7 +595,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
@@ -457,12 +604,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.customDomainName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {
@@ -480,12 +623,8 @@ const listByEndpointNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CustomDomainListResult

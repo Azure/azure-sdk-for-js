@@ -127,10 +127,7 @@ export const CacheIdentity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "None"]
         }
       }
     }
@@ -1082,9 +1079,8 @@ export const StorageTargetsResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'StorageTargetProperties' : StorageTargetProperties,
-  'StorageTargetProperties.nfs3' : Nfs3TargetProperties,
-  'StorageTargetProperties.clfs' : ClfsTargetProperties,
-  'StorageTargetProperties.unknown' : UnknownTargetProperties
-
+  StorageTargetProperties: StorageTargetProperties,
+  "StorageTargetProperties.nfs3": Nfs3TargetProperties,
+  "StorageTargetProperties.clfs": ClfsTargetProperties,
+  "StorageTargetProperties.unknown": UnknownTargetProperties
 };

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { VMwareCloudSimpleClientContext } from "./vMwareCloudSimpleClientContext";
 
-
 class VMwareCloudSimpleClient extends VMwareCloudSimpleClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -35,7 +34,12 @@ class VMwareCloudSimpleClient extends VMwareCloudSimpleClientContext {
    * @param referer referer url
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, referer: string, options?: Models.VMwareCloudSimpleClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    referer: string,
+    options?: Models.VMwareCloudSimpleClientOptions
+  ) {
     super(credentials, subscriptionId, referer, options);
     this.operations = new operations.Operations(this);
     this.dedicatedCloudNodes = new operations.DedicatedCloudNodes(this);

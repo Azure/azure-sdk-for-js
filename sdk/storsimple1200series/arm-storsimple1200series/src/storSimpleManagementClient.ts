@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { StorSimpleManagementClientContext } from "./storSimpleManagementClientContext";
 
-
 class StorSimpleManagementClient extends StorSimpleManagementClientContext {
   // Operation groups
   managers: operations.Managers;
@@ -39,7 +38,11 @@ class StorSimpleManagementClient extends StorSimpleManagementClientContext {
    * @param subscriptionId The subscription id
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.StorSimpleManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.StorSimpleManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.managers = new operations.Managers(this);
     this.availableProviderOperations = new operations.AvailableProviderOperationsOperations(this);

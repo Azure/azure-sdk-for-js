@@ -34,14 +34,22 @@ export class ReplicationUsages {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationUsagesListResponse>
    */
-  list(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationUsagesListResponse>;
+  list(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationUsagesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param vaultName The name of the recovery services vault.
    * @param callback The callback
    */
-  list(resourceGroupName: string, vaultName: string, callback: msRest.ServiceCallback<Models.ReplicationUsageList>): void;
+  list(
+    resourceGroupName: string,
+    vaultName: string,
+    callback: msRest.ServiceCallback<Models.ReplicationUsageList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -49,8 +57,18 @@ export class ReplicationUsages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, vaultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationUsageList>): void;
-  list(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationUsageList>, callback?: msRest.ServiceCallback<Models.ReplicationUsageList>): Promise<Models.ReplicationUsagesListResponse> {
+  list(
+    resourceGroupName: string,
+    vaultName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReplicationUsageList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationUsageList>,
+    callback?: msRest.ServiceCallback<Models.ReplicationUsageList>
+  ): Promise<Models.ReplicationUsagesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +76,8 @@ export class ReplicationUsages {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ReplicationUsagesListResponse>;
+      callback
+    ) as Promise<Models.ReplicationUsagesListResponse>;
   }
 }
 
@@ -66,18 +85,11 @@ export class ReplicationUsages {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/replicationUsages",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/replicationUsages",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.vaultName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationUsageList

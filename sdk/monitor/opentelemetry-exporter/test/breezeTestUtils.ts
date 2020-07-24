@@ -4,7 +4,7 @@ export function successfulBreezeResponse(count: number): BreezeResponse {
   return {
     itemsAccepted: count,
     itemsReceived: count,
-    errors: [],
+    errors: []
   };
 }
 
@@ -15,8 +15,8 @@ export function failedBreezeResponse(count: number, statusCode: number): BreezeR
     errors: new Array(count).fill(0).map((_, index) => ({
       index,
       statusCode,
-      message: "foo",
-    })),
+      message: "foo"
+    }))
   };
 }
 
@@ -30,7 +30,7 @@ export function partialBreezeResponse(statusCodes: number[]) {
       .map((v) => ({
         index: statusCodes.findIndex((s) => v === s),
         statusCode: v,
-        message: "foo",
-      })),
+        message: "foo"
+      }))
   };
 }

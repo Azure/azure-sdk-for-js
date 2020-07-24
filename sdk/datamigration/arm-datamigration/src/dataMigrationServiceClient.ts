@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { DataMigrationServiceClientContext } from "./dataMigrationServiceClientContext";
 
-
 class DataMigrationServiceClient extends DataMigrationServiceClientContext {
   // Operation groups
   resourceSkus: operations.ResourceSkus;
@@ -32,7 +31,11 @@ class DataMigrationServiceClient extends DataMigrationServiceClientContext {
    * @param subscriptionId Identifier of the subscription
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DataMigrationServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.DataMigrationServiceClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.resourceSkus = new operations.ResourceSkus(this);
     this.services = new operations.Services(this);

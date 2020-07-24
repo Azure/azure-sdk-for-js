@@ -2508,10 +2508,9 @@ export const OAuth2PermissionGrantListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'DirectoryObject' : DirectoryObject,
-  'DirectoryObject.Application' : Application,
-  'DirectoryObject.Group' : ADGroup,
-  'DirectoryObject.ServicePrincipal' : ServicePrincipal,
-  'DirectoryObject.User' : User
-
+  DirectoryObject: DirectoryObject,
+  "DirectoryObject.Application": Application,
+  "DirectoryObject.Group": ADGroup,
+  "DirectoryObject.ServicePrincipal": ServicePrincipal,
+  "DirectoryObject.User": User
 };

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { StreamAnalyticsManagementClientContext } from "./streamAnalyticsManagementClientContext";
 
-
 class StreamAnalyticsManagementClient extends StreamAnalyticsManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -32,7 +31,11 @@ class StreamAnalyticsManagementClient extends StreamAnalyticsManagementClientCon
    * subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.StreamAnalyticsManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.StreamAnalyticsManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.streamingJobs = new operations.StreamingJobs(this);

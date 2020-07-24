@@ -35,21 +35,39 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupsListByProjectResponse>
    */
-  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupsListByProjectResponse>;
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GroupsListByProjectResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param callback The callback
    */
-  listByProject(resourceGroupName: string, projectName: string, callback: msRest.ServiceCallback<Models.GroupResultList>): void;
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    callback: msRest.ServiceCallback<Models.GroupResultList>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByProject(resourceGroupName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GroupResultList>): void;
-  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GroupResultList>, callback?: msRest.ServiceCallback<Models.GroupResultList>): Promise<Models.GroupsListByProjectResponse> {
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GroupResultList>
+  ): void;
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GroupResultList>,
+    callback?: msRest.ServiceCallback<Models.GroupResultList>
+  ): Promise<Models.GroupsListByProjectResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -57,7 +75,8 @@ export class Groups {
         options
       },
       listByProjectOperationSpec,
-      callback) as Promise<Models.GroupsListByProjectResponse>;
+      callback
+    ) as Promise<Models.GroupsListByProjectResponse>;
   }
 
   /**
@@ -70,14 +89,24 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupsGetResponse>
    */
-  get(resourceGroupName: string, projectName: string, groupName: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GroupsGetResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param groupName Unique name of a group within a project.
    * @param callback The callback
    */
-  get(resourceGroupName: string, projectName: string, groupName: string, callback: msRest.ServiceCallback<Models.Group>): void;
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    callback: msRest.ServiceCallback<Models.Group>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -85,8 +114,20 @@ export class Groups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, projectName: string, groupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Group>): void;
-  get(resourceGroupName: string, projectName: string, groupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Group>, callback?: msRest.ServiceCallback<Models.Group>): Promise<Models.GroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Group>
+  ): void;
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Group>,
+    callback?: msRest.ServiceCallback<Models.Group>
+  ): Promise<Models.GroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +136,8 @@ export class Groups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.GroupsGetResponse>;
+      callback
+    ) as Promise<Models.GroupsGetResponse>;
   }
 
   /**
@@ -115,14 +157,24 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupsCreateResponse>
    */
-  create(resourceGroupName: string, projectName: string, groupName: string, options?: Models.GroupsCreateOptionalParams): Promise<Models.GroupsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    options?: Models.GroupsCreateOptionalParams
+  ): Promise<Models.GroupsCreateResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param groupName Unique name of a group within a project.
    * @param callback The callback
    */
-  create(resourceGroupName: string, projectName: string, groupName: string, callback: msRest.ServiceCallback<Models.Group>): void;
+  create(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    callback: msRest.ServiceCallback<Models.Group>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -130,8 +182,20 @@ export class Groups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, projectName: string, groupName: string, options: Models.GroupsCreateOptionalParams, callback: msRest.ServiceCallback<Models.Group>): void;
-  create(resourceGroupName: string, projectName: string, groupName: string, options?: Models.GroupsCreateOptionalParams | msRest.ServiceCallback<Models.Group>, callback?: msRest.ServiceCallback<Models.Group>): Promise<Models.GroupsCreateResponse> {
+  create(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    options: Models.GroupsCreateOptionalParams,
+    callback: msRest.ServiceCallback<Models.Group>
+  ): void;
+  create(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    options?: Models.GroupsCreateOptionalParams | msRest.ServiceCallback<Models.Group>,
+    callback?: msRest.ServiceCallback<Models.Group>
+  ): Promise<Models.GroupsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +204,8 @@ export class Groups {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.GroupsCreateResponse>;
+      callback
+    ) as Promise<Models.GroupsCreateResponse>;
   }
 
   /**
@@ -156,14 +221,24 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupsDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, projectName: string, groupName: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupsDeleteResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GroupsDeleteResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param groupName Unique name of a group within a project.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, projectName: string, groupName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -171,8 +246,20 @@ export class Groups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, projectName: string, groupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, projectName: string, groupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.GroupsDeleteResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.GroupsDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -181,7 +268,8 @@ export class Groups {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.GroupsDeleteResponse>;
+      callback
+    ) as Promise<Models.GroupsDeleteResponse>;
   }
 }
 
@@ -189,18 +277,11 @@ export class Groups {
 const serializer = new msRest.Serializer(Mappers);
 const listByProjectOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.projectName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GroupResultList,
@@ -215,19 +296,16 @@ const listByProjectOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
     Parameters.groupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Group,
@@ -242,24 +320,18 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
     Parameters.groupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "group"
-    ],
+    parameterPath: ["options", "group"],
     mapper: Mappers.Group
   },
   responses: {
@@ -280,19 +352,16 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
     Parameters.groupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.GroupsDeleteHeaders

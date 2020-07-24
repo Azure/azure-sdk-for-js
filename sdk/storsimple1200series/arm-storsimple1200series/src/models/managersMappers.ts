@@ -67,4 +67,3 @@ export {
   TimeSettings,
   Updates
 } from "../models/mappers";
-

@@ -8,7 +8,6 @@
 
 import * as coreHttp from "@azure/core-http";
 
-
 export const SuggestResult: coreHttp.CompositeMapper = {
   serializedName: "SuggestResult",
   type: {
@@ -153,10 +152,7 @@ export const SearchRequest: coreHttp.CompositeMapper = {
         serializedName: "queryType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "simple",
-            "full"
-          ]
+          allowedValues: ["simple", "full"]
         }
       },
       scoringParameters: {
@@ -192,10 +188,7 @@ export const SearchRequest: coreHttp.CompositeMapper = {
         serializedName: "searchMode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "any",
-            "all"
-          ]
+          allowedValues: ["any", "all"]
         }
       },
       select: {
@@ -354,12 +347,7 @@ export const IndexAction: coreHttp.CompositeMapper = {
         serializedName: "@search\\.action",
         type: {
           name: "Enum",
-          allowedValues: [
-            "upload",
-            "merge",
-            "mergeOrUpload",
-            "delete"
-          ]
+          allowedValues: ["upload", "merge", "mergeOrUpload", "delete"]
         }
       }
     },
@@ -561,11 +549,7 @@ export const AutocompleteRequest: coreHttp.CompositeMapper = {
         serializedName: "autocompleteMode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "oneTerm",
-            "twoTerms",
-            "oneTermWithContext"
-          ]
+          allowedValues: ["oneTerm", "twoTerms", "oneTermWithContext"]
         }
       },
       filter: {
@@ -779,10 +763,7 @@ export const SearchOptions: coreHttp.CompositeMapper = {
       queryType: {
         type: {
           name: "Enum",
-          allowedValues: [
-            "simple",
-            "full"
-          ]
+          allowedValues: ["simple", "full"]
         }
       },
       scoringParameters: {
@@ -813,10 +794,7 @@ export const SearchOptions: coreHttp.CompositeMapper = {
       searchMode: {
         type: {
           name: "Enum",
-          allowedValues: [
-            "any",
-            "all"
-          ]
+          allowedValues: ["any", "all"]
         }
       },
       select: {
@@ -920,11 +898,7 @@ export const AutocompleteOptions: coreHttp.CompositeMapper = {
       autocompleteMode: {
         type: {
           name: "Enum",
-          allowedValues: [
-            "oneTerm",
-            "twoTerms",
-            "oneTermWithContext"
-          ]
+          allowedValues: ["oneTerm", "twoTerms", "oneTermWithContext"]
         }
       },
       filter: {

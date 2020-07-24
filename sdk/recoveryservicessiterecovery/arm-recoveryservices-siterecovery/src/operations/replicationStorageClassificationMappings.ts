@@ -36,21 +36,45 @@ export class ReplicationStorageClassificationMappings {
    * @returns
    * Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse>
    */
-  listByReplicationStorageClassifications(fabricName: string, storageClassificationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse>;
+  listByReplicationStorageClassifications(
+    fabricName: string,
+    storageClassificationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<
+    Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse
+  >;
   /**
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classfication name.
    * @param callback The callback
    */
-  listByReplicationStorageClassifications(fabricName: string, storageClassificationName: string, callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): void;
+  listByReplicationStorageClassifications(
+    fabricName: string,
+    storageClassificationName: string,
+    callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>
+  ): void;
   /**
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classfication name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReplicationStorageClassifications(fabricName: string, storageClassificationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): void;
-  listByReplicationStorageClassifications(fabricName: string, storageClassificationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageClassificationMappingCollection>, callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse> {
+  listByReplicationStorageClassifications(
+    fabricName: string,
+    storageClassificationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>
+  ): void;
+  listByReplicationStorageClassifications(
+    fabricName: string,
+    storageClassificationName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageClassificationMappingCollection>,
+    callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>
+  ): Promise<
+    Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse
+  > {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -58,7 +82,10 @@ export class ReplicationStorageClassificationMappings {
         options
       },
       listByReplicationStorageClassificationsOperationSpec,
-      callback) as Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse>;
+      callback
+    ) as Promise<
+      Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse
+    >;
   }
 
   /**
@@ -70,14 +97,24 @@ export class ReplicationStorageClassificationMappings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationStorageClassificationMappingsGetResponse>
    */
-  get(fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationStorageClassificationMappingsGetResponse>;
+  get(
+    fabricName: string,
+    storageClassificationName: string,
+    storageClassificationMappingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationStorageClassificationMappingsGetResponse>;
   /**
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classification name.
    * @param storageClassificationMappingName Storage classification mapping name.
    * @param callback The callback
    */
-  get(fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, callback: msRest.ServiceCallback<Models.StorageClassificationMapping>): void;
+  get(
+    fabricName: string,
+    storageClassificationName: string,
+    storageClassificationMappingName: string,
+    callback: msRest.ServiceCallback<Models.StorageClassificationMapping>
+  ): void;
   /**
    * @param fabricName Fabric name.
    * @param storageClassificationName Storage classification name.
@@ -85,8 +122,22 @@ export class ReplicationStorageClassificationMappings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageClassificationMapping>): void;
-  get(fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageClassificationMapping>, callback?: msRest.ServiceCallback<Models.StorageClassificationMapping>): Promise<Models.ReplicationStorageClassificationMappingsGetResponse> {
+  get(
+    fabricName: string,
+    storageClassificationName: string,
+    storageClassificationMappingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageClassificationMapping>
+  ): void;
+  get(
+    fabricName: string,
+    storageClassificationName: string,
+    storageClassificationMappingName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageClassificationMapping>,
+    callback?: msRest.ServiceCallback<Models.StorageClassificationMapping>
+  ): Promise<Models.ReplicationStorageClassificationMappingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -95,7 +146,8 @@ export class ReplicationStorageClassificationMappings {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReplicationStorageClassificationMappingsGetResponse>;
+      callback
+    ) as Promise<Models.ReplicationStorageClassificationMappingsGetResponse>;
   }
 
   /**
@@ -108,9 +160,22 @@ export class ReplicationStorageClassificationMappings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationStorageClassificationMappingsCreateResponse>
    */
-  create(fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, pairingInput: Models.StorageClassificationMappingInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationStorageClassificationMappingsCreateResponse> {
-    return this.beginCreate(fabricName,storageClassificationName,storageClassificationMappingName,pairingInput,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationStorageClassificationMappingsCreateResponse>;
+  create(
+    fabricName: string,
+    storageClassificationName: string,
+    storageClassificationMappingName: string,
+    pairingInput: Models.StorageClassificationMappingInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationStorageClassificationMappingsCreateResponse> {
+    return this.beginCreate(
+      fabricName,
+      storageClassificationName,
+      storageClassificationMappingName,
+      pairingInput,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationStorageClassificationMappingsCreateResponse
+    >;
   }
 
   /**
@@ -122,9 +187,18 @@ export class ReplicationStorageClassificationMappings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(fabricName,storageClassificationName,storageClassificationMappingName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    fabricName: string,
+    storageClassificationName: string,
+    storageClassificationMappingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      fabricName,
+      storageClassificationName,
+      storageClassificationMappingName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -133,7 +207,9 @@ export class ReplicationStorageClassificationMappings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationStorageClassificationMappingsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.ReplicationStorageClassificationMappingsListResponse>;
+  list(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationStorageClassificationMappingsListResponse>;
   /**
    * @param callback The callback
    */
@@ -142,14 +218,23 @@ export class ReplicationStorageClassificationMappings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageClassificationMappingCollection>, callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): Promise<Models.ReplicationStorageClassificationMappingsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageClassificationMappingCollection>,
+    callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>
+  ): Promise<Models.ReplicationStorageClassificationMappingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ReplicationStorageClassificationMappingsListResponse>;
+      callback
+    ) as Promise<Models.ReplicationStorageClassificationMappingsListResponse>;
   }
 
   /**
@@ -162,7 +247,13 @@ export class ReplicationStorageClassificationMappings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, pairingInput: Models.StorageClassificationMappingInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    fabricName: string,
+    storageClassificationName: string,
+    storageClassificationMappingName: string,
+    pairingInput: Models.StorageClassificationMappingInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -172,7 +263,8 @@ export class ReplicationStorageClassificationMappings {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -184,7 +276,12 @@ export class ReplicationStorageClassificationMappings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(fabricName: string, storageClassificationName: string, storageClassificationMappingName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    fabricName: string,
+    storageClassificationName: string,
+    storageClassificationMappingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -193,7 +290,8 @@ export class ReplicationStorageClassificationMappings {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -204,26 +302,49 @@ export class ReplicationStorageClassificationMappings {
    * @returns
    * Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse>
    */
-  listByReplicationStorageClassificationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse>;
+  listByReplicationStorageClassificationsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<
+    Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse
+  >;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByReplicationStorageClassificationsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): void;
+  listByReplicationStorageClassificationsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReplicationStorageClassificationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): void;
-  listByReplicationStorageClassificationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageClassificationMappingCollection>, callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse> {
+  listByReplicationStorageClassificationsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>
+  ): void;
+  listByReplicationStorageClassificationsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageClassificationMappingCollection>,
+    callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>
+  ): Promise<
+    Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse
+  > {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByReplicationStorageClassificationsNextOperationSpec,
-      callback) as Promise<Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse>;
+      callback
+    ) as Promise<
+      Models.ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse
+    >;
   }
 
   /**
@@ -233,26 +354,43 @@ export class ReplicationStorageClassificationMappings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationStorageClassificationMappingsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationStorageClassificationMappingsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationStorageClassificationMappingsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageClassificationMappingCollection>, callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>): Promise<Models.ReplicationStorageClassificationMappingsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageClassificationMappingCollection>,
+    callback?: msRest.ServiceCallback<Models.StorageClassificationMappingCollection>
+  ): Promise<Models.ReplicationStorageClassificationMappingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ReplicationStorageClassificationMappingsListNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationStorageClassificationMappingsListNextResponse>;
   }
 }
 
@@ -260,7 +398,8 @@ export class ReplicationStorageClassificationMappings {
 const serializer = new msRest.Serializer(Mappers);
 const listByReplicationStorageClassificationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -268,12 +407,8 @@ const listByReplicationStorageClassificationsOperationSpec: msRest.OperationSpec
     Parameters.fabricName,
     Parameters.storageClassificationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageClassificationMappingCollection
@@ -287,7 +422,8 @@ const listByReplicationStorageClassificationsOperationSpec: msRest.OperationSpec
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings/{storageClassificationMappingName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings/{storageClassificationMappingName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -296,12 +432,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.storageClassificationName,
     Parameters.storageClassificationMappingName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageClassificationMapping
@@ -315,18 +447,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationStorageClassificationMappings",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationStorageClassificationMappings",
+  urlParameters: [Parameters.resourceName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageClassificationMappingCollection
@@ -340,7 +465,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings/{storageClassificationMappingName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings/{storageClassificationMappingName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -349,12 +475,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.storageClassificationName,
     Parameters.storageClassificationMappingName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "pairingInput",
     mapper: {
@@ -376,7 +498,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings/{storageClassificationMappingName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings/{storageClassificationMappingName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -385,12 +508,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.storageClassificationName,
     Parameters.storageClassificationMappingName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -405,12 +524,8 @@ const listByReplicationStorageClassificationsNextOperationSpec: msRest.Operation
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageClassificationMappingCollection
@@ -426,12 +541,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageClassificationMappingCollection

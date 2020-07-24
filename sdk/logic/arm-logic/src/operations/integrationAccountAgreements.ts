@@ -33,21 +33,41 @@ export class IntegrationAccountAgreements {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountAgreementsListResponse>
    */
-  list(resourceGroupName: string, integrationAccountName: string, options?: Models.IntegrationAccountAgreementsListOptionalParams): Promise<Models.IntegrationAccountAgreementsListResponse>;
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    options?: Models.IntegrationAccountAgreementsListOptionalParams
+  ): Promise<Models.IntegrationAccountAgreementsListResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, integrationAccountName: string, callback: msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>): void;
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, integrationAccountName: string, options: Models.IntegrationAccountAgreementsListOptionalParams, callback: msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>): void;
-  list(resourceGroupName: string, integrationAccountName: string, options?: Models.IntegrationAccountAgreementsListOptionalParams | msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>, callback?: msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>): Promise<Models.IntegrationAccountAgreementsListResponse> {
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    options: Models.IntegrationAccountAgreementsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    options?:
+      | Models.IntegrationAccountAgreementsListOptionalParams
+      | msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>,
+    callback?: msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>
+  ): Promise<Models.IntegrationAccountAgreementsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class IntegrationAccountAgreements {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IntegrationAccountAgreementsListResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountAgreementsListResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class IntegrationAccountAgreements {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountAgreementsGetResponse>
    */
-  get(resourceGroupName: string, integrationAccountName: string, agreementName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountAgreementsGetResponse>;
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountAgreementsGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param agreementName The integration account agreement name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, integrationAccountName: string, agreementName: string, callback: msRest.ServiceCallback<Models.IntegrationAccountAgreement>): void;
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountAgreement>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -81,8 +112,22 @@ export class IntegrationAccountAgreements {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, integrationAccountName: string, agreementName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountAgreement>): void;
-  get(resourceGroupName: string, integrationAccountName: string, agreementName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountAgreement>, callback?: msRest.ServiceCallback<Models.IntegrationAccountAgreement>): Promise<Models.IntegrationAccountAgreementsGetResponse> {
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountAgreement>
+  ): void;
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IntegrationAccountAgreement>,
+    callback?: msRest.ServiceCallback<Models.IntegrationAccountAgreement>
+  ): Promise<Models.IntegrationAccountAgreementsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +136,8 @@ export class IntegrationAccountAgreements {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IntegrationAccountAgreementsGetResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountAgreementsGetResponse>;
   }
 
   /**
@@ -103,7 +149,13 @@ export class IntegrationAccountAgreements {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountAgreementsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, agreementName: string, agreement: Models.IntegrationAccountAgreement, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountAgreementsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    agreement: Models.IntegrationAccountAgreement,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountAgreementsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -111,7 +163,13 @@ export class IntegrationAccountAgreements {
    * @param agreement The integration account agreement.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, agreementName: string, agreement: Models.IntegrationAccountAgreement, callback: msRest.ServiceCallback<Models.IntegrationAccountAgreement>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    agreement: Models.IntegrationAccountAgreement,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountAgreement>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -120,8 +178,24 @@ export class IntegrationAccountAgreements {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, agreementName: string, agreement: Models.IntegrationAccountAgreement, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountAgreement>): void;
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, agreementName: string, agreement: Models.IntegrationAccountAgreement, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountAgreement>, callback?: msRest.ServiceCallback<Models.IntegrationAccountAgreement>): Promise<Models.IntegrationAccountAgreementsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    agreement: Models.IntegrationAccountAgreement,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountAgreement>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    agreement: Models.IntegrationAccountAgreement,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IntegrationAccountAgreement>,
+    callback?: msRest.ServiceCallback<Models.IntegrationAccountAgreement>
+  ): Promise<Models.IntegrationAccountAgreementsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +205,8 @@ export class IntegrationAccountAgreements {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.IntegrationAccountAgreementsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountAgreementsCreateOrUpdateResponse>;
   }
 
   /**
@@ -142,14 +217,24 @@ export class IntegrationAccountAgreements {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, agreementName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param agreementName The integration account agreement name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, agreementName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -157,8 +242,20 @@ export class IntegrationAccountAgreements {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, agreementName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, agreementName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +264,8 @@ export class IntegrationAccountAgreements {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -179,7 +277,13 @@ export class IntegrationAccountAgreements {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountAgreementsListContentCallbackUrlResponse>
    */
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, agreementName: string, listContentCallbackUrlParameter: Models.GetCallbackUrlParameters, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountAgreementsListContentCallbackUrlResponse>;
+  listContentCallbackUrl(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    listContentCallbackUrlParameter: Models.GetCallbackUrlParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountAgreementsListContentCallbackUrlResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -187,7 +291,13 @@ export class IntegrationAccountAgreements {
    * @param listContentCallbackUrlParameter
    * @param callback The callback
    */
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, agreementName: string, listContentCallbackUrlParameter: Models.GetCallbackUrlParameters, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
+  listContentCallbackUrl(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    listContentCallbackUrlParameter: Models.GetCallbackUrlParameters,
+    callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -196,8 +306,22 @@ export class IntegrationAccountAgreements {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, agreementName: string, listContentCallbackUrlParameter: Models.GetCallbackUrlParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, agreementName: string, listContentCallbackUrlParameter: Models.GetCallbackUrlParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.IntegrationAccountAgreementsListContentCallbackUrlResponse> {
+  listContentCallbackUrl(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    listContentCallbackUrlParameter: Models.GetCallbackUrlParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): void;
+  listContentCallbackUrl(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    agreementName: string,
+    listContentCallbackUrlParameter: Models.GetCallbackUrlParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>,
+    callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): Promise<Models.IntegrationAccountAgreementsListContentCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +331,8 @@ export class IntegrationAccountAgreements {
         options
       },
       listContentCallbackUrlOperationSpec,
-      callback) as Promise<Models.IntegrationAccountAgreementsListContentCallbackUrlResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountAgreementsListContentCallbackUrlResponse>;
   }
 
   /**
@@ -216,26 +341,43 @@ export class IntegrationAccountAgreements {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountAgreementsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountAgreementsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountAgreementsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>, callback?: msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>): Promise<Models.IntegrationAccountAgreementsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>,
+    callback?: msRest.ServiceCallback<Models.IntegrationAccountAgreementListResult>
+  ): Promise<Models.IntegrationAccountAgreementsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.IntegrationAccountAgreementsListNextResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountAgreementsListNextResponse>;
   }
 }
 
@@ -243,20 +385,15 @@ export class IntegrationAccountAgreements {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IntegrationAccountAgreementListResult
@@ -270,19 +407,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements/{agreementName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements/{agreementName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.agreementName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IntegrationAccountAgreement
@@ -296,19 +430,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements/{agreementName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements/{agreementName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.agreementName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "agreement",
     mapper: {
@@ -332,19 +463,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements/{agreementName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements/{agreementName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.agreementName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -357,19 +485,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listContentCallbackUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements/{agreementName}/listContentCallbackUrl",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/agreements/{agreementName}/listContentCallbackUrl",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.agreementName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "listContentCallbackUrlParameter",
     mapper: {
@@ -392,12 +517,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IntegrationAccountAgreementListResult

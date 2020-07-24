@@ -35,14 +35,24 @@ export class ScopeMaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScopeMapsGetResponse>
    */
-  get(resourceGroupName: string, registryName: string, scopeMapName: string, options?: msRest.RequestOptionsBase): Promise<Models.ScopeMapsGetResponse>;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScopeMapsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param scopeMapName The name of the scope map.
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, scopeMapName: string, callback: msRest.ServiceCallback<Models.ScopeMap>): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    callback: msRest.ServiceCallback<Models.ScopeMap>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -50,8 +60,20 @@ export class ScopeMaps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, scopeMapName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScopeMap>): void;
-  get(resourceGroupName: string, registryName: string, scopeMapName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScopeMap>, callback?: msRest.ServiceCallback<Models.ScopeMap>): Promise<Models.ScopeMapsGetResponse> {
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ScopeMap>
+  ): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScopeMap>,
+    callback?: msRest.ServiceCallback<Models.ScopeMap>
+  ): Promise<Models.ScopeMapsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class ScopeMaps {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ScopeMapsGetResponse>;
+      callback
+    ) as Promise<Models.ScopeMapsGetResponse>;
   }
 
   /**
@@ -72,9 +95,20 @@ export class ScopeMaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScopeMapsCreateResponse>
    */
-  create(resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapCreateParameters: Models.ScopeMap, options?: msRest.RequestOptionsBase): Promise<Models.ScopeMapsCreateResponse> {
-    return this.beginCreate(resourceGroupName,registryName,scopeMapName,scopeMapCreateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ScopeMapsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    scopeMapCreateParameters: Models.ScopeMap,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScopeMapsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      registryName,
+      scopeMapName,
+      scopeMapCreateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.ScopeMapsCreateResponse>;
   }
 
   /**
@@ -85,9 +119,18 @@ export class ScopeMaps {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, registryName: string, scopeMapName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,registryName,scopeMapName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      registryName,
+      scopeMapName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -99,9 +142,20 @@ export class ScopeMaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScopeMapsUpdateResponse>
    */
-  update(resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapUpdateParameters: Models.ScopeMapUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ScopeMapsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,registryName,scopeMapName,scopeMapUpdateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ScopeMapsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    scopeMapUpdateParameters: Models.ScopeMapUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScopeMapsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      registryName,
+      scopeMapName,
+      scopeMapUpdateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.ScopeMapsUpdateResponse>;
   }
 
   /**
@@ -111,21 +165,39 @@ export class ScopeMaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScopeMapsListResponse>
    */
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase): Promise<Models.ScopeMapsListResponse>;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScopeMapsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, callback: msRest.ServiceCallback<Models.ScopeMapListResult>): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    callback: msRest.ServiceCallback<Models.ScopeMapListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScopeMapListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScopeMapListResult>, callback?: msRest.ServiceCallback<Models.ScopeMapListResult>): Promise<Models.ScopeMapsListResponse> {
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ScopeMapListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScopeMapListResult>,
+    callback?: msRest.ServiceCallback<Models.ScopeMapListResult>
+  ): Promise<Models.ScopeMapsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +205,8 @@ export class ScopeMaps {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ScopeMapsListResponse>;
+      callback
+    ) as Promise<Models.ScopeMapsListResponse>;
   }
 
   /**
@@ -145,7 +218,13 @@ export class ScopeMaps {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapCreateParameters: Models.ScopeMap, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    scopeMapCreateParameters: Models.ScopeMap,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -155,7 +234,8 @@ export class ScopeMaps {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -166,7 +246,12 @@ export class ScopeMaps {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, registryName: string, scopeMapName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -175,7 +260,8 @@ export class ScopeMaps {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -187,7 +273,13 @@ export class ScopeMaps {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, registryName: string, scopeMapName: string, scopeMapUpdateParameters: Models.ScopeMapUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    registryName: string,
+    scopeMapName: string,
+    scopeMapUpdateParameters: Models.ScopeMapUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -197,7 +289,8 @@ export class ScopeMaps {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -206,7 +299,10 @@ export class ScopeMaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScopeMapsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ScopeMapsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScopeMapsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -217,15 +313,24 @@ export class ScopeMaps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScopeMapListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScopeMapListResult>, callback?: msRest.ServiceCallback<Models.ScopeMapListResult>): Promise<Models.ScopeMapsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ScopeMapListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScopeMapListResult>,
+    callback?: msRest.ServiceCallback<Models.ScopeMapListResult>
+  ): Promise<Models.ScopeMapsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ScopeMapsListNextResponse>;
+      callback
+    ) as Promise<Models.ScopeMapsListNextResponse>;
   }
 }
 
@@ -233,19 +338,16 @@ export class ScopeMaps {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.scopeMapName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScopeMap
@@ -259,18 +361,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.registryName],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScopeMapListResult
@@ -284,19 +379,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.scopeMapName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "scopeMapCreateParameters",
     mapper: {
@@ -320,19 +412,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.scopeMapName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -346,19 +435,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/scopeMaps/{scopeMapName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.scopeMapName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "scopeMapUpdateParameters",
     mapper: {
@@ -384,12 +470,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScopeMapListResult

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { StorageImportExportManagementClientContext } from "./storageImportExportManagementClientContext";
 
-
 class StorageImportExportManagementClient extends StorageImportExportManagementClientContext {
   // Operation groups
   locations: operations.Locations;
@@ -28,7 +27,11 @@ class StorageImportExportManagementClient extends StorageImportExportManagementC
    * @param subscriptionId The subscription ID for the Azure user.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.StorageImportExportManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.StorageImportExportManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.locations = new operations.Locations(this);
     this.jobs = new operations.Jobs(this);

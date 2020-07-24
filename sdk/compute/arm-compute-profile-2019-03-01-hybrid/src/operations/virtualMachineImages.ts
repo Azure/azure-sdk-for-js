@@ -36,7 +36,14 @@ export class VirtualMachineImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineImagesGetResponse>
    */
-  get(location: string, publisherName: string, offer: string, skus: string, version: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineImagesGetResponse>;
+  get(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    version: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineImagesGetResponse>;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName A valid image publisher.
@@ -45,7 +52,14 @@ export class VirtualMachineImages {
    * @param version A valid image SKU version.
    * @param callback The callback
    */
-  get(location: string, publisherName: string, offer: string, skus: string, version: string, callback: msRest.ServiceCallback<Models.VirtualMachineImage>): void;
+  get(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    version: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineImage>
+  ): void;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName A valid image publisher.
@@ -55,8 +69,24 @@ export class VirtualMachineImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(location: string, publisherName: string, offer: string, skus: string, version: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineImage>): void;
-  get(location: string, publisherName: string, offer: string, skus: string, version: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImage>, callback?: msRest.ServiceCallback<Models.VirtualMachineImage>): Promise<Models.VirtualMachineImagesGetResponse> {
+  get(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    version: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualMachineImage>
+  ): void;
+  get(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    version: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImage>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineImage>
+  ): Promise<Models.VirtualMachineImagesGetResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -67,7 +97,8 @@ export class VirtualMachineImages {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VirtualMachineImagesGetResponse>;
+      callback
+    ) as Promise<Models.VirtualMachineImagesGetResponse>;
   }
 
   /**
@@ -80,7 +111,13 @@ export class VirtualMachineImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineImagesListResponse>
    */
-  list(location: string, publisherName: string, offer: string, skus: string, options?: Models.VirtualMachineImagesListOptionalParams): Promise<Models.VirtualMachineImagesListResponse>;
+  list(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    options?: Models.VirtualMachineImagesListOptionalParams
+  ): Promise<Models.VirtualMachineImagesListResponse>;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName A valid image publisher.
@@ -88,7 +125,13 @@ export class VirtualMachineImages {
    * @param skus A valid image SKU.
    * @param callback The callback
    */
-  list(location: string, publisherName: string, offer: string, skus: string, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
+  list(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>
+  ): void;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName A valid image publisher.
@@ -97,8 +140,24 @@ export class VirtualMachineImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, publisherName: string, offer: string, skus: string, options: Models.VirtualMachineImagesListOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
-  list(location: string, publisherName: string, offer: string, skus: string, options?: Models.VirtualMachineImagesListOptionalParams | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): Promise<Models.VirtualMachineImagesListResponse> {
+  list(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    options: Models.VirtualMachineImagesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>
+  ): void;
+  list(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    options?:
+      | Models.VirtualMachineImagesListOptionalParams
+      | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>
+  ): Promise<Models.VirtualMachineImagesListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -108,7 +167,8 @@ export class VirtualMachineImages {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.VirtualMachineImagesListResponse>;
+      callback
+    ) as Promise<Models.VirtualMachineImagesListResponse>;
   }
 
   /**
@@ -118,21 +178,41 @@ export class VirtualMachineImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineImagesListOffersResponse>
    */
-  listOffers(location: string, publisherName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineImagesListOffersResponse>;
+  listOffers(
+    location: string,
+    publisherName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineImagesListOffersResponse>;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName A valid image publisher.
    * @param callback The callback
    */
-  listOffers(location: string, publisherName: string, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
+  listOffers(
+    location: string,
+    publisherName: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>
+  ): void;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName A valid image publisher.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOffers(location: string, publisherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
-  listOffers(location: string, publisherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): Promise<Models.VirtualMachineImagesListOffersResponse> {
+  listOffers(
+    location: string,
+    publisherName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>
+  ): void;
+  listOffers(
+    location: string,
+    publisherName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>
+  ): Promise<Models.VirtualMachineImagesListOffersResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -140,7 +220,8 @@ export class VirtualMachineImages {
         options
       },
       listOffersOperationSpec,
-      callback) as Promise<Models.VirtualMachineImagesListOffersResponse>;
+      callback
+    ) as Promise<Models.VirtualMachineImagesListOffersResponse>;
   }
 
   /**
@@ -149,26 +230,43 @@ export class VirtualMachineImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineImagesListPublishersResponse>
    */
-  listPublishers(location: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineImagesListPublishersResponse>;
+  listPublishers(
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineImagesListPublishersResponse>;
   /**
    * @param location The name of a supported Azure region.
    * @param callback The callback
    */
-  listPublishers(location: string, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
+  listPublishers(
+    location: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>
+  ): void;
   /**
    * @param location The name of a supported Azure region.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPublishers(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
-  listPublishers(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): Promise<Models.VirtualMachineImagesListPublishersResponse> {
+  listPublishers(
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>
+  ): void;
+  listPublishers(
+    location: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>
+  ): Promise<Models.VirtualMachineImagesListPublishersResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listPublishersOperationSpec,
-      callback) as Promise<Models.VirtualMachineImagesListPublishersResponse>;
+      callback
+    ) as Promise<Models.VirtualMachineImagesListPublishersResponse>;
   }
 
   /**
@@ -179,14 +277,24 @@ export class VirtualMachineImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineImagesListSkusResponse>
    */
-  listSkus(location: string, publisherName: string, offer: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineImagesListSkusResponse>;
+  listSkus(
+    location: string,
+    publisherName: string,
+    offer: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineImagesListSkusResponse>;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param callback The callback
    */
-  listSkus(location: string, publisherName: string, offer: string, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
+  listSkus(
+    location: string,
+    publisherName: string,
+    offer: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>
+  ): void;
   /**
    * @param location The name of a supported Azure region.
    * @param publisherName A valid image publisher.
@@ -194,8 +302,22 @@ export class VirtualMachineImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkus(location: string, publisherName: string, offer: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
-  listSkus(location: string, publisherName: string, offer: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): Promise<Models.VirtualMachineImagesListSkusResponse> {
+  listSkus(
+    location: string,
+    publisherName: string,
+    offer: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>
+  ): void;
+  listSkus(
+    location: string,
+    publisherName: string,
+    offer: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>
+  ): Promise<Models.VirtualMachineImagesListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -204,7 +326,8 @@ export class VirtualMachineImages {
         options
       },
       listSkusOperationSpec,
-      callback) as Promise<Models.VirtualMachineImagesListSkusResponse>;
+      callback
+    ) as Promise<Models.VirtualMachineImagesListSkusResponse>;
   }
 }
 
@@ -212,7 +335,8 @@ export class VirtualMachineImages {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}",
   urlParameters: [
     Parameters.location0,
     Parameters.publisherName,
@@ -221,12 +345,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.version,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineImage
@@ -240,7 +360,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions",
   urlParameters: [
     Parameters.location0,
     Parameters.publisherName,
@@ -248,15 +369,8 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.skus,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter, Parameters.top, Parameters.orderby, Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -281,18 +395,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listOffersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers",
-  urlParameters: [
-    Parameters.location0,
-    Parameters.publisherName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers",
+  urlParameters: [Parameters.location0, Parameters.publisherName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -317,17 +424,11 @@ const listOffersOperationSpec: msRest.OperationSpec = {
 
 const listPublishersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers",
-  urlParameters: [
-    Parameters.location0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers",
+  urlParameters: [Parameters.location0, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -352,19 +453,16 @@ const listPublishersOperationSpec: msRest.OperationSpec = {
 
 const listSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus",
   urlParameters: [
     Parameters.location0,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {

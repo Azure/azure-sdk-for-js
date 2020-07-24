@@ -34,14 +34,22 @@ export class BitLockerKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.BitLockerKeysListResponse>
    */
-  list(jobName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.BitLockerKeysListResponse>;
+  list(
+    jobName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BitLockerKeysListResponse>;
   /**
    * @param jobName The name of the import/export job.
    * @param resourceGroupName The resource group name uniquely identifies the resource group within
    * the user subscription.
    * @param callback The callback
    */
-  list(jobName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.GetBitLockerKeysResponse>): void;
+  list(
+    jobName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.GetBitLockerKeysResponse>
+  ): void;
   /**
    * @param jobName The name of the import/export job.
    * @param resourceGroupName The resource group name uniquely identifies the resource group within
@@ -49,8 +57,18 @@ export class BitLockerKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(jobName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GetBitLockerKeysResponse>): void;
-  list(jobName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GetBitLockerKeysResponse>, callback?: msRest.ServiceCallback<Models.GetBitLockerKeysResponse>): Promise<Models.BitLockerKeysListResponse> {
+  list(
+    jobName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GetBitLockerKeysResponse>
+  ): void;
+  list(
+    jobName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GetBitLockerKeysResponse>,
+    callback?: msRest.ServiceCallback<Models.GetBitLockerKeysResponse>
+  ): Promise<Models.BitLockerKeysListResponse> {
     return this.client.sendOperationRequest(
       {
         jobName,
@@ -58,7 +76,8 @@ export class BitLockerKeys {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.BitLockerKeysListResponse>;
+      callback
+    ) as Promise<Models.BitLockerKeysListResponse>;
   }
 }
 
@@ -66,18 +85,11 @@ export class BitLockerKeys {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}/listBitLockerKeys",
-  urlParameters: [
-    Parameters.jobName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}/listBitLockerKeys",
+  urlParameters: [Parameters.jobName, Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GetBitLockerKeysResponse

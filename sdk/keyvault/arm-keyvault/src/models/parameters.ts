@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -36,7 +36,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2015-11-01',
+    defaultValue: "2015-11-01",
     type: {
       name: "String"
     }
@@ -48,7 +48,7 @@ export const filter: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "$filter",
-    defaultValue: 'resourceType eq \'Microsoft.KeyVault/vaults\'',
+    defaultValue: "resourceType eq 'Microsoft.KeyVault/vaults'",
     type: {
       name: "String"
     }
@@ -82,11 +82,7 @@ export const operationKind: msRest.OperationURLParameter = {
     serializedName: "operationKind",
     type: {
       name: "Enum",
-      allowedValues: [
-        "add",
-        "replace",
-        "remove"
-      ]
+      allowedValues: ["add", "replace", "remove"]
     }
   }
 };
@@ -111,10 +107,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "$top",
     type: {

@@ -36,7 +36,12 @@ export class SyncAgents {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncAgentsGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncAgentsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncAgentsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -44,7 +49,12 @@ export class SyncAgents {
    * @param syncAgentName The name of the sync agent.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, syncAgentName: string, callback: msRest.ServiceCallback<Models.SyncAgent>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    callback: msRest.ServiceCallback<Models.SyncAgent>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -53,8 +63,20 @@ export class SyncAgents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, syncAgentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncAgent>): void;
-  get(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgent>, callback?: msRest.ServiceCallback<Models.SyncAgent>): Promise<Models.SyncAgentsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncAgent>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgent>,
+    callback?: msRest.ServiceCallback<Models.SyncAgent>
+  ): Promise<Models.SyncAgentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +85,8 @@ export class SyncAgents {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SyncAgentsGetResponse>;
+      callback
+    ) as Promise<Models.SyncAgentsGetResponse>;
   }
 
   /**
@@ -76,9 +99,22 @@ export class SyncAgents {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncAgentsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, syncAgentName: string, parameters: Models.SyncAgent, options?: msRest.RequestOptionsBase): Promise<Models.SyncAgentsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serverName,syncAgentName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SyncAgentsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    parameters: Models.SyncAgent,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncAgentsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      syncAgentName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SyncAgentsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -90,9 +126,18 @@ export class SyncAgents {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,serverName,syncAgentName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      serverName,
+      syncAgentName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -103,14 +148,22 @@ export class SyncAgents {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncAgentsListByServerResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncAgentsListByServerResponse>;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncAgentsListByServerResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server on which the sync agent is hosted.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.SyncAgentListResult>): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.SyncAgentListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -118,8 +171,18 @@ export class SyncAgents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncAgentListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentListResult>, callback?: msRest.ServiceCallback<Models.SyncAgentListResult>): Promise<Models.SyncAgentsListByServerResponse> {
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncAgentListResult>
+  ): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentListResult>,
+    callback?: msRest.ServiceCallback<Models.SyncAgentListResult>
+  ): Promise<Models.SyncAgentsListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +190,8 @@ export class SyncAgents {
         options
       },
       listByServerOperationSpec,
-      callback) as Promise<Models.SyncAgentsListByServerResponse>;
+      callback
+    ) as Promise<Models.SyncAgentsListByServerResponse>;
   }
 
   /**
@@ -139,7 +203,12 @@ export class SyncAgents {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncAgentsGenerateKeyResponse>
    */
-  generateKey(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncAgentsGenerateKeyResponse>;
+  generateKey(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncAgentsGenerateKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -147,7 +216,12 @@ export class SyncAgents {
    * @param syncAgentName The name of the sync agent.
    * @param callback The callback
    */
-  generateKey(resourceGroupName: string, serverName: string, syncAgentName: string, callback: msRest.ServiceCallback<Models.SyncAgentKeyProperties>): void;
+  generateKey(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    callback: msRest.ServiceCallback<Models.SyncAgentKeyProperties>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -156,8 +230,20 @@ export class SyncAgents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  generateKey(resourceGroupName: string, serverName: string, syncAgentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncAgentKeyProperties>): void;
-  generateKey(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentKeyProperties>, callback?: msRest.ServiceCallback<Models.SyncAgentKeyProperties>): Promise<Models.SyncAgentsGenerateKeyResponse> {
+  generateKey(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncAgentKeyProperties>
+  ): void;
+  generateKey(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentKeyProperties>,
+    callback?: msRest.ServiceCallback<Models.SyncAgentKeyProperties>
+  ): Promise<Models.SyncAgentsGenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +252,8 @@ export class SyncAgents {
         options
       },
       generateKeyOperationSpec,
-      callback) as Promise<Models.SyncAgentsGenerateKeyResponse>;
+      callback
+    ) as Promise<Models.SyncAgentsGenerateKeyResponse>;
   }
 
   /**
@@ -178,7 +265,12 @@ export class SyncAgents {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncAgentsListLinkedDatabasesResponse>
    */
-  listLinkedDatabases(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncAgentsListLinkedDatabasesResponse>;
+  listLinkedDatabases(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncAgentsListLinkedDatabasesResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -186,7 +278,12 @@ export class SyncAgents {
    * @param syncAgentName The name of the sync agent.
    * @param callback The callback
    */
-  listLinkedDatabases(resourceGroupName: string, serverName: string, syncAgentName: string, callback: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>): void;
+  listLinkedDatabases(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    callback: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -195,8 +292,22 @@ export class SyncAgents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listLinkedDatabases(resourceGroupName: string, serverName: string, syncAgentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>): void;
-  listLinkedDatabases(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>, callback?: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>): Promise<Models.SyncAgentsListLinkedDatabasesResponse> {
+  listLinkedDatabases(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>
+  ): void;
+  listLinkedDatabases(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>,
+    callback?: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>
+  ): Promise<Models.SyncAgentsListLinkedDatabasesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -205,7 +316,8 @@ export class SyncAgents {
         options
       },
       listLinkedDatabasesOperationSpec,
-      callback) as Promise<Models.SyncAgentsListLinkedDatabasesResponse>;
+      callback
+    ) as Promise<Models.SyncAgentsListLinkedDatabasesResponse>;
   }
 
   /**
@@ -218,7 +330,13 @@ export class SyncAgents {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serverName: string, syncAgentName: string, parameters: Models.SyncAgent, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    parameters: Models.SyncAgent,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -228,7 +346,8 @@ export class SyncAgents {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -240,7 +359,12 @@ export class SyncAgents {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, serverName: string, syncAgentName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    syncAgentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -249,7 +373,8 @@ export class SyncAgents {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -258,26 +383,41 @@ export class SyncAgents {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncAgentsListByServerNextResponse>
    */
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncAgentsListByServerNextResponse>;
+  listByServerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncAgentsListByServerNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServerNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SyncAgentListResult>): void;
+  listByServerNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SyncAgentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncAgentListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentListResult>, callback?: msRest.ServiceCallback<Models.SyncAgentListResult>): Promise<Models.SyncAgentsListByServerNextResponse> {
+  listByServerNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncAgentListResult>
+  ): void;
+  listByServerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentListResult>,
+    callback?: msRest.ServiceCallback<Models.SyncAgentListResult>
+  ): Promise<Models.SyncAgentsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServerNextOperationSpec,
-      callback) as Promise<Models.SyncAgentsListByServerNextResponse>;
+      callback
+    ) as Promise<Models.SyncAgentsListByServerNextResponse>;
   }
 
   /**
@@ -286,26 +426,43 @@ export class SyncAgents {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncAgentsListLinkedDatabasesNextResponse>
    */
-  listLinkedDatabasesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncAgentsListLinkedDatabasesNextResponse>;
+  listLinkedDatabasesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncAgentsListLinkedDatabasesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listLinkedDatabasesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>): void;
+  listLinkedDatabasesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listLinkedDatabasesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>): void;
-  listLinkedDatabasesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>, callback?: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>): Promise<Models.SyncAgentsListLinkedDatabasesNextResponse> {
+  listLinkedDatabasesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>
+  ): void;
+  listLinkedDatabasesNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>,
+    callback?: msRest.ServiceCallback<Models.SyncAgentLinkedDatabaseListResult>
+  ): Promise<Models.SyncAgentsListLinkedDatabasesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listLinkedDatabasesNextOperationSpec,
-      callback) as Promise<Models.SyncAgentsListLinkedDatabasesNextResponse>;
+      callback
+    ) as Promise<Models.SyncAgentsListLinkedDatabasesNextResponse>;
   }
 }
 
@@ -313,19 +470,16 @@ export class SyncAgents {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.syncAgentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncAgent
@@ -339,18 +493,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncAgentListResult
@@ -364,19 +511,16 @@ const listByServerOperationSpec: msRest.OperationSpec = {
 
 const generateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}/generateKey",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}/generateKey",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.syncAgentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncAgentKeyProperties
@@ -390,19 +534,16 @@ const generateKeyOperationSpec: msRest.OperationSpec = {
 
 const listLinkedDatabasesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}/linkedDatabases",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}/linkedDatabases",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.syncAgentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncAgentLinkedDatabaseListResult
@@ -416,19 +557,16 @@ const listLinkedDatabasesOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.syncAgentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -453,19 +591,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/syncAgents/{syncAgentName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.syncAgentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -481,12 +616,8 @@ const listByServerNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncAgentListResult
@@ -502,12 +633,8 @@ const listLinkedDatabasesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncAgentLinkedDatabaseListResult

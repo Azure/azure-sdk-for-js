@@ -8,7 +8,6 @@
 
 import * as coreHttp from "@azure/core-http";
 
-
 export const AnalyzeRequest: coreHttp.CompositeMapper = {
   serializedName: "AnalyzeRequest",
   type: {
@@ -217,7 +216,7 @@ export const PatternAnalyzer: coreHttp.CompositeMapper = {
       },
       pattern: {
         serializedName: "pattern",
-        defaultValue: '\W+',
+        defaultValue: "W+",
         type: {
           name: "String"
         }
@@ -389,13 +388,7 @@ export const EdgeNGramTokenizer: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "letter",
-                "digit",
-                "whitespace",
-                "punctuation",
-                "symbol"
-              ]
+              allowedValues: ["letter", "digit", "whitespace", "punctuation", "symbol"]
             }
           }
         }
@@ -646,13 +639,7 @@ export const NGramTokenizer: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "letter",
-                "digit",
-                "whitespace",
-                "punctuation",
-                "symbol"
-              ]
+              allowedValues: ["letter", "digit", "whitespace", "punctuation", "symbol"]
             }
           }
         }
@@ -672,14 +659,14 @@ export const PathHierarchyTokenizerV2: coreHttp.CompositeMapper = {
       ...LexicalTokenizer.type.modelProperties,
       delimiter: {
         serializedName: "delimiter",
-        defaultValue: '/',
+        defaultValue: "/",
         type: {
           name: "String"
         }
       },
       replacement: {
         serializedName: "replacement",
-        defaultValue: '/',
+        defaultValue: "/",
         type: {
           name: "String"
         }
@@ -723,7 +710,7 @@ export const PatternTokenizer: coreHttp.CompositeMapper = {
       ...LexicalTokenizer.type.modelProperties,
       pattern: {
         serializedName: "pattern",
-        defaultValue: '\W+',
+        defaultValue: "W+",
         type: {
           name: "String"
         }
@@ -876,12 +863,7 @@ export const CjkBigramTokenFilter: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "han",
-                "hiragana",
-                "katakana",
-                "hangul"
-              ]
+              allowedValues: ["han", "hiragana", "katakana", "hangul"]
             }
           }
         }
@@ -1025,10 +1007,7 @@ export const EdgeNGramTokenFilter: coreHttp.CompositeMapper = {
         serializedName: "side",
         type: {
           name: "Enum",
-          allowedValues: [
-            "front",
-            "back"
-          ]
+          allowedValues: ["front", "back"]
         }
       }
     }
@@ -1068,10 +1047,7 @@ export const EdgeNGramTokenFilterV2: coreHttp.CompositeMapper = {
         serializedName: "side",
         type: {
           name: "Enum",
-          allowedValues: [
-            "front",
-            "back"
-          ]
+          allowedValues: ["front", "back"]
         }
       }
     }
@@ -1429,14 +1405,14 @@ export const ShingleTokenFilter: coreHttp.CompositeMapper = {
       },
       tokenSeparator: {
         serializedName: "tokenSeparator",
-        defaultValue: '',
+        defaultValue: "",
         type: {
           name: "String"
         }
       },
       filterToken: {
         serializedName: "filterToken",
-        defaultValue: '_',
+        defaultValue: "_",
         type: {
           name: "String"
         }
@@ -2562,12 +2538,7 @@ export const IndexerExecutionResult: coreHttp.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "transientFailure",
-            "success",
-            "inProgress",
-            "reset"
-          ]
+          allowedValues: ["transientFailure", "success", "inProgress", "reset"]
         }
       },
       errorMessage: {
@@ -2699,11 +2670,7 @@ export const SearchIndexerStatus: coreHttp.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "unknown",
-            "error",
-            "running"
-          ]
+          allowedValues: ["unknown", "error", "running"]
         }
       },
       lastResult: {
@@ -2893,12 +2860,7 @@ export const ScoringFunction: coreHttp.CompositeMapper = {
         serializedName: "interpolation",
         type: {
           name: "Enum",
-          allowedValues: [
-            "linear",
-            "constant",
-            "quadratic",
-            "logarithmic"
-          ]
+          allowedValues: ["linear", "constant", "quadratic", "logarithmic"]
         }
       },
       type: {
@@ -3120,13 +3082,7 @@ export const ScoringProfile: coreHttp.CompositeMapper = {
         serializedName: "functionAggregation",
         type: {
           name: "Enum",
-          allowedValues: [
-            "sum",
-            "average",
-            "minimum",
-            "maximum",
-            "firstMatching"
-          ]
+          allowedValues: ["sum", "average", "minimum", "maximum", "firstMatching"]
         }
       }
     }
@@ -3178,7 +3134,7 @@ export const Suggester: coreHttp.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "searchMode",
-        defaultValue: 'analyzingInfixMatching',
+        defaultValue: "analyzingInfixMatching",
         type: {
           name: "String"
         }
@@ -3830,14 +3786,14 @@ export const MergeSkill: coreHttp.CompositeMapper = {
       ...SearchIndexerSkill.type.modelProperties,
       insertPreTag: {
         serializedName: "insertPreTag",
-        defaultValue: '',
+        defaultValue: "",
         type: {
           name: "String"
         }
       },
       insertPostTag: {
         serializedName: "insertPostTag",
-        defaultValue: '',
+        defaultValue: "",
         type: {
           name: "String"
         }
@@ -4071,7 +4027,7 @@ export const SynonymMap: coreHttp.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "format",
-        defaultValue: 'solr',
+        defaultValue: "solr",
         type: {
           name: "String"
         }
@@ -4310,81 +4266,80 @@ export const SearchError: coreHttp.CompositeMapper = {
 };
 
 export const discriminators = {
-  'LexicalAnalyzer' : LexicalAnalyzer,
-  'LexicalAnalyzer.#Microsoft.Azure.Search.CustomAnalyzer' : CustomAnalyzer,
-  'LexicalAnalyzer.#Microsoft.Azure.Search.PatternAnalyzer' : PatternAnalyzer,
-  'LexicalAnalyzer.#Microsoft.Azure.Search.StandardAnalyzer' : LuceneStandardAnalyzer,
-  'LexicalAnalyzer.#Microsoft.Azure.Search.StopAnalyzer' : StopAnalyzer,
-  'LexicalTokenizer' : LexicalTokenizer,
-  'LexicalTokenizer.#Microsoft.Azure.Search.ClassicTokenizer' : ClassicTokenizer,
-  'LexicalTokenizer.#Microsoft.Azure.Search.EdgeNGramTokenizer' : EdgeNGramTokenizer,
-  'LexicalTokenizer.#Microsoft.Azure.Search.KeywordTokenizer' : KeywordTokenizer,
-  'LexicalTokenizer.#Microsoft.Azure.Search.KeywordTokenizerV2' : KeywordTokenizerV2,
-  'LexicalTokenizer.#Microsoft.Azure.Search.MicrosoftLanguageTokenizer' : MicrosoftLanguageTokenizer,
-  'LexicalTokenizer.#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer' : MicrosoftLanguageStemmingTokenizer,
-  'LexicalTokenizer.#Microsoft.Azure.Search.NGramTokenizer' : NGramTokenizer,
-  'LexicalTokenizer.#Microsoft.Azure.Search.PathHierarchyTokenizerV2' : PathHierarchyTokenizerV2,
-  'LexicalTokenizer.#Microsoft.Azure.Search.PatternTokenizer' : PatternTokenizer,
-  'LexicalTokenizer.#Microsoft.Azure.Search.StandardTokenizer' : LuceneStandardTokenizer,
-  'LexicalTokenizer.#Microsoft.Azure.Search.StandardTokenizerV2' : LuceneStandardTokenizerV2,
-  'LexicalTokenizer.#Microsoft.Azure.Search.UaxUrlEmailTokenizer' : UaxUrlEmailTokenizer,
-  'TokenFilter' : TokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.AsciiFoldingTokenFilter' : AsciiFoldingTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.CjkBigramTokenFilter' : CjkBigramTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.CommonGramTokenFilter' : CommonGramTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.DictionaryDecompounderTokenFilter' : DictionaryDecompounderTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.EdgeNGramTokenFilter' : EdgeNGramTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.EdgeNGramTokenFilterV2' : EdgeNGramTokenFilterV2,
-  'TokenFilter.#Microsoft.Azure.Search.ElisionTokenFilter' : ElisionTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.KeepTokenFilter' : KeepTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.KeywordMarkerTokenFilter' : KeywordMarkerTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.LengthTokenFilter' : LengthTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.LimitTokenFilter' : LimitTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.NGramTokenFilter' : NGramTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.NGramTokenFilterV2' : NGramTokenFilterV2,
-  'TokenFilter.#Microsoft.Azure.Search.PatternCaptureTokenFilter' : PatternCaptureTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.PatternReplaceTokenFilter' : PatternReplaceTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.PhoneticTokenFilter' : PhoneticTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.ShingleTokenFilter' : ShingleTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.SnowballTokenFilter' : SnowballTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.StemmerTokenFilter' : StemmerTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.StemmerOverrideTokenFilter' : StemmerOverrideTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.StopwordsTokenFilter' : StopwordsTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.SynonymTokenFilter' : SynonymTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.TruncateTokenFilter' : TruncateTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.UniqueTokenFilter' : UniqueTokenFilter,
-  'TokenFilter.#Microsoft.Azure.Search.WordDelimiterTokenFilter' : WordDelimiterTokenFilter,
-  'CharFilter' : CharFilter,
-  'CharFilter.#Microsoft.Azure.Search.MappingCharFilter' : MappingCharFilter,
-  'CharFilter.#Microsoft.Azure.Search.PatternReplaceCharFilter' : PatternReplaceCharFilter,
-  'Similarity' : Similarity,
-  'Similarity.#Microsoft.Azure.Search.ClassicSimilarity' : ClassicSimilarity,
-  'Similarity.#Microsoft.Azure.Search.BM25Similarity' : BM25Similarity,
-  'DataChangeDetectionPolicy' : DataChangeDetectionPolicy,
-  'DataChangeDetectionPolicy.#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy' : HighWaterMarkChangeDetectionPolicy,
-  'DataChangeDetectionPolicy.#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy' : SqlIntegratedChangeTrackingPolicy,
-  'DataDeletionDetectionPolicy' : DataDeletionDetectionPolicy,
-  'DataDeletionDetectionPolicy.#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy' : SoftDeleteColumnDeletionDetectionPolicy,
-  'ScoringFunction' : ScoringFunction,
-  'ScoringFunction.distance' : DistanceScoringFunction,
-  'ScoringFunction.freshness' : FreshnessScoringFunction,
-  'ScoringFunction.magnitude' : MagnitudeScoringFunction,
-  'ScoringFunction.tag' : TagScoringFunction,
-  'SearchIndexerSkill' : SearchIndexerSkill,
-  'CognitiveServicesAccount' : CognitiveServicesAccount,
-  'CognitiveServicesAccount.#Microsoft.Azure.Search.DefaultCognitiveServices' : DefaultCognitiveServicesAccount,
-  'CognitiveServicesAccount.#Microsoft.Azure.Search.CognitiveServicesByKey' : CognitiveServicesAccountKey,
-  'SearchIndexerSkill.#Microsoft.Skills.Util.ConditionalSkill' : ConditionalSkill,
-  'SearchIndexerSkill.#Microsoft.Skills.Text.KeyPhraseExtractionSkill' : KeyPhraseExtractionSkill,
-  'SearchIndexerSkill.#Microsoft.Skills.Vision.OcrSkill' : OcrSkill,
-  'SearchIndexerSkill.#Microsoft.Skills.Vision.ImageAnalysisSkill' : ImageAnalysisSkill,
-  'SearchIndexerSkill.#Microsoft.Skills.Text.LanguageDetectionSkill' : LanguageDetectionSkill,
-  'SearchIndexerSkill.#Microsoft.Skills.Util.ShaperSkill' : ShaperSkill,
-  'SearchIndexerSkill.#Microsoft.Skills.Text.MergeSkill' : MergeSkill,
-  'SearchIndexerSkill.#Microsoft.Skills.Text.EntityRecognitionSkill' : EntityRecognitionSkill,
-  'SearchIndexerSkill.#Microsoft.Skills.Text.SentimentSkill' : SentimentSkill,
-  'SearchIndexerSkill.#Microsoft.Skills.Text.SplitSkill' : SplitSkill,
-  'SearchIndexerSkill.#Microsoft.Skills.Text.TranslationSkill' : TextTranslationSkill,
-  'SearchIndexerSkill.#Microsoft.Skills.Custom.WebApiSkill' : WebApiSkill
-
+  LexicalAnalyzer: LexicalAnalyzer,
+  "LexicalAnalyzer.#Microsoft.Azure.Search.CustomAnalyzer": CustomAnalyzer,
+  "LexicalAnalyzer.#Microsoft.Azure.Search.PatternAnalyzer": PatternAnalyzer,
+  "LexicalAnalyzer.#Microsoft.Azure.Search.StandardAnalyzer": LuceneStandardAnalyzer,
+  "LexicalAnalyzer.#Microsoft.Azure.Search.StopAnalyzer": StopAnalyzer,
+  LexicalTokenizer: LexicalTokenizer,
+  "LexicalTokenizer.#Microsoft.Azure.Search.ClassicTokenizer": ClassicTokenizer,
+  "LexicalTokenizer.#Microsoft.Azure.Search.EdgeNGramTokenizer": EdgeNGramTokenizer,
+  "LexicalTokenizer.#Microsoft.Azure.Search.KeywordTokenizer": KeywordTokenizer,
+  "LexicalTokenizer.#Microsoft.Azure.Search.KeywordTokenizerV2": KeywordTokenizerV2,
+  "LexicalTokenizer.#Microsoft.Azure.Search.MicrosoftLanguageTokenizer": MicrosoftLanguageTokenizer,
+  "LexicalTokenizer.#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer": MicrosoftLanguageStemmingTokenizer,
+  "LexicalTokenizer.#Microsoft.Azure.Search.NGramTokenizer": NGramTokenizer,
+  "LexicalTokenizer.#Microsoft.Azure.Search.PathHierarchyTokenizerV2": PathHierarchyTokenizerV2,
+  "LexicalTokenizer.#Microsoft.Azure.Search.PatternTokenizer": PatternTokenizer,
+  "LexicalTokenizer.#Microsoft.Azure.Search.StandardTokenizer": LuceneStandardTokenizer,
+  "LexicalTokenizer.#Microsoft.Azure.Search.StandardTokenizerV2": LuceneStandardTokenizerV2,
+  "LexicalTokenizer.#Microsoft.Azure.Search.UaxUrlEmailTokenizer": UaxUrlEmailTokenizer,
+  TokenFilter: TokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.AsciiFoldingTokenFilter": AsciiFoldingTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.CjkBigramTokenFilter": CjkBigramTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.CommonGramTokenFilter": CommonGramTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.DictionaryDecompounderTokenFilter": DictionaryDecompounderTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.EdgeNGramTokenFilter": EdgeNGramTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.EdgeNGramTokenFilterV2": EdgeNGramTokenFilterV2,
+  "TokenFilter.#Microsoft.Azure.Search.ElisionTokenFilter": ElisionTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.KeepTokenFilter": KeepTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.KeywordMarkerTokenFilter": KeywordMarkerTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.LengthTokenFilter": LengthTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.LimitTokenFilter": LimitTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.NGramTokenFilter": NGramTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.NGramTokenFilterV2": NGramTokenFilterV2,
+  "TokenFilter.#Microsoft.Azure.Search.PatternCaptureTokenFilter": PatternCaptureTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.PatternReplaceTokenFilter": PatternReplaceTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.PhoneticTokenFilter": PhoneticTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.ShingleTokenFilter": ShingleTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.SnowballTokenFilter": SnowballTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.StemmerTokenFilter": StemmerTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.StemmerOverrideTokenFilter": StemmerOverrideTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.StopwordsTokenFilter": StopwordsTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.SynonymTokenFilter": SynonymTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.TruncateTokenFilter": TruncateTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.UniqueTokenFilter": UniqueTokenFilter,
+  "TokenFilter.#Microsoft.Azure.Search.WordDelimiterTokenFilter": WordDelimiterTokenFilter,
+  CharFilter: CharFilter,
+  "CharFilter.#Microsoft.Azure.Search.MappingCharFilter": MappingCharFilter,
+  "CharFilter.#Microsoft.Azure.Search.PatternReplaceCharFilter": PatternReplaceCharFilter,
+  Similarity: Similarity,
+  "Similarity.#Microsoft.Azure.Search.ClassicSimilarity": ClassicSimilarity,
+  "Similarity.#Microsoft.Azure.Search.BM25Similarity": BM25Similarity,
+  DataChangeDetectionPolicy: DataChangeDetectionPolicy,
+  "DataChangeDetectionPolicy.#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy": HighWaterMarkChangeDetectionPolicy,
+  "DataChangeDetectionPolicy.#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy": SqlIntegratedChangeTrackingPolicy,
+  DataDeletionDetectionPolicy: DataDeletionDetectionPolicy,
+  "DataDeletionDetectionPolicy.#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy": SoftDeleteColumnDeletionDetectionPolicy,
+  ScoringFunction: ScoringFunction,
+  "ScoringFunction.distance": DistanceScoringFunction,
+  "ScoringFunction.freshness": FreshnessScoringFunction,
+  "ScoringFunction.magnitude": MagnitudeScoringFunction,
+  "ScoringFunction.tag": TagScoringFunction,
+  SearchIndexerSkill: SearchIndexerSkill,
+  CognitiveServicesAccount: CognitiveServicesAccount,
+  "CognitiveServicesAccount.#Microsoft.Azure.Search.DefaultCognitiveServices": DefaultCognitiveServicesAccount,
+  "CognitiveServicesAccount.#Microsoft.Azure.Search.CognitiveServicesByKey": CognitiveServicesAccountKey,
+  "SearchIndexerSkill.#Microsoft.Skills.Util.ConditionalSkill": ConditionalSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Text.KeyPhraseExtractionSkill": KeyPhraseExtractionSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Vision.OcrSkill": OcrSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Vision.ImageAnalysisSkill": ImageAnalysisSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Text.LanguageDetectionSkill": LanguageDetectionSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Util.ShaperSkill": ShaperSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Text.MergeSkill": MergeSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Text.EntityRecognitionSkill": EntityRecognitionSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Text.SentimentSkill": SentimentSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Text.SplitSkill": SplitSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Text.TranslationSkill": TextTranslationSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Custom.WebApiSkill": WebApiSkill
 };

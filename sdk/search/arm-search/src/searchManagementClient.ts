@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { SearchManagementClientContext } from "./searchManagementClientContext";
 
-
 class SearchManagementClient extends SearchManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -29,7 +28,11 @@ class SearchManagementClient extends SearchManagementClientContext {
    * this value from the Azure Resource Manager API or the portal.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SearchManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.SearchManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.adminKeys = new operations.AdminKeys(this);

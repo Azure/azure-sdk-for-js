@@ -34,21 +34,41 @@ export class IpFirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpFirewallRulesListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.IpFirewallRulesListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpFirewallRulesListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>, callback?: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>): Promise<Models.IpFirewallRulesListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>,
+    callback?: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>
+  ): Promise<Models.IpFirewallRulesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class IpFirewallRules {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.IpFirewallRulesListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.IpFirewallRulesListByWorkspaceResponse>;
   }
 
   /**
@@ -68,9 +89,22 @@ export class IpFirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpFirewallRulesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, ruleName: string, ipFirewallRuleInfo: Models.IpFirewallRuleInfo, options?: msRest.RequestOptionsBase): Promise<Models.IpFirewallRulesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,workspaceName,ruleName,ipFirewallRuleInfo,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IpFirewallRulesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    ruleName: string,
+    ipFirewallRuleInfo: Models.IpFirewallRuleInfo,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpFirewallRulesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      workspaceName,
+      ruleName,
+      ipFirewallRuleInfo,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.IpFirewallRulesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -81,9 +115,20 @@ export class IpFirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpFirewallRulesDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<Models.IpFirewallRulesDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,workspaceName,ruleName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IpFirewallRulesDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpFirewallRulesDeleteMethodResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      workspaceName,
+      ruleName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.IpFirewallRulesDeleteMethodResponse
+    >;
   }
 
   /**
@@ -94,14 +139,24 @@ export class IpFirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpFirewallRulesGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<Models.IpFirewallRulesGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpFirewallRulesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param ruleName The IP firewall rule name
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, ruleName: string, callback: msRest.ServiceCallback<Models.IpFirewallRuleInfo>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    ruleName: string,
+    callback: msRest.ServiceCallback<Models.IpFirewallRuleInfo>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -109,8 +164,20 @@ export class IpFirewallRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpFirewallRuleInfo>): void;
-  get(resourceGroupName: string, workspaceName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpFirewallRuleInfo>, callback?: msRest.ServiceCallback<Models.IpFirewallRuleInfo>): Promise<Models.IpFirewallRulesGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    ruleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpFirewallRuleInfo>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpFirewallRuleInfo>,
+    callback?: msRest.ServiceCallback<Models.IpFirewallRuleInfo>
+  ): Promise<Models.IpFirewallRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +186,8 @@ export class IpFirewallRules {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IpFirewallRulesGetResponse>;
+      callback
+    ) as Promise<Models.IpFirewallRulesGetResponse>;
   }
 
   /**
@@ -130,9 +198,20 @@ export class IpFirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpFirewallRulesReplaceAllResponse>
    */
-  replaceAll(resourceGroupName: string, workspaceName: string, request: Models.ReplaceAllIpFirewallRulesRequest, options?: msRest.RequestOptionsBase): Promise<Models.IpFirewallRulesReplaceAllResponse> {
-    return this.beginReplaceAll(resourceGroupName,workspaceName,request,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IpFirewallRulesReplaceAllResponse>;
+  replaceAll(
+    resourceGroupName: string,
+    workspaceName: string,
+    request: Models.ReplaceAllIpFirewallRulesRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpFirewallRulesReplaceAllResponse> {
+    return this.beginReplaceAll(
+      resourceGroupName,
+      workspaceName,
+      request,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.IpFirewallRulesReplaceAllResponse
+    >;
   }
 
   /**
@@ -144,7 +223,13 @@ export class IpFirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, ruleName: string, ipFirewallRuleInfo: Models.IpFirewallRuleInfo, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    ruleName: string,
+    ipFirewallRuleInfo: Models.IpFirewallRuleInfo,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -154,7 +239,8 @@ export class IpFirewallRules {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -165,7 +251,12 @@ export class IpFirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, workspaceName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -174,7 +265,8 @@ export class IpFirewallRules {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -185,7 +277,12 @@ export class IpFirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginReplaceAll(resourceGroupName: string, workspaceName: string, request: Models.ReplaceAllIpFirewallRulesRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginReplaceAll(
+    resourceGroupName: string,
+    workspaceName: string,
+    request: Models.ReplaceAllIpFirewallRulesRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -194,7 +291,8 @@ export class IpFirewallRules {
         options
       },
       beginReplaceAllOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -203,26 +301,43 @@ export class IpFirewallRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpFirewallRulesListByWorkspaceNextResponse>
    */
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IpFirewallRulesListByWorkspaceNextResponse>;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpFirewallRulesListByWorkspaceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>, callback?: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>): Promise<Models.IpFirewallRulesListByWorkspaceNextResponse> {
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>
+  ): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>,
+    callback?: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>
+  ): Promise<Models.IpFirewallRulesListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByWorkspaceNextOperationSpec,
-      callback) as Promise<Models.IpFirewallRulesListByWorkspaceNextResponse>;
+      callback
+    ) as Promise<Models.IpFirewallRulesListByWorkspaceNextResponse>;
   }
 }
 
@@ -230,18 +345,15 @@ export class IpFirewallRules {
 const serializer = new msRest.Serializer(Mappers);
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpFirewallRuleInfoListResult
@@ -255,19 +367,16 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.ruleName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpFirewallRuleInfo
@@ -281,19 +390,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.ruleName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "ipFirewallRuleInfo",
     mapper: {
@@ -317,19 +423,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.ruleName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -350,18 +453,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginReplaceAllOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/replaceAllIpFirewallRules",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/replaceAllIpFirewallRules",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {
@@ -385,12 +485,8 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpFirewallRuleInfoListResult

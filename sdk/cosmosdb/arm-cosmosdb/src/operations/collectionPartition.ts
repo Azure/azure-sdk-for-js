@@ -39,7 +39,14 @@ export class CollectionPartition {
    * @param [options] The optional parameters
    * @returns Promise<Models.CollectionPartitionListMetricsResponse>
    */
-  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.CollectionPartitionListMetricsResponse>;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    collectionRid: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CollectionPartitionListMetricsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -50,7 +57,14 @@ export class CollectionPartition {
    * names), startTime, endTime, and timeGrain. The supported operator is eq.
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, filter: string, callback: msRest.ServiceCallback<Models.PartitionMetricListResult>): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    collectionRid: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.PartitionMetricListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -62,8 +76,24 @@ export class CollectionPartition {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PartitionMetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartitionMetricListResult>, callback?: msRest.ServiceCallback<Models.PartitionMetricListResult>): Promise<Models.CollectionPartitionListMetricsResponse> {
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    collectionRid: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PartitionMetricListResult>
+  ): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    collectionRid: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartitionMetricListResult>,
+    callback?: msRest.ServiceCallback<Models.PartitionMetricListResult>
+  ): Promise<Models.CollectionPartitionListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +104,8 @@ export class CollectionPartition {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.CollectionPartitionListMetricsResponse>;
+      callback
+    ) as Promise<Models.CollectionPartitionListMetricsResponse>;
   }
 
   /**
@@ -86,7 +117,13 @@ export class CollectionPartition {
    * @param [options] The optional parameters
    * @returns Promise<Models.CollectionPartitionListUsagesResponse>
    */
-  listUsages(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, options?: Models.CollectionPartitionListUsagesOptionalParams): Promise<Models.CollectionPartitionListUsagesResponse>;
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    collectionRid: string,
+    options?: Models.CollectionPartitionListUsagesOptionalParams
+  ): Promise<Models.CollectionPartitionListUsagesResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -94,7 +131,13 @@ export class CollectionPartition {
    * @param collectionRid Cosmos DB collection rid.
    * @param callback The callback
    */
-  listUsages(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, callback: msRest.ServiceCallback<Models.PartitionUsagesResult>): void;
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    collectionRid: string,
+    callback: msRest.ServiceCallback<Models.PartitionUsagesResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -103,8 +146,24 @@ export class CollectionPartition {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUsages(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, options: Models.CollectionPartitionListUsagesOptionalParams, callback: msRest.ServiceCallback<Models.PartitionUsagesResult>): void;
-  listUsages(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, options?: Models.CollectionPartitionListUsagesOptionalParams | msRest.ServiceCallback<Models.PartitionUsagesResult>, callback?: msRest.ServiceCallback<Models.PartitionUsagesResult>): Promise<Models.CollectionPartitionListUsagesResponse> {
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    collectionRid: string,
+    options: Models.CollectionPartitionListUsagesOptionalParams,
+    callback: msRest.ServiceCallback<Models.PartitionUsagesResult>
+  ): void;
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    collectionRid: string,
+    options?:
+      | Models.CollectionPartitionListUsagesOptionalParams
+      | msRest.ServiceCallback<Models.PartitionUsagesResult>,
+    callback?: msRest.ServiceCallback<Models.PartitionUsagesResult>
+  ): Promise<Models.CollectionPartitionListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +173,8 @@ export class CollectionPartition {
         options
       },
       listUsagesOperationSpec,
-      callback) as Promise<Models.CollectionPartitionListUsagesResponse>;
+      callback
+    ) as Promise<Models.CollectionPartitionListUsagesResponse>;
   }
 }
 
@@ -122,7 +182,8 @@ export class CollectionPartition {
 const serializer = new msRest.Serializer(Mappers);
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -130,13 +191,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.databaseRid,
     Parameters.collectionRid
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PartitionMetricListResult
@@ -150,7 +206,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
 
 const listUsagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/usages",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/usages",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -158,13 +215,8 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
     Parameters.databaseRid,
     Parameters.collectionRid
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PartitionUsagesResult

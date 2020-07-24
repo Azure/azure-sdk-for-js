@@ -41,14 +41,21 @@ export class TopLevelDomains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopLevelDomainCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopLevelDomainCollection>, callback?: msRest.ServiceCallback<Models.TopLevelDomainCollection>): Promise<Models.TopLevelDomainsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopLevelDomainCollection>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopLevelDomainCollection>,
+    callback?: msRest.ServiceCallback<Models.TopLevelDomainCollection>
+  ): Promise<Models.TopLevelDomainsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.TopLevelDomainsListResponse>;
+      callback
+    ) as Promise<Models.TopLevelDomainsListResponse>;
   }
 
   /**
@@ -58,7 +65,10 @@ export class TopLevelDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopLevelDomainsGetResponse>
    */
-  get(name: string, options?: msRest.RequestOptionsBase): Promise<Models.TopLevelDomainsGetResponse>;
+  get(
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopLevelDomainsGetResponse>;
   /**
    * @param name Name of the top-level domain.
    * @param callback The callback
@@ -69,15 +79,24 @@ export class TopLevelDomains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopLevelDomain>): void;
-  get(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopLevelDomain>, callback?: msRest.ServiceCallback<Models.TopLevelDomain>): Promise<Models.TopLevelDomainsGetResponse> {
+  get(
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopLevelDomain>
+  ): void;
+  get(
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopLevelDomain>,
+    callback?: msRest.ServiceCallback<Models.TopLevelDomain>
+  ): Promise<Models.TopLevelDomainsGetResponse> {
     return this.client.sendOperationRequest(
       {
         name,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TopLevelDomainsGetResponse>;
+      callback
+    ) as Promise<Models.TopLevelDomainsGetResponse>;
   }
 
   /**
@@ -88,21 +107,41 @@ export class TopLevelDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopLevelDomainsListAgreementsResponse>
    */
-  listAgreements(name: string, agreementOption: Models.TopLevelDomainAgreementOption, options?: msRest.RequestOptionsBase): Promise<Models.TopLevelDomainsListAgreementsResponse>;
+  listAgreements(
+    name: string,
+    agreementOption: Models.TopLevelDomainAgreementOption,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopLevelDomainsListAgreementsResponse>;
   /**
    * @param name Name of the top-level domain.
    * @param agreementOption Domain agreement options.
    * @param callback The callback
    */
-  listAgreements(name: string, agreementOption: Models.TopLevelDomainAgreementOption, callback: msRest.ServiceCallback<Models.TldLegalAgreementCollection>): void;
+  listAgreements(
+    name: string,
+    agreementOption: Models.TopLevelDomainAgreementOption,
+    callback: msRest.ServiceCallback<Models.TldLegalAgreementCollection>
+  ): void;
   /**
    * @param name Name of the top-level domain.
    * @param agreementOption Domain agreement options.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAgreements(name: string, agreementOption: Models.TopLevelDomainAgreementOption, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TldLegalAgreementCollection>): void;
-  listAgreements(name: string, agreementOption: Models.TopLevelDomainAgreementOption, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TldLegalAgreementCollection>, callback?: msRest.ServiceCallback<Models.TldLegalAgreementCollection>): Promise<Models.TopLevelDomainsListAgreementsResponse> {
+  listAgreements(
+    name: string,
+    agreementOption: Models.TopLevelDomainAgreementOption,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TldLegalAgreementCollection>
+  ): void;
+  listAgreements(
+    name: string,
+    agreementOption: Models.TopLevelDomainAgreementOption,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.TldLegalAgreementCollection>,
+    callback?: msRest.ServiceCallback<Models.TldLegalAgreementCollection>
+  ): Promise<Models.TopLevelDomainsListAgreementsResponse> {
     return this.client.sendOperationRequest(
       {
         name,
@@ -110,7 +149,8 @@ export class TopLevelDomains {
         options
       },
       listAgreementsOperationSpec,
-      callback) as Promise<Models.TopLevelDomainsListAgreementsResponse>;
+      callback
+    ) as Promise<Models.TopLevelDomainsListAgreementsResponse>;
   }
 
   /**
@@ -120,26 +160,41 @@ export class TopLevelDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopLevelDomainsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TopLevelDomainsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopLevelDomainsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TopLevelDomainCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.TopLevelDomainCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopLevelDomainCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopLevelDomainCollection>, callback?: msRest.ServiceCallback<Models.TopLevelDomainCollection>): Promise<Models.TopLevelDomainsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopLevelDomainCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopLevelDomainCollection>,
+    callback?: msRest.ServiceCallback<Models.TopLevelDomainCollection>
+  ): Promise<Models.TopLevelDomainsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.TopLevelDomainsListNextResponse>;
+      callback
+    ) as Promise<Models.TopLevelDomainsListNextResponse>;
   }
 
   /**
@@ -149,26 +204,43 @@ export class TopLevelDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopLevelDomainsListAgreementsNextResponse>
    */
-  listAgreementsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TopLevelDomainsListAgreementsNextResponse>;
+  listAgreementsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopLevelDomainsListAgreementsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAgreementsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TldLegalAgreementCollection>): void;
+  listAgreementsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.TldLegalAgreementCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAgreementsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TldLegalAgreementCollection>): void;
-  listAgreementsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TldLegalAgreementCollection>, callback?: msRest.ServiceCallback<Models.TldLegalAgreementCollection>): Promise<Models.TopLevelDomainsListAgreementsNextResponse> {
+  listAgreementsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TldLegalAgreementCollection>
+  ): void;
+  listAgreementsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.TldLegalAgreementCollection>,
+    callback?: msRest.ServiceCallback<Models.TldLegalAgreementCollection>
+  ): Promise<Models.TopLevelDomainsListAgreementsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAgreementsNextOperationSpec,
-      callback) as Promise<Models.TopLevelDomainsListAgreementsNextResponse>;
+      callback
+    ) as Promise<Models.TopLevelDomainsListAgreementsNextResponse>;
   }
 }
 
@@ -177,15 +249,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopLevelDomainCollection
@@ -199,17 +265,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}",
-  urlParameters: [
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}",
+  urlParameters: [Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopLevelDomain
@@ -223,17 +283,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listAgreementsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}/listAgreements",
-  urlParameters: [
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}/listAgreements",
+  urlParameters: [Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "agreementOption",
     mapper: {
@@ -256,12 +310,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopLevelDomainCollection
@@ -277,12 +327,8 @@ const listAgreementsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TldLegalAgreementCollection

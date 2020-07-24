@@ -7,7 +7,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as msRest from "@azure/ms-rest-js";
 
 /**
@@ -1236,8 +1235,7 @@ export interface PrebuiltEntityExtractor {
 /**
  * A Hierarchical Child Entity.
  */
-export interface HierarchicalChildEntity extends ChildEntity {
-}
+export interface HierarchicalChildEntity extends ChildEntity {}
 
 /**
  * A Custom Prebuilt model.
@@ -1546,8 +1544,7 @@ export interface EndpointInfo {
 /**
  * An interface representing ProductionOrStagingEndpointInfo.
  */
-export interface ProductionOrStagingEndpointInfo extends EndpointInfo {
-}
+export interface ProductionOrStagingEndpointInfo extends EndpointInfo {}
 
 /**
  * Available culture for using in a new application.
@@ -2465,7 +2462,7 @@ export interface AzureAccountsListUserLUISAccountsOptionalParams extends msRest.
  * @readonly
  * @enum {string}
  */
-export type TrainingStatus = 'NeedsTraining' | 'InProgress' | 'Trained';
+export type TrainingStatus = "NeedsTraining" | "InProgress" | "Trained";
 
 /**
  * Defines values for OperationStatusType.
@@ -2473,7 +2470,7 @@ export type TrainingStatus = 'NeedsTraining' | 'InProgress' | 'Trained';
  * @readonly
  * @enum {string}
  */
-export type OperationStatusType = 'Failed' | 'FAILED' | 'Success';
+export type OperationStatusType = "Failed" | "FAILED" | "Success";
 
 /**
  * Defines values for ReadableType.
@@ -2484,7 +2481,18 @@ export type OperationStatusType = 'Failed' | 'FAILED' | 'Success';
  * @readonly
  * @enum {string}
  */
-export type ReadableType = 'Entity Extractor' | 'Child Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType =
+  | "Entity Extractor"
+  | "Child Entity Extractor"
+  | "Hierarchical Entity Extractor"
+  | "Hierarchical Child Entity Extractor"
+  | "Composite Entity Extractor"
+  | "List Entity Extractor"
+  | "Prebuilt Entity Extractor"
+  | "Intent Classifier"
+  | "Pattern.Any Entity Extractor"
+  | "Closed List Entity Extractor"
+  | "Regex Entity Extractor";
 
 /**
  * Defines values for ReadableType1.
@@ -2495,7 +2503,18 @@ export type ReadableType = 'Entity Extractor' | 'Child Entity Extractor' | 'Hier
  * @readonly
  * @enum {string}
  */
-export type ReadableType1 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType1 =
+  | "Entity Extractor"
+  | "Child Entity Extractor"
+  | "Hierarchical Entity Extractor"
+  | "Hierarchical Child Entity Extractor"
+  | "Composite Entity Extractor"
+  | "List Entity Extractor"
+  | "Prebuilt Entity Extractor"
+  | "Intent Classifier"
+  | "Pattern.Any Entity Extractor"
+  | "Closed List Entity Extractor"
+  | "Regex Entity Extractor";
 
 /**
  * Defines values for ReadableType2.
@@ -2506,7 +2525,18 @@ export type ReadableType1 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hie
  * @readonly
  * @enum {string}
  */
-export type ReadableType2 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType2 =
+  | "Entity Extractor"
+  | "Child Entity Extractor"
+  | "Hierarchical Entity Extractor"
+  | "Hierarchical Child Entity Extractor"
+  | "Composite Entity Extractor"
+  | "List Entity Extractor"
+  | "Prebuilt Entity Extractor"
+  | "Intent Classifier"
+  | "Pattern.Any Entity Extractor"
+  | "Closed List Entity Extractor"
+  | "Regex Entity Extractor";
 
 /**
  * Defines values for ReadableType3.
@@ -2517,7 +2547,18 @@ export type ReadableType2 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hie
  * @readonly
  * @enum {string}
  */
-export type ReadableType3 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType3 =
+  | "Entity Extractor"
+  | "Child Entity Extractor"
+  | "Hierarchical Entity Extractor"
+  | "Hierarchical Child Entity Extractor"
+  | "Composite Entity Extractor"
+  | "List Entity Extractor"
+  | "Prebuilt Entity Extractor"
+  | "Intent Classifier"
+  | "Pattern.Any Entity Extractor"
+  | "Closed List Entity Extractor"
+  | "Regex Entity Extractor";
 
 /**
  * Defines values for ReadableType4.
@@ -2528,7 +2569,18 @@ export type ReadableType3 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hie
  * @readonly
  * @enum {string}
  */
-export type ReadableType4 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType4 =
+  | "Entity Extractor"
+  | "Child Entity Extractor"
+  | "Hierarchical Entity Extractor"
+  | "Hierarchical Child Entity Extractor"
+  | "Composite Entity Extractor"
+  | "List Entity Extractor"
+  | "Prebuilt Entity Extractor"
+  | "Intent Classifier"
+  | "Pattern.Any Entity Extractor"
+  | "Closed List Entity Extractor"
+  | "Regex Entity Extractor";
 
 /**
  * Defines values for ReadableType5.
@@ -2539,7 +2591,18 @@ export type ReadableType4 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hie
  * @readonly
  * @enum {string}
  */
-export type ReadableType5 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType5 =
+  | "Entity Extractor"
+  | "Child Entity Extractor"
+  | "Hierarchical Entity Extractor"
+  | "Hierarchical Child Entity Extractor"
+  | "Composite Entity Extractor"
+  | "List Entity Extractor"
+  | "Prebuilt Entity Extractor"
+  | "Intent Classifier"
+  | "Pattern.Any Entity Extractor"
+  | "Closed List Entity Extractor"
+  | "Regex Entity Extractor";
 
 /**
  * Defines values for ReadableType6.
@@ -2550,7 +2613,18 @@ export type ReadableType5 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hie
  * @readonly
  * @enum {string}
  */
-export type ReadableType6 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType6 =
+  | "Entity Extractor"
+  | "Child Entity Extractor"
+  | "Hierarchical Entity Extractor"
+  | "Hierarchical Child Entity Extractor"
+  | "Composite Entity Extractor"
+  | "List Entity Extractor"
+  | "Prebuilt Entity Extractor"
+  | "Intent Classifier"
+  | "Pattern.Any Entity Extractor"
+  | "Closed List Entity Extractor"
+  | "Regex Entity Extractor";
 
 /**
  * Defines values for ReadableType7.
@@ -2561,7 +2635,18 @@ export type ReadableType6 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hie
  * @readonly
  * @enum {string}
  */
-export type ReadableType7 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType7 =
+  | "Entity Extractor"
+  | "Child Entity Extractor"
+  | "Hierarchical Entity Extractor"
+  | "Hierarchical Child Entity Extractor"
+  | "Composite Entity Extractor"
+  | "List Entity Extractor"
+  | "Prebuilt Entity Extractor"
+  | "Intent Classifier"
+  | "Pattern.Any Entity Extractor"
+  | "Closed List Entity Extractor"
+  | "Regex Entity Extractor";
 
 /**
  * Defines values for ReadableType8.
@@ -2572,7 +2657,18 @@ export type ReadableType7 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hie
  * @readonly
  * @enum {string}
  */
-export type ReadableType8 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType8 =
+  | "Entity Extractor"
+  | "Child Entity Extractor"
+  | "Hierarchical Entity Extractor"
+  | "Hierarchical Child Entity Extractor"
+  | "Composite Entity Extractor"
+  | "List Entity Extractor"
+  | "Prebuilt Entity Extractor"
+  | "Intent Classifier"
+  | "Pattern.Any Entity Extractor"
+  | "Closed List Entity Extractor"
+  | "Regex Entity Extractor";
 
 /**
  * Defines values for ReadableType9.
@@ -2583,7 +2679,18 @@ export type ReadableType8 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hie
  * @readonly
  * @enum {string}
  */
-export type ReadableType9 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType9 =
+  | "Entity Extractor"
+  | "Child Entity Extractor"
+  | "Hierarchical Entity Extractor"
+  | "Hierarchical Child Entity Extractor"
+  | "Composite Entity Extractor"
+  | "List Entity Extractor"
+  | "Prebuilt Entity Extractor"
+  | "Intent Classifier"
+  | "Pattern.Any Entity Extractor"
+  | "Closed List Entity Extractor"
+  | "Regex Entity Extractor";
 
 /**
  * Defines values for Status.
@@ -2591,7 +2698,7 @@ export type ReadableType9 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hie
  * @readonly
  * @enum {string}
  */
-export type Status = 'Queued' | 'InProgress' | 'UpToDate' | 'Fail' | 'Success';
+export type Status = "Queued" | "InProgress" | "UpToDate" | "Fail" | "Success";
 
 /**
  * Defines values for Status1.
@@ -2599,7 +2706,7 @@ export type Status = 'Queued' | 'InProgress' | 'UpToDate' | 'Fail' | 'Success';
  * @readonly
  * @enum {string}
  */
-export type Status1 = 'Queued' | 'InProgress' | 'UpToDate' | 'Fail' | 'Success';
+export type Status1 = "Queued" | "InProgress" | "UpToDate" | "Fail" | "Success";
 
 /**
  * Defines values for ReadableType10.
@@ -2610,7 +2717,18 @@ export type Status1 = 'Queued' | 'InProgress' | 'UpToDate' | 'Fail' | 'Success';
  * @readonly
  * @enum {string}
  */
-export type ReadableType10 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType10 =
+  | "Entity Extractor"
+  | "Child Entity Extractor"
+  | "Hierarchical Entity Extractor"
+  | "Hierarchical Child Entity Extractor"
+  | "Composite Entity Extractor"
+  | "List Entity Extractor"
+  | "Prebuilt Entity Extractor"
+  | "Intent Classifier"
+  | "Pattern.Any Entity Extractor"
+  | "Closed List Entity Extractor"
+  | "Regex Entity Extractor";
 
 /**
  * Defines values for ReadableType11.
@@ -2621,7 +2739,18 @@ export type ReadableType10 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hi
  * @readonly
  * @enum {string}
  */
-export type ReadableType11 = 'Entity Extractor' | 'Child Entity Extractor' | 'Hierarchical Entity Extractor' | 'Hierarchical Child Entity Extractor' | 'Composite Entity Extractor' | 'List Entity Extractor' | 'Prebuilt Entity Extractor' | 'Intent Classifier' | 'Pattern.Any Entity Extractor' | 'Closed List Entity Extractor' | 'Regex Entity Extractor';
+export type ReadableType11 =
+  | "Entity Extractor"
+  | "Child Entity Extractor"
+  | "Hierarchical Entity Extractor"
+  | "Hierarchical Child Entity Extractor"
+  | "Composite Entity Extractor"
+  | "List Entity Extractor"
+  | "Prebuilt Entity Extractor"
+  | "Intent Classifier"
+  | "Pattern.Any Entity Extractor"
+  | "Closed List Entity Extractor"
+  | "Regex Entity Extractor";
 
 /**
  * Contains response data for the addPhraseList operation.
@@ -2636,16 +2765,16 @@ export type FeaturesAddPhraseListResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: number;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: number;
+  };
 };
 
 /**
@@ -2656,16 +2785,16 @@ export type FeaturesListPhraseListsResponse = Array<PhraseListFeatureInfo> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PhraseListFeatureInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PhraseListFeatureInfo[];
+  };
 };
 
 /**
@@ -2676,16 +2805,16 @@ export type FeaturesListResponse = FeaturesResponseObject & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FeaturesResponseObject;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FeaturesResponseObject;
+  };
 };
 
 /**
@@ -2696,16 +2825,16 @@ export type FeaturesGetPhraseListResponse = PhraseListFeatureInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PhraseListFeatureInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PhraseListFeatureInfo;
+  };
 };
 
 /**
@@ -2716,16 +2845,16 @@ export type FeaturesUpdatePhraseListResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -2736,16 +2865,16 @@ export type FeaturesDeletePhraseListResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -2756,16 +2885,16 @@ export type FeaturesAddIntentFeatureResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -2776,16 +2905,16 @@ export type FeaturesAddEntityFeatureResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -2796,16 +2925,16 @@ export type ExamplesAddResponse = LabelExampleResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LabelExampleResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LabelExampleResponse;
+  };
 };
 
 /**
@@ -2816,16 +2945,16 @@ export type ExamplesBatchResponse = Array<BatchLabelExample> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchLabelExample[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchLabelExample[];
+  };
 };
 
 /**
@@ -2836,16 +2965,16 @@ export type ExamplesListResponse = Array<LabeledUtterance> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LabeledUtterance[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LabeledUtterance[];
+  };
 };
 
 /**
@@ -2856,16 +2985,16 @@ export type ExamplesDeleteMethodResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -2881,16 +3010,16 @@ export type ModelAddIntentResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -2901,16 +3030,16 @@ export type ModelListIntentsResponse = Array<IntentClassifier> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntentClassifier[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntentClassifier[];
+  };
 };
 
 /**
@@ -2926,16 +3055,16 @@ export type ModelAddEntityResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -2946,16 +3075,16 @@ export type ModelListEntitiesResponse = Array<NDepthEntityExtractor> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NDepthEntityExtractor[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NDepthEntityExtractor[];
+  };
 };
 
 /**
@@ -2966,16 +3095,16 @@ export type ModelListHierarchicalEntitiesResponse = Array<HierarchicalEntityExtr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HierarchicalEntityExtractor[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HierarchicalEntityExtractor[];
+  };
 };
 
 /**
@@ -2986,16 +3115,16 @@ export type ModelListCompositeEntitiesResponse = Array<CompositeEntityExtractor>
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CompositeEntityExtractor[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CompositeEntityExtractor[];
+  };
 };
 
 /**
@@ -3006,16 +3135,16 @@ export type ModelListClosedListsResponse = Array<ClosedListEntityExtractor> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClosedListEntityExtractor[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClosedListEntityExtractor[];
+  };
 };
 
 /**
@@ -3031,16 +3160,16 @@ export type ModelAddClosedListResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -3051,16 +3180,16 @@ export type ModelAddPrebuiltResponse = Array<PrebuiltEntityExtractor> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrebuiltEntityExtractor[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrebuiltEntityExtractor[];
+  };
 };
 
 /**
@@ -3071,16 +3200,16 @@ export type ModelListPrebuiltsResponse = Array<PrebuiltEntityExtractor> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrebuiltEntityExtractor[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrebuiltEntityExtractor[];
+  };
 };
 
 /**
@@ -3091,16 +3220,16 @@ export type ModelListPrebuiltEntitiesResponse = Array<AvailablePrebuiltEntityMod
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailablePrebuiltEntityModel[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailablePrebuiltEntityModel[];
+  };
 };
 
 /**
@@ -3111,16 +3240,16 @@ export type ModelListModelsResponse = Array<ModelInfoResponse> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ModelInfoResponse[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ModelInfoResponse[];
+  };
 };
 
 /**
@@ -3131,16 +3260,16 @@ export type ModelExamplesMethodResponse = Array<LabelTextObject> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LabelTextObject[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LabelTextObject[];
+  };
 };
 
 /**
@@ -3151,16 +3280,16 @@ export type ModelGetIntentResponse = IntentClassifier & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntentClassifier;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntentClassifier;
+  };
 };
 
 /**
@@ -3171,16 +3300,16 @@ export type ModelUpdateIntentResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3191,16 +3320,16 @@ export type ModelDeleteIntentResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3211,16 +3340,16 @@ export type ModelGetEntityResponse = NDepthEntityExtractor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NDepthEntityExtractor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NDepthEntityExtractor;
+  };
 };
 
 /**
@@ -3231,16 +3360,16 @@ export type ModelDeleteEntityResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3251,16 +3380,16 @@ export type ModelUpdateEntityChildResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3271,16 +3400,16 @@ export type ModelGetIntentFeaturesResponse = Array<ModelFeatureInformation> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ModelFeatureInformation[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ModelFeatureInformation[];
+  };
 };
 
 /**
@@ -3291,16 +3420,16 @@ export type ModelReplaceIntentFeaturesResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3311,16 +3440,16 @@ export type ModelDeleteIntentFeatureResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3331,16 +3460,16 @@ export type ModelGetEntityFeaturesResponse = Array<ModelFeatureInformation> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ModelFeatureInformation[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ModelFeatureInformation[];
+  };
 };
 
 /**
@@ -3351,16 +3480,16 @@ export type ModelReplaceEntityFeaturesResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3371,16 +3500,16 @@ export type ModelDeleteEntityFeatureResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3391,16 +3520,16 @@ export type ModelGetHierarchicalEntityResponse = HierarchicalEntityExtractor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HierarchicalEntityExtractor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HierarchicalEntityExtractor;
+  };
 };
 
 /**
@@ -3411,16 +3540,16 @@ export type ModelUpdateHierarchicalEntityResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3431,16 +3560,16 @@ export type ModelDeleteHierarchicalEntityResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3451,16 +3580,16 @@ export type ModelGetCompositeEntityResponse = CompositeEntityExtractor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CompositeEntityExtractor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CompositeEntityExtractor;
+  };
 };
 
 /**
@@ -3471,16 +3600,16 @@ export type ModelUpdateCompositeEntityResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3491,16 +3620,16 @@ export type ModelDeleteCompositeEntityResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3511,16 +3640,16 @@ export type ModelGetClosedListResponse = ClosedListEntityExtractor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClosedListEntityExtractor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClosedListEntityExtractor;
+  };
 };
 
 /**
@@ -3531,16 +3660,16 @@ export type ModelUpdateClosedListResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3551,16 +3680,16 @@ export type ModelPatchClosedListResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3571,16 +3700,16 @@ export type ModelDeleteClosedListResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3591,16 +3720,16 @@ export type ModelGetPrebuiltResponse = PrebuiltEntityExtractor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrebuiltEntityExtractor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrebuiltEntityExtractor;
+  };
 };
 
 /**
@@ -3611,16 +3740,16 @@ export type ModelDeletePrebuiltResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3631,16 +3760,16 @@ export type ModelDeleteSubListResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3651,16 +3780,16 @@ export type ModelUpdateSubListResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3671,16 +3800,16 @@ export type ModelListIntentSuggestionsResponse = Array<IntentsSuggestionExample>
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntentsSuggestionExample[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntentsSuggestionExample[];
+  };
 };
 
 /**
@@ -3691,16 +3820,16 @@ export type ModelListEntitySuggestionsResponse = Array<EntitiesSuggestionExample
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntitiesSuggestionExample[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntitiesSuggestionExample[];
+  };
 };
 
 /**
@@ -3716,16 +3845,16 @@ export type ModelAddSubListResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: number;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: number;
+  };
 };
 
 /**
@@ -3736,16 +3865,16 @@ export type ModelAddCustomPrebuiltDomainResponse = Array<string> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string[];
+  };
 };
 
 /**
@@ -3761,16 +3890,16 @@ export type ModelAddCustomPrebuiltIntentResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -3781,16 +3910,16 @@ export type ModelListCustomPrebuiltIntentsResponse = Array<IntentClassifier> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntentClassifier[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntentClassifier[];
+  };
 };
 
 /**
@@ -3806,16 +3935,16 @@ export type ModelAddCustomPrebuiltEntityResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -3826,16 +3955,16 @@ export type ModelListCustomPrebuiltEntitiesResponse = Array<EntityExtractor> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityExtractor[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityExtractor[];
+  };
 };
 
 /**
@@ -3846,16 +3975,16 @@ export type ModelListCustomPrebuiltModelsResponse = Array<CustomPrebuiltModel> &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomPrebuiltModel[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CustomPrebuiltModel[];
+  };
 };
 
 /**
@@ -3866,16 +3995,16 @@ export type ModelDeleteCustomPrebuiltDomainResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3891,16 +4020,16 @@ export type ModelAddEntityChildResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -3911,16 +4040,16 @@ export type ModelGetHierarchicalEntityChildResponse = HierarchicalChildEntity & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HierarchicalChildEntity;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HierarchicalChildEntity;
+  };
 };
 
 /**
@@ -3931,16 +4060,16 @@ export type ModelUpdateHierarchicalEntityChildResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3951,16 +4080,16 @@ export type ModelDeleteHierarchicalEntityChildResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -3976,16 +4105,16 @@ export type ModelAddCompositeEntityChildResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -3996,16 +4125,16 @@ export type ModelDeleteCompositeEntityChildResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4016,16 +4145,16 @@ export type ModelListRegexEntityInfosResponse = Array<RegexEntityExtractor> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegexEntityExtractor[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegexEntityExtractor[];
+  };
 };
 
 /**
@@ -4041,16 +4170,16 @@ export type ModelCreateRegexEntityModelResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -4061,16 +4190,16 @@ export type ModelListPatternAnyEntityInfosResponse = Array<PatternAnyEntityExtra
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PatternAnyEntityExtractor[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PatternAnyEntityExtractor[];
+  };
 };
 
 /**
@@ -4086,16 +4215,16 @@ export type ModelCreatePatternAnyEntityModelResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -4106,16 +4235,16 @@ export type ModelListEntityRolesResponse = Array<EntityRole> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole[];
+  };
 };
 
 /**
@@ -4131,16 +4260,16 @@ export type ModelCreateEntityRoleResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -4151,16 +4280,16 @@ export type ModelListPrebuiltEntityRolesResponse = Array<EntityRole> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole[];
+  };
 };
 
 /**
@@ -4176,16 +4305,16 @@ export type ModelCreatePrebuiltEntityRoleResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -4196,16 +4325,16 @@ export type ModelListClosedListEntityRolesResponse = Array<EntityRole> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole[];
+  };
 };
 
 /**
@@ -4221,16 +4350,16 @@ export type ModelCreateClosedListEntityRoleResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -4241,16 +4370,16 @@ export type ModelListRegexEntityRolesResponse = Array<EntityRole> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole[];
+  };
 };
 
 /**
@@ -4266,16 +4395,16 @@ export type ModelCreateRegexEntityRoleResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -4286,16 +4415,16 @@ export type ModelListCompositeEntityRolesResponse = Array<EntityRole> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole[];
+  };
 };
 
 /**
@@ -4311,16 +4440,16 @@ export type ModelCreateCompositeEntityRoleResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -4331,16 +4460,16 @@ export type ModelListPatternAnyEntityRolesResponse = Array<EntityRole> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole[];
+  };
 };
 
 /**
@@ -4356,16 +4485,16 @@ export type ModelCreatePatternAnyEntityRoleResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -4376,16 +4505,16 @@ export type ModelListHierarchicalEntityRolesResponse = Array<EntityRole> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole[];
+  };
 };
 
 /**
@@ -4401,16 +4530,16 @@ export type ModelCreateHierarchicalEntityRoleResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -4421,16 +4550,16 @@ export type ModelListCustomPrebuiltEntityRolesResponse = Array<EntityRole> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole[];
+  };
 };
 
 /**
@@ -4446,16 +4575,16 @@ export type ModelCreateCustomPrebuiltEntityRoleResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -4466,16 +4595,16 @@ export type ModelGetExplicitListResponse = Array<ExplicitListItem> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExplicitListItem[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExplicitListItem[];
+  };
 };
 
 /**
@@ -4491,16 +4620,16 @@ export type ModelAddExplicitListItemResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: number;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: number;
+  };
 };
 
 /**
@@ -4511,16 +4640,16 @@ export type ModelGetRegexEntityEntityInfoResponse = RegexEntityExtractor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegexEntityExtractor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegexEntityExtractor;
+  };
 };
 
 /**
@@ -4531,16 +4660,16 @@ export type ModelUpdateRegexEntityModelResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4551,16 +4680,16 @@ export type ModelDeleteRegexEntityModelResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4571,16 +4700,16 @@ export type ModelGetPatternAnyEntityInfoResponse = PatternAnyEntityExtractor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PatternAnyEntityExtractor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PatternAnyEntityExtractor;
+  };
 };
 
 /**
@@ -4591,16 +4720,16 @@ export type ModelUpdatePatternAnyEntityModelResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4611,16 +4740,16 @@ export type ModelDeletePatternAnyEntityModelResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4631,16 +4760,16 @@ export type ModelGetEntityRoleResponse = EntityRole & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole;
+  };
 };
 
 /**
@@ -4651,16 +4780,16 @@ export type ModelUpdateEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4671,16 +4800,16 @@ export type ModelDeleteEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4691,16 +4820,16 @@ export type ModelGetPrebuiltEntityRoleResponse = EntityRole & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole;
+  };
 };
 
 /**
@@ -4711,16 +4840,16 @@ export type ModelUpdatePrebuiltEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4731,16 +4860,16 @@ export type ModelDeletePrebuiltEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4751,16 +4880,16 @@ export type ModelGetClosedListEntityRoleResponse = EntityRole & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole;
+  };
 };
 
 /**
@@ -4771,16 +4900,16 @@ export type ModelUpdateClosedListEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4791,16 +4920,16 @@ export type ModelDeleteClosedListEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4811,16 +4940,16 @@ export type ModelGetRegexEntityRoleResponse = EntityRole & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole;
+  };
 };
 
 /**
@@ -4831,16 +4960,16 @@ export type ModelUpdateRegexEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4851,16 +4980,16 @@ export type ModelDeleteRegexEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4871,16 +5000,16 @@ export type ModelGetCompositeEntityRoleResponse = EntityRole & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole;
+  };
 };
 
 /**
@@ -4891,16 +5020,16 @@ export type ModelUpdateCompositeEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4911,16 +5040,16 @@ export type ModelDeleteCompositeEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4931,16 +5060,16 @@ export type ModelGetPatternAnyEntityRoleResponse = EntityRole & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole;
+  };
 };
 
 /**
@@ -4951,16 +5080,16 @@ export type ModelUpdatePatternAnyEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4971,16 +5100,16 @@ export type ModelDeletePatternAnyEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -4991,16 +5120,16 @@ export type ModelGetHierarchicalEntityRoleResponse = EntityRole & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole;
+  };
 };
 
 /**
@@ -5011,16 +5140,16 @@ export type ModelUpdateHierarchicalEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5031,16 +5160,16 @@ export type ModelDeleteHierarchicalEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5051,16 +5180,16 @@ export type ModelGetCustomEntityRoleResponse = EntityRole & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityRole;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityRole;
+  };
 };
 
 /**
@@ -5071,16 +5200,16 @@ export type ModelUpdateCustomPrebuiltEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5091,16 +5220,16 @@ export type ModelDeleteCustomEntityRoleResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5111,16 +5240,16 @@ export type ModelGetExplicitListItemResponse = ExplicitListItem & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExplicitListItem;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExplicitListItem;
+  };
 };
 
 /**
@@ -5131,16 +5260,16 @@ export type ModelUpdateExplicitListItemResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5151,16 +5280,16 @@ export type ModelDeleteExplicitListItemResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5176,16 +5305,16 @@ export type AppsAddResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -5196,16 +5325,16 @@ export type AppsListResponse = Array<ApplicationInfoResponse> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInfoResponse[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInfoResponse[];
+  };
 };
 
 /**
@@ -5221,16 +5350,16 @@ export type AppsImportMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -5241,16 +5370,16 @@ export type AppsListCortanaEndpointsResponse = PersonalAssistantsResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PersonalAssistantsResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PersonalAssistantsResponse;
+  };
 };
 
 /**
@@ -5261,16 +5390,16 @@ export type AppsListDomainsResponse = Array<string> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string[];
+  };
 };
 
 /**
@@ -5281,16 +5410,16 @@ export type AppsListUsageScenariosResponse = Array<string> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string[];
+  };
 };
 
 /**
@@ -5301,16 +5430,16 @@ export type AppsListSupportedCulturesResponse = Array<AvailableCulture> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableCulture[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailableCulture[];
+  };
 };
 
 /**
@@ -5347,16 +5476,16 @@ export type AppsGetResponse = ApplicationInfoResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInfoResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInfoResponse;
+  };
 };
 
 /**
@@ -5367,16 +5496,16 @@ export type AppsUpdateResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5387,16 +5516,16 @@ export type AppsDeleteMethodResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5407,16 +5536,16 @@ export type AppsPublishResponse = ProductionOrStagingEndpointInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProductionOrStagingEndpointInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProductionOrStagingEndpointInfo;
+  };
 };
 
 /**
@@ -5427,16 +5556,16 @@ export type AppsGetSettingsResponse = ApplicationSettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationSettings;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationSettings;
+  };
 };
 
 /**
@@ -5447,16 +5576,16 @@ export type AppsUpdateSettingsResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5467,16 +5596,16 @@ export type AppsGetPublishSettingsResponse = PublishSettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublishSettings;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PublishSettings;
+  };
 };
 
 /**
@@ -5487,16 +5616,16 @@ export type AppsUpdatePublishSettingsResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5512,16 +5641,16 @@ export type AppsListEndpointsResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: { [propertyName: string]: string };
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: { [propertyName: string]: string };
+  };
 };
 
 /**
@@ -5532,16 +5661,16 @@ export type AppsListAvailableCustomPrebuiltDomainsResponse = Array<PrebuiltDomai
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrebuiltDomain[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrebuiltDomain[];
+  };
 };
 
 /**
@@ -5557,16 +5686,16 @@ export type AppsAddCustomPrebuiltDomainResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -5577,16 +5706,16 @@ export type AppsListAvailableCustomPrebuiltDomainsForCultureResponse = Array<Pre
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrebuiltDomain[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrebuiltDomain[];
+  };
 };
 
 /**
@@ -5654,16 +5783,16 @@ export type AppsImportV2AppResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -5679,16 +5808,16 @@ export type AppsImportLuFormatResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -5704,16 +5833,16 @@ export type VersionsCloneResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -5724,16 +5853,16 @@ export type VersionsListResponse = Array<VersionInfo> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VersionInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VersionInfo[];
+  };
 };
 
 /**
@@ -5744,16 +5873,16 @@ export type VersionsGetResponse = VersionInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VersionInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VersionInfo;
+  };
 };
 
 /**
@@ -5764,16 +5893,16 @@ export type VersionsUpdateResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5784,16 +5913,16 @@ export type VersionsDeleteMethodResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5804,16 +5933,16 @@ export type VersionsExportMethodResponse = LuisApp & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LuisApp;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LuisApp;
+  };
 };
 
 /**
@@ -5829,16 +5958,16 @@ export type VersionsImportMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -5849,16 +5978,16 @@ export type VersionsDeleteUnlabelledUtteranceResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -5874,16 +6003,16 @@ export type VersionsImportV2AppResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -5899,16 +6028,16 @@ export type VersionsImportLuFormatResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -5945,16 +6074,16 @@ export type TrainTrainVersionResponse = EnqueueTrainingResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnqueueTrainingResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnqueueTrainingResponse;
+  };
 };
 
 /**
@@ -5965,16 +6094,16 @@ export type TrainGetStatusResponse = Array<ModelTrainingInfo> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ModelTrainingInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ModelTrainingInfo[];
+  };
 };
 
 /**
@@ -5985,16 +6114,16 @@ export type PatternAddPatternResponse = PatternRuleInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PatternRuleInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PatternRuleInfo;
+  };
 };
 
 /**
@@ -6005,16 +6134,16 @@ export type PatternListPatternsResponse = Array<PatternRuleInfo> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PatternRuleInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PatternRuleInfo[];
+  };
 };
 
 /**
@@ -6025,16 +6154,16 @@ export type PatternUpdatePatternsResponse = Array<PatternRuleInfo> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PatternRuleInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PatternRuleInfo[];
+  };
 };
 
 /**
@@ -6045,16 +6174,16 @@ export type PatternBatchAddPatternsResponse = Array<PatternRuleInfo> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PatternRuleInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PatternRuleInfo[];
+  };
 };
 
 /**
@@ -6065,16 +6194,16 @@ export type PatternDeletePatternsResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -6085,16 +6214,16 @@ export type PatternUpdatePatternResponse = PatternRuleInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PatternRuleInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PatternRuleInfo;
+  };
 };
 
 /**
@@ -6105,16 +6234,16 @@ export type PatternDeletePatternResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -6125,16 +6254,16 @@ export type PatternListIntentPatternsResponse = Array<PatternRuleInfo> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PatternRuleInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PatternRuleInfo[];
+  };
 };
 
 /**
@@ -6145,16 +6274,16 @@ export type SettingsListResponse = Array<AppVersionSettingObject> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppVersionSettingObject[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AppVersionSettingObject[];
+  };
 };
 
 /**
@@ -6165,16 +6294,16 @@ export type SettingsUpdateResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -6185,16 +6314,16 @@ export type AzureAccountsAssignToAppResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -6205,16 +6334,16 @@ export type AzureAccountsGetAssignedResponse = Array<AzureAccountInfoObject> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AzureAccountInfoObject[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AzureAccountInfoObject[];
+  };
 };
 
 /**
@@ -6225,16 +6354,16 @@ export type AzureAccountsRemoveFromAppResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -6245,14 +6374,14 @@ export type AzureAccountsListUserLUISAccountsResponse = Array<AzureAccountInfoOb
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AzureAccountInfoObject[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AzureAccountInfoObject[];
+  };
 };

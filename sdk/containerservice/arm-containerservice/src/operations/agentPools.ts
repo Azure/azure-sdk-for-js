@@ -36,21 +36,39 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsListResponse>
    */
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsListResponse>;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentPoolsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.AgentPoolListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolListResult>, callback?: msRest.ServiceCallback<Models.AgentPoolListResult>): Promise<Models.AgentPoolsListResponse> {
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgentPoolListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolListResult>,
+    callback?: msRest.ServiceCallback<Models.AgentPoolListResult>
+  ): Promise<Models.AgentPoolsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +76,8 @@ export class AgentPools {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AgentPoolsListResponse>;
+      callback
+    ) as Promise<Models.AgentPoolsListResponse>;
   }
 
   /**
@@ -70,14 +89,24 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentPoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, agentPoolName: string, callback: msRest.ServiceCallback<Models.AgentPool>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    callback: msRest.ServiceCallback<Models.AgentPool>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -85,8 +114,20 @@ export class AgentPools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, agentPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPool>): void;
-  get(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPool>, callback?: msRest.ServiceCallback<Models.AgentPool>): Promise<Models.AgentPoolsGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgentPool>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPool>,
+    callback?: msRest.ServiceCallback<Models.AgentPool>
+  ): Promise<Models.AgentPoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +136,8 @@ export class AgentPools {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AgentPoolsGetResponse>;
+      callback
+    ) as Promise<Models.AgentPoolsGetResponse>;
   }
 
   /**
@@ -108,9 +150,22 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: Models.AgentPool, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,resourceName,agentPoolName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AgentPoolsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    parameters: Models.AgentPool,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentPoolsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      resourceName,
+      agentPoolName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.AgentPoolsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -122,9 +177,18 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,resourceName,agentPoolName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      resourceName,
+      agentPoolName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -137,14 +201,24 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsGetUpgradeProfileResponse>
    */
-  getUpgradeProfile(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsGetUpgradeProfileResponse>;
+  getUpgradeProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentPoolsGetUpgradeProfileResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param callback The callback
    */
-  getUpgradeProfile(resourceGroupName: string, resourceName: string, agentPoolName: string, callback: msRest.ServiceCallback<Models.AgentPoolUpgradeProfile>): void;
+  getUpgradeProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    callback: msRest.ServiceCallback<Models.AgentPoolUpgradeProfile>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -152,8 +226,20 @@ export class AgentPools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUpgradeProfile(resourceGroupName: string, resourceName: string, agentPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolUpgradeProfile>): void;
-  getUpgradeProfile(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolUpgradeProfile>, callback?: msRest.ServiceCallback<Models.AgentPoolUpgradeProfile>): Promise<Models.AgentPoolsGetUpgradeProfileResponse> {
+  getUpgradeProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgentPoolUpgradeProfile>
+  ): void;
+  getUpgradeProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolUpgradeProfile>,
+    callback?: msRest.ServiceCallback<Models.AgentPoolUpgradeProfile>
+  ): Promise<Models.AgentPoolsGetUpgradeProfileResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -162,7 +248,8 @@ export class AgentPools {
         options
       },
       getUpgradeProfileOperationSpec,
-      callback) as Promise<Models.AgentPoolsGetUpgradeProfileResponse>;
+      callback
+    ) as Promise<Models.AgentPoolsGetUpgradeProfileResponse>;
   }
 
   /**
@@ -173,21 +260,39 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse>
    */
-  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse>;
+  getAvailableAgentPoolVersions(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param callback The callback
    */
-  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>): void;
+  getAvailableAgentPoolVersions(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>): void;
-  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolAvailableVersions>, callback?: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>): Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse> {
+  getAvailableAgentPoolVersions(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>
+  ): void;
+  getAvailableAgentPoolVersions(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolAvailableVersions>,
+    callback?: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>
+  ): Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -195,7 +300,8 @@ export class AgentPools {
         options
       },
       getAvailableAgentPoolVersionsOperationSpec,
-      callback) as Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse>;
+      callback
+    ) as Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse>;
   }
 
   /**
@@ -208,7 +314,13 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: Models.AgentPool, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    parameters: Models.AgentPool,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -218,7 +330,8 @@ export class AgentPools {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -230,7 +343,12 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -239,7 +357,8 @@ export class AgentPools {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -250,26 +369,41 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentPoolsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AgentPoolListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolListResult>, callback?: msRest.ServiceCallback<Models.AgentPoolListResult>): Promise<Models.AgentPoolsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgentPoolListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolListResult>,
+    callback?: msRest.ServiceCallback<Models.AgentPoolListResult>
+  ): Promise<Models.AgentPoolsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AgentPoolsListNextResponse>;
+      callback
+    ) as Promise<Models.AgentPoolsListNextResponse>;
   }
 }
 
@@ -277,18 +411,15 @@ export class AgentPools {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgentPoolListResult
@@ -302,19 +433,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1,
     Parameters.agentPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgentPool
@@ -328,19 +456,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeProfiles/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeProfiles/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1,
     Parameters.agentPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgentPoolUpgradeProfile
@@ -354,18 +479,15 @@ const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
 
 const getAvailableAgentPoolVersionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/availableAgentPoolVersions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/availableAgentPoolVersions",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgentPoolAvailableVersions
@@ -379,19 +501,16 @@ const getAvailableAgentPoolVersionsOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1,
     Parameters.agentPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -415,19 +534,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1,
     Parameters.agentPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -442,12 +558,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgentPoolListResult

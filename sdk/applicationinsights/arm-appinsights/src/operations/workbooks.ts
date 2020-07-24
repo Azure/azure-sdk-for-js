@@ -34,14 +34,22 @@ export class Workbooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkbooksListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, category: Models.CategoryType, options?: Models.WorkbooksListByResourceGroupOptionalParams): Promise<Models.WorkbooksListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    category: Models.CategoryType,
+    options?: Models.WorkbooksListByResourceGroupOptionalParams
+  ): Promise<Models.WorkbooksListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param category Category of workbook to return. Possible values include: 'workbook', 'TSG',
    * 'performance', 'retention'
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, category: Models.CategoryType, callback: msRest.ServiceCallback<Models.WorkbooksListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    category: Models.CategoryType,
+    callback: msRest.ServiceCallback<Models.WorkbooksListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param category Category of workbook to return. Possible values include: 'workbook', 'TSG',
@@ -49,8 +57,20 @@ export class Workbooks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, category: Models.CategoryType, options: Models.WorkbooksListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.WorkbooksListResult>): void;
-  listByResourceGroup(resourceGroupName: string, category: Models.CategoryType, options?: Models.WorkbooksListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.WorkbooksListResult>, callback?: msRest.ServiceCallback<Models.WorkbooksListResult>): Promise<Models.WorkbooksListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    category: Models.CategoryType,
+    options: Models.WorkbooksListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.WorkbooksListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    category: Models.CategoryType,
+    options?:
+      | Models.WorkbooksListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.WorkbooksListResult>,
+    callback?: msRest.ServiceCallback<Models.WorkbooksListResult>
+  ): Promise<Models.WorkbooksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +78,8 @@ export class Workbooks {
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.WorkbooksListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.WorkbooksListByResourceGroupResponse>;
   }
 
   /**
@@ -68,21 +89,39 @@ export class Workbooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkbooksGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkbooksGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkbooksGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.Workbook>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.Workbook>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workbook>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workbook>, callback?: msRest.ServiceCallback<Models.Workbook>): Promise<Models.WorkbooksGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Workbook>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workbook>,
+    callback?: msRest.ServiceCallback<Models.Workbook>
+  ): Promise<Models.WorkbooksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -90,7 +129,8 @@ export class Workbooks {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WorkbooksGetResponse>;
+      callback
+    ) as Promise<Models.WorkbooksGetResponse>;
   }
 
   /**
@@ -100,21 +140,39 @@ export class Workbooks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +180,8 @@ export class Workbooks {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -133,14 +192,24 @@ export class Workbooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkbooksCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, options?: msRest.RequestOptionsBase): Promise<Models.WorkbooksCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    workbookProperties: Models.Workbook,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkbooksCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param workbookProperties Properties that need to be specified to create a new workbook.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, callback: msRest.ServiceCallback<Models.Workbook>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    workbookProperties: Models.Workbook,
+    callback: msRest.ServiceCallback<Models.Workbook>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -148,8 +217,20 @@ export class Workbooks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workbook>): void;
-  createOrUpdate(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workbook>, callback?: msRest.ServiceCallback<Models.Workbook>): Promise<Models.WorkbooksCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    workbookProperties: Models.Workbook,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Workbook>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    workbookProperties: Models.Workbook,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workbook>,
+    callback?: msRest.ServiceCallback<Models.Workbook>
+  ): Promise<Models.WorkbooksCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +239,8 @@ export class Workbooks {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.WorkbooksCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.WorkbooksCreateOrUpdateResponse>;
   }
 
   /**
@@ -169,14 +251,24 @@ export class Workbooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkbooksUpdateResponse>
    */
-  update(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, options?: msRest.RequestOptionsBase): Promise<Models.WorkbooksUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    workbookProperties: Models.Workbook,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkbooksUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param workbookProperties Properties that need to be specified to create a new workbook.
    * @param callback The callback
    */
-  update(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, callback: msRest.ServiceCallback<Models.Workbook>): void;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    workbookProperties: Models.Workbook,
+    callback: msRest.ServiceCallback<Models.Workbook>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -184,8 +276,20 @@ export class Workbooks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workbook>): void;
-  update(resourceGroupName: string, resourceName: string, workbookProperties: Models.Workbook, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workbook>, callback?: msRest.ServiceCallback<Models.Workbook>): Promise<Models.WorkbooksUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    workbookProperties: Models.Workbook,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Workbook>
+  ): void;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    workbookProperties: Models.Workbook,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workbook>,
+    callback?: msRest.ServiceCallback<Models.Workbook>
+  ): Promise<Models.WorkbooksUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +298,8 @@ export class Workbooks {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.WorkbooksUpdateResponse>;
+      callback
+    ) as Promise<Models.WorkbooksUpdateResponse>;
   }
 }
 
@@ -202,20 +307,16 @@ export class Workbooks {
 const serializer = new msRest.Serializer(Mappers);
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/microsoft.insights/workbooks",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/microsoft.insights/workbooks",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
   queryParameters: [
     Parameters.category,
     Parameters.tags,
     Parameters.canFetchContent,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkbooksListResult
@@ -229,18 +330,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Workbook
@@ -254,18 +348,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     201: {},
     204: {},
@@ -278,18 +365,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "workbookProperties",
     mapper: {
@@ -313,18 +393,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroup/{resourceGroupName}/providers/microsoft.insights/workbooks/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "workbookProperties",
     mapper: {

@@ -36,7 +36,13 @@ export class IntegrationRuntimeNodeIpAddressOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeNodeIpAddressGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeNodeIpAddressGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    nodeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationRuntimeNodeIpAddressGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -44,7 +50,13 @@ export class IntegrationRuntimeNodeIpAddressOperations {
    * @param nodeName Integration runtime node name
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, nodeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    nodeName: string,
+    callback: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -53,8 +65,24 @@ export class IntegrationRuntimeNodeIpAddressOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, nodeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): void;
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): Promise<Models.IntegrationRuntimeNodeIpAddressGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    nodeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    nodeName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>,
+    callback?: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>
+  ): Promise<Models.IntegrationRuntimeNodeIpAddressGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,7 +92,8 @@ export class IntegrationRuntimeNodeIpAddressOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IntegrationRuntimeNodeIpAddressGetResponse>;
+      callback
+    ) as Promise<Models.IntegrationRuntimeNodeIpAddressGetResponse>;
   }
 }
 
@@ -72,7 +101,8 @@ export class IntegrationRuntimeNodeIpAddressOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}/ipAddress",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}/ipAddress",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -80,12 +110,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.integrationRuntimeName,
     Parameters.nodeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IntegrationRuntimeNodeIpAddress

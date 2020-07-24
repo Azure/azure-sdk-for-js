@@ -33,28 +33,43 @@ export class CheckNameAvailability {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckNameAvailabilityExecuteResponse>
    */
-  execute(nameAvailabilityRequest: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase): Promise<Models.CheckNameAvailabilityExecuteResponse>;
+  execute(
+    nameAvailabilityRequest: Models.NameAvailabilityRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CheckNameAvailabilityExecuteResponse>;
   /**
    * @param nameAvailabilityRequest The required parameters for checking if resource name is
    * available.
    * @param callback The callback
    */
-  execute(nameAvailabilityRequest: Models.NameAvailabilityRequest, callback: msRest.ServiceCallback<Models.NameAvailability>): void;
+  execute(
+    nameAvailabilityRequest: Models.NameAvailabilityRequest,
+    callback: msRest.ServiceCallback<Models.NameAvailability>
+  ): void;
   /**
    * @param nameAvailabilityRequest The required parameters for checking if resource name is
    * available.
    * @param options The optional parameters
    * @param callback The callback
    */
-  execute(nameAvailabilityRequest: Models.NameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameAvailability>): void;
-  execute(nameAvailabilityRequest: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailability>, callback?: msRest.ServiceCallback<Models.NameAvailability>): Promise<Models.CheckNameAvailabilityExecuteResponse> {
+  execute(
+    nameAvailabilityRequest: Models.NameAvailabilityRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NameAvailability>
+  ): void;
+  execute(
+    nameAvailabilityRequest: Models.NameAvailabilityRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailability>,
+    callback?: msRest.ServiceCallback<Models.NameAvailability>
+  ): Promise<Models.CheckNameAvailabilityExecuteResponse> {
     return this.client.sendOperationRequest(
       {
         nameAvailabilityRequest,
         options
       },
       executeOperationSpec,
-      callback) as Promise<Models.CheckNameAvailabilityExecuteResponse>;
+      callback
+    ) as Promise<Models.CheckNameAvailabilityExecuteResponse>;
   }
 }
 
@@ -63,15 +78,9 @@ const serializer = new msRest.Serializer(Mappers);
 const executeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "nameAvailabilityRequest",
     mapper: {

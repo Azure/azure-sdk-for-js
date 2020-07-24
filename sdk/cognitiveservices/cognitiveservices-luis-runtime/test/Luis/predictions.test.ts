@@ -4,11 +4,9 @@
  * license information.
  */
 
-
 import { LUISRuntimeClient } from "../../src/lUISRuntimeClient";
-import { BaseTest } from "../baseTest"
+import { BaseTest } from "../baseTest";
 import * as chai from "chai";
-
 
 describe("Predections Tests", () => {
   var versionId = "0.1";
@@ -16,7 +14,7 @@ describe("Predections Tests", () => {
   var slotName = "production";
   let externalResolution = { text: "post", external: true };
 
-  it('should test prediction slot', async () => {
+  it("should test prediction slot", async () => {
     await BaseTest.useClientFor(async (client: LUISRuntimeClient) => {
       let result = await client.prediction.getSlotPrediction(
         BaseTest.GlobalAppId,
@@ -27,21 +25,29 @@ describe("Predections Tests", () => {
             datetimeReference: new Date("2019-01-01"),
             preferExternalEntities: true
           },
-          externalEntities: [{
-            entityName: "simple",
-            startIndex: 26,
-            entityLength: 4,
-            score : 0.86,
-            resolution: externalResolution
-          }],
-          dynamicLists: [{
-            listEntityName: "list", requestLists: [{
-              name: "test",
-              canonicalForm: "testing",
-              synonyms: ["this"]
-            }]
-          }],
-        }, {
+          externalEntities: [
+            {
+              entityName: "simple",
+              startIndex: 26,
+              entityLength: 4,
+              score: 0.86,
+              resolution: externalResolution
+            }
+          ],
+          dynamicLists: [
+            {
+              listEntityName: "list",
+              requestLists: [
+                {
+                  name: "test",
+                  canonicalForm: "testing",
+                  synonyms: ["this"]
+                }
+              ]
+            }
+          ]
+        },
+        {
           verbose: true,
           showAllIntents: true
         }
@@ -73,9 +79,9 @@ describe("Predections Tests", () => {
 
       var dispatchTopIntent = child.intents[child.topIntent];
       chai.expect(dispatchTopIntent.score).to.be.above(0.5);
-      chai.expect(child.sentiment.label).to.eql("positive")
+      chai.expect(child.sentiment.label).to.eql("positive");
       chai.expect(child.sentiment.score).to.be.above(0.5);
-    })
+    });
   });
 
   it("should test prediction with version", async () => {
@@ -89,25 +95,32 @@ describe("Predections Tests", () => {
             datetimeReference: new Date("2019-01-01"),
             preferExternalEntities: true
           },
-          externalEntities: [{
-            entityName: "simple",
-            startIndex: 26,
-            entityLength: 4,
-            resolution: externalResolution
-          }],
-          dynamicLists: [{
-            listEntityName: "list", requestLists: [{
-              name: "test",
-              canonicalForm: "testing",
-              synonyms: ["this"]
-            }]
-          }],
+          externalEntities: [
+            {
+              entityName: "simple",
+              startIndex: 26,
+              entityLength: 4,
+              resolution: externalResolution
+            }
+          ],
+          dynamicLists: [
+            {
+              listEntityName: "list",
+              requestLists: [
+                {
+                  name: "test",
+                  canonicalForm: "testing",
+                  synonyms: ["this"]
+                }
+              ]
+            }
+          ]
         },
         {
           verbose: true,
           showAllIntents: true
         }
-      )
+      );
       let prediction = result.prediction;
       chai.expect(utterance).to.eql(result.query);
       chai.expect(prediction.topIntent).to.eql("intent");
@@ -135,17 +148,18 @@ describe("Predections Tests", () => {
 
       var dispatchTopIntent = child.intents[child.topIntent];
       chai.expect(dispatchTopIntent.score).to.be.above(0.5);
-      chai.expect(child.sentiment.label).to.eql("positive")
+      chai.expect(child.sentiment.label).to.eql("positive");
       chai.expect(child.sentiment.score).to.be.above(0.5);
     });
   });
 
   it("should test app not found - throws api error exception", async () => {
     await BaseTest.useClientFor(async (client: LUISRuntimeClient) => {
-      return client.prediction.getSlotPrediction(
-        "7555b7c1-e69c-4580-9d95-1abd6dfa8291",
-        "production",
-        { query: "this is a test with post" }).catch(err => {
+      return client.prediction
+        .getSlotPrediction("7555b7c1-e69c-4580-9d95-1abd6dfa8291", "production", {
+          query: "this is a test with post"
+        })
+        .catch((err) => {
           chai.expect(err.body.error.code).to.eql("NotFound");
         });
     });
@@ -153,9 +167,11 @@ describe("Predections Tests", () => {
 
   it("should test empty query throws validation excpetion", async () => {
     await BaseTest.useClientFor(async (client: LUISRuntimeClient) => {
-      return client.prediction.getSlotPrediction(BaseTest.GlobalAppId, "production", { query: "" }).catch(err => {
-        chai.expect(err.body.error.code).to.eql("BadArgument");
-      });
+      return client.prediction
+        .getSlotPrediction(BaseTest.GlobalAppId, "production", { query: "" })
+        .catch((err) => {
+          chai.expect(err.body.error.code).to.eql("BadArgument");
+        });
     });
   });
 });

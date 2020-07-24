@@ -136,8 +136,7 @@ export interface SpatialAnchorsAccount extends TrackedResource {
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * The resource model definition for a Azure Resource Manager resource with an etag.
@@ -199,8 +198,7 @@ export interface Identity {
 /**
  * An interface representing RemoteRenderingAccountIdentity.
  */
-export interface RemoteRenderingAccountIdentity extends Identity {
-}
+export interface RemoteRenderingAccountIdentity extends Identity {}
 
 /**
  * RemoteRenderingAccount Response.
@@ -222,8 +220,7 @@ export interface RemoteRenderingAccount extends TrackedResource {
 /**
  * An interface representing ResourceModelWithAllowedPropertySetIdentity.
  */
-export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {
-}
+export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {}
 
 /**
  * The resource model definition representing SKU
@@ -259,8 +256,7 @@ export interface Sku {
 /**
  * An interface representing ResourceModelWithAllowedPropertySetSku.
  */
-export interface ResourceModelWithAllowedPropertySetSku extends Sku {
-}
+export interface ResourceModelWithAllowedPropertySetSku extends Sku {}
 
 /**
  * Plan for the resource.
@@ -293,8 +289,7 @@ export interface Plan {
 /**
  * An interface representing ResourceModelWithAllowedPropertySetPlan.
  */
-export interface ResourceModelWithAllowedPropertySetPlan extends Plan {
-}
+export interface ResourceModelWithAllowedPropertySetPlan extends Plan {}
 
 /**
  * The resource model definition containing the full set of allowed properties for a resource.
@@ -405,7 +400,7 @@ export interface RemoteRenderingAccountPage extends Array<RemoteRenderingAccount
  * @readonly
  * @enum {string}
  */
-export type NameAvailability = 'true' | 'false';
+export type NameAvailability = "true" | "false";
 
 /**
  * Defines values for NameUnavailableReason.
@@ -413,7 +408,7 @@ export type NameAvailability = 'true' | 'false';
  * @readonly
  * @enum {string}
  */
-export type NameUnavailableReason = 'Invalid' | 'AlreadyExists';
+export type NameUnavailableReason = "Invalid" | "AlreadyExists";
 
 /**
  * Defines values for SkuTier.
@@ -421,7 +416,7 @@ export type NameUnavailableReason = 'Invalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Free' | 'Basic' | 'Standard' | 'Premium';
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 /**
  * Defines values for ResourceIdentityType.
@@ -429,7 +424,7 @@ export type SkuTier = 'Free' | 'Basic' | 'Standard' | 'Premium';
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned';
+export type ResourceIdentityType = "SystemAssigned";
 
 /**
  * Contains response data for the list operation.
@@ -439,16 +434,16 @@ export type OperationsListResponse = OperationPage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationPage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationPage;
+  };
 };
 
 /**
@@ -459,16 +454,16 @@ export type OperationsListNextResponse = OperationPage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationPage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationPage;
+  };
 };
 
 /**
@@ -479,16 +474,16 @@ export type CheckNameAvailabilityLocalResponse = CheckNameAvailabilityResponse &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResponse;
+  };
 };
 
 /**
@@ -499,16 +494,16 @@ export type SpatialAnchorsAccountsListBySubscriptionResponse = SpatialAnchorsAcc
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SpatialAnchorsAccountPage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SpatialAnchorsAccountPage;
+  };
 };
 
 /**
@@ -519,16 +514,16 @@ export type SpatialAnchorsAccountsListByResourceGroupResponse = SpatialAnchorsAc
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SpatialAnchorsAccountPage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SpatialAnchorsAccountPage;
+  };
 };
 
 /**
@@ -539,16 +534,16 @@ export type SpatialAnchorsAccountsGetResponse = SpatialAnchorsAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SpatialAnchorsAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SpatialAnchorsAccount;
+  };
 };
 
 /**
@@ -559,16 +554,16 @@ export type SpatialAnchorsAccountsUpdateResponse = SpatialAnchorsAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SpatialAnchorsAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SpatialAnchorsAccount;
+  };
 };
 
 /**
@@ -579,16 +574,16 @@ export type SpatialAnchorsAccountsCreateResponse = SpatialAnchorsAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SpatialAnchorsAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SpatialAnchorsAccount;
+  };
 };
 
 /**
@@ -599,16 +594,16 @@ export type SpatialAnchorsAccountsListKeysResponse = AccountKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccountKeys;
+  };
 };
 
 /**
@@ -619,16 +614,16 @@ export type SpatialAnchorsAccountsRegenerateKeysResponse = AccountKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccountKeys;
+  };
 };
 
 /**
@@ -639,16 +634,16 @@ export type SpatialAnchorsAccountsListBySubscriptionNextResponse = SpatialAnchor
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SpatialAnchorsAccountPage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SpatialAnchorsAccountPage;
+  };
 };
 
 /**
@@ -659,16 +654,16 @@ export type SpatialAnchorsAccountsListByResourceGroupNextResponse = SpatialAncho
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SpatialAnchorsAccountPage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SpatialAnchorsAccountPage;
+  };
 };
 
 /**
@@ -679,16 +674,16 @@ export type RemoteRenderingAccountsListBySubscriptionResponse = RemoteRenderingA
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemoteRenderingAccountPage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemoteRenderingAccountPage;
+  };
 };
 
 /**
@@ -699,16 +694,16 @@ export type RemoteRenderingAccountsListByResourceGroupResponse = RemoteRendering
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemoteRenderingAccountPage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemoteRenderingAccountPage;
+  };
 };
 
 /**
@@ -719,16 +714,16 @@ export type RemoteRenderingAccountsGetResponse = RemoteRenderingAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemoteRenderingAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemoteRenderingAccount;
+  };
 };
 
 /**
@@ -739,16 +734,16 @@ export type RemoteRenderingAccountsUpdateResponse = RemoteRenderingAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemoteRenderingAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemoteRenderingAccount;
+  };
 };
 
 /**
@@ -759,16 +754,16 @@ export type RemoteRenderingAccountsCreateResponse = RemoteRenderingAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemoteRenderingAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemoteRenderingAccount;
+  };
 };
 
 /**
@@ -779,16 +774,16 @@ export type RemoteRenderingAccountsListKeysResponse = AccountKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccountKeys;
+  };
 };
 
 /**
@@ -799,16 +794,16 @@ export type RemoteRenderingAccountsRegenerateKeysResponse = AccountKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccountKeys;
+  };
 };
 
 /**
@@ -819,16 +814,16 @@ export type RemoteRenderingAccountsListBySubscriptionNextResponse = RemoteRender
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemoteRenderingAccountPage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemoteRenderingAccountPage;
+  };
 };
 
 /**
@@ -839,14 +834,14 @@ export type RemoteRenderingAccountsListByResourceGroupNextResponse = RemoteRende
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemoteRenderingAccountPage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemoteRenderingAccountPage;
+  };
 };

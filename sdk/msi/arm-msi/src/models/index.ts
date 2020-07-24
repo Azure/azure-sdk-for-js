@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing Identity.
@@ -144,7 +143,6 @@ export interface ManagedServiceIdentityClientOptions extends AzureServiceClientO
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the OperationListResult.
@@ -184,7 +182,7 @@ export interface UserAssignedIdentitiesListResult extends Array<Identity> {
  * @readonly
  * @enum {string}
  */
-export type UserAssignedIdentities = 'Microsoft.ManagedIdentity/userAssignedIdentities';
+export type UserAssignedIdentities = "Microsoft.ManagedIdentity/userAssignedIdentities";
 
 /**
  * Contains response data for the list operation.
@@ -194,15 +192,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -213,15 +211,15 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -232,15 +230,15 @@ export type UserAssignedIdentitiesListBySubscriptionResponse = UserAssignedIdent
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserAssignedIdentitiesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserAssignedIdentitiesListResult;
+  };
 };
 
 /**
@@ -251,15 +249,15 @@ export type UserAssignedIdentitiesListByResourceGroupResponse = UserAssignedIden
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserAssignedIdentitiesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserAssignedIdentitiesListResult;
+  };
 };
 
 /**
@@ -270,15 +268,15 @@ export type UserAssignedIdentitiesCreateOrUpdateResponse = Identity & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Identity;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Identity;
+  };
 };
 
 /**
@@ -289,15 +287,15 @@ export type UserAssignedIdentitiesUpdateResponse = Identity & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Identity;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Identity;
+  };
 };
 
 /**
@@ -308,15 +306,15 @@ export type UserAssignedIdentitiesGetResponse = Identity & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Identity;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Identity;
+  };
 };
 
 /**
@@ -327,15 +325,15 @@ export type UserAssignedIdentitiesListBySubscriptionNextResponse = UserAssignedI
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserAssignedIdentitiesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserAssignedIdentitiesListResult;
+  };
 };
 
 /**
@@ -346,13 +344,13 @@ export type UserAssignedIdentitiesListByResourceGroupNextResponse = UserAssigned
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserAssignedIdentitiesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserAssignedIdentitiesListResult;
+  };
 };

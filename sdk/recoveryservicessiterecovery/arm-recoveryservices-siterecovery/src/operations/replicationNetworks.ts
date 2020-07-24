@@ -33,26 +33,41 @@ export class ReplicationNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationNetworksListByReplicationFabricsResponse>
    */
-  listByReplicationFabrics(fabricName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationNetworksListByReplicationFabricsResponse>;
+  listByReplicationFabrics(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationNetworksListByReplicationFabricsResponse>;
   /**
    * @param fabricName Fabric name
    * @param callback The callback
    */
-  listByReplicationFabrics(fabricName: string, callback: msRest.ServiceCallback<Models.NetworkCollection>): void;
+  listByReplicationFabrics(
+    fabricName: string,
+    callback: msRest.ServiceCallback<Models.NetworkCollection>
+  ): void;
   /**
    * @param fabricName Fabric name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReplicationFabrics(fabricName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkCollection>): void;
-  listByReplicationFabrics(fabricName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkCollection>, callback?: msRest.ServiceCallback<Models.NetworkCollection>): Promise<Models.ReplicationNetworksListByReplicationFabricsResponse> {
+  listByReplicationFabrics(
+    fabricName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkCollection>
+  ): void;
+  listByReplicationFabrics(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkCollection>,
+    callback?: msRest.ServiceCallback<Models.NetworkCollection>
+  ): Promise<Models.ReplicationNetworksListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
         options
       },
       listByReplicationFabricsOperationSpec,
-      callback) as Promise<Models.ReplicationNetworksListByReplicationFabricsResponse>;
+      callback
+    ) as Promise<Models.ReplicationNetworksListByReplicationFabricsResponse>;
   }
 
   /**
@@ -63,21 +78,39 @@ export class ReplicationNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationNetworksGetResponse>
    */
-  get(fabricName: string, networkName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationNetworksGetResponse>;
+  get(
+    fabricName: string,
+    networkName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationNetworksGetResponse>;
   /**
    * @param fabricName Server Id.
    * @param networkName Primary network name.
    * @param callback The callback
    */
-  get(fabricName: string, networkName: string, callback: msRest.ServiceCallback<Models.Network>): void;
+  get(
+    fabricName: string,
+    networkName: string,
+    callback: msRest.ServiceCallback<Models.Network>
+  ): void;
   /**
    * @param fabricName Server Id.
    * @param networkName Primary network name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(fabricName: string, networkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Network>): void;
-  get(fabricName: string, networkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Network>, callback?: msRest.ServiceCallback<Models.Network>): Promise<Models.ReplicationNetworksGetResponse> {
+  get(
+    fabricName: string,
+    networkName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Network>
+  ): void;
+  get(
+    fabricName: string,
+    networkName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Network>,
+    callback?: msRest.ServiceCallback<Models.Network>
+  ): Promise<Models.ReplicationNetworksGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -85,7 +118,8 @@ export class ReplicationNetworks {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReplicationNetworksGetResponse>;
+      callback
+    ) as Promise<Models.ReplicationNetworksGetResponse>;
   }
 
   /**
@@ -103,14 +137,21 @@ export class ReplicationNetworks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkCollection>, callback?: msRest.ServiceCallback<Models.NetworkCollection>): Promise<Models.ReplicationNetworksListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkCollection>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkCollection>,
+    callback?: msRest.ServiceCallback<Models.NetworkCollection>
+  ): Promise<Models.ReplicationNetworksListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ReplicationNetworksListResponse>;
+      callback
+    ) as Promise<Models.ReplicationNetworksListResponse>;
   }
 
   /**
@@ -120,26 +161,41 @@ export class ReplicationNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationNetworksListByReplicationFabricsNextResponse>
    */
-  listByReplicationFabricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationNetworksListByReplicationFabricsNextResponse>;
+  listByReplicationFabricsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationNetworksListByReplicationFabricsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByReplicationFabricsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkCollection>): void;
+  listByReplicationFabricsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.NetworkCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReplicationFabricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkCollection>): void;
-  listByReplicationFabricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkCollection>, callback?: msRest.ServiceCallback<Models.NetworkCollection>): Promise<Models.ReplicationNetworksListByReplicationFabricsNextResponse> {
+  listByReplicationFabricsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkCollection>
+  ): void;
+  listByReplicationFabricsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkCollection>,
+    callback?: msRest.ServiceCallback<Models.NetworkCollection>
+  ): Promise<Models.ReplicationNetworksListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByReplicationFabricsNextOperationSpec,
-      callback) as Promise<Models.ReplicationNetworksListByReplicationFabricsNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationNetworksListByReplicationFabricsNextResponse>;
   }
 
   /**
@@ -149,7 +205,10 @@ export class ReplicationNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationNetworksListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationNetworksListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationNetworksListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -160,15 +219,24 @@ export class ReplicationNetworks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkCollection>, callback?: msRest.ServiceCallback<Models.NetworkCollection>): Promise<Models.ReplicationNetworksListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkCollection>,
+    callback?: msRest.ServiceCallback<Models.NetworkCollection>
+  ): Promise<Models.ReplicationNetworksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ReplicationNetworksListNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationNetworksListNextResponse>;
   }
 }
 
@@ -176,19 +244,16 @@ export class ReplicationNetworks {
 const serializer = new msRest.Serializer(Mappers);
 const listByReplicationFabricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkCollection
@@ -202,7 +267,8 @@ const listByReplicationFabricsOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -210,12 +276,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.fabricName,
     Parameters.networkName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Network
@@ -229,18 +291,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationNetworks",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationNetworks",
+  urlParameters: [Parameters.resourceName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkCollection
@@ -256,12 +311,8 @@ const listByReplicationFabricsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkCollection
@@ -277,12 +328,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkCollection

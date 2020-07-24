@@ -29,7 +29,11 @@ class QnAMakerClient extends QnAMakerClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    endpoint: string,
+    options?: msRest.ServiceClientOptions
+  ) {
     super(credentials, endpoint, options);
     this.endpointSettings = new operations.EndpointSettings(this);
     this.endpointKeys = new operations.EndpointKeys(this);

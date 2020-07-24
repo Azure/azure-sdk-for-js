@@ -36,7 +36,14 @@ export class SourceControlSyncJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SourceControlSyncJobCreateResponse>
    */
-  create(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, parameters: Models.SourceControlSyncJobCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlSyncJobCreateResponse>;
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    sourceControlName: string,
+    sourceControlSyncJobId: string,
+    parameters: Models.SourceControlSyncJobCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SourceControlSyncJobCreateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -45,7 +52,14 @@ export class SourceControlSyncJobOperations {
    * @param parameters The parameters supplied to the create source control sync job operation.
    * @param callback The callback
    */
-  create(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, parameters: Models.SourceControlSyncJobCreateParameters, callback: msRest.ServiceCallback<Models.SourceControlSyncJob>): void;
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    sourceControlName: string,
+    sourceControlSyncJobId: string,
+    parameters: Models.SourceControlSyncJobCreateParameters,
+    callback: msRest.ServiceCallback<Models.SourceControlSyncJob>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -55,8 +69,24 @@ export class SourceControlSyncJobOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, parameters: Models.SourceControlSyncJobCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlSyncJob>): void;
-  create(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, parameters: Models.SourceControlSyncJobCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlSyncJob>, callback?: msRest.ServiceCallback<Models.SourceControlSyncJob>): Promise<Models.SourceControlSyncJobCreateResponse> {
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    sourceControlName: string,
+    sourceControlSyncJobId: string,
+    parameters: Models.SourceControlSyncJobCreateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SourceControlSyncJob>
+  ): void;
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    sourceControlName: string,
+    sourceControlSyncJobId: string,
+    parameters: Models.SourceControlSyncJobCreateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlSyncJob>,
+    callback?: msRest.ServiceCallback<Models.SourceControlSyncJob>
+  ): Promise<Models.SourceControlSyncJobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +97,8 @@ export class SourceControlSyncJobOperations {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.SourceControlSyncJobCreateResponse>;
+      callback
+    ) as Promise<Models.SourceControlSyncJobCreateResponse>;
   }
 
   /**
@@ -79,7 +110,13 @@ export class SourceControlSyncJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SourceControlSyncJobGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlSyncJobGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    sourceControlName: string,
+    sourceControlSyncJobId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SourceControlSyncJobGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -87,7 +124,13 @@ export class SourceControlSyncJobOperations {
    * @param sourceControlSyncJobId The source control sync job id.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, callback: msRest.ServiceCallback<Models.SourceControlSyncJobById>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    sourceControlName: string,
+    sourceControlSyncJobId: string,
+    callback: msRest.ServiceCallback<Models.SourceControlSyncJobById>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -96,8 +139,22 @@ export class SourceControlSyncJobOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlSyncJobById>): void;
-  get(resourceGroupName: string, automationAccountName: string, sourceControlName: string, sourceControlSyncJobId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlSyncJobById>, callback?: msRest.ServiceCallback<Models.SourceControlSyncJobById>): Promise<Models.SourceControlSyncJobGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    sourceControlName: string,
+    sourceControlSyncJobId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SourceControlSyncJobById>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    sourceControlName: string,
+    sourceControlSyncJobId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlSyncJobById>,
+    callback?: msRest.ServiceCallback<Models.SourceControlSyncJobById>
+  ): Promise<Models.SourceControlSyncJobGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +164,8 @@ export class SourceControlSyncJobOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SourceControlSyncJobGetResponse>;
+      callback
+    ) as Promise<Models.SourceControlSyncJobGetResponse>;
   }
 
   /**
@@ -118,14 +176,24 @@ export class SourceControlSyncJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SourceControlSyncJobListByAutomationAccountResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, sourceControlName: string, options?: Models.SourceControlSyncJobListByAutomationAccountOptionalParams): Promise<Models.SourceControlSyncJobListByAutomationAccountResponse>;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    sourceControlName: string,
+    options?: Models.SourceControlSyncJobListByAutomationAccountOptionalParams
+  ): Promise<Models.SourceControlSyncJobListByAutomationAccountResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param sourceControlName The source control name.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, sourceControlName: string, callback: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    sourceControlName: string,
+    callback: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -133,8 +201,22 @@ export class SourceControlSyncJobOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, sourceControlName: string, options: Models.SourceControlSyncJobListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, sourceControlName: string, options?: Models.SourceControlSyncJobListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.SourceControlSyncJobListResult>, callback?: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>): Promise<Models.SourceControlSyncJobListByAutomationAccountResponse> {
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    sourceControlName: string,
+    options: Models.SourceControlSyncJobListByAutomationAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>
+  ): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    sourceControlName: string,
+    options?:
+      | Models.SourceControlSyncJobListByAutomationAccountOptionalParams
+      | msRest.ServiceCallback<Models.SourceControlSyncJobListResult>,
+    callback?: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>
+  ): Promise<Models.SourceControlSyncJobListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,7 +225,8 @@ export class SourceControlSyncJobOperations {
         options
       },
       listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.SourceControlSyncJobListByAutomationAccountResponse>;
+      callback
+    ) as Promise<Models.SourceControlSyncJobListByAutomationAccountResponse>;
   }
 
   /**
@@ -152,26 +235,43 @@ export class SourceControlSyncJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SourceControlSyncJobListByAutomationAccountNextResponse>
    */
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlSyncJobListByAutomationAccountNextResponse>;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SourceControlSyncJobListByAutomationAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlSyncJobListResult>, callback?: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>): Promise<Models.SourceControlSyncJobListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>
+  ): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SourceControlSyncJobListResult>,
+    callback?: msRest.ServiceCallback<Models.SourceControlSyncJobListResult>
+  ): Promise<Models.SourceControlSyncJobListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAutomationAccountNextOperationSpec,
-      callback) as Promise<Models.SourceControlSyncJobListByAutomationAccountNextResponse>;
+      callback
+    ) as Promise<Models.SourceControlSyncJobListByAutomationAccountNextResponse>;
   }
 }
 
@@ -179,7 +279,8 @@ export class SourceControlSyncJobOperations {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
@@ -187,12 +288,8 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.sourceControlSyncJobId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -213,7 +310,8 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
@@ -221,12 +319,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.sourceControlSyncJobId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SourceControlSyncJobById
@@ -240,20 +334,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.sourceControlName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SourceControlSyncJobListResult
@@ -269,12 +359,8 @@ const listByAutomationAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SourceControlSyncJobListResult

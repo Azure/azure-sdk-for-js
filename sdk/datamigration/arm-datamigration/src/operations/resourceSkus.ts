@@ -41,14 +41,21 @@ export class ResourceSkus {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkus(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceSkusResult>): void;
-  listSkus(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkusResult>, callback?: msRest.ServiceCallback<Models.ResourceSkusResult>): Promise<Models.ResourceSkusListSkusResponse> {
+  listSkus(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceSkusResult>
+  ): void;
+  listSkus(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkusResult>,
+    callback?: msRest.ServiceCallback<Models.ResourceSkusResult>
+  ): Promise<Models.ResourceSkusListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listSkusOperationSpec,
-      callback) as Promise<Models.ResourceSkusListSkusResponse>;
+      callback
+    ) as Promise<Models.ResourceSkusListSkusResponse>;
   }
 
   /**
@@ -58,26 +65,41 @@ export class ResourceSkus {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceSkusListSkusNextResponse>
    */
-  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceSkusListSkusNextResponse>;
+  listSkusNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceSkusListSkusNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSkusNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceSkusResult>): void;
+  listSkusNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResourceSkusResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceSkusResult>): void;
-  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkusResult>, callback?: msRest.ServiceCallback<Models.ResourceSkusResult>): Promise<Models.ResourceSkusListSkusNextResponse> {
+  listSkusNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceSkusResult>
+  ): void;
+  listSkusNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkusResult>,
+    callback?: msRest.ServiceCallback<Models.ResourceSkusResult>
+  ): Promise<Models.ResourceSkusListSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSkusNextOperationSpec,
-      callback) as Promise<Models.ResourceSkusListSkusNextResponse>;
+      callback
+    ) as Promise<Models.ResourceSkusListSkusNextResponse>;
   }
 }
 
@@ -86,15 +108,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/skus",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceSkusResult
@@ -110,12 +126,8 @@ const listSkusNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceSkusResult

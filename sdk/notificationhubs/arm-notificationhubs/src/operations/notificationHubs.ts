@@ -34,14 +34,24 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsCheckNotificationHubAvailabilityResponse>
    */
-  checkNotificationHubAvailability(resourceGroupName: string, namespaceName: string, parameters: Models.CheckAvailabilityParameters, options?: msRest.RequestOptionsBase): Promise<Models.NotificationHubsCheckNotificationHubAvailabilityResponse>;
+  checkNotificationHubAvailability(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.CheckAvailabilityParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationHubsCheckNotificationHubAvailabilityResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
    * @param parameters The notificationHub name.
    * @param callback The callback
    */
-  checkNotificationHubAvailability(resourceGroupName: string, namespaceName: string, parameters: Models.CheckAvailabilityParameters, callback: msRest.ServiceCallback<Models.CheckAvailabilityResult>): void;
+  checkNotificationHubAvailability(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.CheckAvailabilityParameters,
+    callback: msRest.ServiceCallback<Models.CheckAvailabilityResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -49,8 +59,20 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNotificationHubAvailability(resourceGroupName: string, namespaceName: string, parameters: Models.CheckAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckAvailabilityResult>): void;
-  checkNotificationHubAvailability(resourceGroupName: string, namespaceName: string, parameters: Models.CheckAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckAvailabilityResult>): Promise<Models.NotificationHubsCheckNotificationHubAvailabilityResponse> {
+  checkNotificationHubAvailability(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.CheckAvailabilityParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckAvailabilityResult>
+  ): void;
+  checkNotificationHubAvailability(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.CheckAvailabilityParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckAvailabilityResult>,
+    callback?: msRest.ServiceCallback<Models.CheckAvailabilityResult>
+  ): Promise<Models.NotificationHubsCheckNotificationHubAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class NotificationHubs {
         options
       },
       checkNotificationHubAvailabilityOperationSpec,
-      callback) as Promise<Models.NotificationHubsCheckNotificationHubAvailabilityResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsCheckNotificationHubAvailabilityResponse>;
   }
 
   /**
@@ -71,7 +94,13 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, notificationHubName: string, parameters: Models.NotificationHubCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.NotificationHubsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    parameters: Models.NotificationHubCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationHubsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -79,7 +108,13 @@ export class NotificationHubs {
    * @param parameters Parameters supplied to the create/update a NotificationHub Resource.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, notificationHubName: string, parameters: Models.NotificationHubCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.NotificationHubResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    parameters: Models.NotificationHubCreateOrUpdateParameters,
+    callback: msRest.ServiceCallback<Models.NotificationHubResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -88,8 +123,22 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, notificationHubName: string, parameters: Models.NotificationHubCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationHubResource>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, notificationHubName: string, parameters: Models.NotificationHubCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationHubResource>, callback?: msRest.ServiceCallback<Models.NotificationHubResource>): Promise<Models.NotificationHubsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    parameters: Models.NotificationHubCreateOrUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NotificationHubResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    parameters: Models.NotificationHubCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationHubResource>,
+    callback?: msRest.ServiceCallback<Models.NotificationHubResource>
+  ): Promise<Models.NotificationHubsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +148,8 @@ export class NotificationHubs {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.NotificationHubsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsCreateOrUpdateResponse>;
   }
 
   /**
@@ -110,14 +160,24 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsPatchResponse>
    */
-  patch(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: Models.NotificationHubsPatchOptionalParams): Promise<Models.NotificationHubsPatchResponse>;
+  patch(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?: Models.NotificationHubsPatchOptionalParams
+  ): Promise<Models.NotificationHubsPatchResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
    * @param notificationHubName The notification hub name.
    * @param callback The callback
    */
-  patch(resourceGroupName: string, namespaceName: string, notificationHubName: string, callback: msRest.ServiceCallback<Models.NotificationHubResource>): void;
+  patch(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    callback: msRest.ServiceCallback<Models.NotificationHubResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -125,8 +185,22 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  patch(resourceGroupName: string, namespaceName: string, notificationHubName: string, options: Models.NotificationHubsPatchOptionalParams, callback: msRest.ServiceCallback<Models.NotificationHubResource>): void;
-  patch(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: Models.NotificationHubsPatchOptionalParams | msRest.ServiceCallback<Models.NotificationHubResource>, callback?: msRest.ServiceCallback<Models.NotificationHubResource>): Promise<Models.NotificationHubsPatchResponse> {
+  patch(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options: Models.NotificationHubsPatchOptionalParams,
+    callback: msRest.ServiceCallback<Models.NotificationHubResource>
+  ): void;
+  patch(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?:
+      | Models.NotificationHubsPatchOptionalParams
+      | msRest.ServiceCallback<Models.NotificationHubResource>,
+    callback?: msRest.ServiceCallback<Models.NotificationHubResource>
+  ): Promise<Models.NotificationHubsPatchResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +209,8 @@ export class NotificationHubs {
         options
       },
       patchOperationSpec,
-      callback) as Promise<Models.NotificationHubsPatchResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsPatchResponse>;
   }
 
   /**
@@ -146,14 +221,24 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
    * @param notificationHubName The notification hub name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, notificationHubName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -161,8 +246,20 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, notificationHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +268,8 @@ export class NotificationHubs {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -182,14 +280,24 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsGetResponse>
    */
-  get(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationHubsGetResponse>;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationHubsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
    * @param notificationHubName The notification hub name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, notificationHubName: string, callback: msRest.ServiceCallback<Models.NotificationHubResource>): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    callback: msRest.ServiceCallback<Models.NotificationHubResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -197,8 +305,20 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, notificationHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationHubResource>): void;
-  get(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationHubResource>, callback?: msRest.ServiceCallback<Models.NotificationHubResource>): Promise<Models.NotificationHubsGetResponse> {
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NotificationHubResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationHubResource>,
+    callback?: msRest.ServiceCallback<Models.NotificationHubResource>
+  ): Promise<Models.NotificationHubsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +327,8 @@ export class NotificationHubs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.NotificationHubsGetResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsGetResponse>;
   }
 
   /**
@@ -218,14 +339,24 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsDebugSendResponse>
    */
-  debugSend(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: Models.NotificationHubsDebugSendOptionalParams): Promise<Models.NotificationHubsDebugSendResponse>;
+  debugSend(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?: Models.NotificationHubsDebugSendOptionalParams
+  ): Promise<Models.NotificationHubsDebugSendResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
    * @param notificationHubName The notification hub name.
    * @param callback The callback
    */
-  debugSend(resourceGroupName: string, namespaceName: string, notificationHubName: string, callback: msRest.ServiceCallback<Models.DebugSendResponse>): void;
+  debugSend(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    callback: msRest.ServiceCallback<Models.DebugSendResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -233,8 +364,22 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  debugSend(resourceGroupName: string, namespaceName: string, notificationHubName: string, options: Models.NotificationHubsDebugSendOptionalParams, callback: msRest.ServiceCallback<Models.DebugSendResponse>): void;
-  debugSend(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: Models.NotificationHubsDebugSendOptionalParams | msRest.ServiceCallback<Models.DebugSendResponse>, callback?: msRest.ServiceCallback<Models.DebugSendResponse>): Promise<Models.NotificationHubsDebugSendResponse> {
+  debugSend(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options: Models.NotificationHubsDebugSendOptionalParams,
+    callback: msRest.ServiceCallback<Models.DebugSendResponse>
+  ): void;
+  debugSend(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?:
+      | Models.NotificationHubsDebugSendOptionalParams
+      | msRest.ServiceCallback<Models.DebugSendResponse>,
+    callback?: msRest.ServiceCallback<Models.DebugSendResponse>
+  ): Promise<Models.NotificationHubsDebugSendResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -243,7 +388,8 @@ export class NotificationHubs {
         options
       },
       debugSendOperationSpec,
-      callback) as Promise<Models.NotificationHubsDebugSendResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsDebugSendResponse>;
   }
 
   /**
@@ -256,7 +402,14 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsCreateOrUpdateAuthorizationRuleResponse>
    */
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.SharedAccessAuthorizationRuleCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.NotificationHubsCreateOrUpdateAuthorizationRuleResponse>;
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    parameters: Models.SharedAccessAuthorizationRuleCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationHubsCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -265,7 +418,14 @@ export class NotificationHubs {
    * @param parameters The shared access authorization rule.
    * @param callback The callback
    */
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.SharedAccessAuthorizationRuleCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>): void;
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    parameters: Models.SharedAccessAuthorizationRuleCreateOrUpdateParameters,
+    callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -275,8 +435,26 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.SharedAccessAuthorizationRuleCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>): void;
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.SharedAccessAuthorizationRuleCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>, callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>): Promise<Models.NotificationHubsCreateOrUpdateAuthorizationRuleResponse> {
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    parameters: Models.SharedAccessAuthorizationRuleCreateOrUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>
+  ): void;
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    parameters: Models.SharedAccessAuthorizationRuleCreateOrUpdateParameters,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>,
+    callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>
+  ): Promise<Models.NotificationHubsCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -287,7 +465,8 @@ export class NotificationHubs {
         options
       },
       createOrUpdateAuthorizationRuleOperationSpec,
-      callback) as Promise<Models.NotificationHubsCreateOrUpdateAuthorizationRuleResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsCreateOrUpdateAuthorizationRuleResponse>;
   }
 
   /**
@@ -299,7 +478,13 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -307,7 +492,13 @@ export class NotificationHubs {
    * @param authorizationRuleName Authorization Rule Name.
    * @param callback The callback
    */
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -316,8 +507,22 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -327,7 +532,8 @@ export class NotificationHubs {
         options
       },
       deleteAuthorizationRuleOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -339,7 +545,13 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsGetAuthorizationRuleResponse>
    */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationHubsGetAuthorizationRuleResponse>;
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationHubsGetAuthorizationRuleResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name
@@ -347,7 +559,13 @@ export class NotificationHubs {
    * @param authorizationRuleName authorization rule name.
    * @param callback The callback
    */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>): void;
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name
@@ -356,8 +574,24 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>): void;
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>, callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>): Promise<Models.NotificationHubsGetAuthorizationRuleResponse> {
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>
+  ): void;
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>,
+    callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleResource>
+  ): Promise<Models.NotificationHubsGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -367,7 +601,8 @@ export class NotificationHubs {
         options
       },
       getAuthorizationRuleOperationSpec,
-      callback) as Promise<Models.NotificationHubsGetAuthorizationRuleResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsGetAuthorizationRuleResponse>;
   }
 
   /**
@@ -377,21 +612,39 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsListResponse>
    */
-  list(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationHubsListResponse>;
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationHubsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.NotificationHubListResult>): void;
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<Models.NotificationHubListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationHubListResult>): void;
-  list(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationHubListResult>, callback?: msRest.ServiceCallback<Models.NotificationHubListResult>): Promise<Models.NotificationHubsListResponse> {
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NotificationHubListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationHubListResult>,
+    callback?: msRest.ServiceCallback<Models.NotificationHubListResult>
+  ): Promise<Models.NotificationHubsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -399,7 +652,8 @@ export class NotificationHubs {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.NotificationHubsListResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsListResponse>;
   }
 
   /**
@@ -410,14 +664,24 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsListAuthorizationRulesResponse>
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationHubsListAuthorizationRulesResponse>;
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationHubsListAuthorizationRulesResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name
    * @param notificationHubName The notification hub name.
    * @param callback The callback
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, notificationHubName: string, callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>): void;
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name
@@ -425,8 +689,22 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, notificationHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>): void;
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>): Promise<Models.NotificationHubsListAuthorizationRulesResponse> {
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>
+  ): void;
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>
+  ): Promise<Models.NotificationHubsListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -435,7 +713,8 @@ export class NotificationHubs {
         options
       },
       listAuthorizationRulesOperationSpec,
-      callback) as Promise<Models.NotificationHubsListAuthorizationRulesResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsListAuthorizationRulesResponse>;
   }
 
   /**
@@ -448,7 +727,13 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsListKeysResponse>
    */
-  listKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationHubsListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationHubsListKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -457,7 +742,13 @@ export class NotificationHubs {
    * authorizationRule.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.ResourceListKeys>): void;
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    callback: msRest.ServiceCallback<Models.ResourceListKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -467,8 +758,22 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceListKeys>): void;
-  listKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceListKeys>, callback?: msRest.ServiceCallback<Models.ResourceListKeys>): Promise<Models.NotificationHubsListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceListKeys>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceListKeys>,
+    callback?: msRest.ServiceCallback<Models.ResourceListKeys>
+  ): Promise<Models.NotificationHubsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -478,7 +783,8 @@ export class NotificationHubs {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.NotificationHubsListKeysResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsListKeysResponse>;
   }
 
   /**
@@ -492,7 +798,14 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsRegenerateKeysResponse>
    */
-  regenerateKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.PolicykeyResource, options?: msRest.RequestOptionsBase): Promise<Models.NotificationHubsRegenerateKeysResponse>;
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    parameters: Models.PolicykeyResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationHubsRegenerateKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -502,7 +815,14 @@ export class NotificationHubs {
    * @param parameters Parameters supplied to regenerate the NotificationHub Authorization Rule Key.
    * @param callback The callback
    */
-  regenerateKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.PolicykeyResource, callback: msRest.ServiceCallback<Models.ResourceListKeys>): void;
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    parameters: Models.PolicykeyResource,
+    callback: msRest.ServiceCallback<Models.ResourceListKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -513,8 +833,24 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.PolicykeyResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceListKeys>): void;
-  regenerateKeys(resourceGroupName: string, namespaceName: string, notificationHubName: string, authorizationRuleName: string, parameters: Models.PolicykeyResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceListKeys>, callback?: msRest.ServiceCallback<Models.ResourceListKeys>): Promise<Models.NotificationHubsRegenerateKeysResponse> {
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    parameters: Models.PolicykeyResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceListKeys>
+  ): void;
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    authorizationRuleName: string,
+    parameters: Models.PolicykeyResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceListKeys>,
+    callback?: msRest.ServiceCallback<Models.ResourceListKeys>
+  ): Promise<Models.NotificationHubsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -525,7 +861,8 @@ export class NotificationHubs {
         options
       },
       regenerateKeysOperationSpec,
-      callback) as Promise<Models.NotificationHubsRegenerateKeysResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsRegenerateKeysResponse>;
   }
 
   /**
@@ -536,14 +873,24 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsGetPnsCredentialsResponse>
    */
-  getPnsCredentials(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationHubsGetPnsCredentialsResponse>;
+  getPnsCredentials(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationHubsGetPnsCredentialsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
    * @param notificationHubName The notification hub name.
    * @param callback The callback
    */
-  getPnsCredentials(resourceGroupName: string, namespaceName: string, notificationHubName: string, callback: msRest.ServiceCallback<Models.PnsCredentialsResource>): void;
+  getPnsCredentials(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    callback: msRest.ServiceCallback<Models.PnsCredentialsResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param namespaceName The namespace name.
@@ -551,8 +898,20 @@ export class NotificationHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPnsCredentials(resourceGroupName: string, namespaceName: string, notificationHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PnsCredentialsResource>): void;
-  getPnsCredentials(resourceGroupName: string, namespaceName: string, notificationHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PnsCredentialsResource>, callback?: msRest.ServiceCallback<Models.PnsCredentialsResource>): Promise<Models.NotificationHubsGetPnsCredentialsResponse> {
+  getPnsCredentials(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PnsCredentialsResource>
+  ): void;
+  getPnsCredentials(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PnsCredentialsResource>,
+    callback?: msRest.ServiceCallback<Models.PnsCredentialsResource>
+  ): Promise<Models.NotificationHubsGetPnsCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -561,7 +920,8 @@ export class NotificationHubs {
         options
       },
       getPnsCredentialsOperationSpec,
-      callback) as Promise<Models.NotificationHubsGetPnsCredentialsResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsGetPnsCredentialsResponse>;
   }
 
   /**
@@ -570,26 +930,41 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationHubsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationHubsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NotificationHubListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.NotificationHubListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationHubListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationHubListResult>, callback?: msRest.ServiceCallback<Models.NotificationHubListResult>): Promise<Models.NotificationHubsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NotificationHubListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationHubListResult>,
+    callback?: msRest.ServiceCallback<Models.NotificationHubListResult>
+  ): Promise<Models.NotificationHubsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.NotificationHubsListNextResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsListNextResponse>;
   }
 
   /**
@@ -598,26 +973,43 @@ export class NotificationHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationHubsListAuthorizationRulesNextResponse>
    */
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationHubsListAuthorizationRulesNextResponse>;
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationHubsListAuthorizationRulesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAuthorizationRulesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>): void;
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAuthorizationRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>): void;
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>): Promise<Models.NotificationHubsListAuthorizationRulesNextResponse> {
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>
+  ): void;
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.SharedAccessAuthorizationRuleListResult>
+  ): Promise<Models.NotificationHubsListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAuthorizationRulesNextOperationSpec,
-      callback) as Promise<Models.NotificationHubsListAuthorizationRulesNextResponse>;
+      callback
+    ) as Promise<Models.NotificationHubsListAuthorizationRulesNextResponse>;
   }
 }
 
@@ -625,18 +1017,15 @@ export class NotificationHubs {
 const serializer = new msRest.Serializer(Mappers);
 const checkNotificationHubAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/checkNotificationHubAvailability",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/checkNotificationHubAvailability",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -657,19 +1046,16 @@ const checkNotificationHubAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.notificationHubName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -693,24 +1079,18 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const patchOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.notificationHubName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: Mappers.NotificationHubPatchParameters
   },
   responses: {
@@ -726,19 +1106,16 @@ const patchOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.notificationHubName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -750,19 +1127,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.notificationHubName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NotificationHubResource
@@ -776,24 +1150,18 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const debugSendOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/debugsend",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/debugsend",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.notificationHubName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: {
       serializedName: "parameters",
       type: {
@@ -814,7 +1182,8 @@ const debugSendOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -822,12 +1191,8 @@ const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -848,7 +1213,8 @@ const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
 
 const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -856,12 +1222,8 @@ const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -874,7 +1236,8 @@ const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
 
 const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -882,12 +1245,8 @@ const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SharedAccessAuthorizationRuleResource
@@ -901,18 +1260,15 @@ const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NotificationHubListResult
@@ -926,19 +1282,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.notificationHubName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SharedAccessAuthorizationRuleListResult
@@ -952,7 +1305,8 @@ const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}/listKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}/listKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -960,12 +1314,8 @@ const listKeysOperationSpec: msRest.OperationSpec = {
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceListKeys
@@ -979,7 +1329,8 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}/regenerateKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/AuthorizationRules/{authorizationRuleName}/regenerateKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -987,12 +1338,8 @@ const regenerateKeysOperationSpec: msRest.OperationSpec = {
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -1013,19 +1360,16 @@ const regenerateKeysOperationSpec: msRest.OperationSpec = {
 
 const getPnsCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/pnsCredentials",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/pnsCredentials",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.notificationHubName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PnsCredentialsResource
@@ -1041,12 +1385,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NotificationHubListResult
@@ -1062,12 +1402,8 @@ const listAuthorizationRulesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SharedAccessAuthorizationRuleListResult

@@ -36,7 +36,12 @@ export class VirtualNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksListResponse>
    */
-  list(regionId: string, pcName: string, resourcePoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksListResponse>;
+  list(
+    regionId: string,
+    pcName: string,
+    resourcePoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualNetworksListResponse>;
   /**
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
@@ -44,7 +49,12 @@ export class VirtualNetworks {
    * networks
    * @param callback The callback
    */
-  list(regionId: string, pcName: string, resourcePoolName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkListResponse>): void;
+  list(
+    regionId: string,
+    pcName: string,
+    resourcePoolName: string,
+    callback: msRest.ServiceCallback<Models.VirtualNetworkListResponse>
+  ): void;
   /**
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
@@ -53,8 +63,20 @@ export class VirtualNetworks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(regionId: string, pcName: string, resourcePoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListResponse>): void;
-  list(regionId: string, pcName: string, resourcePoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListResponse>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResponse>): Promise<Models.VirtualNetworksListResponse> {
+  list(
+    regionId: string,
+    pcName: string,
+    resourcePoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualNetworkListResponse>
+  ): void;
+  list(
+    regionId: string,
+    pcName: string,
+    resourcePoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListResponse>,
+    callback?: msRest.ServiceCallback<Models.VirtualNetworkListResponse>
+  ): Promise<Models.VirtualNetworksListResponse> {
     return this.client.sendOperationRequest(
       {
         regionId,
@@ -63,7 +85,8 @@ export class VirtualNetworks {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.VirtualNetworksListResponse>;
+      callback
+    ) as Promise<Models.VirtualNetworksListResponse>;
   }
 
   /**
@@ -75,14 +98,24 @@ export class VirtualNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksGetResponse>
    */
-  get(regionId: string, pcName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksGetResponse>;
+  get(
+    regionId: string,
+    pcName: string,
+    virtualNetworkName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualNetworksGetResponse>;
   /**
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
    * @param virtualNetworkName virtual network id (vsphereId)
    * @param callback The callback
    */
-  get(regionId: string, pcName: string, virtualNetworkName: string, callback: msRest.ServiceCallback<Models.VirtualNetwork>): void;
+  get(
+    regionId: string,
+    pcName: string,
+    virtualNetworkName: string,
+    callback: msRest.ServiceCallback<Models.VirtualNetwork>
+  ): void;
   /**
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
@@ -90,8 +123,20 @@ export class VirtualNetworks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(regionId: string, pcName: string, virtualNetworkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetwork>): void;
-  get(regionId: string, pcName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetwork>, callback?: msRest.ServiceCallback<Models.VirtualNetwork>): Promise<Models.VirtualNetworksGetResponse> {
+  get(
+    regionId: string,
+    pcName: string,
+    virtualNetworkName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualNetwork>
+  ): void;
+  get(
+    regionId: string,
+    pcName: string,
+    virtualNetworkName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetwork>,
+    callback?: msRest.ServiceCallback<Models.VirtualNetwork>
+  ): Promise<Models.VirtualNetworksGetResponse> {
     return this.client.sendOperationRequest(
       {
         regionId,
@@ -100,7 +145,8 @@ export class VirtualNetworks {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VirtualNetworksGetResponse>;
+      callback
+    ) as Promise<Models.VirtualNetworksGetResponse>;
   }
 
   /**
@@ -110,26 +156,41 @@ export class VirtualNetworks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworksListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworksListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualNetworksListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualNetworkListResponse>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VirtualNetworkListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkListResponse>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListResponse>, callback?: msRest.ServiceCallback<Models.VirtualNetworkListResponse>): Promise<Models.VirtualNetworksListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualNetworkListResponse>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkListResponse>,
+    callback?: msRest.ServiceCallback<Models.VirtualNetworkListResponse>
+  ): Promise<Models.VirtualNetworksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.VirtualNetworksListNextResponse>;
+      callback
+    ) as Promise<Models.VirtualNetworksListNextResponse>;
   }
 }
 
@@ -137,19 +198,11 @@ export class VirtualNetworks {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/virtualNetworks",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.regionId,
-    Parameters.pcName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.resourcePoolName
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/virtualNetworks",
+  urlParameters: [Parameters.subscriptionId, Parameters.regionId, Parameters.pcName],
+  queryParameters: [Parameters.apiVersion, Parameters.resourcePoolName],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualNetworkListResponse
@@ -163,19 +216,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/virtualNetworks/{virtualNetworkName}",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/virtualNetworks/{virtualNetworkName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.regionId,
     Parameters.pcName,
     Parameters.virtualNetworkName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualNetwork
@@ -191,12 +241,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualNetworkListResponse

@@ -30,9 +30,10 @@ export const builder: CommandBuilder = {
   },
   p: {
     alias: "partition-id",
-    describe: "The partitionId that the sender should send the event to. It can be a " +
+    describe:
+      "The partitionId that the sender should send the event to. It can be a " +
       "specific partition '0' or an inclusive range '0-127'.",
-    string: true,
+    string: true
   },
   w: {
     alias: "wait",
@@ -42,7 +43,8 @@ export const builder: CommandBuilder = {
   },
   i: {
     alias: "iterations",
-    describe: "Number of iterations to repeat the process of sending messages. For sending " +
+    describe:
+      "Number of iterations to repeat the process of sending messages. For sending " +
       "messages forever, provide a value less than 1.",
     number: true,
     default: 1
@@ -55,8 +57,10 @@ function validateArgs(argv: any): void {
   }
 
   if (!argv.connStr && (!argv.key || !argv.keyName || !argv.address)) {
-    throw new Error(`Either provide --conn-str OR (--address "sb://{yournamespace}.servicebus.` +
-      `windows.net" --key-name "<shared-access-key-name>" --key "<shared-access-key-value>")`);
+    throw new Error(
+      `Either provide --conn-str OR (--address "sb://{yournamespace}.servicebus.` +
+        `windows.net" --key-name "<shared-access-key-name>" --key "<shared-access-key-value>")`
+    );
   }
 }
 
@@ -92,7 +96,8 @@ export async function handler(argv: any): Promise<void> {
       const partitionIdRange = partitionId.split("-").map((x) => Number.parseInt(x));
       partitionIds = Array.from(
         new Array(partitionIdRange[partitionIdRange.length - 1] - partitionIdRange[0] + 1),
-        (val, index) => index + partitionIdRange[0]);
+        (val, index) => index + partitionIdRange[0]
+      );
       log("[Client-%d] Sending messages to partitionId: ", c, partitionIds);
     } else {
       log("[Client-%d] Sending messages in a round robin fashion to all the partitions.", c);
@@ -103,28 +108,44 @@ export async function handler(argv: any): Promise<void> {
   const obj: EventData = { body: msgBody };
   let datas: EventData[] = [];
   let count = 0;
-  if (msgGroup > 1) { // send batch
+  if (msgGroup > 1) {
+    // send batch
     for (count = 0; count < msgGroup; count++) {
       datas.push(obj);
     }
   }
   const msgToSend: EventData | EventData[] = datas.length ? datas : obj;
-  const clientSendMessage = async (client: EventHubClient, index: number, partitionId?: string | number) => {
+  const clientSendMessage = async (
+    client: EventHubClient,
+    index: number,
+    partitionId?: string | number
+  ) => {
     try {
-
       for (let i = 0; i < iterationValue; i++) {
         const startTime = Date.now();
         for (let j = 0; j < msgCount; j++) {
           try {
             if (partitionId) {
-              log("[Client-%d] [iteration-%d] [partition-%d] message number %d.", index, i, partitionId, j + 1);
+              log(
+                "[Client-%d] [iteration-%d] [partition-%d] message number %d.",
+                index,
+                i,
+                partitionId,
+                j + 1
+              );
             } else {
               log("[Client-%d] [iteration-%d] message number %d.", index, i, j + 1);
             }
             await sendMessage(client, index, msgToSend, partitionId);
           } catch (err) {
             if (partitionId) {
-              log("[Client-%d] [iteration-%d] [partition-%d] message number %d not successful.", index, i, partitionId, j + 1);
+              log(
+                "[Client-%d] [iteration-%d] [partition-%d] message number %d not successful.",
+                index,
+                i,
+                partitionId,
+                j + 1
+              );
             } else {
               log("[Client-%d] [iteration-%d] message number %d not successful.", index, i, j + 1);
             }
@@ -133,21 +154,36 @@ export async function handler(argv: any): Promise<void> {
 
         const totalTime = (Date.now() - startTime) / 1000;
         const totalMsgs = msgCount * msgGroup;
-        log("[Client-%d] [iteration-%d] total time in seconds: %d, number of messages sent: %d, messages sent/second: %d, size (in bytes) of each message: %d.", index, i,
-          totalTime, totalMsgs, totalMsgs / totalTime, msgGroup * msgBody.length);
+        log(
+          "[Client-%d] [iteration-%d] total time in seconds: %d, number of messages sent: %d, messages sent/second: %d, size (in bytes) of each message: %d.",
+          index,
+          i,
+          totalTime,
+          totalMsgs,
+          totalMsgs / totalTime,
+          msgGroup * msgBody.length
+        );
         if (wait > 0) {
           if (i + 1 < iterationValue) {
-            log("[Client-%d] #################### Waiting for %d seconds, before starting iteration: %d ########################", index, wait, i + 1);
+            log(
+              "[Client-%d] #################### Waiting for %d seconds, before starting iteration: %d ########################",
+              index,
+              wait,
+              i + 1
+            );
             await delay(wait * 1000);
           } else {
-            log("[Client-%d] #################### All iterations complete ########################", index);
+            log(
+              "[Client-%d] #################### All iterations complete ########################",
+              index
+            );
           }
         }
       }
     } catch (err) {
       log(err);
     }
-  }
+  };
   if (partitionIds.length) {
     for (let j = 0; j < partitionIds.length; j++) {
       for (let i = 0; i < clients.length; i++) {
@@ -161,7 +197,12 @@ export async function handler(argv: any): Promise<void> {
   }
 }
 
-async function sendMessage(client: EventHubClient, index: number, data: EventData | EventData[], partitionId?: string | number): Promise<any> {
+async function sendMessage(
+  client: EventHubClient,
+  index: number,
+  data: EventData | EventData[],
+  partitionId?: string | number
+): Promise<any> {
   if (Array.isArray(data)) {
     try {
       return await client.sendBatch(data, partitionId);

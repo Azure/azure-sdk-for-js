@@ -6,9 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  CloudError,
-  Display,
-  Operation,
-  OperationList
-} from "../models/mappers";
+export { CloudError, Display, Operation, OperationList } from "../models/mappers";

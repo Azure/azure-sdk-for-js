@@ -36,9 +36,22 @@ export class FlowLogs {
    * @param [options] The optional parameters
    * @returns Promise<Models.FlowLogsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, networkWatcherName: string, flowLogName: string, parameters: Models.FlowLog, options?: msRest.RequestOptionsBase): Promise<Models.FlowLogsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,networkWatcherName,flowLogName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.FlowLogsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    flowLogName: string,
+    parameters: Models.FlowLog,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FlowLogsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      networkWatcherName,
+      flowLogName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.FlowLogsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -49,14 +62,24 @@ export class FlowLogs {
    * @param [options] The optional parameters
    * @returns Promise<Models.FlowLogsGetResponse>
    */
-  get(resourceGroupName: string, networkWatcherName: string, flowLogName: string, options?: msRest.RequestOptionsBase): Promise<Models.FlowLogsGetResponse>;
+  get(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    flowLogName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FlowLogsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
    * @param flowLogName The name of the flow log resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkWatcherName: string, flowLogName: string, callback: msRest.ServiceCallback<Models.FlowLog>): void;
+  get(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    flowLogName: string,
+    callback: msRest.ServiceCallback<Models.FlowLog>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
@@ -64,8 +87,20 @@ export class FlowLogs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkWatcherName: string, flowLogName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FlowLog>): void;
-  get(resourceGroupName: string, networkWatcherName: string, flowLogName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FlowLog>, callback?: msRest.ServiceCallback<Models.FlowLog>): Promise<Models.FlowLogsGetResponse> {
+  get(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    flowLogName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FlowLog>
+  ): void;
+  get(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    flowLogName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FlowLog>,
+    callback?: msRest.ServiceCallback<Models.FlowLog>
+  ): Promise<Models.FlowLogsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +109,8 @@ export class FlowLogs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.FlowLogsGetResponse>;
+      callback
+    ) as Promise<Models.FlowLogsGetResponse>;
   }
 
   /**
@@ -85,9 +121,18 @@ export class FlowLogs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, networkWatcherName: string, flowLogName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,networkWatcherName,flowLogName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    flowLogName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      networkWatcherName,
+      flowLogName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -97,21 +142,39 @@ export class FlowLogs {
    * @param [options] The optional parameters
    * @returns Promise<Models.FlowLogsListResponse>
    */
-  list(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase): Promise<Models.FlowLogsListResponse>;
+  list(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FlowLogsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing Network Watcher.
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkWatcherName: string, callback: msRest.ServiceCallback<Models.FlowLogListResult>): void;
+  list(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    callback: msRest.ServiceCallback<Models.FlowLogListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing Network Watcher.
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkWatcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FlowLogListResult>): void;
-  list(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FlowLogListResult>, callback?: msRest.ServiceCallback<Models.FlowLogListResult>): Promise<Models.FlowLogsListResponse> {
+  list(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FlowLogListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FlowLogListResult>,
+    callback?: msRest.ServiceCallback<Models.FlowLogListResult>
+  ): Promise<Models.FlowLogsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +182,8 @@ export class FlowLogs {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.FlowLogsListResponse>;
+      callback
+    ) as Promise<Models.FlowLogsListResponse>;
   }
 
   /**
@@ -131,7 +195,13 @@ export class FlowLogs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, networkWatcherName: string, flowLogName: string, parameters: Models.FlowLog, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    flowLogName: string,
+    parameters: Models.FlowLog,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -141,7 +211,8 @@ export class FlowLogs {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +223,12 @@ export class FlowLogs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, networkWatcherName: string, flowLogName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    flowLogName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +237,8 @@ export class FlowLogs {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,7 +247,10 @@ export class FlowLogs {
    * @param [options] The optional parameters
    * @returns Promise<Models.FlowLogsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FlowLogsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FlowLogsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -181,15 +261,24 @@ export class FlowLogs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FlowLogListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FlowLogListResult>, callback?: msRest.ServiceCallback<Models.FlowLogListResult>): Promise<Models.FlowLogsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FlowLogListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FlowLogListResult>,
+    callback?: msRest.ServiceCallback<Models.FlowLogListResult>
+  ): Promise<Models.FlowLogsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.FlowLogsListNextResponse>;
+      callback
+    ) as Promise<Models.FlowLogsListNextResponse>;
   }
 }
 
@@ -197,19 +286,16 @@ export class FlowLogs {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkWatcherName,
     Parameters.flowLogName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FlowLog
@@ -223,18 +309,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkWatcherName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FlowLogListResult
@@ -248,19 +331,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkWatcherName,
     Parameters.flowLogName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -284,19 +364,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkWatcherName,
     Parameters.flowLogName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -311,12 +388,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FlowLogListResult

@@ -34,14 +34,24 @@ export class ProximityPlacementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProximityPlacementGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, proximityPlacementGroupName: string, parameters: Models.ProximityPlacementGroup, options?: msRest.RequestOptionsBase): Promise<Models.ProximityPlacementGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    parameters: Models.ProximityPlacementGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProximityPlacementGroupsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param parameters Parameters supplied to the Create Proximity Placement Group operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, proximityPlacementGroupName: string, parameters: Models.ProximityPlacementGroup, callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    parameters: Models.ProximityPlacementGroup,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param proximityPlacementGroupName The name of the proximity placement group.
@@ -49,8 +59,20 @@ export class ProximityPlacementGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, proximityPlacementGroupName: string, parameters: Models.ProximityPlacementGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>): void;
-  createOrUpdate(resourceGroupName: string, proximityPlacementGroupName: string, parameters: Models.ProximityPlacementGroup, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProximityPlacementGroup>, callback?: msRest.ServiceCallback<Models.ProximityPlacementGroup>): Promise<Models.ProximityPlacementGroupsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    parameters: Models.ProximityPlacementGroup,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    parameters: Models.ProximityPlacementGroup,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProximityPlacementGroup>,
+    callback?: msRest.ServiceCallback<Models.ProximityPlacementGroup>
+  ): Promise<Models.ProximityPlacementGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class ProximityPlacementGroups {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ProximityPlacementGroupsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ProximityPlacementGroupsCreateOrUpdateResponse>;
   }
 
   /**
@@ -70,14 +93,24 @@ export class ProximityPlacementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProximityPlacementGroupsUpdateResponse>
    */
-  update(resourceGroupName: string, proximityPlacementGroupName: string, parameters: Models.ProximityPlacementGroupUpdate, options?: msRest.RequestOptionsBase): Promise<Models.ProximityPlacementGroupsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    parameters: Models.ProximityPlacementGroupUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProximityPlacementGroupsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param parameters Parameters supplied to the Update Proximity Placement Group operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, proximityPlacementGroupName: string, parameters: Models.ProximityPlacementGroupUpdate, callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>): void;
+  update(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    parameters: Models.ProximityPlacementGroupUpdate,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param proximityPlacementGroupName The name of the proximity placement group.
@@ -85,8 +118,20 @@ export class ProximityPlacementGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, proximityPlacementGroupName: string, parameters: Models.ProximityPlacementGroupUpdate, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>): void;
-  update(resourceGroupName: string, proximityPlacementGroupName: string, parameters: Models.ProximityPlacementGroupUpdate, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProximityPlacementGroup>, callback?: msRest.ServiceCallback<Models.ProximityPlacementGroup>): Promise<Models.ProximityPlacementGroupsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    parameters: Models.ProximityPlacementGroupUpdate,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>
+  ): void;
+  update(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    parameters: Models.ProximityPlacementGroupUpdate,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProximityPlacementGroup>,
+    callback?: msRest.ServiceCallback<Models.ProximityPlacementGroup>
+  ): Promise<Models.ProximityPlacementGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +140,8 @@ export class ProximityPlacementGroups {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ProximityPlacementGroupsUpdateResponse>;
+      callback
+    ) as Promise<Models.ProximityPlacementGroupsUpdateResponse>;
   }
 
   /**
@@ -105,21 +151,39 @@ export class ProximityPlacementGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, proximityPlacementGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, proximityPlacementGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, proximityPlacementGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, proximityPlacementGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +191,8 @@ export class ProximityPlacementGroups {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -137,21 +202,41 @@ export class ProximityPlacementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProximityPlacementGroupsGetResponse>
    */
-  get(resourceGroupName: string, proximityPlacementGroupName: string, options?: Models.ProximityPlacementGroupsGetOptionalParams): Promise<Models.ProximityPlacementGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    options?: Models.ProximityPlacementGroupsGetOptionalParams
+  ): Promise<Models.ProximityPlacementGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, proximityPlacementGroupName: string, callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>): void;
+  get(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, proximityPlacementGroupName: string, options: Models.ProximityPlacementGroupsGetOptionalParams, callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>): void;
-  get(resourceGroupName: string, proximityPlacementGroupName: string, options?: Models.ProximityPlacementGroupsGetOptionalParams | msRest.ServiceCallback<Models.ProximityPlacementGroup>, callback?: msRest.ServiceCallback<Models.ProximityPlacementGroup>): Promise<Models.ProximityPlacementGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    options: Models.ProximityPlacementGroupsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>
+  ): void;
+  get(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    options?:
+      | Models.ProximityPlacementGroupsGetOptionalParams
+      | msRest.ServiceCallback<Models.ProximityPlacementGroup>,
+    callback?: msRest.ServiceCallback<Models.ProximityPlacementGroup>
+  ): Promise<Models.ProximityPlacementGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +244,8 @@ export class ProximityPlacementGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ProximityPlacementGroupsGetResponse>;
+      callback
+    ) as Promise<Models.ProximityPlacementGroupsGetResponse>;
   }
 
   /**
@@ -167,23 +253,36 @@ export class ProximityPlacementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProximityPlacementGroupsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.ProximityPlacementGroupsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProximityPlacementGroupsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>): void;
+  listBySubscription(
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>, callback?: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>): Promise<Models.ProximityPlacementGroupsListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>
+  ): Promise<Models.ProximityPlacementGroupsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.ProximityPlacementGroupsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.ProximityPlacementGroupsListBySubscriptionResponse>;
   }
 
   /**
@@ -192,26 +291,43 @@ export class ProximityPlacementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProximityPlacementGroupsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProximityPlacementGroupsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProximityPlacementGroupsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>, callback?: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>): Promise<Models.ProximityPlacementGroupsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>
+  ): Promise<Models.ProximityPlacementGroupsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ProximityPlacementGroupsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ProximityPlacementGroupsListByResourceGroupResponse>;
   }
 
   /**
@@ -220,26 +336,43 @@ export class ProximityPlacementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProximityPlacementGroupsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProximityPlacementGroupsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProximityPlacementGroupsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>, callback?: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>): Promise<Models.ProximityPlacementGroupsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>
+  ): Promise<Models.ProximityPlacementGroupsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.ProximityPlacementGroupsListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.ProximityPlacementGroupsListBySubscriptionNextResponse>;
   }
 
   /**
@@ -248,26 +381,43 @@ export class ProximityPlacementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProximityPlacementGroupsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProximityPlacementGroupsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProximityPlacementGroupsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>, callback?: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>): Promise<Models.ProximityPlacementGroupsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ProximityPlacementGroupListResult>
+  ): Promise<Models.ProximityPlacementGroupsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ProximityPlacementGroupsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ProximityPlacementGroupsListByResourceGroupNextResponse>;
   }
 }
 
@@ -275,18 +425,15 @@ export class ProximityPlacementGroups {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.proximityPlacementGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -310,18 +457,15 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.proximityPlacementGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -342,18 +486,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.proximityPlacementGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -365,19 +506,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.proximityPlacementGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.includeColocationStatus,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.includeColocationStatus, Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProximityPlacementGroup
@@ -392,15 +529,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/proximityPlacementGroups",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProximityPlacementGroupListResult
@@ -414,17 +545,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProximityPlacementGroupListResult
@@ -440,12 +565,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProximityPlacementGroupListResult
@@ -461,12 +582,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProximityPlacementGroupListResult

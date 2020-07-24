@@ -35,7 +35,12 @@ export class TransparentDataEncryptionActivities {
    * @param [options] The optional parameters
    * @returns Promise<Models.TransparentDataEncryptionActivitiesListByConfigurationResponse>
    */
-  listByConfiguration(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.TransparentDataEncryptionActivitiesListByConfigurationResponse>;
+  listByConfiguration(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TransparentDataEncryptionActivitiesListByConfigurationResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -43,7 +48,12 @@ export class TransparentDataEncryptionActivities {
    * @param databaseName The name of the database for which the transparent data encryption applies.
    * @param callback The callback
    */
-  listByConfiguration(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.TransparentDataEncryptionActivityListResult>): void;
+  listByConfiguration(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.TransparentDataEncryptionActivityListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -52,8 +62,22 @@ export class TransparentDataEncryptionActivities {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByConfiguration(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TransparentDataEncryptionActivityListResult>): void;
-  listByConfiguration(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransparentDataEncryptionActivityListResult>, callback?: msRest.ServiceCallback<Models.TransparentDataEncryptionActivityListResult>): Promise<Models.TransparentDataEncryptionActivitiesListByConfigurationResponse> {
+  listByConfiguration(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TransparentDataEncryptionActivityListResult>
+  ): void;
+  listByConfiguration(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.TransparentDataEncryptionActivityListResult>,
+    callback?: msRest.ServiceCallback<Models.TransparentDataEncryptionActivityListResult>
+  ): Promise<Models.TransparentDataEncryptionActivitiesListByConfigurationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +86,8 @@ export class TransparentDataEncryptionActivities {
         options
       },
       listByConfigurationOperationSpec,
-      callback) as Promise<Models.TransparentDataEncryptionActivitiesListByConfigurationResponse>;
+      callback
+    ) as Promise<Models.TransparentDataEncryptionActivitiesListByConfigurationResponse>;
   }
 }
 
@@ -70,7 +95,8 @@ export class TransparentDataEncryptionActivities {
 const serializer = new msRest.Serializer(Mappers);
 const listByConfigurationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{transparentDataEncryptionName}/operationResults",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/transparentDataEncryption/{transparentDataEncryptionName}/operationResults",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -78,12 +104,8 @@ const listByConfigurationOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.transparentDataEncryptionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TransparentDataEncryptionActivityListResult

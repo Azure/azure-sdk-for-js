@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const ResponseBase: msRest.CompositeMapper = {
   serializedName: "ResponseBase",
   type: {
@@ -575,7 +574,7 @@ export const ErrorModel: msRest.CompositeMapper = {
       code: {
         required: true,
         serializedName: "code",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -646,22 +645,21 @@ export const ErrorResponse: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ResponseBase.NewsArticle' : NewsArticle,
-  'ResponseBase.News' : News,
-  'ResponseBase.SearchResultsAnswer' : SearchResultsAnswer,
-  'ResponseBase.ImageObject' : ImageObject,
-  'ResponseBase.News/Topic' : NewsTopic,
-  'ResponseBase.Answer' : Answer,
-  'ResponseBase.Article' : Article,
-  'ResponseBase.Thing' : Thing,
-  'ResponseBase.Response' : Response,
-  'ResponseBase.TrendingTopics' : TrendingTopics,
-  'ResponseBase.VideoObject' : VideoObject,
-  'ResponseBase.CreativeWork' : CreativeWork,
-  'ResponseBase.Organization' : Organization,
-  'ResponseBase.Identifiable' : Identifiable,
-  'ResponseBase.ErrorResponse' : ErrorResponse,
-  'ResponseBase.MediaObject' : MediaObject,
-  'ResponseBase' : ResponseBase
-
+  "ResponseBase.NewsArticle": NewsArticle,
+  "ResponseBase.News": News,
+  "ResponseBase.SearchResultsAnswer": SearchResultsAnswer,
+  "ResponseBase.ImageObject": ImageObject,
+  "ResponseBase.News/Topic": NewsTopic,
+  "ResponseBase.Answer": Answer,
+  "ResponseBase.Article": Article,
+  "ResponseBase.Thing": Thing,
+  "ResponseBase.Response": Response,
+  "ResponseBase.TrendingTopics": TrendingTopics,
+  "ResponseBase.VideoObject": VideoObject,
+  "ResponseBase.CreativeWork": CreativeWork,
+  "ResponseBase.Organization": Organization,
+  "ResponseBase.Identifiable": Identifiable,
+  "ResponseBase.ErrorResponse": ErrorResponse,
+  "ResponseBase.MediaObject": MediaObject,
+  ResponseBase: ResponseBase
 };

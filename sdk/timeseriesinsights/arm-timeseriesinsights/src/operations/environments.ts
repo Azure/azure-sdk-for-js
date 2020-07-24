@@ -35,9 +35,20 @@ export class Environments {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnvironmentsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, environmentName: string, parameters: Models.EnvironmentCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.EnvironmentsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,environmentName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.EnvironmentsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    parameters: Models.EnvironmentCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EnvironmentsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      environmentName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.EnvironmentsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -48,14 +59,22 @@ export class Environments {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnvironmentsGetResponse>
    */
-  get(resourceGroupName: string, environmentName: string, options?: Models.EnvironmentsGetOptionalParams): Promise<Models.EnvironmentsGetResponse>;
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: Models.EnvironmentsGetOptionalParams
+  ): Promise<Models.EnvironmentsGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
    * specified resource group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, environmentName: string, callback: msRest.ServiceCallback<Models.EnvironmentResource>): void;
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    callback: msRest.ServiceCallback<Models.EnvironmentResource>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -63,8 +82,20 @@ export class Environments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, environmentName: string, options: Models.EnvironmentsGetOptionalParams, callback: msRest.ServiceCallback<Models.EnvironmentResource>): void;
-  get(resourceGroupName: string, environmentName: string, options?: Models.EnvironmentsGetOptionalParams | msRest.ServiceCallback<Models.EnvironmentResource>, callback?: msRest.ServiceCallback<Models.EnvironmentResource>): Promise<Models.EnvironmentsGetResponse> {
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    options: Models.EnvironmentsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.EnvironmentResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    options?:
+      | Models.EnvironmentsGetOptionalParams
+      | msRest.ServiceCallback<Models.EnvironmentResource>,
+    callback?: msRest.ServiceCallback<Models.EnvironmentResource>
+  ): Promise<Models.EnvironmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -72,7 +103,8 @@ export class Environments {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.EnvironmentsGetResponse>;
+      callback
+    ) as Promise<Models.EnvironmentsGetResponse>;
   }
 
   /**
@@ -86,9 +118,20 @@ export class Environments {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnvironmentsUpdateResponse>
    */
-  update(resourceGroupName: string, environmentName: string, environmentUpdateParameters: Models.EnvironmentUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.EnvironmentsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,environmentName,environmentUpdateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.EnvironmentsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    environmentUpdateParameters: Models.EnvironmentUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EnvironmentsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      environmentName,
+      environmentUpdateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.EnvironmentsUpdateResponse
+    >;
   }
 
   /**
@@ -100,14 +143,22 @@ export class Environments {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
    * specified resource group.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, environmentName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -115,8 +166,18 @@ export class Environments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +185,8 @@ export class Environments {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -134,26 +196,41 @@ export class Environments {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnvironmentsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.EnvironmentsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EnvironmentsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.EnvironmentListResponse>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.EnvironmentListResponse>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnvironmentListResponse>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnvironmentListResponse>, callback?: msRest.ServiceCallback<Models.EnvironmentListResponse>): Promise<Models.EnvironmentsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EnvironmentListResponse>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnvironmentListResponse>,
+    callback?: msRest.ServiceCallback<Models.EnvironmentListResponse>
+  ): Promise<Models.EnvironmentsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.EnvironmentsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.EnvironmentsListByResourceGroupResponse>;
   }
 
   /**
@@ -161,7 +238,9 @@ export class Environments {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnvironmentsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.EnvironmentsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EnvironmentsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -170,14 +249,21 @@ export class Environments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnvironmentListResponse>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnvironmentListResponse>, callback?: msRest.ServiceCallback<Models.EnvironmentListResponse>): Promise<Models.EnvironmentsListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EnvironmentListResponse>
+  ): void;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnvironmentListResponse>,
+    callback?: msRest.ServiceCallback<Models.EnvironmentListResponse>
+  ): Promise<Models.EnvironmentsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.EnvironmentsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.EnvironmentsListBySubscriptionResponse>;
   }
 
   /**
@@ -188,7 +274,12 @@ export class Environments {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, environmentName: string, parameters: Models.EnvironmentCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    parameters: Models.EnvironmentCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -197,7 +288,8 @@ export class Environments {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -211,7 +303,12 @@ export class Environments {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, environmentName: string, environmentUpdateParameters: Models.EnvironmentUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    environmentUpdateParameters: Models.EnvironmentUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -220,7 +317,8 @@ export class Environments {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -228,19 +326,15 @@ export class Environments {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1
   ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EnvironmentResource
@@ -254,18 +348,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -278,17 +369,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EnvironmentListResponse
@@ -303,15 +388,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.TimeSeriesInsights/environments",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EnvironmentListResponse
@@ -325,18 +404,15 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -361,18 +437,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "environmentUpdateParameters",
     mapper: {

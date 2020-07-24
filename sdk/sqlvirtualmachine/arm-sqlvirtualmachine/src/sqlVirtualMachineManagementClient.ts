@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { SqlVirtualMachineManagementClientContext } from "./sqlVirtualMachineManagementClientContext";
 
-
 class SqlVirtualMachineManagementClient extends SqlVirtualMachineManagementClientContext {
   // Operation groups
   availabilityGroupListeners: operations.AvailabilityGroupListeners;
@@ -28,7 +27,11 @@ class SqlVirtualMachineManagementClient extends SqlVirtualMachineManagementClien
    * @param subscriptionId Subscription ID that identifies an Azure subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SqlVirtualMachineManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.SqlVirtualMachineManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.availabilityGroupListeners = new operations.AvailabilityGroupListeners(this);
     this.operations = new operations.Operations(this);

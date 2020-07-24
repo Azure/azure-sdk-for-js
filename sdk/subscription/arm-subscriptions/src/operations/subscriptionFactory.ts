@@ -37,9 +37,20 @@ export class SubscriptionFactory {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionFactoryCreateSubscriptionResponse>
    */
-  createSubscription(billingAccountName: string, invoiceSectionName: string, body: Models.ModernSubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionResponse> {
-    return this.beginCreateSubscription(billingAccountName,invoiceSectionName,body,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionFactoryCreateSubscriptionResponse>;
+  createSubscription(
+    billingAccountName: string,
+    invoiceSectionName: string,
+    body: Models.ModernSubscriptionCreationParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubscriptionFactoryCreateSubscriptionResponse> {
+    return this.beginCreateSubscription(
+      billingAccountName,
+      invoiceSectionName,
+      body,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SubscriptionFactoryCreateSubscriptionResponse
+    >;
   }
 
   /**
@@ -50,9 +61,18 @@ export class SubscriptionFactory {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse>
    */
-  createSubscriptionInEnrollmentAccount(enrollmentAccountName: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse> {
-    return this.beginCreateSubscriptionInEnrollmentAccount(enrollmentAccountName,body,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse>;
+  createSubscriptionInEnrollmentAccount(
+    enrollmentAccountName: string,
+    body: Models.SubscriptionCreationParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse> {
+    return this.beginCreateSubscriptionInEnrollmentAccount(
+      enrollmentAccountName,
+      body,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse
+    >;
   }
 
   /**
@@ -65,7 +85,12 @@ export class SubscriptionFactory {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateSubscription(billingAccountName: string, invoiceSectionName: string, body: Models.ModernSubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateSubscription(
+    billingAccountName: string,
+    invoiceSectionName: string,
+    body: Models.ModernSubscriptionCreationParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         billingAccountName,
@@ -74,7 +99,8 @@ export class SubscriptionFactory {
         options
       },
       beginCreateSubscriptionOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -85,7 +111,11 @@ export class SubscriptionFactory {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateSubscriptionInEnrollmentAccount(enrollmentAccountName: string, body: Models.SubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateSubscriptionInEnrollmentAccount(
+    enrollmentAccountName: string,
+    body: Models.SubscriptionCreationParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         enrollmentAccountName,
@@ -93,7 +123,8 @@ export class SubscriptionFactory {
         options
       },
       beginCreateSubscriptionInEnrollmentAccountOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -101,17 +132,11 @@ export class SubscriptionFactory {
 const serializer = new msRest.Serializer(Mappers);
 const beginCreateSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Subscription/createSubscription",
-  urlParameters: [
-    Parameters.billingAccountName,
-    Parameters.invoiceSectionName
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Subscription/createSubscription",
+  urlParameters: [Parameters.billingAccountName, Parameters.invoiceSectionName],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -136,16 +161,11 @@ const beginCreateSubscriptionOperationSpec: msRest.OperationSpec = {
 
 const beginCreateSubscriptionInEnrollmentAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountName}/providers/Microsoft.Subscription/createSubscription",
-  urlParameters: [
-    Parameters.enrollmentAccountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountName}/providers/Microsoft.Subscription/createSubscription",
+  urlParameters: [Parameters.enrollmentAccountName],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {

@@ -34,21 +34,39 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListResponse>
    */
-  list(resourceGroupName: string, privateCloudName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListResponse>;
+  list(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersListResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription
    * @param privateCloudName Name of the private cloud
    * @param callback The callback
    */
-  list(resourceGroupName: string, privateCloudName: string, callback: msRest.ServiceCallback<Models.ClusterList>): void;
+  list(
+    resourceGroupName: string,
+    privateCloudName: string,
+    callback: msRest.ServiceCallback<Models.ClusterList>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription
    * @param privateCloudName Name of the private cloud
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, privateCloudName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterList>): void;
-  list(resourceGroupName: string, privateCloudName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterList>, callback?: msRest.ServiceCallback<Models.ClusterList>): Promise<Models.ClustersListResponse> {
+  list(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClusterList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterList>,
+    callback?: msRest.ServiceCallback<Models.ClusterList>
+  ): Promise<Models.ClustersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class Clusters {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ClustersListResponse>;
+      callback
+    ) as Promise<Models.ClustersListResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersGetResponse>
    */
-  get(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersGetResponse>;
+  get(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateCloudName: string, clusterName: string, callback: msRest.ServiceCallback<Models.Cluster>): void;
+  get(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.Cluster>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription
    * @param privateCloudName Name of the private cloud
@@ -82,8 +111,20 @@ export class Clusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateCloudName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Cluster>): void;
-  get(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersGetResponse> {
+  get(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Cluster>
+  ): void;
+  get(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>,
+    callback?: msRest.ServiceCallback<Models.Cluster>
+  ): Promise<Models.ClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +133,8 @@ export class Clusters {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ClustersGetResponse>;
+      callback
+    ) as Promise<Models.ClustersGetResponse>;
   }
 
   /**
@@ -103,9 +145,20 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: Models.ClustersCreateOrUpdateOptionalParams): Promise<Models.ClustersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,privateCloudName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ClustersCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    options?: Models.ClustersCreateOrUpdateOptionalParams
+  ): Promise<Models.ClustersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      privateCloudName,
+      clusterName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ClustersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -116,9 +169,18 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersUpdateResponse>
    */
-  update(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: Models.ClustersUpdateOptionalParams): Promise<Models.ClustersUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,privateCloudName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ClustersUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    options?: Models.ClustersUpdateOptionalParams
+  ): Promise<Models.ClustersUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      privateCloudName,
+      clusterName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.ClustersUpdateResponse>;
   }
 
   /**
@@ -129,9 +191,18 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,privateCloudName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      privateCloudName,
+      clusterName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -142,7 +213,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: Models.ClustersBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    options?: Models.ClustersBeginCreateOrUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -151,7 +227,8 @@ export class Clusters {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -162,7 +239,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: Models.ClustersBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    options?: Models.ClustersBeginUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -171,7 +253,8 @@ export class Clusters {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -182,7 +265,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -191,7 +279,8 @@ export class Clusters {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -200,7 +289,10 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -211,15 +303,24 @@ export class Clusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterList>, callback?: msRest.ServiceCallback<Models.ClusterList>): Promise<Models.ClustersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClusterList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterList>,
+    callback?: msRest.ServiceCallback<Models.ClusterList>
+  ): Promise<Models.ClustersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ClustersListNextResponse>;
+      callback
+    ) as Promise<Models.ClustersListNextResponse>;
   }
 }
 
@@ -227,18 +328,15 @@ export class Clusters {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterList
@@ -252,19 +350,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
     Parameters.clusterName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Cluster
@@ -278,25 +373,19 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
     Parameters.clusterName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      properties: [
-        "options",
-        "properties"
-      ]
+      properties: ["options", "properties"]
     },
     mapper: {
       ...Mappers.Cluster,
@@ -319,25 +408,19 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
     Parameters.clusterName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      properties: [
-        "options",
-        "properties"
-      ]
+      properties: ["options", "properties"]
     },
     mapper: {
       ...Mappers.Cluster,
@@ -360,19 +443,16 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
     Parameters.clusterName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -388,12 +468,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterList

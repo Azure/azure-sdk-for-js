@@ -37,7 +37,13 @@ export class IntegrationRuntimeAuthKeysOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeAuthKeysRegenerateResponse>
    */
-  regenerate(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeAuthKeysRegenerateResponse>;
+  regenerate(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationRuntimeAuthKeysRegenerateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -46,7 +52,13 @@ export class IntegrationRuntimeAuthKeysOperations {
    * authentication key.
    * @param callback The callback
    */
-  regenerate(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
+  regenerate(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters,
+    callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -56,8 +68,22 @@ export class IntegrationRuntimeAuthKeysOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerate(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
-  regenerate(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): Promise<Models.IntegrationRuntimeAuthKeysRegenerateResponse> {
+  regenerate(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>
+  ): void;
+  regenerate(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>,
+    callback?: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>
+  ): Promise<Models.IntegrationRuntimeAuthKeysRegenerateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +93,8 @@ export class IntegrationRuntimeAuthKeysOperations {
         options
       },
       regenerateOperationSpec,
-      callback) as Promise<Models.IntegrationRuntimeAuthKeysRegenerateResponse>;
+      callback
+    ) as Promise<Models.IntegrationRuntimeAuthKeysRegenerateResponse>;
   }
 
   /**
@@ -79,14 +106,24 @@ export class IntegrationRuntimeAuthKeysOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeAuthKeysListResponse>
    */
-  list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeAuthKeysListResponse>;
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationRuntimeAuthKeysListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -94,8 +131,20 @@ export class IntegrationRuntimeAuthKeysOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
-  list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): Promise<Models.IntegrationRuntimeAuthKeysListResponse> {
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>
+  ): void;
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>,
+    callback?: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>
+  ): Promise<Models.IntegrationRuntimeAuthKeysListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -104,7 +153,8 @@ export class IntegrationRuntimeAuthKeysOperations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IntegrationRuntimeAuthKeysListResponse>;
+      callback
+    ) as Promise<Models.IntegrationRuntimeAuthKeysListResponse>;
   }
 }
 
@@ -112,19 +162,16 @@ export class IntegrationRuntimeAuthKeysOperations {
 const serializer = new msRest.Serializer(Mappers);
 const regenerateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/regenerateAuthKey",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/regenerateAuthKey",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.integrationRuntimeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "regenerateKeyParameters",
     mapper: {
@@ -145,19 +192,16 @@ const regenerateOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/listAuthKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/listAuthKeys",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.integrationRuntimeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IntegrationRuntimeAuthKeys

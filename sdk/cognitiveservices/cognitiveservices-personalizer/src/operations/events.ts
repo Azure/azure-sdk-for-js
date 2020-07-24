@@ -33,21 +33,39 @@ export class Events {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  reward(eventId: string, rewardParameter: Models.RewardRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  reward(
+    eventId: string,
+    rewardParameter: Models.RewardRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param eventId The event id this reward applies to.
    * @param rewardParameter The reward should be a floating point number.
    * @param callback The callback
    */
-  reward(eventId: string, rewardParameter: Models.RewardRequest, callback: msRest.ServiceCallback<void>): void;
+  reward(
+    eventId: string,
+    rewardParameter: Models.RewardRequest,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param eventId The event id this reward applies to.
    * @param rewardParameter The reward should be a floating point number.
    * @param options The optional parameters
    * @param callback The callback
    */
-  reward(eventId: string, rewardParameter: Models.RewardRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  reward(eventId: string, rewardParameter: Models.RewardRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reward(
+    eventId: string,
+    rewardParameter: Models.RewardRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  reward(
+    eventId: string,
+    rewardParameter: Models.RewardRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         eventId,
@@ -55,7 +73,8 @@ export class Events {
         options
       },
       rewardOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -76,15 +95,24 @@ export class Events {
    * @param options The optional parameters
    * @param callback The callback
    */
-  activate(eventId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  activate(eventId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  activate(
+    eventId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  activate(
+    eventId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         eventId,
         options
       },
       activateOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -93,10 +121,7 @@ const serializer = new msRest.Serializer(Mappers);
 const rewardOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "events/{eventId}/reward",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.eventId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.eventId],
   requestBody: {
     parameterPath: "rewardParameter",
     mapper: {
@@ -116,10 +141,7 @@ const rewardOperationSpec: msRest.OperationSpec = {
 const activateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "events/{eventId}/activate",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.eventId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.eventId],
   responses: {
     204: {},
     default: {

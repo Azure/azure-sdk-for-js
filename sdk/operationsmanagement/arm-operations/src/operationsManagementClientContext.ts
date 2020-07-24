@@ -33,35 +33,42 @@ export class OperationsManagementClientContext extends msRestAzure.AzureServiceC
    * @param resourceName Parent resource name.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, providerName: string, resourceType: string, resourceName: string, options?: Models.OperationsManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    providerName: string,
+    resourceType: string,
+    resourceName: string,
+    options?: Models.OperationsManagementClientOptions
+  ) {
     if (credentials == undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+      throw new Error("'credentials' cannot be null.");
     }
     if (subscriptionId == undefined) {
-      throw new Error('\'subscriptionId\' cannot be null.');
+      throw new Error("'subscriptionId' cannot be null.");
     }
     if (providerName == undefined) {
-      throw new Error('\'providerName\' cannot be null.');
+      throw new Error("'providerName' cannot be null.");
     }
     if (resourceType == undefined) {
-      throw new Error('\'resourceType\' cannot be null.');
+      throw new Error("'resourceType' cannot be null.");
     }
     if (resourceName == undefined) {
-      throw new Error('\'resourceName\' cannot be null.');
+      throw new Error("'resourceName' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+    if (!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = '2015-11-01-preview';
-    this.acceptLanguage = 'en-US';
+    this.apiVersion = "2015-11-01-preview";
+    this.acceptLanguage = "en-US";
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
@@ -71,10 +78,13 @@ export class OperationsManagementClientContext extends msRestAzure.AzureServiceC
     this.resourceType = resourceType;
     this.resourceName = resourceName;
 
-    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (
+      options.longRunningOperationRetryTimeout !== null &&
+      options.longRunningOperationRetryTimeout !== undefined
+    ) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

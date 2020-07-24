@@ -566,7 +566,7 @@ export interface SynapseClientOptions extends AzureServiceClientOptions {
  * @readonly
  * @enum {string}
  */
-export type JobType = 'SparkBatch' | 'SparkSession';
+export type JobType = "SparkBatch" | "SparkSession";
 
 /**
  * Defines values for JobResult.
@@ -574,7 +574,7 @@ export type JobType = 'SparkBatch' | 'SparkSession';
  * @readonly
  * @enum {string}
  */
-export type JobResult = 'Uncertain' | 'Succeeded' | 'Failed' | 'Cancelled';
+export type JobResult = "Uncertain" | "Succeeded" | "Failed" | "Cancelled";
 
 /**
  * Defines values for SchedulerCurrentState.
@@ -582,7 +582,7 @@ export type JobResult = 'Uncertain' | 'Succeeded' | 'Failed' | 'Cancelled';
  * @readonly
  * @enum {string}
  */
-export type SchedulerCurrentState = 'Queued' | 'Scheduled' | 'Ended';
+export type SchedulerCurrentState = "Queued" | "Scheduled" | "Ended";
 
 /**
  * Defines values for PluginCurrentState.
@@ -591,7 +591,14 @@ export type SchedulerCurrentState = 'Queued' | 'Scheduled' | 'Ended';
  * @readonly
  * @enum {string}
  */
-export type PluginCurrentState = 'Preparation' | 'ResourceAcquisition' | 'Queued' | 'Submission' | 'Monitoring' | 'Cleanup' | 'Ended';
+export type PluginCurrentState =
+  | "Preparation"
+  | "ResourceAcquisition"
+  | "Queued"
+  | "Submission"
+  | "Monitoring"
+  | "Cleanup"
+  | "Ended";
 
 /**
  * Defines values for ErrorSource.
@@ -599,7 +606,7 @@ export type PluginCurrentState = 'Preparation' | 'ResourceAcquisition' | 'Queued
  * @readonly
  * @enum {string}
  */
-export type ErrorSource = 'System' | 'User' | 'Unknown' | 'Dependency';
+export type ErrorSource = "System" | "User" | "Unknown" | "Dependency";
 
 /**
  * Defines values for ArtifactType.
@@ -607,7 +614,7 @@ export type ErrorSource = 'System' | 'User' | 'Unknown' | 'Dependency';
  * @readonly
  * @enum {string}
  */
-export type ArtifactType = 'Workspace';
+export type ArtifactType = "Workspace";
 
 /**
  * Contains response data for the getHistoryServerData operation.
@@ -617,16 +624,16 @@ export type MonitoringGetHistoryServerDataResponse = HistoryServerDataResponse &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HistoryServerDataResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HistoryServerDataResponse;
+  };
 };
 
 /**
@@ -637,16 +644,16 @@ export type MonitoringGetSparkJobListResponse = SparkJobListViewResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SparkJobListViewResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SparkJobListViewResponse;
+  };
 };
 
 /**
@@ -657,16 +664,16 @@ export type MonitoringGetApplicationDetailsResponse = SparkJobListViewResponse &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SparkJobListViewResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SparkJobListViewResponse;
+  };
 };
 
 /**
@@ -677,16 +684,16 @@ export type MonitoringGetHistoryServerPropertiesResponse = HistoryServerProperti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HistoryServerPropertiesResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HistoryServerPropertiesResponse;
+  };
 };
 
 /**
@@ -697,16 +704,16 @@ export type MonitoringGetHistoryServerDiagnosticResponse = HistoryServerDiagnost
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HistoryServerDiagnosticResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HistoryServerDiagnosticResponse;
+  };
 };
 
 /**
@@ -717,16 +724,16 @@ export type MonitoringGetHistoryServerGraphResponse = HistoryServerGraphResponse
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HistoryServerGraphResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HistoryServerGraphResponse;
+  };
 };
 
 /**
@@ -737,16 +744,16 @@ export type SparkBatchListResponse = ExtendedLivyListBatchResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtendedLivyListBatchResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExtendedLivyListBatchResponse;
+  };
 };
 
 /**
@@ -757,16 +764,16 @@ export type SparkBatchCreateResponse = ExtendedLivyBatchResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtendedLivyBatchResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExtendedLivyBatchResponse;
+  };
 };
 
 /**
@@ -777,16 +784,16 @@ export type SparkBatchGetResponse = ExtendedLivyBatchResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtendedLivyBatchResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExtendedLivyBatchResponse;
+  };
 };
 
 /**
@@ -797,16 +804,16 @@ export type SparkSessionListResponse = ExtendedLivyListSessionResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtendedLivyListSessionResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExtendedLivyListSessionResponse;
+  };
 };
 
 /**
@@ -817,16 +824,16 @@ export type SparkSessionCreateResponse = ExtendedLivySessionResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtendedLivySessionResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExtendedLivySessionResponse;
+  };
 };
 
 /**
@@ -837,16 +844,16 @@ export type SparkSessionGetResponse = ExtendedLivySessionResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtendedLivySessionResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExtendedLivySessionResponse;
+  };
 };
 
 /**
@@ -857,16 +864,16 @@ export type SparkSessionListStatementsResponse = LivyStatementsResponseBody & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LivyStatementsResponseBody;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LivyStatementsResponseBody;
+  };
 };
 
 /**
@@ -877,16 +884,16 @@ export type SparkSessionCreateStatementResponse = LivyStatementResponseBody & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LivyStatementResponseBody;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LivyStatementResponseBody;
+  };
 };
 
 /**
@@ -897,16 +904,16 @@ export type SparkSessionGetStatementResponse = LivyStatementResponseBody & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LivyStatementResponseBody;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LivyStatementResponseBody;
+  };
 };
 
 /**
@@ -917,16 +924,16 @@ export type SparkSessionDeleteStatementResponse = LivyStatementCancellationRespo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LivyStatementCancellationResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LivyStatementCancellationResponse;
+  };
 };
 
 /**
@@ -937,16 +944,16 @@ export type WorkspaceAclGetAccessControlInfoResponse = WorkspaceAccessControlRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceAccessControlResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceAccessControlResponse;
+  };
 };
 
 /**
@@ -957,14 +964,14 @@ export type WorkspaceAclSetWorkspaceAdministratorsResponse = WorkspaceAccessCont
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceAccessControlResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceAccessControlResponse;
+  };
 };

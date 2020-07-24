@@ -37,7 +37,13 @@ export class AdaptiveNetworkHardenings {
    * @param [options] The optional parameters
    * @returns Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceResponse>
    */
-  listByExtendedResource(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceResponse>;
+  listByExtendedResource(
+    resourceGroupName: string,
+    resourceNamespace: string,
+    resourceType: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -46,7 +52,13 @@ export class AdaptiveNetworkHardenings {
    * @param resourceName Name of the resource.
    * @param callback The callback
    */
-  listByExtendedResource(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, callback: msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>): void;
+  listByExtendedResource(
+    resourceGroupName: string,
+    resourceNamespace: string,
+    resourceType: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -56,8 +68,24 @@ export class AdaptiveNetworkHardenings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByExtendedResource(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>): void;
-  listByExtendedResource(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>, callback?: msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>): Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceResponse> {
+  listByExtendedResource(
+    resourceGroupName: string,
+    resourceNamespace: string,
+    resourceType: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>
+  ): void;
+  listByExtendedResource(
+    resourceGroupName: string,
+    resourceNamespace: string,
+    resourceType: string,
+    resourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>,
+    callback?: msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>
+  ): Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +95,8 @@ export class AdaptiveNetworkHardenings {
         options
       },
       listByExtendedResourceOperationSpec,
-      callback) as Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceResponse>;
+      callback
+    ) as Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceResponse>;
   }
 
   /**
@@ -81,7 +110,14 @@ export class AdaptiveNetworkHardenings {
    * @param [options] The optional parameters
    * @returns Promise<Models.AdaptiveNetworkHardeningsGetResponse>
    */
-  get(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.AdaptiveNetworkHardeningsGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceNamespace: string,
+    resourceType: string,
+    resourceName: string,
+    adaptiveNetworkHardeningResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AdaptiveNetworkHardeningsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -91,7 +127,14 @@ export class AdaptiveNetworkHardenings {
    * @param adaptiveNetworkHardeningResourceName The name of the Adaptive Network Hardening resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, callback: msRest.ServiceCallback<Models.AdaptiveNetworkHardening>): void;
+  get(
+    resourceGroupName: string,
+    resourceNamespace: string,
+    resourceType: string,
+    resourceName: string,
+    adaptiveNetworkHardeningResourceName: string,
+    callback: msRest.ServiceCallback<Models.AdaptiveNetworkHardening>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -102,8 +145,24 @@ export class AdaptiveNetworkHardenings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AdaptiveNetworkHardening>): void;
-  get(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdaptiveNetworkHardening>, callback?: msRest.ServiceCallback<Models.AdaptiveNetworkHardening>): Promise<Models.AdaptiveNetworkHardeningsGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceNamespace: string,
+    resourceType: string,
+    resourceName: string,
+    adaptiveNetworkHardeningResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AdaptiveNetworkHardening>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceNamespace: string,
+    resourceType: string,
+    resourceName: string,
+    adaptiveNetworkHardeningResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdaptiveNetworkHardening>,
+    callback?: msRest.ServiceCallback<Models.AdaptiveNetworkHardening>
+  ): Promise<Models.AdaptiveNetworkHardeningsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +173,8 @@ export class AdaptiveNetworkHardenings {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AdaptiveNetworkHardeningsGetResponse>;
+      callback
+    ) as Promise<Models.AdaptiveNetworkHardeningsGetResponse>;
   }
 
   /**
@@ -129,9 +189,24 @@ export class AdaptiveNetworkHardenings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  enforce(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, body: Models.AdaptiveNetworkHardeningEnforceRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginEnforce(resourceGroupName,resourceNamespace,resourceType,resourceName,adaptiveNetworkHardeningResourceName,body,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  enforce(
+    resourceGroupName: string,
+    resourceNamespace: string,
+    resourceType: string,
+    resourceName: string,
+    adaptiveNetworkHardeningResourceName: string,
+    body: Models.AdaptiveNetworkHardeningEnforceRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginEnforce(
+      resourceGroupName,
+      resourceNamespace,
+      resourceType,
+      resourceName,
+      adaptiveNetworkHardeningResourceName,
+      body,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -146,7 +221,15 @@ export class AdaptiveNetworkHardenings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginEnforce(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, body: Models.AdaptiveNetworkHardeningEnforceRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginEnforce(
+    resourceGroupName: string,
+    resourceNamespace: string,
+    resourceType: string,
+    resourceName: string,
+    adaptiveNetworkHardeningResourceName: string,
+    body: Models.AdaptiveNetworkHardeningEnforceRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -158,7 +241,8 @@ export class AdaptiveNetworkHardenings {
         options
       },
       beginEnforceOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -167,26 +251,43 @@ export class AdaptiveNetworkHardenings {
    * @param [options] The optional parameters
    * @returns Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceNextResponse>
    */
-  listByExtendedResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceNextResponse>;
+  listByExtendedResourceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByExtendedResourceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>): void;
+  listByExtendedResourceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByExtendedResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>): void;
-  listByExtendedResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>, callback?: msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>): Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceNextResponse> {
+  listByExtendedResourceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>
+  ): void;
+  listByExtendedResourceNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>,
+    callback?: msRest.ServiceCallback<Models.AdaptiveNetworkHardeningsList>
+  ): Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByExtendedResourceNextOperationSpec,
-      callback) as Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceNextResponse>;
+      callback
+    ) as Promise<Models.AdaptiveNetworkHardeningsListByExtendedResourceNextResponse>;
   }
 }
 
@@ -194,7 +295,8 @@ export class AdaptiveNetworkHardenings {
 const serializer = new msRest.Serializer(Mappers);
 const listByExtendedResourceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Security/adaptiveNetworkHardenings",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Security/adaptiveNetworkHardenings",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -202,12 +304,8 @@ const listByExtendedResourceOperationSpec: msRest.OperationSpec = {
     Parameters.resourceType,
     Parameters.resourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AdaptiveNetworkHardeningsList
@@ -221,7 +319,8 @@ const listByExtendedResourceOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Security/adaptiveNetworkHardenings/{adaptiveNetworkHardeningResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Security/adaptiveNetworkHardenings/{adaptiveNetworkHardeningResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -230,12 +329,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName,
     Parameters.adaptiveNetworkHardeningResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AdaptiveNetworkHardening
@@ -249,7 +344,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginEnforceOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Security/adaptiveNetworkHardenings/{adaptiveNetworkHardeningResourceName}/{adaptiveNetworkHardeningEnforceAction}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Security/adaptiveNetworkHardenings/{adaptiveNetworkHardeningResourceName}/{adaptiveNetworkHardeningEnforceAction}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -259,12 +355,8 @@ const beginEnforceOperationSpec: msRest.OperationSpec = {
     Parameters.adaptiveNetworkHardeningResourceName,
     Parameters.adaptiveNetworkHardeningEnforceAction
   ],
-  queryParameters: [
-    Parameters.apiVersion7
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion7],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -286,12 +378,8 @@ const listByExtendedResourceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AdaptiveNetworkHardeningsList

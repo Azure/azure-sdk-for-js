@@ -1462,7 +1462,7 @@ export const CheckNameAvailabilityParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.StorageSync/storageSyncServices',
+        defaultValue: "Microsoft.StorageSync/storageSyncServices",
         type: {
           name: "String"
         }
@@ -1489,10 +1489,7 @@ export const CheckNameAvailabilityResult: msRest.CompositeMapper = {
         serializedName: "reason",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "AlreadyExists"
-          ]
+          allowedValues: ["Invalid", "AlreadyExists"]
         }
       },
       message: {

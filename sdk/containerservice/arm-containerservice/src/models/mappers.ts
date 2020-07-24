@@ -133,7 +133,7 @@ export const NetworkProfile: msRest.CompositeMapper = {
     modelProperties: {
       vnetCidr: {
         serializedName: "vnetCidr",
-        defaultValue: '10.0.0.0/8',
+        defaultValue: "10.0.0.0/8",
         type: {
           name: "String"
         }
@@ -188,7 +188,7 @@ export const OpenShiftManagedClusterMasterPoolProfile: msRest.CompositeMapper = 
       },
       osType: {
         serializedName: "osType",
-        defaultValue: 'Linux',
+        defaultValue: "Linux",
         type: {
           name: "String"
         }
@@ -226,14 +226,14 @@ export const OpenShiftManagedClusterAgentPoolProfile: msRest.CompositeMapper = {
       },
       subnetCidr: {
         serializedName: "subnetCidr",
-        defaultValue: '10.0.0.0/24',
+        defaultValue: "10.0.0.0/24",
         type: {
           name: "String"
         }
       },
       osType: {
         serializedName: "osType",
-        defaultValue: 'Linux',
+        defaultValue: "Linux",
         type: {
           name: "String"
         }
@@ -417,7 +417,8 @@ export const OpenShiftManagedClusterAADIdentityProvider: msRest.CompositeMapper 
   serializedName: "AADIdentityProvider",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: OpenShiftManagedClusterBaseIdentityProvider.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      OpenShiftManagedClusterBaseIdentityProvider.type.polymorphicDiscriminator,
     uberParent: "OpenShiftManagedClusterBaseIdentityProvider",
     className: "OpenShiftManagedClusterAADIdentityProvider",
     modelProperties: {
@@ -612,7 +613,7 @@ export const ContainerServiceMasterProfile: msRest.CompositeMapper = {
       },
       firstConsecutiveStaticIP: {
         serializedName: "firstConsecutiveStaticIP",
-        defaultValue: '10.240.255.5',
+        defaultValue: "10.240.255.5",
         type: {
           name: "String"
         }
@@ -709,7 +710,7 @@ export const ContainerServiceAgentPoolProfile: msRest.CompositeMapper = {
       },
       osType: {
         serializedName: "osType",
-        defaultValue: 'Linux',
+        defaultValue: "Linux",
         type: {
           name: "String"
         }
@@ -1221,7 +1222,7 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
       },
       osType: {
         serializedName: "osType",
-        defaultValue: 'Linux',
+        defaultValue: "Linux",
         type: {
           name: "String"
         }
@@ -1301,14 +1302,14 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
       },
       scaleSetPriority: {
         serializedName: "scaleSetPriority",
-        defaultValue: 'Regular',
+        defaultValue: "Regular",
         type: {
           name: "String"
         }
       },
       scaleSetEvictionPolicy: {
         serializedName: "scaleSetEvictionPolicy",
-        defaultValue: 'Delete',
+        defaultValue: "Delete",
         type: {
           name: "String"
         }
@@ -1422,7 +1423,7 @@ export const AgentPool: msRest.CompositeMapper = {
       },
       osType: {
         serializedName: "properties.osType",
-        defaultValue: 'Linux',
+        defaultValue: "Linux",
         type: {
           name: "String"
         }
@@ -1502,14 +1503,14 @@ export const AgentPool: msRest.CompositeMapper = {
       },
       scaleSetPriority: {
         serializedName: "properties.scaleSetPriority",
-        defaultValue: 'Regular',
+        defaultValue: "Regular",
         type: {
           name: "String"
         }
       },
       scaleSetEvictionPolicy: {
         serializedName: "properties.scaleSetEvictionPolicy",
-        defaultValue: 'Delete',
+        defaultValue: "Delete",
         type: {
           name: "String"
         }
@@ -1746,7 +1747,7 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
     modelProperties: {
       networkPlugin: {
         serializedName: "networkPlugin",
-        defaultValue: 'kubenet',
+        defaultValue: "kubenet",
         type: {
           name: "String"
         }
@@ -1765,7 +1766,7 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
       },
       podCidr: {
         serializedName: "podCidr",
-        defaultValue: '10.244.0.0/16',
+        defaultValue: "10.244.0.0/16",
         constraints: {
           Pattern: /^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$/
         },
@@ -1775,7 +1776,7 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
       },
       serviceCidr: {
         serializedName: "serviceCidr",
-        defaultValue: '10.0.0.0/16',
+        defaultValue: "10.0.0.0/16",
         constraints: {
           Pattern: /^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$/
         },
@@ -1785,7 +1786,7 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
       },
       dnsServiceIP: {
         serializedName: "dnsServiceIP",
-        defaultValue: '10.0.0.10',
+        defaultValue: "10.0.0.10",
         constraints: {
           Pattern: /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
         },
@@ -1795,7 +1796,7 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
       },
       dockerBridgeCidr: {
         serializedName: "dockerBridgeCidr",
-        defaultValue: '172.17.0.1/16',
+        defaultValue: "172.17.0.1/16",
         constraints: {
           Pattern: /^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$/
         },
@@ -1805,7 +1806,7 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
       },
       outboundType: {
         serializedName: "outboundType",
-        defaultValue: 'loadBalancer',
+        defaultValue: "loadBalancer",
         type: {
           name: "String"
         }
@@ -2109,11 +2110,7 @@ export const ManagedClusterIdentity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "UserAssigned", "None"]
         }
       },
       userAssignedIdentities: {
@@ -2389,7 +2386,7 @@ export const ManagedClusterPoolUpgradeProfile: msRest.CompositeMapper = {
       osType: {
         required: true,
         serializedName: "osType",
-        defaultValue: 'Linux',
+        defaultValue: "Linux",
         type: {
           name: "String"
         }
@@ -2521,7 +2518,7 @@ export const AgentPoolUpgradeProfile: msRest.CompositeMapper = {
       osType: {
         required: true,
         serializedName: "properties.osType",
-        defaultValue: 'Linux',
+        defaultValue: "Linux",
         type: {
           name: "String"
         }
@@ -2919,7 +2916,6 @@ export const AgentPoolListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'OpenShiftManagedClusterBaseIdentityProvider' : OpenShiftManagedClusterBaseIdentityProvider,
-  'OpenShiftManagedClusterBaseIdentityProvider.AADIdentityProvider' : OpenShiftManagedClusterAADIdentityProvider
-
+  OpenShiftManagedClusterBaseIdentityProvider: OpenShiftManagedClusterBaseIdentityProvider,
+  "OpenShiftManagedClusterBaseIdentityProvider.AADIdentityProvider": OpenShiftManagedClusterAADIdentityProvider
 };

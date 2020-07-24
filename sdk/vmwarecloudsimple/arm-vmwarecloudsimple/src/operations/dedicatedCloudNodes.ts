@@ -33,7 +33,9 @@ export class DedicatedCloudNodes {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudNodesListBySubscriptionResponse>
    */
-  listBySubscription(options?: Models.DedicatedCloudNodesListBySubscriptionOptionalParams): Promise<Models.DedicatedCloudNodesListBySubscriptionResponse>;
+  listBySubscription(
+    options?: Models.DedicatedCloudNodesListBySubscriptionOptionalParams
+  ): Promise<Models.DedicatedCloudNodesListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -42,14 +44,23 @@ export class DedicatedCloudNodes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: Models.DedicatedCloudNodesListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>): void;
-  listBySubscription(options?: Models.DedicatedCloudNodesListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>, callback?: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>): Promise<Models.DedicatedCloudNodesListBySubscriptionResponse> {
+  listBySubscription(
+    options: Models.DedicatedCloudNodesListBySubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>
+  ): void;
+  listBySubscription(
+    options?:
+      | Models.DedicatedCloudNodesListBySubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>
+  ): Promise<Models.DedicatedCloudNodesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.DedicatedCloudNodesListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudNodesListBySubscriptionResponse>;
   }
 
   /**
@@ -59,26 +70,43 @@ export class DedicatedCloudNodes {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudNodesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.DedicatedCloudNodesListByResourceGroupOptionalParams): Promise<Models.DedicatedCloudNodesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.DedicatedCloudNodesListByResourceGroupOptionalParams
+  ): Promise<Models.DedicatedCloudNodesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.DedicatedCloudNodesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.DedicatedCloudNodesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>, callback?: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>): Promise<Models.DedicatedCloudNodesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.DedicatedCloudNodesListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.DedicatedCloudNodesListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>
+  ): Promise<Models.DedicatedCloudNodesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.DedicatedCloudNodesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudNodesListByResourceGroupResponse>;
   }
 
   /**
@@ -89,21 +117,39 @@ export class DedicatedCloudNodes {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudNodesGetResponse>
    */
-  get(resourceGroupName: string, dedicatedCloudNodeName: string, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedCloudNodesGetResponse>;
+  get(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedCloudNodesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group
    * @param dedicatedCloudNodeName dedicated cloud node name
    * @param callback The callback
    */
-  get(resourceGroupName: string, dedicatedCloudNodeName: string, callback: msRest.ServiceCallback<Models.DedicatedCloudNode>): void;
+  get(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudNode>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group
    * @param dedicatedCloudNodeName dedicated cloud node name
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, dedicatedCloudNodeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCloudNode>): void;
-  get(resourceGroupName: string, dedicatedCloudNodeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCloudNode>, callback?: msRest.ServiceCallback<Models.DedicatedCloudNode>): Promise<Models.DedicatedCloudNodesGetResponse> {
+  get(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudNode>
+  ): void;
+  get(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCloudNode>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudNode>
+  ): Promise<Models.DedicatedCloudNodesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +157,8 @@ export class DedicatedCloudNodes {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DedicatedCloudNodesGetResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudNodesGetResponse>;
   }
 
   /**
@@ -123,9 +170,20 @@ export class DedicatedCloudNodes {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudNodesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, dedicatedCloudNodeName: string, dedicatedCloudNodeRequest: Models.DedicatedCloudNode, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedCloudNodesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,dedicatedCloudNodeName,dedicatedCloudNodeRequest,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DedicatedCloudNodesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    dedicatedCloudNodeRequest: Models.DedicatedCloudNode,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedCloudNodesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      dedicatedCloudNodeName,
+      dedicatedCloudNodeRequest,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DedicatedCloudNodesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -136,21 +194,39 @@ export class DedicatedCloudNodes {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudNodesDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, dedicatedCloudNodeName: string, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedCloudNodesDeleteResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedCloudNodesDeleteResponse>;
   /**
    * @param resourceGroupName The name of the resource group
    * @param dedicatedCloudNodeName dedicated cloud node name
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, dedicatedCloudNodeName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group
    * @param dedicatedCloudNodeName dedicated cloud node name
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, dedicatedCloudNodeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, dedicatedCloudNodeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DedicatedCloudNodesDeleteResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.DedicatedCloudNodesDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +234,8 @@ export class DedicatedCloudNodes {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.DedicatedCloudNodesDeleteResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudNodesDeleteResponse>;
   }
 
   /**
@@ -169,21 +246,41 @@ export class DedicatedCloudNodes {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudNodesUpdateResponse>
    */
-  update(resourceGroupName: string, dedicatedCloudNodeName: string, options?: Models.DedicatedCloudNodesUpdateOptionalParams): Promise<Models.DedicatedCloudNodesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    options?: Models.DedicatedCloudNodesUpdateOptionalParams
+  ): Promise<Models.DedicatedCloudNodesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group
    * @param dedicatedCloudNodeName dedicated cloud node name
    * @param callback The callback
    */
-  update(resourceGroupName: string, dedicatedCloudNodeName: string, callback: msRest.ServiceCallback<Models.DedicatedCloudNode>): void;
+  update(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudNode>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group
    * @param dedicatedCloudNodeName dedicated cloud node name
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, dedicatedCloudNodeName: string, options: Models.DedicatedCloudNodesUpdateOptionalParams, callback: msRest.ServiceCallback<Models.DedicatedCloudNode>): void;
-  update(resourceGroupName: string, dedicatedCloudNodeName: string, options?: Models.DedicatedCloudNodesUpdateOptionalParams | msRest.ServiceCallback<Models.DedicatedCloudNode>, callback?: msRest.ServiceCallback<Models.DedicatedCloudNode>): Promise<Models.DedicatedCloudNodesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    options: Models.DedicatedCloudNodesUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudNode>
+  ): void;
+  update(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    options?:
+      | Models.DedicatedCloudNodesUpdateOptionalParams
+      | msRest.ServiceCallback<Models.DedicatedCloudNode>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudNode>
+  ): Promise<Models.DedicatedCloudNodesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -191,7 +288,8 @@ export class DedicatedCloudNodes {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.DedicatedCloudNodesUpdateResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudNodesUpdateResponse>;
   }
 
   /**
@@ -203,7 +301,12 @@ export class DedicatedCloudNodes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, dedicatedCloudNodeName: string, dedicatedCloudNodeRequest: Models.DedicatedCloudNode, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    dedicatedCloudNodeName: string,
+    dedicatedCloudNodeRequest: Models.DedicatedCloudNode,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -212,7 +315,8 @@ export class DedicatedCloudNodes {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -222,26 +326,43 @@ export class DedicatedCloudNodes {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudNodesListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedCloudNodesListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedCloudNodesListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>, callback?: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>): Promise<Models.DedicatedCloudNodesListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>
+  ): Promise<Models.DedicatedCloudNodesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.DedicatedCloudNodesListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudNodesListBySubscriptionNextResponse>;
   }
 
   /**
@@ -251,26 +372,43 @@ export class DedicatedCloudNodes {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudNodesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedCloudNodesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedCloudNodesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>, callback?: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>): Promise<Models.DedicatedCloudNodesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudNodeListResponse>
+  ): Promise<Models.DedicatedCloudNodesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.DedicatedCloudNodesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudNodesListByResourceGroupNextResponse>;
   }
 }
 
@@ -279,18 +417,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudNodes",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCloudNodeListResponse
@@ -304,20 +433,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudNodes",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudNodes",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCloudNodeListResponse
@@ -331,18 +451,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudNodes/{dedicatedCloudNodeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudNodes/{dedicatedCloudNodeName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dedicatedCloudNodeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCloudNode
@@ -356,18 +473,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudNodes/{dedicatedCloudNodeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudNodes/{dedicatedCloudNodeName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dedicatedCloudNodeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {
       headersMapper: Mappers.DedicatedCloudNodesDeleteHeaders
@@ -381,24 +495,18 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudNodes/{dedicatedCloudNodeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudNodes/{dedicatedCloudNodeName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dedicatedCloudNodeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      tags: [
-        "options",
-        "tags"
-      ]
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.PatchPayload,
@@ -418,19 +526,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudNodes/{dedicatedCloudNodeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudNodes/{dedicatedCloudNodeName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dedicatedCloudNodeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.referer,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.referer, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "dedicatedCloudNodeRequest",
     mapper: {
@@ -454,12 +558,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCloudNodeListResponse
@@ -475,12 +575,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCloudNodeListResponse

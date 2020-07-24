@@ -38,9 +38,20 @@ export class ServerAzureADAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerAzureADAdministratorsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, properties: Models.ServerAzureADAdministrator, options?: msRest.RequestOptionsBase): Promise<Models.ServerAzureADAdministratorsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serverName,properties,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServerAzureADAdministratorsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    properties: Models.ServerAzureADAdministrator,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerAzureADAdministratorsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      properties,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ServerAzureADAdministratorsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -51,9 +62,14 @@ export class ServerAzureADAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerAzureADAdministratorsDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerAzureADAdministratorsDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,serverName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServerAzureADAdministratorsDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerAzureADAdministratorsDeleteMethodResponse> {
+    return this.beginDeleteMethod(resourceGroupName, serverName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ServerAzureADAdministratorsDeleteMethodResponse>;
   }
 
   /**
@@ -64,14 +80,22 @@ export class ServerAzureADAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerAzureADAdministratorsGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerAzureADAdministratorsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerAzureADAdministratorsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ServerAzureADAdministrator>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.ServerAzureADAdministrator>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -79,8 +103,18 @@ export class ServerAzureADAdministrators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerAzureADAdministrator>): void;
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerAzureADAdministrator>, callback?: msRest.ServiceCallback<Models.ServerAzureADAdministrator>): Promise<Models.ServerAzureADAdministratorsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServerAzureADAdministrator>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerAzureADAdministrator>,
+    callback?: msRest.ServiceCallback<Models.ServerAzureADAdministrator>
+  ): Promise<Models.ServerAzureADAdministratorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +122,8 @@ export class ServerAzureADAdministrators {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServerAzureADAdministratorsGetResponse>;
+      callback
+    ) as Promise<Models.ServerAzureADAdministratorsGetResponse>;
   }
 
   /**
@@ -99,14 +134,22 @@ export class ServerAzureADAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerAzureADAdministratorsListByServerResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerAzureADAdministratorsListByServerResponse>;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerAzureADAdministratorsListByServerResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ServerAdministratorListResult>): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.ServerAdministratorListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -114,8 +157,20 @@ export class ServerAzureADAdministrators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerAdministratorListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerAdministratorListResult>, callback?: msRest.ServiceCallback<Models.ServerAdministratorListResult>): Promise<Models.ServerAzureADAdministratorsListByServerResponse> {
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServerAdministratorListResult>
+  ): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ServerAdministratorListResult>,
+    callback?: msRest.ServiceCallback<Models.ServerAdministratorListResult>
+  ): Promise<Models.ServerAzureADAdministratorsListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -123,7 +178,8 @@ export class ServerAzureADAdministrators {
         options
       },
       listByServerOperationSpec,
-      callback) as Promise<Models.ServerAzureADAdministratorsListByServerResponse>;
+      callback
+    ) as Promise<Models.ServerAzureADAdministratorsListByServerResponse>;
   }
 
   /**
@@ -137,7 +193,12 @@ export class ServerAzureADAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serverName: string, properties: Models.ServerAzureADAdministrator, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    properties: Models.ServerAzureADAdministrator,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -146,7 +207,8 @@ export class ServerAzureADAdministrators {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -157,7 +219,11 @@ export class ServerAzureADAdministrators {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -165,7 +231,8 @@ export class ServerAzureADAdministrators {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -173,19 +240,16 @@ export class ServerAzureADAdministrators {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.administratorName0
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServerAzureADAdministrator
@@ -199,18 +263,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.serverName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServerAdministratorListResult
@@ -224,19 +281,16 @@ const listByServerOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.administratorName0
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "properties",
     mapper: {
@@ -263,19 +317,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/administrators/{administratorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.administratorName0
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServerAzureADAdministrator

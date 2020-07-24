@@ -14,17 +14,14 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
   }
 };
 export const aggregation: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "aggregation"
-  ],
+  parameterPath: ["options", "aggregation"],
   mapper: {
     serializedName: "aggregation",
     type: {
@@ -38,7 +35,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-01-01',
+    defaultValue: "2018-01-01",
     type: {
       name: "String"
     }
@@ -50,7 +47,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2017-05-01-preview',
+    defaultValue: "2017-05-01-preview",
     type: {
       name: "String"
     }
@@ -62,17 +59,14 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2015-04-01',
+    defaultValue: "2015-04-01",
     type: {
       name: "String"
     }
   }
 };
 export const filter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -81,10 +75,7 @@ export const filter: msRest.OperationQueryParameter = {
   }
 };
 export const interval: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "interval"
-  ],
+  parameterPath: ["options", "interval"],
   mapper: {
     serializedName: "interval",
     type: {
@@ -93,10 +84,7 @@ export const interval: msRest.OperationQueryParameter = {
   }
 };
 export const metricnames: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "metricnames"
-  ],
+  parameterPath: ["options", "metricnames"],
   mapper: {
     serializedName: "metricnames",
     type: {
@@ -105,10 +93,7 @@ export const metricnames: msRest.OperationQueryParameter = {
   }
 };
 export const metricnamespace: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "metricnamespace"
-  ],
+  parameterPath: ["options", "metricnamespace"],
   mapper: {
     serializedName: "metricnamespace",
     type: {
@@ -127,10 +112,7 @@ export const name: msRest.OperationURLParameter = {
   }
 };
 export const orderby: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "orderby"
-  ],
+  parameterPath: ["options", "orderby"],
   mapper: {
     serializedName: "orderby",
     type: {
@@ -150,26 +132,17 @@ export const resourceUri: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const resultType: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "resultType"
-  ],
+  parameterPath: ["options", "resultType"],
   mapper: {
     serializedName: "resultType",
     type: {
       name: "Enum",
-      allowedValues: [
-        "Data",
-        "Metadata"
-      ]
+      allowedValues: ["Data", "Metadata"]
     }
   }
 };
 export const timespan: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "timespan"
-  ],
+  parameterPath: ["options", "timespan"],
   mapper: {
     serializedName: "timespan",
     type: {
@@ -178,10 +151,7 @@ export const timespan: msRest.OperationQueryParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "top",
     type: {

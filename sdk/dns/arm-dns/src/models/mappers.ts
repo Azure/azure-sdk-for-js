@@ -557,13 +557,10 @@ export const Zone: msRest.CompositeMapper = {
       },
       zoneType: {
         serializedName: "properties.zoneType",
-        defaultValue: 'Public',
+        defaultValue: "Public",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Public",
-            "Private"
-          ]
+          allowedValues: ["Public", "Private"]
         }
       },
       registrationVirtualNetworks: {

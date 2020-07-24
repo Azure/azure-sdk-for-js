@@ -40,14 +40,21 @@ export class EndpointKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKeys(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EndpointKeysDTO>): void;
-  getKeys(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EndpointKeysDTO>, callback?: msRest.ServiceCallback<Models.EndpointKeysDTO>): Promise<Models.EndpointKeysGetKeysResponse> {
+  getKeys(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EndpointKeysDTO>
+  ): void;
+  getKeys(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EndpointKeysDTO>,
+    callback?: msRest.ServiceCallback<Models.EndpointKeysDTO>
+  ): Promise<Models.EndpointKeysGetKeysResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getKeysOperationSpec,
-      callback) as Promise<Models.EndpointKeysGetKeysResponse>;
+      callback
+    ) as Promise<Models.EndpointKeysGetKeysResponse>;
   }
 
   /**
@@ -56,7 +63,10 @@ export class EndpointKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.EndpointKeysRefreshKeysResponse>
    */
-  refreshKeys(keyType: string, options?: msRest.RequestOptionsBase): Promise<Models.EndpointKeysRefreshKeysResponse>;
+  refreshKeys(
+    keyType: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EndpointKeysRefreshKeysResponse>;
   /**
    * @param keyType Type of Key
    * @param callback The callback
@@ -67,15 +77,24 @@ export class EndpointKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  refreshKeys(keyType: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EndpointKeysDTO>): void;
-  refreshKeys(keyType: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EndpointKeysDTO>, callback?: msRest.ServiceCallback<Models.EndpointKeysDTO>): Promise<Models.EndpointKeysRefreshKeysResponse> {
+  refreshKeys(
+    keyType: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EndpointKeysDTO>
+  ): void;
+  refreshKeys(
+    keyType: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EndpointKeysDTO>,
+    callback?: msRest.ServiceCallback<Models.EndpointKeysDTO>
+  ): Promise<Models.EndpointKeysRefreshKeysResponse> {
     return this.client.sendOperationRequest(
       {
         keyType,
         options
       },
       refreshKeysOperationSpec,
-      callback) as Promise<Models.EndpointKeysRefreshKeysResponse>;
+      callback
+    ) as Promise<Models.EndpointKeysRefreshKeysResponse>;
   }
 }
 
@@ -84,9 +103,7 @@ const serializer = new msRest.Serializer(Mappers);
 const getKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "endpointkeys",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   responses: {
     200: {
       bodyMapper: Mappers.EndpointKeysDTO
@@ -101,10 +118,7 @@ const getKeysOperationSpec: msRest.OperationSpec = {
 const refreshKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "endpointkeys/{keyType}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.keyType
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.keyType],
   responses: {
     200: {
       bodyMapper: Mappers.EndpointKeysDTO

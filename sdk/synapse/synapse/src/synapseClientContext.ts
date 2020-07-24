@@ -24,38 +24,41 @@ export class SynapseClientContext extends msRestAzure.AzureServiceClient {
    */
   constructor(credentials: msRest.ServiceClientCredentials, options?: Models.SynapseClientOptions) {
     if (credentials == undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+    if (!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = '2019-11-01-preview';
-    this.synapseDnsSuffix = 'azuresynapse.net​';
-    this.livyApiVersion = '2019-11-01-preview';
-    this.acceptLanguage = 'en-US';
+    this.apiVersion = "2019-11-01-preview";
+    this.synapseDnsSuffix = "azuresynapse.net​";
+    this.livyApiVersion = "2019-11-01-preview";
+    this.acceptLanguage = "en-US";
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = "https://{workspaceName}.{SynapseDnsSuffix}";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
-    if(options.synapseDnsSuffix !== null && options.synapseDnsSuffix !== undefined) {
+    if (options.synapseDnsSuffix !== null && options.synapseDnsSuffix !== undefined) {
       this.synapseDnsSuffix = options.synapseDnsSuffix;
     }
-    if(options.livyApiVersion !== null && options.livyApiVersion !== undefined) {
+    if (options.livyApiVersion !== null && options.livyApiVersion !== undefined) {
       this.livyApiVersion = options.livyApiVersion;
     }
-    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (
+      options.longRunningOperationRetryTimeout !== null &&
+      options.longRunningOperationRetryTimeout !== undefined
+    ) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

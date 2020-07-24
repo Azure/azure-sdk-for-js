@@ -35,14 +35,24 @@ export class VpnConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnConnectionsGetResponse>
    */
-  get(resourceGroupName: string, gatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnConnectionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VpnConnectionsGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param gatewayName The name of the gateway.
    * @param connectionName The name of the vpn connection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, gatewayName: string, connectionName: string, callback: msRest.ServiceCallback<Models.VpnConnection>): void;
+  get(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    callback: msRest.ServiceCallback<Models.VpnConnection>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param gatewayName The name of the gateway.
@@ -50,8 +60,20 @@ export class VpnConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, gatewayName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VpnConnection>): void;
-  get(resourceGroupName: string, gatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VpnConnection>, callback?: msRest.ServiceCallback<Models.VpnConnection>): Promise<Models.VpnConnectionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VpnConnection>
+  ): void;
+  get(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VpnConnection>,
+    callback?: msRest.ServiceCallback<Models.VpnConnection>
+  ): Promise<Models.VpnConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class VpnConnections {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VpnConnectionsGetResponse>;
+      callback
+    ) as Promise<Models.VpnConnectionsGetResponse>;
   }
 
   /**
@@ -73,9 +96,22 @@ export class VpnConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnConnectionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, gatewayName: string, connectionName: string, vpnConnectionParameters: Models.VpnConnection, options?: msRest.RequestOptionsBase): Promise<Models.VpnConnectionsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,gatewayName,connectionName,vpnConnectionParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VpnConnectionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    vpnConnectionParameters: Models.VpnConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VpnConnectionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      gatewayName,
+      connectionName,
+      vpnConnectionParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.VpnConnectionsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -86,9 +122,18 @@ export class VpnConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, gatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,gatewayName,connectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      gatewayName,
+      connectionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -98,21 +143,39 @@ export class VpnConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnConnectionsListByVpnGatewayResponse>
    */
-  listByVpnGateway(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnConnectionsListByVpnGatewayResponse>;
+  listByVpnGateway(
+    resourceGroupName: string,
+    gatewayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VpnConnectionsListByVpnGatewayResponse>;
   /**
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param gatewayName The name of the gateway.
    * @param callback The callback
    */
-  listByVpnGateway(resourceGroupName: string, gatewayName: string, callback: msRest.ServiceCallback<Models.ListVpnConnectionsResult>): void;
+  listByVpnGateway(
+    resourceGroupName: string,
+    gatewayName: string,
+    callback: msRest.ServiceCallback<Models.ListVpnConnectionsResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VpnGateway.
    * @param gatewayName The name of the gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByVpnGateway(resourceGroupName: string, gatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnConnectionsResult>): void;
-  listByVpnGateway(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnConnectionsResult>, callback?: msRest.ServiceCallback<Models.ListVpnConnectionsResult>): Promise<Models.VpnConnectionsListByVpnGatewayResponse> {
+  listByVpnGateway(
+    resourceGroupName: string,
+    gatewayName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListVpnConnectionsResult>
+  ): void;
+  listByVpnGateway(
+    resourceGroupName: string,
+    gatewayName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnConnectionsResult>,
+    callback?: msRest.ServiceCallback<Models.ListVpnConnectionsResult>
+  ): Promise<Models.VpnConnectionsListByVpnGatewayResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +183,8 @@ export class VpnConnections {
         options
       },
       listByVpnGatewayOperationSpec,
-      callback) as Promise<Models.VpnConnectionsListByVpnGatewayResponse>;
+      callback
+    ) as Promise<Models.VpnConnectionsListByVpnGatewayResponse>;
   }
 
   /**
@@ -133,7 +197,13 @@ export class VpnConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, gatewayName: string, connectionName: string, vpnConnectionParameters: Models.VpnConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    vpnConnectionParameters: Models.VpnConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -143,7 +213,8 @@ export class VpnConnections {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -154,7 +225,12 @@ export class VpnConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, gatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    gatewayName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -163,7 +239,8 @@ export class VpnConnections {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -172,26 +249,41 @@ export class VpnConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnConnectionsListByVpnGatewayNextResponse>
    */
-  listByVpnGatewayNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnConnectionsListByVpnGatewayNextResponse>;
+  listByVpnGatewayNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VpnConnectionsListByVpnGatewayNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByVpnGatewayNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListVpnConnectionsResult>): void;
+  listByVpnGatewayNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ListVpnConnectionsResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByVpnGatewayNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnConnectionsResult>): void;
-  listByVpnGatewayNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnConnectionsResult>, callback?: msRest.ServiceCallback<Models.ListVpnConnectionsResult>): Promise<Models.VpnConnectionsListByVpnGatewayNextResponse> {
+  listByVpnGatewayNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListVpnConnectionsResult>
+  ): void;
+  listByVpnGatewayNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnConnectionsResult>,
+    callback?: msRest.ServiceCallback<Models.ListVpnConnectionsResult>
+  ): Promise<Models.VpnConnectionsListByVpnGatewayNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByVpnGatewayNextOperationSpec,
-      callback) as Promise<Models.VpnConnectionsListByVpnGatewayNextResponse>;
+      callback
+    ) as Promise<Models.VpnConnectionsListByVpnGatewayNextResponse>;
   }
 }
 
@@ -199,19 +291,16 @@ export class VpnConnections {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.gatewayName,
     Parameters.connectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VpnConnection
@@ -225,18 +314,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByVpnGatewayOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.gatewayName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.gatewayName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListVpnConnectionsResult
@@ -250,19 +332,16 @@ const listByVpnGatewayOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.gatewayName,
     Parameters.connectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "vpnConnectionParameters",
     mapper: {
@@ -286,19 +365,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.gatewayName,
     Parameters.connectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -314,12 +390,8 @@ const listByVpnGatewayNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListVpnConnectionsResult

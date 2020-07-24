@@ -36,9 +36,22 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, profileName: string, parameters: Models.ProfileResourceFormat, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,hubName,profileName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ProfilesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    profileName: string,
+    parameters: Models.ProfileResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      hubName,
+      profileName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ProfilesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -49,14 +62,24 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesGetResponse>
    */
-  get(resourceGroupName: string, hubName: string, profileName: string, options?: Models.ProfilesGetOptionalParams): Promise<Models.ProfilesGetResponse>;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    profileName: string,
+    options?: Models.ProfilesGetOptionalParams
+  ): Promise<Models.ProfilesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param profileName The name of the profile.
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, profileName: string, callback: msRest.ServiceCallback<Models.ProfileResourceFormat>): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    profileName: string,
+    callback: msRest.ServiceCallback<Models.ProfileResourceFormat>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -64,8 +87,22 @@ export class Profiles {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, profileName: string, options: Models.ProfilesGetOptionalParams, callback: msRest.ServiceCallback<Models.ProfileResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, profileName: string, options?: Models.ProfilesGetOptionalParams | msRest.ServiceCallback<Models.ProfileResourceFormat>, callback?: msRest.ServiceCallback<Models.ProfileResourceFormat>): Promise<Models.ProfilesGetResponse> {
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    profileName: string,
+    options: Models.ProfilesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.ProfileResourceFormat>
+  ): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    profileName: string,
+    options?:
+      | Models.ProfilesGetOptionalParams
+      | msRest.ServiceCallback<Models.ProfileResourceFormat>,
+    callback?: msRest.ServiceCallback<Models.ProfileResourceFormat>
+  ): Promise<Models.ProfilesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +111,8 @@ export class Profiles {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ProfilesGetResponse>;
+      callback
+    ) as Promise<Models.ProfilesGetResponse>;
   }
 
   /**
@@ -85,9 +123,18 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, hubName: string, profileName: string, options?: Models.ProfilesDeleteMethodOptionalParams): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,hubName,profileName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    profileName: string,
+    options?: Models.ProfilesDeleteMethodOptionalParams
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      hubName,
+      profileName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -97,21 +144,41 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesListByHubResponse>
    */
-  listByHub(resourceGroupName: string, hubName: string, options?: Models.ProfilesListByHubOptionalParams): Promise<Models.ProfilesListByHubResponse>;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?: Models.ProfilesListByHubOptionalParams
+  ): Promise<Models.ProfilesListByHubResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, options: Models.ProfilesListByHubOptionalParams, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: Models.ProfilesListByHubOptionalParams | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByHubResponse> {
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options: Models.ProfilesListByHubOptionalParams,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?:
+      | Models.ProfilesListByHubOptionalParams
+      | msRest.ServiceCallback<Models.ProfileListResult>,
+    callback?: msRest.ServiceCallback<Models.ProfileListResult>
+  ): Promise<Models.ProfilesListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +186,8 @@ export class Profiles {
         options
       },
       listByHubOperationSpec,
-      callback) as Promise<Models.ProfilesListByHubResponse>;
+      callback
+    ) as Promise<Models.ProfilesListByHubResponse>;
   }
 
   /**
@@ -132,14 +200,24 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesGetEnrichingKpisResponse>
    */
-  getEnrichingKpis(resourceGroupName: string, hubName: string, profileName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesGetEnrichingKpisResponse>;
+  getEnrichingKpis(
+    resourceGroupName: string,
+    hubName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesGetEnrichingKpisResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param profileName The name of the profile.
    * @param callback The callback
    */
-  getEnrichingKpis(resourceGroupName: string, hubName: string, profileName: string, callback: msRest.ServiceCallback<Models.KpiDefinition[]>): void;
+  getEnrichingKpis(
+    resourceGroupName: string,
+    hubName: string,
+    profileName: string,
+    callback: msRest.ServiceCallback<Models.KpiDefinition[]>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -147,8 +225,20 @@ export class Profiles {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEnrichingKpis(resourceGroupName: string, hubName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KpiDefinition[]>): void;
-  getEnrichingKpis(resourceGroupName: string, hubName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KpiDefinition[]>, callback?: msRest.ServiceCallback<Models.KpiDefinition[]>): Promise<Models.ProfilesGetEnrichingKpisResponse> {
+  getEnrichingKpis(
+    resourceGroupName: string,
+    hubName: string,
+    profileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KpiDefinition[]>
+  ): void;
+  getEnrichingKpis(
+    resourceGroupName: string,
+    hubName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KpiDefinition[]>,
+    callback?: msRest.ServiceCallback<Models.KpiDefinition[]>
+  ): Promise<Models.ProfilesGetEnrichingKpisResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -157,7 +247,8 @@ export class Profiles {
         options
       },
       getEnrichingKpisOperationSpec,
-      callback) as Promise<Models.ProfilesGetEnrichingKpisResponse>;
+      callback
+    ) as Promise<Models.ProfilesGetEnrichingKpisResponse>;
   }
 
   /**
@@ -169,7 +260,13 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, hubName: string, profileName: string, parameters: Models.ProfileResourceFormat, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    profileName: string,
+    parameters: Models.ProfileResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -179,7 +276,8 @@ export class Profiles {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -190,7 +288,12 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, hubName: string, profileName: string, options?: Models.ProfilesBeginDeleteMethodOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    profileName: string,
+    options?: Models.ProfilesBeginDeleteMethodOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -199,7 +302,8 @@ export class Profiles {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -208,26 +312,41 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesListByHubNextResponse>
    */
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesListByHubNextResponse>;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesListByHubNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
+  listByHubNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByHubNextResponse> {
+  listByHubNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>,
+    callback?: msRest.ServiceCallback<Models.ProfileListResult>
+  ): Promise<Models.ProfilesListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByHubNextOperationSpec,
-      callback) as Promise<Models.ProfilesListByHubNextResponse>;
+      callback
+    ) as Promise<Models.ProfilesListByHubNextResponse>;
   }
 }
 
@@ -235,20 +354,16 @@ export class Profiles {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/profiles/{profileName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/profiles/{profileName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.profileName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.localeCode,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.localeCode, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProfileResourceFormat
@@ -262,19 +377,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByHubOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/profiles",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.hubName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.localeCode,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/profiles",
+  urlParameters: [Parameters.resourceGroupName, Parameters.hubName1, Parameters.subscriptionId],
+  queryParameters: [Parameters.localeCode, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProfileListResult
@@ -288,19 +395,16 @@ const listByHubOperationSpec: msRest.OperationSpec = {
 
 const getEnrichingKpisOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/profiles/{profileName}/getEnrichingKpis",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/profiles/{profileName}/getEnrichingKpis",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.profileName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -325,19 +429,16 @@ const getEnrichingKpisOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/profiles/{profileName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/profiles/{profileName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.profileName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -359,20 +460,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/profiles/{profileName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/profiles/{profileName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.profileName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.localeCode,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.localeCode, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -388,12 +485,8 @@ const listByHubNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProfileListResult

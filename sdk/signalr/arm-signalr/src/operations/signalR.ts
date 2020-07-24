@@ -33,26 +33,43 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(location: string, options?: Models.SignalRCheckNameAvailabilityOptionalParams): Promise<Models.SignalRCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    location: string,
+    options?: Models.SignalRCheckNameAvailabilityOptionalParams
+  ): Promise<Models.SignalRCheckNameAvailabilityResponse>;
   /**
    * @param location the region
    * @param callback The callback
    */
-  checkNameAvailability(location: string, callback: msRest.ServiceCallback<Models.NameAvailability>): void;
+  checkNameAvailability(
+    location: string,
+    callback: msRest.ServiceCallback<Models.NameAvailability>
+  ): void;
   /**
    * @param location the region
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(location: string, options: Models.SignalRCheckNameAvailabilityOptionalParams, callback: msRest.ServiceCallback<Models.NameAvailability>): void;
-  checkNameAvailability(location: string, options?: Models.SignalRCheckNameAvailabilityOptionalParams | msRest.ServiceCallback<Models.NameAvailability>, callback?: msRest.ServiceCallback<Models.NameAvailability>): Promise<Models.SignalRCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    location: string,
+    options: Models.SignalRCheckNameAvailabilityOptionalParams,
+    callback: msRest.ServiceCallback<Models.NameAvailability>
+  ): void;
+  checkNameAvailability(
+    location: string,
+    options?:
+      | Models.SignalRCheckNameAvailabilityOptionalParams
+      | msRest.ServiceCallback<Models.NameAvailability>,
+    callback?: msRest.ServiceCallback<Models.NameAvailability>
+  ): Promise<Models.SignalRCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.SignalRCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.SignalRCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -60,7 +77,9 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.SignalRListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -69,14 +88,21 @@ export class SignalR {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SignalRResourceList>
+  ): void;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>,
+    callback?: msRest.ServiceCallback<Models.SignalRResourceList>
+  ): Promise<Models.SignalRListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.SignalRListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.SignalRListBySubscriptionResponse>;
   }
 
   /**
@@ -86,28 +112,43 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.SignalRResourceList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SignalRResourceList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>,
+    callback?: msRest.ServiceCallback<Models.SignalRResourceList>
+  ): Promise<Models.SignalRListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.SignalRListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.SignalRListByResourceGroupResponse>;
   }
 
   /**
@@ -118,14 +159,22 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRListKeysResponse>
    */
-  listKeys(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRListKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the SignalR resource.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.SignalRKeys>): void;
+  listKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.SignalRKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -133,8 +182,18 @@ export class SignalR {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRKeys>): void;
-  listKeys(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRKeys>, callback?: msRest.ServiceCallback<Models.SignalRKeys>): Promise<Models.SignalRListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SignalRKeys>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRKeys>,
+    callback?: msRest.ServiceCallback<Models.SignalRKeys>
+  ): Promise<Models.SignalRListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -142,7 +201,8 @@ export class SignalR {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.SignalRListKeysResponse>;
+      callback
+    ) as Promise<Models.SignalRListKeysResponse>;
   }
 
   /**
@@ -154,9 +214,14 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRRegenerateKeyResponse>
    */
-  regenerateKey(resourceGroupName: string, resourceName: string, options?: Models.SignalRRegenerateKeyOptionalParams): Promise<Models.SignalRRegenerateKeyResponse> {
-    return this.beginRegenerateKey(resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SignalRRegenerateKeyResponse>;
+  regenerateKey(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: Models.SignalRRegenerateKeyOptionalParams
+  ): Promise<Models.SignalRRegenerateKeyResponse> {
+    return this.beginRegenerateKey(resourceGroupName, resourceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.SignalRRegenerateKeyResponse>;
   }
 
   /**
@@ -167,14 +232,22 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the SignalR resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.SignalRResource>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.SignalRResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -182,8 +255,18 @@ export class SignalR {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResource>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResource>, callback?: msRest.ServiceCallback<Models.SignalRResource>): Promise<Models.SignalRGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SignalRResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResource>,
+    callback?: msRest.ServiceCallback<Models.SignalRResource>
+  ): Promise<Models.SignalRGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -191,7 +274,8 @@ export class SignalR {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SignalRGetResponse>;
+      callback
+    ) as Promise<Models.SignalRGetResponse>;
   }
 
   /**
@@ -202,9 +286,14 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, options?: Models.SignalRCreateOrUpdateOptionalParams): Promise<Models.SignalRCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SignalRCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: Models.SignalRCreateOrUpdateOptionalParams
+  ): Promise<Models.SignalRCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName, resourceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.SignalRCreateOrUpdateResponse>;
   }
 
   /**
@@ -215,9 +304,14 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, resourceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -228,9 +322,14 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRUpdateResponse>
    */
-  update(resourceGroupName: string, resourceName: string, options?: Models.SignalRUpdateOptionalParams): Promise<Models.SignalRUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SignalRUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: Models.SignalRUpdateOptionalParams
+  ): Promise<Models.SignalRUpdateResponse> {
+    return this.beginUpdate(resourceGroupName, resourceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.SignalRUpdateResponse>;
   }
 
   /**
@@ -241,9 +340,14 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  restart(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRestart(resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  restart(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRestart(resourceGroupName, resourceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -255,7 +359,11 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRegenerateKey(resourceGroupName: string, resourceName: string, options?: Models.SignalRBeginRegenerateKeyOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginRegenerateKey(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: Models.SignalRBeginRegenerateKeyOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -263,7 +371,8 @@ export class SignalR {
         options
       },
       beginRegenerateKeyOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -274,7 +383,11 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, resourceName: string, options?: Models.SignalRBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: Models.SignalRBeginCreateOrUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -282,7 +395,8 @@ export class SignalR {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -293,7 +407,11 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -301,7 +419,8 @@ export class SignalR {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -312,7 +431,11 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, resourceName: string, options?: Models.SignalRBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: Models.SignalRBeginUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -320,7 +443,8 @@ export class SignalR {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -331,7 +455,11 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRestart(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRestart(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -339,7 +467,8 @@ export class SignalR {
         options
       },
       beginRestartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -348,26 +477,41 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SignalRResourceList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SignalRResourceList>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>,
+    callback?: msRest.ServiceCallback<Models.SignalRResourceList>
+  ): Promise<Models.SignalRListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.SignalRListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.SignalRListBySubscriptionNextResponse>;
   }
 
   /**
@@ -376,26 +520,41 @@ export class SignalR {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SignalRResourceList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SignalRResourceList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>, callback?: msRest.ServiceCallback<Models.SignalRResourceList>): Promise<Models.SignalRListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SignalRResourceList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SignalRResourceList>,
+    callback?: msRest.ServiceCallback<Models.SignalRResourceList>
+  ): Promise<Models.SignalRListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.SignalRListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.SignalRListByResourceGroupNextResponse>;
   }
 }
 
@@ -403,22 +562,13 @@ export class SignalR {
 const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/checkNameAvailability",
-  urlParameters: [
-    Parameters.location,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/checkNameAvailability",
+  urlParameters: [Parameters.location, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: Mappers.NameAvailabilityParameters
   },
   responses: {
@@ -435,15 +585,9 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/signalR",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SignalRResourceList
@@ -457,17 +601,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SignalRResourceList
@@ -481,18 +619,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/listKeys",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/listKeys",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SignalRKeys
@@ -506,18 +637,11 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SignalRResource
@@ -531,23 +655,13 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginRegenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/regenerateKey",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/regenerateKey",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: Mappers.RegenerateKeyParameters
   },
   responses: {
@@ -563,23 +677,13 @@ const beginRegenerateKeyOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: Mappers.SignalRResource
   },
   responses: {
@@ -599,18 +703,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -623,23 +720,13 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: Mappers.SignalRResource
   },
   responses: {
@@ -656,18 +743,11 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginRestartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/restart",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/restart",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -682,12 +762,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SignalRResourceList
@@ -703,12 +779,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SignalRResourceList

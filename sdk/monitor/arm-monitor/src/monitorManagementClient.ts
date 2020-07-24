@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { MonitorManagementClientContext } from "./monitorManagementClientContext";
 
-
 class MonitorManagementClient extends MonitorManagementClientContext {
   // Operation groups
   autoscaleSettings: operations.AutoscaleSettings;
@@ -45,7 +44,11 @@ class MonitorManagementClient extends MonitorManagementClientContext {
    * @param subscriptionId The Azure subscription Id.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MonitorManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.MonitorManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.autoscaleSettings = new operations.AutoscaleSettings(this);
     this.operations = new operations.Operations(this);

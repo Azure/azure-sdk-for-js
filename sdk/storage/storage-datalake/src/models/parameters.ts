@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -25,7 +25,7 @@ export const accountName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "accountName",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -39,36 +39,22 @@ export const action0: msRest.OperationQueryParameter = {
     serializedName: "action",
     type: {
       name: "Enum",
-      allowedValues: [
-        "append",
-        "flush",
-        "setProperties",
-        "setAccessControl"
-      ]
+      allowedValues: ["append", "flush", "setProperties", "setAccessControl"]
     }
   }
 };
 export const action1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "action"
-  ],
+  parameterPath: ["options", "action"],
   mapper: {
     serializedName: "action",
     type: {
       name: "Enum",
-      allowedValues: [
-        "getAccessControl",
-        "getStatus"
-      ]
+      allowedValues: ["getAccessControl", "getStatus"]
     }
   }
 };
 export const cacheControl: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "cacheControl"
-  ],
+  parameterPath: ["options", "cacheControl"],
   mapper: {
     serializedName: "Cache-Control",
     type: {
@@ -77,10 +63,7 @@ export const cacheControl: msRest.OperationParameter = {
   }
 };
 export const close: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "close"
-  ],
+  parameterPath: ["options", "close"],
   mapper: {
     serializedName: "close",
     type: {
@@ -89,10 +72,7 @@ export const close: msRest.OperationQueryParameter = {
   }
 };
 export const contentDisposition: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "contentDisposition"
-  ],
+  parameterPath: ["options", "contentDisposition"],
   mapper: {
     serializedName: "Content-Disposition",
     type: {
@@ -101,10 +81,7 @@ export const contentDisposition: msRest.OperationParameter = {
   }
 };
 export const contentEncoding: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "contentEncoding"
-  ],
+  parameterPath: ["options", "contentEncoding"],
   mapper: {
     serializedName: "Content-Encoding",
     type: {
@@ -113,10 +90,7 @@ export const contentEncoding: msRest.OperationParameter = {
   }
 };
 export const contentLanguage: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "contentLanguage"
-  ],
+  parameterPath: ["options", "contentLanguage"],
   mapper: {
     serializedName: "Content-Language",
     type: {
@@ -125,10 +99,7 @@ export const contentLanguage: msRest.OperationParameter = {
   }
 };
 export const contentLength: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "contentLength"
-  ],
+  parameterPath: ["options", "contentLength"],
   mapper: {
     serializedName: "Content-Length",
     constraints: {
@@ -140,10 +111,7 @@ export const contentLength: msRest.OperationParameter = {
   }
 };
 export const contentMD5: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "contentMD5"
-  ],
+  parameterPath: ["options", "contentMD5"],
   mapper: {
     serializedName: "Content-MD5",
     type: {
@@ -152,10 +120,7 @@ export const contentMD5: msRest.OperationParameter = {
   }
 };
 export const continuation: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "continuation"
-  ],
+  parameterPath: ["options", "continuation"],
   mapper: {
     serializedName: "continuation",
     type: {
@@ -164,10 +129,7 @@ export const continuation: msRest.OperationQueryParameter = {
   }
 };
 export const directory: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "directory"
-  ],
+  parameterPath: ["options", "directory"],
   mapper: {
     serializedName: "directory",
     type: {
@@ -180,7 +142,7 @@ export const dnsSuffix: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "dnsSuffix",
-    defaultValue: 'dfs.core.windows.net',
+    defaultValue: "dfs.core.windows.net",
     type: {
       name: "String"
     }
@@ -203,10 +165,7 @@ export const filesystem: msRest.OperationURLParameter = {
   }
 };
 export const ifMatch: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifMatch"
-  ],
+  parameterPath: ["options", "ifMatch"],
   mapper: {
     serializedName: "If-Match",
     type: {
@@ -215,10 +174,7 @@ export const ifMatch: msRest.OperationParameter = {
   }
 };
 export const ifModifiedSince: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifModifiedSince"
-  ],
+  parameterPath: ["options", "ifModifiedSince"],
   mapper: {
     serializedName: "If-Modified-Since",
     type: {
@@ -227,10 +183,7 @@ export const ifModifiedSince: msRest.OperationParameter = {
   }
 };
 export const ifNoneMatch: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifNoneMatch"
-  ],
+  parameterPath: ["options", "ifNoneMatch"],
   mapper: {
     serializedName: "If-None-Match",
     type: {
@@ -239,10 +192,7 @@ export const ifNoneMatch: msRest.OperationParameter = {
   }
 };
 export const ifUnmodifiedSince: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifUnmodifiedSince"
-  ],
+  parameterPath: ["options", "ifUnmodifiedSince"],
   mapper: {
     serializedName: "If-Unmodified-Since",
     type: {
@@ -251,10 +201,7 @@ export const ifUnmodifiedSince: msRest.OperationParameter = {
   }
 };
 export const maxResults: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "maxResults"
-  ],
+  parameterPath: ["options", "maxResults"],
   mapper: {
     serializedName: "maxResults",
     constraints: {
@@ -266,18 +213,12 @@ export const maxResults: msRest.OperationQueryParameter = {
   }
 };
 export const mode: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "mode"
-  ],
+  parameterPath: ["options", "mode"],
   mapper: {
     serializedName: "mode",
     type: {
       name: "Enum",
-      allowedValues: [
-        "legacy",
-        "posix"
-      ]
+      allowedValues: ["legacy", "posix"]
     }
   }
 };
@@ -292,10 +233,7 @@ export const path: msRest.OperationURLParameter = {
   }
 };
 export const position: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "position"
-  ],
+  parameterPath: ["options", "position"],
   mapper: {
     serializedName: "position",
     type: {
@@ -304,10 +242,7 @@ export const position: msRest.OperationQueryParameter = {
   }
 };
 export const prefix: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "prefix"
-  ],
+  parameterPath: ["options", "prefix"],
   mapper: {
     serializedName: "prefix",
     type: {
@@ -316,10 +251,7 @@ export const prefix: msRest.OperationQueryParameter = {
   }
 };
 export const range: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "range"
-  ],
+  parameterPath: ["options", "range"],
   mapper: {
     serializedName: "Range",
     type: {
@@ -338,10 +270,7 @@ export const recursive0: msRest.OperationQueryParameter = {
   }
 };
 export const recursive1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "recursive"
-  ],
+  parameterPath: ["options", "recursive"],
   mapper: {
     serializedName: "recursive",
     type: {
@@ -355,7 +284,7 @@ export const resource0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "resource",
-    defaultValue: 'account',
+    defaultValue: "account",
     type: {
       name: "String"
     }
@@ -367,33 +296,24 @@ export const resource1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "resource",
-    defaultValue: 'filesystem',
+    defaultValue: "filesystem",
     type: {
       name: "String"
     }
   }
 };
 export const resource2: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "resource"
-  ],
+  parameterPath: ["options", "resource"],
   mapper: {
     serializedName: "resource",
     type: {
       name: "Enum",
-      allowedValues: [
-        "directory",
-        "file"
-      ]
+      allowedValues: ["directory", "file"]
     }
   }
 };
 export const retainUncommittedData: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "retainUncommittedData"
-  ],
+  parameterPath: ["options", "retainUncommittedData"],
   mapper: {
     serializedName: "retainUncommittedData",
     type: {
@@ -402,10 +322,7 @@ export const retainUncommittedData: msRest.OperationQueryParameter = {
   }
 };
 export const timeout: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "timeout"
-  ],
+  parameterPath: ["options", "timeout"],
   mapper: {
     serializedName: "timeout",
     constraints: {
@@ -417,10 +334,7 @@ export const timeout: msRest.OperationQueryParameter = {
   }
 };
 export const upn: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "upn"
-  ],
+  parameterPath: ["options", "upn"],
   mapper: {
     serializedName: "upn",
     type: {
@@ -429,10 +343,7 @@ export const upn: msRest.OperationQueryParameter = {
   }
 };
 export const xMsAcl: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsAcl"
-  ],
+  parameterPath: ["options", "xMsAcl"],
   mapper: {
     serializedName: "x-ms-acl",
     type: {
@@ -441,10 +352,7 @@ export const xMsAcl: msRest.OperationParameter = {
   }
 };
 export const xMsCacheControl: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsCacheControl"
-  ],
+  parameterPath: ["options", "xMsCacheControl"],
   mapper: {
     serializedName: "x-ms-cache-control",
     type: {
@@ -453,10 +361,7 @@ export const xMsCacheControl: msRest.OperationParameter = {
   }
 };
 export const xMsClientRequestId: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsClientRequestId"
-  ],
+  parameterPath: ["options", "xMsClientRequestId"],
   mapper: {
     serializedName: "x-ms-client-request-id",
     constraints: {
@@ -468,10 +373,7 @@ export const xMsClientRequestId: msRest.OperationParameter = {
   }
 };
 export const xMsContentDisposition: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsContentDisposition"
-  ],
+  parameterPath: ["options", "xMsContentDisposition"],
   mapper: {
     serializedName: "x-ms-content-disposition",
     type: {
@@ -480,10 +382,7 @@ export const xMsContentDisposition: msRest.OperationParameter = {
   }
 };
 export const xMsContentEncoding: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsContentEncoding"
-  ],
+  parameterPath: ["options", "xMsContentEncoding"],
   mapper: {
     serializedName: "x-ms-content-encoding",
     type: {
@@ -492,10 +391,7 @@ export const xMsContentEncoding: msRest.OperationParameter = {
   }
 };
 export const xMsContentLanguage: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsContentLanguage"
-  ],
+  parameterPath: ["options", "xMsContentLanguage"],
   mapper: {
     serializedName: "x-ms-content-language",
     type: {
@@ -504,10 +400,7 @@ export const xMsContentLanguage: msRest.OperationParameter = {
   }
 };
 export const xMsContentMd5: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsContentMd5"
-  ],
+  parameterPath: ["options", "xMsContentMd5"],
   mapper: {
     serializedName: "x-ms-content-md5",
     type: {
@@ -516,10 +409,7 @@ export const xMsContentMd5: msRest.OperationParameter = {
   }
 };
 export const xMsContentType: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsContentType"
-  ],
+  parameterPath: ["options", "xMsContentType"],
   mapper: {
     serializedName: "x-ms-content-type",
     type: {
@@ -528,10 +418,7 @@ export const xMsContentType: msRest.OperationParameter = {
   }
 };
 export const xMsDate: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsDate"
-  ],
+  parameterPath: ["options", "xMsDate"],
   mapper: {
     serializedName: "x-ms-date",
     type: {
@@ -540,10 +427,7 @@ export const xMsDate: msRest.OperationParameter = {
   }
 };
 export const xMsGroup: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsGroup"
-  ],
+  parameterPath: ["options", "xMsGroup"],
   mapper: {
     serializedName: "x-ms-group",
     type: {
@@ -558,21 +442,12 @@ export const xMsLeaseAction: msRest.OperationParameter = {
     serializedName: "x-ms-lease-action",
     type: {
       name: "Enum",
-      allowedValues: [
-        "acquire",
-        "break",
-        "change",
-        "renew",
-        "release"
-      ]
+      allowedValues: ["acquire", "break", "change", "renew", "release"]
     }
   }
 };
 export const xMsLeaseBreakPeriod: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsLeaseBreakPeriod"
-  ],
+  parameterPath: ["options", "xMsLeaseBreakPeriod"],
   mapper: {
     serializedName: "x-ms-lease-break-period",
     type: {
@@ -581,10 +456,7 @@ export const xMsLeaseBreakPeriod: msRest.OperationParameter = {
   }
 };
 export const xMsLeaseDuration: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsLeaseDuration"
-  ],
+  parameterPath: ["options", "xMsLeaseDuration"],
   mapper: {
     serializedName: "x-ms-lease-duration",
     type: {
@@ -593,10 +465,7 @@ export const xMsLeaseDuration: msRest.OperationParameter = {
   }
 };
 export const xMsLeaseId: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsLeaseId"
-  ],
+  parameterPath: ["options", "xMsLeaseId"],
   mapper: {
     serializedName: "x-ms-lease-id",
     constraints: {
@@ -608,10 +477,7 @@ export const xMsLeaseId: msRest.OperationParameter = {
   }
 };
 export const xMsOwner: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsOwner"
-  ],
+  parameterPath: ["options", "xMsOwner"],
   mapper: {
     serializedName: "x-ms-owner",
     type: {
@@ -620,10 +486,7 @@ export const xMsOwner: msRest.OperationParameter = {
   }
 };
 export const xMsPermissions: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsPermissions"
-  ],
+  parameterPath: ["options", "xMsPermissions"],
   mapper: {
     serializedName: "x-ms-permissions",
     type: {
@@ -632,10 +495,7 @@ export const xMsPermissions: msRest.OperationParameter = {
   }
 };
 export const xMsProperties: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsProperties"
-  ],
+  parameterPath: ["options", "xMsProperties"],
   mapper: {
     serializedName: "x-ms-properties",
     type: {
@@ -644,10 +504,7 @@ export const xMsProperties: msRest.OperationParameter = {
   }
 };
 export const xMsProposedLeaseId: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsProposedLeaseId"
-  ],
+  parameterPath: ["options", "xMsProposedLeaseId"],
   mapper: {
     serializedName: "x-ms-proposed-lease-id",
     constraints: {
@@ -659,10 +516,7 @@ export const xMsProposedLeaseId: msRest.OperationParameter = {
   }
 };
 export const xMsRangeGetContentMd5: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsRangeGetContentMd5"
-  ],
+  parameterPath: ["options", "xMsRangeGetContentMd5"],
   mapper: {
     serializedName: "x-ms-range-get-content-md5",
     type: {
@@ -671,10 +525,7 @@ export const xMsRangeGetContentMd5: msRest.OperationParameter = {
   }
 };
 export const xMsRenameSource: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsRenameSource"
-  ],
+  parameterPath: ["options", "xMsRenameSource"],
   mapper: {
     serializedName: "x-ms-rename-source",
     type: {
@@ -683,10 +534,7 @@ export const xMsRenameSource: msRest.OperationParameter = {
   }
 };
 export const xMsSourceIfMatch: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsSourceIfMatch"
-  ],
+  parameterPath: ["options", "xMsSourceIfMatch"],
   mapper: {
     serializedName: "x-ms-source-if-match",
     type: {
@@ -695,10 +543,7 @@ export const xMsSourceIfMatch: msRest.OperationParameter = {
   }
 };
 export const xMsSourceIfModifiedSince: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsSourceIfModifiedSince"
-  ],
+  parameterPath: ["options", "xMsSourceIfModifiedSince"],
   mapper: {
     serializedName: "x-ms-source-if-modified-since",
     type: {
@@ -707,10 +552,7 @@ export const xMsSourceIfModifiedSince: msRest.OperationParameter = {
   }
 };
 export const xMsSourceIfNoneMatch: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsSourceIfNoneMatch"
-  ],
+  parameterPath: ["options", "xMsSourceIfNoneMatch"],
   mapper: {
     serializedName: "x-ms-source-if-none-match",
     type: {
@@ -719,10 +561,7 @@ export const xMsSourceIfNoneMatch: msRest.OperationParameter = {
   }
 };
 export const xMsSourceIfUnmodifiedSince: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsSourceIfUnmodifiedSince"
-  ],
+  parameterPath: ["options", "xMsSourceIfUnmodifiedSince"],
   mapper: {
     serializedName: "x-ms-source-if-unmodified-since",
     type: {
@@ -731,10 +570,7 @@ export const xMsSourceIfUnmodifiedSince: msRest.OperationParameter = {
   }
 };
 export const xMsSourceLeaseId: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsSourceLeaseId"
-  ],
+  parameterPath: ["options", "xMsSourceLeaseId"],
   mapper: {
     serializedName: "x-ms-source-lease-id",
     constraints: {
@@ -746,10 +582,7 @@ export const xMsSourceLeaseId: msRest.OperationParameter = {
   }
 };
 export const xMsUmask: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsUmask"
-  ],
+  parameterPath: ["options", "xMsUmask"],
   mapper: {
     serializedName: "x-ms-umask",
     type: {

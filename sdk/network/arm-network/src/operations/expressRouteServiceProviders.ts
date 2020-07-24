@@ -31,7 +31,9 @@ export class ExpressRouteServiceProviders {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteServiceProvidersListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteServiceProvidersListResponse>;
+  list(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteServiceProvidersListResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,23 @@ export class ExpressRouteServiceProviders {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>): Promise<Models.ExpressRouteServiceProvidersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>
+  ): Promise<Models.ExpressRouteServiceProvidersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ExpressRouteServiceProvidersListResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteServiceProvidersListResponse>;
   }
 
   /**
@@ -56,26 +67,43 @@ export class ExpressRouteServiceProviders {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteServiceProvidersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteServiceProvidersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteServiceProvidersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>): Promise<Models.ExpressRouteServiceProvidersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteServiceProviderListResult>
+  ): Promise<Models.ExpressRouteServiceProvidersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ExpressRouteServiceProvidersListNextResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteServiceProvidersListNextResponse>;
   }
 }
 
@@ -84,15 +112,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteServiceProviders",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteServiceProviderListResult
@@ -108,12 +130,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteServiceProviderListResult

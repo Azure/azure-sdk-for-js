@@ -40,14 +40,21 @@ export class List {
    * @param options The optional parameters
    * @param callback The callback
    */
-  operations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SerialConsoleOperations>): void;
-  operations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SerialConsoleOperations>, callback?: msRest.ServiceCallback<Models.SerialConsoleOperations>): Promise<Models.ListOperationsResponse> {
+  operations(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SerialConsoleOperations>
+  ): void;
+  operations(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SerialConsoleOperations>,
+    callback?: msRest.ServiceCallback<Models.SerialConsoleOperations>
+  ): Promise<Models.ListOperationsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       operationsOperationSpec,
-      callback) as Promise<Models.ListOperationsResponse>;
+      callback
+    ) as Promise<Models.ListOperationsResponse>;
   }
 }
 
@@ -56,15 +63,9 @@ const serializer = new msRest.Serializer(Mappers);
 const operationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/operations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SerialConsoleOperations

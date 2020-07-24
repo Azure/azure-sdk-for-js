@@ -35,14 +35,22 @@ export class StorageTargets {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageTargetsListByCacheResponse>
    */
-  listByCache(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageTargetsListByCacheResponse>;
+  listByCache(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageTargetsListByCacheResponse>;
   /**
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
    * list of [-0-9a-zA-Z_] char class.
    * @param callback The callback
    */
-  listByCache(resourceGroupName: string, cacheName: string, callback: msRest.ServiceCallback<Models.StorageTargetsResult>): void;
+  listByCache(
+    resourceGroupName: string,
+    cacheName: string,
+    callback: msRest.ServiceCallback<Models.StorageTargetsResult>
+  ): void;
   /**
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
@@ -50,8 +58,18 @@ export class StorageTargets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByCache(resourceGroupName: string, cacheName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageTargetsResult>): void;
-  listByCache(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageTargetsResult>, callback?: msRest.ServiceCallback<Models.StorageTargetsResult>): Promise<Models.StorageTargetsListByCacheResponse> {
+  listByCache(
+    resourceGroupName: string,
+    cacheName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageTargetsResult>
+  ): void;
+  listByCache(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageTargetsResult>,
+    callback?: msRest.ServiceCallback<Models.StorageTargetsResult>
+  ): Promise<Models.StorageTargetsListByCacheResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +77,8 @@ export class StorageTargets {
         options
       },
       listByCacheOperationSpec,
-      callback) as Promise<Models.StorageTargetsListByCacheResponse>;
+      callback
+    ) as Promise<Models.StorageTargetsListByCacheResponse>;
   }
 
   /**
@@ -74,9 +93,20 @@ export class StorageTargets {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageTargetsDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageTargetsDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,cacheName,storageTargetName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StorageTargetsDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageTargetsDeleteMethodResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      cacheName,
+      storageTargetName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.StorageTargetsDeleteMethodResponse
+    >;
   }
 
   /**
@@ -89,7 +119,12 @@ export class StorageTargets {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageTargetsGetResponse>
    */
-  get(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageTargetsGetResponse>;
+  get(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageTargetsGetResponse>;
   /**
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
@@ -98,7 +133,12 @@ export class StorageTargets {
    * and chars must be in list of [-0-9a-zA-Z_] char class.
    * @param callback The callback
    */
-  get(resourceGroupName: string, cacheName: string, storageTargetName: string, callback: msRest.ServiceCallback<Models.StorageTarget>): void;
+  get(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    callback: msRest.ServiceCallback<Models.StorageTarget>
+  ): void;
   /**
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
@@ -108,8 +148,20 @@ export class StorageTargets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, cacheName: string, storageTargetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageTarget>): void;
-  get(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageTarget>, callback?: msRest.ServiceCallback<Models.StorageTarget>): Promise<Models.StorageTargetsGetResponse> {
+  get(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageTarget>
+  ): void;
+  get(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageTarget>,
+    callback?: msRest.ServiceCallback<Models.StorageTarget>
+  ): Promise<Models.StorageTargetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +170,8 @@ export class StorageTargets {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.StorageTargetsGetResponse>;
+      callback
+    ) as Promise<Models.StorageTargetsGetResponse>;
   }
 
   /**
@@ -133,9 +186,20 @@ export class StorageTargets {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageTargetsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: Models.StorageTargetsCreateOrUpdateOptionalParams): Promise<Models.StorageTargetsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,cacheName,storageTargetName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StorageTargetsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: Models.StorageTargetsCreateOrUpdateOptionalParams
+  ): Promise<Models.StorageTargetsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      cacheName,
+      storageTargetName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.StorageTargetsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -150,7 +214,12 @@ export class StorageTargets {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -159,7 +228,8 @@ export class StorageTargets {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -174,7 +244,12 @@ export class StorageTargets {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: Models.StorageTargetsBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    cacheName: string,
+    storageTargetName: string,
+    options?: Models.StorageTargetsBeginCreateOrUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -183,7 +258,8 @@ export class StorageTargets {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -192,26 +268,41 @@ export class StorageTargets {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageTargetsListByCacheNextResponse>
    */
-  listByCacheNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageTargetsListByCacheNextResponse>;
+  listByCacheNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageTargetsListByCacheNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByCacheNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StorageTargetsResult>): void;
+  listByCacheNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.StorageTargetsResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByCacheNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageTargetsResult>): void;
-  listByCacheNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageTargetsResult>, callback?: msRest.ServiceCallback<Models.StorageTargetsResult>): Promise<Models.StorageTargetsListByCacheNextResponse> {
+  listByCacheNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageTargetsResult>
+  ): void;
+  listByCacheNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageTargetsResult>,
+    callback?: msRest.ServiceCallback<Models.StorageTargetsResult>
+  ): Promise<Models.StorageTargetsListByCacheNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByCacheNextOperationSpec,
-      callback) as Promise<Models.StorageTargetsListByCacheNextResponse>;
+      callback
+    ) as Promise<Models.StorageTargetsListByCacheNextResponse>;
   }
 }
 
@@ -219,18 +310,11 @@ export class StorageTargets {
 const serializer = new msRest.Serializer(Mappers);
 const listByCacheOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.cacheName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.cacheName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageTargetsResult
@@ -244,19 +328,16 @@ const listByCacheOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.cacheName,
     Parameters.storageTargetName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageTarget
@@ -270,19 +351,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.cacheName,
     Parameters.storageTargetName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -317,24 +395,18 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.cacheName,
     Parameters.storageTargetName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "storagetarget"
-    ],
+    parameterPath: ["options", "storagetarget"],
     mapper: Mappers.StorageTarget
   },
   responses: {
@@ -355,12 +427,8 @@ const listByCacheNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageTargetsResult

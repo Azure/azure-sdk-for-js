@@ -300,7 +300,7 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type AppSku = 'F1' | 'S1' | 'ST0' | 'ST1' | 'ST2';
+export type AppSku = "F1" | "S1" | "ST0" | "ST1" | "ST2";
 
 /**
  * Contains response data for the get operation.
@@ -310,16 +310,16 @@ export type AppsGetResponse = App & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: App;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: App;
+  };
 };
 
 /**
@@ -330,16 +330,16 @@ export type AppsCreateOrUpdateResponse = App & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: App;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: App;
+  };
 };
 
 /**
@@ -350,16 +350,16 @@ export type AppsUpdateResponse = App & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: App;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: App;
+  };
 };
 
 /**
@@ -370,16 +370,16 @@ export type AppsListBySubscriptionResponse = AppListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AppListResult;
+  };
 };
 
 /**
@@ -390,16 +390,16 @@ export type AppsListByResourceGroupResponse = AppListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AppListResult;
+  };
 };
 
 /**
@@ -410,16 +410,16 @@ export type AppsCheckNameAvailabilityResponse = AppAvailabilityInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppAvailabilityInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AppAvailabilityInfo;
+  };
 };
 
 /**
@@ -430,16 +430,16 @@ export type AppsCheckSubdomainAvailabilityResponse = AppAvailabilityInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppAvailabilityInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AppAvailabilityInfo;
+  };
 };
 
 /**
@@ -450,16 +450,16 @@ export type AppsListTemplatesResponse = AppTemplatesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppTemplatesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AppTemplatesResult;
+  };
 };
 
 /**
@@ -470,16 +470,16 @@ export type AppsBeginCreateOrUpdateResponse = App & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: App;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: App;
+  };
 };
 
 /**
@@ -490,16 +490,16 @@ export type AppsBeginUpdateResponse = App & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: App;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: App;
+  };
 };
 
 /**
@@ -510,16 +510,16 @@ export type AppsListBySubscriptionNextResponse = AppListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AppListResult;
+  };
 };
 
 /**
@@ -530,16 +530,16 @@ export type AppsListByResourceGroupNextResponse = AppListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AppListResult;
+  };
 };
 
 /**
@@ -550,16 +550,16 @@ export type AppsListTemplatesNextResponse = AppTemplatesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppTemplatesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AppTemplatesResult;
+  };
 };
 
 /**
@@ -570,16 +570,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -590,14 +590,14 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

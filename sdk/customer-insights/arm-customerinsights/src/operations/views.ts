@@ -34,14 +34,24 @@ export class Views {
    * @param [options] The optional parameters
    * @returns Promise<Models.ViewsListByHubResponse>
    */
-  listByHub(resourceGroupName: string, hubName: string, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.ViewsListByHubResponse>;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    userId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ViewsListByHubResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param userId The user ID. Use * to retreive hub level views.
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, userId: string, callback: msRest.ServiceCallback<Models.ViewListResult>): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    userId: string,
+    callback: msRest.ServiceCallback<Models.ViewListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -49,8 +59,20 @@ export class Views {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ViewListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ViewListResult>, callback?: msRest.ServiceCallback<Models.ViewListResult>): Promise<Models.ViewsListByHubResponse> {
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    userId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ViewListResult>
+  ): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    userId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ViewListResult>,
+    callback?: msRest.ServiceCallback<Models.ViewListResult>
+  ): Promise<Models.ViewsListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class Views {
         options
       },
       listByHubOperationSpec,
-      callback) as Promise<Models.ViewsListByHubResponse>;
+      callback
+    ) as Promise<Models.ViewsListByHubResponse>;
   }
 
   /**
@@ -71,7 +94,13 @@ export class Views {
    * @param [options] The optional parameters
    * @returns Promise<Models.ViewsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, viewName: string, parameters: Models.ViewResourceFormat, options?: msRest.RequestOptionsBase): Promise<Models.ViewsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    viewName: string,
+    parameters: Models.ViewResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ViewsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -79,7 +108,13 @@ export class Views {
    * @param parameters Parameters supplied to the CreateOrUpdate View operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, viewName: string, parameters: Models.ViewResourceFormat, callback: msRest.ServiceCallback<Models.ViewResourceFormat>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    viewName: string,
+    parameters: Models.ViewResourceFormat,
+    callback: msRest.ServiceCallback<Models.ViewResourceFormat>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -88,8 +123,22 @@ export class Views {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, viewName: string, parameters: Models.ViewResourceFormat, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ViewResourceFormat>): void;
-  createOrUpdate(resourceGroupName: string, hubName: string, viewName: string, parameters: Models.ViewResourceFormat, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ViewResourceFormat>, callback?: msRest.ServiceCallback<Models.ViewResourceFormat>): Promise<Models.ViewsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    viewName: string,
+    parameters: Models.ViewResourceFormat,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ViewResourceFormat>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    viewName: string,
+    parameters: Models.ViewResourceFormat,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ViewResourceFormat>,
+    callback?: msRest.ServiceCallback<Models.ViewResourceFormat>
+  ): Promise<Models.ViewsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +148,8 @@ export class Views {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ViewsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ViewsCreateOrUpdateResponse>;
   }
 
   /**
@@ -111,7 +161,13 @@ export class Views {
    * @param [options] The optional parameters
    * @returns Promise<Models.ViewsGetResponse>
    */
-  get(resourceGroupName: string, hubName: string, viewName: string, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.ViewsGetResponse>;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    viewName: string,
+    userId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ViewsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -119,7 +175,13 @@ export class Views {
    * @param userId The user ID. Use * to retreive hub level view.
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, viewName: string, userId: string, callback: msRest.ServiceCallback<Models.ViewResourceFormat>): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    viewName: string,
+    userId: string,
+    callback: msRest.ServiceCallback<Models.ViewResourceFormat>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -128,8 +190,22 @@ export class Views {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, viewName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ViewResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, viewName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ViewResourceFormat>, callback?: msRest.ServiceCallback<Models.ViewResourceFormat>): Promise<Models.ViewsGetResponse> {
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    viewName: string,
+    userId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ViewResourceFormat>
+  ): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    viewName: string,
+    userId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ViewResourceFormat>,
+    callback?: msRest.ServiceCallback<Models.ViewResourceFormat>
+  ): Promise<Models.ViewsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,7 +215,8 @@ export class Views {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ViewsGetResponse>;
+      callback
+    ) as Promise<Models.ViewsGetResponse>;
   }
 
   /**
@@ -151,7 +228,13 @@ export class Views {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, hubName: string, viewName: string, userId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    viewName: string,
+    userId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -159,7 +242,13 @@ export class Views {
    * @param userId The user ID. Use * to retreive hub level view.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, hubName: string, viewName: string, userId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    viewName: string,
+    userId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -168,8 +257,22 @@ export class Views {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, hubName: string, viewName: string, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, hubName: string, viewName: string, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    viewName: string,
+    userId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    viewName: string,
+    userId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -179,7 +282,8 @@ export class Views {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -188,26 +292,41 @@ export class Views {
    * @param [options] The optional parameters
    * @returns Promise<Models.ViewsListByHubNextResponse>
    */
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ViewsListByHubNextResponse>;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ViewsListByHubNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ViewListResult>): void;
+  listByHubNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ViewListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ViewListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ViewListResult>, callback?: msRest.ServiceCallback<Models.ViewListResult>): Promise<Models.ViewsListByHubNextResponse> {
+  listByHubNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ViewListResult>
+  ): void;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ViewListResult>,
+    callback?: msRest.ServiceCallback<Models.ViewListResult>
+  ): Promise<Models.ViewsListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByHubNextOperationSpec,
-      callback) as Promise<Models.ViewsListByHubNextResponse>;
+      callback
+    ) as Promise<Models.ViewsListByHubNextResponse>;
   }
 }
 
@@ -215,19 +334,11 @@ export class Views {
 const serializer = new msRest.Serializer(Mappers);
 const listByHubOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/views",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.hubName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.userId
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/views",
+  urlParameters: [Parameters.resourceGroupName, Parameters.hubName1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.userId],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ViewListResult
@@ -241,19 +352,16 @@ const listByHubOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/views/{viewName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/views/{viewName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.viewName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -274,20 +382,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/views/{viewName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/views/{viewName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.viewName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.userId
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.userId],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ViewResourceFormat
@@ -301,20 +405,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/views/{viewName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/views/{viewName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.viewName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.userId
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.userId],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -328,12 +428,8 @@ const listByHubNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ViewListResult

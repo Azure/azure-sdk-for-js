@@ -272,10 +272,7 @@ export const RegenerateAccessKeyParameters: msRest.CompositeMapper = {
         serializedName: "keyType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "PrimaryKey",
-            "SecondaryKey"
-          ]
+          allowedValues: ["PrimaryKey", "SecondaryKey"]
         }
       },
       key: {
@@ -338,10 +335,7 @@ export const CaptureDescription: msRest.CompositeMapper = {
         serializedName: "encoding",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Avro",
-            "AvroDeflate"
-          ]
+          allowedValues: ["Avro", "AvroDeflate"]
         }
       },
       intervalInSeconds: {
@@ -634,11 +628,7 @@ export const ArmDisasterRecovery: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Accepted",
-            "Succeeded",
-            "Failed"
-          ]
+          allowedValues: ["Accepted", "Succeeded", "Failed"]
         }
       },
       partnerNamespace: {
@@ -658,11 +648,7 @@ export const ArmDisasterRecovery: msRest.CompositeMapper = {
         serializedName: "properties.role",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Primary",
-            "PrimaryNotReplicating",
-            "Secondary"
-          ]
+          allowedValues: ["Primary", "PrimaryNotReplicating", "Secondary"]
         }
       },
       pendingReplicationOperationsCount: {
@@ -788,7 +774,7 @@ export const NWRuleSetIpRules: msRest.CompositeMapper = {
       },
       action: {
         serializedName: "action",
-        defaultValue: 'Allow',
+        defaultValue: "Allow",
         type: {
           name: "String"
         }

@@ -257,10 +257,7 @@ export const ProductEntityBaseParameters: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "notPublished",
-            "published"
-          ]
+          allowedValues: ["notPublished", "published"]
         }
       }
     }
@@ -672,10 +669,7 @@ export const ApiContractProperties: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "http",
-                "https"
-              ]
+              allowedValues: ["http", "https"]
             }
           }
         }
@@ -741,10 +735,7 @@ export const ApiTagResourceContractProperties: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "http",
-                "https"
-              ]
+              allowedValues: ["http", "https"]
             }
           }
         }
@@ -1312,7 +1303,7 @@ export const PolicyContract: msRest.CompositeMapper = {
       },
       format: {
         serializedName: "properties.format",
-        defaultValue: 'xml',
+        defaultValue: "xml",
         type: {
           name: "String"
         }
@@ -1394,10 +1385,7 @@ export const ProductContract: msRest.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "notPublished",
-            "published"
-          ]
+          allowedValues: ["notPublished", "published"]
         }
       },
       displayName: {
@@ -2079,10 +2067,7 @@ export const ApiUpdateContract: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "http",
-                "https"
-              ]
+              allowedValues: ["http", "https"]
             }
           }
         }
@@ -2230,10 +2215,7 @@ export const ApiContract: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "http",
-                "https"
-              ]
+              allowedValues: ["http", "https"]
             }
           }
         }
@@ -2387,10 +2369,7 @@ export const ApiCreateOrUpdateParameter: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "http",
-                "https"
-              ]
+              allowedValues: ["http", "https"]
             }
           }
         }
@@ -2633,16 +2612,7 @@ export const AuthorizationServerContractBaseProperties: msRest.CompositeMapper =
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "HEAD",
-                "OPTIONS",
-                "TRACE",
-                "GET",
-                "POST",
-                "PUT",
-                "PATCH",
-                "DELETE"
-              ]
+              allowedValues: ["HEAD", "OPTIONS", "TRACE", "GET", "POST", "PUT", "PATCH", "DELETE"]
             }
           }
         }
@@ -2735,16 +2705,7 @@ export const AuthorizationServerUpdateContract: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "HEAD",
-                "OPTIONS",
-                "TRACE",
-                "GET",
-                "POST",
-                "PUT",
-                "PATCH",
-                "DELETE"
-              ]
+              allowedValues: ["HEAD", "OPTIONS", "TRACE", "GET", "POST", "PUT", "PATCH", "DELETE"]
             }
           }
         }
@@ -2882,16 +2843,7 @@ export const AuthorizationServerContract: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "HEAD",
-                "OPTIONS",
-                "TRACE",
-                "GET",
-                "POST",
-                "PUT",
-                "PATCH",
-                "DELETE"
-              ]
+              allowedValues: ["HEAD", "OPTIONS", "TRACE", "GET", "POST", "PUT", "PATCH", "DELETE"]
             }
           }
         }
@@ -4221,7 +4173,7 @@ export const ApiManagementServiceBaseProperties: msRest.CompositeMapper = {
       },
       virtualNetworkType: {
         serializedName: "virtualNetworkType",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -4517,7 +4469,7 @@ export const ApiManagementServiceResource: msRest.CompositeMapper = {
       },
       virtualNetworkType: {
         serializedName: "properties.virtualNetworkType",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -4755,7 +4707,7 @@ export const ApiManagementServiceUpdateParameters: msRest.CompositeMapper = {
       },
       virtualNetworkType: {
         serializedName: "properties.virtualNetworkType",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -4867,11 +4819,7 @@ export const ApiManagementServiceNameAvailabilityResult: msRest.CompositeMapper 
         serializedName: "reason",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Valid",
-            "Invalid",
-            "AlreadyExists"
-          ]
+          allowedValues: ["Valid", "Invalid", "AlreadyExists"]
         }
       }
     }
@@ -5132,9 +5080,7 @@ export const AssociationContract: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "created"
-          ]
+          allowedValues: ["created"]
         }
       }
     }
@@ -5195,13 +5141,10 @@ export const GatewayTokenRequestContract: msRest.CompositeMapper = {
       keyType: {
         required: true,
         serializedName: "keyType",
-        defaultValue: 'primary',
+        defaultValue: "primary",
         type: {
           name: "Enum",
-          allowedValues: [
-            "primary",
-            "secondary"
-          ]
+          allowedValues: ["primary", "secondary"]
         }
       },
       expiry: {
@@ -5226,10 +5169,7 @@ export const GatewayKeyRegenerationRequestContract: msRest.CompositeMapper = {
         serializedName: "keyType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "primary",
-            "secondary"
-          ]
+          allowedValues: ["primary", "secondary"]
         }
       }
     }
@@ -5362,7 +5302,7 @@ export const UserEntityBaseParameters: msRest.CompositeMapper = {
     modelProperties: {
       state: {
         serializedName: "state",
-        defaultValue: 'active',
+        defaultValue: "active",
         type: {
           name: "String"
         }
@@ -5426,11 +5366,7 @@ export const GroupContractProperties: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "custom",
-            "system",
-            "external"
-          ]
+          allowedValues: ["custom", "system", "external"]
         }
       },
       externalId: {
@@ -5452,7 +5388,7 @@ export const UserContract: msRest.CompositeMapper = {
       ...Resource.type.modelProperties,
       state: {
         serializedName: "properties.state",
-        defaultValue: 'active',
+        defaultValue: "active",
         type: {
           name: "String"
         }
@@ -5542,11 +5478,7 @@ export const GroupUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "custom",
-            "system",
-            "external"
-          ]
+          allowedValues: ["custom", "system", "external"]
         }
       },
       externalId: {
@@ -5597,11 +5529,7 @@ export const GroupContract: msRest.CompositeMapper = {
         serializedName: "properties.type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "custom",
-            "system",
-            "external"
-          ]
+          allowedValues: ["custom", "system", "external"]
         }
       },
       externalId: {
@@ -5641,11 +5569,7 @@ export const GroupCreateParameters: msRest.CompositeMapper = {
         serializedName: "properties.type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "custom",
-            "system",
-            "external"
-          ]
+          allowedValues: ["custom", "system", "external"]
         }
       },
       externalId: {
@@ -6920,14 +6844,7 @@ export const SubscriptionContract: msRest.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "suspended",
-            "active",
-            "expired",
-            "submitted",
-            "rejected",
-            "cancelled"
-          ]
+          allowedValues: ["suspended", "active", "expired", "submitted", "rejected", "cancelled"]
         }
       },
       createdDate: {
@@ -7041,10 +6958,7 @@ export const ProductUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "notPublished",
-            "published"
-          ]
+          allowedValues: ["notPublished", "published"]
         }
       },
       displayName: {
@@ -7540,14 +7454,7 @@ export const SubscriptionUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "suspended",
-            "active",
-            "expired",
-            "submitted",
-            "rejected",
-            "cancelled"
-          ]
+          allowedValues: ["suspended", "active", "expired", "submitted", "rejected", "cancelled"]
         }
       },
       stateComment: {
@@ -7620,14 +7527,7 @@ export const SubscriptionCreateParameters: msRest.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "suspended",
-            "active",
-            "expired",
-            "submitted",
-            "rejected",
-            "cancelled"
-          ]
+          allowedValues: ["suspended", "active", "expired", "submitted", "rejected", "cancelled"]
         }
       },
       allowTracing: {
@@ -7757,12 +7657,7 @@ export const OperationResultContract: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Started",
-            "InProgress",
-            "Succeeded",
-            "Failed"
-          ]
+          allowedValues: ["Started", "InProgress", "Succeeded", "Failed"]
         }
       },
       started: {
@@ -7928,13 +7823,10 @@ export const UserTokenParameters: msRest.CompositeMapper = {
       keyType: {
         required: true,
         serializedName: "properties.keyType",
-        defaultValue: 'primary',
+        defaultValue: "primary",
         type: {
           name: "Enum",
-          allowedValues: [
-            "primary",
-            "secondary"
-          ]
+          allowedValues: ["primary", "secondary"]
         }
       },
       expiry: {
@@ -7972,7 +7864,7 @@ export const UserUpdateParameters: msRest.CompositeMapper = {
     modelProperties: {
       state: {
         serializedName: "properties.state",
-        defaultValue: 'active',
+        defaultValue: "active",
         type: {
           name: "String"
         }
@@ -8043,7 +7935,7 @@ export const UserCreateParameters: msRest.CompositeMapper = {
     modelProperties: {
       state: {
         serializedName: "properties.state",
-        defaultValue: 'active',
+        defaultValue: "active",
         type: {
           name: "String"
         }

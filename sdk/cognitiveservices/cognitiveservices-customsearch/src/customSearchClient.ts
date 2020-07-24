@@ -23,7 +23,10 @@ class CustomSearchClient extends CustomSearchClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.CustomSearchClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.CustomSearchClientOptions
+  ) {
     super(credentials, options);
     this.customInstance = new operations.CustomInstance(this);
   }

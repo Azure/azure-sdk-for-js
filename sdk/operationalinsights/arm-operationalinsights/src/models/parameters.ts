@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -110,10 +110,7 @@ export const dataSourceType: msRest.OperationURLParameter = {
     serializedName: "dataSourceType",
     type: {
       name: "Enum",
-      allowedValues: [
-        "CustomLogs",
-        "AzureWatson"
-      ]
+      allowedValues: ["CustomLogs", "AzureWatson"]
     }
   }
 };
@@ -128,10 +125,7 @@ export const filter: msRest.OperationQueryParameter = {
   }
 };
 export const force: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "force"
-  ],
+  parameterPath: ["options", "force"],
   mapper: {
     serializedName: "force",
     type: {
@@ -226,10 +220,7 @@ export const savedSearchId: msRest.OperationURLParameter = {
   }
 };
 export const skiptoken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skiptoken"
-  ],
+  parameterPath: ["options", "skiptoken"],
   mapper: {
     serializedName: "$skiptoken",
     type: {

@@ -525,7 +525,7 @@ export const CapacityPool: msRest.CompositeMapper = {
       serviceLevel: {
         required: true,
         serializedName: "properties.serviceLevel",
-        defaultValue: 'Premium',
+        defaultValue: "Premium",
         type: {
           name: "String"
         }
@@ -598,7 +598,7 @@ export const CapacityPoolPatch: msRest.CompositeMapper = {
       },
       serviceLevel: {
         serializedName: "properties.serviceLevel",
-        defaultValue: 'Premium',
+        defaultValue: "Premium",
         type: {
           name: "String"
         }
@@ -888,7 +888,7 @@ export const Volume: msRest.CompositeMapper = {
       },
       serviceLevel: {
         serializedName: "properties.serviceLevel",
-        defaultValue: 'Premium',
+        defaultValue: "Premium",
         type: {
           name: "String"
         }
@@ -1103,7 +1103,7 @@ export const VolumePatch: msRest.CompositeMapper = {
       },
       serviceLevel: {
         serializedName: "properties.serviceLevel",
-        defaultValue: 'Premium',
+        defaultValue: "Premium",
         type: {
           name: "String"
         }

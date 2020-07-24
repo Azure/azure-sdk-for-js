@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { OperationalInsightsManagementClientContext } from "./operationalInsightsManagementClientContext";
 
-
 class OperationalInsightsManagementClient extends OperationalInsightsManagementClientContext {
   // Operation groups
   dataExports: operations.DataExports;
@@ -44,7 +43,11 @@ class OperationalInsightsManagementClient extends OperationalInsightsManagementC
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.OperationalInsightsManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.OperationalInsightsManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.dataExports = new operations.DataExports(this);
     this.dataSources = new operations.DataSources(this);

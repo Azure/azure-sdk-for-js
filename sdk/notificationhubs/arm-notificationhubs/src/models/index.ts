@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing OperationDisplay.
@@ -993,7 +992,6 @@ export interface NotificationHubsManagementClientOptions extends AzureServiceCli
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the OperationListResult.
@@ -1034,7 +1032,8 @@ export interface NamespaceListResult extends Array<NamespaceResource> {
  *
  * @extends Array<SharedAccessAuthorizationRuleResource>
  */
-export interface SharedAccessAuthorizationRuleListResult extends Array<SharedAccessAuthorizationRuleResource> {
+export interface SharedAccessAuthorizationRuleListResult
+  extends Array<SharedAccessAuthorizationRuleResource> {
   /**
    * @member {string} [nextLink] Link to the next set of results. Not empty if
    * Value contains incomplete list of AuthorizationRules
@@ -1063,7 +1062,7 @@ export interface NotificationHubListResult extends Array<NotificationHubResource
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Free' | 'Basic' | 'Standard';
+export type SkuName = "Free" | "Basic" | "Standard";
 
 /**
  * Defines values for NamespaceType.
@@ -1071,7 +1070,7 @@ export type SkuName = 'Free' | 'Basic' | 'Standard';
  * @readonly
  * @enum {string}
  */
-export type NamespaceType = 'Messaging' | 'NotificationHub';
+export type NamespaceType = "Messaging" | "NotificationHub";
 
 /**
  * Defines values for AccessRights.
@@ -1079,7 +1078,7 @@ export type NamespaceType = 'Messaging' | 'NotificationHub';
  * @readonly
  * @enum {string}
  */
-export type AccessRights = 'Manage' | 'Send' | 'Listen';
+export type AccessRights = "Manage" | "Send" | "Listen";
 
 /**
  * Contains response data for the list operation.
@@ -1089,15 +1088,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1108,15 +1107,15 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1127,15 +1126,15 @@ export type NamespacesCheckAvailabilityResponse = CheckAvailabilityResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckAvailabilityResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckAvailabilityResult;
+  };
 };
 
 /**
@@ -1146,15 +1145,15 @@ export type NamespacesCreateOrUpdateResponse = NamespaceResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NamespaceResource;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NamespaceResource;
+  };
 };
 
 /**
@@ -1165,15 +1164,15 @@ export type NamespacesPatchResponse = NamespaceResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NamespaceResource;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NamespaceResource;
+  };
 };
 
 /**
@@ -1184,15 +1183,15 @@ export type NamespacesGetResponse = NamespaceResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NamespaceResource;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NamespaceResource;
+  };
 };
 
 /**
@@ -1203,15 +1202,15 @@ export type NamespacesCreateOrUpdateAuthorizationRuleResponse = SharedAccessAuth
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessAuthorizationRuleResource;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessAuthorizationRuleResource;
+  };
 };
 
 /**
@@ -1222,15 +1221,15 @@ export type NamespacesGetAuthorizationRuleResponse = SharedAccessAuthorizationRu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessAuthorizationRuleResource;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessAuthorizationRuleResource;
+  };
 };
 
 /**
@@ -1241,15 +1240,15 @@ export type NamespacesListResponse = NamespaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NamespaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NamespaceListResult;
+  };
 };
 
 /**
@@ -1260,15 +1259,15 @@ export type NamespacesListAllResponse = NamespaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NamespaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NamespaceListResult;
+  };
 };
 
 /**
@@ -1279,15 +1278,15 @@ export type NamespacesListAuthorizationRulesResponse = SharedAccessAuthorization
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -1298,15 +1297,15 @@ export type NamespacesListKeysResponse = SharedAccessAuthorizationRuleListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -1317,15 +1316,15 @@ export type NamespacesRegenerateKeysResponse = ResourceListKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceListKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceListKeys;
+  };
 };
 
 /**
@@ -1336,15 +1335,15 @@ export type NamespacesListNextResponse = NamespaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NamespaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NamespaceListResult;
+  };
 };
 
 /**
@@ -1355,15 +1354,15 @@ export type NamespacesListAllNextResponse = NamespaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NamespaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NamespaceListResult;
+  };
 };
 
 /**
@@ -1374,15 +1373,15 @@ export type NamespacesListAuthorizationRulesNextResponse = SharedAccessAuthoriza
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -1393,15 +1392,15 @@ export type NotificationHubsCheckNotificationHubAvailabilityResponse = CheckAvai
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckAvailabilityResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckAvailabilityResult;
+  };
 };
 
 /**
@@ -1412,15 +1411,15 @@ export type NotificationHubsCreateOrUpdateResponse = NotificationHubResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotificationHubResource;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NotificationHubResource;
+  };
 };
 
 /**
@@ -1431,15 +1430,15 @@ export type NotificationHubsPatchResponse = NotificationHubResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotificationHubResource;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NotificationHubResource;
+  };
 };
 
 /**
@@ -1450,15 +1449,15 @@ export type NotificationHubsGetResponse = NotificationHubResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotificationHubResource;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NotificationHubResource;
+  };
 };
 
 /**
@@ -1469,15 +1468,15 @@ export type NotificationHubsDebugSendResponse = DebugSendResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DebugSendResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DebugSendResponse;
+  };
 };
 
 /**
@@ -1488,15 +1487,15 @@ export type NotificationHubsCreateOrUpdateAuthorizationRuleResponse = SharedAcce
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessAuthorizationRuleResource;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessAuthorizationRuleResource;
+  };
 };
 
 /**
@@ -1507,15 +1506,15 @@ export type NotificationHubsGetAuthorizationRuleResponse = SharedAccessAuthoriza
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessAuthorizationRuleResource;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessAuthorizationRuleResource;
+  };
 };
 
 /**
@@ -1526,15 +1525,15 @@ export type NotificationHubsListResponse = NotificationHubListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotificationHubListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NotificationHubListResult;
+  };
 };
 
 /**
@@ -1545,15 +1544,15 @@ export type NotificationHubsListAuthorizationRulesResponse = SharedAccessAuthori
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -1564,15 +1563,15 @@ export type NotificationHubsListKeysResponse = ResourceListKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceListKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceListKeys;
+  };
 };
 
 /**
@@ -1583,15 +1582,15 @@ export type NotificationHubsRegenerateKeysResponse = ResourceListKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceListKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceListKeys;
+  };
 };
 
 /**
@@ -1602,15 +1601,15 @@ export type NotificationHubsGetPnsCredentialsResponse = PnsCredentialsResource &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PnsCredentialsResource;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PnsCredentialsResource;
+  };
 };
 
 /**
@@ -1621,15 +1620,15 @@ export type NotificationHubsListNextResponse = NotificationHubListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotificationHubListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NotificationHubListResult;
+  };
 };
 
 /**
@@ -1640,13 +1639,13 @@ export type NotificationHubsListAuthorizationRulesNextResponse = SharedAccessAut
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedAccessAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedAccessAuthorizationRuleListResult;
+  };
 };

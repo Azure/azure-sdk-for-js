@@ -29,21 +29,41 @@ export class SparkSession {
    * @param [options] The optional parameters
    * @returns Promise<Models.SparkSessionListResponse>
    */
-  list(workspaceName: string, sparkPoolName: string, options?: Models.SparkSessionListOptionalParams): Promise<Models.SparkSessionListResponse>;
+  list(
+    workspaceName: string,
+    sparkPoolName: string,
+    options?: Models.SparkSessionListOptionalParams
+  ): Promise<Models.SparkSessionListResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
    * @param callback The callback
    */
-  list(workspaceName: string, sparkPoolName: string, callback: msRest.ServiceCallback<Models.ExtendedLivyListSessionResponse>): void;
+  list(
+    workspaceName: string,
+    sparkPoolName: string,
+    callback: msRest.ServiceCallback<Models.ExtendedLivyListSessionResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(workspaceName: string, sparkPoolName: string, options: Models.SparkSessionListOptionalParams, callback: msRest.ServiceCallback<Models.ExtendedLivyListSessionResponse>): void;
-  list(workspaceName: string, sparkPoolName: string, options?: Models.SparkSessionListOptionalParams | msRest.ServiceCallback<Models.ExtendedLivyListSessionResponse>, callback?: msRest.ServiceCallback<Models.ExtendedLivyListSessionResponse>): Promise<Models.SparkSessionListResponse> {
+  list(
+    workspaceName: string,
+    sparkPoolName: string,
+    options: Models.SparkSessionListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ExtendedLivyListSessionResponse>
+  ): void;
+  list(
+    workspaceName: string,
+    sparkPoolName: string,
+    options?:
+      | Models.SparkSessionListOptionalParams
+      | msRest.ServiceCallback<Models.ExtendedLivyListSessionResponse>,
+    callback?: msRest.ServiceCallback<Models.ExtendedLivyListSessionResponse>
+  ): Promise<Models.SparkSessionListResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -51,7 +71,8 @@ export class SparkSession {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SparkSessionListResponse>;
+      callback
+    ) as Promise<Models.SparkSessionListResponse>;
   }
 
   /**
@@ -62,14 +83,24 @@ export class SparkSession {
    * @param [options] The optional parameters
    * @returns Promise<Models.SparkSessionCreateResponse>
    */
-  create(workspaceName: string, sparkPoolName: string, livyRequest: Models.ExtendedLivySessionRequest, options?: Models.SparkSessionCreateOptionalParams): Promise<Models.SparkSessionCreateResponse>;
+  create(
+    workspaceName: string,
+    sparkPoolName: string,
+    livyRequest: Models.ExtendedLivySessionRequest,
+    options?: Models.SparkSessionCreateOptionalParams
+  ): Promise<Models.SparkSessionCreateResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
    * @param livyRequest Livy compatible batch job request payload.
    * @param callback The callback
    */
-  create(workspaceName: string, sparkPoolName: string, livyRequest: Models.ExtendedLivySessionRequest, callback: msRest.ServiceCallback<Models.ExtendedLivySessionResponse>): void;
+  create(
+    workspaceName: string,
+    sparkPoolName: string,
+    livyRequest: Models.ExtendedLivySessionRequest,
+    callback: msRest.ServiceCallback<Models.ExtendedLivySessionResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
@@ -77,8 +108,22 @@ export class SparkSession {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(workspaceName: string, sparkPoolName: string, livyRequest: Models.ExtendedLivySessionRequest, options: Models.SparkSessionCreateOptionalParams, callback: msRest.ServiceCallback<Models.ExtendedLivySessionResponse>): void;
-  create(workspaceName: string, sparkPoolName: string, livyRequest: Models.ExtendedLivySessionRequest, options?: Models.SparkSessionCreateOptionalParams | msRest.ServiceCallback<Models.ExtendedLivySessionResponse>, callback?: msRest.ServiceCallback<Models.ExtendedLivySessionResponse>): Promise<Models.SparkSessionCreateResponse> {
+  create(
+    workspaceName: string,
+    sparkPoolName: string,
+    livyRequest: Models.ExtendedLivySessionRequest,
+    options: Models.SparkSessionCreateOptionalParams,
+    callback: msRest.ServiceCallback<Models.ExtendedLivySessionResponse>
+  ): void;
+  create(
+    workspaceName: string,
+    sparkPoolName: string,
+    livyRequest: Models.ExtendedLivySessionRequest,
+    options?:
+      | Models.SparkSessionCreateOptionalParams
+      | msRest.ServiceCallback<Models.ExtendedLivySessionResponse>,
+    callback?: msRest.ServiceCallback<Models.ExtendedLivySessionResponse>
+  ): Promise<Models.SparkSessionCreateResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -87,7 +132,8 @@ export class SparkSession {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.SparkSessionCreateResponse>;
+      callback
+    ) as Promise<Models.SparkSessionCreateResponse>;
   }
 
   /**
@@ -98,14 +144,24 @@ export class SparkSession {
    * @param [options] The optional parameters
    * @returns Promise<Models.SparkSessionGetResponse>
    */
-  get(workspaceName: string, sparkPoolName: string, sessionId: number, options?: Models.SparkSessionGetOptionalParams): Promise<Models.SparkSessionGetResponse>;
+  get(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    options?: Models.SparkSessionGetOptionalParams
+  ): Promise<Models.SparkSessionGetResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
    * @param sessionId Identifier for the session.
    * @param callback The callback
    */
-  get(workspaceName: string, sparkPoolName: string, sessionId: number, callback: msRest.ServiceCallback<Models.ExtendedLivySessionResponse>): void;
+  get(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    callback: msRest.ServiceCallback<Models.ExtendedLivySessionResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
@@ -113,8 +169,22 @@ export class SparkSession {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(workspaceName: string, sparkPoolName: string, sessionId: number, options: Models.SparkSessionGetOptionalParams, callback: msRest.ServiceCallback<Models.ExtendedLivySessionResponse>): void;
-  get(workspaceName: string, sparkPoolName: string, sessionId: number, options?: Models.SparkSessionGetOptionalParams | msRest.ServiceCallback<Models.ExtendedLivySessionResponse>, callback?: msRest.ServiceCallback<Models.ExtendedLivySessionResponse>): Promise<Models.SparkSessionGetResponse> {
+  get(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    options: Models.SparkSessionGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.ExtendedLivySessionResponse>
+  ): void;
+  get(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    options?:
+      | Models.SparkSessionGetOptionalParams
+      | msRest.ServiceCallback<Models.ExtendedLivySessionResponse>,
+    callback?: msRest.ServiceCallback<Models.ExtendedLivySessionResponse>
+  ): Promise<Models.SparkSessionGetResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -123,7 +193,8 @@ export class SparkSession {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SparkSessionGetResponse>;
+      callback
+    ) as Promise<Models.SparkSessionGetResponse>;
   }
 
   /**
@@ -135,7 +206,12 @@ export class SparkSession {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(workspaceName: string, sparkPoolName: string, sessionId: number, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand"
@@ -143,7 +219,12 @@ export class SparkSession {
    * @param sessionId Identifier for the session.
    * @param callback The callback
    */
-  deleteMethod(workspaceName: string, sparkPoolName: string, sessionId: number, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand"
@@ -152,8 +233,20 @@ export class SparkSession {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(workspaceName: string, sparkPoolName: string, sessionId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(workspaceName: string, sparkPoolName: string, sessionId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -162,7 +255,8 @@ export class SparkSession {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -174,7 +268,12 @@ export class SparkSession {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resetTimeout(workspaceName: string, sparkPoolName: string, sessionId: number, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  resetTimeout(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand"
@@ -182,7 +281,12 @@ export class SparkSession {
    * @param sessionId Identifier for the session.
    * @param callback The callback
    */
-  resetTimeout(workspaceName: string, sparkPoolName: string, sessionId: number, callback: msRest.ServiceCallback<void>): void;
+  resetTimeout(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand"
@@ -191,8 +295,20 @@ export class SparkSession {
    * @param options The optional parameters
    * @param callback The callback
    */
-  resetTimeout(workspaceName: string, sparkPoolName: string, sessionId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  resetTimeout(workspaceName: string, sparkPoolName: string, sessionId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resetTimeout(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  resetTimeout(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -201,7 +317,8 @@ export class SparkSession {
         options
       },
       resetTimeoutOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -212,14 +329,24 @@ export class SparkSession {
    * @param [options] The optional parameters
    * @returns Promise<Models.SparkSessionListStatementsResponse>
    */
-  listStatements(workspaceName: string, sparkPoolName: string, sessionId: number, options?: msRest.RequestOptionsBase): Promise<Models.SparkSessionListStatementsResponse>;
+  listStatements(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SparkSessionListStatementsResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
    * @param sessionId Identifier for the session.
    * @param callback The callback
    */
-  listStatements(workspaceName: string, sparkPoolName: string, sessionId: number, callback: msRest.ServiceCallback<Models.LivyStatementsResponseBody>): void;
+  listStatements(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    callback: msRest.ServiceCallback<Models.LivyStatementsResponseBody>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
@@ -227,8 +354,20 @@ export class SparkSession {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStatements(workspaceName: string, sparkPoolName: string, sessionId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LivyStatementsResponseBody>): void;
-  listStatements(workspaceName: string, sparkPoolName: string, sessionId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LivyStatementsResponseBody>, callback?: msRest.ServiceCallback<Models.LivyStatementsResponseBody>): Promise<Models.SparkSessionListStatementsResponse> {
+  listStatements(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LivyStatementsResponseBody>
+  ): void;
+  listStatements(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LivyStatementsResponseBody>,
+    callback?: msRest.ServiceCallback<Models.LivyStatementsResponseBody>
+  ): Promise<Models.SparkSessionListStatementsResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -237,7 +376,8 @@ export class SparkSession {
         options
       },
       listStatementsOperationSpec,
-      callback) as Promise<Models.SparkSessionListStatementsResponse>;
+      callback
+    ) as Promise<Models.SparkSessionListStatementsResponse>;
   }
 
   /**
@@ -249,7 +389,13 @@ export class SparkSession {
    * @param [options] The optional parameters
    * @returns Promise<Models.SparkSessionCreateStatementResponse>
    */
-  createStatement(workspaceName: string, sparkPoolName: string, sessionId: number, livyRequest: Models.LivyStatementRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.SparkSessionCreateStatementResponse>;
+  createStatement(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    livyRequest: Models.LivyStatementRequestBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SparkSessionCreateStatementResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
@@ -257,7 +403,13 @@ export class SparkSession {
    * @param livyRequest Livy compatible batch job request payload.
    * @param callback The callback
    */
-  createStatement(workspaceName: string, sparkPoolName: string, sessionId: number, livyRequest: Models.LivyStatementRequestBody, callback: msRest.ServiceCallback<Models.LivyStatementResponseBody>): void;
+  createStatement(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    livyRequest: Models.LivyStatementRequestBody,
+    callback: msRest.ServiceCallback<Models.LivyStatementResponseBody>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
@@ -266,8 +418,22 @@ export class SparkSession {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createStatement(workspaceName: string, sparkPoolName: string, sessionId: number, livyRequest: Models.LivyStatementRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LivyStatementResponseBody>): void;
-  createStatement(workspaceName: string, sparkPoolName: string, sessionId: number, livyRequest: Models.LivyStatementRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LivyStatementResponseBody>, callback?: msRest.ServiceCallback<Models.LivyStatementResponseBody>): Promise<Models.SparkSessionCreateStatementResponse> {
+  createStatement(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    livyRequest: Models.LivyStatementRequestBody,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LivyStatementResponseBody>
+  ): void;
+  createStatement(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    livyRequest: Models.LivyStatementRequestBody,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LivyStatementResponseBody>,
+    callback?: msRest.ServiceCallback<Models.LivyStatementResponseBody>
+  ): Promise<Models.SparkSessionCreateStatementResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -277,7 +443,8 @@ export class SparkSession {
         options
       },
       createStatementOperationSpec,
-      callback) as Promise<Models.SparkSessionCreateStatementResponse>;
+      callback
+    ) as Promise<Models.SparkSessionCreateStatementResponse>;
   }
 
   /**
@@ -289,7 +456,13 @@ export class SparkSession {
    * @param [options] The optional parameters
    * @returns Promise<Models.SparkSessionGetStatementResponse>
    */
-  getStatement(workspaceName: string, sparkPoolName: string, sessionId: number, statementId: number, options?: msRest.RequestOptionsBase): Promise<Models.SparkSessionGetStatementResponse>;
+  getStatement(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    statementId: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SparkSessionGetStatementResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
@@ -297,7 +470,13 @@ export class SparkSession {
    * @param statementId Identifier for the statement.
    * @param callback The callback
    */
-  getStatement(workspaceName: string, sparkPoolName: string, sessionId: number, statementId: number, callback: msRest.ServiceCallback<Models.LivyStatementResponseBody>): void;
+  getStatement(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    statementId: number,
+    callback: msRest.ServiceCallback<Models.LivyStatementResponseBody>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
@@ -306,8 +485,22 @@ export class SparkSession {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatement(workspaceName: string, sparkPoolName: string, sessionId: number, statementId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LivyStatementResponseBody>): void;
-  getStatement(workspaceName: string, sparkPoolName: string, sessionId: number, statementId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LivyStatementResponseBody>, callback?: msRest.ServiceCallback<Models.LivyStatementResponseBody>): Promise<Models.SparkSessionGetStatementResponse> {
+  getStatement(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    statementId: number,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LivyStatementResponseBody>
+  ): void;
+  getStatement(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    statementId: number,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LivyStatementResponseBody>,
+    callback?: msRest.ServiceCallback<Models.LivyStatementResponseBody>
+  ): Promise<Models.SparkSessionGetStatementResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -317,7 +510,8 @@ export class SparkSession {
         options
       },
       getStatementOperationSpec,
-      callback) as Promise<Models.SparkSessionGetStatementResponse>;
+      callback
+    ) as Promise<Models.SparkSessionGetStatementResponse>;
   }
 
   /**
@@ -329,7 +523,13 @@ export class SparkSession {
    * @param [options] The optional parameters
    * @returns Promise<Models.SparkSessionDeleteStatementResponse>
    */
-  deleteStatement(workspaceName: string, sparkPoolName: string, sessionId: number, statementId: number, options?: msRest.RequestOptionsBase): Promise<Models.SparkSessionDeleteStatementResponse>;
+  deleteStatement(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    statementId: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SparkSessionDeleteStatementResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
@@ -337,7 +537,13 @@ export class SparkSession {
    * @param statementId Identifier for the statement.
    * @param callback The callback
    */
-  deleteStatement(workspaceName: string, sparkPoolName: string, sessionId: number, statementId: number, callback: msRest.ServiceCallback<Models.LivyStatementCancellationResponse>): void;
+  deleteStatement(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    statementId: number,
+    callback: msRest.ServiceCallback<Models.LivyStatementCancellationResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param sparkPoolName Name of the spark pool. "ondemand" targets the ondemand pool.
@@ -346,8 +552,24 @@ export class SparkSession {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteStatement(workspaceName: string, sparkPoolName: string, sessionId: number, statementId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LivyStatementCancellationResponse>): void;
-  deleteStatement(workspaceName: string, sparkPoolName: string, sessionId: number, statementId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LivyStatementCancellationResponse>, callback?: msRest.ServiceCallback<Models.LivyStatementCancellationResponse>): Promise<Models.SparkSessionDeleteStatementResponse> {
+  deleteStatement(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    statementId: number,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LivyStatementCancellationResponse>
+  ): void;
+  deleteStatement(
+    workspaceName: string,
+    sparkPoolName: string,
+    sessionId: number,
+    statementId: number,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.LivyStatementCancellationResponse>,
+    callback?: msRest.ServiceCallback<Models.LivyStatementCancellationResponse>
+  ): Promise<Models.SparkSessionDeleteStatementResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -357,7 +579,8 @@ export class SparkSession {
         options
       },
       deleteStatementOperationSpec,
-      callback) as Promise<Models.SparkSessionDeleteStatementResponse>;
+      callback
+    ) as Promise<Models.SparkSessionDeleteStatementResponse>;
   }
 }
 
@@ -372,14 +595,8 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.livyApiVersion,
     Parameters.sparkPoolName
   ],
-  queryParameters: [
-    Parameters.from,
-    Parameters.size,
-    Parameters.detailed
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.from, Parameters.size, Parameters.detailed],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExtendedLivyListSessionResponse
@@ -400,12 +617,8 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.livyApiVersion,
     Parameters.sparkPoolName
   ],
-  queryParameters: [
-    Parameters.detailed
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.detailed],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "livyRequest",
     mapper: {
@@ -434,12 +647,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.sparkPoolName,
     Parameters.sessionId
   ],
-  queryParameters: [
-    Parameters.detailed
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.detailed],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExtendedLivySessionResponse
@@ -461,9 +670,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.sparkPoolName,
     Parameters.sessionId
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -475,7 +682,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const resetTimeoutOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}/reset-timeout",
+  path:
+    "livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}/reset-timeout",
   urlParameters: [
     Parameters.workspaceName,
     Parameters.synapseDnsSuffix,
@@ -483,9 +691,7 @@ const resetTimeoutOperationSpec: msRest.OperationSpec = {
     Parameters.sparkPoolName,
     Parameters.sessionId
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -497,7 +703,8 @@ const resetTimeoutOperationSpec: msRest.OperationSpec = {
 
 const listStatementsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}/statements",
+  path:
+    "livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}/statements",
   urlParameters: [
     Parameters.workspaceName,
     Parameters.synapseDnsSuffix,
@@ -505,9 +712,7 @@ const listStatementsOperationSpec: msRest.OperationSpec = {
     Parameters.sparkPoolName,
     Parameters.sessionId
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LivyStatementsResponseBody
@@ -521,7 +726,8 @@ const listStatementsOperationSpec: msRest.OperationSpec = {
 
 const createStatementOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}/statements",
+  path:
+    "livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}/statements",
   urlParameters: [
     Parameters.workspaceName,
     Parameters.synapseDnsSuffix,
@@ -529,9 +735,7 @@ const createStatementOperationSpec: msRest.OperationSpec = {
     Parameters.sparkPoolName,
     Parameters.sessionId
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "livyRequest",
     mapper: {
@@ -552,7 +756,8 @@ const createStatementOperationSpec: msRest.OperationSpec = {
 
 const getStatementOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}/statements/{statementId}",
+  path:
+    "livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}/statements/{statementId}",
   urlParameters: [
     Parameters.workspaceName,
     Parameters.synapseDnsSuffix,
@@ -561,9 +766,7 @@ const getStatementOperationSpec: msRest.OperationSpec = {
     Parameters.sessionId,
     Parameters.statementId
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LivyStatementResponseBody
@@ -577,7 +780,8 @@ const getStatementOperationSpec: msRest.OperationSpec = {
 
 const deleteStatementOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}/statements/{statementId}/cancel",
+  path:
+    "livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions/{sessionId}/statements/{statementId}/cancel",
   urlParameters: [
     Parameters.workspaceName,
     Parameters.synapseDnsSuffix,
@@ -586,9 +790,7 @@ const deleteStatementOperationSpec: msRest.OperationSpec = {
     Parameters.sessionId,
     Parameters.statementId
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LivyStatementCancellationResponse

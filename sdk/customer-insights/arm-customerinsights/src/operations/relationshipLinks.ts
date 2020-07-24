@@ -36,9 +36,22 @@ export class RelationshipLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.RelationshipLinksCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, relationshipLinkName: string, parameters: Models.RelationshipLinkResourceFormat, options?: msRest.RequestOptionsBase): Promise<Models.RelationshipLinksCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,hubName,relationshipLinkName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RelationshipLinksCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    relationshipLinkName: string,
+    parameters: Models.RelationshipLinkResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RelationshipLinksCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      hubName,
+      relationshipLinkName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.RelationshipLinksCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -49,14 +62,24 @@ export class RelationshipLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.RelationshipLinksGetResponse>
    */
-  get(resourceGroupName: string, hubName: string, relationshipLinkName: string, options?: msRest.RequestOptionsBase): Promise<Models.RelationshipLinksGetResponse>;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    relationshipLinkName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RelationshipLinksGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param relationshipLinkName The name of the relationship link.
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, relationshipLinkName: string, callback: msRest.ServiceCallback<Models.RelationshipLinkResourceFormat>): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    relationshipLinkName: string,
+    callback: msRest.ServiceCallback<Models.RelationshipLinkResourceFormat>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -64,8 +87,22 @@ export class RelationshipLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, relationshipLinkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelationshipLinkResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, relationshipLinkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelationshipLinkResourceFormat>, callback?: msRest.ServiceCallback<Models.RelationshipLinkResourceFormat>): Promise<Models.RelationshipLinksGetResponse> {
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    relationshipLinkName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RelationshipLinkResourceFormat>
+  ): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    relationshipLinkName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RelationshipLinkResourceFormat>,
+    callback?: msRest.ServiceCallback<Models.RelationshipLinkResourceFormat>
+  ): Promise<Models.RelationshipLinksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +111,8 @@ export class RelationshipLinks {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RelationshipLinksGetResponse>;
+      callback
+    ) as Promise<Models.RelationshipLinksGetResponse>;
   }
 
   /**
@@ -85,9 +123,18 @@ export class RelationshipLinks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, hubName: string, relationshipLinkName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,hubName,relationshipLinkName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    relationshipLinkName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      hubName,
+      relationshipLinkName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -97,21 +144,39 @@ export class RelationshipLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.RelationshipLinksListByHubResponse>
    */
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase): Promise<Models.RelationshipLinksListByHubResponse>;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RelationshipLinksListByHubResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, callback: msRest.ServiceCallback<Models.RelationshipLinkListResult>): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    callback: msRest.ServiceCallback<Models.RelationshipLinkListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelationshipLinkListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelationshipLinkListResult>, callback?: msRest.ServiceCallback<Models.RelationshipLinkListResult>): Promise<Models.RelationshipLinksListByHubResponse> {
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RelationshipLinkListResult>
+  ): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelationshipLinkListResult>,
+    callback?: msRest.ServiceCallback<Models.RelationshipLinkListResult>
+  ): Promise<Models.RelationshipLinksListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +184,8 @@ export class RelationshipLinks {
         options
       },
       listByHubOperationSpec,
-      callback) as Promise<Models.RelationshipLinksListByHubResponse>;
+      callback
+    ) as Promise<Models.RelationshipLinksListByHubResponse>;
   }
 
   /**
@@ -131,7 +197,13 @@ export class RelationshipLinks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, hubName: string, relationshipLinkName: string, parameters: Models.RelationshipLinkResourceFormat, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    relationshipLinkName: string,
+    parameters: Models.RelationshipLinkResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -141,7 +213,8 @@ export class RelationshipLinks {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +225,12 @@ export class RelationshipLinks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, hubName: string, relationshipLinkName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    relationshipLinkName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +239,8 @@ export class RelationshipLinks {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,26 +249,41 @@ export class RelationshipLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.RelationshipLinksListByHubNextResponse>
    */
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RelationshipLinksListByHubNextResponse>;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RelationshipLinksListByHubNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RelationshipLinkListResult>): void;
+  listByHubNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RelationshipLinkListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RelationshipLinkListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelationshipLinkListResult>, callback?: msRest.ServiceCallback<Models.RelationshipLinkListResult>): Promise<Models.RelationshipLinksListByHubNextResponse> {
+  listByHubNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RelationshipLinkListResult>
+  ): void;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RelationshipLinkListResult>,
+    callback?: msRest.ServiceCallback<Models.RelationshipLinkListResult>
+  ): Promise<Models.RelationshipLinksListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByHubNextOperationSpec,
-      callback) as Promise<Models.RelationshipLinksListByHubNextResponse>;
+      callback
+    ) as Promise<Models.RelationshipLinksListByHubNextResponse>;
   }
 }
 
@@ -197,19 +291,16 @@ export class RelationshipLinks {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/relationshipLinks/{relationshipLinkName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/relationshipLinks/{relationshipLinkName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.relationshipLinkName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RelationshipLinkResourceFormat
@@ -223,18 +314,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByHubOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/relationshipLinks",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.hubName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/relationshipLinks",
+  urlParameters: [Parameters.resourceGroupName, Parameters.hubName1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RelationshipLinkListResult
@@ -248,19 +332,16 @@ const listByHubOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/relationshipLinks/{relationshipLinkName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/relationshipLinks/{relationshipLinkName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.relationshipLinkName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -282,19 +363,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/relationshipLinks/{relationshipLinkName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/relationshipLinks/{relationshipLinkName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.relationshipLinkName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -309,12 +387,8 @@ const listByHubNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RelationshipLinkListResult

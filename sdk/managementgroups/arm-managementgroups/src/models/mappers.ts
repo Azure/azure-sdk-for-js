@@ -139,10 +139,7 @@ export const CheckNameAvailabilityResult: msRest.CompositeMapper = {
         serializedName: "reason",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "AlreadyExists"
-          ]
+          allowedValues: ["Invalid", "AlreadyExists"]
         }
       },
       message: {
@@ -896,9 +893,7 @@ export const CheckNameAvailabilityRequest: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "/providers/Microsoft.Management/managementGroups"
-          ]
+          allowedValues: ["/providers/Microsoft.Management/managementGroups"]
         }
       }
     }

@@ -67,7 +67,11 @@ export interface Sku {
 /**
  * Contains the possible cases for Serialization.
  */
-export type SerializationUnion = Serialization | AvroSerialization | JsonSerialization | CsvSerialization;
+export type SerializationUnion =
+  | Serialization
+  | AvroSerialization
+  | JsonSerialization
+  | CsvSerialization;
 
 /**
  * Describes how data from an input is serialized or how data is serialized when written to an
@@ -119,7 +123,10 @@ export interface Diagnostics {
 /**
  * Contains the possible cases for InputProperties.
  */
-export type InputPropertiesUnion = InputProperties | ReferenceInputProperties | StreamInputProperties;
+export type InputPropertiesUnion =
+  | InputProperties
+  | ReferenceInputProperties
+  | StreamInputProperties;
 
 /**
  * The properties that are associated with an input.
@@ -207,7 +214,17 @@ export interface Transformation extends SubResource {
 /**
  * Contains the possible cases for OutputDataSource.
  */
-export type OutputDataSourceUnion = OutputDataSource | AzureDataLakeStoreOutputDataSource | PowerBIOutputDataSource | ServiceBusTopicOutputDataSource | ServiceBusQueueOutputDataSource | DocumentDbOutputDataSource | AzureSqlDatabaseOutputDataSource | EventHubOutputDataSource | AzureTableOutputDataSource | BlobOutputDataSource;
+export type OutputDataSourceUnion =
+  | OutputDataSource
+  | AzureDataLakeStoreOutputDataSource
+  | PowerBIOutputDataSource
+  | ServiceBusTopicOutputDataSource
+  | ServiceBusQueueOutputDataSource
+  | DocumentDbOutputDataSource
+  | AzureSqlDatabaseOutputDataSource
+  | EventHubOutputDataSource
+  | AzureTableOutputDataSource
+  | BlobOutputDataSource;
 
 /**
  * Describes the data source that output will be written to.
@@ -453,7 +470,10 @@ export interface StartStreamingJobParameters {
 /**
  * Contains the possible cases for FunctionBinding.
  */
-export type FunctionBindingUnion = FunctionBinding | JavaScriptFunctionBinding | AzureMachineLearningWebServiceFunctionBinding;
+export type FunctionBindingUnion =
+  | FunctionBinding
+  | JavaScriptFunctionBinding
+  | AzureMachineLearningWebServiceFunctionBinding;
 
 /**
  * The physical binding of the function. For example, in the Azure Machine Learning web service’s
@@ -1264,7 +1284,11 @@ export interface ReferenceInputProperties {
 /**
  * Contains the possible cases for StreamInputDataSource.
  */
-export type StreamInputDataSourceUnion = StreamInputDataSource | IoTHubStreamInputDataSource | EventHubStreamInputDataSource | BlobStreamInputDataSource;
+export type StreamInputDataSourceUnion =
+  | StreamInputDataSource
+  | IoTHubStreamInputDataSource
+  | EventHubStreamInputDataSource
+  | BlobStreamInputDataSource;
 
 /**
  * Describes an input data source that contains stream data.
@@ -1456,7 +1480,10 @@ export interface ResourceTestStatus {
 /**
  * Contains the possible cases for FunctionRetrieveDefaultDefinitionParameters.
  */
-export type FunctionRetrieveDefaultDefinitionParametersUnion = FunctionRetrieveDefaultDefinitionParameters | AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters | JavaScriptFunctionRetrieveDefaultDefinitionParameters;
+export type FunctionRetrieveDefaultDefinitionParametersUnion =
+  | FunctionRetrieveDefaultDefinitionParameters
+  | AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters
+  | JavaScriptFunctionRetrieveDefaultDefinitionParameters;
 
 /**
  * Parameters used to specify the type of function to retrieve the default definition for.
@@ -1857,7 +1884,8 @@ export interface FunctionsTestOptionalParams extends msRest.RequestOptionsBase {
 /**
  * Optional Parameters.
  */
-export interface FunctionsRetrieveDefaultDefinitionOptionalParams extends msRest.RequestOptionsBase {
+export interface FunctionsRetrieveDefaultDefinitionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Parameters used to specify the type of function to retrieve the default definition for.
    */
@@ -2137,7 +2165,7 @@ export interface FunctionListResult extends Array<FunctionModel> {
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Standard';
+export type SkuName = "Standard";
 
 /**
  * Defines values for OutputStartMode.
@@ -2145,7 +2173,7 @@ export type SkuName = 'Standard';
  * @readonly
  * @enum {string}
  */
-export type OutputStartMode = 'JobStartTime' | 'CustomTime' | 'LastOutputEventTime';
+export type OutputStartMode = "JobStartTime" | "CustomTime" | "LastOutputEventTime";
 
 /**
  * Defines values for EventsOutOfOrderPolicy.
@@ -2153,7 +2181,7 @@ export type OutputStartMode = 'JobStartTime' | 'CustomTime' | 'LastOutputEventTi
  * @readonly
  * @enum {string}
  */
-export type EventsOutOfOrderPolicy = 'Adjust' | 'Drop';
+export type EventsOutOfOrderPolicy = "Adjust" | "Drop";
 
 /**
  * Defines values for OutputErrorPolicy.
@@ -2161,7 +2189,7 @@ export type EventsOutOfOrderPolicy = 'Adjust' | 'Drop';
  * @readonly
  * @enum {string}
  */
-export type OutputErrorPolicy = 'Stop' | 'Drop';
+export type OutputErrorPolicy = "Stop" | "Drop";
 
 /**
  * Defines values for CompatibilityLevel.
@@ -2169,7 +2197,7 @@ export type OutputErrorPolicy = 'Stop' | 'Drop';
  * @readonly
  * @enum {string}
  */
-export type CompatibilityLevel = '1.0';
+export type CompatibilityLevel = "1.0";
 
 /**
  * Defines values for JsonOutputSerializationFormat.
@@ -2177,7 +2205,7 @@ export type CompatibilityLevel = '1.0';
  * @readonly
  * @enum {string}
  */
-export type JsonOutputSerializationFormat = 'LineSeparated' | 'Array';
+export type JsonOutputSerializationFormat = "LineSeparated" | "Array";
 
 /**
  * Defines values for Encoding.
@@ -2185,7 +2213,7 @@ export type JsonOutputSerializationFormat = 'LineSeparated' | 'Array';
  * @readonly
  * @enum {string}
  */
-export type Encoding = 'UTF8';
+export type Encoding = "UTF8";
 
 /**
  * Defines values for UdfType.
@@ -2193,7 +2221,7 @@ export type Encoding = 'UTF8';
  * @readonly
  * @enum {string}
  */
-export type UdfType = 'Scalar';
+export type UdfType = "Scalar";
 
 /**
  * Contains response data for the list operation.
@@ -2203,16 +2231,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2223,26 +2251,27 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
  * Contains response data for the createOrReplace operation.
  */
-export type StreamingJobsCreateOrReplaceResponse = StreamingJob & StreamingJobsCreateOrReplaceHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type StreamingJobsCreateOrReplaceResponse = StreamingJob &
+  StreamingJobsCreateOrReplaceHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2258,16 +2287,17 @@ export type StreamingJobsCreateOrReplaceResponse = StreamingJob & StreamingJobsC
        */
       parsedBody: StreamingJob;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
  */
-export type StreamingJobsUpdateResponse = StreamingJob & StreamingJobsUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type StreamingJobsUpdateResponse = StreamingJob &
+  StreamingJobsUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2283,16 +2313,17 @@ export type StreamingJobsUpdateResponse = StreamingJob & StreamingJobsUpdateHead
        */
       parsedBody: StreamingJob;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type StreamingJobsGetResponse = StreamingJob & StreamingJobsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type StreamingJobsGetResponse = StreamingJob &
+  StreamingJobsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2308,7 +2339,7 @@ export type StreamingJobsGetResponse = StreamingJob & StreamingJobsGetHeaders & 
        */
       parsedBody: StreamingJob;
     };
-};
+  };
 
 /**
  * Contains response data for the listByResourceGroup operation.
@@ -2318,16 +2349,16 @@ export type StreamingJobsListByResourceGroupResponse = StreamingJobListResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingJobListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingJobListResult;
+  };
 };
 
 /**
@@ -2338,16 +2369,16 @@ export type StreamingJobsListResponse = StreamingJobListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingJobListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingJobListResult;
+  };
 };
 
 /**
@@ -2358,16 +2389,16 @@ export type StreamingJobsListByResourceGroupNextResponse = StreamingJobListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingJobListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingJobListResult;
+  };
 };
 
 /**
@@ -2378,26 +2409,27 @@ export type StreamingJobsListNextResponse = StreamingJobListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingJobListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingJobListResult;
+  };
 };
 
 /**
  * Contains response data for the createOrReplace operation.
  */
-export type InputsCreateOrReplaceResponse = Input & InputsCreateOrReplaceHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type InputsCreateOrReplaceResponse = Input &
+  InputsCreateOrReplaceHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2413,16 +2445,17 @@ export type InputsCreateOrReplaceResponse = Input & InputsCreateOrReplaceHeaders
        */
       parsedBody: Input;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
  */
-export type InputsUpdateResponse = Input & InputsUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type InputsUpdateResponse = Input &
+  InputsUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2438,16 +2471,17 @@ export type InputsUpdateResponse = Input & InputsUpdateHeaders & {
        */
       parsedBody: Input;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type InputsGetResponse = Input & InputsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type InputsGetResponse = Input &
+  InputsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2463,7 +2497,7 @@ export type InputsGetResponse = Input & InputsGetHeaders & {
        */
       parsedBody: Input;
     };
-};
+  };
 
 /**
  * Contains response data for the listByStreamingJob operation.
@@ -2473,16 +2507,16 @@ export type InputsListByStreamingJobResponse = InputListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: InputListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: InputListResult;
+  };
 };
 
 /**
@@ -2493,16 +2527,16 @@ export type InputsTestResponse = ResourceTestStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceTestStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceTestStatus;
+  };
 };
 
 /**
@@ -2513,16 +2547,16 @@ export type InputsBeginTestResponse = ResourceTestStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceTestStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceTestStatus;
+  };
 };
 
 /**
@@ -2533,26 +2567,27 @@ export type InputsListByStreamingJobNextResponse = InputListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: InputListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: InputListResult;
+  };
 };
 
 /**
  * Contains response data for the createOrReplace operation.
  */
-export type OutputsCreateOrReplaceResponse = Output & OutputsCreateOrReplaceHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type OutputsCreateOrReplaceResponse = Output &
+  OutputsCreateOrReplaceHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2568,16 +2603,17 @@ export type OutputsCreateOrReplaceResponse = Output & OutputsCreateOrReplaceHead
        */
       parsedBody: Output;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
  */
-export type OutputsUpdateResponse = Output & OutputsUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type OutputsUpdateResponse = Output &
+  OutputsUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2593,16 +2629,17 @@ export type OutputsUpdateResponse = Output & OutputsUpdateHeaders & {
        */
       parsedBody: Output;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type OutputsGetResponse = Output & OutputsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type OutputsGetResponse = Output &
+  OutputsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2618,7 +2655,7 @@ export type OutputsGetResponse = Output & OutputsGetHeaders & {
        */
       parsedBody: Output;
     };
-};
+  };
 
 /**
  * Contains response data for the listByStreamingJob operation.
@@ -2628,16 +2665,16 @@ export type OutputsListByStreamingJobResponse = OutputListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OutputListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OutputListResult;
+  };
 };
 
 /**
@@ -2648,16 +2685,16 @@ export type OutputsTestResponse = ResourceTestStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceTestStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceTestStatus;
+  };
 };
 
 /**
@@ -2668,16 +2705,16 @@ export type OutputsBeginTestResponse = ResourceTestStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceTestStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceTestStatus;
+  };
 };
 
 /**
@@ -2688,26 +2725,27 @@ export type OutputsListByStreamingJobNextResponse = OutputListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OutputListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OutputListResult;
+  };
 };
 
 /**
  * Contains response data for the createOrReplace operation.
  */
-export type TransformationsCreateOrReplaceResponse = Transformation & TransformationsCreateOrReplaceHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TransformationsCreateOrReplaceResponse = Transformation &
+  TransformationsCreateOrReplaceHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2723,16 +2761,17 @@ export type TransformationsCreateOrReplaceResponse = Transformation & Transforma
        */
       parsedBody: Transformation;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
  */
-export type TransformationsUpdateResponse = Transformation & TransformationsUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TransformationsUpdateResponse = Transformation &
+  TransformationsUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2748,16 +2787,17 @@ export type TransformationsUpdateResponse = Transformation & TransformationsUpda
        */
       parsedBody: Transformation;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type TransformationsGetResponse = Transformation & TransformationsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TransformationsGetResponse = Transformation &
+  TransformationsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2773,16 +2813,17 @@ export type TransformationsGetResponse = Transformation & TransformationsGetHead
        */
       parsedBody: Transformation;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrReplace operation.
  */
-export type FunctionsCreateOrReplaceResponse = FunctionModel & FunctionsCreateOrReplaceHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type FunctionsCreateOrReplaceResponse = FunctionModel &
+  FunctionsCreateOrReplaceHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2798,16 +2839,17 @@ export type FunctionsCreateOrReplaceResponse = FunctionModel & FunctionsCreateOr
        */
       parsedBody: FunctionModel;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
  */
-export type FunctionsUpdateResponse = FunctionModel & FunctionsUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type FunctionsUpdateResponse = FunctionModel &
+  FunctionsUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2823,16 +2865,17 @@ export type FunctionsUpdateResponse = FunctionModel & FunctionsUpdateHeaders & {
        */
       parsedBody: FunctionModel;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type FunctionsGetResponse = FunctionModel & FunctionsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type FunctionsGetResponse = FunctionModel &
+  FunctionsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2848,7 +2891,7 @@ export type FunctionsGetResponse = FunctionModel & FunctionsGetHeaders & {
        */
       parsedBody: FunctionModel;
     };
-};
+  };
 
 /**
  * Contains response data for the listByStreamingJob operation.
@@ -2858,16 +2901,16 @@ export type FunctionsListByStreamingJobResponse = FunctionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FunctionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FunctionListResult;
+  };
 };
 
 /**
@@ -2878,16 +2921,16 @@ export type FunctionsTestResponse = ResourceTestStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceTestStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceTestStatus;
+  };
 };
 
 /**
@@ -2898,16 +2941,16 @@ export type FunctionsRetrieveDefaultDefinitionResponse = FunctionModel & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FunctionModel;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FunctionModel;
+  };
 };
 
 /**
@@ -2918,16 +2961,16 @@ export type FunctionsBeginTestResponse = ResourceTestStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceTestStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceTestStatus;
+  };
 };
 
 /**
@@ -2938,16 +2981,16 @@ export type FunctionsListByStreamingJobNextResponse = FunctionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FunctionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FunctionListResult;
+  };
 };
 
 /**
@@ -2958,14 +3001,14 @@ export type SubscriptionsListQuotasResponse = SubscriptionQuotasListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionQuotasListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionQuotasListResult;
+  };
 };

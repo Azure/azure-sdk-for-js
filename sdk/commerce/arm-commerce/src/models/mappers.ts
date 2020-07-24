@@ -467,8 +467,8 @@ export const UsageAggregationListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'OfferTermInfo' : OfferTermInfo,
-  'OfferTermInfo.Monetary Credit' : MonetaryCredit,
-  'OfferTermInfo.Monetary Commitment' : MonetaryCommitment,
-  'OfferTermInfo.Recurring Charge' : RecurringCharge
+  OfferTermInfo: OfferTermInfo,
+  "OfferTermInfo.Monetary Credit": MonetaryCredit,
+  "OfferTermInfo.Monetary Commitment": MonetaryCommitment,
+  "OfferTermInfo.Recurring Charge": RecurringCharge
 };

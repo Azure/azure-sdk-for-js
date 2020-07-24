@@ -33,26 +33,43 @@ export class Operations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(request: Models.CheckNameAvailabilityRequest, options?: msRest.RequestOptionsBase): Promise<Models.OperationsCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    request: Models.CheckNameAvailabilityRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationsCheckNameAvailabilityResponse>;
   /**
    * @param request The check request
    * @param callback The callback
    */
-  checkNameAvailability(request: Models.CheckNameAvailabilityRequest, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>): void;
+  checkNameAvailability(
+    request: Models.CheckNameAvailabilityRequest,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>
+  ): void;
   /**
    * @param request The check request
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(request: Models.CheckNameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>): void;
-  checkNameAvailability(request: Models.CheckNameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>): Promise<Models.OperationsCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    request: Models.CheckNameAvailabilityRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>
+  ): void;
+  checkNameAvailability(
+    request: Models.CheckNameAvailabilityRequest,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>
+  ): Promise<Models.OperationsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         request,
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.OperationsCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.OperationsCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -70,14 +87,21 @@ export class Operations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableRpOperation[]>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableRpOperation[]>, callback?: msRest.ServiceCallback<Models.AvailableRpOperation[]>): Promise<Models.OperationsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableRpOperation[]>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableRpOperation[]>,
+    callback?: msRest.ServiceCallback<Models.AvailableRpOperation[]>
+  ): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.OperationsListResponse>;
+      callback
+    ) as Promise<Models.OperationsListResponse>;
   }
 
   /**
@@ -89,14 +113,24 @@ export class Operations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  getLocationHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  getLocationHeaderResult(
+    resourceGroupName: string,
+    workspaceName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param operationId Operation ID
    * @param callback The callback
    */
-  getLocationHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, callback: msRest.ServiceCallback<void>): void;
+  getLocationHeaderResult(
+    resourceGroupName: string,
+    workspaceName: string,
+    operationId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -104,8 +138,20 @@ export class Operations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getLocationHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getLocationHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  getLocationHeaderResult(
+    resourceGroupName: string,
+    workspaceName: string,
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getLocationHeaderResult(
+    resourceGroupName: string,
+    workspaceName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +160,8 @@ export class Operations {
         options
       },
       getLocationHeaderResultOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -126,14 +173,24 @@ export class Operations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsGetAzureAsyncHeaderResultResponse>
    */
-  getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsGetAzureAsyncHeaderResultResponse>;
+  getAzureAsyncHeaderResult(
+    resourceGroupName: string,
+    workspaceName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationsGetAzureAsyncHeaderResultResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param operationId Operation ID
    * @param callback The callback
    */
-  getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, callback: msRest.ServiceCallback<any>): void;
+  getAzureAsyncHeaderResult(
+    resourceGroupName: string,
+    workspaceName: string,
+    operationId: string,
+    callback: msRest.ServiceCallback<any>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -141,8 +198,20 @@ export class Operations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.OperationsGetAzureAsyncHeaderResultResponse> {
+  getAzureAsyncHeaderResult(
+    resourceGroupName: string,
+    workspaceName: string,
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<any>
+  ): void;
+  getAzureAsyncHeaderResult(
+    resourceGroupName: string,
+    workspaceName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>,
+    callback?: msRest.ServiceCallback<any>
+  ): Promise<Models.OperationsGetAzureAsyncHeaderResultResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -151,7 +220,8 @@ export class Operations {
         options
       },
       getAzureAsyncHeaderResultOperationSpec,
-      callback) as Promise<Models.OperationsGetAzureAsyncHeaderResultResponse>;
+      callback
+    ) as Promise<Models.OperationsGetAzureAsyncHeaderResultResponse>;
   }
 }
 
@@ -160,15 +230,9 @@ const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Synapse/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {
@@ -190,9 +254,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Synapse/operations",
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -217,19 +279,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getLocationHeaderResultOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/operationResults/{operationId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/operationResults/{operationId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.operationId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -242,19 +301,16 @@ const getLocationHeaderResultOperationSpec: msRest.OperationSpec = {
 
 const getAzureAsyncHeaderResultOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/operationStatuses/{operationId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/operationStatuses/{operationId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.operationId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationResource

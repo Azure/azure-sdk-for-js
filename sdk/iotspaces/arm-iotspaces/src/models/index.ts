@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing StorageContainerProperties.
@@ -297,7 +296,6 @@ export interface IoTSpacesClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the IoTSpacesDescriptionListResult.
@@ -335,7 +333,7 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Provisioning' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export type ProvisioningState = "Provisioning" | "Deleting" | "Succeeded" | "Failed" | "Canceled";
 
 /**
  * Defines values for IoTSpacesSku.
@@ -343,7 +341,7 @@ export type ProvisioningState = 'Provisioning' | 'Deleting' | 'Succeeded' | 'Fai
  * @readonly
  * @enum {string}
  */
-export type IoTSpacesSku = 'F1' | 'S1' | 'S2' | 'S3';
+export type IoTSpacesSku = "F1" | "S1" | "S2" | "S3";
 
 /**
  * Defines values for IoTSpacesNameUnavailabilityReason.
@@ -351,7 +349,7 @@ export type IoTSpacesSku = 'F1' | 'S1' | 'S2' | 'S3';
  * @readonly
  * @enum {string}
  */
-export type IoTSpacesNameUnavailabilityReason = 'Invalid' | 'AlreadyExists';
+export type IoTSpacesNameUnavailabilityReason = "Invalid" | "AlreadyExists";
 
 /**
  * Contains response data for the get operation.
@@ -361,15 +359,15 @@ export type IoTSpacesGetResponse = IoTSpacesDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSpacesDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSpacesDescription;
+  };
 };
 
 /**
@@ -380,15 +378,15 @@ export type IoTSpacesCreateOrUpdateResponse = IoTSpacesDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSpacesDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSpacesDescription;
+  };
 };
 
 /**
@@ -399,15 +397,15 @@ export type IoTSpacesUpdateResponse = IoTSpacesDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSpacesDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSpacesDescription;
+  };
 };
 
 /**
@@ -418,15 +416,15 @@ export type IoTSpacesDeleteMethodResponse = IoTSpacesDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSpacesDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSpacesDescription;
+  };
 };
 
 /**
@@ -437,15 +435,15 @@ export type IoTSpacesListResponse = IoTSpacesDescriptionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSpacesDescriptionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSpacesDescriptionListResult;
+  };
 };
 
 /**
@@ -456,15 +454,15 @@ export type IoTSpacesListByResourceGroupResponse = IoTSpacesDescriptionListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSpacesDescriptionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSpacesDescriptionListResult;
+  };
 };
 
 /**
@@ -475,15 +473,15 @@ export type IoTSpacesCheckNameAvailabilityResponse = IoTSpacesNameAvailabilityIn
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSpacesNameAvailabilityInfo;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSpacesNameAvailabilityInfo;
+  };
 };
 
 /**
@@ -494,15 +492,15 @@ export type IoTSpacesBeginCreateOrUpdateResponse = IoTSpacesDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSpacesDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSpacesDescription;
+  };
 };
 
 /**
@@ -513,15 +511,15 @@ export type IoTSpacesBeginUpdateResponse = IoTSpacesDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSpacesDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSpacesDescription;
+  };
 };
 
 /**
@@ -532,15 +530,15 @@ export type IoTSpacesBeginDeleteMethodResponse = IoTSpacesDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSpacesDescription;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSpacesDescription;
+  };
 };
 
 /**
@@ -551,15 +549,15 @@ export type IoTSpacesListNextResponse = IoTSpacesDescriptionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSpacesDescriptionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSpacesDescriptionListResult;
+  };
 };
 
 /**
@@ -570,15 +568,15 @@ export type IoTSpacesListByResourceGroupNextResponse = IoTSpacesDescriptionListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IoTSpacesDescriptionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IoTSpacesDescriptionListResult;
+  };
 };
 
 /**
@@ -589,15 +587,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -608,13 +606,13 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

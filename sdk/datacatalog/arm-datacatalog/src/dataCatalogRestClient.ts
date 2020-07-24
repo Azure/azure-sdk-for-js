@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { DataCatalogRestClientContext } from "./dataCatalogRestClientContext";
 
-
 class DataCatalogRestClient extends DataCatalogRestClientContext {
   // Operation groups
   aDCOperations: operations.ADCOperations;
@@ -28,7 +27,12 @@ class DataCatalogRestClient extends DataCatalogRestClientContext {
    * @param catalogName The name of the data catlog in the specified subscription and resource group.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, catalogName: string, options?: Models.DataCatalogRestClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    catalogName: string,
+    options?: Models.DataCatalogRestClientOptions
+  ) {
     super(credentials, subscriptionId, catalogName, options);
     this.aDCOperations = new operations.ADCOperations(this);
     this.aDCCatalogs = new operations.ADCCatalogs(this);

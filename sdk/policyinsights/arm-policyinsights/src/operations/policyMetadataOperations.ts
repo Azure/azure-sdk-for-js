@@ -32,7 +32,10 @@ export class PolicyMetadataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyMetadataGetResourceResponse>
    */
-  getResource(resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyMetadataGetResourceResponse>;
+  getResource(
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyMetadataGetResourceResponse>;
   /**
    * @param resourceName The name of the policy metadata resource.
    * @param callback The callback
@@ -43,15 +46,24 @@ export class PolicyMetadataOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getResource(resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyMetadata>): void;
-  getResource(resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyMetadata>, callback?: msRest.ServiceCallback<Models.PolicyMetadata>): Promise<Models.PolicyMetadataGetResourceResponse> {
+  getResource(
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyMetadata>
+  ): void;
+  getResource(
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyMetadata>,
+    callback?: msRest.ServiceCallback<Models.PolicyMetadata>
+  ): Promise<Models.PolicyMetadataGetResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceName,
         options
       },
       getResourceOperationSpec,
-      callback) as Promise<Models.PolicyMetadataGetResourceResponse>;
+      callback
+    ) as Promise<Models.PolicyMetadataGetResourceResponse>;
   }
 
   /**
@@ -59,7 +71,9 @@ export class PolicyMetadataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyMetadataListResponse>
    */
-  list(options?: Models.PolicyMetadataListOptionalParams): Promise<Models.PolicyMetadataListResponse>;
+  list(
+    options?: Models.PolicyMetadataListOptionalParams
+  ): Promise<Models.PolicyMetadataListResponse>;
   /**
    * @param callback The callback
    */
@@ -68,14 +82,23 @@ export class PolicyMetadataOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.PolicyMetadataListOptionalParams, callback: msRest.ServiceCallback<Models.PolicyMetadataCollection>): void;
-  list(options?: Models.PolicyMetadataListOptionalParams | msRest.ServiceCallback<Models.PolicyMetadataCollection>, callback?: msRest.ServiceCallback<Models.PolicyMetadataCollection>): Promise<Models.PolicyMetadataListResponse> {
+  list(
+    options: Models.PolicyMetadataListOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyMetadataCollection>
+  ): void;
+  list(
+    options?:
+      | Models.PolicyMetadataListOptionalParams
+      | msRest.ServiceCallback<Models.PolicyMetadataCollection>,
+    callback?: msRest.ServiceCallback<Models.PolicyMetadataCollection>
+  ): Promise<Models.PolicyMetadataListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PolicyMetadataListResponse>;
+      callback
+    ) as Promise<Models.PolicyMetadataListResponse>;
   }
 
   /**
@@ -84,26 +107,41 @@ export class PolicyMetadataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyMetadataListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyMetadataListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyMetadataListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyMetadataCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PolicyMetadataCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyMetadataCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyMetadataCollection>, callback?: msRest.ServiceCallback<Models.PolicyMetadataCollection>): Promise<Models.PolicyMetadataListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyMetadataCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyMetadataCollection>,
+    callback?: msRest.ServiceCallback<Models.PolicyMetadataCollection>
+  ): Promise<Models.PolicyMetadataListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PolicyMetadataListNextResponse>;
+      callback
+    ) as Promise<Models.PolicyMetadataListNextResponse>;
   }
 }
 
@@ -112,15 +150,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getResourceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.PolicyInsights/policyMetadata/{resourceName}",
-  urlParameters: [
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyMetadata
@@ -135,13 +167,8 @@ const getResourceOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.PolicyInsights/policyMetadata",
-  queryParameters: [
-    Parameters.apiVersion3,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyMetadataCollection
@@ -157,12 +184,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyMetadataCollection

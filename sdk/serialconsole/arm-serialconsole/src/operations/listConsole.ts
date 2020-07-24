@@ -40,14 +40,21 @@ export class ListConsole {
    * @param options The optional parameters
    * @param callback The callback
    */
-  disabled(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GetDisabledResult>): void;
-  disabled(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GetDisabledResult>, callback?: msRest.ServiceCallback<Models.GetDisabledResult>): Promise<Models.ListConsoleDisabledResponse> {
+  disabled(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GetDisabledResult>
+  ): void;
+  disabled(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GetDisabledResult>,
+    callback?: msRest.ServiceCallback<Models.GetDisabledResult>
+  ): Promise<Models.ListConsoleDisabledResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       disabledOperationSpec,
-      callback) as Promise<Models.ListConsoleDisabledResponse>;
+      callback
+    ) as Promise<Models.ListConsoleDisabledResponse>;
   }
 }
 
@@ -55,17 +62,11 @@ export class ListConsole {
 const serializer = new msRest.Serializer(Mappers);
 const disabledOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.defaultParameter
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}",
+  urlParameters: [Parameters.subscriptionId, Parameters.defaultParameter],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GetDisabledResult

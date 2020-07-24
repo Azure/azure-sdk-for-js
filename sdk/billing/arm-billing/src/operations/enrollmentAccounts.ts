@@ -40,14 +40,23 @@ export class EnrollmentAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnrollmentAccountListResult>, callback?: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): Promise<Models.EnrollmentAccountsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.EnrollmentAccountListResult>,
+    callback?: msRest.ServiceCallback<Models.EnrollmentAccountListResult>
+  ): Promise<Models.EnrollmentAccountsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.EnrollmentAccountsListResponse>;
+      callback
+    ) as Promise<Models.EnrollmentAccountsListResponse>;
   }
 
   /**
@@ -56,7 +65,10 @@ export class EnrollmentAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnrollmentAccountsGetResponse>
    */
-  get(name: string, options?: msRest.RequestOptionsBase): Promise<Models.EnrollmentAccountsGetResponse>;
+  get(
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EnrollmentAccountsGetResponse>;
   /**
    * @param name Enrollment Account name.
    * @param callback The callback
@@ -67,15 +79,24 @@ export class EnrollmentAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnrollmentAccount>): void;
-  get(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnrollmentAccount>, callback?: msRest.ServiceCallback<Models.EnrollmentAccount>): Promise<Models.EnrollmentAccountsGetResponse> {
+  get(
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EnrollmentAccount>
+  ): void;
+  get(
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnrollmentAccount>,
+    callback?: msRest.ServiceCallback<Models.EnrollmentAccount>
+  ): Promise<Models.EnrollmentAccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         name,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.EnrollmentAccountsGetResponse>;
+      callback
+    ) as Promise<Models.EnrollmentAccountsGetResponse>;
   }
 
   /**
@@ -84,26 +105,43 @@ export class EnrollmentAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnrollmentAccountsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EnrollmentAccountsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EnrollmentAccountsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnrollmentAccountListResult>, callback?: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): Promise<Models.EnrollmentAccountsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.EnrollmentAccountListResult>,
+    callback?: msRest.ServiceCallback<Models.EnrollmentAccountListResult>
+  ): Promise<Models.EnrollmentAccountsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.EnrollmentAccountsListNextResponse>;
+      callback
+    ) as Promise<Models.EnrollmentAccountsListNextResponse>;
   }
 }
 
@@ -112,12 +150,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Billing/enrollmentAccounts",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EnrollmentAccountListResult
@@ -132,15 +166,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Billing/enrollmentAccounts/{name}",
-  urlParameters: [
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EnrollmentAccount
@@ -156,12 +184,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EnrollmentAccountListResult

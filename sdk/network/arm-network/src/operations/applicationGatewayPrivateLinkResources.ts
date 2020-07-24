@@ -33,21 +33,41 @@ export class ApplicationGatewayPrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGatewayPrivateLinkResourcesListResponse>
    */
-  list(resourceGroupName: string, applicationGatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGatewayPrivateLinkResourcesListResponse>;
+  list(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationGatewayPrivateLinkResourcesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param applicationGatewayName The name of the application gateway.
    * @param callback The callback
    */
-  list(resourceGroupName: string, applicationGatewayName: string, callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>): void;
+  list(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param applicationGatewayName The name of the application gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, applicationGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>): void;
-  list(resourceGroupName: string, applicationGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>): Promise<Models.ApplicationGatewayPrivateLinkResourcesListResponse> {
+  list(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>
+  ): Promise<Models.ApplicationGatewayPrivateLinkResourcesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class ApplicationGatewayPrivateLinkResources {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ApplicationGatewayPrivateLinkResourcesListResponse>;
+      callback
+    ) as Promise<Models.ApplicationGatewayPrivateLinkResourcesListResponse>;
   }
 
   /**
@@ -64,26 +85,43 @@ export class ApplicationGatewayPrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGatewayPrivateLinkResourcesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGatewayPrivateLinkResourcesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationGatewayPrivateLinkResourcesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>): Promise<Models.ApplicationGatewayPrivateLinkResourcesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationGatewayPrivateLinkResourceListResult>
+  ): Promise<Models.ApplicationGatewayPrivateLinkResourcesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ApplicationGatewayPrivateLinkResourcesListNextResponse>;
+      callback
+    ) as Promise<Models.ApplicationGatewayPrivateLinkResourcesListNextResponse>;
   }
 }
 
@@ -91,18 +129,15 @@ export class ApplicationGatewayPrivateLinkResources {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateLinkResources",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateLinkResources",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.applicationGatewayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationGatewayPrivateLinkResourceListResult
@@ -118,12 +153,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationGatewayPrivateLinkResourceListResult

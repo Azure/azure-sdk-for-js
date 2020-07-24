@@ -38,7 +38,13 @@ export class Database {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseListMetricsResponse>
    */
-  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseListMetricsResponse>;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseListMetricsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -48,7 +54,13 @@ export class Database {
    * names), startTime, endTime, and timeGrain. The supported operator is eq.
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, filter: string, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.MetricListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -59,8 +71,22 @@ export class Database {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.DatabaseListMetricsResponse> {
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricListResult>
+  ): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>,
+    callback?: msRest.ServiceCallback<Models.MetricListResult>
+  ): Promise<Models.DatabaseListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -70,7 +96,8 @@ export class Database {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.DatabaseListMetricsResponse>;
+      callback
+    ) as Promise<Models.DatabaseListMetricsResponse>;
   }
 
   /**
@@ -81,14 +108,24 @@ export class Database {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseListUsagesResponse>
    */
-  listUsages(resourceGroupName: string, accountName: string, databaseRid: string, options?: Models.DatabaseListUsagesOptionalParams): Promise<Models.DatabaseListUsagesResponse>;
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    options?: Models.DatabaseListUsagesOptionalParams
+  ): Promise<Models.DatabaseListUsagesResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param callback The callback
    */
-  listUsages(resourceGroupName: string, accountName: string, databaseRid: string, callback: msRest.ServiceCallback<Models.UsagesResult>): void;
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    callback: msRest.ServiceCallback<Models.UsagesResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -96,8 +133,20 @@ export class Database {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUsages(resourceGroupName: string, accountName: string, databaseRid: string, options: Models.DatabaseListUsagesOptionalParams, callback: msRest.ServiceCallback<Models.UsagesResult>): void;
-  listUsages(resourceGroupName: string, accountName: string, databaseRid: string, options?: Models.DatabaseListUsagesOptionalParams | msRest.ServiceCallback<Models.UsagesResult>, callback?: msRest.ServiceCallback<Models.UsagesResult>): Promise<Models.DatabaseListUsagesResponse> {
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    options: Models.DatabaseListUsagesOptionalParams,
+    callback: msRest.ServiceCallback<Models.UsagesResult>
+  ): void;
+  listUsages(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    options?: Models.DatabaseListUsagesOptionalParams | msRest.ServiceCallback<Models.UsagesResult>,
+    callback?: msRest.ServiceCallback<Models.UsagesResult>
+  ): Promise<Models.DatabaseListUsagesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +155,8 @@ export class Database {
         options
       },
       listUsagesOperationSpec,
-      callback) as Promise<Models.DatabaseListUsagesResponse>;
+      callback
+    ) as Promise<Models.DatabaseListUsagesResponse>;
   }
 
   /**
@@ -117,14 +167,24 @@ export class Database {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseListMetricDefinitionsResponse>
    */
-  listMetricDefinitions(resourceGroupName: string, accountName: string, databaseRid: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseListMetricDefinitionsResponse>;
+  listMetricDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseListMetricDefinitionsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param callback The callback
    */
-  listMetricDefinitions(resourceGroupName: string, accountName: string, databaseRid: string, callback: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): void;
+  listMetricDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionsListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -132,8 +192,22 @@ export class Database {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetricDefinitions(resourceGroupName: string, accountName: string, databaseRid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): void;
-  listMetricDefinitions(resourceGroupName: string, accountName: string, databaseRid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionsListResult>, callback?: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): Promise<Models.DatabaseListMetricDefinitionsResponse> {
+  listMetricDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionsListResult>
+  ): void;
+  listMetricDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    databaseRid: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.MetricDefinitionsListResult>,
+    callback?: msRest.ServiceCallback<Models.MetricDefinitionsListResult>
+  ): Promise<Models.DatabaseListMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -142,7 +216,8 @@ export class Database {
         options
       },
       listMetricDefinitionsOperationSpec,
-      callback) as Promise<Models.DatabaseListMetricDefinitionsResponse>;
+      callback
+    ) as Promise<Models.DatabaseListMetricDefinitionsResponse>;
   }
 }
 
@@ -150,20 +225,16 @@ export class Database {
 const serializer = new msRest.Serializer(Mappers);
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/metrics",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseRid
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricListResult
@@ -177,20 +248,16 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
 
 const listUsagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/usages",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/usages",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseRid
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UsagesResult
@@ -204,19 +271,16 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
 
 const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/metricDefinitions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/metricDefinitions",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseRid
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricDefinitionsListResult

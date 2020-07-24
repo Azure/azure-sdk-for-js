@@ -678,7 +678,9 @@ export interface StepResource extends TrackedResource {
 /**
  * Contains the possible cases for HealthCheckStepAttributes.
  */
-export type HealthCheckStepAttributesUnion = HealthCheckStepAttributes | RestHealthCheckStepAttributes;
+export type HealthCheckStepAttributesUnion =
+  | HealthCheckStepAttributes
+  | RestHealthCheckStepAttributes;
 
 /**
  * The attributes for the health check step.
@@ -723,7 +725,10 @@ export interface HealthCheckStepProperties {
 /**
  * Contains the possible cases for RestRequestAuthentication.
  */
-export type RestRequestAuthenticationUnion = RestRequestAuthentication | RolloutIdentityAuthentication | ApiKeyAuthentication;
+export type RestRequestAuthenticationUnion =
+  | RestRequestAuthentication
+  | RolloutIdentityAuthentication
+  | ApiKeyAuthentication;
 
 /**
  * The authentication information required in the REST health check request to the health provider.
@@ -896,8 +901,7 @@ export interface WaitStepProperties {
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * The resource model definition for a Azure Resource Manager resource with an etag.
@@ -1006,7 +1010,7 @@ export interface RolloutsCreateOrUpdateHeaders {
  * @readonly
  * @enum {string}
  */
-export type DeploymentMode = 'Incremental' | 'Complete';
+export type DeploymentMode = "Incremental" | "Complete";
 
 /**
  * Defines values for RestRequestMethod.
@@ -1014,7 +1018,7 @@ export type DeploymentMode = 'Incremental' | 'Complete';
  * @readonly
  * @enum {string}
  */
-export type RestRequestMethod = 'GET' | 'POST';
+export type RestRequestMethod = "GET" | "POST";
 
 /**
  * Defines values for RestMatchQuantifier.
@@ -1022,7 +1026,7 @@ export type RestRequestMethod = 'GET' | 'POST';
  * @readonly
  * @enum {string}
  */
-export type RestMatchQuantifier = 'All' | 'Any';
+export type RestMatchQuantifier = "All" | "Any";
 
 /**
  * Defines values for RestAuthLocation.
@@ -1030,7 +1034,7 @@ export type RestMatchQuantifier = 'All' | 'Any';
  * @readonly
  * @enum {string}
  */
-export type RestAuthLocation = 'Query' | 'Header';
+export type RestAuthLocation = "Query" | "Header";
 
 /**
  * Contains response data for the createOrUpdate operation.
@@ -1040,16 +1044,16 @@ export type ServiceTopologiesCreateOrUpdateResponse = ServiceTopologyResource & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceTopologyResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceTopologyResource;
+  };
 };
 
 /**
@@ -1060,16 +1064,16 @@ export type ServiceTopologiesGetResponse = ServiceTopologyResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceTopologyResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceTopologyResource;
+  };
 };
 
 /**
@@ -1080,16 +1084,16 @@ export type ServiceTopologiesListResponse = Array<ServiceTopologyResource> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceTopologyResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceTopologyResource[];
+  };
 };
 
 /**
@@ -1100,16 +1104,16 @@ export type ServicesCreateOrUpdateResponse = ServiceResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceResource;
+  };
 };
 
 /**
@@ -1120,16 +1124,16 @@ export type ServicesGetResponse = ServiceResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceResource;
+  };
 };
 
 /**
@@ -1140,26 +1144,27 @@ export type ServicesListResponse = Array<ServiceResource> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceResource[];
+  };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ServiceUnitsCreateOrUpdateResponse = ServiceUnitResource & ServiceUnitsCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ServiceUnitsCreateOrUpdateResponse = ServiceUnitResource &
+  ServiceUnitsCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1175,7 +1180,7 @@ export type ServiceUnitsCreateOrUpdateResponse = ServiceUnitResource & ServiceUn
        */
       parsedBody: ServiceUnitResource;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
@@ -1185,16 +1190,16 @@ export type ServiceUnitsGetResponse = ServiceUnitResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceUnitResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceUnitResource;
+  };
 };
 
 /**
@@ -1205,16 +1210,16 @@ export type ServiceUnitsListResponse = Array<ServiceUnitResource> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceUnitResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceUnitResource[];
+  };
 };
 
 /**
@@ -1225,16 +1230,16 @@ export type StepsCreateOrUpdateResponse = StepResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StepResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StepResource;
+  };
 };
 
 /**
@@ -1245,16 +1250,16 @@ export type StepsGetResponse = StepResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StepResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StepResource;
+  };
 };
 
 /**
@@ -1265,26 +1270,27 @@ export type StepsListResponse = Array<StepResource> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StepResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StepResource[];
+  };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type RolloutsCreateOrUpdateResponse = RolloutRequest & RolloutsCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type RolloutsCreateOrUpdateResponse = RolloutRequest &
+  RolloutsCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1300,7 +1306,7 @@ export type RolloutsCreateOrUpdateResponse = RolloutRequest & RolloutsCreateOrUp
        */
       parsedBody: RolloutRequest;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
@@ -1310,16 +1316,16 @@ export type RolloutsGetResponse = Rollout & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Rollout;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Rollout;
+  };
 };
 
 /**
@@ -1330,16 +1336,16 @@ export type RolloutsCancelResponse = Rollout & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Rollout;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Rollout;
+  };
 };
 
 /**
@@ -1350,16 +1356,16 @@ export type RolloutsRestartResponse = Rollout & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Rollout;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Rollout;
+  };
 };
 
 /**
@@ -1370,16 +1376,16 @@ export type RolloutsListResponse = Array<Rollout> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Rollout[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Rollout[];
+  };
 };
 
 /**
@@ -1390,16 +1396,16 @@ export type ArtifactSourcesCreateOrUpdateResponse = ArtifactSource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ArtifactSource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ArtifactSource;
+  };
 };
 
 /**
@@ -1410,16 +1416,16 @@ export type ArtifactSourcesGetResponse = ArtifactSource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ArtifactSource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ArtifactSource;
+  };
 };
 
 /**
@@ -1430,16 +1436,16 @@ export type ArtifactSourcesListResponse = Array<ArtifactSource> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ArtifactSource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ArtifactSource[];
+  };
 };
 
 /**
@@ -1450,14 +1456,14 @@ export type OperationsListResponse = OperationsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationsList;
+  };
 };

@@ -33,21 +33,41 @@ export class AuthorizationServer {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationServerListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.AuthorizationServerListByServiceOptionalParams): Promise<Models.AuthorizationServerListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: Models.AuthorizationServerListByServiceOptionalParams
+  ): Promise<Models.AuthorizationServerListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.AuthorizationServerCollection>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationServerCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.AuthorizationServerListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.AuthorizationServerCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.AuthorizationServerListByServiceOptionalParams | msRest.ServiceCallback<Models.AuthorizationServerCollection>, callback?: msRest.ServiceCallback<Models.AuthorizationServerCollection>): Promise<Models.AuthorizationServerListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options: Models.AuthorizationServerListByServiceOptionalParams,
+    callback: msRest.ServiceCallback<Models.AuthorizationServerCollection>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?:
+      | Models.AuthorizationServerListByServiceOptionalParams
+      | msRest.ServiceCallback<Models.AuthorizationServerCollection>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationServerCollection>
+  ): Promise<Models.AuthorizationServerListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class AuthorizationServer {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.AuthorizationServerListByServiceResponse>;
+      callback
+    ) as Promise<Models.AuthorizationServerListByServiceResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class AuthorizationServer {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationServerGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationServerGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AuthorizationServerGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param authsid Identifier of the authorization server.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, authsid: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -81,8 +112,20 @@ export class AuthorizationServer {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, authsid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AuthorizationServerGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.AuthorizationServerGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +134,8 @@ export class AuthorizationServer {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.AuthorizationServerGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.AuthorizationServerGetEntityTagResponse>;
   }
 
   /**
@@ -102,14 +146,24 @@ export class AuthorizationServer {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationServerGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationServerGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AuthorizationServerGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param authsid Identifier of the authorization server.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, authsid: string, callback: msRest.ServiceCallback<Models.AuthorizationServerContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationServerContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -117,8 +171,22 @@ export class AuthorizationServer {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, authsid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationServerContract>): void;
-  get(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationServerContract>, callback?: msRest.ServiceCallback<Models.AuthorizationServerContract>): Promise<Models.AuthorizationServerGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationServerContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AuthorizationServerContract>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationServerContract>
+  ): Promise<Models.AuthorizationServerGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +195,8 @@ export class AuthorizationServer {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AuthorizationServerGetResponse>;
+      callback
+    ) as Promise<Models.AuthorizationServerGetResponse>;
   }
 
   /**
@@ -139,7 +208,13 @@ export class AuthorizationServer {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationServerCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerContract, options?: Models.AuthorizationServerCreateOrUpdateOptionalParams): Promise<Models.AuthorizationServerCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    parameters: Models.AuthorizationServerContract,
+    options?: Models.AuthorizationServerCreateOrUpdateOptionalParams
+  ): Promise<Models.AuthorizationServerCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -147,7 +222,13 @@ export class AuthorizationServer {
    * @param parameters Create or update parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerContract, callback: msRest.ServiceCallback<Models.AuthorizationServerContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    parameters: Models.AuthorizationServerContract,
+    callback: msRest.ServiceCallback<Models.AuthorizationServerContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -156,8 +237,24 @@ export class AuthorizationServer {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerContract, options: Models.AuthorizationServerCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.AuthorizationServerContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerContract, options?: Models.AuthorizationServerCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.AuthorizationServerContract>, callback?: msRest.ServiceCallback<Models.AuthorizationServerContract>): Promise<Models.AuthorizationServerCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    parameters: Models.AuthorizationServerContract,
+    options: Models.AuthorizationServerCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.AuthorizationServerContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    parameters: Models.AuthorizationServerContract,
+    options?:
+      | Models.AuthorizationServerCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.AuthorizationServerContract>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationServerContract>
+  ): Promise<Models.AuthorizationServerCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +264,8 @@ export class AuthorizationServer {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.AuthorizationServerCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.AuthorizationServerCreateOrUpdateResponse>;
   }
 
   /**
@@ -181,7 +279,14 @@ export class AuthorizationServer {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    parameters: Models.AuthorizationServerUpdateContract,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -191,7 +296,14 @@ export class AuthorizationServer {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    parameters: Models.AuthorizationServerUpdateContract,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -202,8 +314,24 @@ export class AuthorizationServer {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, authsid: string, parameters: Models.AuthorizationServerUpdateContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    parameters: Models.AuthorizationServerUpdateContract,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    parameters: Models.AuthorizationServerUpdateContract,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -214,7 +342,8 @@ export class AuthorizationServer {
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -227,7 +356,13 @@ export class AuthorizationServer {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, authsid: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -236,7 +371,13 @@ export class AuthorizationServer {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, authsid: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -246,8 +387,22 @@ export class AuthorizationServer {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, authsid: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, authsid: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -257,7 +412,8 @@ export class AuthorizationServer {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -268,14 +424,24 @@ export class AuthorizationServer {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationServerListSecretsResponse>
    */
-  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationServerListSecretsResponse>;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AuthorizationServerListSecretsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param authsid Identifier of the authorization server.
    * @param callback The callback
    */
-  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, callback: msRest.ServiceCallback<Models.ClientSecretContract>): void;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    callback: msRest.ServiceCallback<Models.ClientSecretContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -283,8 +449,20 @@ export class AuthorizationServer {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClientSecretContract>): void;
-  listSecrets(resourceGroupName: string, serviceName: string, authsid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClientSecretContract>, callback?: msRest.ServiceCallback<Models.ClientSecretContract>): Promise<Models.AuthorizationServerListSecretsResponse> {
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClientSecretContract>
+  ): void;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    authsid: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClientSecretContract>,
+    callback?: msRest.ServiceCallback<Models.ClientSecretContract>
+  ): Promise<Models.AuthorizationServerListSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -293,7 +471,8 @@ export class AuthorizationServer {
         options
       },
       listSecretsOperationSpec,
-      callback) as Promise<Models.AuthorizationServerListSecretsResponse>;
+      callback
+    ) as Promise<Models.AuthorizationServerListSecretsResponse>;
   }
 
   /**
@@ -302,26 +481,43 @@ export class AuthorizationServer {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationServerListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationServerListByServiceNextResponse>;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AuthorizationServerListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AuthorizationServerCollection>): void;
+  listByServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationServerCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationServerCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationServerCollection>, callback?: msRest.ServiceCallback<Models.AuthorizationServerCollection>): Promise<Models.AuthorizationServerListByServiceNextResponse> {
+  listByServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationServerCollection>
+  ): void;
+  listByServiceNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AuthorizationServerCollection>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationServerCollection>
+  ): Promise<Models.AuthorizationServerListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.AuthorizationServerListByServiceNextResponse>;
+      callback
+    ) as Promise<Models.AuthorizationServerListByServiceNextResponse>;
   }
 }
 
@@ -329,21 +525,11 @@ export class AuthorizationServer {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.filter0, Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationServerCollection
@@ -357,19 +543,16 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.authsid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.AuthorizationServerGetEntityTagHeaders
@@ -383,19 +566,16 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.authsid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationServerContract,
@@ -410,20 +590,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.authsid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -449,20 +625,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.authsid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -481,20 +653,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.authsid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -507,19 +675,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listSecretsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}/listSecrets",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationServers/{authsid}/listSecrets",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.authsid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClientSecretContract
@@ -535,12 +700,8 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationServerCollection

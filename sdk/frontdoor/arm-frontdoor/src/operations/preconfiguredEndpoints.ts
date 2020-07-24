@@ -33,21 +33,39 @@ export class PreconfiguredEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.PreconfiguredEndpointsListResponse>
    */
-  list(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase): Promise<Models.PreconfiguredEndpointsListResponse>;
+  list(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PreconfiguredEndpointsListResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName The Profile identifier associated with the Tenant and Partner
    * @param callback The callback
    */
-  list(resourceGroupName: string, profileName: string, callback: msRest.ServiceCallback<Models.PreconfiguredEndpointList>): void;
+  list(
+    resourceGroupName: string,
+    profileName: string,
+    callback: msRest.ServiceCallback<Models.PreconfiguredEndpointList>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName The Profile identifier associated with the Tenant and Partner
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PreconfiguredEndpointList>): void;
-  list(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PreconfiguredEndpointList>, callback?: msRest.ServiceCallback<Models.PreconfiguredEndpointList>): Promise<Models.PreconfiguredEndpointsListResponse> {
+  list(
+    resourceGroupName: string,
+    profileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PreconfiguredEndpointList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PreconfiguredEndpointList>,
+    callback?: msRest.ServiceCallback<Models.PreconfiguredEndpointList>
+  ): Promise<Models.PreconfiguredEndpointsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class PreconfiguredEndpoints {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PreconfiguredEndpointsListResponse>;
+      callback
+    ) as Promise<Models.PreconfiguredEndpointsListResponse>;
   }
 
   /**
@@ -64,26 +83,41 @@ export class PreconfiguredEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.PreconfiguredEndpointsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PreconfiguredEndpointsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PreconfiguredEndpointsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PreconfiguredEndpointList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PreconfiguredEndpointList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PreconfiguredEndpointList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PreconfiguredEndpointList>, callback?: msRest.ServiceCallback<Models.PreconfiguredEndpointList>): Promise<Models.PreconfiguredEndpointsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PreconfiguredEndpointList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PreconfiguredEndpointList>,
+    callback?: msRest.ServiceCallback<Models.PreconfiguredEndpointList>
+  ): Promise<Models.PreconfiguredEndpointsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PreconfiguredEndpointsListNextResponse>;
+      callback
+    ) as Promise<Models.PreconfiguredEndpointsListNextResponse>;
   }
 }
 
@@ -91,18 +125,11 @@ export class PreconfiguredEndpoints {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/PreconfiguredEndpoints",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.profileName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/PreconfiguredEndpoints",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.profileName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PreconfiguredEndpointList
@@ -118,12 +145,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PreconfiguredEndpointList

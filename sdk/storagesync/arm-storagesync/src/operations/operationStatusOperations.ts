@@ -35,7 +35,13 @@ export class OperationStatusOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationStatusGetResponse>
    */
-  get(resourceGroupName: string, locationName: string, workflowId: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationStatusGetResponse>;
+  get(
+    resourceGroupName: string,
+    locationName: string,
+    workflowId: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationStatusGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param locationName The desired region to obtain information from.
@@ -43,7 +49,13 @@ export class OperationStatusOperations {
    * @param operationId operation Id
    * @param callback The callback
    */
-  get(resourceGroupName: string, locationName: string, workflowId: string, operationId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  get(
+    resourceGroupName: string,
+    locationName: string,
+    workflowId: string,
+    operationId: string,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param locationName The desired region to obtain information from.
@@ -52,8 +64,22 @@ export class OperationStatusOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, locationName: string, workflowId: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  get(resourceGroupName: string, locationName: string, workflowId: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.OperationStatusGetResponse> {
+  get(
+    resourceGroupName: string,
+    locationName: string,
+    workflowId: string,
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  get(
+    resourceGroupName: string,
+    locationName: string,
+    workflowId: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.OperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class OperationStatusOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.OperationStatusGetResponse>;
+      callback
+    ) as Promise<Models.OperationStatusGetResponse>;
   }
 }
 
@@ -71,7 +98,8 @@ export class OperationStatusOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/locations/{locationName}/workflows/{workflowId}/operations/{operationId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/locations/{locationName}/workflows/{workflowId}/operations/{operationId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -79,12 +107,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.workflowId,
     Parameters.operationId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus,

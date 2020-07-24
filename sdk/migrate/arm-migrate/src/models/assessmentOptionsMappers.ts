@@ -8,9 +8,4 @@
  * regenerated.
  */
 
-export {
-  AssessmentOptionsResultList,
-  VmFamily,
-  CloudError
-} from "../models/mappers";
-
+export { AssessmentOptionsResultList, VmFamily, CloudError } from "../models/mappers";

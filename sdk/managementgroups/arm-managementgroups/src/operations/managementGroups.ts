@@ -32,7 +32,9 @@ export class ManagementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementGroupsListResponse>
    */
-  list(options?: Models.ManagementGroupsListOptionalParams): Promise<Models.ManagementGroupsListResponse>;
+  list(
+    options?: Models.ManagementGroupsListOptionalParams
+  ): Promise<Models.ManagementGroupsListResponse>;
   /**
    * @param callback The callback
    */
@@ -41,14 +43,23 @@ export class ManagementGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ManagementGroupsListOptionalParams, callback: msRest.ServiceCallback<Models.ManagementGroupListResult>): void;
-  list(options?: Models.ManagementGroupsListOptionalParams | msRest.ServiceCallback<Models.ManagementGroupListResult>, callback?: msRest.ServiceCallback<Models.ManagementGroupListResult>): Promise<Models.ManagementGroupsListResponse> {
+  list(
+    options: Models.ManagementGroupsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ManagementGroupListResult>
+  ): void;
+  list(
+    options?:
+      | Models.ManagementGroupsListOptionalParams
+      | msRest.ServiceCallback<Models.ManagementGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagementGroupListResult>
+  ): Promise<Models.ManagementGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ManagementGroupsListResponse>;
+      callback
+    ) as Promise<Models.ManagementGroupsListResponse>;
   }
 
   /**
@@ -57,7 +68,10 @@ export class ManagementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementGroupsGetResponse>
    */
-  get(groupId: string, options?: Models.ManagementGroupsGetOptionalParams): Promise<Models.ManagementGroupsGetResponse>;
+  get(
+    groupId: string,
+    options?: Models.ManagementGroupsGetOptionalParams
+  ): Promise<Models.ManagementGroupsGetResponse>;
   /**
    * @param groupId Management Group ID.
    * @param callback The callback
@@ -68,15 +82,26 @@ export class ManagementGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(groupId: string, options: Models.ManagementGroupsGetOptionalParams, callback: msRest.ServiceCallback<Models.ManagementGroup>): void;
-  get(groupId: string, options?: Models.ManagementGroupsGetOptionalParams | msRest.ServiceCallback<Models.ManagementGroup>, callback?: msRest.ServiceCallback<Models.ManagementGroup>): Promise<Models.ManagementGroupsGetResponse> {
+  get(
+    groupId: string,
+    options: Models.ManagementGroupsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.ManagementGroup>
+  ): void;
+  get(
+    groupId: string,
+    options?:
+      | Models.ManagementGroupsGetOptionalParams
+      | msRest.ServiceCallback<Models.ManagementGroup>,
+    callback?: msRest.ServiceCallback<Models.ManagementGroup>
+  ): Promise<Models.ManagementGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         groupId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagementGroupsGetResponse>;
+      callback
+    ) as Promise<Models.ManagementGroupsGetResponse>;
   }
 
   /**
@@ -88,9 +113,18 @@ export class ManagementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(groupId: string, createManagementGroupRequest: Models.CreateManagementGroupRequest, options?: Models.ManagementGroupsCreateOrUpdateOptionalParams): Promise<Models.ManagementGroupsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(groupId,createManagementGroupRequest,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagementGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    groupId: string,
+    createManagementGroupRequest: Models.CreateManagementGroupRequest,
+    options?: Models.ManagementGroupsCreateOrUpdateOptionalParams
+  ): Promise<Models.ManagementGroupsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      groupId,
+      createManagementGroupRequest,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ManagementGroupsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -100,21 +134,41 @@ export class ManagementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementGroupsUpdateResponse>
    */
-  update(groupId: string, patchGroupRequest: Models.PatchManagementGroupRequest, options?: Models.ManagementGroupsUpdateOptionalParams): Promise<Models.ManagementGroupsUpdateResponse>;
+  update(
+    groupId: string,
+    patchGroupRequest: Models.PatchManagementGroupRequest,
+    options?: Models.ManagementGroupsUpdateOptionalParams
+  ): Promise<Models.ManagementGroupsUpdateResponse>;
   /**
    * @param groupId Management Group ID.
    * @param patchGroupRequest Management group patch parameters.
    * @param callback The callback
    */
-  update(groupId: string, patchGroupRequest: Models.PatchManagementGroupRequest, callback: msRest.ServiceCallback<Models.ManagementGroup>): void;
+  update(
+    groupId: string,
+    patchGroupRequest: Models.PatchManagementGroupRequest,
+    callback: msRest.ServiceCallback<Models.ManagementGroup>
+  ): void;
   /**
    * @param groupId Management Group ID.
    * @param patchGroupRequest Management group patch parameters.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(groupId: string, patchGroupRequest: Models.PatchManagementGroupRequest, options: Models.ManagementGroupsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.ManagementGroup>): void;
-  update(groupId: string, patchGroupRequest: Models.PatchManagementGroupRequest, options?: Models.ManagementGroupsUpdateOptionalParams | msRest.ServiceCallback<Models.ManagementGroup>, callback?: msRest.ServiceCallback<Models.ManagementGroup>): Promise<Models.ManagementGroupsUpdateResponse> {
+  update(
+    groupId: string,
+    patchGroupRequest: Models.PatchManagementGroupRequest,
+    options: Models.ManagementGroupsUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.ManagementGroup>
+  ): void;
+  update(
+    groupId: string,
+    patchGroupRequest: Models.PatchManagementGroupRequest,
+    options?:
+      | Models.ManagementGroupsUpdateOptionalParams
+      | msRest.ServiceCallback<Models.ManagementGroup>,
+    callback?: msRest.ServiceCallback<Models.ManagementGroup>
+  ): Promise<Models.ManagementGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         groupId,
@@ -122,7 +176,8 @@ export class ManagementGroups {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ManagementGroupsUpdateResponse>;
+      callback
+    ) as Promise<Models.ManagementGroupsUpdateResponse>;
   }
 
   /**
@@ -131,9 +186,13 @@ export class ManagementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementGroupsDeleteMethodResponse>
    */
-  deleteMethod(groupId: string, options?: Models.ManagementGroupsDeleteMethodOptionalParams): Promise<Models.ManagementGroupsDeleteMethodResponse> {
-    return this.beginDeleteMethod(groupId,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagementGroupsDeleteMethodResponse>;
+  deleteMethod(
+    groupId: string,
+    options?: Models.ManagementGroupsDeleteMethodOptionalParams
+  ): Promise<Models.ManagementGroupsDeleteMethodResponse> {
+    return this.beginDeleteMethod(groupId, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ManagementGroupsDeleteMethodResponse>;
   }
 
   /**
@@ -145,7 +204,11 @@ export class ManagementGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(groupId: string, createManagementGroupRequest: Models.CreateManagementGroupRequest, options?: Models.ManagementGroupsBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    groupId: string,
+    createManagementGroupRequest: Models.CreateManagementGroupRequest,
+    options?: Models.ManagementGroupsBeginCreateOrUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         groupId,
@@ -153,7 +216,8 @@ export class ManagementGroups {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -162,14 +226,18 @@ export class ManagementGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(groupId: string, options?: Models.ManagementGroupsBeginDeleteMethodOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    groupId: string,
+    options?: Models.ManagementGroupsBeginDeleteMethodOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         groupId,
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -178,26 +246,43 @@ export class ManagementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementGroupsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.ManagementGroupsListNextOptionalParams): Promise<Models.ManagementGroupsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.ManagementGroupsListNextOptionalParams
+  ): Promise<Models.ManagementGroupsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagementGroupListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagementGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.ManagementGroupsListNextOptionalParams, callback: msRest.ServiceCallback<Models.ManagementGroupListResult>): void;
-  listNext(nextPageLink: string, options?: Models.ManagementGroupsListNextOptionalParams | msRest.ServiceCallback<Models.ManagementGroupListResult>, callback?: msRest.ServiceCallback<Models.ManagementGroupListResult>): Promise<Models.ManagementGroupsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.ManagementGroupsListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.ManagementGroupListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.ManagementGroupsListNextOptionalParams
+      | msRest.ServiceCallback<Models.ManagementGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagementGroupListResult>
+  ): Promise<Models.ManagementGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ManagementGroupsListNextResponse>;
+      callback
+    ) as Promise<Models.ManagementGroupsListNextResponse>;
   }
 }
 
@@ -206,14 +291,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Management/managementGroups",
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skiptoken
-  ],
-  headerParameters: [
-    Parameters.cacheControl,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
+  headerParameters: [Parameters.cacheControl, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementGroupListResult
@@ -228,19 +307,14 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Management/managementGroups/{groupId}",
-  urlParameters: [
-    Parameters.groupId
-  ],
+  urlParameters: [Parameters.groupId],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.expand,
     Parameters.recurse,
     Parameters.filter
   ],
-  headerParameters: [
-    Parameters.cacheControl,
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.cacheControl, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementGroup
@@ -255,16 +329,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "providers/Microsoft.Management/managementGroups/{groupId}",
-  urlParameters: [
-    Parameters.groupId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.cacheControl,
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.groupId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.cacheControl, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "patchGroupRequest",
     mapper: {
@@ -286,16 +353,9 @@ const updateOperationSpec: msRest.OperationSpec = {
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "providers/Microsoft.Management/managementGroups/{groupId}",
-  urlParameters: [
-    Parameters.groupId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.cacheControl,
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.groupId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.cacheControl, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "createManagementGroupRequest",
     mapper: {
@@ -320,16 +380,9 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "providers/Microsoft.Management/managementGroups/{groupId}",
-  urlParameters: [
-    Parameters.groupId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.cacheControl,
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.groupId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.cacheControl, Parameters.acceptLanguage],
   responses: {
     202: {
       bodyMapper: Mappers.OperationResults
@@ -346,13 +399,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.cacheControl,
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.cacheControl, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementGroupListResult

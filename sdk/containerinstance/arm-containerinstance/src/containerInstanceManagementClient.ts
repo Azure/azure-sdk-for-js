@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ContainerInstanceManagementClientContext } from "./containerInstanceManagementClientContext";
 
-
 class ContainerInstanceManagementClient extends ContainerInstanceManagementClientContext {
   // Operation groups
   containerGroups: operations.ContainerGroups;
@@ -29,7 +28,11 @@ class ContainerInstanceManagementClient extends ContainerInstanceManagementClien
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ContainerInstanceManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ContainerInstanceManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.containerGroups = new operations.ContainerGroups(this);
     this.operations = new operations.Operations(this);

@@ -15,4 +15,3 @@ export {
   InfoField,
   ErrorResponse
 } from "../models/mappers";
-

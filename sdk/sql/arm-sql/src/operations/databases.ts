@@ -36,9 +36,20 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesImportMethodResponse>
    */
-  importMethod(resourceGroupName: string, serverName: string, parameters: Models.ImportRequest, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesImportMethodResponse> {
-    return this.beginImportMethod(resourceGroupName,serverName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabasesImportMethodResponse>;
+  importMethod(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: Models.ImportRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesImportMethodResponse> {
+    return this.beginImportMethod(
+      resourceGroupName,
+      serverName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DatabasesImportMethodResponse
+    >;
   }
 
   /**
@@ -52,9 +63,22 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesCreateImportOperationResponse>
    */
-  createImportOperation(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ImportExtensionRequest, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesCreateImportOperationResponse> {
-    return this.beginCreateImportOperation(resourceGroupName,serverName,databaseName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabasesCreateImportOperationResponse>;
+  createImportOperation(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.ImportExtensionRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesCreateImportOperationResponse> {
+    return this.beginCreateImportOperation(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DatabasesCreateImportOperationResponse
+    >;
   }
 
   /**
@@ -67,9 +91,22 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesExportMethodResponse>
    */
-  exportMethod(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ExportRequest, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesExportMethodResponse> {
-    return this.beginExportMethod(resourceGroupName,serverName,databaseName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabasesExportMethodResponse>;
+  exportMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.ExportRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesExportMethodResponse> {
+    return this.beginExportMethod(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DatabasesExportMethodResponse
+    >;
   }
 
   /**
@@ -82,7 +119,13 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesListMetricsResponse>
    */
-  listMetrics(resourceGroupName: string, serverName: string, databaseName: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesListMetricsResponse>;
+  listMetrics(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesListMetricsResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -91,7 +134,13 @@ export class Databases {
    * @param filter An OData filter expression that describes a subset of metrics to return.
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, serverName: string, databaseName: string, filter: string, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
+  listMetrics(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.MetricListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -101,8 +150,22 @@ export class Databases {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, serverName: string, databaseName: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
-  listMetrics(resourceGroupName: string, serverName: string, databaseName: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>, callback?: msRest.ServiceCallback<Models.MetricListResult>): Promise<Models.DatabasesListMetricsResponse> {
+  listMetrics(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricListResult>
+  ): void;
+  listMetrics(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricListResult>,
+    callback?: msRest.ServiceCallback<Models.MetricListResult>
+  ): Promise<Models.DatabasesListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +175,8 @@ export class Databases {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.DatabasesListMetricsResponse>;
+      callback
+    ) as Promise<Models.DatabasesListMetricsResponse>;
   }
 
   /**
@@ -124,7 +188,12 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesListMetricDefinitionsResponse>
    */
-  listMetricDefinitions(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesListMetricDefinitionsResponse>;
+  listMetricDefinitions(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesListMetricDefinitionsResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -132,7 +201,12 @@ export class Databases {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  listMetricDefinitions(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.MetricDefinitionListResult>): void;
+  listMetricDefinitions(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -141,8 +215,20 @@ export class Databases {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetricDefinitions(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionListResult>): void;
-  listMetricDefinitions(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionListResult>, callback?: msRest.ServiceCallback<Models.MetricDefinitionListResult>): Promise<Models.DatabasesListMetricDefinitionsResponse> {
+  listMetricDefinitions(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionListResult>
+  ): void;
+  listMetricDefinitions(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.MetricDefinitionListResult>
+  ): Promise<Models.DatabasesListMetricDefinitionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -151,7 +237,8 @@ export class Databases {
         options
       },
       listMetricDefinitionsOperationSpec,
-      callback) as Promise<Models.DatabasesListMetricDefinitionsResponse>;
+      callback
+    ) as Promise<Models.DatabasesListMetricDefinitionsResponse>;
   }
 
   /**
@@ -162,14 +249,22 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesListByServerResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesListByServerResponse>;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesListByServerResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.DatabaseListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -177,8 +272,18 @@ export class Databases {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseListResult>, callback?: msRest.ServiceCallback<Models.DatabaseListResult>): Promise<Models.DatabasesListByServerResponse> {
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseListResult>
+  ): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseListResult>,
+    callback?: msRest.ServiceCallback<Models.DatabaseListResult>
+  ): Promise<Models.DatabasesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -186,7 +291,8 @@ export class Databases {
         options
       },
       listByServerOperationSpec,
-      callback) as Promise<Models.DatabasesListByServerResponse>;
+      callback
+    ) as Promise<Models.DatabasesListByServerResponse>;
   }
 
   /**
@@ -198,7 +304,12 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -206,7 +317,12 @@ export class Databases {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.Database>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.Database>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -215,8 +331,20 @@ export class Databases {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Database>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Database>, callback?: msRest.ServiceCallback<Models.Database>): Promise<Models.DatabasesGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Database>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Database>,
+    callback?: msRest.ServiceCallback<Models.Database>
+  ): Promise<Models.DatabasesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -225,7 +353,8 @@ export class Databases {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DatabasesGetResponse>;
+      callback
+    ) as Promise<Models.DatabasesGetResponse>;
   }
 
   /**
@@ -238,9 +367,22 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.Database, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serverName,databaseName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabasesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.Database,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DatabasesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -252,9 +394,18 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,serverName,databaseName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -267,9 +418,20 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesUpdateResponse>
    */
-  update(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseUpdate, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,serverName,databaseName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabasesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.DatabasesUpdateResponse>;
   }
 
   /**
@@ -281,7 +443,12 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesListByElasticPoolResponse>
    */
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesListByElasticPoolResponse>;
+  listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesListByElasticPoolResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -289,7 +456,12 @@ export class Databases {
    * @param elasticPoolName The name of the elastic pool.
    * @param callback The callback
    */
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
+  listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    callback: msRest.ServiceCallback<Models.DatabaseListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -298,8 +470,20 @@ export class Databases {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseListResult>, callback?: msRest.ServiceCallback<Models.DatabaseListResult>): Promise<Models.DatabasesListByElasticPoolResponse> {
+  listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseListResult>
+  ): void;
+  listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseListResult>,
+    callback?: msRest.ServiceCallback<Models.DatabaseListResult>
+  ): Promise<Models.DatabasesListByElasticPoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -308,7 +492,8 @@ export class Databases {
         options
       },
       listByElasticPoolOperationSpec,
-      callback) as Promise<Models.DatabasesListByElasticPoolResponse>;
+      callback
+    ) as Promise<Models.DatabasesListByElasticPoolResponse>;
   }
 
   /**
@@ -320,9 +505,15 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesPauseResponse>
    */
-  pause(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesPauseResponse> {
-    return this.beginPause(resourceGroupName,serverName,databaseName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabasesPauseResponse>;
+  pause(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesPauseResponse> {
+    return this.beginPause(resourceGroupName, serverName, databaseName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.DatabasesPauseResponse>;
   }
 
   /**
@@ -334,9 +525,18 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesResumeResponse>
    */
-  resume(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesResumeResponse> {
-    return this.beginResume(resourceGroupName,serverName,databaseName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabasesResumeResponse>;
+  resume(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesResumeResponse> {
+    return this.beginResume(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.DatabasesResumeResponse>;
   }
 
   /**
@@ -348,9 +548,18 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  upgradeDataWarehouse(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginUpgradeDataWarehouse(resourceGroupName,serverName,databaseName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  upgradeDataWarehouse(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginUpgradeDataWarehouse(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -363,7 +572,13 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  rename(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ResourceMoveDefinition, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  rename(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.ResourceMoveDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -372,7 +587,13 @@ export class Databases {
    * @param parameters The resource move definition for renaming this database.
    * @param callback The callback
    */
-  rename(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ResourceMoveDefinition, callback: msRest.ServiceCallback<void>): void;
+  rename(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.ResourceMoveDefinition,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -382,8 +603,22 @@ export class Databases {
    * @param options The optional parameters
    * @param callback The callback
    */
-  rename(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ResourceMoveDefinition, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  rename(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ResourceMoveDefinition, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  rename(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.ResourceMoveDefinition,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  rename(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.ResourceMoveDefinition,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -393,7 +628,8 @@ export class Databases {
         options
       },
       renameOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -405,9 +641,18 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  failover(resourceGroupName: string, serverName: string, databaseName: string, options?: Models.DatabasesFailoverOptionalParams): Promise<msRest.RestResponse> {
-    return this.beginFailover(resourceGroupName,serverName,databaseName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  failover(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: Models.DatabasesFailoverOptionalParams
+  ): Promise<msRest.RestResponse> {
+    return this.beginFailover(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -419,7 +664,12 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginImportMethod(resourceGroupName: string, serverName: string, parameters: Models.ImportRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginImportMethod(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: Models.ImportRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -428,7 +678,8 @@ export class Databases {
         options
       },
       beginImportMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -442,7 +693,13 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateImportOperation(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ImportExtensionRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateImportOperation(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.ImportExtensionRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -452,7 +709,8 @@ export class Databases {
         options
       },
       beginCreateImportOperationOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -465,7 +723,13 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginExportMethod(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.ExportRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginExportMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.ExportRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -475,7 +739,8 @@ export class Databases {
         options
       },
       beginExportMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -488,7 +753,13 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.Database, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.Database,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -498,7 +769,8 @@ export class Databases {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -510,7 +782,12 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -519,7 +796,8 @@ export class Databases {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -532,7 +810,13 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -542,7 +826,8 @@ export class Databases {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -554,7 +839,12 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPause(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPause(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -563,7 +853,8 @@ export class Databases {
         options
       },
       beginPauseOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -575,7 +866,12 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginResume(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginResume(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -584,7 +880,8 @@ export class Databases {
         options
       },
       beginResumeOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -596,7 +893,12 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpgradeDataWarehouse(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpgradeDataWarehouse(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -605,7 +907,8 @@ export class Databases {
         options
       },
       beginUpgradeDataWarehouseOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -617,7 +920,12 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginFailover(resourceGroupName: string, serverName: string, databaseName: string, options?: Models.DatabasesBeginFailoverOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginFailover(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: Models.DatabasesBeginFailoverOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -626,7 +934,8 @@ export class Databases {
         options
       },
       beginFailoverOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -635,26 +944,41 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesListByServerNextResponse>
    */
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesListByServerNextResponse>;
+  listByServerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesListByServerNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServerNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
+  listByServerNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DatabaseListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseListResult>, callback?: msRest.ServiceCallback<Models.DatabaseListResult>): Promise<Models.DatabasesListByServerNextResponse> {
+  listByServerNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseListResult>
+  ): void;
+  listByServerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseListResult>,
+    callback?: msRest.ServiceCallback<Models.DatabaseListResult>
+  ): Promise<Models.DatabasesListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServerNextOperationSpec,
-      callback) as Promise<Models.DatabasesListByServerNextResponse>;
+      callback
+    ) as Promise<Models.DatabasesListByServerNextResponse>;
   }
 
   /**
@@ -663,26 +987,41 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesListByElasticPoolNextResponse>
    */
-  listByElasticPoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesListByElasticPoolNextResponse>;
+  listByElasticPoolNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabasesListByElasticPoolNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByElasticPoolNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
+  listByElasticPoolNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DatabaseListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByElasticPoolNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
-  listByElasticPoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseListResult>, callback?: msRest.ServiceCallback<Models.DatabaseListResult>): Promise<Models.DatabasesListByElasticPoolNextResponse> {
+  listByElasticPoolNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseListResult>
+  ): void;
+  listByElasticPoolNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseListResult>,
+    callback?: msRest.ServiceCallback<Models.DatabaseListResult>
+  ): Promise<Models.DatabasesListByElasticPoolNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByElasticPoolNextOperationSpec,
-      callback) as Promise<Models.DatabasesListByElasticPoolNextResponse>;
+      callback
+    ) as Promise<Models.DatabasesListByElasticPoolNextResponse>;
   }
 }
 
@@ -690,20 +1029,16 @@ export class Databases {
 const serializer = new msRest.Serializer(Mappers);
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/metrics",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricListResult
@@ -717,19 +1052,16 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
 
 const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/metricDefinitions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/metricDefinitions",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricDefinitionListResult
@@ -743,18 +1075,11 @@ const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
 
 const listByServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseListResult
@@ -768,19 +1093,16 @@ const listByServerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Database
@@ -794,19 +1116,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByElasticPoolOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/databases",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/databases",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.elasticPoolName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseListResult
@@ -820,19 +1139,16 @@ const listByElasticPoolOperationSpec: msRest.OperationSpec = {
 
 const renameOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/move",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/move",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -851,18 +1167,11 @@ const renameOperationSpec: msRest.OperationSpec = {
 
 const beginImportMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/import",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/import",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.serverName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -884,7 +1193,8 @@ const beginImportMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateImportOperationOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -892,12 +1202,8 @@ const beginCreateImportOperationOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.extensionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -919,19 +1225,16 @@ const beginCreateImportOperationOperationSpec: msRest.OperationSpec = {
 
 const beginExportMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/export",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/export",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -953,19 +1256,16 @@ const beginExportMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -990,19 +1290,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -1016,19 +1313,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -1050,19 +1344,16 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginPauseOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/pause",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/pause",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Database
@@ -1077,19 +1368,16 @@ const beginPauseOperationSpec: msRest.OperationSpec = {
 
 const beginResumeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/resume",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/resume",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Database
@@ -1104,19 +1392,16 @@ const beginResumeOperationSpec: msRest.OperationSpec = {
 
 const beginUpgradeDataWarehouseOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/upgradeDataWarehouse",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/upgradeDataWarehouse",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -1129,20 +1414,16 @@ const beginUpgradeDataWarehouseOperationSpec: msRest.OperationSpec = {
 
 const beginFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/failover",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/failover",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.replicaType,
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.replicaType, Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -1157,12 +1438,8 @@ const listByServerNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseListResult
@@ -1178,12 +1455,8 @@ const listByElasticPoolNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseListResult

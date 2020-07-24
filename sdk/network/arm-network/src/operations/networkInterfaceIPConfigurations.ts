@@ -33,21 +33,41 @@ export class NetworkInterfaceIPConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfaceIPConfigurationsListResponse>
    */
-  list(resourceGroupName: string, networkInterfaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfaceIPConfigurationsListResponse>;
+  list(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkInterfaceIPConfigurationsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkInterfaceName: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): void;
+  list(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkInterfaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): void;
-  list(resourceGroupName: string, networkInterfaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): Promise<Models.NetworkInterfaceIPConfigurationsListResponse> {
+  list(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>,
+    callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>
+  ): Promise<Models.NetworkInterfaceIPConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class NetworkInterfaceIPConfigurations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.NetworkInterfaceIPConfigurationsListResponse>;
+      callback
+    ) as Promise<Models.NetworkInterfaceIPConfigurationsListResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class NetworkInterfaceIPConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfaceIPConfigurationsGetResponse>
    */
-  get(resourceGroupName: string, networkInterfaceName: string, ipConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfaceIPConfigurationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkInterfaceIPConfigurationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
    * @param ipConfigurationName The name of the ip configuration name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkInterfaceName: string, ipConfigurationName: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>): void;
+  get(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string,
+    callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkInterfaceName The name of the network interface.
@@ -81,8 +112,22 @@ export class NetworkInterfaceIPConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkInterfaceName: string, ipConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>): void;
-  get(resourceGroupName: string, networkInterfaceName: string, ipConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>): Promise<Models.NetworkInterfaceIPConfigurationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>
+  ): void;
+  get(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    ipConfigurationName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>,
+    callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfiguration>
+  ): Promise<Models.NetworkInterfaceIPConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +136,8 @@ export class NetworkInterfaceIPConfigurations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.NetworkInterfaceIPConfigurationsGetResponse>;
+      callback
+    ) as Promise<Models.NetworkInterfaceIPConfigurationsGetResponse>;
   }
 
   /**
@@ -100,26 +146,43 @@ export class NetworkInterfaceIPConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfaceIPConfigurationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkInterfaceIPConfigurationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkInterfaceIPConfigurationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>, callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>): Promise<Models.NetworkInterfaceIPConfigurationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>,
+    callback?: msRest.ServiceCallback<Models.NetworkInterfaceIPConfigurationListResult>
+  ): Promise<Models.NetworkInterfaceIPConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.NetworkInterfaceIPConfigurationsListNextResponse>;
+      callback
+    ) as Promise<Models.NetworkInterfaceIPConfigurationsListNextResponse>;
   }
 }
 
@@ -127,18 +190,15 @@ export class NetworkInterfaceIPConfigurations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkInterfaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkInterfaceIPConfigurationListResult
@@ -152,19 +212,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/ipConfigurations/{ipConfigurationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkInterfaceName,
     Parameters.ipConfigurationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkInterfaceIPConfiguration
@@ -180,12 +237,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkInterfaceIPConfigurationListResult

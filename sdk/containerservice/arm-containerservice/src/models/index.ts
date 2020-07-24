@@ -176,7 +176,9 @@ export interface OpenShiftManagedClusterAgentPoolProfile {
 /**
  * Contains the possible cases for OpenShiftManagedClusterBaseIdentityProvider.
  */
-export type OpenShiftManagedClusterBaseIdentityProviderUnion = OpenShiftManagedClusterBaseIdentityProvider | OpenShiftManagedClusterAADIdentityProvider;
+export type OpenShiftManagedClusterBaseIdentityProviderUnion =
+  | OpenShiftManagedClusterBaseIdentityProvider
+  | OpenShiftManagedClusterAADIdentityProvider;
 
 /**
  * Structure for any Identity provider.
@@ -1287,8 +1289,7 @@ export interface UserAssignedIdentity {
 /**
  * Information of user assigned identity used by this add-on.
  */
-export interface ManagedClusterAddonProfileIdentity extends UserAssignedIdentity {
-}
+export interface ManagedClusterAddonProfileIdentity extends UserAssignedIdentity {}
 
 /**
  * A Kubernetes add-on profile for a managed cluster.
@@ -1376,8 +1377,7 @@ export interface ManagedClusterAPIServerAccessProfile {
 /**
  * An interface representing ManagedClusterPropertiesIdentityProfileValue.
  */
-export interface ManagedClusterPropertiesIdentityProfileValue extends UserAssignedIdentity {
-}
+export interface ManagedClusterPropertiesIdentityProfileValue extends UserAssignedIdentity {}
 
 /**
  * An interface representing ManagedClusterIdentityUserAssignedIdentitiesValue.
@@ -1423,7 +1423,9 @@ export interface ManagedClusterIdentity {
    * references will be ARM resource ids in the form:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
    */
-  userAssignedIdentities?: { [propertyName: string]: ManagedClusterIdentityUserAssignedIdentitiesValue };
+  userAssignedIdentities?: {
+    [propertyName: string]: ManagedClusterIdentityUserAssignedIdentitiesValue;
+  };
 }
 
 /**
@@ -1811,7 +1813,8 @@ export interface PrivateEndpointConnectionListResult {
 /**
  * Optional Parameters.
  */
-export interface ContainerServicesListOrchestratorsOptionalParams extends msRest.RequestOptionsBase {
+export interface ContainerServicesListOrchestratorsOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * resource type for which the list of orchestrators needs to be returned
    */
@@ -1856,8 +1859,7 @@ export interface ContainerServiceListResult extends Array<ContainerService> {
  * The List Compute Operation operation response.
  * @extends Array<OperationValue>
  */
-export interface OperationListResult extends Array<OperationValue> {
-}
+export interface OperationListResult extends Array<OperationValue> {}
 
 /**
  * @interface
@@ -1891,7 +1893,7 @@ export interface AgentPoolListResult extends Array<AgentPool> {
  * @readonly
  * @enum {string}
  */
-export type OSType = 'Linux' | 'Windows';
+export type OSType = "Linux" | "Windows";
 
 /**
  * Defines values for OpenShiftContainerServiceVMSize.
@@ -1906,7 +1908,40 @@ export type OSType = 'Linux' | 'Windows';
  * @readonly
  * @enum {string}
  */
-export type OpenShiftContainerServiceVMSize = 'Standard_D2s_v3' | 'Standard_D4s_v3' | 'Standard_D8s_v3' | 'Standard_D16s_v3' | 'Standard_D32s_v3' | 'Standard_D64s_v3' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_F8s_v2' | 'Standard_F16s_v2' | 'Standard_F32s_v2' | 'Standard_F64s_v2' | 'Standard_F72s_v2' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_E4s_v3' | 'Standard_E8s_v3' | 'Standard_E16s_v3' | 'Standard_E20s_v3' | 'Standard_E32s_v3' | 'Standard_E64s_v3' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s';
+export type OpenShiftContainerServiceVMSize =
+  | "Standard_D2s_v3"
+  | "Standard_D4s_v3"
+  | "Standard_D8s_v3"
+  | "Standard_D16s_v3"
+  | "Standard_D32s_v3"
+  | "Standard_D64s_v3"
+  | "Standard_DS4_v2"
+  | "Standard_DS5_v2"
+  | "Standard_F8s_v2"
+  | "Standard_F16s_v2"
+  | "Standard_F32s_v2"
+  | "Standard_F64s_v2"
+  | "Standard_F72s_v2"
+  | "Standard_F8s"
+  | "Standard_F16s"
+  | "Standard_E4s_v3"
+  | "Standard_E8s_v3"
+  | "Standard_E16s_v3"
+  | "Standard_E20s_v3"
+  | "Standard_E32s_v3"
+  | "Standard_E64s_v3"
+  | "Standard_GS2"
+  | "Standard_GS3"
+  | "Standard_GS4"
+  | "Standard_GS5"
+  | "Standard_DS12_v2"
+  | "Standard_DS13_v2"
+  | "Standard_DS14_v2"
+  | "Standard_DS15_v2"
+  | "Standard_L4s"
+  | "Standard_L8s"
+  | "Standard_L16s"
+  | "Standard_L32s";
 
 /**
  * Defines values for OpenShiftAgentPoolProfileRole.
@@ -1914,7 +1949,7 @@ export type OpenShiftContainerServiceVMSize = 'Standard_D2s_v3' | 'Standard_D4s_
  * @readonly
  * @enum {string}
  */
-export type OpenShiftAgentPoolProfileRole = 'compute' | 'infra';
+export type OpenShiftAgentPoolProfileRole = "compute" | "infra";
 
 /**
  * Defines values for ContainerServiceStorageProfileTypes.
@@ -1922,7 +1957,7 @@ export type OpenShiftAgentPoolProfileRole = 'compute' | 'infra';
  * @readonly
  * @enum {string}
  */
-export type ContainerServiceStorageProfileTypes = 'StorageAccount' | 'ManagedDisks';
+export type ContainerServiceStorageProfileTypes = "StorageAccount" | "ManagedDisks";
 
 /**
  * Defines values for ContainerServiceVMSizeTypes.
@@ -1967,7 +2002,181 @@ export type ContainerServiceStorageProfileTypes = 'StorageAccount' | 'ManagedDis
  * @readonly
  * @enum {string}
  */
-export type ContainerServiceVMSizeTypes = 'Standard_A1' | 'Standard_A10' | 'Standard_A11' | 'Standard_A1_v2' | 'Standard_A2' | 'Standard_A2_v2' | 'Standard_A2m_v2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A4_v2' | 'Standard_A4m_v2' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A8_v2' | 'Standard_A8m_v2' | 'Standard_A9' | 'Standard_B2ms' | 'Standard_B2s' | 'Standard_B4ms' | 'Standard_B8ms' | 'Standard_D1' | 'Standard_D11' | 'Standard_D11_v2' | 'Standard_D11_v2_Promo' | 'Standard_D12' | 'Standard_D12_v2' | 'Standard_D12_v2_Promo' | 'Standard_D13' | 'Standard_D13_v2' | 'Standard_D13_v2_Promo' | 'Standard_D14' | 'Standard_D14_v2' | 'Standard_D14_v2_Promo' | 'Standard_D15_v2' | 'Standard_D16_v3' | 'Standard_D16s_v3' | 'Standard_D1_v2' | 'Standard_D2' | 'Standard_D2_v2' | 'Standard_D2_v2_Promo' | 'Standard_D2_v3' | 'Standard_D2s_v3' | 'Standard_D3' | 'Standard_D32_v3' | 'Standard_D32s_v3' | 'Standard_D3_v2' | 'Standard_D3_v2_Promo' | 'Standard_D4' | 'Standard_D4_v2' | 'Standard_D4_v2_Promo' | 'Standard_D4_v3' | 'Standard_D4s_v3' | 'Standard_D5_v2' | 'Standard_D5_v2_Promo' | 'Standard_D64_v3' | 'Standard_D64s_v3' | 'Standard_D8_v3' | 'Standard_D8s_v3' | 'Standard_DS1' | 'Standard_DS11' | 'Standard_DS11_v2' | 'Standard_DS11_v2_Promo' | 'Standard_DS12' | 'Standard_DS12_v2' | 'Standard_DS12_v2_Promo' | 'Standard_DS13' | 'Standard_DS13-2_v2' | 'Standard_DS13-4_v2' | 'Standard_DS13_v2' | 'Standard_DS13_v2_Promo' | 'Standard_DS14' | 'Standard_DS14-4_v2' | 'Standard_DS14-8_v2' | 'Standard_DS14_v2' | 'Standard_DS14_v2_Promo' | 'Standard_DS15_v2' | 'Standard_DS1_v2' | 'Standard_DS2' | 'Standard_DS2_v2' | 'Standard_DS2_v2_Promo' | 'Standard_DS3' | 'Standard_DS3_v2' | 'Standard_DS3_v2_Promo' | 'Standard_DS4' | 'Standard_DS4_v2' | 'Standard_DS4_v2_Promo' | 'Standard_DS5_v2' | 'Standard_DS5_v2_Promo' | 'Standard_E16_v3' | 'Standard_E16s_v3' | 'Standard_E2_v3' | 'Standard_E2s_v3' | 'Standard_E32-16s_v3' | 'Standard_E32-8s_v3' | 'Standard_E32_v3' | 'Standard_E32s_v3' | 'Standard_E4_v3' | 'Standard_E4s_v3' | 'Standard_E64-16s_v3' | 'Standard_E64-32s_v3' | 'Standard_E64_v3' | 'Standard_E64s_v3' | 'Standard_E8_v3' | 'Standard_E8s_v3' | 'Standard_F1' | 'Standard_F16' | 'Standard_F16s' | 'Standard_F16s_v2' | 'Standard_F1s' | 'Standard_F2' | 'Standard_F2s' | 'Standard_F2s_v2' | 'Standard_F32s_v2' | 'Standard_F4' | 'Standard_F4s' | 'Standard_F4s_v2' | 'Standard_F64s_v2' | 'Standard_F72s_v2' | 'Standard_F8' | 'Standard_F8s' | 'Standard_F8s_v2' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS4-4' | 'Standard_GS4-8' | 'Standard_GS5' | 'Standard_GS5-16' | 'Standard_GS5-8' | 'Standard_H16' | 'Standard_H16m' | 'Standard_H16mr' | 'Standard_H16r' | 'Standard_H8' | 'Standard_H8m' | 'Standard_L16s' | 'Standard_L32s' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_M128-32ms' | 'Standard_M128-64ms' | 'Standard_M128ms' | 'Standard_M128s' | 'Standard_M64-16ms' | 'Standard_M64-32ms' | 'Standard_M64ms' | 'Standard_M64s' | 'Standard_NC12' | 'Standard_NC12s_v2' | 'Standard_NC12s_v3' | 'Standard_NC24' | 'Standard_NC24r' | 'Standard_NC24rs_v2' | 'Standard_NC24rs_v3' | 'Standard_NC24s_v2' | 'Standard_NC24s_v3' | 'Standard_NC6' | 'Standard_NC6s_v2' | 'Standard_NC6s_v3' | 'Standard_ND12s' | 'Standard_ND24rs' | 'Standard_ND24s' | 'Standard_ND6s' | 'Standard_NV12' | 'Standard_NV24' | 'Standard_NV6';
+export type ContainerServiceVMSizeTypes =
+  | "Standard_A1"
+  | "Standard_A10"
+  | "Standard_A11"
+  | "Standard_A1_v2"
+  | "Standard_A2"
+  | "Standard_A2_v2"
+  | "Standard_A2m_v2"
+  | "Standard_A3"
+  | "Standard_A4"
+  | "Standard_A4_v2"
+  | "Standard_A4m_v2"
+  | "Standard_A5"
+  | "Standard_A6"
+  | "Standard_A7"
+  | "Standard_A8"
+  | "Standard_A8_v2"
+  | "Standard_A8m_v2"
+  | "Standard_A9"
+  | "Standard_B2ms"
+  | "Standard_B2s"
+  | "Standard_B4ms"
+  | "Standard_B8ms"
+  | "Standard_D1"
+  | "Standard_D11"
+  | "Standard_D11_v2"
+  | "Standard_D11_v2_Promo"
+  | "Standard_D12"
+  | "Standard_D12_v2"
+  | "Standard_D12_v2_Promo"
+  | "Standard_D13"
+  | "Standard_D13_v2"
+  | "Standard_D13_v2_Promo"
+  | "Standard_D14"
+  | "Standard_D14_v2"
+  | "Standard_D14_v2_Promo"
+  | "Standard_D15_v2"
+  | "Standard_D16_v3"
+  | "Standard_D16s_v3"
+  | "Standard_D1_v2"
+  | "Standard_D2"
+  | "Standard_D2_v2"
+  | "Standard_D2_v2_Promo"
+  | "Standard_D2_v3"
+  | "Standard_D2s_v3"
+  | "Standard_D3"
+  | "Standard_D32_v3"
+  | "Standard_D32s_v3"
+  | "Standard_D3_v2"
+  | "Standard_D3_v2_Promo"
+  | "Standard_D4"
+  | "Standard_D4_v2"
+  | "Standard_D4_v2_Promo"
+  | "Standard_D4_v3"
+  | "Standard_D4s_v3"
+  | "Standard_D5_v2"
+  | "Standard_D5_v2_Promo"
+  | "Standard_D64_v3"
+  | "Standard_D64s_v3"
+  | "Standard_D8_v3"
+  | "Standard_D8s_v3"
+  | "Standard_DS1"
+  | "Standard_DS11"
+  | "Standard_DS11_v2"
+  | "Standard_DS11_v2_Promo"
+  | "Standard_DS12"
+  | "Standard_DS12_v2"
+  | "Standard_DS12_v2_Promo"
+  | "Standard_DS13"
+  | "Standard_DS13-2_v2"
+  | "Standard_DS13-4_v2"
+  | "Standard_DS13_v2"
+  | "Standard_DS13_v2_Promo"
+  | "Standard_DS14"
+  | "Standard_DS14-4_v2"
+  | "Standard_DS14-8_v2"
+  | "Standard_DS14_v2"
+  | "Standard_DS14_v2_Promo"
+  | "Standard_DS15_v2"
+  | "Standard_DS1_v2"
+  | "Standard_DS2"
+  | "Standard_DS2_v2"
+  | "Standard_DS2_v2_Promo"
+  | "Standard_DS3"
+  | "Standard_DS3_v2"
+  | "Standard_DS3_v2_Promo"
+  | "Standard_DS4"
+  | "Standard_DS4_v2"
+  | "Standard_DS4_v2_Promo"
+  | "Standard_DS5_v2"
+  | "Standard_DS5_v2_Promo"
+  | "Standard_E16_v3"
+  | "Standard_E16s_v3"
+  | "Standard_E2_v3"
+  | "Standard_E2s_v3"
+  | "Standard_E32-16s_v3"
+  | "Standard_E32-8s_v3"
+  | "Standard_E32_v3"
+  | "Standard_E32s_v3"
+  | "Standard_E4_v3"
+  | "Standard_E4s_v3"
+  | "Standard_E64-16s_v3"
+  | "Standard_E64-32s_v3"
+  | "Standard_E64_v3"
+  | "Standard_E64s_v3"
+  | "Standard_E8_v3"
+  | "Standard_E8s_v3"
+  | "Standard_F1"
+  | "Standard_F16"
+  | "Standard_F16s"
+  | "Standard_F16s_v2"
+  | "Standard_F1s"
+  | "Standard_F2"
+  | "Standard_F2s"
+  | "Standard_F2s_v2"
+  | "Standard_F32s_v2"
+  | "Standard_F4"
+  | "Standard_F4s"
+  | "Standard_F4s_v2"
+  | "Standard_F64s_v2"
+  | "Standard_F72s_v2"
+  | "Standard_F8"
+  | "Standard_F8s"
+  | "Standard_F8s_v2"
+  | "Standard_G1"
+  | "Standard_G2"
+  | "Standard_G3"
+  | "Standard_G4"
+  | "Standard_G5"
+  | "Standard_GS1"
+  | "Standard_GS2"
+  | "Standard_GS3"
+  | "Standard_GS4"
+  | "Standard_GS4-4"
+  | "Standard_GS4-8"
+  | "Standard_GS5"
+  | "Standard_GS5-16"
+  | "Standard_GS5-8"
+  | "Standard_H16"
+  | "Standard_H16m"
+  | "Standard_H16mr"
+  | "Standard_H16r"
+  | "Standard_H8"
+  | "Standard_H8m"
+  | "Standard_L16s"
+  | "Standard_L32s"
+  | "Standard_L4s"
+  | "Standard_L8s"
+  | "Standard_M128-32ms"
+  | "Standard_M128-64ms"
+  | "Standard_M128ms"
+  | "Standard_M128s"
+  | "Standard_M64-16ms"
+  | "Standard_M64-32ms"
+  | "Standard_M64ms"
+  | "Standard_M64s"
+  | "Standard_NC12"
+  | "Standard_NC12s_v2"
+  | "Standard_NC12s_v3"
+  | "Standard_NC24"
+  | "Standard_NC24r"
+  | "Standard_NC24rs_v2"
+  | "Standard_NC24rs_v3"
+  | "Standard_NC24s_v2"
+  | "Standard_NC24s_v3"
+  | "Standard_NC6"
+  | "Standard_NC6s_v2"
+  | "Standard_NC6s_v3"
+  | "Standard_ND12s"
+  | "Standard_ND24rs"
+  | "Standard_ND24s"
+  | "Standard_ND6s"
+  | "Standard_NV12"
+  | "Standard_NV24"
+  | "Standard_NV6";
 
 /**
  * Defines values for ContainerServiceOrchestratorTypes.
@@ -1975,7 +2184,12 @@ export type ContainerServiceVMSizeTypes = 'Standard_A1' | 'Standard_A10' | 'Stan
  * @readonly
  * @enum {string}
  */
-export type ContainerServiceOrchestratorTypes = 'Kubernetes' | 'Swarm' | 'DCOS' | 'DockerCE' | 'Custom';
+export type ContainerServiceOrchestratorTypes =
+  | "Kubernetes"
+  | "Swarm"
+  | "DCOS"
+  | "DockerCE"
+  | "Custom";
 
 /**
  * Defines values for AgentPoolType.
@@ -1983,7 +2197,7 @@ export type ContainerServiceOrchestratorTypes = 'Kubernetes' | 'Swarm' | 'DCOS' 
  * @readonly
  * @enum {string}
  */
-export type AgentPoolType = 'VirtualMachineScaleSets' | 'AvailabilitySet';
+export type AgentPoolType = "VirtualMachineScaleSets" | "AvailabilitySet";
 
 /**
  * Defines values for AgentPoolMode.
@@ -1991,7 +2205,7 @@ export type AgentPoolType = 'VirtualMachineScaleSets' | 'AvailabilitySet';
  * @readonly
  * @enum {string}
  */
-export type AgentPoolMode = 'System' | 'User';
+export type AgentPoolMode = "System" | "User";
 
 /**
  * Defines values for ScaleSetPriority.
@@ -1999,7 +2213,7 @@ export type AgentPoolMode = 'System' | 'User';
  * @readonly
  * @enum {string}
  */
-export type ScaleSetPriority = 'Spot' | 'Regular';
+export type ScaleSetPriority = "Spot" | "Regular";
 
 /**
  * Defines values for ScaleSetEvictionPolicy.
@@ -2007,7 +2221,7 @@ export type ScaleSetPriority = 'Spot' | 'Regular';
  * @readonly
  * @enum {string}
  */
-export type ScaleSetEvictionPolicy = 'Delete' | 'Deallocate';
+export type ScaleSetEvictionPolicy = "Delete" | "Deallocate";
 
 /**
  * Defines values for NetworkPlugin.
@@ -2015,7 +2229,7 @@ export type ScaleSetEvictionPolicy = 'Delete' | 'Deallocate';
  * @readonly
  * @enum {string}
  */
-export type NetworkPlugin = 'azure' | 'kubenet';
+export type NetworkPlugin = "azure" | "kubenet";
 
 /**
  * Defines values for NetworkPolicy.
@@ -2023,7 +2237,7 @@ export type NetworkPlugin = 'azure' | 'kubenet';
  * @readonly
  * @enum {string}
  */
-export type NetworkPolicy = 'calico' | 'azure';
+export type NetworkPolicy = "calico" | "azure";
 
 /**
  * Defines values for NetworkMode.
@@ -2031,7 +2245,7 @@ export type NetworkPolicy = 'calico' | 'azure';
  * @readonly
  * @enum {string}
  */
-export type NetworkMode = 'transparent' | 'bridge';
+export type NetworkMode = "transparent" | "bridge";
 
 /**
  * Defines values for OutboundType.
@@ -2039,7 +2253,7 @@ export type NetworkMode = 'transparent' | 'bridge';
  * @readonly
  * @enum {string}
  */
-export type OutboundType = 'loadBalancer' | 'userDefinedRouting';
+export type OutboundType = "loadBalancer" | "userDefinedRouting";
 
 /**
  * Defines values for LoadBalancerSku.
@@ -2047,7 +2261,7 @@ export type OutboundType = 'loadBalancer' | 'userDefinedRouting';
  * @readonly
  * @enum {string}
  */
-export type LoadBalancerSku = 'standard' | 'basic';
+export type LoadBalancerSku = "standard" | "basic";
 
 /**
  * Defines values for ResourceIdentityType.
@@ -2055,7 +2269,7 @@ export type LoadBalancerSku = 'standard' | 'basic';
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'None';
+export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
 /**
  * Defines values for ManagedClusterSKUName.
@@ -2063,7 +2277,7 @@ export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'None';
  * @readonly
  * @enum {string}
  */
-export type ManagedClusterSKUName = 'Basic';
+export type ManagedClusterSKUName = "Basic";
 
 /**
  * Defines values for ManagedClusterSKUTier.
@@ -2071,7 +2285,7 @@ export type ManagedClusterSKUName = 'Basic';
  * @readonly
  * @enum {string}
  */
-export type ManagedClusterSKUTier = 'Paid' | 'Free';
+export type ManagedClusterSKUTier = "Paid" | "Free";
 
 /**
  * Defines values for PrivateEndpointConnectionProvisioningState.
@@ -2079,7 +2293,11 @@ export type ManagedClusterSKUTier = 'Paid' | 'Free';
  * @readonly
  * @enum {string}
  */
-export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
+export type PrivateEndpointConnectionProvisioningState =
+  | "Succeeded"
+  | "Creating"
+  | "Deleting"
+  | "Failed";
 
 /**
  * Defines values for ConnectionStatus.
@@ -2087,7 +2305,7 @@ export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating
  * @readonly
  * @enum {string}
  */
-export type ConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+export type ConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 /**
  * Contains response data for the list operation.
@@ -2097,16 +2315,16 @@ export type OpenShiftManagedClustersListResponse = OpenShiftManagedClusterListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OpenShiftManagedClusterListResult;
+  };
 };
 
 /**
@@ -2117,16 +2335,16 @@ export type OpenShiftManagedClustersListByResourceGroupResponse = OpenShiftManag
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OpenShiftManagedClusterListResult;
+  };
 };
 
 /**
@@ -2137,16 +2355,16 @@ export type OpenShiftManagedClustersGetResponse = OpenShiftManagedCluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedCluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OpenShiftManagedCluster;
+  };
 };
 
 /**
@@ -2157,16 +2375,16 @@ export type OpenShiftManagedClustersCreateOrUpdateResponse = OpenShiftManagedClu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedCluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OpenShiftManagedCluster;
+  };
 };
 
 /**
@@ -2177,16 +2395,16 @@ export type OpenShiftManagedClustersUpdateTagsResponse = OpenShiftManagedCluster
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedCluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OpenShiftManagedCluster;
+  };
 };
 
 /**
@@ -2197,16 +2415,16 @@ export type OpenShiftManagedClustersBeginCreateOrUpdateResponse = OpenShiftManag
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedCluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OpenShiftManagedCluster;
+  };
 };
 
 /**
@@ -2217,16 +2435,16 @@ export type OpenShiftManagedClustersBeginUpdateTagsResponse = OpenShiftManagedCl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedCluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OpenShiftManagedCluster;
+  };
 };
 
 /**
@@ -2237,16 +2455,16 @@ export type OpenShiftManagedClustersListNextResponse = OpenShiftManagedClusterLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OpenShiftManagedClusterListResult;
+  };
 };
 
 /**
@@ -2257,16 +2475,16 @@ export type OpenShiftManagedClustersListByResourceGroupNextResponse = OpenShiftM
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenShiftManagedClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OpenShiftManagedClusterListResult;
+  };
 };
 
 /**
@@ -2277,16 +2495,16 @@ export type ContainerServicesListResponse = ContainerServiceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerServiceListResult;
+  };
 };
 
 /**
@@ -2297,16 +2515,16 @@ export type ContainerServicesCreateOrUpdateResponse = ContainerService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerService;
+  };
 };
 
 /**
@@ -2317,16 +2535,16 @@ export type ContainerServicesGetResponse = ContainerService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerService;
+  };
 };
 
 /**
@@ -2337,16 +2555,16 @@ export type ContainerServicesListByResourceGroupResponse = ContainerServiceListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerServiceListResult;
+  };
 };
 
 /**
@@ -2357,16 +2575,16 @@ export type ContainerServicesListOrchestratorsResponse = OrchestratorVersionProf
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OrchestratorVersionProfileListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OrchestratorVersionProfileListResult;
+  };
 };
 
 /**
@@ -2377,16 +2595,16 @@ export type ContainerServicesBeginCreateOrUpdateResponse = ContainerService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerService;
+  };
 };
 
 /**
@@ -2397,16 +2615,16 @@ export type ContainerServicesListNextResponse = ContainerServiceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerServiceListResult;
+  };
 };
 
 /**
@@ -2417,16 +2635,16 @@ export type ContainerServicesListByResourceGroupNextResponse = ContainerServiceL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerServiceListResult;
+  };
 };
 
 /**
@@ -2437,16 +2655,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2457,16 +2675,16 @@ export type ManagedClustersListResponse = ManagedClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedClusterListResult;
+  };
 };
 
 /**
@@ -2477,16 +2695,16 @@ export type ManagedClustersListByResourceGroupResponse = ManagedClusterListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedClusterListResult;
+  };
 };
 
 /**
@@ -2497,16 +2715,16 @@ export type ManagedClustersGetUpgradeProfileResponse = ManagedClusterUpgradeProf
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedClusterUpgradeProfile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedClusterUpgradeProfile;
+  };
 };
 
 /**
@@ -2517,16 +2735,16 @@ export type ManagedClustersGetAccessProfileResponse = ManagedClusterAccessProfil
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedClusterAccessProfile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedClusterAccessProfile;
+  };
 };
 
 /**
@@ -2537,16 +2755,16 @@ export type ManagedClustersListClusterAdminCredentialsResponse = CredentialResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CredentialResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CredentialResults;
+  };
 };
 
 /**
@@ -2557,16 +2775,16 @@ export type ManagedClustersListClusterUserCredentialsResponse = CredentialResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CredentialResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CredentialResults;
+  };
 };
 
 /**
@@ -2577,16 +2795,16 @@ export type ManagedClustersListClusterMonitoringUserCredentialsResponse = Creden
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CredentialResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CredentialResults;
+  };
 };
 
 /**
@@ -2597,16 +2815,16 @@ export type ManagedClustersGetResponse = ManagedCluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedCluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedCluster;
+  };
 };
 
 /**
@@ -2617,16 +2835,16 @@ export type ManagedClustersCreateOrUpdateResponse = ManagedCluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedCluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedCluster;
+  };
 };
 
 /**
@@ -2637,16 +2855,16 @@ export type ManagedClustersUpdateTagsResponse = ManagedCluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedCluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedCluster;
+  };
 };
 
 /**
@@ -2657,16 +2875,16 @@ export type ManagedClustersBeginCreateOrUpdateResponse = ManagedCluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedCluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedCluster;
+  };
 };
 
 /**
@@ -2677,16 +2895,16 @@ export type ManagedClustersBeginUpdateTagsResponse = ManagedCluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedCluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedCluster;
+  };
 };
 
 /**
@@ -2697,16 +2915,16 @@ export type ManagedClustersListNextResponse = ManagedClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedClusterListResult;
+  };
 };
 
 /**
@@ -2717,16 +2935,16 @@ export type ManagedClustersListByResourceGroupNextResponse = ManagedClusterListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedClusterListResult;
+  };
 };
 
 /**
@@ -2737,16 +2955,16 @@ export type AgentPoolsListResponse = AgentPoolListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPoolListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPoolListResult;
+  };
 };
 
 /**
@@ -2757,16 +2975,16 @@ export type AgentPoolsGetResponse = AgentPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPool;
+  };
 };
 
 /**
@@ -2777,16 +2995,16 @@ export type AgentPoolsCreateOrUpdateResponse = AgentPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPool;
+  };
 };
 
 /**
@@ -2797,16 +3015,16 @@ export type AgentPoolsGetUpgradeProfileResponse = AgentPoolUpgradeProfile & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPoolUpgradeProfile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPoolUpgradeProfile;
+  };
 };
 
 /**
@@ -2817,16 +3035,16 @@ export type AgentPoolsGetAvailableAgentPoolVersionsResponse = AgentPoolAvailable
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPoolAvailableVersions;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPoolAvailableVersions;
+  };
 };
 
 /**
@@ -2837,16 +3055,16 @@ export type AgentPoolsBeginCreateOrUpdateResponse = AgentPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPool;
+  };
 };
 
 /**
@@ -2857,16 +3075,16 @@ export type AgentPoolsListNextResponse = AgentPoolListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPoolListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgentPoolListResult;
+  };
 };
 
 /**
@@ -2877,16 +3095,16 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnectionListResult;
+  };
 };
 
 /**
@@ -2897,16 +3115,16 @@ export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -2917,14 +3135,14 @@ export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };

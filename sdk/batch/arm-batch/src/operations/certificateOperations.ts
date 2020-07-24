@@ -34,21 +34,41 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateListByBatchAccountResponse>
    */
-  listByBatchAccount(resourceGroupName: string, accountName: string, options?: Models.CertificateListByBatchAccountOptionalParams): Promise<Models.CertificateListByBatchAccountResponse>;
+  listByBatchAccount(
+    resourceGroupName: string,
+    accountName: string,
+    options?: Models.CertificateListByBatchAccountOptionalParams
+  ): Promise<Models.CertificateListByBatchAccountResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param callback The callback
    */
-  listByBatchAccount(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ListCertificatesResult>): void;
+  listByBatchAccount(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.ListCertificatesResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBatchAccount(resourceGroupName: string, accountName: string, options: Models.CertificateListByBatchAccountOptionalParams, callback: msRest.ServiceCallback<Models.ListCertificatesResult>): void;
-  listByBatchAccount(resourceGroupName: string, accountName: string, options?: Models.CertificateListByBatchAccountOptionalParams | msRest.ServiceCallback<Models.ListCertificatesResult>, callback?: msRest.ServiceCallback<Models.ListCertificatesResult>): Promise<Models.CertificateListByBatchAccountResponse> {
+  listByBatchAccount(
+    resourceGroupName: string,
+    accountName: string,
+    options: Models.CertificateListByBatchAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.ListCertificatesResult>
+  ): void;
+  listByBatchAccount(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | Models.CertificateListByBatchAccountOptionalParams
+      | msRest.ServiceCallback<Models.ListCertificatesResult>,
+    callback?: msRest.ServiceCallback<Models.ListCertificatesResult>
+  ): Promise<Models.CertificateListByBatchAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class CertificateOperations {
         options
       },
       listByBatchAccountOperationSpec,
-      callback) as Promise<Models.CertificateListByBatchAccountResponse>;
+      callback
+    ) as Promise<Models.CertificateListByBatchAccountResponse>;
   }
 
   /**
@@ -70,9 +91,22 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateCreateOptionalParams): Promise<Models.CertificateCreateResponse> {
-    return this.beginCreate(resourceGroupName,accountName,certificateName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CertificateCreateResponse>;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    parameters: Models.CertificateCreateOrUpdateParameters,
+    options?: Models.CertificateCreateOptionalParams
+  ): Promise<Models.CertificateCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      accountName,
+      certificateName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CertificateCreateResponse
+    >;
   }
 
   /**
@@ -86,7 +120,13 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateUpdateOptionalParams): Promise<Models.CertificateUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    parameters: Models.CertificateCreateOrUpdateParameters,
+    options?: Models.CertificateUpdateOptionalParams
+  ): Promise<Models.CertificateUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -96,7 +136,13 @@ export class CertificateOperations {
    * @param parameters Certificate entity to update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    parameters: Models.CertificateCreateOrUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Certificate>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -107,8 +153,22 @@ export class CertificateOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options: Models.CertificateUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Certificate>): void;
-  update(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateUpdateOptionalParams | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    parameters: Models.CertificateCreateOrUpdateParameters,
+    options: Models.CertificateUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.Certificate>
+  ): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    parameters: Models.CertificateCreateOrUpdateParameters,
+    options?: Models.CertificateUpdateOptionalParams | msRest.ServiceCallback<Models.Certificate>,
+    callback?: msRest.ServiceCallback<Models.Certificate>
+  ): Promise<Models.CertificateUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +178,8 @@ export class CertificateOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.CertificateUpdateResponse>;
+      callback
+    ) as Promise<Models.CertificateUpdateResponse>;
   }
 
   /**
@@ -131,9 +192,20 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateDeleteResponse> {
-    return this.beginDeleteMethod(resourceGroupName,accountName,certificateName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CertificateDeleteResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CertificateDeleteResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      accountName,
+      certificateName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CertificateDeleteResponse
+    >;
   }
 
   /**
@@ -146,7 +218,12 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CertificateGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -155,7 +232,12 @@ export class CertificateOperations {
    * SHA1-a3d1c5.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, certificateName: string, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.Certificate>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -165,8 +247,20 @@ export class CertificateOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Certificate>): void;
-  get(resourceGroupName: string, accountName: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Certificate>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>,
+    callback?: msRest.ServiceCallback<Models.Certificate>
+  ): Promise<Models.CertificateGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,7 +269,8 @@ export class CertificateOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CertificateGetResponse>;
+      callback
+    ) as Promise<Models.CertificateGetResponse>;
   }
 
   /**
@@ -194,7 +289,12 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateCancelDeletionResponse>
    */
-  cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateCancelDeletionResponse>;
+  cancelDeletion(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CertificateCancelDeletionResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -203,7 +303,12 @@ export class CertificateOperations {
    * SHA1-a3d1c5.
    * @param callback The callback
    */
-  cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  cancelDeletion(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.Certificate>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
@@ -213,8 +318,20 @@ export class CertificateOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Certificate>): void;
-  cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateCancelDeletionResponse> {
+  cancelDeletion(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Certificate>
+  ): void;
+  cancelDeletion(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>,
+    callback?: msRest.ServiceCallback<Models.Certificate>
+  ): Promise<Models.CertificateCancelDeletionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -223,7 +340,8 @@ export class CertificateOperations {
         options
       },
       cancelDeletionOperationSpec,
-      callback) as Promise<Models.CertificateCancelDeletionResponse>;
+      callback
+    ) as Promise<Models.CertificateCancelDeletionResponse>;
   }
 
   /**
@@ -237,7 +355,13 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, accountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: Models.CertificateBeginCreateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    parameters: Models.CertificateCreateOrUpdateParameters,
+    options?: Models.CertificateBeginCreateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -247,7 +371,8 @@ export class CertificateOperations {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -260,7 +385,12 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -269,7 +399,8 @@ export class CertificateOperations {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -278,26 +409,41 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateListByBatchAccountNextResponse>
    */
-  listByBatchAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateListByBatchAccountNextResponse>;
+  listByBatchAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CertificateListByBatchAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByBatchAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListCertificatesResult>): void;
+  listByBatchAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ListCertificatesResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBatchAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListCertificatesResult>): void;
-  listByBatchAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListCertificatesResult>, callback?: msRest.ServiceCallback<Models.ListCertificatesResult>): Promise<Models.CertificateListByBatchAccountNextResponse> {
+  listByBatchAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListCertificatesResult>
+  ): void;
+  listByBatchAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListCertificatesResult>,
+    callback?: msRest.ServiceCallback<Models.ListCertificatesResult>
+  ): Promise<Models.CertificateListByBatchAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByBatchAccountNextOperationSpec,
-      callback) as Promise<Models.CertificateListByBatchAccountNextResponse>;
+      callback
+    ) as Promise<Models.CertificateListByBatchAccountNextResponse>;
   }
 }
 
@@ -305,21 +451,16 @@ export class CertificateOperations {
 const serializer = new msRest.Serializer(Mappers);
 const listByBatchAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
   queryParameters: [
     Parameters.maxresults,
     Parameters.select,
     Parameters.filter,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListCertificatesResult
@@ -333,20 +474,16 @@ const listByBatchAccountOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -368,19 +505,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Certificate,
@@ -395,19 +529,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const cancelDeletionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}/cancelDelete",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}/cancelDelete",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Certificate,
@@ -422,21 +553,16 @@ const cancelDeletionOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.ifNoneMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -458,19 +584,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.CertificateDeleteHeaders
@@ -492,12 +615,8 @@ const listByBatchAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListCertificatesResult

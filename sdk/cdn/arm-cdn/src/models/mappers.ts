@@ -277,12 +277,7 @@ export const Endpoint: msRest.CompositeMapper = {
         serializedName: "properties.queryStringCachingBehavior",
         type: {
           name: "Enum",
-          allowedValues: [
-            "IgnoreQueryString",
-            "BypassCaching",
-            "UseQueryString",
-            "NotSet"
-          ]
+          allowedValues: ["IgnoreQueryString", "BypassCaching", "UseQueryString", "NotSet"]
         }
       },
       optimizationType: {
@@ -372,10 +367,7 @@ export const GeoFilter: msRest.CompositeMapper = {
         serializedName: "action",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Block",
-            "Allow"
-          ]
+          allowedValues: ["Block", "Allow"]
         }
       },
       countryCodes: {
@@ -571,12 +563,7 @@ export const EndpointUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.queryStringCachingBehavior",
         type: {
           name: "Enum",
-          allowedValues: [
-            "IgnoreQueryString",
-            "BypassCaching",
-            "UseQueryString",
-            "NotSet"
-          ]
+          allowedValues: ["IgnoreQueryString", "BypassCaching", "UseQueryString", "NotSet"]
         }
       },
       optimizationType: {
@@ -624,7 +611,7 @@ export const UrlPathConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleUrlPathConditionParameters',
+        defaultValue: "Microsoft.Azure.Cdn.Models.DeliveryRuleUrlPathConditionParameters",
         type: {
           name: "String"
         }
@@ -679,7 +666,7 @@ export const UrlFileExtensionConditionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFileExtensionConditionParameters',
+        defaultValue: "Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFileExtensionConditionParameters",
         type: {
           name: "String"
         }
@@ -732,7 +719,7 @@ export const CacheExpirationActionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleCacheExpirationActionParameters',
+        defaultValue: "Microsoft.Azure.Cdn.Models.DeliveryRuleCacheExpirationActionParameters",
         type: {
           name: "String"
         }
@@ -748,7 +735,7 @@ export const CacheExpirationActionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "cacheType",
-        defaultValue: 'All',
+        defaultValue: "All",
         type: {
           name: "String"
         }
@@ -1037,7 +1024,7 @@ export const CdnCertificateSourceParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: '#Microsoft.Azure.Cdn.Models.CdnCertificateSourceParameters',
+        defaultValue: "#Microsoft.Azure.Cdn.Models.CdnCertificateSourceParameters",
         type: {
           name: "String"
         }
@@ -1085,7 +1072,7 @@ export const KeyVaultCertificateSourceParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: '#Microsoft.Azure.Cdn.Models.KeyVaultCertificateSourceParameters',
+        defaultValue: "#Microsoft.Azure.Cdn.Models.KeyVaultCertificateSourceParameters",
         type: {
           name: "String"
         }
@@ -1129,7 +1116,7 @@ export const KeyVaultCertificateSourceParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "updateRule",
-        defaultValue: 'NoAction',
+        defaultValue: "NoAction",
         type: {
           name: "String"
         }
@@ -1138,7 +1125,7 @@ export const KeyVaultCertificateSourceParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "deleteRule",
-        defaultValue: 'NoAction',
+        defaultValue: "NoAction",
         type: {
           name: "String"
         }
@@ -1234,7 +1221,7 @@ export const CheckNameAvailabilityInput: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.Cdn/Profiles/Endpoints',
+        defaultValue: "Microsoft.Cdn/Profiles/Endpoints",
         type: {
           name: "String"
         }
@@ -1729,13 +1716,12 @@ export const EdgenodeResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'DeliveryRuleAction' : DeliveryRuleAction,
-  'DeliveryRuleCondition' : DeliveryRuleCondition,
-  'DeliveryRuleCondition.UrlPath' : DeliveryRuleUrlPathCondition,
-  'DeliveryRuleCondition.UrlFileExtension' : DeliveryRuleUrlFileExtensionCondition,
-  'DeliveryRuleAction.CacheExpiration' : DeliveryRuleCacheExpirationAction,
-  'CustomDomainHttpsParameters' : CustomDomainHttpsParameters,
-  'CustomDomainHttpsParameters.Cdn' : CdnManagedHttpsParameters,
-  'CustomDomainHttpsParameters.AzureKeyVault' : UserManagedHttpsParameters
-
+  DeliveryRuleAction: DeliveryRuleAction,
+  DeliveryRuleCondition: DeliveryRuleCondition,
+  "DeliveryRuleCondition.UrlPath": DeliveryRuleUrlPathCondition,
+  "DeliveryRuleCondition.UrlFileExtension": DeliveryRuleUrlFileExtensionCondition,
+  "DeliveryRuleAction.CacheExpiration": DeliveryRuleCacheExpirationAction,
+  CustomDomainHttpsParameters: CustomDomainHttpsParameters,
+  "CustomDomainHttpsParameters.Cdn": CdnManagedHttpsParameters,
+  "CustomDomainHttpsParameters.AzureKeyVault": UserManagedHttpsParameters
 };

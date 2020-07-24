@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { DataLakeStorageClientContext } from "./dataLakeStorageClientContext";
 
-
 class DataLakeStorageClient extends DataLakeStorageClientContext {
   // Operation groups
   filesystem: operations.FilesystemOperations;
@@ -26,7 +25,11 @@ class DataLakeStorageClient extends DataLakeStorageClientContext {
    * @param accountName The Azure Storage account name.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, accountName: string, options?: Models.DataLakeStorageClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    accountName: string,
+    options?: Models.DataLakeStorageClientOptions
+  ) {
     super(credentials, accountName, options);
     this.filesystem = new operations.FilesystemOperations(this);
     this.path = new operations.PathOperations(this);

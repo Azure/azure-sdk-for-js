@@ -37,7 +37,14 @@ export class RecoveryPoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoveryPointsListResponse>
    */
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: Models.RecoveryPointsListOptionalParams): Promise<Models.RecoveryPointsListResponse>;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    options?: Models.RecoveryPointsListOptionalParams
+  ): Promise<Models.RecoveryPointsListResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -47,7 +54,14 @@ export class RecoveryPoints {
    * @param protectedItemName Backed up item whose backup copies are to be fetched.
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>): void;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -58,8 +72,26 @@ export class RecoveryPoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options: Models.RecoveryPointsListOptionalParams, callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: Models.RecoveryPointsListOptionalParams | msRest.ServiceCallback<Models.RecoveryPointResourceList>, callback?: msRest.ServiceCallback<Models.RecoveryPointResourceList>): Promise<Models.RecoveryPointsListResponse> {
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    options: Models.RecoveryPointsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>
+  ): void;
+  list(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    options?:
+      | Models.RecoveryPointsListOptionalParams
+      | msRest.ServiceCallback<Models.RecoveryPointResourceList>,
+    callback?: msRest.ServiceCallback<Models.RecoveryPointResourceList>
+  ): Promise<Models.RecoveryPointsListResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -70,7 +102,8 @@ export class RecoveryPoints {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.RecoveryPointsListResponse>;
+      callback
+    ) as Promise<Models.RecoveryPointsListResponse>;
   }
 
   /**
@@ -87,7 +120,15 @@ export class RecoveryPoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoveryPointsGetResponse>
    */
-  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoveryPointsGetResponse>;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    recoveryPointId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoveryPointsGetResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -98,7 +139,15 @@ export class RecoveryPoints {
    * @param recoveryPointId RecoveryPointID represents the backed up data to be fetched.
    * @param callback The callback
    */
-  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, callback: msRest.ServiceCallback<Models.RecoveryPointResource>): void;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    recoveryPointId: string,
+    callback: msRest.ServiceCallback<Models.RecoveryPointResource>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -110,8 +159,26 @@ export class RecoveryPoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPointResource>): void;
-  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointResource>, callback?: msRest.ServiceCallback<Models.RecoveryPointResource>): Promise<Models.RecoveryPointsGetResponse> {
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    recoveryPointId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecoveryPointResource>
+  ): void;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    recoveryPointId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointResource>,
+    callback?: msRest.ServiceCallback<Models.RecoveryPointResource>
+  ): Promise<Models.RecoveryPointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -123,7 +190,8 @@ export class RecoveryPoints {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RecoveryPointsGetResponse>;
+      callback
+    ) as Promise<Models.RecoveryPointsGetResponse>;
   }
 
   /**
@@ -132,26 +200,41 @@ export class RecoveryPoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoveryPointsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoveryPointsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoveryPointsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointResourceList>, callback?: msRest.ServiceCallback<Models.RecoveryPointResourceList>): Promise<Models.RecoveryPointsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecoveryPointResourceList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointResourceList>,
+    callback?: msRest.ServiceCallback<Models.RecoveryPointResourceList>
+  ): Promise<Models.RecoveryPointsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.RecoveryPointsListNextResponse>;
+      callback
+    ) as Promise<Models.RecoveryPointsListNextResponse>;
   }
 }
 
@@ -159,7 +242,8 @@ export class RecoveryPoints {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -168,13 +252,8 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.protectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryPointResourceList
@@ -188,7 +267,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -198,12 +278,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.protectedItemName,
     Parameters.recoveryPointId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryPointResource
@@ -219,12 +295,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryPointResourceList

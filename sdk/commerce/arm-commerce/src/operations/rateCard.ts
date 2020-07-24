@@ -55,15 +55,24 @@ export class RateCard {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceRateCardInfo>): void;
-  get(filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceRateCardInfo>, callback?: msRest.ServiceCallback<Models.ResourceRateCardInfo>): Promise<Models.RateCardGetResponse> {
+  get(
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceRateCardInfo>
+  ): void;
+  get(
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceRateCardInfo>,
+    callback?: msRest.ServiceCallback<Models.ResourceRateCardInfo>
+  ): Promise<Models.RateCardGetResponse> {
     return this.client.sendOperationRequest(
       {
         filter,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RateCardGetResponse>;
+      callback
+    ) as Promise<Models.RateCardGetResponse>;
   }
 }
 
@@ -72,16 +81,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Commerce/RateCard",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceRateCardInfo

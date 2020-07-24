@@ -355,10 +355,7 @@ export const NamespaceCreateOrUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.namespaceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Messaging",
-            "NotificationHub"
-          ]
+          allowedValues: ["Messaging", "NotificationHub"]
         }
       }
     }
@@ -483,10 +480,7 @@ export const NamespaceResource: msRest.CompositeMapper = {
         serializedName: "properties.namespaceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Messaging",
-            "NotificationHub"
-          ]
+          allowedValues: ["Messaging", "NotificationHub"]
         }
       }
     }
@@ -506,11 +500,7 @@ export const SharedAccessAuthorizationRuleProperties: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Manage",
-                "Send",
-                "Listen"
-              ]
+              allowedValues: ["Manage", "Send", "Listen"]
             }
           }
         }
@@ -607,11 +597,7 @@ export const SharedAccessAuthorizationRuleResource: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Manage",
-                "Send",
-                "Listen"
-              ]
+              allowedValues: ["Manage", "Send", "Listen"]
             }
           }
         }

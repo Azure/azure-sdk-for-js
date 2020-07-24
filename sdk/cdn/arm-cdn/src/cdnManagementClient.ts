@@ -15,7 +15,6 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { CdnManagementClientContext } from "./cdnManagementClientContext";
 
-
 class CdnManagementClient extends CdnManagementClientContext {
   // Operation groups
   profiles: operations.Profiles;
@@ -32,7 +31,11 @@ class CdnManagementClient extends CdnManagementClientContext {
    * @param subscriptionId Azure Subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CdnManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.CdnManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.profiles = new operations.Profiles(this);
     this.endpoints = new operations.Endpoints(this);
@@ -50,26 +53,43 @@ class CdnManagementClient extends CdnManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckNameAvailabilityResponse>
    */
-  checkNameAvailability(name: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CheckNameAvailabilityResponse>;
   /**
    * @param name The resource name to validate.
    * @param callback The callback
    */
-  checkNameAvailability(name: string, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
+  checkNameAvailability(
+    name: string,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): void;
   /**
    * @param name The resource name to validate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
-  checkNameAvailability(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): Promise<Models.CheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): void;
+  checkNameAvailability(
+    name: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): Promise<Models.CheckNameAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         name,
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.CheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.CheckNameAvailabilityResponse>;
   }
 
   /**
@@ -79,26 +99,43 @@ class CdnManagementClient extends CdnManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckNameAvailabilityWithSubscriptionResponse>
    */
-  checkNameAvailabilityWithSubscription(name: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckNameAvailabilityWithSubscriptionResponse>;
+  checkNameAvailabilityWithSubscription(
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CheckNameAvailabilityWithSubscriptionResponse>;
   /**
    * @param name The resource name to validate.
    * @param callback The callback
    */
-  checkNameAvailabilityWithSubscription(name: string, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
+  checkNameAvailabilityWithSubscription(
+    name: string,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): void;
   /**
    * @param name The resource name to validate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailabilityWithSubscription(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
-  checkNameAvailabilityWithSubscription(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): Promise<Models.CheckNameAvailabilityWithSubscriptionResponse> {
+  checkNameAvailabilityWithSubscription(
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): void;
+  checkNameAvailabilityWithSubscription(
+    name: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): Promise<Models.CheckNameAvailabilityWithSubscriptionResponse> {
     return this.sendOperationRequest(
       {
         name,
         options
       },
       checkNameAvailabilityWithSubscriptionOperationSpec,
-      callback) as Promise<Models.CheckNameAvailabilityWithSubscriptionResponse>;
+      callback
+    ) as Promise<Models.CheckNameAvailabilityWithSubscriptionResponse>;
   }
 
   /**
@@ -109,26 +146,41 @@ class CdnManagementClient extends CdnManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ValidateProbeResponse>
    */
-  validateProbe(probeURL: string, options?: msRest.RequestOptionsBase): Promise<Models.ValidateProbeResponse>;
+  validateProbe(
+    probeURL: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ValidateProbeResponse>;
   /**
    * @param probeURL The probe URL to validate.
    * @param callback The callback
    */
-  validateProbe(probeURL: string, callback: msRest.ServiceCallback<Models.ValidateProbeOutput>): void;
+  validateProbe(
+    probeURL: string,
+    callback: msRest.ServiceCallback<Models.ValidateProbeOutput>
+  ): void;
   /**
    * @param probeURL The probe URL to validate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  validateProbe(probeURL: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidateProbeOutput>): void;
-  validateProbe(probeURL: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateProbeOutput>, callback?: msRest.ServiceCallback<Models.ValidateProbeOutput>): Promise<Models.ValidateProbeResponse> {
+  validateProbe(
+    probeURL: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ValidateProbeOutput>
+  ): void;
+  validateProbe(
+    probeURL: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateProbeOutput>,
+    callback?: msRest.ServiceCallback<Models.ValidateProbeOutput>
+  ): Promise<Models.ValidateProbeResponse> {
     return this.sendOperationRequest(
       {
         probeURL,
         options
       },
       validateProbeOperationSpec,
-      callback) as Promise<Models.ValidateProbeResponse>;
+      callback
+    ) as Promise<Models.ValidateProbeResponse>;
   }
 }
 
@@ -137,12 +189,8 @@ const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Cdn/checkNameAvailability",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       name: "name"
@@ -166,15 +214,9 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 const checkNameAvailabilityWithSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       name: "name"
@@ -198,15 +240,9 @@ const checkNameAvailabilityWithSubscriptionOperationSpec: msRest.OperationSpec =
 const validateProbeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Cdn/validateProbe",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       probeURL: "probeURL"

@@ -39,7 +39,13 @@ export class NetAppResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetAppResourceCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase): Promise<Models.NetAppResourceCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    location: string,
+    name: string,
+    type: Models.CheckNameResourceTypes,
+    resourceGroup: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetAppResourceCheckNameAvailabilityResponse>;
   /**
    * @param location The location
    * @param name Resource name to verify.
@@ -50,7 +56,13 @@ export class NetAppResource {
    * @param resourceGroup Resource group name.
    * @param callback The callback
    */
-  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  checkNameAvailability(
+    location: string,
+    name: string,
+    type: Models.CheckNameResourceTypes,
+    resourceGroup: string,
+    callback: msRest.ServiceCallback<Models.ResourceNameAvailability>
+  ): void;
   /**
    * @param location The location
    * @param name Resource name to verify.
@@ -62,8 +74,22 @@ export class NetAppResource {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
-  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNameAvailability>, callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>): Promise<Models.NetAppResourceCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    location: string,
+    name: string,
+    type: Models.CheckNameResourceTypes,
+    resourceGroup: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceNameAvailability>
+  ): void;
+  checkNameAvailability(
+    location: string,
+    name: string,
+    type: Models.CheckNameResourceTypes,
+    resourceGroup: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNameAvailability>,
+    callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>
+  ): Promise<Models.NetAppResourceCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -73,7 +99,8 @@ export class NetAppResource {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.NetAppResourceCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.NetAppResourceCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -89,7 +116,13 @@ export class NetAppResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse>
    */
-  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase): Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse>;
+  checkFilePathAvailability(
+    location: string,
+    name: string,
+    type: Models.CheckNameResourceTypes,
+    resourceGroup: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse>;
   /**
    * @param location The location
    * @param name Resource name to verify.
@@ -100,7 +133,13 @@ export class NetAppResource {
    * @param resourceGroup Resource group name.
    * @param callback The callback
    */
-  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  checkFilePathAvailability(
+    location: string,
+    name: string,
+    type: Models.CheckNameResourceTypes,
+    resourceGroup: string,
+    callback: msRest.ServiceCallback<Models.ResourceNameAvailability>
+  ): void;
   /**
    * @param location The location
    * @param name Resource name to verify.
@@ -112,8 +151,22 @@ export class NetAppResource {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
-  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNameAvailability>, callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>): Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse> {
+  checkFilePathAvailability(
+    location: string,
+    name: string,
+    type: Models.CheckNameResourceTypes,
+    resourceGroup: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceNameAvailability>
+  ): void;
+  checkFilePathAvailability(
+    location: string,
+    name: string,
+    type: Models.CheckNameResourceTypes,
+    resourceGroup: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNameAvailability>,
+    callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>
+  ): Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -123,7 +176,8 @@ export class NetAppResource {
         options
       },
       checkFilePathAvailabilityOperationSpec,
-      callback) as Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse>;
+      callback
+    ) as Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse>;
   }
 }
 
@@ -131,17 +185,11 @@ export class NetAppResource {
 const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkNameAvailability",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       name: "name",
@@ -166,17 +214,11 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const checkFilePathAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkFilePathAvailability",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkFilePathAvailability",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       name: "name",

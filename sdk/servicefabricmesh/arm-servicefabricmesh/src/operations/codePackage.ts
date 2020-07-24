@@ -37,7 +37,14 @@ export class CodePackage {
    * @param [options] The optional parameters
    * @returns Promise<Models.CodePackageGetContainerLogsResponse>
    */
-  getContainerLogs(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, options?: Models.CodePackageGetContainerLogsOptionalParams): Promise<Models.CodePackageGetContainerLogsResponse>;
+  getContainerLogs(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    codePackageName: string,
+    options?: Models.CodePackageGetContainerLogsOptionalParams
+  ): Promise<Models.CodePackageGetContainerLogsResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param applicationResourceName The identity of the application.
@@ -46,7 +53,14 @@ export class CodePackage {
    * @param codePackageName The name of code package of the service.
    * @param callback The callback
    */
-  getContainerLogs(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, callback: msRest.ServiceCallback<Models.ContainerLogs>): void;
+  getContainerLogs(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    codePackageName: string,
+    callback: msRest.ServiceCallback<Models.ContainerLogs>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param applicationResourceName The identity of the application.
@@ -56,8 +70,26 @@ export class CodePackage {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getContainerLogs(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, options: Models.CodePackageGetContainerLogsOptionalParams, callback: msRest.ServiceCallback<Models.ContainerLogs>): void;
-  getContainerLogs(resourceGroupName: string, applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, options?: Models.CodePackageGetContainerLogsOptionalParams | msRest.ServiceCallback<Models.ContainerLogs>, callback?: msRest.ServiceCallback<Models.ContainerLogs>): Promise<Models.CodePackageGetContainerLogsResponse> {
+  getContainerLogs(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    codePackageName: string,
+    options: Models.CodePackageGetContainerLogsOptionalParams,
+    callback: msRest.ServiceCallback<Models.ContainerLogs>
+  ): void;
+  getContainerLogs(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    codePackageName: string,
+    options?:
+      | Models.CodePackageGetContainerLogsOptionalParams
+      | msRest.ServiceCallback<Models.ContainerLogs>,
+    callback?: msRest.ServiceCallback<Models.ContainerLogs>
+  ): Promise<Models.CodePackageGetContainerLogsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +100,8 @@ export class CodePackage {
         options
       },
       getContainerLogsOperationSpec,
-      callback) as Promise<Models.CodePackageGetContainerLogsResponse>;
+      callback
+    ) as Promise<Models.CodePackageGetContainerLogsResponse>;
   }
 }
 
@@ -76,7 +109,8 @@ export class CodePackage {
 const serializer = new msRest.Serializer(Mappers);
 const getContainerLogsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas/{replicaName}/codePackages/{codePackageName}/logs",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}/services/{serviceResourceName}/replicas/{replicaName}/codePackages/{codePackageName}/logs",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -85,13 +119,8 @@ const getContainerLogsOperationSpec: msRest.OperationSpec = {
     Parameters.replicaName,
     Parameters.codePackageName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.tail
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.tail],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ContainerLogs

@@ -158,16 +158,16 @@ export type MarketplaceAgreementsGetResponse = AgreementTerms & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgreementTerms;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgreementTerms;
+  };
 };
 
 /**
@@ -178,16 +178,16 @@ export type MarketplaceAgreementsCreateResponse = AgreementTerms & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgreementTerms;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgreementTerms;
+  };
 };
 
 /**
@@ -198,16 +198,16 @@ export type MarketplaceAgreementsSignResponse = AgreementTerms & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgreementTerms;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgreementTerms;
+  };
 };
 
 /**
@@ -218,16 +218,16 @@ export type MarketplaceAgreementsCancelResponse = AgreementTerms & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgreementTerms;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgreementTerms;
+  };
 };
 
 /**
@@ -238,16 +238,16 @@ export type MarketplaceAgreementsGetAgreementResponse = AgreementTerms & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgreementTerms;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgreementTerms;
+  };
 };
 
 /**
@@ -258,16 +258,16 @@ export type MarketplaceAgreementsListResponse = Array<AgreementTerms> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgreementTerms[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AgreementTerms[];
+  };
 };
 
 /**
@@ -278,16 +278,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -298,14 +298,14 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

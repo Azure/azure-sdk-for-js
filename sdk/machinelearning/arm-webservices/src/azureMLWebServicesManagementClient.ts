@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AzureMLWebServicesManagementClientContext } from "./azureMLWebServicesManagementClientContext";
 
-
 class AzureMLWebServicesManagementClient extends AzureMLWebServicesManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -26,7 +25,11 @@ class AzureMLWebServicesManagementClient extends AzureMLWebServicesManagementCli
    * @param subscriptionId The Azure subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureMLWebServicesManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AzureMLWebServicesManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.webServices = new operations.WebServices(this);

@@ -34,14 +34,24 @@ export class ClientGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClientGroupsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, clientGroupName: string, options?: Models.ClientGroupsGetOptionalParams): Promise<Models.ClientGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    clientGroupName: string,
+    options?: Models.ClientGroupsGetOptionalParams
+  ): Promise<Models.ClientGroupsGetResponse>;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
    * @param clientGroupName Client Group resource name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, clientGroupName: string, callback: msRest.ServiceCallback<Models.ClientGroup>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    clientGroupName: string,
+    callback: msRest.ServiceCallback<Models.ClientGroup>
+  ): void;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
@@ -49,8 +59,20 @@ export class ClientGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, clientGroupName: string, options: Models.ClientGroupsGetOptionalParams, callback: msRest.ServiceCallback<Models.ClientGroup>): void;
-  get(resourceGroupName: string, workspaceName: string, clientGroupName: string, options?: Models.ClientGroupsGetOptionalParams | msRest.ServiceCallback<Models.ClientGroup>, callback?: msRest.ServiceCallback<Models.ClientGroup>): Promise<Models.ClientGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    clientGroupName: string,
+    options: Models.ClientGroupsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.ClientGroup>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    clientGroupName: string,
+    options?: Models.ClientGroupsGetOptionalParams | msRest.ServiceCallback<Models.ClientGroup>,
+    callback?: msRest.ServiceCallback<Models.ClientGroup>
+  ): Promise<Models.ClientGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class ClientGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ClientGroupsGetResponse>;
+      callback
+    ) as Promise<Models.ClientGroupsGetResponse>;
   }
 
   /**
@@ -70,14 +93,24 @@ export class ClientGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClientGroupsGetMembersCountResponse>
    */
-  getMembersCount(resourceGroupName: string, workspaceName: string, clientGroupName: string, options?: Models.ClientGroupsGetMembersCountOptionalParams): Promise<Models.ClientGroupsGetMembersCountResponse>;
+  getMembersCount(
+    resourceGroupName: string,
+    workspaceName: string,
+    clientGroupName: string,
+    options?: Models.ClientGroupsGetMembersCountOptionalParams
+  ): Promise<Models.ClientGroupsGetMembersCountResponse>;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
    * @param clientGroupName Client Group resource name.
    * @param callback The callback
    */
-  getMembersCount(resourceGroupName: string, workspaceName: string, clientGroupName: string, callback: msRest.ServiceCallback<Models.ClientGroupMembersCount>): void;
+  getMembersCount(
+    resourceGroupName: string,
+    workspaceName: string,
+    clientGroupName: string,
+    callback: msRest.ServiceCallback<Models.ClientGroupMembersCount>
+  ): void;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
@@ -85,8 +118,22 @@ export class ClientGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMembersCount(resourceGroupName: string, workspaceName: string, clientGroupName: string, options: Models.ClientGroupsGetMembersCountOptionalParams, callback: msRest.ServiceCallback<Models.ClientGroupMembersCount>): void;
-  getMembersCount(resourceGroupName: string, workspaceName: string, clientGroupName: string, options?: Models.ClientGroupsGetMembersCountOptionalParams | msRest.ServiceCallback<Models.ClientGroupMembersCount>, callback?: msRest.ServiceCallback<Models.ClientGroupMembersCount>): Promise<Models.ClientGroupsGetMembersCountResponse> {
+  getMembersCount(
+    resourceGroupName: string,
+    workspaceName: string,
+    clientGroupName: string,
+    options: Models.ClientGroupsGetMembersCountOptionalParams,
+    callback: msRest.ServiceCallback<Models.ClientGroupMembersCount>
+  ): void;
+  getMembersCount(
+    resourceGroupName: string,
+    workspaceName: string,
+    clientGroupName: string,
+    options?:
+      | Models.ClientGroupsGetMembersCountOptionalParams
+      | msRest.ServiceCallback<Models.ClientGroupMembersCount>,
+    callback?: msRest.ServiceCallback<Models.ClientGroupMembersCount>
+  ): Promise<Models.ClientGroupsGetMembersCountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +142,8 @@ export class ClientGroups {
         options
       },
       getMembersCountOperationSpec,
-      callback) as Promise<Models.ClientGroupsGetMembersCountResponse>;
+      callback
+    ) as Promise<Models.ClientGroupsGetMembersCountResponse>;
   }
 
   /**
@@ -106,14 +154,24 @@ export class ClientGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClientGroupsListMembersResponse>
    */
-  listMembers(resourceGroupName: string, workspaceName: string, clientGroupName: string, options?: Models.ClientGroupsListMembersOptionalParams): Promise<Models.ClientGroupsListMembersResponse>;
+  listMembers(
+    resourceGroupName: string,
+    workspaceName: string,
+    clientGroupName: string,
+    options?: Models.ClientGroupsListMembersOptionalParams
+  ): Promise<Models.ClientGroupsListMembersResponse>;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
    * @param clientGroupName Client Group resource name.
    * @param callback The callback
    */
-  listMembers(resourceGroupName: string, workspaceName: string, clientGroupName: string, callback: msRest.ServiceCallback<Models.ClientGroupMembersCollection>): void;
+  listMembers(
+    resourceGroupName: string,
+    workspaceName: string,
+    clientGroupName: string,
+    callback: msRest.ServiceCallback<Models.ClientGroupMembersCollection>
+  ): void;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
@@ -121,8 +179,22 @@ export class ClientGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMembers(resourceGroupName: string, workspaceName: string, clientGroupName: string, options: Models.ClientGroupsListMembersOptionalParams, callback: msRest.ServiceCallback<Models.ClientGroupMembersCollection>): void;
-  listMembers(resourceGroupName: string, workspaceName: string, clientGroupName: string, options?: Models.ClientGroupsListMembersOptionalParams | msRest.ServiceCallback<Models.ClientGroupMembersCollection>, callback?: msRest.ServiceCallback<Models.ClientGroupMembersCollection>): Promise<Models.ClientGroupsListMembersResponse> {
+  listMembers(
+    resourceGroupName: string,
+    workspaceName: string,
+    clientGroupName: string,
+    options: Models.ClientGroupsListMembersOptionalParams,
+    callback: msRest.ServiceCallback<Models.ClientGroupMembersCollection>
+  ): void;
+  listMembers(
+    resourceGroupName: string,
+    workspaceName: string,
+    clientGroupName: string,
+    options?:
+      | Models.ClientGroupsListMembersOptionalParams
+      | msRest.ServiceCallback<Models.ClientGroupMembersCollection>,
+    callback?: msRest.ServiceCallback<Models.ClientGroupMembersCollection>
+  ): Promise<Models.ClientGroupsListMembersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +203,8 @@ export class ClientGroups {
         options
       },
       listMembersOperationSpec,
-      callback) as Promise<Models.ClientGroupsListMembersResponse>;
+      callback
+    ) as Promise<Models.ClientGroupsListMembersResponse>;
   }
 
   /**
@@ -140,26 +213,43 @@ export class ClientGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClientGroupsListMembersNextResponse>
    */
-  listMembersNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ClientGroupsListMembersNextResponse>;
+  listMembersNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClientGroupsListMembersNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listMembersNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ClientGroupMembersCollection>): void;
+  listMembersNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ClientGroupMembersCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMembersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClientGroupMembersCollection>): void;
-  listMembersNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClientGroupMembersCollection>, callback?: msRest.ServiceCallback<Models.ClientGroupMembersCollection>): Promise<Models.ClientGroupsListMembersNextResponse> {
+  listMembersNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClientGroupMembersCollection>
+  ): void;
+  listMembersNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ClientGroupMembersCollection>,
+    callback?: msRest.ServiceCallback<Models.ClientGroupMembersCollection>
+  ): Promise<Models.ClientGroupsListMembersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listMembersNextOperationSpec,
-      callback) as Promise<Models.ClientGroupsListMembersNextResponse>;
+      callback
+    ) as Promise<Models.ClientGroupsListMembersNextResponse>;
   }
 }
 
@@ -167,21 +257,16 @@ export class ClientGroups {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/clientGroups/{clientGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/clientGroups/{clientGroupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.clientGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.startTime, Parameters.endTime],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClientGroup
@@ -195,21 +280,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const getMembersCountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/clientGroups/{clientGroupName}/membersCount",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/clientGroups/{clientGroupName}/membersCount",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.clientGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.startTime, Parameters.endTime],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClientGroupMembersCount
@@ -223,7 +303,8 @@ const getMembersCountOperationSpec: msRest.OperationSpec = {
 
 const listMembersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/clientGroups/{clientGroupName}/members",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/clientGroups/{clientGroupName}/members",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -236,9 +317,7 @@ const listMembersOperationSpec: msRest.OperationSpec = {
     Parameters.endTime,
     Parameters.top
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClientGroupMembersCollection
@@ -254,12 +333,8 @@ const listMembersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClientGroupMembersCollection

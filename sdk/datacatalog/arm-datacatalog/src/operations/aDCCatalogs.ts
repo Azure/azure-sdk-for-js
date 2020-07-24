@@ -36,28 +36,43 @@ export class ADCCatalogs {
    * @param [options] The optional parameters
    * @returns Promise<Models.ADCCatalogsListtByResourceGroupResponse>
    */
-  listtByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ADCCatalogsListtByResourceGroupResponse>;
+  listtByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ADCCatalogsListtByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param callback The callback
    */
-  listtByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ADCCatalogsListResult>): void;
+  listtByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ADCCatalogsListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listtByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ADCCatalogsListResult>): void;
-  listtByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADCCatalogsListResult>, callback?: msRest.ServiceCallback<Models.ADCCatalogsListResult>): Promise<Models.ADCCatalogsListtByResourceGroupResponse> {
+  listtByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ADCCatalogsListResult>
+  ): void;
+  listtByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADCCatalogsListResult>,
+    callback?: msRest.ServiceCallback<Models.ADCCatalogsListResult>
+  ): Promise<Models.ADCCatalogsListtByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listtByResourceGroupOperationSpec,
-      callback) as Promise<Models.ADCCatalogsListtByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ADCCatalogsListtByResourceGroupResponse>;
   }
 
   /**
@@ -71,14 +86,22 @@ export class ADCCatalogs {
    * @param [options] The optional parameters
    * @returns Promise<Models.ADCCatalogsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, properties: Models.ADCCatalog, options?: msRest.RequestOptionsBase): Promise<Models.ADCCatalogsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    properties: Models.ADCCatalog,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ADCCatalogsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param properties Properties supplied to the Create or Update a data catalog.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, properties: Models.ADCCatalog, callback: msRest.ServiceCallback<Models.ADCCatalog>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    properties: Models.ADCCatalog,
+    callback: msRest.ServiceCallback<Models.ADCCatalog>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -86,8 +109,18 @@ export class ADCCatalogs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, properties: Models.ADCCatalog, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ADCCatalog>): void;
-  createOrUpdate(resourceGroupName: string, properties: Models.ADCCatalog, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADCCatalog>, callback?: msRest.ServiceCallback<Models.ADCCatalog>): Promise<Models.ADCCatalogsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    properties: Models.ADCCatalog,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ADCCatalog>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    properties: Models.ADCCatalog,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADCCatalog>,
+    callback?: msRest.ServiceCallback<Models.ADCCatalog>
+  ): Promise<Models.ADCCatalogsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +128,8 @@ export class ADCCatalogs {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ADCCatalogsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ADCCatalogsCreateOrUpdateResponse>;
   }
 
   /**
@@ -107,7 +141,10 @@ export class ADCCatalogs {
    * @param [options] The optional parameters
    * @returns Promise<Models.ADCCatalogsGetResponse>
    */
-  get(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ADCCatalogsGetResponse>;
+  get(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ADCCatalogsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -120,15 +157,24 @@ export class ADCCatalogs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ADCCatalog>): void;
-  get(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADCCatalog>, callback?: msRest.ServiceCallback<Models.ADCCatalog>): Promise<Models.ADCCatalogsGetResponse> {
+  get(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ADCCatalog>
+  ): void;
+  get(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADCCatalog>,
+    callback?: msRest.ServiceCallback<Models.ADCCatalog>
+  ): Promise<Models.ADCCatalogsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ADCCatalogsGetResponse>;
+      callback
+    ) as Promise<Models.ADCCatalogsGetResponse>;
   }
 
   /**
@@ -139,9 +185,13 @@ export class ADCCatalogs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -154,14 +204,22 @@ export class ADCCatalogs {
    * @param [options] The optional parameters
    * @returns Promise<Models.ADCCatalogsUpdateResponse>
    */
-  update(resourceGroupName: string, properties: Models.ADCCatalog, options?: msRest.RequestOptionsBase): Promise<Models.ADCCatalogsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    properties: Models.ADCCatalog,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ADCCatalogsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param properties Properties supplied to the Update a data catalog.
    * @param callback The callback
    */
-  update(resourceGroupName: string, properties: Models.ADCCatalog, callback: msRest.ServiceCallback<Models.ADCCatalog>): void;
+  update(
+    resourceGroupName: string,
+    properties: Models.ADCCatalog,
+    callback: msRest.ServiceCallback<Models.ADCCatalog>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -169,8 +227,18 @@ export class ADCCatalogs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, properties: Models.ADCCatalog, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ADCCatalog>): void;
-  update(resourceGroupName: string, properties: Models.ADCCatalog, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADCCatalog>, callback?: msRest.ServiceCallback<Models.ADCCatalog>): Promise<Models.ADCCatalogsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    properties: Models.ADCCatalog,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ADCCatalog>
+  ): void;
+  update(
+    resourceGroupName: string,
+    properties: Models.ADCCatalog,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADCCatalog>,
+    callback?: msRest.ServiceCallback<Models.ADCCatalog>
+  ): Promise<Models.ADCCatalogsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -178,7 +246,8 @@ export class ADCCatalogs {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ADCCatalogsUpdateResponse>;
+      callback
+    ) as Promise<Models.ADCCatalogsUpdateResponse>;
   }
 
   /**
@@ -189,14 +258,18 @@ export class ADCCatalogs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -204,17 +277,11 @@ export class ADCCatalogs {
 const serializer = new msRest.Serializer(Mappers);
 const listtByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataCatalog/catalogs",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataCatalog/catalogs",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ADCCatalogsListResult
@@ -228,18 +295,11 @@ const listtByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataCatalog/catalogs/{catalogName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.catalogName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataCatalog/catalogs/{catalogName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.catalogName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "properties",
     mapper: {
@@ -263,18 +323,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataCatalog/catalogs/{catalogName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.catalogName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataCatalog/catalogs/{catalogName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.catalogName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ADCCatalog
@@ -288,18 +341,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataCatalog/catalogs/{catalogName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.catalogName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataCatalog/catalogs/{catalogName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.catalogName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "properties",
     mapper: {
@@ -320,18 +366,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataCatalog/catalogs/{catalogName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.catalogName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataCatalog/catalogs/{catalogName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.catalogName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

@@ -34,14 +34,24 @@ export class PipelineRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.PipelineRunsQueryByFactoryResponse>
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase): Promise<Models.PipelineRunsQueryByFactoryResponse>;
+  queryByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    filterParameters: Models.RunFilterParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PipelineRunsQueryByFactoryResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param filterParameters Parameters to filter the pipeline run.
    * @param callback The callback
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, callback: msRest.ServiceCallback<Models.PipelineRunsQueryResponse>): void;
+  queryByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    filterParameters: Models.RunFilterParameters,
+    callback: msRest.ServiceCallback<Models.PipelineRunsQueryResponse>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -49,8 +59,20 @@ export class PipelineRuns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PipelineRunsQueryResponse>): void;
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRunsQueryResponse>, callback?: msRest.ServiceCallback<Models.PipelineRunsQueryResponse>): Promise<Models.PipelineRunsQueryByFactoryResponse> {
+  queryByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    filterParameters: Models.RunFilterParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PipelineRunsQueryResponse>
+  ): void;
+  queryByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    filterParameters: Models.RunFilterParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRunsQueryResponse>,
+    callback?: msRest.ServiceCallback<Models.PipelineRunsQueryResponse>
+  ): Promise<Models.PipelineRunsQueryByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class PipelineRuns {
         options
       },
       queryByFactoryOperationSpec,
-      callback) as Promise<Models.PipelineRunsQueryByFactoryResponse>;
+      callback
+    ) as Promise<Models.PipelineRunsQueryByFactoryResponse>;
   }
 
   /**
@@ -70,14 +93,24 @@ export class PipelineRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.PipelineRunsGetResponse>
    */
-  get(resourceGroupName: string, factoryName: string, runId: string, options?: msRest.RequestOptionsBase): Promise<Models.PipelineRunsGetResponse>;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    runId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PipelineRunsGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param runId The pipeline run identifier.
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, runId: string, callback: msRest.ServiceCallback<Models.PipelineRun>): void;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    runId: string,
+    callback: msRest.ServiceCallback<Models.PipelineRun>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -85,8 +118,20 @@ export class PipelineRuns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, runId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PipelineRun>): void;
-  get(resourceGroupName: string, factoryName: string, runId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRun>, callback?: msRest.ServiceCallback<Models.PipelineRun>): Promise<Models.PipelineRunsGetResponse> {
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    runId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PipelineRun>
+  ): void;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    runId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRun>,
+    callback?: msRest.ServiceCallback<Models.PipelineRun>
+  ): Promise<Models.PipelineRunsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +140,8 @@ export class PipelineRuns {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PipelineRunsGetResponse>;
+      callback
+    ) as Promise<Models.PipelineRunsGetResponse>;
   }
 
   /**
@@ -106,14 +152,24 @@ export class PipelineRuns {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  cancel(resourceGroupName: string, factoryName: string, runId: string, options?: Models.PipelineRunsCancelOptionalParams): Promise<msRest.RestResponse>;
+  cancel(
+    resourceGroupName: string,
+    factoryName: string,
+    runId: string,
+    options?: Models.PipelineRunsCancelOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param runId The pipeline run identifier.
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, factoryName: string, runId: string, callback: msRest.ServiceCallback<void>): void;
+  cancel(
+    resourceGroupName: string,
+    factoryName: string,
+    runId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -121,8 +177,20 @@ export class PipelineRuns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, factoryName: string, runId: string, options: Models.PipelineRunsCancelOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  cancel(resourceGroupName: string, factoryName: string, runId: string, options?: Models.PipelineRunsCancelOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancel(
+    resourceGroupName: string,
+    factoryName: string,
+    runId: string,
+    options: Models.PipelineRunsCancelOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  cancel(
+    resourceGroupName: string,
+    factoryName: string,
+    runId: string,
+    options?: Models.PipelineRunsCancelOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +199,8 @@ export class PipelineRuns {
         options
       },
       cancelOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -139,18 +208,11 @@ export class PipelineRuns {
 const serializer = new msRest.Serializer(Mappers);
 const queryByFactoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryPipelineRuns",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryPipelineRuns",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.factoryName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "filterParameters",
     mapper: {
@@ -171,19 +233,16 @@ const queryByFactoryOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.runId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PipelineRun
@@ -197,20 +256,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const cancelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}/cancel",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}/cancel",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.runId
   ],
-  queryParameters: [
-    Parameters.isRecursive,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.isRecursive, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {

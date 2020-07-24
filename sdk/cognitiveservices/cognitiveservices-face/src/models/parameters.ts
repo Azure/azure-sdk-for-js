@@ -11,10 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 export const applyScope: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "applyScope"
-  ],
+  parameterPath: ["options", "applyScope"],
   mapper: {
     serializedName: "applyScope",
     type: {
@@ -29,13 +26,10 @@ export const applyScope: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const detectionModel: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "detectionModel"
-  ],
+  parameterPath: ["options", "detectionModel"],
   mapper: {
     serializedName: "detectionModel",
-    defaultValue: 'detection_01',
+    defaultValue: "detection_01",
     type: {
       name: "String"
     }
@@ -46,7 +40,7 @@ export const endpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -140,23 +134,17 @@ export const personId: msRest.OperationURLParameter = {
   }
 };
 export const recognitionModel: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "recognitionModel"
-  ],
+  parameterPath: ["options", "recognitionModel"],
   mapper: {
     serializedName: "recognitionModel",
-    defaultValue: 'recognition_01',
+    defaultValue: "recognition_01",
     type: {
       name: "String"
     }
   }
 };
 export const returnFaceAttributes: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "returnFaceAttributes"
-  ],
+  parameterPath: ["options", "returnFaceAttributes"],
   mapper: {
     serializedName: "returnFaceAttributes",
     type: {
@@ -187,10 +175,7 @@ export const returnFaceAttributes: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const returnFaceId: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "returnFaceId"
-  ],
+  parameterPath: ["options", "returnFaceId"],
   mapper: {
     serializedName: "returnFaceId",
     defaultValue: true,
@@ -200,10 +185,7 @@ export const returnFaceId: msRest.OperationQueryParameter = {
   }
 };
 export const returnFaceLandmarks: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "returnFaceLandmarks"
-  ],
+  parameterPath: ["options", "returnFaceLandmarks"],
   mapper: {
     serializedName: "returnFaceLandmarks",
     defaultValue: false,
@@ -213,10 +195,7 @@ export const returnFaceLandmarks: msRest.OperationQueryParameter = {
   }
 };
 export const returnRecognitionModel: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "returnRecognitionModel"
-  ],
+  parameterPath: ["options", "returnRecognitionModel"],
   mapper: {
     serializedName: "returnRecognitionModel",
     defaultValue: false,
@@ -236,10 +215,7 @@ export const snapshotId: msRest.OperationURLParameter = {
   }
 };
 export const start0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "start"
-  ],
+  parameterPath: ["options", "start"],
   mapper: {
     serializedName: "start",
     type: {
@@ -248,10 +224,7 @@ export const start0: msRest.OperationQueryParameter = {
   }
 };
 export const start1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "start"
-  ],
+  parameterPath: ["options", "start"],
   mapper: {
     serializedName: "start",
     constraints: {
@@ -263,10 +236,7 @@ export const start1: msRest.OperationQueryParameter = {
   }
 };
 export const targetFace: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "targetFace"
-  ],
+  parameterPath: ["options", "targetFace"],
   mapper: {
     serializedName: "targetFace",
     type: {
@@ -281,10 +251,7 @@ export const targetFace: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const top0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "top",
     constraints: {
@@ -297,10 +264,7 @@ export const top0: msRest.OperationQueryParameter = {
   }
 };
 export const top1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "top",
     defaultValue: 1000,
@@ -314,28 +278,17 @@ export const top1: msRest.OperationQueryParameter = {
   }
 };
 export const type: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "type"
-  ],
+  parameterPath: ["options", "type"],
   mapper: {
     serializedName: "type",
     type: {
       name: "Enum",
-      allowedValues: [
-        "FaceList",
-        "LargeFaceList",
-        "LargePersonGroup",
-        "PersonGroup"
-      ]
+      allowedValues: ["FaceList", "LargeFaceList", "LargePersonGroup", "PersonGroup"]
     }
   }
 };
 export const userData: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "userData"
-  ],
+  parameterPath: ["options", "userData"],
   mapper: {
     serializedName: "userData",
     constraints: {

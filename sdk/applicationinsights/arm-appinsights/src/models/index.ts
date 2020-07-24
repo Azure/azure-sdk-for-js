@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing ErrorResponse.
@@ -1754,7 +1753,6 @@ export interface ApplicationInsightsManagementClientOptions extends AzureService
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the OperationListResult.
@@ -1778,8 +1776,7 @@ export interface OperationListResult extends Array<Operation> {
  *
  * @extends Array<Annotation>
  */
-export interface AnnotationsListResult extends Array<Annotation> {
-}
+export interface AnnotationsListResult extends Array<Annotation> {}
 
 /**
  * @interface
@@ -1788,8 +1785,8 @@ export interface AnnotationsListResult extends Array<Annotation> {
  *
  * @extends Array<ApplicationInsightsComponentAPIKey>
  */
-export interface ApplicationInsightsComponentAPIKeyListResult extends Array<ApplicationInsightsComponentAPIKey> {
-}
+export interface ApplicationInsightsComponentAPIKeyListResult
+  extends Array<ApplicationInsightsComponentAPIKey> {}
 
 /**
  * @interface
@@ -1798,7 +1795,8 @@ export interface ApplicationInsightsComponentAPIKeyListResult extends Array<Appl
  *
  * @extends Array<ApplicationInsightsComponent>
  */
-export interface ApplicationInsightsComponentListResult extends Array<ApplicationInsightsComponent> {
+export interface ApplicationInsightsComponentListResult
+  extends Array<ApplicationInsightsComponent> {
   /**
    * @member {string} [nextLink] The URI to get the next set of Application
    * Insights component defintions if too many components where returned in the
@@ -1814,8 +1812,7 @@ export interface ApplicationInsightsComponentListResult extends Array<Applicatio
  *
  * @extends Array<WorkItemConfiguration>
  */
-export interface WorkItemConfigurationsListResult extends Array<WorkItemConfiguration> {
-}
+export interface WorkItemConfigurationsListResult extends Array<WorkItemConfiguration> {}
 
 /**
  * @interface
@@ -1825,8 +1822,8 @@ export interface WorkItemConfigurationsListResult extends Array<WorkItemConfigur
  *
  * @extends Array<ApplicationInsightsComponentWebTestLocation>
  */
-export interface ApplicationInsightsWebTestLocationsListResult extends Array<ApplicationInsightsComponentWebTestLocation> {
-}
+export interface ApplicationInsightsWebTestLocationsListResult
+  extends Array<ApplicationInsightsComponentWebTestLocation> {}
 
 /**
  * @interface
@@ -1851,8 +1848,7 @@ export interface WebTestListResult extends Array<WebTest> {
  *
  * @extends Array<Workbook>
  */
-export interface WorkbooksListResult extends Array<Workbook> {
-}
+export interface WorkbooksListResult extends Array<Workbook> {}
 
 /**
  * Defines values for ApplicationType.
@@ -1860,7 +1856,7 @@ export interface WorkbooksListResult extends Array<Workbook> {
  * @readonly
  * @enum {string}
  */
-export type ApplicationType = 'web' | 'other';
+export type ApplicationType = "web" | "other";
 
 /**
  * Defines values for FlowType.
@@ -1868,7 +1864,7 @@ export type ApplicationType = 'web' | 'other';
  * @readonly
  * @enum {string}
  */
-export type FlowType = 'Bluefield';
+export type FlowType = "Bluefield";
 
 /**
  * Defines values for RequestSource.
@@ -1876,7 +1872,7 @@ export type FlowType = 'Bluefield';
  * @readonly
  * @enum {string}
  */
-export type RequestSource = 'rest';
+export type RequestSource = "rest";
 
 /**
  * Defines values for PurgeState.
@@ -1884,7 +1880,7 @@ export type RequestSource = 'rest';
  * @readonly
  * @enum {string}
  */
-export type PurgeState = 'pending' | 'completed';
+export type PurgeState = "pending" | "completed";
 
 /**
  * Defines values for FavoriteType.
@@ -1892,7 +1888,7 @@ export type PurgeState = 'pending' | 'completed';
  * @readonly
  * @enum {string}
  */
-export type FavoriteType = 'shared' | 'user';
+export type FavoriteType = "shared" | "user";
 
 /**
  * Defines values for WebTestKind.
@@ -1900,7 +1896,7 @@ export type FavoriteType = 'shared' | 'user';
  * @readonly
  * @enum {string}
  */
-export type WebTestKind = 'ping' | 'multistep';
+export type WebTestKind = "ping" | "multistep";
 
 /**
  * Defines values for ItemScope.
@@ -1908,7 +1904,7 @@ export type WebTestKind = 'ping' | 'multistep';
  * @readonly
  * @enum {string}
  */
-export type ItemScope = 'shared' | 'user';
+export type ItemScope = "shared" | "user";
 
 /**
  * Defines values for ItemType.
@@ -1916,7 +1912,7 @@ export type ItemScope = 'shared' | 'user';
  * @readonly
  * @enum {string}
  */
-export type ItemType = 'query' | 'function' | 'folder' | 'recent';
+export type ItemType = "query" | "function" | "folder" | "recent";
 
 /**
  * Defines values for SharedTypeKind.
@@ -1924,7 +1920,7 @@ export type ItemType = 'query' | 'function' | 'folder' | 'recent';
  * @readonly
  * @enum {string}
  */
-export type SharedTypeKind = 'user' | 'shared';
+export type SharedTypeKind = "user" | "shared";
 
 /**
  * Defines values for FavoriteSourceType.
@@ -1933,7 +1929,15 @@ export type SharedTypeKind = 'user' | 'shared';
  * @readonly
  * @enum {string}
  */
-export type FavoriteSourceType = 'retention' | 'notebook' | 'sessions' | 'events' | 'userflows' | 'funnel' | 'impact' | 'segmentation';
+export type FavoriteSourceType =
+  | "retention"
+  | "notebook"
+  | "sessions"
+  | "events"
+  | "userflows"
+  | "funnel"
+  | "impact"
+  | "segmentation";
 
 /**
  * Defines values for ItemScopePath.
@@ -1941,7 +1945,7 @@ export type FavoriteSourceType = 'retention' | 'notebook' | 'sessions' | 'events
  * @readonly
  * @enum {string}
  */
-export type ItemScopePath = 'analyticsItems' | 'myanalyticsItems';
+export type ItemScopePath = "analyticsItems" | "myanalyticsItems";
 
 /**
  * Defines values for ItemTypeParameter.
@@ -1949,7 +1953,7 @@ export type ItemScopePath = 'analyticsItems' | 'myanalyticsItems';
  * @readonly
  * @enum {string}
  */
-export type ItemTypeParameter = 'none' | 'query' | 'function' | 'folder' | 'recent';
+export type ItemTypeParameter = "none" | "query" | "function" | "folder" | "recent";
 
 /**
  * Defines values for CategoryType.
@@ -1957,7 +1961,7 @@ export type ItemTypeParameter = 'none' | 'query' | 'function' | 'folder' | 'rece
  * @readonly
  * @enum {string}
  */
-export type CategoryType = 'workbook' | 'TSG' | 'performance' | 'retention';
+export type CategoryType = "workbook" | "TSG" | "performance" | "retention";
 
 /**
  * Contains response data for the list operation.
@@ -1967,15 +1971,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1986,15 +1990,15 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2005,15 +2009,15 @@ export type AnnotationsListResponse = AnnotationsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AnnotationsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnnotationsListResult;
+  };
 };
 
 /**
@@ -2024,15 +2028,15 @@ export type AnnotationsCreateResponse = Array<Annotation> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Annotation[];
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Annotation[];
+  };
 };
 
 /**
@@ -2047,15 +2051,15 @@ export type AnnotationsDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -2066,15 +2070,15 @@ export type AnnotationsGetResponse = Array<Annotation> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Annotation[];
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Annotation[];
+  };
 };
 
 /**
@@ -2085,15 +2089,15 @@ export type APIKeysListResponse = ApplicationInsightsComponentAPIKeyListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentAPIKeyListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentAPIKeyListResult;
+  };
 };
 
 /**
@@ -2104,15 +2108,15 @@ export type APIKeysCreateResponse = ApplicationInsightsComponentAPIKey & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentAPIKey;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentAPIKey;
+  };
 };
 
 /**
@@ -2123,15 +2127,15 @@ export type APIKeysDeleteMethodResponse = ApplicationInsightsComponentAPIKey & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentAPIKey;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentAPIKey;
+  };
 };
 
 /**
@@ -2142,53 +2146,57 @@ export type APIKeysGetResponse = ApplicationInsightsComponentAPIKey & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentAPIKey;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentAPIKey;
+  };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type ExportConfigurationsListResponse = Array<ApplicationInsightsComponentExportConfiguration> & {
+export type ExportConfigurationsListResponse = Array<
+  ApplicationInsightsComponentExportConfiguration
+> & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentExportConfiguration[];
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentExportConfiguration[];
+  };
 };
 
 /**
  * Contains response data for the create operation.
  */
-export type ExportConfigurationsCreateResponse = Array<ApplicationInsightsComponentExportConfiguration> & {
+export type ExportConfigurationsCreateResponse = Array<
+  ApplicationInsightsComponentExportConfiguration
+> & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentExportConfiguration[];
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentExportConfiguration[];
+  };
 };
 
 /**
@@ -2199,15 +2207,15 @@ export type ExportConfigurationsDeleteMethodResponse = ApplicationInsightsCompon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentExportConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentExportConfiguration;
+  };
 };
 
 /**
@@ -2218,15 +2226,15 @@ export type ExportConfigurationsGetResponse = ApplicationInsightsComponentExport
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentExportConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentExportConfiguration;
+  };
 };
 
 /**
@@ -2237,15 +2245,15 @@ export type ExportConfigurationsUpdateResponse = ApplicationInsightsComponentExp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentExportConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentExportConfiguration;
+  };
 };
 
 /**
@@ -2256,15 +2264,15 @@ export type ComponentCurrentBillingFeaturesGetResponse = ApplicationInsightsComp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentBillingFeatures;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentBillingFeatures;
+  };
 };
 
 /**
@@ -2275,15 +2283,15 @@ export type ComponentCurrentBillingFeaturesUpdateResponse = ApplicationInsightsC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentBillingFeatures;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentBillingFeatures;
+  };
 };
 
 /**
@@ -2294,15 +2302,15 @@ export type ComponentQuotaStatusGetResponse = ApplicationInsightsComponentQuotaS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentQuotaStatus;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentQuotaStatus;
+  };
 };
 
 /**
@@ -2313,15 +2321,15 @@ export type ComponentFeatureCapabilitiesGetResponse = ApplicationInsightsCompone
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentFeatureCapabilities;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentFeatureCapabilities;
+  };
 };
 
 /**
@@ -2332,34 +2340,36 @@ export type ComponentAvailableFeaturesGetResponse = ApplicationInsightsComponent
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentAvailableFeatures;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentAvailableFeatures;
+  };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type ProactiveDetectionConfigurationsListResponse = Array<ApplicationInsightsComponentProactiveDetectionConfiguration> & {
+export type ProactiveDetectionConfigurationsListResponse = Array<
+  ApplicationInsightsComponentProactiveDetectionConfiguration
+> & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentProactiveDetectionConfiguration[];
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentProactiveDetectionConfiguration[];
+  };
 };
 
 /**
@@ -2370,15 +2380,15 @@ export type ProactiveDetectionConfigurationsGetResponse = ApplicationInsightsCom
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentProactiveDetectionConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentProactiveDetectionConfiguration;
+  };
 };
 
 /**
@@ -2389,15 +2399,15 @@ export type ProactiveDetectionConfigurationsUpdateResponse = ApplicationInsights
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentProactiveDetectionConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentProactiveDetectionConfiguration;
+  };
 };
 
 /**
@@ -2408,15 +2418,15 @@ export type ComponentsListResponse = ApplicationInsightsComponentListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentListResult;
+  };
 };
 
 /**
@@ -2427,15 +2437,15 @@ export type ComponentsListByResourceGroupResponse = ApplicationInsightsComponent
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentListResult;
+  };
 };
 
 /**
@@ -2446,15 +2456,15 @@ export type ComponentsGetResponse = ApplicationInsightsComponent & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponent;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponent;
+  };
 };
 
 /**
@@ -2465,15 +2475,15 @@ export type ComponentsCreateOrUpdateResponse = ApplicationInsightsComponent & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponent;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponent;
+  };
 };
 
 /**
@@ -2484,15 +2494,15 @@ export type ComponentsUpdateTagsResponse = ApplicationInsightsComponent & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponent;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponent;
+  };
 };
 
 /**
@@ -2503,15 +2513,15 @@ export type ComponentsPurgeResponse = ComponentPurgeResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComponentPurgeResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComponentPurgeResponse;
+  };
 };
 
 /**
@@ -2522,15 +2532,15 @@ export type ComponentsGetPurgeStatusResponse = ComponentPurgeStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComponentPurgeStatusResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComponentPurgeStatusResponse;
+  };
 };
 
 /**
@@ -2541,15 +2551,15 @@ export type ComponentsListNextResponse = ApplicationInsightsComponentListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentListResult;
+  };
 };
 
 /**
@@ -2560,15 +2570,15 @@ export type ComponentsListByResourceGroupNextResponse = ApplicationInsightsCompo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentListResult;
+  };
 };
 
 /**
@@ -2579,15 +2589,15 @@ export type WorkItemConfigurationsListResponse = WorkItemConfigurationsListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkItemConfigurationsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkItemConfigurationsListResult;
+  };
 };
 
 /**
@@ -2598,15 +2608,15 @@ export type WorkItemConfigurationsCreateResponse = WorkItemConfiguration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkItemConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkItemConfiguration;
+  };
 };
 
 /**
@@ -2617,15 +2627,15 @@ export type WorkItemConfigurationsGetDefaultResponse = WorkItemConfiguration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkItemConfiguration;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkItemConfiguration;
+  };
 };
 
 /**
@@ -2640,15 +2650,15 @@ export type WorkItemConfigurationsDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -2659,15 +2669,15 @@ export type FavoritesListResponse = Array<ApplicationInsightsComponentFavorite> 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentFavorite[];
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentFavorite[];
+  };
 };
 
 /**
@@ -2678,15 +2688,15 @@ export type FavoritesGetResponse = ApplicationInsightsComponentFavorite & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentFavorite;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentFavorite;
+  };
 };
 
 /**
@@ -2697,15 +2707,15 @@ export type FavoritesAddResponse = ApplicationInsightsComponentFavorite & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentFavorite;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentFavorite;
+  };
 };
 
 /**
@@ -2716,15 +2726,15 @@ export type FavoritesUpdateResponse = ApplicationInsightsComponentFavorite & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentFavorite;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentFavorite;
+  };
 };
 
 /**
@@ -2735,15 +2745,15 @@ export type WebTestLocationsListResponse = ApplicationInsightsWebTestLocationsLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsWebTestLocationsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsWebTestLocationsListResult;
+  };
 };
 
 /**
@@ -2754,15 +2764,15 @@ export type WebTestsListByResourceGroupResponse = WebTestListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebTestListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebTestListResult;
+  };
 };
 
 /**
@@ -2773,15 +2783,15 @@ export type WebTestsGetResponse = WebTest & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebTest;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebTest;
+  };
 };
 
 /**
@@ -2792,15 +2802,15 @@ export type WebTestsCreateOrUpdateResponse = WebTest & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebTest;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebTest;
+  };
 };
 
 /**
@@ -2811,15 +2821,15 @@ export type WebTestsUpdateTagsResponse = WebTest & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebTest;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebTest;
+  };
 };
 
 /**
@@ -2830,15 +2840,15 @@ export type WebTestsListResponse = WebTestListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebTestListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebTestListResult;
+  };
 };
 
 /**
@@ -2849,15 +2859,15 @@ export type WebTestsListByComponentResponse = WebTestListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebTestListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebTestListResult;
+  };
 };
 
 /**
@@ -2868,15 +2878,15 @@ export type WebTestsListByResourceGroupNextResponse = WebTestListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebTestListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebTestListResult;
+  };
 };
 
 /**
@@ -2887,15 +2897,15 @@ export type WebTestsListNextResponse = WebTestListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebTestListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebTestListResult;
+  };
 };
 
 /**
@@ -2906,15 +2916,15 @@ export type WebTestsListByComponentNextResponse = WebTestListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebTestListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebTestListResult;
+  };
 };
 
 /**
@@ -2925,15 +2935,15 @@ export type AnalyticsItemsListResponse = Array<ApplicationInsightsComponentAnaly
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentAnalyticsItem[];
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentAnalyticsItem[];
+  };
 };
 
 /**
@@ -2944,15 +2954,15 @@ export type AnalyticsItemsGetResponse = ApplicationInsightsComponentAnalyticsIte
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentAnalyticsItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentAnalyticsItem;
+  };
 };
 
 /**
@@ -2963,15 +2973,15 @@ export type AnalyticsItemsPutResponse = ApplicationInsightsComponentAnalyticsIte
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInsightsComponentAnalyticsItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInsightsComponentAnalyticsItem;
+  };
 };
 
 /**
@@ -2982,15 +2992,15 @@ export type WorkbooksListByResourceGroupResponse = WorkbooksListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkbooksListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkbooksListResult;
+  };
 };
 
 /**
@@ -3001,15 +3011,15 @@ export type WorkbooksGetResponse = Workbook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workbook;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workbook;
+  };
 };
 
 /**
@@ -3020,15 +3030,15 @@ export type WorkbooksCreateOrUpdateResponse = Workbook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workbook;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workbook;
+  };
 };
 
 /**
@@ -3039,13 +3049,13 @@ export type WorkbooksUpdateResponse = Workbook & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workbook;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workbook;
+  };
 };

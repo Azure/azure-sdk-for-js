@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -558,7 +557,7 @@ export interface KeyVaultClientGetDeletedKeysOptionalParams extends coreHttp.Req
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyType = 'EC' | 'EC-HSM' | 'RSA' | 'RSA-HSM' | 'oct';
+export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 /**
  * Defines values for JsonWebKeyCurveName.
@@ -566,7 +565,7 @@ export type JsonWebKeyType = 'EC' | 'EC-HSM' | 'RSA' | 'RSA-HSM' | 'oct';
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyCurveName = 'P-256' | 'P-384' | 'P-521' | 'P-256K';
+export type JsonWebKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
  * Defines values for DeletionRecoveryLevel.
@@ -576,7 +575,14 @@ export type JsonWebKeyCurveName = 'P-256' | 'P-384' | 'P-521' | 'P-256K';
  * @readonly
  * @enum {string}
  */
-export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
+export type DeletionRecoveryLevel =
+  | "Purgeable"
+  | "Recoverable+Purgeable"
+  | "Recoverable"
+  | "Recoverable+ProtectedSubscription"
+  | "CustomizedRecoverable+Purgeable"
+  | "CustomizedRecoverable"
+  | "CustomizedRecoverable+ProtectedSubscription";
 
 /**
  * Defines values for JsonWebKeyOperation.
@@ -585,7 +591,14 @@ export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Rec
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'wrapKey' | 'unwrapKey' | 'import';
+export type JsonWebKeyOperation =
+  | "encrypt"
+  | "decrypt"
+  | "sign"
+  | "verify"
+  | "wrapKey"
+  | "unwrapKey"
+  | "import";
 
 /**
  * Defines values for JsonWebKeyEncryptionAlgorithm.
@@ -593,7 +606,7 @@ export type JsonWebKeyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'w
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyEncryptionAlgorithm = 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_5';
+export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 /**
  * Defines values for JsonWebKeySignatureAlgorithm.
@@ -602,7 +615,18 @@ export type JsonWebKeyEncryptionAlgorithm = 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeySignatureAlgorithm = 'PS256' | 'PS384' | 'PS512' | 'RS256' | 'RS384' | 'RS512' | 'RSNULL' | 'ES256' | 'ES384' | 'ES512' | 'ES256K';
+export type JsonWebKeySignatureAlgorithm =
+  | "PS256"
+  | "PS384"
+  | "PS512"
+  | "RS256"
+  | "RS384"
+  | "RS512"
+  | "RSNULL"
+  | "ES256"
+  | "ES384"
+  | "ES512"
+  | "ES256K";
 
 /**
  * Contains response data for the createKey operation.
@@ -612,16 +636,16 @@ export type CreateKeyResponse = KeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyBundle;
+  };
 };
 
 /**
@@ -632,16 +656,16 @@ export type ImportKeyResponse = KeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyBundle;
+  };
 };
 
 /**
@@ -652,16 +676,16 @@ export type DeleteKeyResponse = DeletedKeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedKeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedKeyBundle;
+  };
 };
 
 /**
@@ -672,16 +696,16 @@ export type UpdateKeyResponse = KeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyBundle;
+  };
 };
 
 /**
@@ -692,16 +716,16 @@ export type GetKeyResponse = KeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyBundle;
+  };
 };
 
 /**
@@ -712,16 +736,16 @@ export type GetKeyVersionsResponse = KeyListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyListResult;
+  };
 };
 
 /**
@@ -732,16 +756,16 @@ export type GetKeysResponse = KeyListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyListResult;
+  };
 };
 
 /**
@@ -752,16 +776,16 @@ export type BackupKeyResponse = BackupKeyResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupKeyResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupKeyResult;
+  };
 };
 
 /**
@@ -772,16 +796,16 @@ export type RestoreKeyResponse = KeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyBundle;
+  };
 };
 
 /**
@@ -792,16 +816,16 @@ export type EncryptResponse = KeyOperationResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyOperationResult;
+  };
 };
 
 /**
@@ -812,16 +836,16 @@ export type DecryptResponse = KeyOperationResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyOperationResult;
+  };
 };
 
 /**
@@ -832,16 +856,16 @@ export type SignResponse = KeyOperationResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyOperationResult;
+  };
 };
 
 /**
@@ -852,16 +876,16 @@ export type VerifyResponse = KeyVerifyResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyVerifyResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyVerifyResult;
+  };
 };
 
 /**
@@ -872,16 +896,16 @@ export type WrapKeyResponse = KeyOperationResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyOperationResult;
+  };
 };
 
 /**
@@ -892,16 +916,16 @@ export type UnwrapKeyResponse = KeyOperationResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyOperationResult;
+  };
 };
 
 /**
@@ -912,16 +936,16 @@ export type GetDeletedKeysResponse = DeletedKeyListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedKeyListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedKeyListResult;
+  };
 };
 
 /**
@@ -932,16 +956,16 @@ export type GetDeletedKeyResponse = DeletedKeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedKeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedKeyBundle;
+  };
 };
 
 /**
@@ -952,14 +976,14 @@ export type RecoverDeletedKeyResponse = KeyBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyBundle;
+  };
 };

@@ -35,7 +35,9 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImagesVisualSearchResponse>
    */
-  visualSearch(options?: Models.ImagesVisualSearchOptionalParams): Promise<Models.ImagesVisualSearchResponse>;
+  visualSearch(
+    options?: Models.ImagesVisualSearchOptionalParams
+  ): Promise<Models.ImagesVisualSearchResponse>;
   /**
    * @param callback The callback
    */
@@ -44,14 +46,23 @@ export class Images {
    * @param options The optional parameters
    * @param callback The callback
    */
-  visualSearch(options: Models.ImagesVisualSearchOptionalParams, callback: msRest.ServiceCallback<Models.ImageKnowledge>): void;
-  visualSearch(options?: Models.ImagesVisualSearchOptionalParams | msRest.ServiceCallback<Models.ImageKnowledge>, callback?: msRest.ServiceCallback<Models.ImageKnowledge>): Promise<Models.ImagesVisualSearchResponse> {
+  visualSearch(
+    options: Models.ImagesVisualSearchOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImageKnowledge>
+  ): void;
+  visualSearch(
+    options?:
+      | Models.ImagesVisualSearchOptionalParams
+      | msRest.ServiceCallback<Models.ImageKnowledge>,
+    callback?: msRest.ServiceCallback<Models.ImageKnowledge>
+  ): Promise<Models.ImagesVisualSearchResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       visualSearchOperationSpec,
-      callback) as Promise<Models.ImagesVisualSearchResponse>;
+      callback
+    ) as Promise<Models.ImagesVisualSearchResponse>;
   }
 }
 
@@ -60,14 +71,8 @@ const serializer = new msRest.Serializer(Mappers);
 const visualSearchOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "images/visualsearch",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.market,
-    Parameters.safeSearch,
-    Parameters.setLang
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.market, Parameters.safeSearch, Parameters.setLang],
   headerParameters: [
     Parameters.xBingApisSDK,
     Parameters.acceptLanguage,
@@ -77,10 +82,7 @@ const visualSearchOperationSpec: msRest.OperationSpec = {
     Parameters.clientIp,
     Parameters.location
   ],
-  formDataParameters: [
-    Parameters.knowledgeRequest,
-    Parameters.image
-  ],
+  formDataParameters: [Parameters.knowledgeRequest, Parameters.image],
   contentType: "multipart/form-data",
   responses: {
     200: {

@@ -39,7 +39,13 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsGetResponse>
    */
-  get(resourceGroupName: string, parentType: Models.ParentType, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    parentType: Models.ParentType,
+    parentName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
@@ -49,7 +55,13 @@ export class PrivateEndpointConnections {
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, parentType: Models.ParentType, parentName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  get(
+    resourceGroupName: string,
+    parentType: Models.ParentType,
+    parentName: string,
+    privateEndpointConnectionName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
@@ -60,8 +72,22 @@ export class PrivateEndpointConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, parentType: Models.ParentType, parentName: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
-  get(resourceGroupName: string, parentType: Models.ParentType, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.PrivateEndpointConnectionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    parentType: Models.ParentType,
+    parentName: string,
+    privateEndpointConnectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
+  get(
+    resourceGroupName: string,
+    parentType: Models.ParentType,
+    parentName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): Promise<Models.PrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -71,7 +97,8 @@ export class PrivateEndpointConnections {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionsGetResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionsGetResponse>;
   }
 
   /**
@@ -87,9 +114,24 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsUpdateResponse>
    */
-  update(resourceGroupName: string, parentType: Models.ParentType1, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,parentType,parentName,privateEndpointConnectionName,privateEndpointConnection,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateEndpointConnectionsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    parentType: Models.ParentType1,
+    parentName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointConnection: Models.PrivateEndpointConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointConnectionsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      parentType,
+      parentName,
+      privateEndpointConnectionName,
+      privateEndpointConnection,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PrivateEndpointConnectionsUpdateResponse
+    >;
   }
 
   /**
@@ -104,9 +146,20 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, parentType: Models.ParentType2, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,parentType,parentName,privateEndpointConnectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    parentType: Models.ParentType2,
+    parentName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      parentType,
+      parentName,
+      privateEndpointConnectionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -120,7 +173,12 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsListByResourceResponse>
    */
-  listByResource(resourceGroupName: string, parentType: Models.ParentType3, parentName: string, options?: Models.PrivateEndpointConnectionsListByResourceOptionalParams): Promise<Models.PrivateEndpointConnectionsListByResourceResponse>;
+  listByResource(
+    resourceGroupName: string,
+    parentType: Models.ParentType3,
+    parentName: string,
+    options?: Models.PrivateEndpointConnectionsListByResourceOptionalParams
+  ): Promise<Models.PrivateEndpointConnectionsListByResourceResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
@@ -129,7 +187,12 @@ export class PrivateEndpointConnections {
    * name).
    * @param callback The callback
    */
-  listByResource(resourceGroupName: string, parentType: Models.ParentType3, parentName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
+  listByResource(
+    resourceGroupName: string,
+    parentType: Models.ParentType3,
+    parentName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
@@ -139,8 +202,22 @@ export class PrivateEndpointConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResource(resourceGroupName: string, parentType: Models.ParentType3, parentName: string, options: Models.PrivateEndpointConnectionsListByResourceOptionalParams, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
-  listByResource(resourceGroupName: string, parentType: Models.ParentType3, parentName: string, options?: Models.PrivateEndpointConnectionsListByResourceOptionalParams | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): Promise<Models.PrivateEndpointConnectionsListByResourceResponse> {
+  listByResource(
+    resourceGroupName: string,
+    parentType: Models.ParentType3,
+    parentName: string,
+    options: Models.PrivateEndpointConnectionsListByResourceOptionalParams,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): void;
+  listByResource(
+    resourceGroupName: string,
+    parentType: Models.ParentType3,
+    parentName: string,
+    options?:
+      | Models.PrivateEndpointConnectionsListByResourceOptionalParams
+      | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): Promise<Models.PrivateEndpointConnectionsListByResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -149,7 +226,8 @@ export class PrivateEndpointConnections {
         options
       },
       listByResourceOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionsListByResourceResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionsListByResourceResponse>;
   }
 
   /**
@@ -165,7 +243,14 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, parentType: Models.ParentType1, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    parentType: Models.ParentType1,
+    parentName: string,
+    privateEndpointConnectionName: string,
+    privateEndpointConnection: Models.PrivateEndpointConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -176,7 +261,8 @@ export class PrivateEndpointConnections {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -191,7 +277,13 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, parentType: Models.ParentType2, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    parentType: Models.ParentType2,
+    parentName: string,
+    privateEndpointConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -201,7 +293,8 @@ export class PrivateEndpointConnections {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -211,26 +304,43 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsListByResourceNextResponse>
    */
-  listByResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsListByResourceNextResponse>;
+  listByResourceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointConnectionsListByResourceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
+  listByResourceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
-  listByResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): Promise<Models.PrivateEndpointConnectionsListByResourceNextResponse> {
+  listByResourceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): void;
+  listByResourceNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): Promise<Models.PrivateEndpointConnectionsListByResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceNextOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionsListByResourceNextResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionsListByResourceNextResponse>;
   }
 }
 
@@ -238,7 +348,8 @@ export class PrivateEndpointConnections {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -246,12 +357,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.parentName,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection
@@ -265,21 +372,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateEndpointConnections",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateEndpointConnections",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.parentType,
     Parameters.parentName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionListResult
@@ -293,7 +395,8 @@ const listByResourceOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -301,12 +404,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.parentName,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "privateEndpointConnection",
     mapper: {
@@ -330,7 +429,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -338,12 +438,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.parentName,
     Parameters.privateEndpointConnectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -358,12 +454,8 @@ const listByResourceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionListResult

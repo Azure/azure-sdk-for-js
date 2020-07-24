@@ -337,10 +337,7 @@ export const IoTSpacesNameAvailabilityInfo: msRest.CompositeMapper = {
         serializedName: "reason",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "AlreadyExists"
-          ]
+          allowedValues: ["Invalid", "AlreadyExists"]
         }
       },
       message: {

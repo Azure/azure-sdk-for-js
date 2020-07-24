@@ -41,14 +41,21 @@ export class TopicTypes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopicTypesListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicTypesListResult>, callback?: msRest.ServiceCallback<Models.TopicTypesListResult>): Promise<Models.TopicTypesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopicTypesListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicTypesListResult>,
+    callback?: msRest.ServiceCallback<Models.TopicTypesListResult>
+  ): Promise<Models.TopicTypesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.TopicTypesListResponse>;
+      callback
+    ) as Promise<Models.TopicTypesListResponse>;
   }
 
   /**
@@ -58,7 +65,10 @@ export class TopicTypes {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicTypesGetResponse>
    */
-  get(topicTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicTypesGetResponse>;
+  get(
+    topicTypeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopicTypesGetResponse>;
   /**
    * @param topicTypeName Name of the topic type.
    * @param callback The callback
@@ -69,15 +79,24 @@ export class TopicTypes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(topicTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TopicTypeInfo>): void;
-  get(topicTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicTypeInfo>, callback?: msRest.ServiceCallback<Models.TopicTypeInfo>): Promise<Models.TopicTypesGetResponse> {
+  get(
+    topicTypeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TopicTypeInfo>
+  ): void;
+  get(
+    topicTypeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TopicTypeInfo>,
+    callback?: msRest.ServiceCallback<Models.TopicTypeInfo>
+  ): Promise<Models.TopicTypesGetResponse> {
     return this.client.sendOperationRequest(
       {
         topicTypeName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TopicTypesGetResponse>;
+      callback
+    ) as Promise<Models.TopicTypesGetResponse>;
   }
 
   /**
@@ -87,26 +106,41 @@ export class TopicTypes {
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicTypesListEventTypesResponse>
    */
-  listEventTypes(topicTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicTypesListEventTypesResponse>;
+  listEventTypes(
+    topicTypeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TopicTypesListEventTypesResponse>;
   /**
    * @param topicTypeName Name of the topic type.
    * @param callback The callback
    */
-  listEventTypes(topicTypeName: string, callback: msRest.ServiceCallback<Models.EventTypesListResult>): void;
+  listEventTypes(
+    topicTypeName: string,
+    callback: msRest.ServiceCallback<Models.EventTypesListResult>
+  ): void;
   /**
    * @param topicTypeName Name of the topic type.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listEventTypes(topicTypeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventTypesListResult>): void;
-  listEventTypes(topicTypeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventTypesListResult>, callback?: msRest.ServiceCallback<Models.EventTypesListResult>): Promise<Models.TopicTypesListEventTypesResponse> {
+  listEventTypes(
+    topicTypeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventTypesListResult>
+  ): void;
+  listEventTypes(
+    topicTypeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventTypesListResult>,
+    callback?: msRest.ServiceCallback<Models.EventTypesListResult>
+  ): Promise<Models.TopicTypesListEventTypesResponse> {
     return this.client.sendOperationRequest(
       {
         topicTypeName,
         options
       },
       listEventTypesOperationSpec,
-      callback) as Promise<Models.TopicTypesListEventTypesResponse>;
+      callback
+    ) as Promise<Models.TopicTypesListEventTypesResponse>;
   }
 }
 
@@ -115,12 +149,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.EventGrid/topicTypes",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopicTypesListResult
@@ -135,15 +165,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.EventGrid/topicTypes/{topicTypeName}",
-  urlParameters: [
-    Parameters.topicTypeName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.topicTypeName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TopicTypeInfo
@@ -158,15 +182,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listEventTypesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.EventGrid/topicTypes/{topicTypeName}/eventTypes",
-  urlParameters: [
-    Parameters.topicTypeName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.topicTypeName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventTypesListResult

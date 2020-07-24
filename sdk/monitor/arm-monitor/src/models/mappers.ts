@@ -124,12 +124,7 @@ export const MetricTrigger: msRest.CompositeMapper = {
         serializedName: "statistic",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Average",
-            "Min",
-            "Max",
-            "Sum"
-          ]
+          allowedValues: ["Average", "Min", "Max", "Sum"]
         }
       },
       timeWindow: {
@@ -144,14 +139,7 @@ export const MetricTrigger: msRest.CompositeMapper = {
         serializedName: "timeAggregation",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Average",
-            "Minimum",
-            "Maximum",
-            "Total",
-            "Count",
-            "Last"
-          ]
+          allowedValues: ["Average", "Minimum", "Maximum", "Total", "Count", "Last"]
         }
       },
       operator: {
@@ -191,11 +179,7 @@ export const ScaleAction: msRest.CompositeMapper = {
         serializedName: "direction",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Increase",
-            "Decrease"
-          ]
+          allowedValues: ["None", "Increase", "Decrease"]
         }
       },
       type: {
@@ -203,16 +187,12 @@ export const ScaleAction: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "ChangeCount",
-            "PercentChangeCount",
-            "ExactCount"
-          ]
+          allowedValues: ["ChangeCount", "PercentChangeCount", "ExactCount"]
         }
       },
       value: {
         serializedName: "value",
-        defaultValue: '1',
+        defaultValue: "1",
         type: {
           name: "String"
         }
@@ -348,16 +328,7 @@ export const Recurrence: msRest.CompositeMapper = {
         serializedName: "frequency",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Second",
-            "Minute",
-            "Hour",
-            "Day",
-            "Week",
-            "Month",
-            "Year"
-          ]
+          allowedValues: ["None", "Second", "Minute", "Hour", "Day", "Week", "Month", "Year"]
         }
       },
       schedule: {
@@ -494,7 +465,7 @@ export const AutoscaleNotification: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "operation",
-        defaultValue: 'Scale',
+        defaultValue: "Scale",
         type: {
           name: "String"
         }
@@ -968,12 +939,7 @@ export const ThresholdRuleCondition: msRest.CompositeMapper = {
         serializedName: "operator",
         type: {
           name: "Enum",
-          allowedValues: [
-            "GreaterThan",
-            "GreaterThanOrEqual",
-            "LessThan",
-            "LessThanOrEqual"
-          ]
+          allowedValues: ["GreaterThan", "GreaterThanOrEqual", "LessThan", "LessThanOrEqual"]
         }
       },
       threshold: {
@@ -993,13 +959,7 @@ export const ThresholdRuleCondition: msRest.CompositeMapper = {
         serializedName: "timeAggregation",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Average",
-            "Minimum",
-            "Maximum",
-            "Total",
-            "Last"
-          ]
+          allowedValues: ["Average", "Minimum", "Maximum", "Total", "Last"]
         }
       }
     }
@@ -1045,12 +1005,7 @@ export const ManagementEventAggregationCondition: msRest.CompositeMapper = {
         serializedName: "operator",
         type: {
           name: "Enum",
-          allowedValues: [
-            "GreaterThan",
-            "GreaterThanOrEqual",
-            "LessThan",
-            "LessThanOrEqual"
-          ]
+          allowedValues: ["GreaterThan", "GreaterThanOrEqual", "LessThan", "LessThanOrEqual"]
         }
       },
       threshold: {
@@ -1646,10 +1601,7 @@ export const DiagnosticSettingsCategoryResource: msRest.CompositeMapper = {
         serializedName: "properties.categoryType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Metrics",
-            "Logs"
-          ]
+          allowedValues: ["Metrics", "Logs"]
         }
       }
     }
@@ -1710,11 +1662,7 @@ export const EmailReceiver: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["NotSpecified", "Enabled", "Disabled"]
         }
       }
     }
@@ -1753,11 +1701,7 @@ export const SmsReceiver: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["NotSpecified", "Enabled", "Disabled"]
         }
       }
     }
@@ -2637,13 +2581,7 @@ export const EventData: msRest.CompositeMapper = {
         serializedName: "level",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Critical",
-            "Error",
-            "Warning",
-            "Informational",
-            "Verbose"
-          ]
+          allowedValues: ["Critical", "Error", "Warning", "Informational", "Verbose"]
         }
       },
       resourceGroupName: {
@@ -2829,14 +2767,7 @@ export const MetricDefinition: msRest.CompositeMapper = {
         serializedName: "primaryAggregationType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Average",
-            "Count",
-            "Minimum",
-            "Maximum",
-            "Total"
-          ]
+          allowedValues: ["None", "Average", "Count", "Minimum", "Maximum", "Total"]
         }
       },
       supportedAggregationTypes: {
@@ -2846,14 +2777,7 @@ export const MetricDefinition: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "None",
-                "Average",
-                "Count",
-                "Minimum",
-                "Maximum",
-                "Total"
-              ]
+              allowedValues: ["None", "Average", "Count", "Minimum", "Maximum", "Total"]
             }
           }
         }
@@ -3154,11 +3078,7 @@ export const Baseline: msRest.CompositeMapper = {
         serializedName: "sensitivity",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Low",
-            "Medium",
-            "High"
-          ]
+          allowedValues: ["Low", "Medium", "High"]
         }
       },
       lowThresholds: {
@@ -4473,7 +4393,8 @@ export const AzNsActionGroup: msRest.CompositeMapper = {
 };
 
 export const AlertingAction: msRest.CompositeMapper = {
-  serializedName: "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction",
+  serializedName:
+    "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction",
   type: {
     name: "Composite",
     polymorphicDiscriminator: Action.type.polymorphicDiscriminator,
@@ -4530,7 +4451,7 @@ export const Dimension: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "operator",
-        defaultValue: 'Include',
+        defaultValue: "Include",
         type: {
           name: "String"
         }
@@ -4581,7 +4502,8 @@ export const Criteria: msRest.CompositeMapper = {
 };
 
 export const LogToMetricAction: msRest.CompositeMapper = {
-  serializedName: "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction",
+  serializedName:
+    "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction",
   type: {
     name: "Composite",
     polymorphicDiscriminator: Action.type.polymorphicDiscriminator,
@@ -5127,24 +5049,23 @@ export const MetricNamespaceCollection: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'RuleDataSource' : RuleDataSource,
-  'RuleCondition' : RuleCondition,
-  'RuleDataSource.Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource' : RuleMetricDataSource,
-  'RuleDataSource.Microsoft.Azure.Management.Insights.Models.RuleManagementEventDataSource' : RuleManagementEventDataSource,
-  'RuleCondition.Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition' : ThresholdRuleCondition,
-  'RuleCondition.Microsoft.Azure.Management.Insights.Models.LocationThresholdRuleCondition' : LocationThresholdRuleCondition,
-  'RuleCondition.Microsoft.Azure.Management.Insights.Models.ManagementEventRuleCondition' : ManagementEventRuleCondition,
-  'RuleAction' : RuleAction,
-  'RuleAction.Microsoft.Azure.Management.Insights.Models.RuleEmailAction' : RuleEmailAction,
-  'RuleAction.Microsoft.Azure.Management.Insights.Models.RuleWebhookAction' : RuleWebhookAction,
-  'MetricAlertCriteria' : MetricAlertCriteria,
-  'MultiMetricCriteria.StaticThresholdCriterion' : MetricCriteria,
-  'MetricAlertCriteria.Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria' : MetricAlertSingleResourceMultipleMetricCriteria,
-  'MultiMetricCriteria' : MultiMetricCriteria,
-  'MetricAlertCriteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria' : MetricAlertMultipleResourceMultipleMetricCriteria,
-  'MultiMetricCriteria.DynamicThresholdCriterion' : DynamicMetricCriteria,
-  'Action' : Action,
-  'Action.Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction' : AlertingAction,
-  'Action.Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction' : LogToMetricAction
-
+  RuleDataSource: RuleDataSource,
+  RuleCondition: RuleCondition,
+  "RuleDataSource.Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource": RuleMetricDataSource,
+  "RuleDataSource.Microsoft.Azure.Management.Insights.Models.RuleManagementEventDataSource": RuleManagementEventDataSource,
+  "RuleCondition.Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition": ThresholdRuleCondition,
+  "RuleCondition.Microsoft.Azure.Management.Insights.Models.LocationThresholdRuleCondition": LocationThresholdRuleCondition,
+  "RuleCondition.Microsoft.Azure.Management.Insights.Models.ManagementEventRuleCondition": ManagementEventRuleCondition,
+  RuleAction: RuleAction,
+  "RuleAction.Microsoft.Azure.Management.Insights.Models.RuleEmailAction": RuleEmailAction,
+  "RuleAction.Microsoft.Azure.Management.Insights.Models.RuleWebhookAction": RuleWebhookAction,
+  MetricAlertCriteria: MetricAlertCriteria,
+  "MultiMetricCriteria.StaticThresholdCriterion": MetricCriteria,
+  "MetricAlertCriteria.Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria": MetricAlertSingleResourceMultipleMetricCriteria,
+  MultiMetricCriteria: MultiMetricCriteria,
+  "MetricAlertCriteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria": MetricAlertMultipleResourceMultipleMetricCriteria,
+  "MultiMetricCriteria.DynamicThresholdCriterion": DynamicMetricCriteria,
+  Action: Action,
+  "Action.Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction": AlertingAction,
+  "Action.Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction": LogToMetricAction
 };

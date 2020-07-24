@@ -34,9 +34,16 @@ export class DdosProtectionPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, ddosProtectionPlanName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,ddosProtectionPlanName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    ddosProtectionPlanName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      ddosProtectionPlanName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -46,21 +53,39 @@ export class DdosProtectionPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.DdosProtectionPlansGetResponse>
    */
-  get(resourceGroupName: string, ddosProtectionPlanName: string, options?: msRest.RequestOptionsBase): Promise<Models.DdosProtectionPlansGetResponse>;
+  get(
+    resourceGroupName: string,
+    ddosProtectionPlanName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DdosProtectionPlansGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ddosProtectionPlanName The name of the DDoS protection plan.
    * @param callback The callback
    */
-  get(resourceGroupName: string, ddosProtectionPlanName: string, callback: msRest.ServiceCallback<Models.DdosProtectionPlan>): void;
+  get(
+    resourceGroupName: string,
+    ddosProtectionPlanName: string,
+    callback: msRest.ServiceCallback<Models.DdosProtectionPlan>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ddosProtectionPlanName The name of the DDoS protection plan.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, ddosProtectionPlanName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosProtectionPlan>): void;
-  get(resourceGroupName: string, ddosProtectionPlanName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlan>, callback?: msRest.ServiceCallback<Models.DdosProtectionPlan>): Promise<Models.DdosProtectionPlansGetResponse> {
+  get(
+    resourceGroupName: string,
+    ddosProtectionPlanName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DdosProtectionPlan>
+  ): void;
+  get(
+    resourceGroupName: string,
+    ddosProtectionPlanName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlan>,
+    callback?: msRest.ServiceCallback<Models.DdosProtectionPlan>
+  ): Promise<Models.DdosProtectionPlansGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +93,8 @@ export class DdosProtectionPlans {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DdosProtectionPlansGetResponse>;
+      callback
+    ) as Promise<Models.DdosProtectionPlansGetResponse>;
   }
 
   /**
@@ -79,9 +105,20 @@ export class DdosProtectionPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.DdosProtectionPlansCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, ddosProtectionPlanName: string, parameters: Models.DdosProtectionPlan, options?: msRest.RequestOptionsBase): Promise<Models.DdosProtectionPlansCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,ddosProtectionPlanName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DdosProtectionPlansCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    ddosProtectionPlanName: string,
+    parameters: Models.DdosProtectionPlan,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DdosProtectionPlansCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      ddosProtectionPlanName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DdosProtectionPlansCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -92,14 +129,24 @@ export class DdosProtectionPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.DdosProtectionPlansUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, ddosProtectionPlanName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.DdosProtectionPlansUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    ddosProtectionPlanName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DdosProtectionPlansUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ddosProtectionPlanName The name of the DDoS protection plan.
    * @param parameters Parameters supplied to the update DDoS protection plan resource tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, ddosProtectionPlanName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.DdosProtectionPlan>): void;
+  updateTags(
+    resourceGroupName: string,
+    ddosProtectionPlanName: string,
+    parameters: Models.TagsObject,
+    callback: msRest.ServiceCallback<Models.DdosProtectionPlan>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ddosProtectionPlanName The name of the DDoS protection plan.
@@ -107,8 +154,20 @@ export class DdosProtectionPlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, ddosProtectionPlanName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosProtectionPlan>): void;
-  updateTags(resourceGroupName: string, ddosProtectionPlanName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlan>, callback?: msRest.ServiceCallback<Models.DdosProtectionPlan>): Promise<Models.DdosProtectionPlansUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    ddosProtectionPlanName: string,
+    parameters: Models.TagsObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DdosProtectionPlan>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    ddosProtectionPlanName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlan>,
+    callback?: msRest.ServiceCallback<Models.DdosProtectionPlan>
+  ): Promise<Models.DdosProtectionPlansUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +176,8 @@ export class DdosProtectionPlans {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.DdosProtectionPlansUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.DdosProtectionPlansUpdateTagsResponse>;
   }
 
   /**
@@ -134,14 +194,23 @@ export class DdosProtectionPlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlanListResult>, callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): Promise<Models.DdosProtectionPlansListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DdosProtectionPlanListResult>,
+    callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>
+  ): Promise<Models.DdosProtectionPlansListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DdosProtectionPlansListResponse>;
+      callback
+    ) as Promise<Models.DdosProtectionPlansListResponse>;
   }
 
   /**
@@ -150,26 +219,43 @@ export class DdosProtectionPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.DdosProtectionPlansListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.DdosProtectionPlansListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DdosProtectionPlansListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlanListResult>, callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): Promise<Models.DdosProtectionPlansListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DdosProtectionPlanListResult>,
+    callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>
+  ): Promise<Models.DdosProtectionPlansListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.DdosProtectionPlansListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.DdosProtectionPlansListByResourceGroupResponse>;
   }
 
   /**
@@ -179,7 +265,11 @@ export class DdosProtectionPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, ddosProtectionPlanName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    ddosProtectionPlanName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -187,7 +277,8 @@ export class DdosProtectionPlans {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -198,7 +289,12 @@ export class DdosProtectionPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, ddosProtectionPlanName: string, parameters: Models.DdosProtectionPlan, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    ddosProtectionPlanName: string,
+    parameters: Models.DdosProtectionPlan,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -207,7 +303,8 @@ export class DdosProtectionPlans {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -216,26 +313,43 @@ export class DdosProtectionPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.DdosProtectionPlansListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DdosProtectionPlansListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DdosProtectionPlansListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlanListResult>, callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): Promise<Models.DdosProtectionPlansListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DdosProtectionPlanListResult>,
+    callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>
+  ): Promise<Models.DdosProtectionPlansListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DdosProtectionPlansListNextResponse>;
+      callback
+    ) as Promise<Models.DdosProtectionPlansListNextResponse>;
   }
 
   /**
@@ -244,26 +358,43 @@ export class DdosProtectionPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.DdosProtectionPlansListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DdosProtectionPlansListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DdosProtectionPlansListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosProtectionPlanListResult>, callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>): Promise<Models.DdosProtectionPlansListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DdosProtectionPlanListResult>,
+    callback?: msRest.ServiceCallback<Models.DdosProtectionPlanListResult>
+  ): Promise<Models.DdosProtectionPlansListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.DdosProtectionPlansListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.DdosProtectionPlansListByResourceGroupNextResponse>;
   }
 }
 
@@ -271,18 +402,15 @@ export class DdosProtectionPlans {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.ddosProtectionPlanName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DdosProtectionPlan
@@ -296,18 +424,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.ddosProtectionPlanName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -329,15 +454,9 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/ddosProtectionPlans",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DdosProtectionPlanListResult
@@ -351,17 +470,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DdosProtectionPlanListResult
@@ -375,18 +488,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.ddosProtectionPlanName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -400,18 +510,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.ddosProtectionPlanName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -437,12 +544,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DdosProtectionPlanListResult
@@ -458,12 +561,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DdosProtectionPlanListResult

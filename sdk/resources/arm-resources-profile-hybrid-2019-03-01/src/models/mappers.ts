@@ -150,10 +150,7 @@ export const OnErrorDeployment: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "LastSuccessful",
-            "SpecificDeployment"
-          ]
+          allowedValues: ["LastSuccessful", "SpecificDeployment"]
         }
       },
       deploymentName: {
@@ -203,10 +200,7 @@ export const DeploymentProperties: msRest.CompositeMapper = {
         serializedName: "mode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Incremental",
-            "Complete"
-          ]
+          allowedValues: ["Incremental", "Complete"]
         }
       },
       debugSetting: {
@@ -555,10 +549,7 @@ export const OnErrorDeploymentExtended: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "LastSuccessful",
-            "SpecificDeployment"
-          ]
+          allowedValues: ["LastSuccessful", "SpecificDeployment"]
         }
       },
       deploymentName: {
@@ -658,10 +649,7 @@ export const DeploymentPropertiesExtended: msRest.CompositeMapper = {
         serializedName: "mode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Incremental",
-            "Complete"
-          ]
+          allowedValues: ["Incremental", "Complete"]
         }
       },
       debugSetting: {
@@ -884,12 +872,7 @@ export const Identity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned", "None"]
         }
       },
       userAssignedIdentities: {

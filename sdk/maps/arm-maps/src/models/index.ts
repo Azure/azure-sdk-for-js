@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing ErrorDetailsItem.
@@ -339,7 +338,6 @@ export interface MapsManagementClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the MapsAccounts.
@@ -347,8 +345,7 @@ export interface MapsManagementClientOptions extends AzureServiceClientOptions {
  *
  * @extends Array<MapsAccount>
  */
-export interface MapsAccounts extends Array<MapsAccount> {
-}
+export interface MapsAccounts extends Array<MapsAccount> {}
 
 /**
  * @interface
@@ -357,8 +354,7 @@ export interface MapsAccounts extends Array<MapsAccount> {
  *
  * @extends Array<MapsOperationsValueItem>
  */
-export interface MapsOperations extends Array<MapsOperationsValueItem> {
-}
+export interface MapsOperations extends Array<MapsOperationsValueItem> {}
 
 /**
  * Defines values for KeyType.
@@ -366,7 +362,7 @@ export interface MapsOperations extends Array<MapsOperationsValueItem> {
  * @readonly
  * @enum {string}
  */
-export type KeyType = 'primary' | 'secondary';
+export type KeyType = "primary" | "secondary";
 
 /**
  * Contains response data for the createOrUpdate operation.
@@ -376,15 +372,15 @@ export type AccountsCreateOrUpdateResponse = MapsAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MapsAccount;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MapsAccount;
+  };
 };
 
 /**
@@ -395,15 +391,15 @@ export type AccountsUpdateResponse = MapsAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MapsAccount;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MapsAccount;
+  };
 };
 
 /**
@@ -414,15 +410,15 @@ export type AccountsGetResponse = MapsAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MapsAccount;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MapsAccount;
+  };
 };
 
 /**
@@ -433,15 +429,15 @@ export type AccountsListByResourceGroupResponse = MapsAccounts & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MapsAccounts;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MapsAccounts;
+  };
 };
 
 /**
@@ -452,15 +448,15 @@ export type AccountsListBySubscriptionResponse = MapsAccounts & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MapsAccounts;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MapsAccounts;
+  };
 };
 
 /**
@@ -471,15 +467,15 @@ export type AccountsListKeysResponse = MapsAccountKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MapsAccountKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MapsAccountKeys;
+  };
 };
 
 /**
@@ -490,15 +486,15 @@ export type AccountsRegenerateKeysResponse = MapsAccountKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MapsAccountKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MapsAccountKeys;
+  };
 };
 
 /**
@@ -509,13 +505,13 @@ export type AccountsListOperationsResponse = MapsOperations & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MapsOperations;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MapsOperations;
+  };
 };

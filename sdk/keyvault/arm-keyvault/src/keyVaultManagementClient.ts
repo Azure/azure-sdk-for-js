@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { KeyVaultManagementClientContext } from "./keyVaultManagementClientContext";
 
-
 class KeyVaultManagementClient extends KeyVaultManagementClientContext {
   // Operation groups
   vaults: operations.Vaults;
@@ -27,7 +26,11 @@ class KeyVaultManagementClient extends KeyVaultManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.KeyVaultManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.KeyVaultManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.vaults = new operations.Vaults(this);
     this.operations = new operations.Operations(this);

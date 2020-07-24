@@ -36,21 +36,41 @@ export class ProtectionIntentOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProtectionIntentValidateResponse>
    */
-  validate(azureRegion: string, parameters: Models.PreValidateEnableBackupRequest, options?: msRest.RequestOptionsBase): Promise<Models.ProtectionIntentValidateResponse>;
+  validate(
+    azureRegion: string,
+    parameters: Models.PreValidateEnableBackupRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProtectionIntentValidateResponse>;
   /**
    * @param azureRegion Azure region to hit Api
    * @param parameters Enable backup validation request on Virtual Machine
    * @param callback The callback
    */
-  validate(azureRegion: string, parameters: Models.PreValidateEnableBackupRequest, callback: msRest.ServiceCallback<Models.PreValidateEnableBackupResponse>): void;
+  validate(
+    azureRegion: string,
+    parameters: Models.PreValidateEnableBackupRequest,
+    callback: msRest.ServiceCallback<Models.PreValidateEnableBackupResponse>
+  ): void;
   /**
    * @param azureRegion Azure region to hit Api
    * @param parameters Enable backup validation request on Virtual Machine
    * @param options The optional parameters
    * @param callback The callback
    */
-  validate(azureRegion: string, parameters: Models.PreValidateEnableBackupRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PreValidateEnableBackupResponse>): void;
-  validate(azureRegion: string, parameters: Models.PreValidateEnableBackupRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PreValidateEnableBackupResponse>, callback?: msRest.ServiceCallback<Models.PreValidateEnableBackupResponse>): Promise<Models.ProtectionIntentValidateResponse> {
+  validate(
+    azureRegion: string,
+    parameters: Models.PreValidateEnableBackupRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PreValidateEnableBackupResponse>
+  ): void;
+  validate(
+    azureRegion: string,
+    parameters: Models.PreValidateEnableBackupRequest,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PreValidateEnableBackupResponse>,
+    callback?: msRest.ServiceCallback<Models.PreValidateEnableBackupResponse>
+  ): Promise<Models.ProtectionIntentValidateResponse> {
     return this.client.sendOperationRequest(
       {
         azureRegion,
@@ -58,7 +78,8 @@ export class ProtectionIntentOperations {
         options
       },
       validateOperationSpec,
-      callback) as Promise<Models.ProtectionIntentValidateResponse>;
+      callback
+    ) as Promise<Models.ProtectionIntentValidateResponse>;
   }
 
   /**
@@ -73,7 +94,13 @@ export class ProtectionIntentOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProtectionIntentGetResponse>
    */
-  get(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProtectionIntentGetResponse>;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    intentObjectName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProtectionIntentGetResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -82,7 +109,13 @@ export class ProtectionIntentOperations {
    * @param intentObjectName Backed up item name whose details are to be fetched.
    * @param callback The callback
    */
-  get(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, callback: msRest.ServiceCallback<Models.ProtectionIntentResource>): void;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    intentObjectName: string,
+    callback: msRest.ServiceCallback<Models.ProtectionIntentResource>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -92,8 +125,22 @@ export class ProtectionIntentOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionIntentResource>): void;
-  get(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionIntentResource>, callback?: msRest.ServiceCallback<Models.ProtectionIntentResource>): Promise<Models.ProtectionIntentGetResponse> {
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    intentObjectName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProtectionIntentResource>
+  ): void;
+  get(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    intentObjectName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionIntentResource>,
+    callback?: msRest.ServiceCallback<Models.ProtectionIntentResource>
+  ): Promise<Models.ProtectionIntentGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -103,7 +150,8 @@ export class ProtectionIntentOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ProtectionIntentGetResponse>;
+      callback
+    ) as Promise<Models.ProtectionIntentGetResponse>;
   }
 
   /**
@@ -117,7 +165,14 @@ export class ProtectionIntentOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProtectionIntentCreateOrUpdateResponse>
    */
-  createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, parameters: Models.ProtectionIntentResource, options?: msRest.RequestOptionsBase): Promise<Models.ProtectionIntentCreateOrUpdateResponse>;
+  createOrUpdate(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    intentObjectName: string,
+    parameters: Models.ProtectionIntentResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProtectionIntentCreateOrUpdateResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -127,7 +182,14 @@ export class ProtectionIntentOperations {
    * @param parameters resource backed up item
    * @param callback The callback
    */
-  createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, parameters: Models.ProtectionIntentResource, callback: msRest.ServiceCallback<Models.ProtectionIntentResource>): void;
+  createOrUpdate(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    intentObjectName: string,
+    parameters: Models.ProtectionIntentResource,
+    callback: msRest.ServiceCallback<Models.ProtectionIntentResource>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -138,8 +200,24 @@ export class ProtectionIntentOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, parameters: Models.ProtectionIntentResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionIntentResource>): void;
-  createOrUpdate(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, parameters: Models.ProtectionIntentResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionIntentResource>, callback?: msRest.ServiceCallback<Models.ProtectionIntentResource>): Promise<Models.ProtectionIntentCreateOrUpdateResponse> {
+  createOrUpdate(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    intentObjectName: string,
+    parameters: Models.ProtectionIntentResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProtectionIntentResource>
+  ): void;
+  createOrUpdate(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    intentObjectName: string,
+    parameters: Models.ProtectionIntentResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionIntentResource>,
+    callback?: msRest.ServiceCallback<Models.ProtectionIntentResource>
+  ): Promise<Models.ProtectionIntentCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -150,7 +228,8 @@ export class ProtectionIntentOperations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ProtectionIntentCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ProtectionIntentCreateOrUpdateResponse>;
   }
 
   /**
@@ -163,7 +242,13 @@ export class ProtectionIntentOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    intentObjectName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -172,7 +257,13 @@ export class ProtectionIntentOperations {
    * @param intentObjectName Intent to be deleted.
    * @param callback The callback
    */
-  deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    intentObjectName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -182,8 +273,22 @@ export class ProtectionIntentOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(vaultName: string, resourceGroupName: string, fabricName: string, intentObjectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    intentObjectName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    intentObjectName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -193,7 +298,8 @@ export class ProtectionIntentOperations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -201,17 +307,11 @@ export class ProtectionIntentOperations {
 const serializer = new msRest.Serializer(Mappers);
 const validateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupPreValidateProtection",
-  urlParameters: [
-    Parameters.azureRegion,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/locations/{azureRegion}/backupPreValidateProtection",
+  urlParameters: [Parameters.azureRegion, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -232,7 +332,8 @@ const validateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -240,12 +341,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.fabricName,
     Parameters.intentObjectName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProtectionIntentResource
@@ -259,7 +356,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -267,12 +365,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.fabricName,
     Parameters.intentObjectName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -293,7 +387,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/backupProtectionIntent/{intentObjectName}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -301,12 +396,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.fabricName,
     Parameters.intentObjectName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {

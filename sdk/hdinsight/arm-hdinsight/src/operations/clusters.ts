@@ -35,9 +35,15 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersCreateResponse>
    */
-  create(resourceGroupName: string, clusterName: string, parameters: Models.ClusterCreateParametersExtended, options?: msRest.RequestOptionsBase): Promise<Models.ClustersCreateResponse> {
-    return this.beginCreate(resourceGroupName,clusterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ClustersCreateResponse>;
+  create(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterCreateParametersExtended,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersCreateResponse> {
+    return this.beginCreate(resourceGroupName, clusterName, parameters, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ClustersCreateResponse>;
   }
 
   /**
@@ -48,14 +54,24 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersUpdateResponse>
    */
-  update(resourceGroupName: string, clusterName: string, parameters: Models.ClusterPatchParameters, options?: msRest.RequestOptionsBase): Promise<Models.ClustersUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterPatchParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param parameters The cluster patch request.
    * @param callback The callback
    */
-  update(resourceGroupName: string, clusterName: string, parameters: Models.ClusterPatchParameters, callback: msRest.ServiceCallback<Models.Cluster>): void;
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterPatchParameters,
+    callback: msRest.ServiceCallback<Models.Cluster>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -63,8 +79,20 @@ export class Clusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, clusterName: string, parameters: Models.ClusterPatchParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Cluster>): void;
-  update(resourceGroupName: string, clusterName: string, parameters: Models.ClusterPatchParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterPatchParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Cluster>
+  ): void;
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterPatchParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>,
+    callback?: msRest.ServiceCallback<Models.Cluster>
+  ): Promise<Models.ClustersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,7 +101,8 @@ export class Clusters {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ClustersUpdateResponse>;
+      callback
+    ) as Promise<Models.ClustersUpdateResponse>;
   }
 
   /**
@@ -83,9 +112,14 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, clusterName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -95,21 +129,39 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersGetResponse>
    */
-  get(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersGetResponse>;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.Cluster>): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.Cluster>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Cluster>): void;
-  get(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>, callback?: msRest.ServiceCallback<Models.Cluster>): Promise<Models.ClustersGetResponse> {
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Cluster>
+  ): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cluster>,
+    callback?: msRest.ServiceCallback<Models.Cluster>
+  ): Promise<Models.ClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +169,8 @@ export class Clusters {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ClustersGetResponse>;
+      callback
+    ) as Promise<Models.ClustersGetResponse>;
   }
 
   /**
@@ -126,26 +179,41 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.ClusterListResult>
+  ): Promise<Models.ClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ClustersListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ClustersListByResourceGroupResponse>;
   }
 
   /**
@@ -156,9 +224,15 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resize(resourceGroupName: string, clusterName: string, parameters: Models.ClusterResizeParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginResize(resourceGroupName,clusterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  resize(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterResizeParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginResize(resourceGroupName, clusterName, parameters, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -169,9 +243,18 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  updateAutoScaleConfiguration(resourceGroupName: string, clusterName: string, parameters: Models.AutoscaleConfigurationUpdateParameter, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginUpdateAutoScaleConfiguration(resourceGroupName,clusterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  updateAutoScaleConfiguration(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.AutoscaleConfigurationUpdateParameter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginUpdateAutoScaleConfiguration(
+      resourceGroupName,
+      clusterName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -188,14 +271,21 @@ export class Clusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.ClusterListResult>
+  ): Promise<Models.ClustersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ClustersListResponse>;
+      callback
+    ) as Promise<Models.ClustersListResponse>;
   }
 
   /**
@@ -206,9 +296,18 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  rotateDiskEncryptionKey(resourceGroupName: string, clusterName: string, parameters: Models.ClusterDiskEncryptionParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRotateDiskEncryptionKey(resourceGroupName,clusterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  rotateDiskEncryptionKey(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterDiskEncryptionParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRotateDiskEncryptionKey(
+      resourceGroupName,
+      clusterName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -218,21 +317,39 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersGetGatewaySettingsResponse>
    */
-  getGatewaySettings(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersGetGatewaySettingsResponse>;
+  getGatewaySettings(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersGetGatewaySettingsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param callback The callback
    */
-  getGatewaySettings(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.GatewaySettings>): void;
+  getGatewaySettings(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.GatewaySettings>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getGatewaySettings(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewaySettings>): void;
-  getGatewaySettings(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewaySettings>, callback?: msRest.ServiceCallback<Models.GatewaySettings>): Promise<Models.ClustersGetGatewaySettingsResponse> {
+  getGatewaySettings(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewaySettings>
+  ): void;
+  getGatewaySettings(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewaySettings>,
+    callback?: msRest.ServiceCallback<Models.GatewaySettings>
+  ): Promise<Models.ClustersGetGatewaySettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -240,7 +357,8 @@ export class Clusters {
         options
       },
       getGatewaySettingsOperationSpec,
-      callback) as Promise<Models.ClustersGetGatewaySettingsResponse>;
+      callback
+    ) as Promise<Models.ClustersGetGatewaySettingsResponse>;
   }
 
   /**
@@ -251,9 +369,18 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  updateGatewaySettings(resourceGroupName: string, clusterName: string, parameters: Models.UpdateGatewaySettingsParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginUpdateGatewaySettings(resourceGroupName,clusterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  updateGatewaySettings(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.UpdateGatewaySettingsParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginUpdateGatewaySettings(
+      resourceGroupName,
+      clusterName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -264,9 +391,18 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  executeScriptActions(resourceGroupName: string, clusterName: string, parameters: Models.ExecuteScriptActionParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginExecuteScriptActions(resourceGroupName,clusterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  executeScriptActions(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ExecuteScriptActionParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginExecuteScriptActions(
+      resourceGroupName,
+      clusterName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -277,7 +413,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, clusterName: string, parameters: Models.ClusterCreateParametersExtended, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterCreateParametersExtended,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -286,7 +427,8 @@ export class Clusters {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -296,7 +438,11 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -304,7 +450,8 @@ export class Clusters {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -315,7 +462,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginResize(resourceGroupName: string, clusterName: string, parameters: Models.ClusterResizeParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginResize(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterResizeParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -324,7 +476,8 @@ export class Clusters {
         options
       },
       beginResizeOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -335,7 +488,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateAutoScaleConfiguration(resourceGroupName: string, clusterName: string, parameters: Models.AutoscaleConfigurationUpdateParameter, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateAutoScaleConfiguration(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.AutoscaleConfigurationUpdateParameter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -344,7 +502,8 @@ export class Clusters {
         options
       },
       beginUpdateAutoScaleConfigurationOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -355,7 +514,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRotateDiskEncryptionKey(resourceGroupName: string, clusterName: string, parameters: Models.ClusterDiskEncryptionParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRotateDiskEncryptionKey(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ClusterDiskEncryptionParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -364,7 +528,8 @@ export class Clusters {
         options
       },
       beginRotateDiskEncryptionKeyOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -375,7 +540,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateGatewaySettings(resourceGroupName: string, clusterName: string, parameters: Models.UpdateGatewaySettingsParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateGatewaySettings(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.UpdateGatewaySettingsParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -384,7 +554,8 @@ export class Clusters {
         options
       },
       beginUpdateGatewaySettingsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -395,7 +566,12 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginExecuteScriptActions(resourceGroupName: string, clusterName: string, parameters: Models.ExecuteScriptActionParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginExecuteScriptActions(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.ExecuteScriptActionParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -404,7 +580,8 @@ export class Clusters {
         options
       },
       beginExecuteScriptActionsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -413,26 +590,41 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.ClusterListResult>
+  ): Promise<Models.ClustersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ClustersListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ClustersListByResourceGroupNextResponse>;
   }
 
   /**
@@ -441,7 +633,10 @@ export class Clusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ClustersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -452,15 +647,24 @@ export class Clusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>, callback?: msRest.ServiceCallback<Models.ClusterListResult>): Promise<Models.ClustersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClusterListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.ClusterListResult>
+  ): Promise<Models.ClustersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ClustersListNextResponse>;
+      callback
+    ) as Promise<Models.ClustersListNextResponse>;
   }
 }
 
@@ -468,18 +672,11 @@ export class Clusters {
 const serializer = new msRest.Serializer(Mappers);
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -500,18 +697,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Cluster
@@ -525,17 +715,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterListResult
@@ -550,15 +734,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/clusters",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterListResult
@@ -572,18 +750,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getGatewaySettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/getGatewaySettings",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/getGatewaySettings",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GatewaySettings
@@ -597,18 +768,11 @@ const getGatewaySettingsOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -629,18 +793,11 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -653,19 +810,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginResizeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/roles/{roleName}/resize",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/roles/{roleName}/resize",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.roleName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -685,19 +839,16 @@ const beginResizeOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateAutoScaleConfigurationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/roles/{roleName}/autoscale",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/roles/{roleName}/autoscale",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.roleName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -717,18 +868,11 @@ const beginUpdateAutoScaleConfigurationOperationSpec: msRest.OperationSpec = {
 
 const beginRotateDiskEncryptionKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/rotatediskencryptionkey",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/rotatediskencryptionkey",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -748,18 +892,11 @@ const beginRotateDiskEncryptionKeyOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateGatewaySettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/updateGatewaySettings",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/updateGatewaySettings",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -779,18 +916,11 @@ const beginUpdateGatewaySettingsOperationSpec: msRest.OperationSpec = {
 
 const beginExecuteScriptActionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/executeScriptActions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/executeScriptActions",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -812,12 +942,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterListResult
@@ -833,12 +959,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterListResult

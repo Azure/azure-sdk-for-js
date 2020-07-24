@@ -31,7 +31,9 @@ export class RemoteRenderingAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RemoteRenderingAccountsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RemoteRenderingAccountsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,21 @@ export class RemoteRenderingAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccountPage>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): Promise<Models.RemoteRenderingAccountsListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>
+  ): void;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccountPage>,
+    callback?: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>
+  ): Promise<Models.RemoteRenderingAccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.RemoteRenderingAccountsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.RemoteRenderingAccountsListBySubscriptionResponse>;
   }
 
   /**
@@ -56,26 +65,41 @@ export class RemoteRenderingAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RemoteRenderingAccountsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RemoteRenderingAccountsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccountPage>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): Promise<Models.RemoteRenderingAccountsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccountPage>,
+    callback?: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>
+  ): Promise<Models.RemoteRenderingAccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.RemoteRenderingAccountsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.RemoteRenderingAccountsListByResourceGroupResponse>;
   }
 
   /**
@@ -85,21 +109,39 @@ export class RemoteRenderingAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +149,8 @@ export class RemoteRenderingAccounts {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -117,21 +160,39 @@ export class RemoteRenderingAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RemoteRenderingAccountsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RemoteRenderingAccountsGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccount>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccount>): Promise<Models.RemoteRenderingAccountsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccount>,
+    callback?: msRest.ServiceCallback<Models.RemoteRenderingAccount>
+  ): Promise<Models.RemoteRenderingAccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,7 +200,8 @@ export class RemoteRenderingAccounts {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RemoteRenderingAccountsGetResponse>;
+      callback
+    ) as Promise<Models.RemoteRenderingAccountsGetResponse>;
   }
 
   /**
@@ -150,14 +212,24 @@ export class RemoteRenderingAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RemoteRenderingAccountsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    remoteRenderingAccount: Models.RemoteRenderingAccount,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RemoteRenderingAccountsUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param remoteRenderingAccount Remote Rendering Account parameter.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    remoteRenderingAccount: Models.RemoteRenderingAccount,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
@@ -165,8 +237,20 @@ export class RemoteRenderingAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>): void;
-  update(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccount>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccount>): Promise<Models.RemoteRenderingAccountsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    remoteRenderingAccount: Models.RemoteRenderingAccount,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>
+  ): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    remoteRenderingAccount: Models.RemoteRenderingAccount,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccount>,
+    callback?: msRest.ServiceCallback<Models.RemoteRenderingAccount>
+  ): Promise<Models.RemoteRenderingAccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,7 +259,8 @@ export class RemoteRenderingAccounts {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.RemoteRenderingAccountsUpdateResponse>;
+      callback
+    ) as Promise<Models.RemoteRenderingAccountsUpdateResponse>;
   }
 
   /**
@@ -186,14 +271,24 @@ export class RemoteRenderingAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RemoteRenderingAccountsCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    remoteRenderingAccount: Models.RemoteRenderingAccount,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RemoteRenderingAccountsCreateResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param remoteRenderingAccount Remote Rendering Account parameter.
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>): void;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    remoteRenderingAccount: Models.RemoteRenderingAccount,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
@@ -201,8 +296,20 @@ export class RemoteRenderingAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>): void;
-  create(resourceGroupName: string, accountName: string, remoteRenderingAccount: Models.RemoteRenderingAccount, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccount>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccount>): Promise<Models.RemoteRenderingAccountsCreateResponse> {
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    remoteRenderingAccount: Models.RemoteRenderingAccount,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccount>
+  ): void;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    remoteRenderingAccount: Models.RemoteRenderingAccount,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccount>,
+    callback?: msRest.ServiceCallback<Models.RemoteRenderingAccount>
+  ): Promise<Models.RemoteRenderingAccountsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -211,7 +318,8 @@ export class RemoteRenderingAccounts {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.RemoteRenderingAccountsCreateResponse>;
+      callback
+    ) as Promise<Models.RemoteRenderingAccountsCreateResponse>;
   }
 
   /**
@@ -221,21 +329,39 @@ export class RemoteRenderingAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RemoteRenderingAccountsListKeysResponse>
    */
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RemoteRenderingAccountsListKeysResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.AccountKeys>): void;
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.AccountKeys>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountKeys>): void;
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountKeys>, callback?: msRest.ServiceCallback<Models.AccountKeys>): Promise<Models.RemoteRenderingAccountsListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountKeys>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountKeys>,
+    callback?: msRest.ServiceCallback<Models.AccountKeys>
+  ): Promise<Models.RemoteRenderingAccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -243,7 +369,8 @@ export class RemoteRenderingAccounts {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.RemoteRenderingAccountsListKeysResponse>;
+      callback
+    ) as Promise<Models.RemoteRenderingAccountsListKeysResponse>;
   }
 
   /**
@@ -254,14 +381,24 @@ export class RemoteRenderingAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RemoteRenderingAccountsRegenerateKeysResponse>
    */
-  regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsRegenerateKeysResponse>;
+  regenerateKeys(
+    resourceGroupName: string,
+    accountName: string,
+    regenerate: Models.AccountKeyRegenerateRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RemoteRenderingAccountsRegenerateKeysResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param regenerate Required information for key regeneration.
    * @param callback The callback
    */
-  regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, callback: msRest.ServiceCallback<Models.AccountKeys>): void;
+  regenerateKeys(
+    resourceGroupName: string,
+    accountName: string,
+    regenerate: Models.AccountKeyRegenerateRequest,
+    callback: msRest.ServiceCallback<Models.AccountKeys>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
@@ -269,8 +406,20 @@ export class RemoteRenderingAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountKeys>): void;
-  regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountKeys>, callback?: msRest.ServiceCallback<Models.AccountKeys>): Promise<Models.RemoteRenderingAccountsRegenerateKeysResponse> {
+  regenerateKeys(
+    resourceGroupName: string,
+    accountName: string,
+    regenerate: Models.AccountKeyRegenerateRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountKeys>
+  ): void;
+  regenerateKeys(
+    resourceGroupName: string,
+    accountName: string,
+    regenerate: Models.AccountKeyRegenerateRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountKeys>,
+    callback?: msRest.ServiceCallback<Models.AccountKeys>
+  ): Promise<Models.RemoteRenderingAccountsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -279,7 +428,8 @@ export class RemoteRenderingAccounts {
         options
       },
       regenerateKeysOperationSpec,
-      callback) as Promise<Models.RemoteRenderingAccountsRegenerateKeysResponse>;
+      callback
+    ) as Promise<Models.RemoteRenderingAccountsRegenerateKeysResponse>;
   }
 
   /**
@@ -288,26 +438,41 @@ export class RemoteRenderingAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RemoteRenderingAccountsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RemoteRenderingAccountsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccountPage>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): Promise<Models.RemoteRenderingAccountsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccountPage>,
+    callback?: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>
+  ): Promise<Models.RemoteRenderingAccountsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.RemoteRenderingAccountsListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.RemoteRenderingAccountsListBySubscriptionNextResponse>;
   }
 
   /**
@@ -316,26 +481,41 @@ export class RemoteRenderingAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RemoteRenderingAccountsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RemoteRenderingAccountsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RemoteRenderingAccountsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccountPage>, callback?: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>): Promise<Models.RemoteRenderingAccountsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemoteRenderingAccountPage>,
+    callback?: msRest.ServiceCallback<Models.RemoteRenderingAccountPage>
+  ): Promise<Models.RemoteRenderingAccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.RemoteRenderingAccountsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.RemoteRenderingAccountsListByResourceGroupNextResponse>;
   }
 }
 
@@ -344,15 +524,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/remoteRenderingAccounts",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RemoteRenderingAccountPage
@@ -366,17 +540,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RemoteRenderingAccountPage
@@ -390,18 +558,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -414,18 +575,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RemoteRenderingAccount
@@ -439,18 +593,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "remoteRenderingAccount",
     mapper: {
@@ -471,18 +618,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "remoteRenderingAccount",
     mapper: {
@@ -506,18 +646,11 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}/listKeys",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}/listKeys",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccountKeys
@@ -531,18 +664,11 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}/regenerateKeys",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}/regenerateKeys",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "regenerate",
     mapper: {
@@ -565,12 +691,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RemoteRenderingAccountPage
@@ -586,12 +708,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RemoteRenderingAccountPage

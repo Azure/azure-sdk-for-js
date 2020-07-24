@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { MachineLearningWorkspacesManagementClientContext } from "./machineLearningWorkspacesManagementClientContext";
 
-
 class MachineLearningWorkspacesManagementClient extends MachineLearningWorkspacesManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -26,7 +25,11 @@ class MachineLearningWorkspacesManagementClient extends MachineLearningWorkspace
    * @param subscriptionId The Microsoft Azure subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MachineLearningWorkspacesManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.MachineLearningWorkspacesManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.workspaces = new operations.Workspaces(this);

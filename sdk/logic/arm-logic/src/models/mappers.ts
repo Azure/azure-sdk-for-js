@@ -2428,13 +2428,7 @@ export const X12FramingSettings: msRest.CompositeMapper = {
         serializedName: "segmentTerminatorSuffix",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "None",
-            "CR",
-            "LF",
-            "CRLF"
-          ]
+          allowedValues: ["NotSpecified", "None", "CR", "LF", "CRLF"]
         }
       }
     }
@@ -3068,13 +3062,7 @@ export const X12DelimiterOverrides: msRest.CompositeMapper = {
         serializedName: "segmentTerminatorSuffix",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "None",
-            "CR",
-            "LF",
-            "CRLF"
-          ]
+          allowedValues: ["NotSpecified", "None", "CR", "LF", "CRLF"]
         }
       },
       replaceCharacter: {
@@ -3440,11 +3428,7 @@ export const EdifactFramingSettings: msRest.CompositeMapper = {
         serializedName: "decimalPointIndicator",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Comma",
-            "Decimal"
-          ]
+          allowedValues: ["NotSpecified", "Comma", "Decimal"]
         }
       },
       segmentTerminatorSuffix: {
@@ -3452,13 +3436,7 @@ export const EdifactFramingSettings: msRest.CompositeMapper = {
         serializedName: "segmentTerminatorSuffix",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "None",
-            "CR",
-            "LF",
-            "CRLF"
-          ]
+          allowedValues: ["NotSpecified", "None", "CR", "LF", "CRLF"]
         }
       }
     }
@@ -4171,13 +4149,7 @@ export const EdifactDelimiterOverride: msRest.CompositeMapper = {
         serializedName: "segmentTerminatorSuffix",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "None",
-            "CR",
-            "LF",
-            "CRLF"
-          ]
+          allowedValues: ["NotSpecified", "None", "CR", "LF", "CRLF"]
         }
       },
       decimalPointIndicator: {
@@ -4185,11 +4157,7 @@ export const EdifactDelimiterOverride: msRest.CompositeMapper = {
         serializedName: "decimalPointIndicator",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "Comma",
-            "Decimal"
-          ]
+          allowedValues: ["NotSpecified", "Comma", "Decimal"]
         }
       },
       releaseIndicator: {
@@ -4457,12 +4425,7 @@ export const IntegrationAccountAgreement: msRest.CompositeMapper = {
         serializedName: "properties.agreementType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "AS2",
-            "X12",
-            "Edifact"
-          ]
+          allowedValues: ["NotSpecified", "AS2", "X12", "Edifact"]
         }
       },
       hostPartner: {
@@ -4518,12 +4481,7 @@ export const IntegrationAccountAgreementFilter: msRest.CompositeMapper = {
         serializedName: "agreementType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NotSpecified",
-            "AS2",
-            "X12",
-            "Edifact"
-          ]
+          allowedValues: ["NotSpecified", "AS2", "X12", "Edifact"]
         }
       }
     }
@@ -4853,14 +4811,7 @@ export const TrackingEvent: msRest.CompositeMapper = {
         serializedName: "eventLevel",
         type: {
           name: "Enum",
-          allowedValues: [
-            "LogAlways",
-            "Critical",
-            "Error",
-            "Warning",
-            "Informational",
-            "Verbose"
-          ]
+          allowedValues: ["LogAlways", "Critical", "Error", "Warning", "Informational", "Verbose"]
         }
       },
       eventTime: {

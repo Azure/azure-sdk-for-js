@@ -6,7 +6,6 @@ import { Properties, Measurements } from "../../../types";
  * The abstract common base of all domains.
  */
 class Domain {
-
   /**
    * Collection of custom properties.
    */

@@ -35,21 +35,39 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.LiveEventsListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.LiveEventsListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LiveEventsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.LiveEventListResult>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.LiveEventListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LiveEventListResult>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LiveEventListResult>, callback?: msRest.ServiceCallback<Models.LiveEventListResult>): Promise<Models.LiveEventsListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LiveEventListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LiveEventListResult>,
+    callback?: msRest.ServiceCallback<Models.LiveEventListResult>
+  ): Promise<Models.LiveEventsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -57,7 +75,8 @@ export class LiveEvents {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.LiveEventsListResponse>;
+      callback
+    ) as Promise<Models.LiveEventsListResponse>;
   }
 
   /**
@@ -69,14 +88,24 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.LiveEventsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, liveEventName: string, options?: msRest.RequestOptionsBase): Promise<Models.LiveEventsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LiveEventsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param liveEventName The name of the Live Event.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, liveEventName: string, callback: msRest.ServiceCallback<Models.LiveEvent>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    callback: msRest.ServiceCallback<Models.LiveEvent>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -84,8 +113,20 @@ export class LiveEvents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, liveEventName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LiveEvent>): void;
-  get(resourceGroupName: string, accountName: string, liveEventName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LiveEvent>, callback?: msRest.ServiceCallback<Models.LiveEvent>): Promise<Models.LiveEventsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LiveEvent>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LiveEvent>,
+    callback?: msRest.ServiceCallback<Models.LiveEvent>
+  ): Promise<Models.LiveEventsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +135,8 @@ export class LiveEvents {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.LiveEventsGetResponse>;
+      callback
+    ) as Promise<Models.LiveEventsGetResponse>;
   }
 
   /**
@@ -107,9 +149,22 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.LiveEventsCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, liveEventName: string, parameters: Models.LiveEvent, options?: Models.LiveEventsCreateOptionalParams): Promise<Models.LiveEventsCreateResponse> {
-    return this.beginCreate(resourceGroupName,accountName,liveEventName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LiveEventsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    parameters: Models.LiveEvent,
+    options?: Models.LiveEventsCreateOptionalParams
+  ): Promise<Models.LiveEventsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.LiveEventsCreateResponse
+    >;
   }
 
   /**
@@ -121,9 +176,22 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.LiveEventsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, liveEventName: string, parameters: Models.LiveEvent, options?: msRest.RequestOptionsBase): Promise<Models.LiveEventsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,accountName,liveEventName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LiveEventsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    parameters: Models.LiveEvent,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LiveEventsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.LiveEventsUpdateResponse
+    >;
   }
 
   /**
@@ -135,9 +203,18 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, liveEventName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,accountName,liveEventName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -149,9 +226,18 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, accountName: string, liveEventName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStart(resourceGroupName,accountName,liveEventName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  start(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStart(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -164,9 +250,20 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(resourceGroupName: string, accountName: string, liveEventName: string, parameters: Models.LiveEventActionInput, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStop(resourceGroupName,accountName,liveEventName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  stop(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    parameters: Models.LiveEventActionInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStop(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -178,9 +275,18 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  reset(resourceGroupName: string, accountName: string, liveEventName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginReset(resourceGroupName,accountName,liveEventName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  reset(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginReset(
+      resourceGroupName,
+      accountName,
+      liveEventName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -193,7 +299,13 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, accountName: string, liveEventName: string, parameters: Models.LiveEvent, options?: Models.LiveEventsBeginCreateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    parameters: Models.LiveEvent,
+    options?: Models.LiveEventsBeginCreateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -203,7 +315,8 @@ export class LiveEvents {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -215,7 +328,13 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, accountName: string, liveEventName: string, parameters: Models.LiveEvent, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    parameters: Models.LiveEvent,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -225,7 +344,8 @@ export class LiveEvents {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -237,7 +357,12 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, liveEventName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -246,7 +371,8 @@ export class LiveEvents {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -258,7 +384,12 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, accountName: string, liveEventName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -267,7 +398,8 @@ export class LiveEvents {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -280,7 +412,13 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStop(resourceGroupName: string, accountName: string, liveEventName: string, parameters: Models.LiveEventActionInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    parameters: Models.LiveEventActionInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -290,7 +428,8 @@ export class LiveEvents {
         options
       },
       beginStopOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -302,7 +441,12 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginReset(resourceGroupName: string, accountName: string, liveEventName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginReset(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -311,7 +455,8 @@ export class LiveEvents {
         options
       },
       beginResetOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -321,26 +466,41 @@ export class LiveEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.LiveEventsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LiveEventsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LiveEventsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LiveEventListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.LiveEventListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LiveEventListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LiveEventListResult>, callback?: msRest.ServiceCallback<Models.LiveEventListResult>): Promise<Models.LiveEventsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LiveEventListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LiveEventListResult>,
+    callback?: msRest.ServiceCallback<Models.LiveEventListResult>
+  ): Promise<Models.LiveEventsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.LiveEventsListNextResponse>;
+      callback
+    ) as Promise<Models.LiveEventsListNextResponse>;
   }
 }
 
@@ -348,18 +508,11 @@ export class LiveEvents {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LiveEventListResult
@@ -373,19 +526,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.liveEventName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LiveEvent
@@ -400,20 +550,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.liveEventName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.autoStart
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.autoStart],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -437,19 +583,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.liveEventName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -473,19 +616,16 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.liveEventName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -499,19 +639,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/start",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/start",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.liveEventName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -524,19 +661,16 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginStopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/stop",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/stop",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.liveEventName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -556,19 +690,16 @@ const beginStopOperationSpec: msRest.OperationSpec = {
 
 const beginResetOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/reset",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/reset",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.liveEventName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -583,12 +714,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LiveEventListResult

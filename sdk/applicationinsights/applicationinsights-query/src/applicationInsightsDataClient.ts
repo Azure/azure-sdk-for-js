@@ -25,7 +25,10 @@ class ApplicationInsightsDataClient extends ApplicationInsightsDataClientContext
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.ApplicationInsightsDataClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.ApplicationInsightsDataClientOptions
+  ) {
     super(credentials, options);
     this.metrics = new operations.Metrics(this);
     this.events = new operations.Events(this);

@@ -32,26 +32,41 @@ export class Providers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProvidersUnregisterResponse>
    */
-  unregister(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase): Promise<Models.ProvidersUnregisterResponse>;
+  unregister(
+    resourceProviderNamespace: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProvidersUnregisterResponse>;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider to unregister.
    * @param callback The callback
    */
-  unregister(resourceProviderNamespace: string, callback: msRest.ServiceCallback<Models.Provider>): void;
+  unregister(
+    resourceProviderNamespace: string,
+    callback: msRest.ServiceCallback<Models.Provider>
+  ): void;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider to unregister.
    * @param options The optional parameters
    * @param callback The callback
    */
-  unregister(resourceProviderNamespace: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Provider>): void;
-  unregister(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Provider>, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersUnregisterResponse> {
+  unregister(
+    resourceProviderNamespace: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Provider>
+  ): void;
+  unregister(
+    resourceProviderNamespace: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Provider>,
+    callback?: msRest.ServiceCallback<Models.Provider>
+  ): Promise<Models.ProvidersUnregisterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
         options
       },
       unregisterOperationSpec,
-      callback) as Promise<Models.ProvidersUnregisterResponse>;
+      callback
+    ) as Promise<Models.ProvidersUnregisterResponse>;
   }
 
   /**
@@ -60,26 +75,41 @@ export class Providers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProvidersRegisterResponse>
    */
-  register(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase): Promise<Models.ProvidersRegisterResponse>;
+  register(
+    resourceProviderNamespace: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProvidersRegisterResponse>;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider to register.
    * @param callback The callback
    */
-  register(resourceProviderNamespace: string, callback: msRest.ServiceCallback<Models.Provider>): void;
+  register(
+    resourceProviderNamespace: string,
+    callback: msRest.ServiceCallback<Models.Provider>
+  ): void;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider to register.
    * @param options The optional parameters
    * @param callback The callback
    */
-  register(resourceProviderNamespace: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Provider>): void;
-  register(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Provider>, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersRegisterResponse> {
+  register(
+    resourceProviderNamespace: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Provider>
+  ): void;
+  register(
+    resourceProviderNamespace: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Provider>,
+    callback?: msRest.ServiceCallback<Models.Provider>
+  ): Promise<Models.ProvidersRegisterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
         options
       },
       registerOperationSpec,
-      callback) as Promise<Models.ProvidersRegisterResponse>;
+      callback
+    ) as Promise<Models.ProvidersRegisterResponse>;
   }
 
   /**
@@ -96,14 +126,23 @@ export class Providers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ProvidersListOptionalParams, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
-  list(options?: Models.ProvidersListOptionalParams | msRest.ServiceCallback<Models.ProviderListResult>, callback?: msRest.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListResponse> {
+  list(
+    options: Models.ProvidersListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ProviderListResult>
+  ): void;
+  list(
+    options?:
+      | Models.ProvidersListOptionalParams
+      | msRest.ServiceCallback<Models.ProviderListResult>,
+    callback?: msRest.ServiceCallback<Models.ProviderListResult>
+  ): Promise<Models.ProvidersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ProvidersListResponse>;
+      callback
+    ) as Promise<Models.ProvidersListResponse>;
   }
 
   /**
@@ -111,7 +150,9 @@ export class Providers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProvidersListAtTenantScopeResponse>
    */
-  listAtTenantScope(options?: Models.ProvidersListAtTenantScopeOptionalParams): Promise<Models.ProvidersListAtTenantScopeResponse>;
+  listAtTenantScope(
+    options?: Models.ProvidersListAtTenantScopeOptionalParams
+  ): Promise<Models.ProvidersListAtTenantScopeResponse>;
   /**
    * @param callback The callback
    */
@@ -120,14 +161,23 @@ export class Providers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtTenantScope(options: Models.ProvidersListAtTenantScopeOptionalParams, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
-  listAtTenantScope(options?: Models.ProvidersListAtTenantScopeOptionalParams | msRest.ServiceCallback<Models.ProviderListResult>, callback?: msRest.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListAtTenantScopeResponse> {
+  listAtTenantScope(
+    options: Models.ProvidersListAtTenantScopeOptionalParams,
+    callback: msRest.ServiceCallback<Models.ProviderListResult>
+  ): void;
+  listAtTenantScope(
+    options?:
+      | Models.ProvidersListAtTenantScopeOptionalParams
+      | msRest.ServiceCallback<Models.ProviderListResult>,
+    callback?: msRest.ServiceCallback<Models.ProviderListResult>
+  ): Promise<Models.ProvidersListAtTenantScopeResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAtTenantScopeOperationSpec,
-      callback) as Promise<Models.ProvidersListAtTenantScopeResponse>;
+      callback
+    ) as Promise<Models.ProvidersListAtTenantScopeResponse>;
   }
 
   /**
@@ -136,7 +186,10 @@ export class Providers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProvidersGetResponse>
    */
-  get(resourceProviderNamespace: string, options?: Models.ProvidersGetOptionalParams): Promise<Models.ProvidersGetResponse>;
+  get(
+    resourceProviderNamespace: string,
+    options?: Models.ProvidersGetOptionalParams
+  ): Promise<Models.ProvidersGetResponse>;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param callback The callback
@@ -147,15 +200,24 @@ export class Providers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceProviderNamespace: string, options: Models.ProvidersGetOptionalParams, callback: msRest.ServiceCallback<Models.Provider>): void;
-  get(resourceProviderNamespace: string, options?: Models.ProvidersGetOptionalParams | msRest.ServiceCallback<Models.Provider>, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersGetResponse> {
+  get(
+    resourceProviderNamespace: string,
+    options: Models.ProvidersGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.Provider>
+  ): void;
+  get(
+    resourceProviderNamespace: string,
+    options?: Models.ProvidersGetOptionalParams | msRest.ServiceCallback<Models.Provider>,
+    callback?: msRest.ServiceCallback<Models.Provider>
+  ): Promise<Models.ProvidersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ProvidersGetResponse>;
+      callback
+    ) as Promise<Models.ProvidersGetResponse>;
   }
 
   /**
@@ -164,26 +226,43 @@ export class Providers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProvidersGetAtTenantScopeResponse>
    */
-  getAtTenantScope(resourceProviderNamespace: string, options?: Models.ProvidersGetAtTenantScopeOptionalParams): Promise<Models.ProvidersGetAtTenantScopeResponse>;
+  getAtTenantScope(
+    resourceProviderNamespace: string,
+    options?: Models.ProvidersGetAtTenantScopeOptionalParams
+  ): Promise<Models.ProvidersGetAtTenantScopeResponse>;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param callback The callback
    */
-  getAtTenantScope(resourceProviderNamespace: string, callback: msRest.ServiceCallback<Models.Provider>): void;
+  getAtTenantScope(
+    resourceProviderNamespace: string,
+    callback: msRest.ServiceCallback<Models.Provider>
+  ): void;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAtTenantScope(resourceProviderNamespace: string, options: Models.ProvidersGetAtTenantScopeOptionalParams, callback: msRest.ServiceCallback<Models.Provider>): void;
-  getAtTenantScope(resourceProviderNamespace: string, options?: Models.ProvidersGetAtTenantScopeOptionalParams | msRest.ServiceCallback<Models.Provider>, callback?: msRest.ServiceCallback<Models.Provider>): Promise<Models.ProvidersGetAtTenantScopeResponse> {
+  getAtTenantScope(
+    resourceProviderNamespace: string,
+    options: Models.ProvidersGetAtTenantScopeOptionalParams,
+    callback: msRest.ServiceCallback<Models.Provider>
+  ): void;
+  getAtTenantScope(
+    resourceProviderNamespace: string,
+    options?:
+      | Models.ProvidersGetAtTenantScopeOptionalParams
+      | msRest.ServiceCallback<Models.Provider>,
+    callback?: msRest.ServiceCallback<Models.Provider>
+  ): Promise<Models.ProvidersGetAtTenantScopeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
         options
       },
       getAtTenantScopeOperationSpec,
-      callback) as Promise<Models.ProvidersGetAtTenantScopeResponse>;
+      callback
+    ) as Promise<Models.ProvidersGetAtTenantScopeResponse>;
   }
 
   /**
@@ -192,7 +271,10 @@ export class Providers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProvidersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProvidersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProvidersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -203,15 +285,24 @@ export class Providers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProviderListResult>, callback?: msRest.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProviderListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProviderListResult>,
+    callback?: msRest.ServiceCallback<Models.ProviderListResult>
+  ): Promise<Models.ProvidersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ProvidersListNextResponse>;
+      callback
+    ) as Promise<Models.ProvidersListNextResponse>;
   }
 
   /**
@@ -220,26 +311,41 @@ export class Providers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProvidersListAtTenantScopeNextResponse>
    */
-  listAtTenantScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProvidersListAtTenantScopeNextResponse>;
+  listAtTenantScopeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProvidersListAtTenantScopeNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAtTenantScopeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
+  listAtTenantScopeNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ProviderListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtTenantScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProviderListResult>): void;
-  listAtTenantScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProviderListResult>, callback?: msRest.ServiceCallback<Models.ProviderListResult>): Promise<Models.ProvidersListAtTenantScopeNextResponse> {
+  listAtTenantScopeNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProviderListResult>
+  ): void;
+  listAtTenantScopeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProviderListResult>,
+    callback?: msRest.ServiceCallback<Models.ProviderListResult>
+  ): Promise<Models.ProvidersListAtTenantScopeNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAtTenantScopeNextOperationSpec,
-      callback) as Promise<Models.ProvidersListAtTenantScopeNextResponse>;
+      callback
+    ) as Promise<Models.ProvidersListAtTenantScopeNextResponse>;
   }
 }
 
@@ -248,16 +354,9 @@ const serializer = new msRest.Serializer(Mappers);
 const unregisterOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/unregister",
-  urlParameters: [
-    Parameters.resourceProviderNamespace,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceProviderNamespace, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Provider
@@ -272,16 +371,9 @@ const unregisterOperationSpec: msRest.OperationSpec = {
 const registerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/register",
-  urlParameters: [
-    Parameters.resourceProviderNamespace,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceProviderNamespace, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Provider
@@ -296,17 +388,9 @@ const registerOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.top,
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.top, Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProviderListResult
@@ -321,14 +405,8 @@ const listOperationSpec: msRest.OperationSpec = {
 const listAtTenantScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers",
-  queryParameters: [
-    Parameters.top,
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.top, Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProviderListResult
@@ -343,17 +421,9 @@ const listAtTenantScopeOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}",
-  urlParameters: [
-    Parameters.resourceProviderNamespace,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceProviderNamespace, Parameters.subscriptionId],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Provider
@@ -368,16 +438,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const getAtTenantScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/{resourceProviderNamespace}",
-  urlParameters: [
-    Parameters.resourceProviderNamespace
-  ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceProviderNamespace],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Provider
@@ -393,12 +456,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProviderListResult
@@ -414,12 +473,8 @@ const listAtTenantScopeNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProviderListResult

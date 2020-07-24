@@ -36,21 +36,39 @@ export class MeshSecret {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshSecretCreateOrUpdateResponse>
    */
-  createOrUpdate(secretResourceName: string, secretResourceDescription: Models.SecretResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.MeshSecretCreateOrUpdateResponse>;
+  createOrUpdate(
+    secretResourceName: string,
+    secretResourceDescription: Models.SecretResourceDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshSecretCreateOrUpdateResponse>;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param secretResourceDescription Description for creating a secret resource.
    * @param callback The callback
    */
-  createOrUpdate(secretResourceName: string, secretResourceDescription: Models.SecretResourceDescription, callback: msRest.ServiceCallback<Models.SecretResourceDescription>): void;
+  createOrUpdate(
+    secretResourceName: string,
+    secretResourceDescription: Models.SecretResourceDescription,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescription>
+  ): void;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param secretResourceDescription Description for creating a secret resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(secretResourceName: string, secretResourceDescription: Models.SecretResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretResourceDescription>): void;
-  createOrUpdate(secretResourceName: string, secretResourceDescription: Models.SecretResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretResourceDescription>, callback?: msRest.ServiceCallback<Models.SecretResourceDescription>): Promise<Models.MeshSecretCreateOrUpdateResponse> {
+  createOrUpdate(
+    secretResourceName: string,
+    secretResourceDescription: Models.SecretResourceDescription,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescription>
+  ): void;
+  createOrUpdate(
+    secretResourceName: string,
+    secretResourceDescription: Models.SecretResourceDescription,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.SecretResourceDescription>
+  ): Promise<Models.MeshSecretCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         secretResourceName,
@@ -58,7 +76,8 @@ export class MeshSecret {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.MeshSecretCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.MeshSecretCreateOrUpdateResponse>;
   }
 
   /**
@@ -69,26 +88,41 @@ export class MeshSecret {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshSecretGetResponse>
    */
-  get(secretResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshSecretGetResponse>;
+  get(
+    secretResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshSecretGetResponse>;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param callback The callback
    */
-  get(secretResourceName: string, callback: msRest.ServiceCallback<Models.SecretResourceDescription>): void;
+  get(
+    secretResourceName: string,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescription>
+  ): void;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(secretResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretResourceDescription>): void;
-  get(secretResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretResourceDescription>, callback?: msRest.ServiceCallback<Models.SecretResourceDescription>): Promise<Models.MeshSecretGetResponse> {
+  get(
+    secretResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescription>
+  ): void;
+  get(
+    secretResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.SecretResourceDescription>
+  ): Promise<Models.MeshSecretGetResponse> {
     return this.client.sendOperationRequest(
       {
         secretResourceName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MeshSecretGetResponse>;
+      callback
+    ) as Promise<Models.MeshSecretGetResponse>;
   }
 
   /**
@@ -98,7 +132,10 @@ export class MeshSecret {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(secretResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    secretResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param callback The callback
@@ -109,15 +146,24 @@ export class MeshSecret {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(secretResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(secretResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    secretResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    secretResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         secretResourceName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -136,14 +182,23 @@ export class MeshSecret {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PagedSecretResourceDescriptionList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PagedSecretResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.PagedSecretResourceDescriptionList>): Promise<Models.MeshSecretListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PagedSecretResourceDescriptionList>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PagedSecretResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.PagedSecretResourceDescriptionList>
+  ): Promise<Models.MeshSecretListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MeshSecretListResponse>;
+      callback
+    ) as Promise<Models.MeshSecretListResponse>;
   }
 }
 
@@ -152,12 +207,8 @@ const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "Resources/Secrets/{secretResourceName}",
-  urlParameters: [
-    Parameters.secretResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.secretResourceName],
+  queryParameters: [Parameters.apiVersion8],
   requestBody: {
     parameterPath: "secretResourceDescription",
     mapper: {
@@ -183,12 +234,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Secrets/{secretResourceName}",
-  urlParameters: [
-    Parameters.secretResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.secretResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.SecretResourceDescription
@@ -203,12 +250,8 @@ const getOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "Resources/Secrets/{secretResourceName}",
-  urlParameters: [
-    Parameters.secretResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.secretResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {},
     202: {},
@@ -223,9 +266,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Secrets",
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.PagedSecretResourceDescriptionList

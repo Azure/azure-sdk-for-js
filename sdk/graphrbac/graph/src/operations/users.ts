@@ -32,26 +32,41 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsersCreateResponse>
    */
-  create(parameters: Models.UserCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.UsersCreateResponse>;
+  create(
+    parameters: Models.UserCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UsersCreateResponse>;
   /**
    * @param parameters Parameters to create a user.
    * @param callback The callback
    */
-  create(parameters: Models.UserCreateParameters, callback: msRest.ServiceCallback<Models.User>): void;
+  create(
+    parameters: Models.UserCreateParameters,
+    callback: msRest.ServiceCallback<Models.User>
+  ): void;
   /**
    * @param parameters Parameters to create a user.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(parameters: Models.UserCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.User>): void;
-  create(parameters: Models.UserCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.UsersCreateResponse> {
+  create(
+    parameters: Models.UserCreateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.User>
+  ): void;
+  create(
+    parameters: Models.UserCreateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>,
+    callback?: msRest.ServiceCallback<Models.User>
+  ): Promise<Models.UsersCreateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.UsersCreateResponse>;
+      callback
+    ) as Promise<Models.UsersCreateResponse>;
   }
 
   /**
@@ -68,14 +83,21 @@ export class Users {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.UsersListOptionalParams, callback: msRest.ServiceCallback<Models.UserListResult>): void;
-  list(options?: Models.UsersListOptionalParams | msRest.ServiceCallback<Models.UserListResult>, callback?: msRest.ServiceCallback<Models.UserListResult>): Promise<Models.UsersListResponse> {
+  list(
+    options: Models.UsersListOptionalParams,
+    callback: msRest.ServiceCallback<Models.UserListResult>
+  ): void;
+  list(
+    options?: Models.UsersListOptionalParams | msRest.ServiceCallback<Models.UserListResult>,
+    callback?: msRest.ServiceCallback<Models.UserListResult>
+  ): Promise<Models.UsersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.UsersListResponse>;
+      callback
+    ) as Promise<Models.UsersListResponse>;
   }
 
   /**
@@ -95,15 +117,24 @@ export class Users {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(upnOrObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.User>): void;
-  get(upnOrObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.UsersGetResponse> {
+  get(
+    upnOrObjectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.User>
+  ): void;
+  get(
+    upnOrObjectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>,
+    callback?: msRest.ServiceCallback<Models.User>
+  ): Promise<Models.UsersGetResponse> {
     return this.client.sendOperationRequest(
       {
         upnOrObjectId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.UsersGetResponse>;
+      callback
+    ) as Promise<Models.UsersGetResponse>;
   }
 
   /**
@@ -113,21 +144,39 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(upnOrObjectId: string, parameters: Models.UserUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(
+    upnOrObjectId: string,
+    parameters: Models.UserUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param upnOrObjectId The object ID or principal name of the user to update.
    * @param parameters Parameters to update an existing user.
    * @param callback The callback
    */
-  update(upnOrObjectId: string, parameters: Models.UserUpdateParameters, callback: msRest.ServiceCallback<void>): void;
+  update(
+    upnOrObjectId: string,
+    parameters: Models.UserUpdateParameters,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param upnOrObjectId The object ID or principal name of the user to update.
    * @param parameters Parameters to update an existing user.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(upnOrObjectId: string, parameters: Models.UserUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(upnOrObjectId: string, parameters: Models.UserUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    upnOrObjectId: string,
+    parameters: Models.UserUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    upnOrObjectId: string,
+    parameters: Models.UserUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         upnOrObjectId,
@@ -135,7 +184,8 @@ export class Users {
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -144,7 +194,10 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(upnOrObjectId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    upnOrObjectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param upnOrObjectId The object ID or principal name of the user to delete.
    * @param callback The callback
@@ -155,15 +208,24 @@ export class Users {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(upnOrObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(upnOrObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    upnOrObjectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    upnOrObjectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         upnOrObjectId,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -173,21 +235,39 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsersGetMemberGroupsResponse>
    */
-  getMemberGroups(objectId: string, parameters: Models.UserGetMemberGroupsParameters, options?: msRest.RequestOptionsBase): Promise<Models.UsersGetMemberGroupsResponse>;
+  getMemberGroups(
+    objectId: string,
+    parameters: Models.UserGetMemberGroupsParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UsersGetMemberGroupsResponse>;
   /**
    * @param objectId The object ID of the user for which to get group membership.
    * @param parameters User filtering parameters.
    * @param callback The callback
    */
-  getMemberGroups(objectId: string, parameters: Models.UserGetMemberGroupsParameters, callback: msRest.ServiceCallback<Models.UserGetMemberGroupsResult>): void;
+  getMemberGroups(
+    objectId: string,
+    parameters: Models.UserGetMemberGroupsParameters,
+    callback: msRest.ServiceCallback<Models.UserGetMemberGroupsResult>
+  ): void;
   /**
    * @param objectId The object ID of the user for which to get group membership.
    * @param parameters User filtering parameters.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMemberGroups(objectId: string, parameters: Models.UserGetMemberGroupsParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserGetMemberGroupsResult>): void;
-  getMemberGroups(objectId: string, parameters: Models.UserGetMemberGroupsParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserGetMemberGroupsResult>, callback?: msRest.ServiceCallback<Models.UserGetMemberGroupsResult>): Promise<Models.UsersGetMemberGroupsResponse> {
+  getMemberGroups(
+    objectId: string,
+    parameters: Models.UserGetMemberGroupsParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UserGetMemberGroupsResult>
+  ): void;
+  getMemberGroups(
+    objectId: string,
+    parameters: Models.UserGetMemberGroupsParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserGetMemberGroupsResult>,
+    callback?: msRest.ServiceCallback<Models.UserGetMemberGroupsResult>
+  ): Promise<Models.UsersGetMemberGroupsResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -195,7 +275,8 @@ export class Users {
         options
       },
       getMemberGroupsOperationSpec,
-      callback) as Promise<Models.UsersGetMemberGroupsResponse>;
+      callback
+    ) as Promise<Models.UsersGetMemberGroupsResponse>;
   }
 
   /**
@@ -204,7 +285,10 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsersListNextResponse>
    */
-  listNext(nextLink: string, options?: msRest.RequestOptionsBase): Promise<Models.UsersListNextResponse>;
+  listNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UsersListNextResponse>;
   /**
    * @param nextLink Next link for the list operation.
    * @param callback The callback
@@ -215,15 +299,24 @@ export class Users {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserListResult>): void;
-  listNext(nextLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserListResult>, callback?: msRest.ServiceCallback<Models.UserListResult>): Promise<Models.UsersListNextResponse> {
+  listNext(
+    nextLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UserListResult>
+  ): void;
+  listNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserListResult>,
+    callback?: msRest.ServiceCallback<Models.UserListResult>
+  ): Promise<Models.UsersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.UsersListNextResponse>;
+      callback
+    ) as Promise<Models.UsersListNextResponse>;
   }
 }
 
@@ -232,15 +325,9 @@ const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/users",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -262,16 +349,9 @@ const createOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/users",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UserListResult
@@ -286,16 +366,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/users/{upnOrObjectId}",
-  urlParameters: [
-    Parameters.upnOrObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.upnOrObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.User
@@ -310,16 +383,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "{tenantID}/users/{upnOrObjectId}",
-  urlParameters: [
-    Parameters.upnOrObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.upnOrObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -339,16 +405,9 @@ const updateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{tenantID}/users/{upnOrObjectId}",
-  urlParameters: [
-    Parameters.upnOrObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.upnOrObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -361,16 +420,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const getMemberGroupsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/users/{objectId}/getMemberGroups",
-  urlParameters: [
-    Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.objectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -392,16 +444,9 @@ const getMemberGroupsOperationSpec: msRest.OperationSpec = {
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/{nextLink}",
-  urlParameters: [
-    Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextLink, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UserListResult

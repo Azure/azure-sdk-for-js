@@ -15,7 +15,7 @@ export const endpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -23,10 +23,7 @@ export const endpoint: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const showStats: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "showStats"
-  ],
+  parameterPath: ["options", "showStats"],
   mapper: {
     serializedName: "showStats",
     type: {

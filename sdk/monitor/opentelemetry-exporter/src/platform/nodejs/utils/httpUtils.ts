@@ -11,14 +11,14 @@ const tlsRestrictedAgent = new https.Agent(<any>{
     constants.SSL_OP_NO_SSLv2 |
     constants.SSL_OP_NO_SSLv3 |
     constants.SSL_OP_NO_TLSv1 |
-    constants.SSL_OP_NO_TLSv1_1,
+    constants.SSL_OP_NO_TLSv1_1
 });
 
 export function makeRequest(
   config: NodejsPlatformConfig,
   endpointUrl: string,
   requestOptions: http.RequestOptions | https.RequestOptions,
-  requestCallback: (res: http.IncomingMessage) => void,
+  requestCallback: (res: http.IncomingMessage) => void
 ): http.ClientRequest {
   let requestUrl = endpointUrl;
   if (requestUrl && requestUrl.startsWith("//")) {
@@ -30,7 +30,7 @@ export function makeRequest(
     ...requestOptions,
     host: requestUrlParsed.hostname,
     port: requestUrlParsed.port,
-    path: requestUrlParsed.pathname,
+    path: requestUrlParsed.pathname
   };
 
   let proxyUrl: string | undefined;
@@ -57,7 +57,7 @@ export function makeRequest(
         host: proxyUrlParsed.hostname,
         port: proxyUrlParsed.port || "80",
         path: requestUrl,
-        headers: { ...options.headers, Host: requestUrlParsed.hostname },
+        headers: { ...options.headers, Host: requestUrlParsed.hostname }
       };
     }
   }

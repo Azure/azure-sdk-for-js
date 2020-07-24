@@ -34,7 +34,10 @@ export class ServiceTags {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceTagsListResponse>
    */
-  list(location: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceTagsListResponse>;
+  list(
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceTagsListResponse>;
   /**
    * @param location The location that will be used as a reference for version (not as a filter based
    * on location, you will get the list of service tags with prefix details across all regions but
@@ -49,15 +52,24 @@ export class ServiceTags {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceTagsListResult>): void;
-  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceTagsListResult>, callback?: msRest.ServiceCallback<Models.ServiceTagsListResult>): Promise<Models.ServiceTagsListResponse> {
+  list(
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceTagsListResult>
+  ): void;
+  list(
+    location: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceTagsListResult>,
+    callback?: msRest.ServiceCallback<Models.ServiceTagsListResult>
+  ): Promise<Models.ServiceTagsListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ServiceTagsListResponse>;
+      callback
+    ) as Promise<Models.ServiceTagsListResponse>;
   }
 }
 
@@ -65,17 +77,11 @@ export class ServiceTags {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTags",
-  urlParameters: [
-    Parameters.location0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTags",
+  urlParameters: [Parameters.location0, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceTagsListResult

@@ -16,7 +16,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.0',
+    defaultValue: "6.0",
     type: {
       name: "String"
     }
@@ -28,7 +28,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.4',
+    defaultValue: "6.4",
     type: {
       name: "String"
     }
@@ -40,7 +40,7 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.3',
+    defaultValue: "6.3",
     type: {
       name: "String"
     }
@@ -52,7 +52,7 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '7.0',
+    defaultValue: "7.0",
     type: {
       name: "String"
     }
@@ -64,7 +64,7 @@ export const apiVersion4: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.2',
+    defaultValue: "6.2",
     type: {
       name: "String"
     }
@@ -76,7 +76,7 @@ export const apiVersion5: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.1',
+    defaultValue: "6.1",
     type: {
       name: "String"
     }
@@ -88,7 +88,7 @@ export const apiVersion6: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.5',
+    defaultValue: "6.5",
     type: {
       name: "String"
     }
@@ -100,7 +100,7 @@ export const apiVersion7: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.0-preview',
+    defaultValue: "6.0-preview",
     type: {
       name: "String"
     }
@@ -112,7 +112,7 @@ export const apiVersion8: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.4-preview',
+    defaultValue: "6.4-preview",
     type: {
       name: "String"
     }
@@ -124,17 +124,14 @@ export const apiVersion9: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '6.2-preview',
+    defaultValue: "6.2-preview",
     type: {
       name: "String"
     }
   }
 };
 export const applicationDefinitionKindFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "applicationDefinitionKindFilter"
-  ],
+  parameterPath: ["options", "applicationDefinitionKindFilter"],
   mapper: {
     serializedName: "ApplicationDefinitionKindFilter",
     defaultValue: 0,
@@ -166,10 +163,7 @@ export const applicationResourceName: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const applicationsHealthStateFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "applicationsHealthStateFilter"
-  ],
+  parameterPath: ["options", "applicationsHealthStateFilter"],
   mapper: {
     serializedName: "ApplicationsHealthStateFilter",
     defaultValue: 0,
@@ -179,10 +173,7 @@ export const applicationsHealthStateFilter: msRest.OperationQueryParameter = {
   }
 };
 export const applicationTypeDefinitionKindFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "applicationTypeDefinitionKindFilter"
-  ],
+  parameterPath: ["options", "applicationTypeDefinitionKindFilter"],
   mapper: {
     serializedName: "ApplicationTypeDefinitionKindFilter",
     defaultValue: 0,
@@ -202,10 +193,7 @@ export const applicationTypeName0: msRest.OperationURLParameter = {
   }
 };
 export const applicationTypeName1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "applicationTypeName"
-  ],
+  parameterPath: ["options", "applicationTypeName"],
   mapper: {
     serializedName: "ApplicationTypeName",
     type: {
@@ -214,10 +202,7 @@ export const applicationTypeName1: msRest.OperationQueryParameter = {
   }
 };
 export const applicationTypeVersion0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "applicationTypeVersion"
-  ],
+  parameterPath: ["options", "applicationTypeVersion"],
   mapper: {
     serializedName: "ApplicationTypeVersion",
     type: {
@@ -246,10 +231,7 @@ export const backupPolicyName: msRest.OperationURLParameter = {
   }
 };
 export const backupTimeout: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "backupTimeout"
-  ],
+  parameterPath: ["options", "backupTimeout"],
   mapper: {
     serializedName: "BackupTimeout",
     defaultValue: 10,
@@ -269,10 +251,7 @@ export const codePackageInstanceId: msRest.OperationQueryParameter = {
   }
 };
 export const codePackageName0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "codePackageName"
-  ],
+  parameterPath: ["options", "codePackageName"],
   mapper: {
     serializedName: "CodePackageName",
     type: {
@@ -301,10 +280,7 @@ export const codePackageName2: msRest.OperationURLParameter = {
   }
 };
 export const codeVersion: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "codeVersion"
-  ],
+  parameterPath: ["options", "codeVersion"],
   mapper: {
     serializedName: "CodeVersion",
     type: {
@@ -333,10 +309,7 @@ export const configurationApiVersion: msRest.OperationQueryParameter = {
   }
 };
 export const configVersion: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "configVersion"
-  ],
+  parameterPath: ["options", "configVersion"],
   mapper: {
     serializedName: "ConfigVersion",
     type: {
@@ -365,10 +338,7 @@ export const contentRange: msRest.OperationParameter = {
   }
 };
 export const continuationToken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "continuationToken"
-  ],
+  parameterPath: ["options", "continuationToken"],
   mapper: {
     serializedName: "ContinuationToken",
     type: {
@@ -398,10 +368,7 @@ export const dataLossMode: msRest.OperationQueryParameter = {
   }
 };
 export const deployedApplicationsHealthStateFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "deployedApplicationsHealthStateFilter"
-  ],
+  parameterPath: ["options", "deployedApplicationsHealthStateFilter"],
   mapper: {
     serializedName: "DeployedApplicationsHealthStateFilter",
     defaultValue: 0,
@@ -411,10 +378,7 @@ export const deployedApplicationsHealthStateFilter: msRest.OperationQueryParamet
   }
 };
 export const deployedServicePackagesHealthStateFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "deployedServicePackagesHealthStateFilter"
-  ],
+  parameterPath: ["options", "deployedServicePackagesHealthStateFilter"],
   mapper: {
     serializedName: "DeployedServicePackagesHealthStateFilter",
     defaultValue: 0,
@@ -445,10 +409,7 @@ export const enabled: msRest.OperationQueryParameter = {
   }
 };
 export const endDateTimeFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "endDateTimeFilter"
-  ],
+  parameterPath: ["options", "endDateTimeFilter"],
   mapper: {
     serializedName: "EndDateTimeFilter",
     type: {
@@ -457,10 +418,7 @@ export const endDateTimeFilter: msRest.OperationQueryParameter = {
   }
 };
 export const endTimeUtc0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "endTimeUtc"
-  ],
+  parameterPath: ["options", "endTimeUtc"],
   mapper: {
     serializedName: "EndTimeUtc",
     type: {
@@ -489,10 +447,7 @@ export const eventInstanceId: msRest.OperationURLParameter = {
   }
 };
 export const eventsHealthStateFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "eventsHealthStateFilter"
-  ],
+  parameterPath: ["options", "eventsHealthStateFilter"],
   mapper: {
     serializedName: "EventsHealthStateFilter",
     defaultValue: 0,
@@ -502,10 +457,7 @@ export const eventsHealthStateFilter: msRest.OperationQueryParameter = {
   }
 };
 export const eventsTypesFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "eventsTypesFilter"
-  ],
+  parameterPath: ["options", "eventsTypesFilter"],
   mapper: {
     serializedName: "EventsTypesFilter",
     type: {
@@ -514,10 +466,7 @@ export const eventsTypesFilter: msRest.OperationQueryParameter = {
   }
 };
 export const excludeAnalysisEvents: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "excludeAnalysisEvents"
-  ],
+  parameterPath: ["options", "excludeAnalysisEvents"],
   mapper: {
     serializedName: "ExcludeAnalysisEvents",
     type: {
@@ -526,10 +475,7 @@ export const excludeAnalysisEvents: msRest.OperationQueryParameter = {
   }
 };
 export const excludeApplicationParameters: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "excludeApplicationParameters"
-  ],
+  parameterPath: ["options", "excludeApplicationParameters"],
   mapper: {
     serializedName: "ExcludeApplicationParameters",
     defaultValue: false,
@@ -539,10 +485,7 @@ export const excludeApplicationParameters: msRest.OperationQueryParameter = {
   }
 };
 export const excludeHealthStatistics: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "excludeHealthStatistics"
-  ],
+  parameterPath: ["options", "excludeHealthStatistics"],
   mapper: {
     serializedName: "ExcludeHealthStatistics",
     defaultValue: false,
@@ -552,10 +495,7 @@ export const excludeHealthStatistics: msRest.OperationQueryParameter = {
   }
 };
 export const executorFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "executorFilter"
-  ],
+  parameterPath: ["options", "executorFilter"],
   mapper: {
     serializedName: "ExecutorFilter",
     type: {
@@ -564,10 +504,7 @@ export const executorFilter: msRest.OperationQueryParameter = {
   }
 };
 export const force0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "force"
-  ],
+  parameterPath: ["options", "force"],
   mapper: {
     serializedName: "Force",
     type: {
@@ -587,10 +524,7 @@ export const force1: msRest.OperationQueryParameter = {
   }
 };
 export const forceRemove: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "forceRemove"
-  ],
+  parameterPath: ["options", "forceRemove"],
   mapper: {
     serializedName: "ForceRemove",
     type: {
@@ -610,10 +544,7 @@ export const gatewayResourceName: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const ignoreConstraints: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "ignoreConstraints"
-  ],
+  parameterPath: ["options", "ignoreConstraints"],
   mapper: {
     serializedName: "IgnoreConstraints",
     defaultValue: false,
@@ -623,10 +554,7 @@ export const ignoreConstraints: msRest.OperationQueryParameter = {
   }
 };
 export const immediate: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "immediate"
-  ],
+  parameterPath: ["options", "immediate"],
   mapper: {
     serializedName: "Immediate",
     defaultValue: false,
@@ -636,10 +564,7 @@ export const immediate: msRest.OperationQueryParameter = {
   }
 };
 export const includeHealthState: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeHealthState"
-  ],
+  parameterPath: ["options", "includeHealthState"],
   mapper: {
     serializedName: "IncludeHealthState",
     defaultValue: false,
@@ -649,10 +574,7 @@ export const includeHealthState: msRest.OperationQueryParameter = {
   }
 };
 export const includeSystemApplicationHealthStatistics: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeSystemApplicationHealthStatistics"
-  ],
+  parameterPath: ["options", "includeSystemApplicationHealthStatistics"],
   mapper: {
     serializedName: "IncludeSystemApplicationHealthStatistics",
     defaultValue: false,
@@ -662,10 +584,7 @@ export const includeSystemApplicationHealthStatistics: msRest.OperationQueryPara
   }
 };
 export const includeValues: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeValues"
-  ],
+  parameterPath: ["options", "includeValues"],
   mapper: {
     serializedName: "IncludeValues",
     defaultValue: false,
@@ -675,10 +594,7 @@ export const includeValues: msRest.OperationQueryParameter = {
   }
 };
 export const latest: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "latest"
-  ],
+  parameterPath: ["options", "latest"],
   mapper: {
     serializedName: "Latest",
     defaultValue: false,
@@ -688,10 +604,7 @@ export const latest: msRest.OperationQueryParameter = {
   }
 };
 export const maxResults: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "maxResults"
-  ],
+  parameterPath: ["options", "maxResults"],
   mapper: {
     serializedName: "MaxResults",
     defaultValue: 0,
@@ -726,10 +639,7 @@ export const networkResourceName: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const newNodeName: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "newNodeName"
-  ],
+  parameterPath: ["options", "newNodeName"],
   mapper: {
     serializedName: "NewNodeName",
     type: {
@@ -758,10 +668,7 @@ export const nodeName0: msRest.OperationURLParameter = {
   }
 };
 export const nodeName1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "nodeName"
-  ],
+  parameterPath: ["options", "nodeName"],
   mapper: {
     serializedName: "NodeName",
     type: {
@@ -770,10 +677,7 @@ export const nodeName1: msRest.OperationQueryParameter = {
   }
 };
 export const nodesHealthStateFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "nodesHealthStateFilter"
-  ],
+  parameterPath: ["options", "nodesHealthStateFilter"],
   mapper: {
     serializedName: "NodesHealthStateFilter",
     defaultValue: 0,
@@ -783,13 +687,10 @@ export const nodesHealthStateFilter: msRest.OperationQueryParameter = {
   }
 };
 export const nodeStatusFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "nodeStatusFilter"
-  ],
+  parameterPath: ["options", "nodeStatusFilter"],
   mapper: {
     serializedName: "NodeStatusFilter",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
@@ -806,10 +707,7 @@ export const nodeTransitionType: msRest.OperationQueryParameter = {
   }
 };
 export const onlyQueryPrimaries: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "onlyQueryPrimaries"
-  ],
+  parameterPath: ["options", "onlyQueryPrimaries"],
   mapper: {
     serializedName: "OnlyQueryPrimaries",
     defaultValue: false,
@@ -829,10 +727,7 @@ export const operationId: msRest.OperationQueryParameter = {
   }
 };
 export const partitionId0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "partitionId"
-  ],
+  parameterPath: ["options", "partitionId"],
   mapper: {
     serializedName: "PartitionId",
     type: {
@@ -852,10 +747,7 @@ export const partitionId1: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const partitionKeyType: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "partitionKeyType"
-  ],
+  parameterPath: ["options", "partitionKeyType"],
   mapper: {
     serializedName: "PartitionKeyType",
     type: {
@@ -864,10 +756,7 @@ export const partitionKeyType: msRest.OperationQueryParameter = {
   }
 };
 export const partitionKeyValue: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "partitionKeyValue"
-  ],
+  parameterPath: ["options", "partitionKeyValue"],
   mapper: {
     serializedName: "PartitionKeyValue",
     type: {
@@ -877,10 +766,7 @@ export const partitionKeyValue: msRest.OperationQueryParameter = {
   skipEncoding: true
 };
 export const partitionsHealthStateFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "partitionsHealthStateFilter"
-  ],
+  parameterPath: ["options", "partitionsHealthStateFilter"],
   mapper: {
     serializedName: "PartitionsHealthStateFilter",
     defaultValue: 0,
@@ -890,10 +776,7 @@ export const partitionsHealthStateFilter: msRest.OperationQueryParameter = {
   }
 };
 export const previous: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "previous"
-  ],
+  parameterPath: ["options", "previous"],
   mapper: {
     serializedName: "Previous",
     defaultValue: false,
@@ -903,10 +786,7 @@ export const previous: msRest.OperationQueryParameter = {
   }
 };
 export const previousRspVersion: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "previousRspVersion"
-  ],
+  parameterPath: ["options", "previousRspVersion"],
   mapper: {
     serializedName: "PreviousRspVersion",
     type: {
@@ -946,10 +826,7 @@ export const quorumLossMode: msRest.OperationQueryParameter = {
   }
 };
 export const recursive: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "recursive"
-  ],
+  parameterPath: ["options", "recursive"],
   mapper: {
     serializedName: "Recursive",
     defaultValue: false,
@@ -981,10 +858,7 @@ export const replicaName: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const replicasHealthStateFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "replicasHealthStateFilter"
-  ],
+  parameterPath: ["options", "replicasHealthStateFilter"],
   mapper: {
     serializedName: "ReplicasHealthStateFilter",
     defaultValue: 0,
@@ -1004,10 +878,7 @@ export const restartPartitionMode: msRest.OperationQueryParameter = {
   }
 };
 export const restoreTimeout: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "restoreTimeout"
-  ],
+  parameterPath: ["options", "restoreTimeout"],
   mapper: {
     serializedName: "RestoreTimeout",
     defaultValue: 10,
@@ -1050,10 +921,7 @@ export const serviceId0: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const serviceId1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "serviceId"
-  ],
+  parameterPath: ["options", "serviceId"],
   mapper: {
     serializedName: "ServiceId",
     type: {
@@ -1066,7 +934,7 @@ export const serviceKind: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "ServiceKind",
-    defaultValue: 'Stateful',
+    defaultValue: "Stateful",
     type: {
       name: "String"
     }
@@ -1083,10 +951,7 @@ export const serviceManifestName0: msRest.OperationQueryParameter = {
   }
 };
 export const serviceManifestName1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "serviceManifestName"
-  ],
+  parameterPath: ["options", "serviceManifestName"],
   mapper: {
     serializedName: "ServiceManifestName",
     type: {
@@ -1117,10 +982,7 @@ export const serviceResourceName: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const servicesHealthStateFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "servicesHealthStateFilter"
-  ],
+  parameterPath: ["options", "servicesHealthStateFilter"],
   mapper: {
     serializedName: "ServicesHealthStateFilter",
     defaultValue: 0,
@@ -1141,10 +1003,7 @@ export const serviceTypeName0: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const serviceTypeName1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "serviceTypeName"
-  ],
+  parameterPath: ["options", "serviceTypeName"],
   mapper: {
     serializedName: "ServiceTypeName",
     type: {
@@ -1163,10 +1022,7 @@ export const sessionId: msRest.OperationQueryParameter = {
   }
 };
 export const skipCorrelationLookup: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skipCorrelationLookup"
-  ],
+  parameterPath: ["options", "skipCorrelationLookup"],
   mapper: {
     serializedName: "SkipCorrelationLookup",
     type: {
@@ -1175,10 +1031,7 @@ export const skipCorrelationLookup: msRest.OperationQueryParameter = {
   }
 };
 export const startDateTimeFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "startDateTimeFilter"
-  ],
+  parameterPath: ["options", "startDateTimeFilter"],
   mapper: {
     serializedName: "StartDateTimeFilter",
     type: {
@@ -1187,10 +1040,7 @@ export const startDateTimeFilter: msRest.OperationQueryParameter = {
   }
 };
 export const startTimeUtc0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "startTimeUtc"
-  ],
+  parameterPath: ["options", "startTimeUtc"],
   mapper: {
     serializedName: "StartTimeUtc",
     type: {
@@ -1209,10 +1059,7 @@ export const startTimeUtc1: msRest.OperationQueryParameter = {
   }
 };
 export const stateFilter0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "stateFilter"
-  ],
+  parameterPath: ["options", "stateFilter"],
   mapper: {
     serializedName: "StateFilter",
     type: {
@@ -1245,10 +1092,7 @@ export const stopDurationInSeconds: msRest.OperationQueryParameter = {
   }
 };
 export const tail: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "tail"
-  ],
+  parameterPath: ["options", "tail"],
   mapper: {
     serializedName: "Tail",
     type: {
@@ -1257,10 +1101,7 @@ export const tail: msRest.OperationQueryParameter = {
   }
 };
 export const taskIdFilter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "taskIdFilter"
-  ],
+  parameterPath: ["options", "taskIdFilter"],
   mapper: {
     serializedName: "TaskIdFilter",
     type: {
@@ -1269,10 +1110,7 @@ export const taskIdFilter: msRest.OperationQueryParameter = {
   }
 };
 export const timeout: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "timeout"
-  ],
+  parameterPath: ["options", "timeout"],
   mapper: {
     serializedName: "timeout",
     defaultValue: 60,

@@ -40,7 +40,15 @@ export class Backups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  trigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.BackupRequestResource, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  trigger(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: Models.BackupRequestResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -51,7 +59,15 @@ export class Backups {
    * @param parameters resource backup request
    * @param callback The callback
    */
-  trigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.BackupRequestResource, callback: msRest.ServiceCallback<void>): void;
+  trigger(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: Models.BackupRequestResource,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -63,8 +79,26 @@ export class Backups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  trigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.BackupRequestResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  trigger(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: Models.BackupRequestResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  trigger(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: Models.BackupRequestResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  trigger(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: Models.BackupRequestResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -76,7 +110,8 @@ export class Backups {
         options
       },
       triggerOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -84,7 +119,8 @@ export class Backups {
 const serializer = new msRest.Serializer(Mappers);
 const triggerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/backup",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/backup",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -93,12 +129,8 @@ const triggerOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.protectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

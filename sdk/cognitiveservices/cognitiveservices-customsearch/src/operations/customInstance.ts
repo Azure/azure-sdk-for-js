@@ -35,14 +35,22 @@ export class CustomInstance {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomInstanceSearchResponse>
    */
-  search(customConfig: string, query: string, options?: Models.CustomInstanceSearchOptionalParams): Promise<Models.CustomInstanceSearchResponse>;
+  search(
+    customConfig: string,
+    query: string,
+    options?: Models.CustomInstanceSearchOptionalParams
+  ): Promise<Models.CustomInstanceSearchResponse>;
   /**
    * @param customConfig The identifier for the custom search configuration
    * @param query The user's search query term. The term may not be empty. The term may contain Bing
    * Advanced Operators. For example, to limit results to a specific domain, use the site: operator.
    * @param callback The callback
    */
-  search(customConfig: string, query: string, callback: msRest.ServiceCallback<Models.SearchResponse>): void;
+  search(
+    customConfig: string,
+    query: string,
+    callback: msRest.ServiceCallback<Models.SearchResponse>
+  ): void;
   /**
    * @param customConfig The identifier for the custom search configuration
    * @param query The user's search query term. The term may not be empty. The term may contain Bing
@@ -50,8 +58,20 @@ export class CustomInstance {
    * @param options The optional parameters
    * @param callback The callback
    */
-  search(customConfig: string, query: string, options: Models.CustomInstanceSearchOptionalParams, callback: msRest.ServiceCallback<Models.SearchResponse>): void;
-  search(customConfig: string, query: string, options?: Models.CustomInstanceSearchOptionalParams | msRest.ServiceCallback<Models.SearchResponse>, callback?: msRest.ServiceCallback<Models.SearchResponse>): Promise<Models.CustomInstanceSearchResponse> {
+  search(
+    customConfig: string,
+    query: string,
+    options: Models.CustomInstanceSearchOptionalParams,
+    callback: msRest.ServiceCallback<Models.SearchResponse>
+  ): void;
+  search(
+    customConfig: string,
+    query: string,
+    options?:
+      | Models.CustomInstanceSearchOptionalParams
+      | msRest.ServiceCallback<Models.SearchResponse>,
+    callback?: msRest.ServiceCallback<Models.SearchResponse>
+  ): Promise<Models.CustomInstanceSearchResponse> {
     return this.client.sendOperationRequest(
       {
         customConfig,
@@ -59,7 +79,8 @@ export class CustomInstance {
         options
       },
       searchOperationSpec,
-      callback) as Promise<Models.CustomInstanceSearchResponse>;
+      callback
+    ) as Promise<Models.CustomInstanceSearchResponse>;
   }
 }
 
@@ -68,9 +89,7 @@ const serializer = new msRest.Serializer(Mappers);
 const searchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "search",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.customConfig,
     Parameters.countryCode,

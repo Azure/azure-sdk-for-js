@@ -10,7 +10,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -57,10 +57,7 @@ export const batchId: msRest.OperationURLParameter = {
   }
 };
 export const detailed: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "detailed"
-  ],
+  parameterPath: ["options", "detailed"],
   mapper: {
     serializedName: "detailed",
     type: {
@@ -69,10 +66,7 @@ export const detailed: msRest.OperationQueryParameter = {
   }
 };
 export const from: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "from"
-  ],
+  parameterPath: ["options", "from"],
   mapper: {
     serializedName: "from",
     type: {
@@ -85,7 +79,7 @@ export const livyApiVersion: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "livyApiVersion",
-    defaultValue: '2019-11-01-preview',
+    defaultValue: "2019-11-01-preview",
     type: {
       name: "String"
     }
@@ -123,10 +117,7 @@ export const sessionId: msRest.OperationURLParameter = {
   }
 };
 export const size: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "size"
-  ],
+  parameterPath: ["options", "size"],
   mapper: {
     serializedName: "size",
     type: {
@@ -159,7 +150,7 @@ export const synapseDnsSuffix: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "SynapseDnsSuffix",
-    defaultValue: 'azuresynapse.net​',
+    defaultValue: "azuresynapse.net​",
     type: {
       name: "String"
     }
@@ -171,7 +162,7 @@ export const workspaceName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "workspaceName",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }

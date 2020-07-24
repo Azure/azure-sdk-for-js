@@ -35,14 +35,24 @@ export class SqlPoolMetadataSyncConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolMetadataSyncConfigsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolMetadataSyncConfigsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolMetadataSyncConfigsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.MetadataSyncConfig>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    callback: msRest.ServiceCallback<Models.MetadataSyncConfig>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -50,8 +60,20 @@ export class SqlPoolMetadataSyncConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetadataSyncConfig>): void;
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetadataSyncConfig>, callback?: msRest.ServiceCallback<Models.MetadataSyncConfig>): Promise<Models.SqlPoolMetadataSyncConfigsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetadataSyncConfig>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetadataSyncConfig>,
+    callback?: msRest.ServiceCallback<Models.MetadataSyncConfig>
+  ): Promise<Models.SqlPoolMetadataSyncConfigsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class SqlPoolMetadataSyncConfigs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SqlPoolMetadataSyncConfigsGetResponse>;
+      callback
+    ) as Promise<Models.SqlPoolMetadataSyncConfigsGetResponse>;
   }
 
   /**
@@ -73,7 +96,13 @@ export class SqlPoolMetadataSyncConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolMetadataSyncConfigsCreateResponse>
    */
-  create(resourceGroupName: string, workspaceName: string, sqlPoolName: string, metadataSyncConfiguration: Models.MetadataSyncConfig, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolMetadataSyncConfigsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    metadataSyncConfiguration: Models.MetadataSyncConfig,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolMetadataSyncConfigsCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -81,7 +110,13 @@ export class SqlPoolMetadataSyncConfigs {
    * @param metadataSyncConfiguration Metadata sync configuration
    * @param callback The callback
    */
-  create(resourceGroupName: string, workspaceName: string, sqlPoolName: string, metadataSyncConfiguration: Models.MetadataSyncConfig, callback: msRest.ServiceCallback<Models.MetadataSyncConfig>): void;
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    metadataSyncConfiguration: Models.MetadataSyncConfig,
+    callback: msRest.ServiceCallback<Models.MetadataSyncConfig>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -90,8 +125,22 @@ export class SqlPoolMetadataSyncConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, workspaceName: string, sqlPoolName: string, metadataSyncConfiguration: Models.MetadataSyncConfig, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetadataSyncConfig>): void;
-  create(resourceGroupName: string, workspaceName: string, sqlPoolName: string, metadataSyncConfiguration: Models.MetadataSyncConfig, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetadataSyncConfig>, callback?: msRest.ServiceCallback<Models.MetadataSyncConfig>): Promise<Models.SqlPoolMetadataSyncConfigsCreateResponse> {
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    metadataSyncConfiguration: Models.MetadataSyncConfig,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetadataSyncConfig>
+  ): void;
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    metadataSyncConfiguration: Models.MetadataSyncConfig,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetadataSyncConfig>,
+    callback?: msRest.ServiceCallback<Models.MetadataSyncConfig>
+  ): Promise<Models.SqlPoolMetadataSyncConfigsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +150,8 @@ export class SqlPoolMetadataSyncConfigs {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.SqlPoolMetadataSyncConfigsCreateResponse>;
+      callback
+    ) as Promise<Models.SqlPoolMetadataSyncConfigsCreateResponse>;
   }
 }
 
@@ -109,19 +159,16 @@ export class SqlPoolMetadataSyncConfigs {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/metadataSync/config",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/metadataSync/config",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetadataSyncConfig
@@ -136,19 +183,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/metadataSync/config",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/metadataSync/config",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "metadataSyncConfiguration",
     mapper: {

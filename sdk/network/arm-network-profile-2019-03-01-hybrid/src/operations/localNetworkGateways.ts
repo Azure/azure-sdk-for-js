@@ -35,9 +35,20 @@ export class LocalNetworkGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocalNetworkGatewaysCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, localNetworkGatewayName: string, parameters: Models.LocalNetworkGateway, options?: msRest.RequestOptionsBase): Promise<Models.LocalNetworkGatewaysCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,localNetworkGatewayName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LocalNetworkGatewaysCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    localNetworkGatewayName: string,
+    parameters: Models.LocalNetworkGateway,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocalNetworkGatewaysCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      localNetworkGatewayName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.LocalNetworkGatewaysCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -47,21 +58,39 @@ export class LocalNetworkGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocalNetworkGatewaysGetResponse>
    */
-  get(resourceGroupName: string, localNetworkGatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.LocalNetworkGatewaysGetResponse>;
+  get(
+    resourceGroupName: string,
+    localNetworkGatewayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocalNetworkGatewaysGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param localNetworkGatewayName The name of the local network gateway.
    * @param callback The callback
    */
-  get(resourceGroupName: string, localNetworkGatewayName: string, callback: msRest.ServiceCallback<Models.LocalNetworkGateway>): void;
+  get(
+    resourceGroupName: string,
+    localNetworkGatewayName: string,
+    callback: msRest.ServiceCallback<Models.LocalNetworkGateway>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param localNetworkGatewayName The name of the local network gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, localNetworkGatewayName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocalNetworkGateway>): void;
-  get(resourceGroupName: string, localNetworkGatewayName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocalNetworkGateway>, callback?: msRest.ServiceCallback<Models.LocalNetworkGateway>): Promise<Models.LocalNetworkGatewaysGetResponse> {
+  get(
+    resourceGroupName: string,
+    localNetworkGatewayName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LocalNetworkGateway>
+  ): void;
+  get(
+    resourceGroupName: string,
+    localNetworkGatewayName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocalNetworkGateway>,
+    callback?: msRest.ServiceCallback<Models.LocalNetworkGateway>
+  ): Promise<Models.LocalNetworkGatewaysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -69,7 +98,8 @@ export class LocalNetworkGateways {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.LocalNetworkGatewaysGetResponse>;
+      callback
+    ) as Promise<Models.LocalNetworkGatewaysGetResponse>;
   }
 
   /**
@@ -79,9 +109,16 @@ export class LocalNetworkGateways {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, localNetworkGatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,localNetworkGatewayName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    localNetworkGatewayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      localNetworkGatewayName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -92,9 +129,20 @@ export class LocalNetworkGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocalNetworkGatewaysUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, localNetworkGatewayName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.LocalNetworkGatewaysUpdateTagsResponse> {
-    return this.beginUpdateTags(resourceGroupName,localNetworkGatewayName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LocalNetworkGatewaysUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    localNetworkGatewayName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocalNetworkGatewaysUpdateTagsResponse> {
+    return this.beginUpdateTags(
+      resourceGroupName,
+      localNetworkGatewayName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.LocalNetworkGatewaysUpdateTagsResponse
+    >;
   }
 
   /**
@@ -103,26 +151,43 @@ export class LocalNetworkGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocalNetworkGatewaysListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.LocalNetworkGatewaysListResponse>;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocalNetworkGatewaysListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>): void;
+  list(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>, callback?: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>): Promise<Models.LocalNetworkGatewaysListResponse> {
+  list(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>,
+    callback?: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>
+  ): Promise<Models.LocalNetworkGatewaysListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.LocalNetworkGatewaysListResponse>;
+      callback
+    ) as Promise<Models.LocalNetworkGatewaysListResponse>;
   }
 
   /**
@@ -133,7 +198,12 @@ export class LocalNetworkGateways {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, localNetworkGatewayName: string, parameters: Models.LocalNetworkGateway, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    localNetworkGatewayName: string,
+    parameters: Models.LocalNetworkGateway,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -142,7 +212,8 @@ export class LocalNetworkGateways {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +223,11 @@ export class LocalNetworkGateways {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, localNetworkGatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    localNetworkGatewayName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -160,7 +235,8 @@ export class LocalNetworkGateways {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -171,7 +247,12 @@ export class LocalNetworkGateways {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, localNetworkGatewayName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(
+    resourceGroupName: string,
+    localNetworkGatewayName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -180,7 +261,8 @@ export class LocalNetworkGateways {
         options
       },
       beginUpdateTagsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -189,26 +271,43 @@ export class LocalNetworkGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocalNetworkGatewaysListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LocalNetworkGatewaysListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocalNetworkGatewaysListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>, callback?: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>): Promise<Models.LocalNetworkGatewaysListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>,
+    callback?: msRest.ServiceCallback<Models.LocalNetworkGatewayListResult>
+  ): Promise<Models.LocalNetworkGatewaysListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.LocalNetworkGatewaysListNextResponse>;
+      callback
+    ) as Promise<Models.LocalNetworkGatewaysListNextResponse>;
   }
 }
 
@@ -216,18 +315,15 @@ export class LocalNetworkGateways {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.localNetworkGatewayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LocalNetworkGateway
@@ -241,17 +337,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LocalNetworkGatewayListResult
@@ -265,18 +355,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.localNetworkGatewayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -300,18 +387,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.localNetworkGatewayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -325,18 +409,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.localNetworkGatewayName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -359,12 +440,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LocalNetworkGatewayListResult

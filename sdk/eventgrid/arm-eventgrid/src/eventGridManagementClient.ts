@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { EventGridManagementClientContext } from "./eventGridManagementClientContext";
 
-
 class EventGridManagementClient extends EventGridManagementClientContext {
   // Operation groups
   domains: operations.Domains;
@@ -33,7 +32,11 @@ class EventGridManagementClient extends EventGridManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.EventGridManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.EventGridManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.domains = new operations.Domains(this);
     this.domainTopics = new operations.DomainTopics(this);

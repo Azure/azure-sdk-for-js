@@ -162,7 +162,13 @@ export interface MigrateMISyncCompleteCommandInput {
 /**
  * Contains the possible cases for CommandProperties.
  */
-export type CommandPropertiesUnion = CommandProperties | MigrateMISyncCompleteCommandProperties | MigrateSyncCompleteCommandProperties | MongoDbCancelCommand | MongoDbFinishCommand | MongoDbRestartCommand;
+export type CommandPropertiesUnion =
+  | CommandProperties
+  | MigrateMISyncCompleteCommandProperties
+  | MigrateSyncCompleteCommandProperties
+  | MongoDbCancelCommand
+  | MongoDbFinishCommand
+  | MongoDbRestartCommand;
 
 /**
  * Base class for all types of DMS command properties. If command is not supported by current
@@ -280,7 +286,10 @@ export interface MigrateSyncCompleteCommandProperties {
 /**
  * Contains the possible cases for MigrateSsisTaskOutput.
  */
-export type MigrateSsisTaskOutputUnion = MigrateSsisTaskOutput | MigrateSsisTaskOutputProjectLevel | MigrateSsisTaskOutputMigrationLevel;
+export type MigrateSsisTaskOutputUnion =
+  | MigrateSsisTaskOutput
+  | MigrateSsisTaskOutputProjectLevel
+  | MigrateSsisTaskOutputMigrationLevel;
 
 /**
  * Output for task that migrates SSIS packages from SQL Server to Azure SQL Database Managed
@@ -447,7 +456,14 @@ export interface SsisMigrationInfo {
 /**
  * Contains the possible cases for ConnectionInfo.
  */
-export type ConnectionInfoUnion = ConnectionInfo | MiSqlConnectionInfo | PostgreSqlConnectionInfo | OracleConnectionInfo | MySqlConnectionInfo | MongoDbConnectionInfo | SqlConnectionInfo;
+export type ConnectionInfoUnion =
+  | ConnectionInfo
+  | MiSqlConnectionInfo
+  | PostgreSqlConnectionInfo
+  | OracleConnectionInfo
+  | MySqlConnectionInfo
+  | MongoDbConnectionInfo
+  | SqlConnectionInfo;
 
 /**
  * Defines the connection properties of a server
@@ -662,7 +678,44 @@ export interface MigrateSsisTaskInput extends SqlMigrationTaskInput {
 /**
  * Contains the possible cases for ProjectTaskProperties.
  */
-export type ProjectTaskPropertiesUnion = ProjectTaskProperties | MigrateSsisTaskProperties | GetTdeCertificatesSqlTaskProperties | ValidateOracleAzureDbForPostgreSqlSyncTaskProperties | ValidateMongoDbTaskProperties | ValidateMigrationInputSqlServerSqlMISyncTaskProperties | ValidateMigrationInputSqlServerSqlMITaskProperties | ValidateMigrationInputSqlServerSqlDbSyncTaskProperties | MigrateOracleAzureDbForPostgreSqlSyncTaskProperties | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties | MigrateMySqlAzureDbForMySqlSyncTaskProperties | MigrateSqlServerSqlDbSyncTaskProperties | MigrateSqlServerSqlDbTaskProperties | MigrateSqlServerSqlMISyncTaskProperties | MigrateSqlServerSqlMITaskProperties | MigrateMongoDbTaskProperties | ConnectToTargetAzureDbForMySqlTaskProperties | ConnectToTargetSqlMISyncTaskProperties | ConnectToTargetSqlMITaskProperties | GetUserTablesPostgreSqlTaskProperties | GetUserTablesOracleTaskProperties | GetUserTablesSqlSyncTaskProperties | GetUserTablesSqlTaskProperties | ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties | ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties | ConnectToTargetSqlSqlDbSyncTaskProperties | ConnectToTargetSqlDbTaskProperties | ConnectToSourceOracleSyncTaskProperties | ConnectToSourcePostgreSqlSyncTaskProperties | ConnectToSourceSqlServerSyncTaskProperties | ConnectToSourceSqlServerTaskProperties | ConnectToMongoDbTaskProperties | ConnectToSourceMySqlTaskProperties | MigrateSchemaSqlServerSqlDbTaskProperties | CheckOCIDriverTaskProperties | UploadOCIDriverTaskProperties | InstallOCIDriverTaskProperties;
+export type ProjectTaskPropertiesUnion =
+  | ProjectTaskProperties
+  | MigrateSsisTaskProperties
+  | GetTdeCertificatesSqlTaskProperties
+  | ValidateOracleAzureDbForPostgreSqlSyncTaskProperties
+  | ValidateMongoDbTaskProperties
+  | ValidateMigrationInputSqlServerSqlMISyncTaskProperties
+  | ValidateMigrationInputSqlServerSqlMITaskProperties
+  | ValidateMigrationInputSqlServerSqlDbSyncTaskProperties
+  | MigrateOracleAzureDbForPostgreSqlSyncTaskProperties
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties
+  | MigrateMySqlAzureDbForMySqlSyncTaskProperties
+  | MigrateSqlServerSqlDbSyncTaskProperties
+  | MigrateSqlServerSqlDbTaskProperties
+  | MigrateSqlServerSqlMISyncTaskProperties
+  | MigrateSqlServerSqlMITaskProperties
+  | MigrateMongoDbTaskProperties
+  | ConnectToTargetAzureDbForMySqlTaskProperties
+  | ConnectToTargetSqlMISyncTaskProperties
+  | ConnectToTargetSqlMITaskProperties
+  | GetUserTablesPostgreSqlTaskProperties
+  | GetUserTablesOracleTaskProperties
+  | GetUserTablesSqlSyncTaskProperties
+  | GetUserTablesSqlTaskProperties
+  | ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties
+  | ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties
+  | ConnectToTargetSqlSqlDbSyncTaskProperties
+  | ConnectToTargetSqlDbTaskProperties
+  | ConnectToSourceOracleSyncTaskProperties
+  | ConnectToSourcePostgreSqlSyncTaskProperties
+  | ConnectToSourceSqlServerSyncTaskProperties
+  | ConnectToSourceSqlServerTaskProperties
+  | ConnectToMongoDbTaskProperties
+  | ConnectToSourceMySqlTaskProperties
+  | MigrateSchemaSqlServerSqlDbTaskProperties
+  | CheckOCIDriverTaskProperties
+  | UploadOCIDriverTaskProperties
+  | InstallOCIDriverTaskProperties;
 
 /**
  * Base class for all types of DMS task properties. If task is not supported by current client,
@@ -1042,8 +1095,7 @@ export interface MongoDbProgress {
 /**
  * Describes the progress of a collection
  */
-export interface MongoDbCollectionProgress extends MongoDbProgress {
-}
+export interface MongoDbCollectionProgress extends MongoDbProgress {}
 
 /**
  * Describes the progress of a database
@@ -1315,8 +1367,8 @@ export interface SqlServerSqlMISyncTaskInput {
  * Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online
  * scenario.
  */
-export interface ValidateMigrationInputSqlServerSqlMISyncTaskInput extends SqlServerSqlMISyncTaskInput {
-}
+export interface ValidateMigrationInputSqlServerSqlMISyncTaskInput
+  extends SqlServerSqlMISyncTaskInput {}
 
 /**
  * Properties for task that validates migration input for SQL to Azure SQL Database Managed
@@ -1676,7 +1728,13 @@ export interface SyncMigrationDatabaseErrorEvent {
 /**
  * Contains the possible cases for MigrateOracleAzureDbPostgreSqlSyncTaskOutput.
  */
-export type MigrateOracleAzureDbPostgreSqlSyncTaskOutputUnion = MigrateOracleAzureDbPostgreSqlSyncTaskOutput | MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError | MigrateOracleAzureDbPostgreSqlSyncTaskOutputError | MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel | MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel | MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel;
+export type MigrateOracleAzureDbPostgreSqlSyncTaskOutputUnion =
+  | MigrateOracleAzureDbPostgreSqlSyncTaskOutput
+  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError
+  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputError
+  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel
+  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel
+  | MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel;
 
 /**
  * Output for the task that migrates Oracle databases to Azure Database for PostgreSQL for online
@@ -1998,7 +2056,13 @@ export interface MigrateOracleAzureDbForPostgreSqlSyncTaskProperties {
 /**
  * Contains the possible cases for MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.
  */
-export type MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputUnion = MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel;
+export type MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputUnion =
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel
+  | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel;
 
 /**
  * Output for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for
@@ -2366,7 +2430,13 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties {
 /**
  * Contains the possible cases for MigrateMySqlAzureDbForMySqlSyncTaskOutput.
  */
-export type MigrateMySqlAzureDbForMySqlSyncTaskOutputUnion = MigrateMySqlAzureDbForMySqlSyncTaskOutput | MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError | MigrateMySqlAzureDbForMySqlSyncTaskOutputError | MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel | MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel | MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel;
+export type MigrateMySqlAzureDbForMySqlSyncTaskOutputUnion =
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutput
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutputError
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel
+  | MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel;
 
 /**
  * Output for the task that migrates MySQL databases to Azure Database for MySQL for online
@@ -2733,7 +2803,13 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskProperties {
 /**
  * Contains the possible cases for MigrateSqlServerSqlDbSyncTaskOutput.
  */
-export type MigrateSqlServerSqlDbSyncTaskOutputUnion = MigrateSqlServerSqlDbSyncTaskOutput | MigrateSqlServerSqlDbSyncTaskOutputDatabaseError | MigrateSqlServerSqlDbSyncTaskOutputError | MigrateSqlServerSqlDbSyncTaskOutputTableLevel | MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel | MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel;
+export type MigrateSqlServerSqlDbSyncTaskOutputUnion =
+  | MigrateSqlServerSqlDbSyncTaskOutput
+  | MigrateSqlServerSqlDbSyncTaskOutputDatabaseError
+  | MigrateSqlServerSqlDbSyncTaskOutputError
+  | MigrateSqlServerSqlDbSyncTaskOutputTableLevel
+  | MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel
+  | MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel;
 
 /**
  * Output for the task that migrates on-prem SQL Server databases to Azure SQL Database for online
@@ -3379,7 +3455,12 @@ export interface MigrationValidationResult {
 /**
  * Contains the possible cases for MigrateSqlServerSqlDbTaskOutput.
  */
-export type MigrateSqlServerSqlDbTaskOutputUnion = MigrateSqlServerSqlDbTaskOutput | MigrateSqlServerSqlDbTaskOutputError | MigrateSqlServerSqlDbTaskOutputTableLevel | MigrateSqlServerSqlDbTaskOutputDatabaseLevel | MigrateSqlServerSqlDbTaskOutputMigrationLevel;
+export type MigrateSqlServerSqlDbTaskOutputUnion =
+  | MigrateSqlServerSqlDbTaskOutput
+  | MigrateSqlServerSqlDbTaskOutputError
+  | MigrateSqlServerSqlDbTaskOutputTableLevel
+  | MigrateSqlServerSqlDbTaskOutputDatabaseLevel
+  | MigrateSqlServerSqlDbTaskOutputMigrationLevel;
 
 /**
  * Output for the task that migrates on-prem SQL Server databases to Azure SQL Database
@@ -3816,7 +3897,11 @@ export interface MigrateSqlServerSqlDbTaskProperties {
 /**
  * Contains the possible cases for MigrateSqlServerSqlMISyncTaskOutput.
  */
-export type MigrateSqlServerSqlMISyncTaskOutputUnion = MigrateSqlServerSqlMISyncTaskOutput | MigrateSqlServerSqlMISyncTaskOutputError | MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel | MigrateSqlServerSqlMISyncTaskOutputMigrationLevel;
+export type MigrateSqlServerSqlMISyncTaskOutputUnion =
+  | MigrateSqlServerSqlMISyncTaskOutput
+  | MigrateSqlServerSqlMISyncTaskOutputError
+  | MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel
+  | MigrateSqlServerSqlMISyncTaskOutputMigrationLevel;
 
 /**
  * Output for task that migrates SQL Server databases to Azure SQL Database Managed Instance using
@@ -4067,8 +4152,7 @@ export interface MigrateSqlServerSqlMISyncTaskOutputMigrationLevel {
  * Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online
  * scenario.
  */
-export interface MigrateSqlServerSqlMISyncTaskInput extends SqlServerSqlMISyncTaskInput {
-}
+export interface MigrateSqlServerSqlMISyncTaskInput extends SqlServerSqlMISyncTaskInput {}
 
 /**
  * Properties for task that migrates SQL Server databases to Azure SQL Database Managed Instance
@@ -4113,7 +4197,13 @@ export interface MigrateSqlServerSqlMISyncTaskProperties {
 /**
  * Contains the possible cases for MigrateSqlServerSqlMITaskOutput.
  */
-export type MigrateSqlServerSqlMITaskOutputUnion = MigrateSqlServerSqlMITaskOutput | MigrateSqlServerSqlMITaskOutputError | MigrateSqlServerSqlMITaskOutputLoginLevel | MigrateSqlServerSqlMITaskOutputAgentJobLevel | MigrateSqlServerSqlMITaskOutputDatabaseLevel | MigrateSqlServerSqlMITaskOutputMigrationLevel;
+export type MigrateSqlServerSqlMITaskOutputUnion =
+  | MigrateSqlServerSqlMITaskOutput
+  | MigrateSqlServerSqlMITaskOutputError
+  | MigrateSqlServerSqlMITaskOutputLoginLevel
+  | MigrateSqlServerSqlMITaskOutputAgentJobLevel
+  | MigrateSqlServerSqlMITaskOutputDatabaseLevel
+  | MigrateSqlServerSqlMITaskOutputMigrationLevel;
 
 /**
  * Output for task that migrates SQL Server databases to Azure SQL Database Managed Instance.
@@ -5622,7 +5712,12 @@ export interface MigrationEligibilityInfo {
 /**
  * Contains the possible cases for ConnectToSourceSqlServerTaskOutput.
  */
-export type ConnectToSourceSqlServerTaskOutputUnion = ConnectToSourceSqlServerTaskOutput | ConnectToSourceSqlServerTaskOutputAgentJobLevel | ConnectToSourceSqlServerTaskOutputLoginLevel | ConnectToSourceSqlServerTaskOutputDatabaseLevel | ConnectToSourceSqlServerTaskOutputTaskLevel;
+export type ConnectToSourceSqlServerTaskOutputUnion =
+  | ConnectToSourceSqlServerTaskOutput
+  | ConnectToSourceSqlServerTaskOutputAgentJobLevel
+  | ConnectToSourceSqlServerTaskOutputLoginLevel
+  | ConnectToSourceSqlServerTaskOutputDatabaseLevel
+  | ConnectToSourceSqlServerTaskOutputTaskLevel;
 
 /**
  * Output for the task that validates connection to SQL Server and also validates source server
@@ -6799,7 +6894,12 @@ export interface MigrateSchemaSqlServerSqlDbTaskInput extends SqlMigrationTaskIn
 /**
  * Contains the possible cases for MigrateSchemaSqlServerSqlDbTaskOutput.
  */
-export type MigrateSchemaSqlServerSqlDbTaskOutputUnion = MigrateSchemaSqlServerSqlDbTaskOutput | MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel | MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel | MigrateSchemaSqlServerSqlDbTaskOutputError | MigrateSchemaSqlTaskOutputError;
+export type MigrateSchemaSqlServerSqlDbTaskOutputUnion =
+  | MigrateSchemaSqlServerSqlDbTaskOutput
+  | MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel
+  | MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel
+  | MigrateSchemaSqlServerSqlDbTaskOutputError
+  | MigrateSchemaSqlTaskOutputError;
 
 /**
  * Output for the task that migrates Schema for SQL Server databases to Azure SQL databases
@@ -7904,7 +8004,7 @@ export interface FileList extends Array<ProjectFile> {
  * @readonly
  * @enum {string}
  */
-export type CommandState = 'Unknown' | 'Accepted' | 'Running' | 'Succeeded' | 'Failed';
+export type CommandState = "Unknown" | "Accepted" | "Running" | "Succeeded" | "Failed";
 
 /**
  * Defines values for SsisMigrationStage.
@@ -7912,7 +8012,7 @@ export type CommandState = 'Unknown' | 'Accepted' | 'Running' | 'Succeeded' | 'F
  * @readonly
  * @enum {string}
  */
-export type SsisMigrationStage = 'None' | 'Initialize' | 'InProgress' | 'Completed';
+export type SsisMigrationStage = "None" | "Initialize" | "InProgress" | "Completed";
 
 /**
  * Defines values for MigrationState.
@@ -7921,7 +8021,14 @@ export type SsisMigrationStage = 'None' | 'Initialize' | 'InProgress' | 'Complet
  * @readonly
  * @enum {string}
  */
-export type MigrationState = 'None' | 'InProgress' | 'Failed' | 'Warning' | 'Completed' | 'Skipped' | 'Stopped';
+export type MigrationState =
+  | "None"
+  | "InProgress"
+  | "Failed"
+  | "Warning"
+  | "Completed"
+  | "Skipped"
+  | "Stopped";
 
 /**
  * Defines values for MigrationStatus.
@@ -7930,7 +8037,17 @@ export type MigrationState = 'None' | 'InProgress' | 'Failed' | 'Warning' | 'Com
  * @readonly
  * @enum {string}
  */
-export type MigrationStatus = 'Default' | 'Connecting' | 'SourceAndTargetSelected' | 'SelectLogins' | 'Configured' | 'Running' | 'Error' | 'Stopped' | 'Completed' | 'CompletedWithWarnings';
+export type MigrationStatus =
+  | "Default"
+  | "Connecting"
+  | "SourceAndTargetSelected"
+  | "SelectLogins"
+  | "Configured"
+  | "Running"
+  | "Error"
+  | "Stopped"
+  | "Completed"
+  | "CompletedWithWarnings";
 
 /**
  * Defines values for SsisMigrationOverwriteOption.
@@ -7938,7 +8055,7 @@ export type MigrationStatus = 'Default' | 'Connecting' | 'SourceAndTargetSelecte
  * @readonly
  * @enum {string}
  */
-export type SsisMigrationOverwriteOption = 'Ignore' | 'Overwrite';
+export type SsisMigrationOverwriteOption = "Ignore" | "Overwrite";
 
 /**
  * Defines values for SsisStoreType.
@@ -7946,7 +8063,7 @@ export type SsisMigrationOverwriteOption = 'Ignore' | 'Overwrite';
  * @readonly
  * @enum {string}
  */
-export type SsisStoreType = 'SsisCatalog';
+export type SsisStoreType = "SsisCatalog";
 
 /**
  * Defines values for SqlSourcePlatform.
@@ -7954,7 +8071,7 @@ export type SsisStoreType = 'SsisCatalog';
  * @readonly
  * @enum {string}
  */
-export type SqlSourcePlatform = 'SqlOnPrem';
+export type SqlSourcePlatform = "SqlOnPrem";
 
 /**
  * Defines values for AuthenticationType.
@@ -7963,7 +8080,12 @@ export type SqlSourcePlatform = 'SqlOnPrem';
  * @readonly
  * @enum {string}
  */
-export type AuthenticationType = 'None' | 'WindowsAuthentication' | 'SqlAuthentication' | 'ActiveDirectoryIntegrated' | 'ActiveDirectoryPassword';
+export type AuthenticationType =
+  | "None"
+  | "WindowsAuthentication"
+  | "SqlAuthentication"
+  | "ActiveDirectoryIntegrated"
+  | "ActiveDirectoryPassword";
 
 /**
  * Defines values for MongoDbErrorType.
@@ -7971,7 +8093,7 @@ export type AuthenticationType = 'None' | 'WindowsAuthentication' | 'SqlAuthenti
  * @readonly
  * @enum {string}
  */
-export type MongoDbErrorType = 'Error' | 'ValidationError' | 'Warning';
+export type MongoDbErrorType = "Error" | "ValidationError" | "Warning";
 
 /**
  * Defines values for MongoDbMigrationState.
@@ -7980,7 +8102,18 @@ export type MongoDbErrorType = 'Error' | 'ValidationError' | 'Warning';
  * @readonly
  * @enum {string}
  */
-export type MongoDbMigrationState = 'NotStarted' | 'ValidatingInput' | 'Initializing' | 'Restarting' | 'Copying' | 'InitialReplay' | 'Replaying' | 'Finalizing' | 'Complete' | 'Canceled' | 'Failed';
+export type MongoDbMigrationState =
+  | "NotStarted"
+  | "ValidatingInput"
+  | "Initializing"
+  | "Restarting"
+  | "Copying"
+  | "InitialReplay"
+  | "Replaying"
+  | "Finalizing"
+  | "Complete"
+  | "Canceled"
+  | "Failed";
 
 /**
  * Defines values for MongoDbShardKeyOrder.
@@ -7988,7 +8121,7 @@ export type MongoDbMigrationState = 'NotStarted' | 'ValidatingInput' | 'Initiali
  * @readonly
  * @enum {string}
  */
-export type MongoDbShardKeyOrder = 'Forward' | 'Reverse' | 'Hashed';
+export type MongoDbShardKeyOrder = "Forward" | "Reverse" | "Hashed";
 
 /**
  * Defines values for MongoDbReplication.
@@ -7996,7 +8129,7 @@ export type MongoDbShardKeyOrder = 'Forward' | 'Reverse' | 'Hashed';
  * @readonly
  * @enum {string}
  */
-export type MongoDbReplication = 'Disabled' | 'OneTime' | 'Continuous';
+export type MongoDbReplication = "Disabled" | "OneTime" | "Continuous";
 
 /**
  * Defines values for BackupType.
@@ -8005,7 +8138,14 @@ export type MongoDbReplication = 'Disabled' | 'OneTime' | 'Continuous';
  * @readonly
  * @enum {string}
  */
-export type BackupType = 'Database' | 'TransactionLog' | 'File' | 'DifferentialDatabase' | 'DifferentialFile' | 'Partial' | 'DifferentialPartial';
+export type BackupType =
+  | "Database"
+  | "TransactionLog"
+  | "File"
+  | "DifferentialDatabase"
+  | "DifferentialFile"
+  | "Partial"
+  | "DifferentialPartial";
 
 /**
  * Defines values for BackupMode.
@@ -8013,7 +8153,7 @@ export type BackupType = 'Database' | 'TransactionLog' | 'File' | 'DifferentialD
  * @readonly
  * @enum {string}
  */
-export type BackupMode = 'CreateBackup' | 'ExistingBackup';
+export type BackupMode = "CreateBackup" | "ExistingBackup";
 
 /**
  * Defines values for SyncTableMigrationState.
@@ -8021,7 +8161,13 @@ export type BackupMode = 'CreateBackup' | 'ExistingBackup';
  * @readonly
  * @enum {string}
  */
-export type SyncTableMigrationState = 'BEFORE_LOAD' | 'FULL_LOAD' | 'COMPLETED' | 'CANCELED' | 'ERROR' | 'FAILED';
+export type SyncTableMigrationState =
+  | "BEFORE_LOAD"
+  | "FULL_LOAD"
+  | "COMPLETED"
+  | "CANCELED"
+  | "ERROR"
+  | "FAILED";
 
 /**
  * Defines values for SyncDatabaseMigrationReportingState.
@@ -8030,7 +8176,18 @@ export type SyncTableMigrationState = 'BEFORE_LOAD' | 'FULL_LOAD' | 'COMPLETED' 
  * @readonly
  * @enum {string}
  */
-export type SyncDatabaseMigrationReportingState = 'UNDEFINED' | 'CONFIGURING' | 'INITIALIAZING' | 'STARTING' | 'RUNNING' | 'READY_TO_COMPLETE' | 'COMPLETING' | 'COMPLETE' | 'CANCELLING' | 'CANCELLED' | 'FAILED';
+export type SyncDatabaseMigrationReportingState =
+  | "UNDEFINED"
+  | "CONFIGURING"
+  | "INITIALIAZING"
+  | "STARTING"
+  | "RUNNING"
+  | "READY_TO_COMPLETE"
+  | "COMPLETING"
+  | "COMPLETE"
+  | "CANCELLING"
+  | "CANCELLED"
+  | "FAILED";
 
 /**
  * Defines values for ValidationStatus.
@@ -8039,7 +8196,15 @@ export type SyncDatabaseMigrationReportingState = 'UNDEFINED' | 'CONFIGURING' | 
  * @readonly
  * @enum {string}
  */
-export type ValidationStatus = 'Default' | 'NotStarted' | 'Initialized' | 'InProgress' | 'Completed' | 'CompletedWithIssues' | 'Stopped' | 'Failed';
+export type ValidationStatus =
+  | "Default"
+  | "NotStarted"
+  | "Initialized"
+  | "InProgress"
+  | "Completed"
+  | "CompletedWithIssues"
+  | "Stopped"
+  | "Failed";
 
 /**
  * Defines values for Severity.
@@ -8047,7 +8212,7 @@ export type ValidationStatus = 'Default' | 'NotStarted' | 'Initialized' | 'InPro
  * @readonly
  * @enum {string}
  */
-export type Severity = 'Message' | 'Warning' | 'Error';
+export type Severity = "Message" | "Warning" | "Error";
 
 /**
  * Defines values for UpdateActionType.
@@ -8055,7 +8220,7 @@ export type Severity = 'Message' | 'Warning' | 'Error';
  * @readonly
  * @enum {string}
  */
-export type UpdateActionType = 'DeletedOnTarget' | 'ChangedOnTarget' | 'AddedOnTarget';
+export type UpdateActionType = "DeletedOnTarget" | "ChangedOnTarget" | "AddedOnTarget";
 
 /**
  * Defines values for ObjectType.
@@ -8063,7 +8228,7 @@ export type UpdateActionType = 'DeletedOnTarget' | 'ChangedOnTarget' | 'AddedOnT
  * @readonly
  * @enum {string}
  */
-export type ObjectType = 'StoredProcedures' | 'Table' | 'User' | 'View' | 'Function';
+export type ObjectType = "StoredProcedures" | "Table" | "User" | "View" | "Function";
 
 /**
  * Defines values for DatabaseMigrationStage.
@@ -8071,7 +8236,13 @@ export type ObjectType = 'StoredProcedures' | 'Table' | 'User' | 'View' | 'Funct
  * @readonly
  * @enum {string}
  */
-export type DatabaseMigrationStage = 'None' | 'Initialize' | 'Backup' | 'FileCopy' | 'Restore' | 'Completed';
+export type DatabaseMigrationStage =
+  | "None"
+  | "Initialize"
+  | "Backup"
+  | "FileCopy"
+  | "Restore"
+  | "Completed";
 
 /**
  * Defines values for BackupFileStatus.
@@ -8080,7 +8251,14 @@ export type DatabaseMigrationStage = 'None' | 'Initialize' | 'Backup' | 'FileCop
  * @readonly
  * @enum {string}
  */
-export type BackupFileStatus = 'Arrived' | 'Queued' | 'Uploading' | 'Uploaded' | 'Restoring' | 'Restored' | 'Cancelled';
+export type BackupFileStatus =
+  | "Arrived"
+  | "Queued"
+  | "Uploading"
+  | "Uploaded"
+  | "Restoring"
+  | "Restored"
+  | "Cancelled";
 
 /**
  * Defines values for DatabaseMigrationState.
@@ -8090,7 +8268,17 @@ export type BackupFileStatus = 'Arrived' | 'Queued' | 'Uploading' | 'Uploaded' |
  * @readonly
  * @enum {string}
  */
-export type DatabaseMigrationState = 'UNDEFINED' | 'INITIAL' | 'FULL_BACKUP_UPLOAD_START' | 'LOG_SHIPPING_START' | 'UPLOAD_LOG_FILES_START' | 'CUTOVER_START' | 'POST_CUTOVER_COMPLETE' | 'COMPLETED' | 'CANCELLED' | 'FAILED';
+export type DatabaseMigrationState =
+  | "UNDEFINED"
+  | "INITIAL"
+  | "FULL_BACKUP_UPLOAD_START"
+  | "LOG_SHIPPING_START"
+  | "UPLOAD_LOG_FILES_START"
+  | "CUTOVER_START"
+  | "POST_CUTOVER_COMPLETE"
+  | "COMPLETED"
+  | "CANCELLED"
+  | "FAILED";
 
 /**
  * Defines values for LoginMigrationStage.
@@ -8100,7 +8288,16 @@ export type DatabaseMigrationState = 'UNDEFINED' | 'INITIAL' | 'FULL_BACKUP_UPLO
  * @readonly
  * @enum {string}
  */
-export type LoginMigrationStage = 'None' | 'Initialize' | 'LoginMigration' | 'EstablishUserMapping' | 'AssignRoleMembership' | 'AssignRoleOwnership' | 'EstablishServerPermissions' | 'EstablishObjectPermissions' | 'Completed';
+export type LoginMigrationStage =
+  | "None"
+  | "Initialize"
+  | "LoginMigration"
+  | "EstablishUserMapping"
+  | "AssignRoleMembership"
+  | "AssignRoleOwnership"
+  | "EstablishServerPermissions"
+  | "EstablishObjectPermissions"
+  | "Completed";
 
 /**
  * Defines values for LoginType.
@@ -8109,7 +8306,14 @@ export type LoginMigrationStage = 'None' | 'Initialize' | 'LoginMigration' | 'Es
  * @readonly
  * @enum {string}
  */
-export type LoginType = 'WindowsUser' | 'WindowsGroup' | 'SqlLogin' | 'Certificate' | 'AsymmetricKey' | 'ExternalUser' | 'ExternalGroup';
+export type LoginType =
+  | "WindowsUser"
+  | "WindowsGroup"
+  | "SqlLogin"
+  | "Certificate"
+  | "AsymmetricKey"
+  | "ExternalUser"
+  | "ExternalGroup";
 
 /**
  * Defines values for DatabaseState.
@@ -8118,7 +8322,16 @@ export type LoginType = 'WindowsUser' | 'WindowsGroup' | 'SqlLogin' | 'Certifica
  * @readonly
  * @enum {string}
  */
-export type DatabaseState = 'Online' | 'Restoring' | 'Recovering' | 'RecoveryPending' | 'Suspect' | 'Emergency' | 'Offline' | 'Copying' | 'OfflineSecondary';
+export type DatabaseState =
+  | "Online"
+  | "Restoring"
+  | "Recovering"
+  | "RecoveryPending"
+  | "Suspect"
+  | "Emergency"
+  | "Offline"
+  | "Copying"
+  | "OfflineSecondary";
 
 /**
  * Defines values for DatabaseCompatLevel.
@@ -8127,7 +8340,14 @@ export type DatabaseState = 'Online' | 'Restoring' | 'Recovering' | 'RecoveryPen
  * @readonly
  * @enum {string}
  */
-export type DatabaseCompatLevel = 'CompatLevel80' | 'CompatLevel90' | 'CompatLevel100' | 'CompatLevel110' | 'CompatLevel120' | 'CompatLevel130' | 'CompatLevel140';
+export type DatabaseCompatLevel =
+  | "CompatLevel80"
+  | "CompatLevel90"
+  | "CompatLevel100"
+  | "CompatLevel110"
+  | "CompatLevel120"
+  | "CompatLevel130"
+  | "CompatLevel140";
 
 /**
  * Defines values for DatabaseFileType.
@@ -8135,7 +8355,7 @@ export type DatabaseCompatLevel = 'CompatLevel80' | 'CompatLevel90' | 'CompatLev
  * @readonly
  * @enum {string}
  */
-export type DatabaseFileType = 'Rows' | 'Log' | 'Filestream' | 'NotSupported' | 'Fulltext';
+export type DatabaseFileType = "Rows" | "Log" | "Filestream" | "NotSupported" | "Fulltext";
 
 /**
  * Defines values for ServerLevelPermissionsGroup.
@@ -8144,7 +8364,11 @@ export type DatabaseFileType = 'Rows' | 'Log' | 'Filestream' | 'NotSupported' | 
  * @readonly
  * @enum {string}
  */
-export type ServerLevelPermissionsGroup = 'Default' | 'MigrationFromSqlServerToAzureDB' | 'MigrationFromSqlServerToAzureMI' | 'MigrationFromMySQLToAzureDBForMySQL';
+export type ServerLevelPermissionsGroup =
+  | "Default"
+  | "MigrationFromSqlServerToAzureDB"
+  | "MigrationFromSqlServerToAzureMI"
+  | "MigrationFromMySQLToAzureDBForMySQL";
 
 /**
  * Defines values for MongoDbClusterType.
@@ -8152,7 +8376,7 @@ export type ServerLevelPermissionsGroup = 'Default' | 'MigrationFromSqlServerToA
  * @readonly
  * @enum {string}
  */
-export type MongoDbClusterType = 'BlobContainer' | 'CosmosDb' | 'MongoDb';
+export type MongoDbClusterType = "BlobContainer" | "CosmosDb" | "MongoDb";
 
 /**
  * Defines values for TaskState.
@@ -8161,7 +8385,15 @@ export type MongoDbClusterType = 'BlobContainer' | 'CosmosDb' | 'MongoDb';
  * @readonly
  * @enum {string}
  */
-export type TaskState = 'Unknown' | 'Queued' | 'Running' | 'Canceled' | 'Succeeded' | 'Failed' | 'FailedInputValidation' | 'Faulted';
+export type TaskState =
+  | "Unknown"
+  | "Queued"
+  | "Running"
+  | "Canceled"
+  | "Succeeded"
+  | "Failed"
+  | "FailedInputValidation"
+  | "Faulted";
 
 /**
  * Defines values for ServiceProvisioningState.
@@ -8170,7 +8402,17 @@ export type TaskState = 'Unknown' | 'Queued' | 'Running' | 'Canceled' | 'Succeed
  * @readonly
  * @enum {string}
  */
-export type ServiceProvisioningState = 'Accepted' | 'Deleting' | 'Deploying' | 'Stopped' | 'Stopping' | 'Starting' | 'FailedToStart' | 'FailedToStop' | 'Succeeded' | 'Failed';
+export type ServiceProvisioningState =
+  | "Accepted"
+  | "Deleting"
+  | "Deploying"
+  | "Stopped"
+  | "Stopping"
+  | "Starting"
+  | "FailedToStart"
+  | "FailedToStop"
+  | "Succeeded"
+  | "Failed";
 
 /**
  * Defines values for ProjectTargetPlatform.
@@ -8179,7 +8421,13 @@ export type ServiceProvisioningState = 'Accepted' | 'Deleting' | 'Deploying' | '
  * @readonly
  * @enum {string}
  */
-export type ProjectTargetPlatform = 'SQLDB' | 'SQLMI' | 'AzureDbForMySql' | 'AzureDbForPostgreSql' | 'MongoDb' | 'Unknown';
+export type ProjectTargetPlatform =
+  | "SQLDB"
+  | "SQLMI"
+  | "AzureDbForMySql"
+  | "AzureDbForPostgreSql"
+  | "MongoDb"
+  | "Unknown";
 
 /**
  * Defines values for ProjectSourcePlatform.
@@ -8187,7 +8435,7 @@ export type ProjectTargetPlatform = 'SQLDB' | 'SQLMI' | 'AzureDbForMySql' | 'Azu
  * @readonly
  * @enum {string}
  */
-export type ProjectSourcePlatform = 'SQL' | 'MySQL' | 'PostgreSql' | 'MongoDb' | 'Unknown';
+export type ProjectSourcePlatform = "SQL" | "MySQL" | "PostgreSql" | "MongoDb" | "Unknown";
 
 /**
  * Defines values for ProjectProvisioningState.
@@ -8195,7 +8443,7 @@ export type ProjectSourcePlatform = 'SQL' | 'MySQL' | 'PostgreSql' | 'MongoDb' |
  * @readonly
  * @enum {string}
  */
-export type ProjectProvisioningState = 'Deleting' | 'Succeeded';
+export type ProjectProvisioningState = "Deleting" | "Succeeded";
 
 /**
  * Defines values for NameCheckFailureReason.
@@ -8203,7 +8451,7 @@ export type ProjectProvisioningState = 'Deleting' | 'Succeeded';
  * @readonly
  * @enum {string}
  */
-export type NameCheckFailureReason = 'AlreadyExists' | 'Invalid';
+export type NameCheckFailureReason = "AlreadyExists" | "Invalid";
 
 /**
  * Defines values for ServiceScalability.
@@ -8211,7 +8459,7 @@ export type NameCheckFailureReason = 'AlreadyExists' | 'Invalid';
  * @readonly
  * @enum {string}
  */
-export type ServiceScalability = 'none' | 'manual' | 'automatic';
+export type ServiceScalability = "none" | "manual" | "automatic";
 
 /**
  * Defines values for ResourceSkuRestrictionsType.
@@ -8219,7 +8467,7 @@ export type ServiceScalability = 'none' | 'manual' | 'automatic';
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuRestrictionsType = 'location';
+export type ResourceSkuRestrictionsType = "location";
 
 /**
  * Defines values for ResourceSkuRestrictionsReasonCode.
@@ -8227,7 +8475,7 @@ export type ResourceSkuRestrictionsType = 'location';
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
+export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubscription";
 
 /**
  * Defines values for ResourceSkuCapacityScaleType.
@@ -8235,7 +8483,7 @@ export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubs
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuCapacityScaleType = 'Automatic' | 'Manual' | 'None';
+export type ResourceSkuCapacityScaleType = "Automatic" | "Manual" | "None";
 
 /**
  * Defines values for MySqlTargetPlatformType.
@@ -8243,7 +8491,7 @@ export type ResourceSkuCapacityScaleType = 'Automatic' | 'Manual' | 'None';
  * @readonly
  * @enum {string}
  */
-export type MySqlTargetPlatformType = 'SqlServer' | 'AzureDbForMySQL';
+export type MySqlTargetPlatformType = "SqlServer" | "AzureDbForMySQL";
 
 /**
  * Defines values for SchemaMigrationOption.
@@ -8251,7 +8499,7 @@ export type MySqlTargetPlatformType = 'SqlServer' | 'AzureDbForMySQL';
  * @readonly
  * @enum {string}
  */
-export type SchemaMigrationOption = 'None' | 'ExtractFromSource' | 'UseStorageFile';
+export type SchemaMigrationOption = "None" | "ExtractFromSource" | "UseStorageFile";
 
 /**
  * Defines values for SchemaMigrationStage.
@@ -8261,7 +8509,17 @@ export type SchemaMigrationOption = 'None' | 'ExtractFromSource' | 'UseStorageFi
  * @readonly
  * @enum {string}
  */
-export type SchemaMigrationStage = 'NotStarted' | 'ValidatingInputs' | 'CollectingObjects' | 'DownloadingScript' | 'GeneratingScript' | 'UploadingScript' | 'DeployingSchema' | 'Completed' | 'CompletedWithWarnings' | 'Failed';
+export type SchemaMigrationStage =
+  | "NotStarted"
+  | "ValidatingInputs"
+  | "CollectingObjects"
+  | "DownloadingScript"
+  | "GeneratingScript"
+  | "UploadingScript"
+  | "DeployingSchema"
+  | "Completed"
+  | "CompletedWithWarnings"
+  | "Failed";
 
 /**
  * Defines values for DataMigrationResultCode.
@@ -8270,7 +8528,13 @@ export type SchemaMigrationStage = 'NotStarted' | 'ValidatingInputs' | 'Collecti
  * @readonly
  * @enum {string}
  */
-export type DataMigrationResultCode = 'Initial' | 'Completed' | 'ObjectNotExistsInSource' | 'ObjectNotExistsInTarget' | 'TargetObjectIsInaccessible' | 'FatalError';
+export type DataMigrationResultCode =
+  | "Initial"
+  | "Completed"
+  | "ObjectNotExistsInSource"
+  | "ObjectNotExistsInTarget"
+  | "TargetObjectIsInaccessible"
+  | "FatalError";
 
 /**
  * Defines values for ErrorType.
@@ -8278,7 +8542,7 @@ export type DataMigrationResultCode = 'Initial' | 'Completed' | 'ObjectNotExists
  * @readonly
  * @enum {string}
  */
-export type ErrorType = 'Default' | 'Warning' | 'Error';
+export type ErrorType = "Default" | "Warning" | "Error";
 
 /**
  * Defines values for ResultType.
@@ -8286,7 +8550,7 @@ export type ErrorType = 'Default' | 'Warning' | 'Error';
  * @readonly
  * @enum {string}
  */
-export type ResultType = 'Migration' | 'Database' | 'Collection';
+export type ResultType = "Migration" | "Database" | "Collection";
 
 /**
  * Contains response data for the listSkus operation.
@@ -8296,16 +8560,16 @@ export type ResourceSkusListSkusResponse = ResourceSkusResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceSkusResult;
+  };
 };
 
 /**
@@ -8316,16 +8580,16 @@ export type ResourceSkusListSkusNextResponse = ResourceSkusResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceSkusResult;
+  };
 };
 
 /**
@@ -8336,16 +8600,16 @@ export type ServicesCreateOrUpdateResponse = DataMigrationService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataMigrationService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataMigrationService;
+  };
 };
 
 /**
@@ -8356,16 +8620,16 @@ export type ServicesGetResponse = DataMigrationService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataMigrationService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataMigrationService;
+  };
 };
 
 /**
@@ -8376,16 +8640,16 @@ export type ServicesUpdateResponse = DataMigrationService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataMigrationService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataMigrationService;
+  };
 };
 
 /**
@@ -8396,16 +8660,16 @@ export type ServicesCheckStatusResponse = DataMigrationServiceStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataMigrationServiceStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataMigrationServiceStatusResponse;
+  };
 };
 
 /**
@@ -8416,16 +8680,16 @@ export type ServicesListSkusResponse = ServiceSkuList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceSkuList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceSkuList;
+  };
 };
 
 /**
@@ -8436,16 +8700,16 @@ export type ServicesCheckChildrenNameAvailabilityResponse = NameAvailabilityResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NameAvailabilityResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NameAvailabilityResponse;
+  };
 };
 
 /**
@@ -8456,16 +8720,16 @@ export type ServicesListByResourceGroupResponse = DataMigrationServiceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataMigrationServiceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataMigrationServiceList;
+  };
 };
 
 /**
@@ -8476,16 +8740,16 @@ export type ServicesListResponse = DataMigrationServiceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataMigrationServiceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataMigrationServiceList;
+  };
 };
 
 /**
@@ -8496,16 +8760,16 @@ export type ServicesCheckNameAvailabilityResponse = NameAvailabilityResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NameAvailabilityResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NameAvailabilityResponse;
+  };
 };
 
 /**
@@ -8516,16 +8780,16 @@ export type ServicesBeginCreateOrUpdateResponse = DataMigrationService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataMigrationService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataMigrationService;
+  };
 };
 
 /**
@@ -8536,16 +8800,16 @@ export type ServicesBeginUpdateResponse = DataMigrationService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataMigrationService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataMigrationService;
+  };
 };
 
 /**
@@ -8556,16 +8820,16 @@ export type ServicesListSkusNextResponse = ServiceSkuList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceSkuList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceSkuList;
+  };
 };
 
 /**
@@ -8576,16 +8840,16 @@ export type ServicesListByResourceGroupNextResponse = DataMigrationServiceList &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataMigrationServiceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataMigrationServiceList;
+  };
 };
 
 /**
@@ -8596,16 +8860,16 @@ export type ServicesListNextResponse = DataMigrationServiceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataMigrationServiceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataMigrationServiceList;
+  };
 };
 
 /**
@@ -8616,16 +8880,16 @@ export type TasksListResponse = TaskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskList;
+  };
 };
 
 /**
@@ -8636,16 +8900,16 @@ export type TasksCreateOrUpdateResponse = ProjectTask & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectTask;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectTask;
+  };
 };
 
 /**
@@ -8656,16 +8920,16 @@ export type TasksGetResponse = ProjectTask & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectTask;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectTask;
+  };
 };
 
 /**
@@ -8676,16 +8940,16 @@ export type TasksUpdateResponse = ProjectTask & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectTask;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectTask;
+  };
 };
 
 /**
@@ -8696,16 +8960,16 @@ export type TasksCancelResponse = ProjectTask & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectTask;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectTask;
+  };
 };
 
 /**
@@ -8716,16 +8980,16 @@ export type TasksCommandResponse = CommandPropertiesUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommandPropertiesUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommandPropertiesUnion;
+  };
 };
 
 /**
@@ -8736,16 +9000,16 @@ export type TasksListNextResponse = TaskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskList;
+  };
 };
 
 /**
@@ -8756,16 +9020,16 @@ export type ServiceTasksListResponse = TaskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskList;
+  };
 };
 
 /**
@@ -8776,16 +9040,16 @@ export type ServiceTasksCreateOrUpdateResponse = ProjectTask & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectTask;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectTask;
+  };
 };
 
 /**
@@ -8796,16 +9060,16 @@ export type ServiceTasksGetResponse = ProjectTask & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectTask;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectTask;
+  };
 };
 
 /**
@@ -8816,16 +9080,16 @@ export type ServiceTasksUpdateResponse = ProjectTask & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectTask;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectTask;
+  };
 };
 
 /**
@@ -8836,16 +9100,16 @@ export type ServiceTasksCancelResponse = ProjectTask & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectTask;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectTask;
+  };
 };
 
 /**
@@ -8856,16 +9120,16 @@ export type ServiceTasksListNextResponse = TaskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TaskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TaskList;
+  };
 };
 
 /**
@@ -8876,16 +9140,16 @@ export type ProjectsListResponse = ProjectList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectList;
+  };
 };
 
 /**
@@ -8896,16 +9160,16 @@ export type ProjectsCreateOrUpdateResponse = Project & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Project;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Project;
+  };
 };
 
 /**
@@ -8916,16 +9180,16 @@ export type ProjectsGetResponse = Project & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Project;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Project;
+  };
 };
 
 /**
@@ -8936,16 +9200,16 @@ export type ProjectsUpdateResponse = Project & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Project;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Project;
+  };
 };
 
 /**
@@ -8956,16 +9220,16 @@ export type ProjectsListNextResponse = ProjectList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectList;
+  };
 };
 
 /**
@@ -8976,16 +9240,16 @@ export type UsagesListResponse = QuotaList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QuotaList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QuotaList;
+  };
 };
 
 /**
@@ -8996,16 +9260,16 @@ export type UsagesListNextResponse = QuotaList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QuotaList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QuotaList;
+  };
 };
 
 /**
@@ -9016,16 +9280,16 @@ export type OperationsListResponse = ServiceOperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceOperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceOperationList;
+  };
 };
 
 /**
@@ -9036,16 +9300,16 @@ export type OperationsListNextResponse = ServiceOperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceOperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceOperationList;
+  };
 };
 
 /**
@@ -9056,16 +9320,16 @@ export type FilesListResponse = FileList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FileList;
+  };
 };
 
 /**
@@ -9076,16 +9340,16 @@ export type FilesGetResponse = ProjectFile & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectFile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectFile;
+  };
 };
 
 /**
@@ -9096,16 +9360,16 @@ export type FilesCreateOrUpdateResponse = ProjectFile & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectFile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectFile;
+  };
 };
 
 /**
@@ -9116,16 +9380,16 @@ export type FilesUpdateResponse = ProjectFile & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProjectFile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProjectFile;
+  };
 };
 
 /**
@@ -9136,16 +9400,16 @@ export type FilesReadResponse = FileStorageInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileStorageInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FileStorageInfo;
+  };
 };
 
 /**
@@ -9156,16 +9420,16 @@ export type FilesReadWriteResponse = FileStorageInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileStorageInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FileStorageInfo;
+  };
 };
 
 /**
@@ -9176,14 +9440,14 @@ export type FilesListNextResponse = FileList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FileList;
+  };
 };

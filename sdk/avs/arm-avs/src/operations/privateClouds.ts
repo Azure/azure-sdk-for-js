@@ -33,7 +33,10 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsListResponse>;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateCloudsListResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription
    * @param callback The callback
@@ -44,15 +47,24 @@ export class PrivateClouds {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateCloudList>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloudList>, callback?: msRest.ServiceCallback<Models.PrivateCloudList>): Promise<Models.PrivateCloudsListResponse> {
+  list(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloudList>,
+    callback?: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): Promise<Models.PrivateCloudsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateCloudsListResponse>;
+      callback
+    ) as Promise<Models.PrivateCloudsListResponse>;
   }
 
   /**
@@ -60,7 +72,9 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsListInSubscriptionResponse>
    */
-  listInSubscription(options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsListInSubscriptionResponse>;
+  listInSubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateCloudsListInSubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -69,14 +83,21 @@ export class PrivateClouds {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listInSubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateCloudList>): void;
-  listInSubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloudList>, callback?: msRest.ServiceCallback<Models.PrivateCloudList>): Promise<Models.PrivateCloudsListInSubscriptionResponse> {
+  listInSubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): void;
+  listInSubscription(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloudList>,
+    callback?: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): Promise<Models.PrivateCloudsListInSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listInSubscriptionOperationSpec,
-      callback) as Promise<Models.PrivateCloudsListInSubscriptionResponse>;
+      callback
+    ) as Promise<Models.PrivateCloudsListInSubscriptionResponse>;
   }
 
   /**
@@ -86,21 +107,39 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsGetResponse>
    */
-  get(resourceGroupName: string, privateCloudName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsGetResponse>;
+  get(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateCloudsGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription
    * @param privateCloudName Name of the private cloud
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateCloudName: string, callback: msRest.ServiceCallback<Models.PrivateCloud>): void;
+  get(
+    resourceGroupName: string,
+    privateCloudName: string,
+    callback: msRest.ServiceCallback<Models.PrivateCloud>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription
    * @param privateCloudName Name of the private cloud
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateCloudName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateCloud>): void;
-  get(resourceGroupName: string, privateCloudName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloud>, callback?: msRest.ServiceCallback<Models.PrivateCloud>): Promise<Models.PrivateCloudsGetResponse> {
+  get(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateCloud>
+  ): void;
+  get(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloud>,
+    callback?: msRest.ServiceCallback<Models.PrivateCloud>
+  ): Promise<Models.PrivateCloudsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +147,8 @@ export class PrivateClouds {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateCloudsGetResponse>;
+      callback
+    ) as Promise<Models.PrivateCloudsGetResponse>;
   }
 
   /**
@@ -119,9 +159,20 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, privateCloudName: string, privateCloud: Models.PrivateCloud, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,privateCloudName,privateCloud,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateCloudsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    privateCloudName: string,
+    privateCloud: Models.PrivateCloud,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateCloudsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      privateCloudName,
+      privateCloud,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PrivateCloudsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -132,9 +183,20 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsUpdateResponse>
    */
-  update(resourceGroupName: string, privateCloudName: string, privateCloud: Models.PrivateCloud, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,privateCloudName,privateCloud,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateCloudsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    privateCloudName: string,
+    privateCloud: Models.PrivateCloud,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateCloudsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      privateCloudName,
+      privateCloud,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PrivateCloudsUpdateResponse
+    >;
   }
 
   /**
@@ -144,9 +206,14 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, privateCloudName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,privateCloudName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, privateCloudName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -156,21 +223,39 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsListAdminCredentialsResponse>
    */
-  listAdminCredentials(resourceGroupName: string, privateCloudName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsListAdminCredentialsResponse>;
+  listAdminCredentials(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateCloudsListAdminCredentialsResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription
    * @param privateCloudName Name of the private cloud
    * @param callback The callback
    */
-  listAdminCredentials(resourceGroupName: string, privateCloudName: string, callback: msRest.ServiceCallback<Models.AdminCredentials>): void;
+  listAdminCredentials(
+    resourceGroupName: string,
+    privateCloudName: string,
+    callback: msRest.ServiceCallback<Models.AdminCredentials>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription
    * @param privateCloudName Name of the private cloud
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAdminCredentials(resourceGroupName: string, privateCloudName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AdminCredentials>): void;
-  listAdminCredentials(resourceGroupName: string, privateCloudName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdminCredentials>, callback?: msRest.ServiceCallback<Models.AdminCredentials>): Promise<Models.PrivateCloudsListAdminCredentialsResponse> {
+  listAdminCredentials(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AdminCredentials>
+  ): void;
+  listAdminCredentials(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AdminCredentials>,
+    callback?: msRest.ServiceCallback<Models.AdminCredentials>
+  ): Promise<Models.PrivateCloudsListAdminCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -178,7 +263,8 @@ export class PrivateClouds {
         options
       },
       listAdminCredentialsOperationSpec,
-      callback) as Promise<Models.PrivateCloudsListAdminCredentialsResponse>;
+      callback
+    ) as Promise<Models.PrivateCloudsListAdminCredentialsResponse>;
   }
 
   /**
@@ -189,7 +275,12 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, privateCloud: Models.PrivateCloud, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    privateCloudName: string,
+    privateCloud: Models.PrivateCloud,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -198,7 +289,8 @@ export class PrivateClouds {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -209,7 +301,12 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, privateCloudName: string, privateCloud: Models.PrivateCloud, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    privateCloudName: string,
+    privateCloud: Models.PrivateCloud,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -218,7 +315,8 @@ export class PrivateClouds {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -228,7 +326,11 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, privateCloudName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -236,7 +338,8 @@ export class PrivateClouds {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -245,7 +348,10 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateCloudsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -256,15 +362,24 @@ export class PrivateClouds {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateCloudList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloudList>, callback?: msRest.ServiceCallback<Models.PrivateCloudList>): Promise<Models.PrivateCloudsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloudList>,
+    callback?: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): Promise<Models.PrivateCloudsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PrivateCloudsListNextResponse>;
+      callback
+    ) as Promise<Models.PrivateCloudsListNextResponse>;
   }
 
   /**
@@ -273,26 +388,41 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsListInSubscriptionNextResponse>
    */
-  listInSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsListInSubscriptionNextResponse>;
+  listInSubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateCloudsListInSubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listInSubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateCloudList>): void;
+  listInSubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listInSubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateCloudList>): void;
-  listInSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloudList>, callback?: msRest.ServiceCallback<Models.PrivateCloudList>): Promise<Models.PrivateCloudsListInSubscriptionNextResponse> {
+  listInSubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): void;
+  listInSubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloudList>,
+    callback?: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): Promise<Models.PrivateCloudsListInSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listInSubscriptionNextOperationSpec,
-      callback) as Promise<Models.PrivateCloudsListInSubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.PrivateCloudsListInSubscriptionNextResponse>;
   }
 }
 
@@ -300,17 +430,11 @@ export class PrivateClouds {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateCloudList
@@ -325,15 +449,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const listInSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.AVS/privateClouds",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateCloudList
@@ -347,18 +465,15 @@ const listInSubscriptionOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateCloud
@@ -372,18 +487,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listAdminCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/listAdminCredentials",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/listAdminCredentials",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AdminCredentials
@@ -397,18 +509,15 @@ const listAdminCredentialsOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "privateCloud",
     mapper: {
@@ -432,18 +541,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "privateCloud",
     mapper: {
@@ -467,18 +573,15 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -494,12 +597,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateCloudList
@@ -515,12 +614,8 @@ const listInSubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateCloudList

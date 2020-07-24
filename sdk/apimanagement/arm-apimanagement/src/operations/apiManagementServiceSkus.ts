@@ -34,21 +34,39 @@ export class ApiManagementServiceSkus {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusResponse>
    */
-  listAvailableServiceSkus(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusResponse>;
+  listAvailableServiceSkus(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listAvailableServiceSkus(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ResourceSkuResults>): void;
+  listAvailableServiceSkus(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.ResourceSkuResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableServiceSkus(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceSkuResults>): void;
-  listAvailableServiceSkus(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkuResults>, callback?: msRest.ServiceCallback<Models.ResourceSkuResults>): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusResponse> {
+  listAvailableServiceSkus(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceSkuResults>
+  ): void;
+  listAvailableServiceSkus(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkuResults>,
+    callback?: msRest.ServiceCallback<Models.ResourceSkuResults>
+  ): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class ApiManagementServiceSkus {
         options
       },
       listAvailableServiceSkusOperationSpec,
-      callback) as Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusResponse>;
+      callback
+    ) as Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusResponse>;
   }
 
   /**
@@ -66,26 +85,41 @@ export class ApiManagementServiceSkus {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusNextResponse>
    */
-  listAvailableServiceSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusNextResponse>;
+  listAvailableServiceSkusNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAvailableServiceSkusNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceSkuResults>): void;
+  listAvailableServiceSkusNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResourceSkuResults>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableServiceSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceSkuResults>): void;
-  listAvailableServiceSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkuResults>, callback?: msRest.ServiceCallback<Models.ResourceSkuResults>): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusNextResponse> {
+  listAvailableServiceSkusNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceSkuResults>
+  ): void;
+  listAvailableServiceSkusNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceSkuResults>,
+    callback?: msRest.ServiceCallback<Models.ResourceSkuResults>
+  ): Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAvailableServiceSkusNextOperationSpec,
-      callback) as Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusNextResponse>;
+      callback
+    ) as Promise<Models.ApiManagementServiceSkusListAvailableServiceSkusNextResponse>;
   }
 }
 
@@ -93,18 +127,11 @@ export class ApiManagementServiceSkus {
 const serializer = new msRest.Serializer(Mappers);
 const listAvailableServiceSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/skus",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/skus",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceSkuResults
@@ -120,12 +147,8 @@ const listAvailableServiceSkusNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceSkuResults

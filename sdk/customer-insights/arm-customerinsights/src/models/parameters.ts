@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -206,13 +206,10 @@ export const linkName1: msRest.OperationURLParameter = {
   }
 };
 export const localeCode: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "localeCode"
-  ],
+  parameterPath: ["options", "localeCode"],
   mapper: {
     serializedName: "locale-code",
-    defaultValue: 'en-us',
+    defaultValue: "en-us",
     type: {
       name: "String"
     }

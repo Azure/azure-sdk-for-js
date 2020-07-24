@@ -10,7 +10,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { SynapseClientContext } from "./synapseClientContext";
 
-
 class SynapseClient extends SynapseClientContext {
   // Operation groups
   monitoring: operations.Monitoring;
@@ -34,10 +33,5 @@ class SynapseClient extends SynapseClientContext {
 
 // Operation Specifications
 
-export {
-  SynapseClient,
-  SynapseClientContext,
-  Models as SynapseModels,
-  Mappers as SynapseMappers
-};
+export { SynapseClient, SynapseClientContext, Models as SynapseModels, Mappers as SynapseMappers };
 export * from "./operations";

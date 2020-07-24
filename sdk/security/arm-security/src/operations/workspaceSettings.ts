@@ -41,14 +41,21 @@ export class WorkspaceSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceSettingList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSettingList>, callback?: msRest.ServiceCallback<Models.WorkspaceSettingList>): Promise<Models.WorkspaceSettingsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkspaceSettingList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSettingList>,
+    callback?: msRest.ServiceCallback<Models.WorkspaceSettingList>
+  ): Promise<Models.WorkspaceSettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.WorkspaceSettingsListResponse>;
+      callback
+    ) as Promise<Models.WorkspaceSettingsListResponse>;
   }
 
   /**
@@ -58,26 +65,41 @@ export class WorkspaceSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceSettingsGetResponse>
    */
-  get(workspaceSettingName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceSettingsGetResponse>;
+  get(
+    workspaceSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspaceSettingsGetResponse>;
   /**
    * @param workspaceSettingName Name of the security setting
    * @param callback The callback
    */
-  get(workspaceSettingName: string, callback: msRest.ServiceCallback<Models.WorkspaceSetting>): void;
+  get(
+    workspaceSettingName: string,
+    callback: msRest.ServiceCallback<Models.WorkspaceSetting>
+  ): void;
   /**
    * @param workspaceSettingName Name of the security setting
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(workspaceSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceSetting>): void;
-  get(workspaceSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSetting>, callback?: msRest.ServiceCallback<Models.WorkspaceSetting>): Promise<Models.WorkspaceSettingsGetResponse> {
+  get(
+    workspaceSettingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkspaceSetting>
+  ): void;
+  get(
+    workspaceSettingName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSetting>,
+    callback?: msRest.ServiceCallback<Models.WorkspaceSetting>
+  ): Promise<Models.WorkspaceSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceSettingName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WorkspaceSettingsGetResponse>;
+      callback
+    ) as Promise<Models.WorkspaceSettingsGetResponse>;
   }
 
   /**
@@ -87,21 +109,39 @@ export class WorkspaceSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceSettingsCreateResponse>
    */
-  create(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceSettingsCreateResponse>;
+  create(
+    workspaceSettingName: string,
+    workspaceSetting: Models.WorkspaceSetting,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspaceSettingsCreateResponse>;
   /**
    * @param workspaceSettingName Name of the security setting
    * @param workspaceSetting Security data setting object
    * @param callback The callback
    */
-  create(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, callback: msRest.ServiceCallback<Models.WorkspaceSetting>): void;
+  create(
+    workspaceSettingName: string,
+    workspaceSetting: Models.WorkspaceSetting,
+    callback: msRest.ServiceCallback<Models.WorkspaceSetting>
+  ): void;
   /**
    * @param workspaceSettingName Name of the security setting
    * @param workspaceSetting Security data setting object
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceSetting>): void;
-  create(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSetting>, callback?: msRest.ServiceCallback<Models.WorkspaceSetting>): Promise<Models.WorkspaceSettingsCreateResponse> {
+  create(
+    workspaceSettingName: string,
+    workspaceSetting: Models.WorkspaceSetting,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkspaceSetting>
+  ): void;
+  create(
+    workspaceSettingName: string,
+    workspaceSetting: Models.WorkspaceSetting,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSetting>,
+    callback?: msRest.ServiceCallback<Models.WorkspaceSetting>
+  ): Promise<Models.WorkspaceSettingsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceSettingName,
@@ -109,7 +149,8 @@ export class WorkspaceSettings {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.WorkspaceSettingsCreateResponse>;
+      callback
+    ) as Promise<Models.WorkspaceSettingsCreateResponse>;
   }
 
   /**
@@ -119,21 +160,39 @@ export class WorkspaceSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceSettingsUpdateResponse>
    */
-  update(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceSettingsUpdateResponse>;
+  update(
+    workspaceSettingName: string,
+    workspaceSetting: Models.WorkspaceSetting,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspaceSettingsUpdateResponse>;
   /**
    * @param workspaceSettingName Name of the security setting
    * @param workspaceSetting Security data setting object
    * @param callback The callback
    */
-  update(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, callback: msRest.ServiceCallback<Models.WorkspaceSetting>): void;
+  update(
+    workspaceSettingName: string,
+    workspaceSetting: Models.WorkspaceSetting,
+    callback: msRest.ServiceCallback<Models.WorkspaceSetting>
+  ): void;
   /**
    * @param workspaceSettingName Name of the security setting
    * @param workspaceSetting Security data setting object
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceSetting>): void;
-  update(workspaceSettingName: string, workspaceSetting: Models.WorkspaceSetting, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSetting>, callback?: msRest.ServiceCallback<Models.WorkspaceSetting>): Promise<Models.WorkspaceSettingsUpdateResponse> {
+  update(
+    workspaceSettingName: string,
+    workspaceSetting: Models.WorkspaceSetting,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkspaceSetting>
+  ): void;
+  update(
+    workspaceSettingName: string,
+    workspaceSetting: Models.WorkspaceSetting,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSetting>,
+    callback?: msRest.ServiceCallback<Models.WorkspaceSetting>
+  ): Promise<Models.WorkspaceSettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceSettingName,
@@ -141,7 +200,8 @@ export class WorkspaceSettings {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.WorkspaceSettingsUpdateResponse>;
+      callback
+    ) as Promise<Models.WorkspaceSettingsUpdateResponse>;
   }
 
   /**
@@ -151,7 +211,10 @@ export class WorkspaceSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(workspaceSettingName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    workspaceSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param workspaceSettingName Name of the security setting
    * @param callback The callback
@@ -162,15 +225,24 @@ export class WorkspaceSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(workspaceSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(workspaceSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    workspaceSettingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    workspaceSettingName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceSettingName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -180,26 +252,41 @@ export class WorkspaceSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceSettingsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceSettingsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspaceSettingsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WorkspaceSettingList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.WorkspaceSettingList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceSettingList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSettingList>, callback?: msRest.ServiceCallback<Models.WorkspaceSettingList>): Promise<Models.WorkspaceSettingsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkspaceSettingList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceSettingList>,
+    callback?: msRest.ServiceCallback<Models.WorkspaceSettingList>
+  ): Promise<Models.WorkspaceSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.WorkspaceSettingsListNextResponse>;
+      callback
+    ) as Promise<Models.WorkspaceSettingsListNextResponse>;
   }
 }
 
@@ -208,15 +295,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkspaceSettingList
@@ -230,17 +311,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.workspaceSettingName
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.workspaceSettingName],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkspaceSetting
@@ -254,17 +329,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.workspaceSettingName
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.workspaceSettingName],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "workspaceSetting",
     mapper: {
@@ -285,17 +354,11 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.workspaceSettingName
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.workspaceSettingName],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "workspaceSetting",
     mapper: {
@@ -316,17 +379,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.workspaceSettingName
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings/{workspaceSettingName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.workspaceSettingName],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -340,12 +397,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkspaceSettingList

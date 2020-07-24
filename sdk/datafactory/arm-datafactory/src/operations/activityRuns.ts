@@ -35,7 +35,13 @@ export class ActivityRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.ActivityRunsQueryByPipelineRunResponse>
    */
-  queryByPipelineRun(resourceGroupName: string, factoryName: string, runId: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase): Promise<Models.ActivityRunsQueryByPipelineRunResponse>;
+  queryByPipelineRun(
+    resourceGroupName: string,
+    factoryName: string,
+    runId: string,
+    filterParameters: Models.RunFilterParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ActivityRunsQueryByPipelineRunResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -43,7 +49,13 @@ export class ActivityRuns {
    * @param filterParameters Parameters to filter the activity runs.
    * @param callback The callback
    */
-  queryByPipelineRun(resourceGroupName: string, factoryName: string, runId: string, filterParameters: Models.RunFilterParameters, callback: msRest.ServiceCallback<Models.ActivityRunsQueryResponse>): void;
+  queryByPipelineRun(
+    resourceGroupName: string,
+    factoryName: string,
+    runId: string,
+    filterParameters: Models.RunFilterParameters,
+    callback: msRest.ServiceCallback<Models.ActivityRunsQueryResponse>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -52,8 +64,22 @@ export class ActivityRuns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  queryByPipelineRun(resourceGroupName: string, factoryName: string, runId: string, filterParameters: Models.RunFilterParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ActivityRunsQueryResponse>): void;
-  queryByPipelineRun(resourceGroupName: string, factoryName: string, runId: string, filterParameters: Models.RunFilterParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityRunsQueryResponse>, callback?: msRest.ServiceCallback<Models.ActivityRunsQueryResponse>): Promise<Models.ActivityRunsQueryByPipelineRunResponse> {
+  queryByPipelineRun(
+    resourceGroupName: string,
+    factoryName: string,
+    runId: string,
+    filterParameters: Models.RunFilterParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ActivityRunsQueryResponse>
+  ): void;
+  queryByPipelineRun(
+    resourceGroupName: string,
+    factoryName: string,
+    runId: string,
+    filterParameters: Models.RunFilterParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ActivityRunsQueryResponse>,
+    callback?: msRest.ServiceCallback<Models.ActivityRunsQueryResponse>
+  ): Promise<Models.ActivityRunsQueryByPipelineRunResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class ActivityRuns {
         options
       },
       queryByPipelineRunOperationSpec,
-      callback) as Promise<Models.ActivityRunsQueryByPipelineRunResponse>;
+      callback
+    ) as Promise<Models.ActivityRunsQueryByPipelineRunResponse>;
   }
 }
 
@@ -71,19 +98,16 @@ export class ActivityRuns {
 const serializer = new msRest.Serializer(Mappers);
 const queryByPipelineRunOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}/queryActivityruns",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/pipelineruns/{runId}/queryActivityruns",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.runId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "filterParameters",
     mapper: {

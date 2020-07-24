@@ -13,11 +13,14 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * Contains the possible cases for ApplyRecoveryPointProviderSpecificInput.
  */
-export type ApplyRecoveryPointProviderSpecificInputUnion = ApplyRecoveryPointProviderSpecificInput | A2AApplyRecoveryPointInput | HyperVReplicaAzureApplyRecoveryPointInput | InMageAzureV2ApplyRecoveryPointInput;
+export type ApplyRecoveryPointProviderSpecificInputUnion =
+  | ApplyRecoveryPointProviderSpecificInput
+  | A2AApplyRecoveryPointInput
+  | HyperVReplicaAzureApplyRecoveryPointInput
+  | InMageAzureV2ApplyRecoveryPointInput;
 
 /**
  * @interface
@@ -48,7 +51,9 @@ export interface A2AApplyRecoveryPointInput {
 /**
  * Contains the possible cases for ReplicationProviderSpecificContainerCreationInput.
  */
-export type ReplicationProviderSpecificContainerCreationInputUnion = ReplicationProviderSpecificContainerCreationInput | A2AContainerCreationInput;
+export type ReplicationProviderSpecificContainerCreationInputUnion =
+  | ReplicationProviderSpecificContainerCreationInput
+  | A2AContainerCreationInput;
 
 /**
  * @interface
@@ -79,7 +84,9 @@ export interface A2AContainerCreationInput {
 /**
  * Contains the possible cases for ReplicationProviderSpecificContainerMappingInput.
  */
-export type ReplicationProviderSpecificContainerMappingInputUnion = ReplicationProviderSpecificContainerMappingInput | A2AContainerMappingInput;
+export type ReplicationProviderSpecificContainerMappingInputUnion =
+  | ReplicationProviderSpecificContainerMappingInput
+  | A2AContainerMappingInput;
 
 /**
  * @interface
@@ -233,7 +240,13 @@ export interface DiskEncryptionInfo {
 /**
  * Contains the possible cases for EnableProtectionProviderSpecificInput.
  */
-export type EnableProtectionProviderSpecificInputUnion = EnableProtectionProviderSpecificInput | A2AEnableProtectionInput | HyperVReplicaAzureEnableProtectionInput | InMageAzureV2EnableProtectionInput | InMageEnableProtectionInput | SanEnableProtectionInput;
+export type EnableProtectionProviderSpecificInputUnion =
+  | EnableProtectionProviderSpecificInput
+  | A2AEnableProtectionInput
+  | HyperVReplicaAzureEnableProtectionInput
+  | InMageAzureV2EnableProtectionInput
+  | InMageEnableProtectionInput
+  | SanEnableProtectionInput;
 
 /**
  * @interface
@@ -311,7 +324,14 @@ export interface A2AEnableProtectionInput {
 /**
  * Contains the possible cases for EventProviderSpecificDetails.
  */
-export type EventProviderSpecificDetailsUnion = EventProviderSpecificDetails | A2AEventDetails | HyperVReplica2012EventDetails | HyperVReplica2012R2EventDetails | HyperVReplicaAzureEventDetails | HyperVReplicaBaseEventDetails | InMageAzureV2EventDetails;
+export type EventProviderSpecificDetailsUnion =
+  | EventProviderSpecificDetails
+  | A2AEventDetails
+  | HyperVReplica2012EventDetails
+  | HyperVReplica2012R2EventDetails
+  | HyperVReplicaAzureEventDetails
+  | HyperVReplicaBaseEventDetails
+  | InMageAzureV2EventDetails;
 
 /**
  * @interface
@@ -366,7 +386,13 @@ export interface A2AEventDetails {
 /**
  * Contains the possible cases for ProviderSpecificFailoverInput.
  */
-export type ProviderSpecificFailoverInputUnion = ProviderSpecificFailoverInput | A2AFailoverProviderInput | HyperVReplicaAzureFailbackProviderInput | HyperVReplicaAzureFailoverProviderInput | InMageAzureV2FailoverProviderInput | InMageFailoverProviderInput;
+export type ProviderSpecificFailoverInputUnion =
+  | ProviderSpecificFailoverInput
+  | A2AFailoverProviderInput
+  | HyperVReplicaAzureFailbackProviderInput
+  | HyperVReplicaAzureFailoverProviderInput
+  | InMageAzureV2FailoverProviderInput
+  | InMageFailoverProviderInput;
 
 /**
  * @interface
@@ -408,7 +434,15 @@ export interface A2AFailoverProviderInput {
 /**
  * Contains the possible cases for PolicyProviderSpecificInput.
  */
-export type PolicyProviderSpecificInputUnion = PolicyProviderSpecificInput | A2APolicyCreationInput | HyperVReplicaAzurePolicyInput | HyperVReplicaBluePolicyInput | HyperVReplicaPolicyInput | InMageAzureV2PolicyInput | InMagePolicyInput | VMwareCbtPolicyCreationInput;
+export type PolicyProviderSpecificInputUnion =
+  | PolicyProviderSpecificInput
+  | A2APolicyCreationInput
+  | HyperVReplicaAzurePolicyInput
+  | HyperVReplicaBluePolicyInput
+  | HyperVReplicaPolicyInput
+  | InMageAzureV2PolicyInput
+  | InMagePolicyInput
+  | VMwareCbtPolicyCreationInput;
 
 /**
  * @interface
@@ -460,7 +494,18 @@ export interface A2APolicyCreationInput {
 /**
  * Contains the possible cases for PolicyProviderSpecificDetails.
  */
-export type PolicyProviderSpecificDetailsUnion = PolicyProviderSpecificDetails | A2APolicyDetails | HyperVReplicaAzurePolicyDetails | HyperVReplicaBasePolicyDetails | HyperVReplicaBluePolicyDetails | HyperVReplicaPolicyDetails | InMageAzureV2PolicyDetails | InMageBasePolicyDetails | InMagePolicyDetails | RcmAzureMigrationPolicyDetails | VmwareCbtPolicyDetails;
+export type PolicyProviderSpecificDetailsUnion =
+  | PolicyProviderSpecificDetails
+  | A2APolicyDetails
+  | HyperVReplicaAzurePolicyDetails
+  | HyperVReplicaBasePolicyDetails
+  | HyperVReplicaBluePolicyDetails
+  | HyperVReplicaPolicyDetails
+  | InMageAzureV2PolicyDetails
+  | InMageBasePolicyDetails
+  | InMagePolicyDetails
+  | RcmAzureMigrationPolicyDetails
+  | VmwareCbtPolicyDetails;
 
 /**
  * @interface
@@ -723,7 +768,9 @@ export interface A2AProtectedManagedDiskDetails {
 /**
  * Contains the possible cases for ProtectionContainerMappingProviderSpecificDetails.
  */
-export type ProtectionContainerMappingProviderSpecificDetailsUnion = ProtectionContainerMappingProviderSpecificDetails | A2AProtectionContainerMappingDetails;
+export type ProtectionContainerMappingProviderSpecificDetailsUnion =
+  | ProtectionContainerMappingProviderSpecificDetails
+  | A2AProtectionContainerMappingDetails;
 
 /**
  * @interface
@@ -772,7 +819,10 @@ export interface A2AProtectionContainerMappingDetails {
 /**
  * Contains the possible cases for ProviderSpecificRecoveryPointDetails.
  */
-export type ProviderSpecificRecoveryPointDetailsUnion = ProviderSpecificRecoveryPointDetails | A2ARecoveryPointDetails | InMageAzureV2RecoveryPointDetails;
+export type ProviderSpecificRecoveryPointDetailsUnion =
+  | ProviderSpecificRecoveryPointDetails
+  | A2ARecoveryPointDetails
+  | InMageAzureV2RecoveryPointDetails;
 
 /**
  * @interface
@@ -949,7 +999,15 @@ export interface AzureToAzureVmSyncedConfigDetails {
 /**
  * Contains the possible cases for ReplicationProviderSpecificSettings.
  */
-export type ReplicationProviderSpecificSettingsUnion = ReplicationProviderSpecificSettings | A2AReplicationDetails | HyperVReplicaAzureReplicationDetails | HyperVReplicaBaseReplicationDetails | HyperVReplicaBlueReplicationDetails | HyperVReplicaReplicationDetails | InMageAzureV2ReplicationDetails | InMageReplicationDetails;
+export type ReplicationProviderSpecificSettingsUnion =
+  | ReplicationProviderSpecificSettings
+  | A2AReplicationDetails
+  | HyperVReplicaAzureReplicationDetails
+  | HyperVReplicaBaseReplicationDetails
+  | HyperVReplicaBlueReplicationDetails
+  | HyperVReplicaReplicationDetails
+  | InMageAzureV2ReplicationDetails
+  | InMageReplicationDetails;
 
 /**
  * @interface
@@ -1127,7 +1185,12 @@ export interface A2AReplicationDetails {
 /**
  * Contains the possible cases for ReverseReplicationProviderSpecificInput.
  */
-export type ReverseReplicationProviderSpecificInputUnion = ReverseReplicationProviderSpecificInput | A2AReprotectInput | HyperVReplicaAzureReprotectInput | InMageAzureV2ReprotectInput | InMageReprotectInput;
+export type ReverseReplicationProviderSpecificInputUnion =
+  | ReverseReplicationProviderSpecificInput
+  | A2AReprotectInput
+  | HyperVReplicaAzureReprotectInput
+  | InMageAzureV2ReprotectInput
+  | InMageReprotectInput;
 
 /**
  * @interface
@@ -1185,7 +1248,9 @@ export interface A2AReprotectInput {
 /**
  * Contains the possible cases for SwitchProtectionProviderSpecificInput.
  */
-export type SwitchProtectionProviderSpecificInputUnion = SwitchProtectionProviderSpecificInput | A2ASwitchProtectionInput;
+export type SwitchProtectionProviderSpecificInputUnion =
+  | SwitchProtectionProviderSpecificInput
+  | A2ASwitchProtectionInput;
 
 /**
  * @interface
@@ -1258,7 +1323,9 @@ export interface A2ASwitchProtectionInput {
 /**
  * Contains the possible cases for ReplicationProviderSpecificUpdateContainerMappingInput.
  */
-export type ReplicationProviderSpecificUpdateContainerMappingInputUnion = ReplicationProviderSpecificUpdateContainerMappingInput | A2AUpdateContainerMappingInput;
+export type ReplicationProviderSpecificUpdateContainerMappingInputUnion =
+  | ReplicationProviderSpecificUpdateContainerMappingInput
+  | A2AUpdateContainerMappingInput;
 
 /**
  * @interface
@@ -1322,7 +1389,11 @@ export interface A2AVmManagedDiskUpdateDetails {
 /**
  * Contains the possible cases for UpdateReplicationProtectedItemProviderInput.
  */
-export type UpdateReplicationProtectedItemProviderInputUnion = UpdateReplicationProtectedItemProviderInput | A2AUpdateReplicationProtectedItemInput | HyperVReplicaAzureUpdateReplicationProtectedItemInput | InMageAzureV2UpdateReplicationProtectedItemInput;
+export type UpdateReplicationProtectedItemProviderInputUnion =
+  | UpdateReplicationProtectedItemProviderInput
+  | A2AUpdateReplicationProtectedItemInput
+  | HyperVReplicaAzureUpdateReplicationProtectedItemInput
+  | InMageAzureV2UpdateReplicationProtectedItemInput;
 
 /**
  * @interface
@@ -1526,7 +1597,13 @@ export interface ApplyRecoveryPointInput {
 /**
  * Contains the possible cases for JobDetails.
  */
-export type JobDetailsUnion = JobDetails | AsrJobDetails | ExportJobDetails | FailoverJobDetails | SwitchProtectionJobDetails | TestFailoverJobDetails;
+export type JobDetailsUnion =
+  | JobDetails
+  | AsrJobDetails
+  | ExportJobDetails
+  | FailoverJobDetails
+  | SwitchProtectionJobDetails
+  | TestFailoverJobDetails;
 
 /**
  * @interface
@@ -1569,7 +1646,16 @@ export interface AsrJobDetails {
 /**
  * Contains the possible cases for TaskTypeDetails.
  */
-export type TaskTypeDetailsUnion = TaskTypeDetails | AutomationRunbookTaskDetails | ConsistencyCheckTaskDetails | FabricReplicationGroupTaskDetails | JobTaskDetails | ManualActionTaskDetails | ScriptActionTaskDetails | VirtualMachineTaskDetails | VmNicUpdatesTaskDetails;
+export type TaskTypeDetailsUnion =
+  | TaskTypeDetails
+  | AutomationRunbookTaskDetails
+  | ConsistencyCheckTaskDetails
+  | FabricReplicationGroupTaskDetails
+  | JobTaskDetails
+  | ManualActionTaskDetails
+  | ScriptActionTaskDetails
+  | VirtualMachineTaskDetails
+  | VmNicUpdatesTaskDetails;
 
 /**
  * @interface
@@ -1587,7 +1673,11 @@ export interface TaskTypeDetails {
 /**
  * Contains the possible cases for GroupTaskDetails.
  */
-export type GroupTaskDetailsUnion = GroupTaskDetails | InlineWorkflowTaskDetails | RecoveryPlanGroupTaskDetails | RecoveryPlanShutdownGroupTaskDetails;
+export type GroupTaskDetailsUnion =
+  | GroupTaskDetails
+  | InlineWorkflowTaskDetails
+  | RecoveryPlanGroupTaskDetails
+  | RecoveryPlanShutdownGroupTaskDetails;
 
 /**
  * @interface
@@ -1815,7 +1905,10 @@ export interface AutomationRunbookTaskDetails {
 /**
  * Contains the possible cases for FabricSpecificCreationInput.
  */
-export type FabricSpecificCreationInputUnion = FabricSpecificCreationInput | AzureFabricCreationInput | VMwareV2FabricCreationInput;
+export type FabricSpecificCreationInputUnion =
+  | FabricSpecificCreationInput
+  | AzureFabricCreationInput
+  | VMwareV2FabricCreationInput;
 
 /**
  * @interface
@@ -1850,7 +1943,13 @@ export interface AzureFabricCreationInput {
 /**
  * Contains the possible cases for FabricSpecificDetails.
  */
-export type FabricSpecificDetailsUnion = FabricSpecificDetails | AzureFabricSpecificDetails | HyperVSiteDetails | VmmDetails | VMwareDetails | VMwareV2FabricSpecificDetails;
+export type FabricSpecificDetailsUnion =
+  | FabricSpecificDetails
+  | AzureFabricSpecificDetails
+  | HyperVSiteDetails
+  | VmmDetails
+  | VMwareDetails
+  | VMwareV2FabricSpecificDetails;
 
 /**
  * @interface
@@ -1889,7 +1988,11 @@ export interface AzureFabricSpecificDetails {
 /**
  * Contains the possible cases for FabricSpecificCreateNetworkMappingInput.
  */
-export type FabricSpecificCreateNetworkMappingInputUnion = FabricSpecificCreateNetworkMappingInput | AzureToAzureCreateNetworkMappingInput | VmmToAzureCreateNetworkMappingInput | VmmToVmmCreateNetworkMappingInput;
+export type FabricSpecificCreateNetworkMappingInputUnion =
+  | FabricSpecificCreateNetworkMappingInput
+  | AzureToAzureCreateNetworkMappingInput
+  | VmmToAzureCreateNetworkMappingInput
+  | VmmToVmmCreateNetworkMappingInput;
 
 /**
  * @interface
@@ -1925,7 +2028,11 @@ export interface AzureToAzureCreateNetworkMappingInput {
 /**
  * Contains the possible cases for NetworkMappingFabricSpecificSettings.
  */
-export type NetworkMappingFabricSpecificSettingsUnion = NetworkMappingFabricSpecificSettings | AzureToAzureNetworkMappingSettings | VmmToAzureNetworkMappingSettings | VmmToVmmNetworkMappingSettings;
+export type NetworkMappingFabricSpecificSettingsUnion =
+  | NetworkMappingFabricSpecificSettings
+  | AzureToAzureNetworkMappingSettings
+  | VmmToAzureNetworkMappingSettings
+  | VmmToVmmNetworkMappingSettings;
 
 /**
  * @interface
@@ -1964,7 +2071,11 @@ export interface AzureToAzureNetworkMappingSettings {
 /**
  * Contains the possible cases for FabricSpecificUpdateNetworkMappingInput.
  */
-export type FabricSpecificUpdateNetworkMappingInputUnion = FabricSpecificUpdateNetworkMappingInput | AzureToAzureUpdateNetworkMappingInput | VmmToAzureUpdateNetworkMappingInput | VmmToVmmUpdateNetworkMappingInput;
+export type FabricSpecificUpdateNetworkMappingInputUnion =
+  | FabricSpecificUpdateNetworkMappingInput
+  | AzureToAzureUpdateNetworkMappingInput
+  | VmmToAzureUpdateNetworkMappingInput
+  | VmmToVmmUpdateNetworkMappingInput;
 
 /**
  * @interface
@@ -2054,7 +2165,12 @@ export interface ComputeSizeErrorDetails {
 /**
  * Contains the possible cases for ConfigurationSettings.
  */
-export type ConfigurationSettingsUnion = ConfigurationSettings | HyperVVirtualMachineDetails | ReplicationGroupDetails | VmmVirtualMachineDetails | VMwareVirtualMachineDetails;
+export type ConfigurationSettingsUnion =
+  | ConfigurationSettings
+  | HyperVVirtualMachineDetails
+  | ReplicationGroupDetails
+  | VmmVirtualMachineDetails
+  | VMwareVirtualMachineDetails;
 
 /**
  * @interface
@@ -2301,7 +2417,11 @@ export interface RecoveryPlanProtectedItem {
 /**
  * Contains the possible cases for RecoveryPlanActionDetails.
  */
-export type RecoveryPlanActionDetailsUnion = RecoveryPlanActionDetails | RecoveryPlanAutomationRunbookActionDetails | RecoveryPlanManualActionDetails | RecoveryPlanScriptActionDetails;
+export type RecoveryPlanActionDetailsUnion =
+  | RecoveryPlanActionDetails
+  | RecoveryPlanAutomationRunbookActionDetails
+  | RecoveryPlanManualActionDetails
+  | RecoveryPlanScriptActionDetails;
 
 /**
  * @interface
@@ -2465,7 +2585,9 @@ export interface DataStore {
 /**
  * Contains the possible cases for DisableProtectionProviderSpecificInput.
  */
-export type DisableProtectionProviderSpecificInputUnion = DisableProtectionProviderSpecificInput | InMageDisableProtectionProviderSpecificInput;
+export type DisableProtectionProviderSpecificInputUnion =
+  | DisableProtectionProviderSpecificInput
+  | InMageDisableProtectionProviderSpecificInput;
 
 /**
  * @interface
@@ -6918,7 +7040,13 @@ export interface RecoveryPlan extends Resource {
 /**
  * Contains the possible cases for RecoveryPlanProviderSpecificFailoverInput.
  */
-export type RecoveryPlanProviderSpecificFailoverInputUnion = RecoveryPlanProviderSpecificFailoverInput | RecoveryPlanA2AFailoverInput | RecoveryPlanHyperVReplicaAzureFailbackInput | RecoveryPlanHyperVReplicaAzureFailoverInput | RecoveryPlanInMageAzureV2FailoverInput | RecoveryPlanInMageFailoverInput;
+export type RecoveryPlanProviderSpecificFailoverInputUnion =
+  | RecoveryPlanProviderSpecificFailoverInput
+  | RecoveryPlanA2AFailoverInput
+  | RecoveryPlanHyperVReplicaAzureFailbackInput
+  | RecoveryPlanHyperVReplicaAzureFailoverInput
+  | RecoveryPlanInMageAzureV2FailoverInput
+  | RecoveryPlanInMageFailoverInput;
 
 /**
  * @interface
@@ -9144,7 +9272,8 @@ export interface ReplicationEventsListOptionalParams extends msRest.RequestOptio
  *
  * @extends RequestOptionsBase
  */
-export interface ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams extends msRest.RequestOptionsBase {
+export interface ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] OData filter options.
    */
@@ -9195,7 +9324,6 @@ export interface SiteRecoveryManagementClientOptions extends AzureServiceClientO
    */
   baseUri?: string;
 }
-
 
 /**
  * @interface
@@ -9418,7 +9546,8 @@ export interface StorageClassificationCollection extends Array<StorageClassifica
  *
  * @extends Array<StorageClassificationMapping>
  */
-export interface StorageClassificationMappingCollection extends Array<StorageClassificationMapping> {
+export interface StorageClassificationMappingCollection
+  extends Array<StorageClassificationMapping> {
   /**
    * @member {string} [nextLink] The value of next link.
    */
@@ -9487,7 +9616,7 @@ export interface RecoveryPlanCollection extends Array<RecoveryPlan> {
  * @readonly
  * @enum {string}
  */
-export type AgentAutoUpdateStatus = 'Disabled' | 'Enabled';
+export type AgentAutoUpdateStatus = "Disabled" | "Enabled";
 
 /**
  * Defines values for SetMultiVmSyncStatus.
@@ -9495,7 +9624,7 @@ export type AgentAutoUpdateStatus = 'Disabled' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type SetMultiVmSyncStatus = 'Enable' | 'Disable';
+export type SetMultiVmSyncStatus = "Enable" | "Disable";
 
 /**
  * Defines values for RecoveryPointSyncType.
@@ -9503,7 +9632,7 @@ export type SetMultiVmSyncStatus = 'Enable' | 'Disable';
  * @readonly
  * @enum {string}
  */
-export type RecoveryPointSyncType = 'MultiVmSyncRecoveryPoint' | 'PerVmRecoveryPoint';
+export type RecoveryPointSyncType = "MultiVmSyncRecoveryPoint" | "PerVmRecoveryPoint";
 
 /**
  * Defines values for MultiVmGroupCreateOption.
@@ -9511,7 +9640,7 @@ export type RecoveryPointSyncType = 'MultiVmSyncRecoveryPoint' | 'PerVmRecoveryP
  * @readonly
  * @enum {string}
  */
-export type MultiVmGroupCreateOption = 'AutoCreated' | 'UserSpecified';
+export type MultiVmGroupCreateOption = "AutoCreated" | "UserSpecified";
 
 /**
  * Defines values for FailoverDeploymentModel.
@@ -9519,7 +9648,7 @@ export type MultiVmGroupCreateOption = 'AutoCreated' | 'UserSpecified';
  * @readonly
  * @enum {string}
  */
-export type FailoverDeploymentModel = 'NotApplicable' | 'Classic' | 'ResourceManager';
+export type FailoverDeploymentModel = "NotApplicable" | "Classic" | "ResourceManager";
 
 /**
  * Defines values for RecoveryPlanGroupType.
@@ -9527,7 +9656,7 @@ export type FailoverDeploymentModel = 'NotApplicable' | 'Classic' | 'ResourceMan
  * @readonly
  * @enum {string}
  */
-export type RecoveryPlanGroupType = 'Shutdown' | 'Boot' | 'Failover';
+export type RecoveryPlanGroupType = "Shutdown" | "Boot" | "Failover";
 
 /**
  * Defines values for ReplicationProtectedItemOperation.
@@ -9537,7 +9666,20 @@ export type RecoveryPlanGroupType = 'Shutdown' | 'Boot' | 'Failover';
  * @readonly
  * @enum {string}
  */
-export type ReplicationProtectedItemOperation = 'ReverseReplicate' | 'Commit' | 'PlannedFailover' | 'UnplannedFailover' | 'DisableProtection' | 'TestFailover' | 'TestFailoverCleanup' | 'Failback' | 'FinalizeFailback' | 'ChangePit' | 'RepairReplication' | 'SwitchProtection' | 'CompleteMigration';
+export type ReplicationProtectedItemOperation =
+  | "ReverseReplicate"
+  | "Commit"
+  | "PlannedFailover"
+  | "UnplannedFailover"
+  | "DisableProtection"
+  | "TestFailover"
+  | "TestFailoverCleanup"
+  | "Failback"
+  | "FinalizeFailback"
+  | "ChangePit"
+  | "RepairReplication"
+  | "SwitchProtection"
+  | "CompleteMigration";
 
 /**
  * Defines values for PossibleOperationsDirections.
@@ -9545,7 +9687,7 @@ export type ReplicationProtectedItemOperation = 'ReverseReplicate' | 'Commit' | 
  * @readonly
  * @enum {string}
  */
-export type PossibleOperationsDirections = 'PrimaryToRecovery' | 'RecoveryToPrimary';
+export type PossibleOperationsDirections = "PrimaryToRecovery" | "RecoveryToPrimary";
 
 /**
  * Defines values for DisableProtectionReason.
@@ -9553,7 +9695,7 @@ export type PossibleOperationsDirections = 'PrimaryToRecovery' | 'RecoveryToPrim
  * @readonly
  * @enum {string}
  */
-export type DisableProtectionReason = 'NotSpecified' | 'MigrationComplete';
+export type DisableProtectionReason = "NotSpecified" | "MigrationComplete";
 
 /**
  * Defines values for HealthErrorCategory.
@@ -9562,7 +9704,14 @@ export type DisableProtectionReason = 'NotSpecified' | 'MigrationComplete';
  * @readonly
  * @enum {string}
  */
-export type HealthErrorCategory = 'None' | 'Replication' | 'TestFailover' | 'Configuration' | 'FabricInfrastructure' | 'VersionExpiry' | 'AgentAutoUpdate';
+export type HealthErrorCategory =
+  | "None"
+  | "Replication"
+  | "TestFailover"
+  | "Configuration"
+  | "FabricInfrastructure"
+  | "VersionExpiry"
+  | "AgentAutoUpdate";
 
 /**
  * Defines values for Severity.
@@ -9570,7 +9719,7 @@ export type HealthErrorCategory = 'None' | 'Replication' | 'TestFailover' | 'Con
  * @readonly
  * @enum {string}
  */
-export type Severity = 'NONE' | 'Warning' | 'Error' | 'Info';
+export type Severity = "NONE" | "Warning" | "Error" | "Info";
 
 /**
  * Defines values for PresenceStatus.
@@ -9578,7 +9727,7 @@ export type Severity = 'NONE' | 'Warning' | 'Error' | 'Info';
  * @readonly
  * @enum {string}
  */
-export type PresenceStatus = 'Unknown' | 'Present' | 'NotPresent';
+export type PresenceStatus = "Unknown" | "Present" | "NotPresent";
 
 /**
  * Defines values for IdentityProviderType.
@@ -9586,7 +9735,7 @@ export type PresenceStatus = 'Unknown' | 'Present' | 'NotPresent';
  * @readonly
  * @enum {string}
  */
-export type IdentityProviderType = 'RecoveryServicesActiveDirectory';
+export type IdentityProviderType = "RecoveryServicesActiveDirectory";
 
 /**
  * Defines values for AgentVersionStatus.
@@ -9595,7 +9744,12 @@ export type IdentityProviderType = 'RecoveryServicesActiveDirectory';
  * @readonly
  * @enum {string}
  */
-export type AgentVersionStatus = 'Supported' | 'NotSupported' | 'Deprecated' | 'UpdateRequired' | 'SecurityUpdateRequired';
+export type AgentVersionStatus =
+  | "Supported"
+  | "NotSupported"
+  | "Deprecated"
+  | "UpdateRequired"
+  | "SecurityUpdateRequired";
 
 /**
  * Defines values for RecoveryPointType.
@@ -9603,7 +9757,7 @@ export type AgentVersionStatus = 'Supported' | 'NotSupported' | 'Deprecated' | '
  * @readonly
  * @enum {string}
  */
-export type RecoveryPointType = 'LatestTime' | 'LatestTag' | 'Custom';
+export type RecoveryPointType = "LatestTime" | "LatestTag" | "Custom";
 
 /**
  * Defines values for MultiVmSyncStatus.
@@ -9611,7 +9765,7 @@ export type RecoveryPointType = 'LatestTime' | 'LatestTag' | 'Custom';
  * @readonly
  * @enum {string}
  */
-export type MultiVmSyncStatus = 'Enabled' | 'Disabled';
+export type MultiVmSyncStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for A2ARpRecoveryPointType.
@@ -9620,7 +9774,11 @@ export type MultiVmSyncStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type A2ARpRecoveryPointType = 'Latest' | 'LatestApplicationConsistent' | 'LatestCrashConsistent' | 'LatestProcessed';
+export type A2ARpRecoveryPointType =
+  | "Latest"
+  | "LatestApplicationConsistent"
+  | "LatestCrashConsistent"
+  | "LatestProcessed";
 
 /**
  * Defines values for MultiVmSyncPointOption.
@@ -9628,7 +9786,7 @@ export type A2ARpRecoveryPointType = 'Latest' | 'LatestApplicationConsistent' | 
  * @readonly
  * @enum {string}
  */
-export type MultiVmSyncPointOption = 'UseMultiVmSyncRecoveryPoint' | 'UsePerVmRecoveryPoint';
+export type MultiVmSyncPointOption = "UseMultiVmSyncRecoveryPoint" | "UsePerVmRecoveryPoint";
 
 /**
  * Defines values for RecoveryPlanActionLocation.
@@ -9636,7 +9794,7 @@ export type MultiVmSyncPointOption = 'UseMultiVmSyncRecoveryPoint' | 'UsePerVmRe
  * @readonly
  * @enum {string}
  */
-export type RecoveryPlanActionLocation = 'Primary' | 'Recovery';
+export type RecoveryPlanActionLocation = "Primary" | "Recovery";
 
 /**
  * Defines values for DataSyncStatus.
@@ -9644,7 +9802,7 @@ export type RecoveryPlanActionLocation = 'Primary' | 'Recovery';
  * @readonly
  * @enum {string}
  */
-export type DataSyncStatus = 'ForDownTime' | 'ForSynchronization';
+export type DataSyncStatus = "ForDownTime" | "ForSynchronization";
 
 /**
  * Defines values for AlternateLocationRecoveryOption.
@@ -9652,7 +9810,7 @@ export type DataSyncStatus = 'ForDownTime' | 'ForSynchronization';
  * @readonly
  * @enum {string}
  */
-export type AlternateLocationRecoveryOption = 'CreateVmIfNotFound' | 'NoAction';
+export type AlternateLocationRecoveryOption = "CreateVmIfNotFound" | "NoAction";
 
 /**
  * Defines values for HyperVReplicaAzureRpRecoveryPointType.
@@ -9660,7 +9818,10 @@ export type AlternateLocationRecoveryOption = 'CreateVmIfNotFound' | 'NoAction';
  * @readonly
  * @enum {string}
  */
-export type HyperVReplicaAzureRpRecoveryPointType = 'Latest' | 'LatestApplicationConsistent' | 'LatestProcessed';
+export type HyperVReplicaAzureRpRecoveryPointType =
+  | "Latest"
+  | "LatestApplicationConsistent"
+  | "LatestProcessed";
 
 /**
  * Defines values for InMageV2RpRecoveryPointType.
@@ -9669,7 +9830,11 @@ export type HyperVReplicaAzureRpRecoveryPointType = 'Latest' | 'LatestApplicatio
  * @readonly
  * @enum {string}
  */
-export type InMageV2RpRecoveryPointType = 'Latest' | 'LatestApplicationConsistent' | 'LatestCrashConsistent' | 'LatestProcessed';
+export type InMageV2RpRecoveryPointType =
+  | "Latest"
+  | "LatestApplicationConsistent"
+  | "LatestCrashConsistent"
+  | "LatestProcessed";
 
 /**
  * Defines values for RpInMageRecoveryPointType.
@@ -9677,7 +9842,7 @@ export type InMageV2RpRecoveryPointType = 'Latest' | 'LatestApplicationConsisten
  * @readonly
  * @enum {string}
  */
-export type RpInMageRecoveryPointType = 'LatestTime' | 'LatestTag' | 'Custom';
+export type RpInMageRecoveryPointType = "LatestTime" | "LatestTag" | "Custom";
 
 /**
  * Defines values for SourceSiteOperations.
@@ -9685,7 +9850,7 @@ export type RpInMageRecoveryPointType = 'LatestTime' | 'LatestTag' | 'Custom';
  * @readonly
  * @enum {string}
  */
-export type SourceSiteOperations = 'Required' | 'NotRequired';
+export type SourceSiteOperations = "Required" | "NotRequired";
 
 /**
  * Defines values for LicenseType.
@@ -9693,7 +9858,7 @@ export type SourceSiteOperations = 'Required' | 'NotRequired';
  * @readonly
  * @enum {string}
  */
-export type LicenseType = 'NotSpecified' | 'NoLicenseType' | 'WindowsServer';
+export type LicenseType = "NotSpecified" | "NoLicenseType" | "WindowsServer";
 
 /**
  * Contains response data for the list operation.
@@ -9703,15 +9868,15 @@ export type OperationsListResponse = OperationsDiscoveryCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationsDiscoveryCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationsDiscoveryCollection;
+  };
 };
 
 /**
@@ -9722,15 +9887,15 @@ export type OperationsListNextResponse = OperationsDiscoveryCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationsDiscoveryCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationsDiscoveryCollection;
+  };
 };
 
 /**
@@ -9741,15 +9906,15 @@ export type ReplicationAlertSettingsListResponse = AlertCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertCollection;
+  };
 };
 
 /**
@@ -9760,15 +9925,15 @@ export type ReplicationAlertSettingsGetResponse = Alert & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Alert;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Alert;
+  };
 };
 
 /**
@@ -9779,15 +9944,15 @@ export type ReplicationAlertSettingsCreateResponse = Alert & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Alert;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Alert;
+  };
 };
 
 /**
@@ -9798,15 +9963,15 @@ export type ReplicationAlertSettingsListNextResponse = AlertCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertCollection;
+  };
 };
 
 /**
@@ -9817,15 +9982,15 @@ export type ReplicationEventsListResponse = EventCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventCollection;
+  };
 };
 
 /**
@@ -9836,15 +10001,15 @@ export type ReplicationEventsGetResponse = Event & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Event;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Event;
+  };
 };
 
 /**
@@ -9855,15 +10020,15 @@ export type ReplicationEventsListNextResponse = EventCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventCollection;
+  };
 };
 
 /**
@@ -9874,15 +10039,15 @@ export type ReplicationFabricsListResponse = FabricCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FabricCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FabricCollection;
+  };
 };
 
 /**
@@ -9893,15 +10058,15 @@ export type ReplicationFabricsGetResponse = Fabric & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Fabric;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Fabric;
+  };
 };
 
 /**
@@ -9912,15 +10077,15 @@ export type ReplicationFabricsCreateResponse = Fabric & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Fabric;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Fabric;
+  };
 };
 
 /**
@@ -9931,15 +10096,15 @@ export type ReplicationFabricsCheckConsistencyResponse = Fabric & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Fabric;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Fabric;
+  };
 };
 
 /**
@@ -9950,15 +10115,15 @@ export type ReplicationFabricsReassociateGatewayResponse = Fabric & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Fabric;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Fabric;
+  };
 };
 
 /**
@@ -9969,15 +10134,15 @@ export type ReplicationFabricsRenewCertificateResponse = Fabric & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Fabric;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Fabric;
+  };
 };
 
 /**
@@ -9988,15 +10153,15 @@ export type ReplicationFabricsBeginCreateResponse = Fabric & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Fabric;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Fabric;
+  };
 };
 
 /**
@@ -10007,15 +10172,15 @@ export type ReplicationFabricsBeginCheckConsistencyResponse = Fabric & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Fabric;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Fabric;
+  };
 };
 
 /**
@@ -10026,15 +10191,15 @@ export type ReplicationFabricsBeginReassociateGatewayResponse = Fabric & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Fabric;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Fabric;
+  };
 };
 
 /**
@@ -10045,15 +10210,15 @@ export type ReplicationFabricsBeginRenewCertificateResponse = Fabric & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Fabric;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Fabric;
+  };
 };
 
 /**
@@ -10064,15 +10229,15 @@ export type ReplicationFabricsListNextResponse = FabricCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FabricCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FabricCollection;
+  };
 };
 
 /**
@@ -10083,15 +10248,15 @@ export type ReplicationLogicalNetworksListByReplicationFabricsResponse = Logical
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogicalNetworkCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LogicalNetworkCollection;
+  };
 };
 
 /**
@@ -10102,15 +10267,15 @@ export type ReplicationLogicalNetworksGetResponse = LogicalNetwork & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogicalNetwork;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LogicalNetwork;
+  };
 };
 
 /**
@@ -10121,15 +10286,15 @@ export type ReplicationLogicalNetworksListByReplicationFabricsNextResponse = Log
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogicalNetworkCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LogicalNetworkCollection;
+  };
 };
 
 /**
@@ -10140,15 +10305,15 @@ export type ReplicationNetworksListByReplicationFabricsResponse = NetworkCollect
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkCollection;
+  };
 };
 
 /**
@@ -10159,15 +10324,15 @@ export type ReplicationNetworksGetResponse = Network & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Network;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Network;
+  };
 };
 
 /**
@@ -10178,15 +10343,15 @@ export type ReplicationNetworksListResponse = NetworkCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkCollection;
+  };
 };
 
 /**
@@ -10197,15 +10362,15 @@ export type ReplicationNetworksListByReplicationFabricsNextResponse = NetworkCol
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkCollection;
+  };
 };
 
 /**
@@ -10216,15 +10381,15 @@ export type ReplicationNetworksListNextResponse = NetworkCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkCollection;
+  };
 };
 
 /**
@@ -10235,15 +10400,15 @@ export type ReplicationNetworkMappingsListByReplicationNetworksResponse = Networ
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkMappingCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkMappingCollection;
+  };
 };
 
 /**
@@ -10254,15 +10419,15 @@ export type ReplicationNetworkMappingsGetResponse = NetworkMapping & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkMapping;
+  };
 };
 
 /**
@@ -10273,15 +10438,15 @@ export type ReplicationNetworkMappingsCreateResponse = NetworkMapping & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkMapping;
+  };
 };
 
 /**
@@ -10292,15 +10457,15 @@ export type ReplicationNetworkMappingsUpdateResponse = NetworkMapping & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkMapping;
+  };
 };
 
 /**
@@ -10311,15 +10476,15 @@ export type ReplicationNetworkMappingsListResponse = NetworkMappingCollection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkMappingCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkMappingCollection;
+  };
 };
 
 /**
@@ -10330,15 +10495,15 @@ export type ReplicationNetworkMappingsBeginCreateResponse = NetworkMapping & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkMapping;
+  };
 };
 
 /**
@@ -10349,15 +10514,15 @@ export type ReplicationNetworkMappingsBeginUpdateResponse = NetworkMapping & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkMapping;
+  };
 };
 
 /**
@@ -10368,15 +10533,15 @@ export type ReplicationNetworkMappingsListByReplicationNetworksNextResponse = Ne
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkMappingCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkMappingCollection;
+  };
 };
 
 /**
@@ -10387,15 +10552,15 @@ export type ReplicationNetworkMappingsListNextResponse = NetworkMappingCollectio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkMappingCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkMappingCollection;
+  };
 };
 
 /**
@@ -10406,15 +10571,15 @@ export type ReplicationProtectionContainersListByReplicationFabricsResponse = Pr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerCollection;
+  };
 };
 
 /**
@@ -10425,15 +10590,15 @@ export type ReplicationProtectionContainersGetResponse = ProtectionContainer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainer;
+  };
 };
 
 /**
@@ -10444,15 +10609,15 @@ export type ReplicationProtectionContainersCreateResponse = ProtectionContainer 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainer;
+  };
 };
 
 /**
@@ -10463,15 +10628,15 @@ export type ReplicationProtectionContainersDiscoverProtectableItemResponse = Pro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainer;
+  };
 };
 
 /**
@@ -10482,15 +10647,15 @@ export type ReplicationProtectionContainersSwitchProtectionResponse = Protection
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainer;
+  };
 };
 
 /**
@@ -10501,15 +10666,15 @@ export type ReplicationProtectionContainersListResponse = ProtectionContainerCol
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerCollection;
+  };
 };
 
 /**
@@ -10520,15 +10685,15 @@ export type ReplicationProtectionContainersBeginCreateResponse = ProtectionConta
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainer;
+  };
 };
 
 /**
@@ -10539,15 +10704,15 @@ export type ReplicationProtectionContainersBeginDiscoverProtectableItemResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainer;
+  };
 };
 
 /**
@@ -10558,15 +10723,15 @@ export type ReplicationProtectionContainersBeginSwitchProtectionResponse = Prote
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainer;
+  };
 };
 
 /**
@@ -10577,15 +10742,15 @@ export type ReplicationProtectionContainersListByReplicationFabricsNextResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerCollection;
+  };
 };
 
 /**
@@ -10596,15 +10761,15 @@ export type ReplicationProtectionContainersListNextResponse = ProtectionContaine
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerCollection;
+  };
 };
 
 /**
@@ -10615,15 +10780,15 @@ export type ReplicationProtectableItemsListByReplicationProtectionContainersResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectableItemCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectableItemCollection;
+  };
 };
 
 /**
@@ -10634,15 +10799,15 @@ export type ReplicationProtectableItemsGetResponse = ProtectableItem & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectableItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectableItem;
+  };
 };
 
 /**
@@ -10653,15 +10818,15 @@ export type ReplicationProtectableItemsListByReplicationProtectionContainersNext
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectableItemCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectableItemCollection;
+  };
 };
 
 /**
@@ -10672,15 +10837,15 @@ export type ReplicationProtectedItemsListByReplicationProtectionContainersRespon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItemCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItemCollection;
+  };
 };
 
 /**
@@ -10691,15 +10856,15 @@ export type ReplicationProtectedItemsGetResponse = ReplicationProtectedItem & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10710,15 +10875,15 @@ export type ReplicationProtectedItemsCreateResponse = ReplicationProtectedItem &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10729,15 +10894,15 @@ export type ReplicationProtectedItemsUpdateResponse = ReplicationProtectedItem &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10748,15 +10913,15 @@ export type ReplicationProtectedItemsApplyRecoveryPointResponse = ReplicationPro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10767,15 +10932,15 @@ export type ReplicationProtectedItemsFailoverCommitResponse = ReplicationProtect
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10786,15 +10951,15 @@ export type ReplicationProtectedItemsPlannedFailoverResponse = ReplicationProtec
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10805,15 +10970,15 @@ export type ReplicationProtectedItemsRepairReplicationResponse = ReplicationProt
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10824,15 +10989,15 @@ export type ReplicationProtectedItemsReprotectResponse = ReplicationProtectedIte
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10843,15 +11008,15 @@ export type ReplicationProtectedItemsTestFailoverResponse = ReplicationProtected
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10862,15 +11027,15 @@ export type ReplicationProtectedItemsTestFailoverCleanupResponse = ReplicationPr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10881,15 +11046,15 @@ export type ReplicationProtectedItemsUnplannedFailoverResponse = ReplicationProt
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10900,15 +11065,15 @@ export type ReplicationProtectedItemsUpdateMobilityServiceResponse = Replication
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10919,15 +11084,15 @@ export type ReplicationProtectedItemsListResponse = ReplicationProtectedItemColl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItemCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItemCollection;
+  };
 };
 
 /**
@@ -10938,15 +11103,15 @@ export type ReplicationProtectedItemsBeginCreateResponse = ReplicationProtectedI
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10957,15 +11122,15 @@ export type ReplicationProtectedItemsBeginUpdateResponse = ReplicationProtectedI
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10976,15 +11141,15 @@ export type ReplicationProtectedItemsBeginApplyRecoveryPointResponse = Replicati
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -10995,15 +11160,15 @@ export type ReplicationProtectedItemsBeginFailoverCommitResponse = ReplicationPr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -11014,15 +11179,15 @@ export type ReplicationProtectedItemsBeginPlannedFailoverResponse = ReplicationP
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -11033,15 +11198,15 @@ export type ReplicationProtectedItemsBeginRepairReplicationResponse = Replicatio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -11052,15 +11217,15 @@ export type ReplicationProtectedItemsBeginReprotectResponse = ReplicationProtect
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -11071,15 +11236,15 @@ export type ReplicationProtectedItemsBeginTestFailoverResponse = ReplicationProt
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -11090,15 +11255,15 @@ export type ReplicationProtectedItemsBeginTestFailoverCleanupResponse = Replicat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -11109,15 +11274,15 @@ export type ReplicationProtectedItemsBeginUnplannedFailoverResponse = Replicatio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -11128,15 +11293,15 @@ export type ReplicationProtectedItemsBeginUpdateMobilityServiceResponse = Replic
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItem;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItem;
+  };
 };
 
 /**
@@ -11147,15 +11312,15 @@ export type ReplicationProtectedItemsListByReplicationProtectionContainersNextRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItemCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItemCollection;
+  };
 };
 
 /**
@@ -11166,15 +11331,15 @@ export type ReplicationProtectedItemsListNextResponse = ReplicationProtectedItem
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationProtectedItemCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationProtectedItemCollection;
+  };
 };
 
 /**
@@ -11185,15 +11350,15 @@ export type RecoveryPointsListByReplicationProtectedItemsResponse = RecoveryPoin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPointCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPointCollection;
+  };
 };
 
 /**
@@ -11204,15 +11369,15 @@ export type RecoveryPointsGetResponse = RecoveryPoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPoint;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPoint;
+  };
 };
 
 /**
@@ -11223,15 +11388,15 @@ export type RecoveryPointsListByReplicationProtectedItemsNextResponse = Recovery
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPointCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPointCollection;
+  };
 };
 
 /**
@@ -11242,15 +11407,15 @@ export type TargetComputeSizesListByReplicationProtectedItemsResponse = TargetCo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TargetComputeSizeCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TargetComputeSizeCollection;
+  };
 };
 
 /**
@@ -11261,15 +11426,15 @@ export type TargetComputeSizesListByReplicationProtectedItemsNextResponse = Targ
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TargetComputeSizeCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TargetComputeSizeCollection;
+  };
 };
 
 /**
@@ -11280,15 +11445,15 @@ export type ReplicationProtectionContainerMappingsListByReplicationProtectionCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerMappingCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerMappingCollection;
+  };
 };
 
 /**
@@ -11299,15 +11464,15 @@ export type ReplicationProtectionContainerMappingsGetResponse = ProtectionContai
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerMapping;
+  };
 };
 
 /**
@@ -11318,15 +11483,15 @@ export type ReplicationProtectionContainerMappingsCreateResponse = ProtectionCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerMapping;
+  };
 };
 
 /**
@@ -11337,15 +11502,15 @@ export type ReplicationProtectionContainerMappingsUpdateResponse = ProtectionCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerMapping;
+  };
 };
 
 /**
@@ -11356,15 +11521,15 @@ export type ReplicationProtectionContainerMappingsListResponse = ProtectionConta
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerMappingCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerMappingCollection;
+  };
 };
 
 /**
@@ -11375,15 +11540,15 @@ export type ReplicationProtectionContainerMappingsBeginCreateResponse = Protecti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerMapping;
+  };
 };
 
 /**
@@ -11394,15 +11559,15 @@ export type ReplicationProtectionContainerMappingsBeginUpdateResponse = Protecti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerMapping;
+  };
 };
 
 /**
@@ -11413,15 +11578,15 @@ export type ReplicationProtectionContainerMappingsListByReplicationProtectionCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerMappingCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerMappingCollection;
+  };
 };
 
 /**
@@ -11432,15 +11597,15 @@ export type ReplicationProtectionContainerMappingsListNextResponse = ProtectionC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProtectionContainerMappingCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProtectionContainerMappingCollection;
+  };
 };
 
 /**
@@ -11451,15 +11616,15 @@ export type ReplicationRecoveryServicesProvidersListByReplicationFabricsResponse
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryServicesProviderCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryServicesProviderCollection;
+  };
 };
 
 /**
@@ -11470,15 +11635,15 @@ export type ReplicationRecoveryServicesProvidersGetResponse = RecoveryServicesPr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryServicesProvider;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryServicesProvider;
+  };
 };
 
 /**
@@ -11489,15 +11654,15 @@ export type ReplicationRecoveryServicesProvidersRefreshProviderResponse = Recove
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryServicesProvider;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryServicesProvider;
+  };
 };
 
 /**
@@ -11508,15 +11673,15 @@ export type ReplicationRecoveryServicesProvidersListResponse = RecoveryServicesP
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryServicesProviderCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryServicesProviderCollection;
+  };
 };
 
 /**
@@ -11527,15 +11692,15 @@ export type ReplicationRecoveryServicesProvidersBeginRefreshProviderResponse = R
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryServicesProvider;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryServicesProvider;
+  };
 };
 
 /**
@@ -11546,15 +11711,15 @@ export type ReplicationRecoveryServicesProvidersListByReplicationFabricsNextResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryServicesProviderCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryServicesProviderCollection;
+  };
 };
 
 /**
@@ -11565,15 +11730,15 @@ export type ReplicationRecoveryServicesProvidersListNextResponse = RecoveryServi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryServicesProviderCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryServicesProviderCollection;
+  };
 };
 
 /**
@@ -11584,15 +11749,15 @@ export type ReplicationStorageClassificationsListByReplicationFabricsResponse = 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageClassificationCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageClassificationCollection;
+  };
 };
 
 /**
@@ -11603,15 +11768,15 @@ export type ReplicationStorageClassificationsGetResponse = StorageClassification
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageClassification;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageClassification;
+  };
 };
 
 /**
@@ -11622,15 +11787,15 @@ export type ReplicationStorageClassificationsListResponse = StorageClassificatio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageClassificationCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageClassificationCollection;
+  };
 };
 
 /**
@@ -11641,15 +11806,15 @@ export type ReplicationStorageClassificationsListByReplicationFabricsNextRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageClassificationCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageClassificationCollection;
+  };
 };
 
 /**
@@ -11660,15 +11825,15 @@ export type ReplicationStorageClassificationsListNextResponse = StorageClassific
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageClassificationCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageClassificationCollection;
+  };
 };
 
 /**
@@ -11679,15 +11844,15 @@ export type ReplicationStorageClassificationMappingsListByReplicationStorageClas
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageClassificationMappingCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageClassificationMappingCollection;
+  };
 };
 
 /**
@@ -11698,15 +11863,15 @@ export type ReplicationStorageClassificationMappingsGetResponse = StorageClassif
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageClassificationMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageClassificationMapping;
+  };
 };
 
 /**
@@ -11717,15 +11882,15 @@ export type ReplicationStorageClassificationMappingsCreateResponse = StorageClas
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageClassificationMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageClassificationMapping;
+  };
 };
 
 /**
@@ -11736,15 +11901,15 @@ export type ReplicationStorageClassificationMappingsListResponse = StorageClassi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageClassificationMappingCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageClassificationMappingCollection;
+  };
 };
 
 /**
@@ -11755,15 +11920,15 @@ export type ReplicationStorageClassificationMappingsBeginCreateResponse = Storag
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageClassificationMapping;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageClassificationMapping;
+  };
 };
 
 /**
@@ -11774,15 +11939,15 @@ export type ReplicationStorageClassificationMappingsListByReplicationStorageClas
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageClassificationMappingCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageClassificationMappingCollection;
+  };
 };
 
 /**
@@ -11793,15 +11958,15 @@ export type ReplicationStorageClassificationMappingsListNextResponse = StorageCl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageClassificationMappingCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageClassificationMappingCollection;
+  };
 };
 
 /**
@@ -11812,15 +11977,15 @@ export type ReplicationvCentersListByReplicationFabricsResponse = VCenterCollect
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VCenterCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VCenterCollection;
+  };
 };
 
 /**
@@ -11831,15 +11996,15 @@ export type ReplicationvCentersGetResponse = VCenter & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VCenter;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VCenter;
+  };
 };
 
 /**
@@ -11850,15 +12015,15 @@ export type ReplicationvCentersCreateResponse = VCenter & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VCenter;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VCenter;
+  };
 };
 
 /**
@@ -11869,15 +12034,15 @@ export type ReplicationvCentersUpdateResponse = VCenter & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VCenter;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VCenter;
+  };
 };
 
 /**
@@ -11888,15 +12053,15 @@ export type ReplicationvCentersListResponse = VCenterCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VCenterCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VCenterCollection;
+  };
 };
 
 /**
@@ -11907,15 +12072,15 @@ export type ReplicationvCentersBeginCreateResponse = VCenter & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VCenter;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VCenter;
+  };
 };
 
 /**
@@ -11926,15 +12091,15 @@ export type ReplicationvCentersBeginUpdateResponse = VCenter & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VCenter;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VCenter;
+  };
 };
 
 /**
@@ -11945,15 +12110,15 @@ export type ReplicationvCentersListByReplicationFabricsNextResponse = VCenterCol
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VCenterCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VCenterCollection;
+  };
 };
 
 /**
@@ -11964,15 +12129,15 @@ export type ReplicationvCentersListNextResponse = VCenterCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VCenterCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VCenterCollection;
+  };
 };
 
 /**
@@ -11983,15 +12148,15 @@ export type ReplicationJobsListResponse = JobCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobCollection;
+  };
 };
 
 /**
@@ -12002,15 +12167,15 @@ export type ReplicationJobsGetResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -12021,15 +12186,15 @@ export type ReplicationJobsCancelResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -12040,15 +12205,15 @@ export type ReplicationJobsRestartResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -12059,15 +12224,15 @@ export type ReplicationJobsResumeResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -12078,15 +12243,15 @@ export type ReplicationJobsExportMethodResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -12097,15 +12262,15 @@ export type ReplicationJobsBeginCancelResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -12116,15 +12281,15 @@ export type ReplicationJobsBeginRestartResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -12135,15 +12300,15 @@ export type ReplicationJobsBeginResumeResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -12154,15 +12319,15 @@ export type ReplicationJobsBeginExportMethodResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -12173,15 +12338,15 @@ export type ReplicationJobsListNextResponse = JobCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobCollection;
+  };
 };
 
 /**
@@ -12192,15 +12357,15 @@ export type ReplicationPoliciesListResponse = PolicyCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyCollection;
+  };
 };
 
 /**
@@ -12211,15 +12376,15 @@ export type ReplicationPoliciesGetResponse = Policy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Policy;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Policy;
+  };
 };
 
 /**
@@ -12230,15 +12395,15 @@ export type ReplicationPoliciesCreateResponse = Policy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Policy;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Policy;
+  };
 };
 
 /**
@@ -12249,15 +12414,15 @@ export type ReplicationPoliciesUpdateResponse = Policy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Policy;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Policy;
+  };
 };
 
 /**
@@ -12268,15 +12433,15 @@ export type ReplicationPoliciesBeginCreateResponse = Policy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Policy;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Policy;
+  };
 };
 
 /**
@@ -12287,15 +12452,15 @@ export type ReplicationPoliciesBeginUpdateResponse = Policy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Policy;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Policy;
+  };
 };
 
 /**
@@ -12306,15 +12471,15 @@ export type ReplicationPoliciesListNextResponse = PolicyCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyCollection;
+  };
 };
 
 /**
@@ -12325,15 +12490,15 @@ export type ReplicationRecoveryPlansListResponse = RecoveryPlanCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlanCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlanCollection;
+  };
 };
 
 /**
@@ -12344,15 +12509,15 @@ export type ReplicationRecoveryPlansGetResponse = RecoveryPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12363,15 +12528,15 @@ export type ReplicationRecoveryPlansCreateResponse = RecoveryPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12382,15 +12547,15 @@ export type ReplicationRecoveryPlansUpdateResponse = RecoveryPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12401,15 +12566,15 @@ export type ReplicationRecoveryPlansFailoverCommitResponse = RecoveryPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12420,15 +12585,15 @@ export type ReplicationRecoveryPlansPlannedFailoverResponse = RecoveryPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12439,15 +12604,15 @@ export type ReplicationRecoveryPlansReprotectResponse = RecoveryPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12458,15 +12623,15 @@ export type ReplicationRecoveryPlansTestFailoverResponse = RecoveryPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12477,15 +12642,15 @@ export type ReplicationRecoveryPlansTestFailoverCleanupResponse = RecoveryPlan &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12496,15 +12661,15 @@ export type ReplicationRecoveryPlansUnplannedFailoverResponse = RecoveryPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12515,15 +12680,15 @@ export type ReplicationRecoveryPlansBeginCreateResponse = RecoveryPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12534,15 +12699,15 @@ export type ReplicationRecoveryPlansBeginUpdateResponse = RecoveryPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12553,15 +12718,15 @@ export type ReplicationRecoveryPlansBeginFailoverCommitResponse = RecoveryPlan &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12572,15 +12737,15 @@ export type ReplicationRecoveryPlansBeginPlannedFailoverResponse = RecoveryPlan 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12591,15 +12756,15 @@ export type ReplicationRecoveryPlansBeginReprotectResponse = RecoveryPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12610,15 +12775,15 @@ export type ReplicationRecoveryPlansBeginTestFailoverResponse = RecoveryPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12629,15 +12794,15 @@ export type ReplicationRecoveryPlansBeginTestFailoverCleanupResponse = RecoveryP
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12648,15 +12813,15 @@ export type ReplicationRecoveryPlansBeginUnplannedFailoverResponse = RecoveryPla
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlan;
+  };
 };
 
 /**
@@ -12667,15 +12832,15 @@ export type ReplicationRecoveryPlansListNextResponse = RecoveryPlanCollection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryPlanCollection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryPlanCollection;
+  };
 };
 
 /**
@@ -12686,15 +12851,15 @@ export type ReplicationVaultHealthGetResponse = VaultHealthDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultHealthDetails;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultHealthDetails;
+  };
 };
 
 /**
@@ -12705,15 +12870,15 @@ export type ReplicationVaultHealthRefreshResponse = VaultHealthDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultHealthDetails;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultHealthDetails;
+  };
 };
 
 /**
@@ -12724,13 +12889,13 @@ export type ReplicationVaultHealthBeginRefreshResponse = VaultHealthDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultHealthDetails;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultHealthDetails;
+  };
 };

@@ -33,21 +33,41 @@ export class Favorites {
    * @param [options] The optional parameters
    * @returns Promise<Models.FavoritesListResponse>
    */
-  list(resourceGroupName: string, resourceName: string, options?: Models.FavoritesListOptionalParams): Promise<Models.FavoritesListResponse>;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: Models.FavoritesListOptionalParams
+  ): Promise<Models.FavoritesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite[]>): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite[]>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, options: Models.FavoritesListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite[]>): void;
-  list(resourceGroupName: string, resourceName: string, options?: Models.FavoritesListOptionalParams | msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite[]>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite[]>): Promise<Models.FavoritesListResponse> {
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options: Models.FavoritesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite[]>
+  ): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?:
+      | Models.FavoritesListOptionalParams
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite[]>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite[]>
+  ): Promise<Models.FavoritesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class Favorites {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.FavoritesListResponse>;
+      callback
+    ) as Promise<Models.FavoritesListResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class Favorites {
    * @param [options] The optional parameters
    * @returns Promise<Models.FavoritesGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, favoriteId: string, options?: msRest.RequestOptionsBase): Promise<Models.FavoritesGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FavoritesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, favoriteId: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -81,8 +112,22 @@ export class Favorites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, favoriteId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>): void;
-  get(resourceGroupName: string, resourceName: string, favoriteId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>): Promise<Models.FavoritesGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>
+  ): Promise<Models.FavoritesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +136,8 @@ export class Favorites {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.FavoritesGetResponse>;
+      callback
+    ) as Promise<Models.FavoritesGetResponse>;
   }
 
   /**
@@ -104,7 +150,13 @@ export class Favorites {
    * @param [options] The optional parameters
    * @returns Promise<Models.FavoritesAddResponse>
    */
-  add(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: Models.ApplicationInsightsComponentFavorite, options?: msRest.RequestOptionsBase): Promise<Models.FavoritesAddResponse>;
+  add(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    favoriteProperties: Models.ApplicationInsightsComponentFavorite,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FavoritesAddResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -113,7 +165,13 @@ export class Favorites {
    * it to an Application Insights component.
    * @param callback The callback
    */
-  add(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: Models.ApplicationInsightsComponentFavorite, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>): void;
+  add(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    favoriteProperties: Models.ApplicationInsightsComponentFavorite,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -123,8 +181,24 @@ export class Favorites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  add(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: Models.ApplicationInsightsComponentFavorite, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>): void;
-  add(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: Models.ApplicationInsightsComponentFavorite, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>): Promise<Models.FavoritesAddResponse> {
+  add(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    favoriteProperties: Models.ApplicationInsightsComponentFavorite,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>
+  ): void;
+  add(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    favoriteProperties: Models.ApplicationInsightsComponentFavorite,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>
+  ): Promise<Models.FavoritesAddResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +208,8 @@ export class Favorites {
         options
       },
       addOperationSpec,
-      callback) as Promise<Models.FavoritesAddResponse>;
+      callback
+    ) as Promise<Models.FavoritesAddResponse>;
   }
 
   /**
@@ -146,7 +221,13 @@ export class Favorites {
    * @param [options] The optional parameters
    * @returns Promise<Models.FavoritesUpdateResponse>
    */
-  update(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: Models.ApplicationInsightsComponentFavorite, options?: msRest.RequestOptionsBase): Promise<Models.FavoritesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    favoriteProperties: Models.ApplicationInsightsComponentFavorite,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FavoritesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -154,7 +235,13 @@ export class Favorites {
    * @param favoriteProperties Properties that need to be specified to update the existing favorite.
    * @param callback The callback
    */
-  update(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: Models.ApplicationInsightsComponentFavorite, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>): void;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    favoriteProperties: Models.ApplicationInsightsComponentFavorite,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -163,8 +250,24 @@ export class Favorites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: Models.ApplicationInsightsComponentFavorite, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>): void;
-  update(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: Models.ApplicationInsightsComponentFavorite, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>): Promise<Models.FavoritesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    favoriteProperties: Models.ApplicationInsightsComponentFavorite,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>
+  ): void;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    favoriteProperties: Models.ApplicationInsightsComponentFavorite,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>
+  ): Promise<Models.FavoritesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -174,7 +277,8 @@ export class Favorites {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.FavoritesUpdateResponse>;
+      callback
+    ) as Promise<Models.FavoritesUpdateResponse>;
   }
 
   /**
@@ -185,14 +289,24 @@ export class Favorites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, favoriteId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, favoriteId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -200,8 +314,20 @@ export class Favorites {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, favoriteId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, favoriteId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    favoriteId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -210,7 +336,8 @@ export class Favorites {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -218,12 +345,9 @@ export class Favorites {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.favoriteType,
@@ -231,9 +355,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.canFetchContent,
     Parameters.tags
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -258,19 +380,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.favoriteId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentFavorite
@@ -284,19 +403,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const addOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.favoriteId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "favoriteProperties",
     mapper: {
@@ -317,19 +433,16 @@ const addOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.favoriteId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "favoriteProperties",
     mapper: {
@@ -350,19 +463,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/favorites/{favoriteId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.favoriteId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {

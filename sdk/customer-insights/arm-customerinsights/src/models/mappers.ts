@@ -441,12 +441,7 @@ export const EntityTypeDefinition: msRest.CompositeMapper = {
         serializedName: "entityType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Profile",
-            "Interaction",
-            "Relationship"
-          ]
+          allowedValues: ["None", "Profile", "Interaction", "Relationship"]
         }
       },
       fields: {
@@ -534,11 +529,7 @@ export const AuthorizationPolicy: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Read",
-                "Write",
-                "Manage"
-              ]
+              allowedValues: ["Read", "Write", "Manage"]
             }
           }
         }
@@ -756,11 +747,7 @@ export const ConnectorMappingErrorManagement: msRest.CompositeMapper = {
         serializedName: "errorManagementType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "RejectAndContinue",
-            "StopImport",
-            "RejectUntilLimit"
-          ]
+          allowedValues: ["RejectAndContinue", "StopImport", "RejectUntilLimit"]
         }
       },
       errorLimit: {
@@ -783,7 +770,7 @@ export const ConnectorMappingFormat: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "formatType",
-        defaultValue: 'TextFormat',
+        defaultValue: "TextFormat",
         type: {
           name: "String"
         }
@@ -832,13 +819,7 @@ export const ConnectorMappingAvailability: msRest.CompositeMapper = {
         serializedName: "frequency",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Minute",
-            "Hour",
-            "Day",
-            "Week",
-            "Month"
-          ]
+          allowedValues: ["Minute", "Hour", "Day", "Week", "Month"]
         }
       },
       interval: {
@@ -898,11 +879,7 @@ export const ConnectorMappingCompleteOperation: msRest.CompositeMapper = {
         serializedName: "completionOperationType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "DoNothing",
-            "DeleteFile",
-            "MoveFile"
-          ]
+          allowedValues: ["DoNothing", "DeleteFile", "MoveFile"]
         }
       },
       destinationFolder: {
@@ -1129,12 +1106,7 @@ export const KpiDefinition: msRest.CompositeMapper = {
         serializedName: "entityType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Profile",
-            "Interaction",
-            "Relationship"
-          ]
+          allowedValues: ["None", "Profile", "Interaction", "Relationship"]
         }
       },
       entityTypeName: {
@@ -1185,13 +1157,7 @@ export const KpiDefinition: msRest.CompositeMapper = {
         serializedName: "calculationWindow",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Lifetime",
-            "Hour",
-            "Day",
-            "Week",
-            "Month"
-          ]
+          allowedValues: ["Lifetime", "Hour", "Day", "Week", "Month"]
         }
       },
       calculationWindowFieldName: {
@@ -1205,16 +1171,7 @@ export const KpiDefinition: msRest.CompositeMapper = {
         serializedName: "function",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Sum",
-            "Avg",
-            "Min",
-            "Max",
-            "Last",
-            "Count",
-            "None",
-            "CountDistinct"
-          ]
+          allowedValues: ["Sum", "Avg", "Min", "Max", "Last", "Count", "None", "CountDistinct"]
         }
       },
       expression: {
@@ -1370,10 +1327,7 @@ export const TypePropertiesMapping: msRest.CompositeMapper = {
         serializedName: "linkType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "UpdateAlways",
-            "CopyIfNull"
-          ]
+          allowedValues: ["UpdateAlways", "CopyIfNull"]
         }
       }
     }
@@ -1468,10 +1422,7 @@ export const RelationshipLinkFieldMapping: msRest.CompositeMapper = {
         serializedName: "linkType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "UpdateAlways",
-            "CopyIfNull"
-          ]
+          allowedValues: ["UpdateAlways", "CopyIfNull"]
         }
       },
       relationshipFieldName: {
@@ -1714,12 +1665,7 @@ export const ProfileResourceFormat: msRest.CompositeMapper = {
         serializedName: "properties.entityType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Profile",
-            "Interaction",
-            "Relationship"
-          ]
+          allowedValues: ["None", "Profile", "Interaction", "Relationship"]
         }
       },
       fields: {
@@ -1884,12 +1830,7 @@ export const InteractionResourceFormat: msRest.CompositeMapper = {
         serializedName: "properties.entityType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Profile",
-            "Interaction",
-            "Relationship"
-          ]
+          allowedValues: ["None", "Profile", "Interaction", "Relationship"]
         }
       },
       fields: {
@@ -2048,12 +1989,7 @@ export const KpiResourceFormat: msRest.CompositeMapper = {
         serializedName: "properties.entityType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Profile",
-            "Interaction",
-            "Relationship"
-          ]
+          allowedValues: ["None", "Profile", "Interaction", "Relationship"]
         }
       },
       entityTypeName: {
@@ -2104,13 +2040,7 @@ export const KpiResourceFormat: msRest.CompositeMapper = {
         serializedName: "properties.calculationWindow",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Lifetime",
-            "Hour",
-            "Day",
-            "Week",
-            "Month"
-          ]
+          allowedValues: ["Lifetime", "Hour", "Day", "Week", "Month"]
         }
       },
       calculationWindowFieldName: {
@@ -2124,16 +2054,7 @@ export const KpiResourceFormat: msRest.CompositeMapper = {
         serializedName: "properties.function",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Sum",
-            "Avg",
-            "Min",
-            "Max",
-            "Last",
-            "Count",
-            "None",
-            "CountDistinct"
-          ]
+          allowedValues: ["Sum", "Avg", "Min", "Max", "Last", "Count", "None", "CountDistinct"]
         }
       },
       expression: {
@@ -2315,14 +2236,7 @@ export const ConnectorResourceFormat: msRest.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Creating",
-            "Created",
-            "Ready",
-            "Expiring",
-            "Deleting",
-            "Failed"
-          ]
+          allowedValues: ["Creating", "Created", "Ready", "Expiring", "Deleting", "Failed"]
         }
       },
       tenantId: {
@@ -2381,12 +2295,7 @@ export const ConnectorMappingResourceFormat: msRest.CompositeMapper = {
         serializedName: "properties.entityType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Profile",
-            "Interaction",
-            "Relationship"
-          ]
+          allowedValues: ["None", "Profile", "Interaction", "Relationship"]
         }
       },
       entityTypeName: {
@@ -2497,11 +2406,7 @@ export const AuthorizationPolicyResourceFormat: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Read",
-                "Write",
-                "Manage"
-              ]
+              allowedValues: ["Read", "Write", "Manage"]
             }
           }
         }
@@ -2548,12 +2453,7 @@ export const LinkResourceFormat: msRest.CompositeMapper = {
         serializedName: "properties.sourceEntityType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Profile",
-            "Interaction",
-            "Relationship"
-          ]
+          allowedValues: ["None", "Profile", "Interaction", "Relationship"]
         }
       },
       targetEntityType: {
@@ -2561,12 +2461,7 @@ export const LinkResourceFormat: msRest.CompositeMapper = {
         serializedName: "properties.targetEntityType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Profile",
-            "Interaction",
-            "Relationship"
-          ]
+          allowedValues: ["None", "Profile", "Interaction", "Relationship"]
         }
       },
       sourceEntityTypeName: {
@@ -2647,10 +2542,7 @@ export const LinkResourceFormat: msRest.CompositeMapper = {
         serializedName: "properties.operationType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Upsert",
-            "Delete"
-          ]
+          allowedValues: ["Upsert", "Delete"]
         }
       }
     }
@@ -2668,11 +2560,7 @@ export const RelationshipResourceFormat: msRest.CompositeMapper = {
         serializedName: "properties.cardinality",
         type: {
           name: "Enum",
-          allowedValues: [
-            "OneToOne",
-            "OneToMany",
-            "ManyToMany"
-          ]
+          allowedValues: ["OneToOne", "OneToMany", "ManyToMany"]
         }
       },
       displayName: {

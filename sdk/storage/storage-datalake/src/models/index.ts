@@ -1492,7 +1492,7 @@ export interface PathList extends Array<Path> {
  * @readonly
  * @enum {string}
  */
-export type PathResourceType = 'directory' | 'file';
+export type PathResourceType = "directory" | "file";
 
 /**
  * Defines values for PathRenameMode.
@@ -1500,7 +1500,7 @@ export type PathResourceType = 'directory' | 'file';
  * @readonly
  * @enum {string}
  */
-export type PathRenameMode = 'legacy' | 'posix';
+export type PathRenameMode = "legacy" | "posix";
 
 /**
  * Defines values for PathUpdateAction.
@@ -1508,7 +1508,7 @@ export type PathRenameMode = 'legacy' | 'posix';
  * @readonly
  * @enum {string}
  */
-export type PathUpdateAction = 'append' | 'flush' | 'setProperties' | 'setAccessControl';
+export type PathUpdateAction = "append" | "flush" | "setProperties" | "setAccessControl";
 
 /**
  * Defines values for PathLeaseAction.
@@ -1516,7 +1516,7 @@ export type PathUpdateAction = 'append' | 'flush' | 'setProperties' | 'setAccess
  * @readonly
  * @enum {string}
  */
-export type PathLeaseAction = 'acquire' | 'break' | 'change' | 'renew' | 'release';
+export type PathLeaseAction = "acquire" | "break" | "change" | "renew" | "release";
 
 /**
  * Defines values for PathGetPropertiesAction.
@@ -1524,16 +1524,17 @@ export type PathLeaseAction = 'acquire' | 'break' | 'change' | 'renew' | 'releas
  * @readonly
  * @enum {string}
  */
-export type PathGetPropertiesAction = 'getAccessControl' | 'getStatus';
+export type PathGetPropertiesAction = "getAccessControl" | "getStatus";
 
 /**
  * Contains response data for the list operation.
  */
-export type FilesystemListResponse = FilesystemList & FilesystemListHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type FilesystemListResponse = FilesystemList &
+  FilesystemListHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1549,7 +1550,7 @@ export type FilesystemListResponse = FilesystemList & FilesystemListHeaders & {
        */
       parsedBody: FilesystemList;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
@@ -1559,11 +1560,11 @@ export type FilesystemCreateResponse = FilesystemCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FilesystemCreateHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FilesystemCreateHeaders;
+  };
 };
 
 /**
@@ -1574,11 +1575,11 @@ export type FilesystemSetPropertiesResponse = FilesystemSetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FilesystemSetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FilesystemSetPropertiesHeaders;
+  };
 };
 
 /**
@@ -1589,11 +1590,11 @@ export type FilesystemGetPropertiesResponse = FilesystemGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FilesystemGetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FilesystemGetPropertiesHeaders;
+  };
 };
 
 /**
@@ -1604,21 +1605,22 @@ export type FilesystemDeleteResponse = FilesystemDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: FilesystemDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: FilesystemDeleteHeaders;
+  };
 };
 
 /**
  * Contains response data for the list operation.
  */
-export type PathListResponse = PathList & PathListHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type PathListResponse = PathList &
+  PathListHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1634,7 +1636,7 @@ export type PathListResponse = PathList & PathListHeaders & {
        */
       parsedBody: PathList;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
@@ -1644,11 +1646,11 @@ export type PathCreateResponse = PathCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathCreateHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathCreateHeaders;
+  };
 };
 
 /**
@@ -1659,11 +1661,11 @@ export type PathUpdateResponse = PathUpdateHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathUpdateHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathUpdateHeaders;
+  };
 };
 
 /**
@@ -1674,11 +1676,11 @@ export type PathLeaseResponse = PathLeaseHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathLeaseHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathLeaseHeaders;
+  };
 };
 
 /**
@@ -1705,11 +1707,11 @@ export type PathReadResponse = PathReadHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathReadHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathReadHeaders;
+  };
 };
 
 /**
@@ -1720,11 +1722,11 @@ export type PathGetPropertiesResponse = PathGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathGetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathGetPropertiesHeaders;
+  };
 };
 
 /**
@@ -1735,9 +1737,9 @@ export type PathDeleteResponse = PathDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PathDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PathDeleteHeaders;
+  };
 };

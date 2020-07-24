@@ -6,7 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  CloudError,
-  SharedKeys
-} from "../models/mappers";
+export { CloudError, SharedKeys } from "../models/mappers";

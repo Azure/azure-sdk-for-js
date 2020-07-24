@@ -99,7 +99,8 @@ export interface PolicyAssignment extends BaseResource {
 /**
  * Optional Parameters.
  */
-export interface PolicyAssignmentsListForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface PolicyAssignmentsListForResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The filter to apply on the operation.
    */
@@ -163,7 +164,7 @@ export interface PolicyAssignmentListResult extends Array<PolicyAssignment> {
  * @readonly
  * @enum {string}
  */
-export type PolicyType = 'NotSpecified' | 'BuiltIn' | 'Custom';
+export type PolicyType = "NotSpecified" | "BuiltIn" | "Custom";
 
 /**
  * Defines values for PolicyMode.
@@ -171,7 +172,7 @@ export type PolicyType = 'NotSpecified' | 'BuiltIn' | 'Custom';
  * @readonly
  * @enum {string}
  */
-export type PolicyMode = 'NotSpecified' | 'Indexed' | 'All';
+export type PolicyMode = "NotSpecified" | "Indexed" | "All";
 
 /**
  * Contains response data for the createOrUpdate operation.
@@ -181,16 +182,16 @@ export type PolicyDefinitionsCreateOrUpdateResponse = PolicyDefinition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyDefinition;
+  };
 };
 
 /**
@@ -201,16 +202,16 @@ export type PolicyDefinitionsGetResponse = PolicyDefinition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyDefinition;
+  };
 };
 
 /**
@@ -221,16 +222,16 @@ export type PolicyDefinitionsGetBuiltInResponse = PolicyDefinition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyDefinition;
+  };
 };
 
 /**
@@ -241,16 +242,16 @@ export type PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse = PolicyDef
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyDefinition;
+  };
 };
 
 /**
@@ -261,16 +262,16 @@ export type PolicyDefinitionsGetAtManagementGroupResponse = PolicyDefinition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyDefinition;
+  };
 };
 
 /**
@@ -281,16 +282,16 @@ export type PolicyDefinitionsListResponse = PolicyDefinitionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyDefinitionListResult;
+  };
 };
 
 /**
@@ -301,16 +302,16 @@ export type PolicyDefinitionsListBuiltInResponse = PolicyDefinitionListResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyDefinitionListResult;
+  };
 };
 
 /**
@@ -321,16 +322,16 @@ export type PolicyDefinitionsListByManagementGroupResponse = PolicyDefinitionLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyDefinitionListResult;
+  };
 };
 
 /**
@@ -341,16 +342,16 @@ export type PolicyDefinitionsListNextResponse = PolicyDefinitionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyDefinitionListResult;
+  };
 };
 
 /**
@@ -361,16 +362,16 @@ export type PolicyDefinitionsListBuiltInNextResponse = PolicyDefinitionListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyDefinitionListResult;
+  };
 };
 
 /**
@@ -381,16 +382,16 @@ export type PolicyDefinitionsListByManagementGroupNextResponse = PolicyDefinitio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyDefinitionListResult;
+  };
 };
 
 /**
@@ -401,16 +402,16 @@ export type PolicyAssignmentsDeleteMethodResponse = PolicyAssignment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyAssignment;
+  };
 };
 
 /**
@@ -421,16 +422,16 @@ export type PolicyAssignmentsCreateResponse = PolicyAssignment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyAssignment;
+  };
 };
 
 /**
@@ -441,16 +442,16 @@ export type PolicyAssignmentsGetResponse = PolicyAssignment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyAssignment;
+  };
 };
 
 /**
@@ -461,16 +462,16 @@ export type PolicyAssignmentsListForResourceGroupResponse = PolicyAssignmentList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyAssignmentListResult;
+  };
 };
 
 /**
@@ -481,16 +482,16 @@ export type PolicyAssignmentsListForResourceResponse = PolicyAssignmentListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyAssignmentListResult;
+  };
 };
 
 /**
@@ -501,16 +502,16 @@ export type PolicyAssignmentsListResponse = PolicyAssignmentListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyAssignmentListResult;
+  };
 };
 
 /**
@@ -521,16 +522,16 @@ export type PolicyAssignmentsDeleteByIdResponse = PolicyAssignment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyAssignment;
+  };
 };
 
 /**
@@ -541,16 +542,16 @@ export type PolicyAssignmentsCreateByIdResponse = PolicyAssignment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyAssignment;
+  };
 };
 
 /**
@@ -561,16 +562,16 @@ export type PolicyAssignmentsGetByIdResponse = PolicyAssignment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyAssignment;
+  };
 };
 
 /**
@@ -581,16 +582,16 @@ export type PolicyAssignmentsListForResourceGroupNextResponse = PolicyAssignment
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyAssignmentListResult;
+  };
 };
 
 /**
@@ -601,16 +602,16 @@ export type PolicyAssignmentsListForResourceNextResponse = PolicyAssignmentListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyAssignmentListResult;
+  };
 };
 
 /**
@@ -621,14 +622,14 @@ export type PolicyAssignmentsListNextResponse = PolicyAssignmentListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyAssignmentListResult;
+  };
 };

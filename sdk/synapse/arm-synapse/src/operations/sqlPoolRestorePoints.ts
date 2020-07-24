@@ -36,14 +36,24 @@ export class SqlPoolRestorePoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolRestorePointsListResponse>
    */
-  list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolRestorePointsListResponse>;
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolRestorePointsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.RestorePointListResult>): void;
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    callback: msRest.ServiceCallback<Models.RestorePointListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -51,8 +61,20 @@ export class SqlPoolRestorePoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePointListResult>): void;
-  list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointListResult>, callback?: msRest.ServiceCallback<Models.RestorePointListResult>): Promise<Models.SqlPoolRestorePointsListResponse> {
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RestorePointListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointListResult>,
+    callback?: msRest.ServiceCallback<Models.RestorePointListResult>
+  ): Promise<Models.SqlPoolRestorePointsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -61,7 +83,8 @@ export class SqlPoolRestorePoints {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SqlPoolRestorePointsListResponse>;
+      callback
+    ) as Promise<Models.SqlPoolRestorePointsListResponse>;
   }
 
   /**
@@ -73,9 +96,22 @@ export class SqlPoolRestorePoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolRestorePointsCreateResponse>
    */
-  create(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.CreateSqlPoolRestorePointDefinition, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolRestorePointsCreateResponse> {
-    return this.beginCreate(resourceGroupName,workspaceName,sqlPoolName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlPoolRestorePointsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.CreateSqlPoolRestorePointDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolRestorePointsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      workspaceName,
+      sqlPoolName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SqlPoolRestorePointsCreateResponse
+    >;
   }
 
   /**
@@ -87,7 +123,13 @@ export class SqlPoolRestorePoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.CreateSqlPoolRestorePointDefinition, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.CreateSqlPoolRestorePointDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -97,7 +139,8 @@ export class SqlPoolRestorePoints {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -107,26 +150,41 @@ export class SqlPoolRestorePoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolRestorePointsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolRestorePointsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolRestorePointsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RestorePointListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RestorePointListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePointListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointListResult>, callback?: msRest.ServiceCallback<Models.RestorePointListResult>): Promise<Models.SqlPoolRestorePointsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RestorePointListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePointListResult>,
+    callback?: msRest.ServiceCallback<Models.RestorePointListResult>
+  ): Promise<Models.SqlPoolRestorePointsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SqlPoolRestorePointsListNextResponse>;
+      callback
+    ) as Promise<Models.SqlPoolRestorePointsListNextResponse>;
   }
 }
 
@@ -134,19 +192,16 @@ export class SqlPoolRestorePoints {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RestorePointListResult
@@ -160,19 +215,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -199,12 +251,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RestorePointListResult

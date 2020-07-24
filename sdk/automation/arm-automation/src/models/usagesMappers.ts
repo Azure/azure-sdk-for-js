@@ -8,10 +8,4 @@
  * regenerated.
  */
 
-export {
-  UsageListResult,
-  Usage,
-  UsageCounterName,
-  ErrorResponse
-} from "../models/mappers";
-
+export { UsageListResult, Usage, UsageCounterName, ErrorResponse } from "../models/mappers";

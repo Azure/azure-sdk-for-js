@@ -36,7 +36,12 @@ export class SqlPoolConnectionPolicies {
    * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.SqlPoolConnectionPoliciesGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolConnectionPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolConnectionPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -44,7 +49,12 @@ export class SqlPoolConnectionPolicies {
    * @param callback The callback
    * @deprecated This operation is deprecated. Please do not use it any longer.
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SqlPoolConnectionPolicy>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    callback: msRest.ServiceCallback<Models.SqlPoolConnectionPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -53,8 +63,20 @@ export class SqlPoolConnectionPolicies {
    * @param callback The callback
    * @deprecated This operation is deprecated. Please do not use it any longer.
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolConnectionPolicy>): void;
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolConnectionPolicy>, callback?: msRest.ServiceCallback<Models.SqlPoolConnectionPolicy>): Promise<Models.SqlPoolConnectionPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlPoolConnectionPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolConnectionPolicy>,
+    callback?: msRest.ServiceCallback<Models.SqlPoolConnectionPolicy>
+  ): Promise<Models.SqlPoolConnectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +85,8 @@ export class SqlPoolConnectionPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SqlPoolConnectionPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.SqlPoolConnectionPoliciesGetResponse>;
   }
 }
 
@@ -71,7 +94,8 @@ export class SqlPoolConnectionPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/connectionPolicies/{connectionPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/connectionPolicies/{connectionPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -79,12 +103,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName,
     Parameters.connectionPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlPoolConnectionPolicy

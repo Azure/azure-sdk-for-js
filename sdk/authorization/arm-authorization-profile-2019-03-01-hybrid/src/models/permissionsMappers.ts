@@ -6,8 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  CloudError,
-  Permission,
-  PermissionGetResult
-} from "../models/mappers";
+export { CloudError, Permission, PermissionGetResult } from "../models/mappers";

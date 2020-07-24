@@ -11,10 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "acceptLanguage"
-  ],
+  parameterPath: ["options", "acceptLanguage"],
   mapper: {
     serializedName: "Accept-Language",
     type: {
@@ -23,10 +20,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   }
 };
 export const clientId: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "clientId"
-  ],
+  parameterPath: ["options", "clientId"],
   mapper: {
     serializedName: "X-MSEdge-ClientID",
     type: {
@@ -35,10 +29,7 @@ export const clientId: msRest.OperationParameter = {
   }
 };
 export const clientIp: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "clientIp"
-  ],
+  parameterPath: ["options", "clientIp"],
   mapper: {
     serializedName: "X-MSEdge-ClientIP",
     type: {
@@ -47,10 +38,7 @@ export const clientIp: msRest.OperationParameter = {
   }
 };
 export const count: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "count"
-  ],
+  parameterPath: ["options", "count"],
   mapper: {
     serializedName: "count",
     type: {
@@ -59,10 +47,7 @@ export const count: msRest.OperationQueryParameter = {
   }
 };
 export const countryCode: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "countryCode"
-  ],
+  parameterPath: ["options", "countryCode"],
   mapper: {
     serializedName: "cc",
     type: {
@@ -71,10 +56,7 @@ export const countryCode: msRest.OperationQueryParameter = {
   }
 };
 export const first: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "first"
-  ],
+  parameterPath: ["options", "first"],
   mapper: {
     serializedName: "first",
     type: {
@@ -83,10 +65,7 @@ export const first: msRest.OperationQueryParameter = {
   }
 };
 export const localCategories: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "localCategories"
-  ],
+  parameterPath: ["options", "localCategories"],
   mapper: {
     serializedName: "localcategories",
     type: {
@@ -95,10 +74,7 @@ export const localCategories: msRest.OperationQueryParameter = {
   }
 };
 export const localCircularView: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "localCircularView"
-  ],
+  parameterPath: ["options", "localCircularView"],
   mapper: {
     serializedName: "localcircularview",
     type: {
@@ -107,10 +83,7 @@ export const localCircularView: msRest.OperationQueryParameter = {
   }
 };
 export const localMapView: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "localMapView"
-  ],
+  parameterPath: ["options", "localMapView"],
   mapper: {
     serializedName: "localmapview",
     type: {
@@ -119,10 +92,7 @@ export const localMapView: msRest.OperationQueryParameter = {
   }
 };
 export const location: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "location"
-  ],
+  parameterPath: ["options", "location"],
   mapper: {
     serializedName: "X-Search-Location",
     type: {
@@ -131,23 +101,17 @@ export const location: msRest.OperationParameter = {
   }
 };
 export const market: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "market"
-  ],
+  parameterPath: ["options", "market"],
   mapper: {
     serializedName: "mkt",
-    defaultValue: 'en-us',
+    defaultValue: "en-us",
     type: {
       name: "String"
     }
   }
 };
 export const pragma: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "pragma"
-  ],
+  parameterPath: ["options", "pragma"],
   mapper: {
     serializedName: "Pragma",
     type: {
@@ -166,10 +130,7 @@ export const query: msRest.OperationQueryParameter = {
   }
 };
 export const responseFormat: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "responseFormat"
-  ],
+  parameterPath: ["options", "responseFormat"],
   mapper: {
     serializedName: "ResponseFormat",
     type: {
@@ -184,10 +145,7 @@ export const responseFormat: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const safeSearch: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "safeSearch"
-  ],
+  parameterPath: ["options", "safeSearch"],
   mapper: {
     serializedName: "SafeSearch",
     type: {
@@ -196,10 +154,7 @@ export const safeSearch: msRest.OperationQueryParameter = {
   }
 };
 export const setLang: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "setLang"
-  ],
+  parameterPath: ["options", "setLang"],
   mapper: {
     serializedName: "SetLang",
     type: {
@@ -208,10 +163,7 @@ export const setLang: msRest.OperationQueryParameter = {
   }
 };
 export const userAgent: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "userAgent"
-  ],
+  parameterPath: ["options", "userAgent"],
   mapper: {
     serializedName: "User-Agent",
     type: {
@@ -225,7 +177,7 @@ export const xBingApisSDK: msRest.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "X-BingApis-SDK",
-    defaultValue: 'true',
+    defaultValue: "true",
     type: {
       name: "String"
     }

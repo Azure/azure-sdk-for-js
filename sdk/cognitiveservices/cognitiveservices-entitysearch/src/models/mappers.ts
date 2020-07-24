@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const QueryContext: msRest.CompositeMapper = {
   serializedName: "QueryContext",
   type: {
@@ -297,7 +296,7 @@ export const EntitiesEntityPresentationInfo: msRest.CompositeMapper = {
       entityScenario: {
         required: true,
         serializedName: "entityScenario",
-        defaultValue: 'DominantEntity',
+        defaultValue: "DominantEntity",
         type: {
           name: "String"
         }
@@ -371,7 +370,7 @@ export const Entities: msRest.CompositeMapper = {
       queryScenario: {
         readOnly: true,
         serializedName: "queryScenario",
-        defaultValue: 'DominantEntity',
+        defaultValue: "DominantEntity",
         type: {
           name: "String"
         }
@@ -494,7 +493,7 @@ export const ErrorModel: msRest.CompositeMapper = {
       code: {
         required: true,
         serializedName: "code",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -1101,40 +1100,39 @@ export const Hotel: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ResponseBase.ImageObject' : ImageObject,
-  'ResponseBase.Thing' : Thing,
-  'ResponseBase.Entities' : Entities,
-  'ResponseBase.Places' : Places,
-  'ResponseBase.SearchResponse' : SearchResponse,
-  'ContractualRules/ContractualRule' : ContractualRulesContractualRule,
-  'ResponseBase.Response' : Response,
-  'ResponseBase.SearchResultsAnswer' : SearchResultsAnswer,
-  'ResponseBase.Identifiable' : Identifiable,
-  'ResponseBase.Answer' : Answer,
-  'ResponseBase.ErrorResponse' : ErrorResponse,
-  'ResponseBase.PostalAddress' : PostalAddress,
-  'ResponseBase.Place' : Place,
-  'ResponseBase.Organization' : Organization,
-  'ResponseBase' : ResponseBase,
-  'ResponseBase.CreativeWork' : CreativeWork,
-  'ResponseBase.Intangible' : Intangible,
-  'ResponseBase.MovieTheater' : MovieTheater,
-  'ContractualRulesContractualRule.ContractualRules/Attribution' : ContractualRulesAttribution,
-  'ResponseBase.MediaObject' : MediaObject,
-  'ResponseBase.CivicStructure' : CivicStructure,
-  'ResponseBase.LocalBusiness' : LocalBusiness,
-  'ResponseBase.TouristAttraction' : TouristAttraction,
-  'ResponseBase.Airport' : Airport,
-  'ResponseBase.License' : License,
-  'ResponseBase.StructuredValue' : StructuredValue,
-  'ResponseBase.EntertainmentBusiness' : EntertainmentBusiness,
-  'ContractualRulesContractualRule.ContractualRules/LicenseAttribution' : ContractualRulesLicenseAttribution,
-  'ContractualRulesContractualRule.ContractualRules/LinkAttribution' : ContractualRulesLinkAttribution,
-  'ContractualRulesContractualRule.ContractualRules/MediaAttribution' : ContractualRulesMediaAttribution,
-  'ContractualRulesContractualRule.ContractualRules/TextAttribution' : ContractualRulesTextAttribution,
-  'ResponseBase.FoodEstablishment' : FoodEstablishment,
-  'ResponseBase.LodgingBusiness' : LodgingBusiness,
-  'ResponseBase.Restaurant' : Restaurant,
-  'ResponseBase.Hotel' : Hotel
-
+  "ResponseBase.ImageObject": ImageObject,
+  "ResponseBase.Thing": Thing,
+  "ResponseBase.Entities": Entities,
+  "ResponseBase.Places": Places,
+  "ResponseBase.SearchResponse": SearchResponse,
+  "ContractualRules/ContractualRule": ContractualRulesContractualRule,
+  "ResponseBase.Response": Response,
+  "ResponseBase.SearchResultsAnswer": SearchResultsAnswer,
+  "ResponseBase.Identifiable": Identifiable,
+  "ResponseBase.Answer": Answer,
+  "ResponseBase.ErrorResponse": ErrorResponse,
+  "ResponseBase.PostalAddress": PostalAddress,
+  "ResponseBase.Place": Place,
+  "ResponseBase.Organization": Organization,
+  ResponseBase: ResponseBase,
+  "ResponseBase.CreativeWork": CreativeWork,
+  "ResponseBase.Intangible": Intangible,
+  "ResponseBase.MovieTheater": MovieTheater,
+  "ContractualRulesContractualRule.ContractualRules/Attribution": ContractualRulesAttribution,
+  "ResponseBase.MediaObject": MediaObject,
+  "ResponseBase.CivicStructure": CivicStructure,
+  "ResponseBase.LocalBusiness": LocalBusiness,
+  "ResponseBase.TouristAttraction": TouristAttraction,
+  "ResponseBase.Airport": Airport,
+  "ResponseBase.License": License,
+  "ResponseBase.StructuredValue": StructuredValue,
+  "ResponseBase.EntertainmentBusiness": EntertainmentBusiness,
+  "ContractualRulesContractualRule.ContractualRules/LicenseAttribution": ContractualRulesLicenseAttribution,
+  "ContractualRulesContractualRule.ContractualRules/LinkAttribution": ContractualRulesLinkAttribution,
+  "ContractualRulesContractualRule.ContractualRules/MediaAttribution": ContractualRulesMediaAttribution,
+  "ContractualRulesContractualRule.ContractualRules/TextAttribution": ContractualRulesTextAttribution,
+  "ResponseBase.FoodEstablishment": FoodEstablishment,
+  "ResponseBase.LodgingBusiness": LodgingBusiness,
+  "ResponseBase.Restaurant": Restaurant,
+  "ResponseBase.Hotel": Hotel
 };

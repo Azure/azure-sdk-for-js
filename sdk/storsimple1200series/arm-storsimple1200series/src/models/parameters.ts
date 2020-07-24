@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -111,10 +111,7 @@ export const elementName: msRest.OperationURLParameter = {
   }
 };
 export const expand: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
+  parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
@@ -133,10 +130,7 @@ export const fileServerName: msRest.OperationURLParameter = {
   }
 };
 export const filter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -145,10 +139,7 @@ export const filter: msRest.OperationQueryParameter = {
   }
 };
 export const forFailover: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "forFailover"
-  ],
+  parameterPath: ["options", "forFailover"],
   mapper: {
     serializedName: "forFailover",
     type: {

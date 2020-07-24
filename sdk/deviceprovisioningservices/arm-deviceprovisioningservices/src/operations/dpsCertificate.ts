@@ -35,7 +35,12 @@ export class DpsCertificate {
    * @param [options] The optional parameters
    * @returns Promise<Models.DpsCertificateGetResponse>
    */
-  get(certificateName: string, resourceGroupName: string, provisioningServiceName: string, options?: Models.DpsCertificateGetOptionalParams): Promise<Models.DpsCertificateGetResponse>;
+  get(
+    certificateName: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?: Models.DpsCertificateGetOptionalParams
+  ): Promise<Models.DpsCertificateGetResponse>;
   /**
    * @param certificateName Name of the certificate to retrieve.
    * @param resourceGroupName Resource group identifier.
@@ -43,7 +48,12 @@ export class DpsCertificate {
    * with.
    * @param callback The callback
    */
-  get(certificateName: string, resourceGroupName: string, provisioningServiceName: string, callback: msRest.ServiceCallback<Models.CertificateResponse>): void;
+  get(
+    certificateName: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    callback: msRest.ServiceCallback<Models.CertificateResponse>
+  ): void;
   /**
    * @param certificateName Name of the certificate to retrieve.
    * @param resourceGroupName Resource group identifier.
@@ -52,8 +62,22 @@ export class DpsCertificate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(certificateName: string, resourceGroupName: string, provisioningServiceName: string, options: Models.DpsCertificateGetOptionalParams, callback: msRest.ServiceCallback<Models.CertificateResponse>): void;
-  get(certificateName: string, resourceGroupName: string, provisioningServiceName: string, options?: Models.DpsCertificateGetOptionalParams | msRest.ServiceCallback<Models.CertificateResponse>, callback?: msRest.ServiceCallback<Models.CertificateResponse>): Promise<Models.DpsCertificateGetResponse> {
+  get(
+    certificateName: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options: Models.DpsCertificateGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.CertificateResponse>
+  ): void;
+  get(
+    certificateName: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?:
+      | Models.DpsCertificateGetOptionalParams
+      | msRest.ServiceCallback<Models.CertificateResponse>,
+    callback?: msRest.ServiceCallback<Models.CertificateResponse>
+  ): Promise<Models.DpsCertificateGetResponse> {
     return this.client.sendOperationRequest(
       {
         certificateName,
@@ -62,7 +86,8 @@ export class DpsCertificate {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DpsCertificateGetResponse>;
+      callback
+    ) as Promise<Models.DpsCertificateGetResponse>;
   }
 
   /**
@@ -75,7 +100,13 @@ export class DpsCertificate {
    * @param [options] The optional parameters
    * @returns Promise<Models.DpsCertificateCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, provisioningServiceName: string, certificateName: string, certificateDescription: Models.CertificateBodyDescription, options?: Models.DpsCertificateCreateOrUpdateOptionalParams): Promise<Models.DpsCertificateCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    certificateName: string,
+    certificateDescription: Models.CertificateBodyDescription,
+    options?: Models.DpsCertificateCreateOrUpdateOptionalParams
+  ): Promise<Models.DpsCertificateCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Resource group identifier.
    * @param provisioningServiceName The name of the provisioning service.
@@ -83,7 +114,13 @@ export class DpsCertificate {
    * @param certificateDescription The certificate body.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, provisioningServiceName: string, certificateName: string, certificateDescription: Models.CertificateBodyDescription, callback: msRest.ServiceCallback<Models.CertificateResponse>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    certificateName: string,
+    certificateDescription: Models.CertificateBodyDescription,
+    callback: msRest.ServiceCallback<Models.CertificateResponse>
+  ): void;
   /**
    * @param resourceGroupName Resource group identifier.
    * @param provisioningServiceName The name of the provisioning service.
@@ -92,8 +129,24 @@ export class DpsCertificate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, provisioningServiceName: string, certificateName: string, certificateDescription: Models.CertificateBodyDescription, options: Models.DpsCertificateCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateResponse>): void;
-  createOrUpdate(resourceGroupName: string, provisioningServiceName: string, certificateName: string, certificateDescription: Models.CertificateBodyDescription, options?: Models.DpsCertificateCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.CertificateResponse>, callback?: msRest.ServiceCallback<Models.CertificateResponse>): Promise<Models.DpsCertificateCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    certificateName: string,
+    certificateDescription: Models.CertificateBodyDescription,
+    options: Models.DpsCertificateCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.CertificateResponse>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    certificateName: string,
+    certificateDescription: Models.CertificateBodyDescription,
+    options?:
+      | Models.DpsCertificateCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.CertificateResponse>,
+    callback?: msRest.ServiceCallback<Models.CertificateResponse>
+  ): Promise<Models.DpsCertificateCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +156,8 @@ export class DpsCertificate {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DpsCertificateCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.DpsCertificateCreateOrUpdateResponse>;
   }
 
   /**
@@ -117,7 +171,13 @@ export class DpsCertificate {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options?: Models.DpsCertificateDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    ifMatch: string,
+    provisioningServiceName: string,
+    certificateName: string,
+    options?: Models.DpsCertificateDeleteMethodOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Resource group identifier.
    * @param ifMatch ETag of the certificate
@@ -126,7 +186,13 @@ export class DpsCertificate {
    * that the provisioning service will access by.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    ifMatch: string,
+    provisioningServiceName: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Resource group identifier.
    * @param ifMatch ETag of the certificate
@@ -136,8 +202,22 @@ export class DpsCertificate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options: Models.DpsCertificateDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, ifMatch: string, provisioningServiceName: string, certificateName: string, options?: Models.DpsCertificateDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    ifMatch: string,
+    provisioningServiceName: string,
+    certificateName: string,
+    options: Models.DpsCertificateDeleteMethodOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    ifMatch: string,
+    provisioningServiceName: string,
+    certificateName: string,
+    options?: Models.DpsCertificateDeleteMethodOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -147,7 +227,8 @@ export class DpsCertificate {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -157,21 +238,39 @@ export class DpsCertificate {
    * @param [options] The optional parameters
    * @returns Promise<Models.DpsCertificateListResponse>
    */
-  list(resourceGroupName: string, provisioningServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DpsCertificateListResponse>;
+  list(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DpsCertificateListResponse>;
   /**
    * @param resourceGroupName Name of resource group.
    * @param provisioningServiceName Name of provisioning service to retrieve certificates for.
    * @param callback The callback
    */
-  list(resourceGroupName: string, provisioningServiceName: string, callback: msRest.ServiceCallback<Models.CertificateListDescription>): void;
+  list(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    callback: msRest.ServiceCallback<Models.CertificateListDescription>
+  ): void;
   /**
    * @param resourceGroupName Name of resource group.
    * @param provisioningServiceName Name of provisioning service to retrieve certificates for.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, provisioningServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateListDescription>): void;
-  list(resourceGroupName: string, provisioningServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListDescription>, callback?: msRest.ServiceCallback<Models.CertificateListDescription>): Promise<Models.DpsCertificateListResponse> {
+  list(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateListDescription>
+  ): void;
+  list(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListDescription>,
+    callback?: msRest.ServiceCallback<Models.CertificateListDescription>
+  ): Promise<Models.DpsCertificateListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -179,7 +278,8 @@ export class DpsCertificate {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DpsCertificateListResponse>;
+      callback
+    ) as Promise<Models.DpsCertificateListResponse>;
   }
 
   /**
@@ -193,7 +293,13 @@ export class DpsCertificate {
    * @param [options] The optional parameters
    * @returns Promise<Models.DpsCertificateGenerateVerificationCodeResponse>
    */
-  generateVerificationCode(certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, options?: Models.DpsCertificateGenerateVerificationCodeOptionalParams): Promise<Models.DpsCertificateGenerateVerificationCodeResponse>;
+  generateVerificationCode(
+    certificateName: string,
+    ifMatch: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?: Models.DpsCertificateGenerateVerificationCodeOptionalParams
+  ): Promise<Models.DpsCertificateGenerateVerificationCodeResponse>;
   /**
    * @param certificateName The mandatory logical name of the certificate, that the provisioning
    * service uses to access.
@@ -203,7 +309,13 @@ export class DpsCertificate {
    * @param provisioningServiceName Name of provisioning service.
    * @param callback The callback
    */
-  generateVerificationCode(certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, callback: msRest.ServiceCallback<Models.VerificationCodeResponse>): void;
+  generateVerificationCode(
+    certificateName: string,
+    ifMatch: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    callback: msRest.ServiceCallback<Models.VerificationCodeResponse>
+  ): void;
   /**
    * @param certificateName The mandatory logical name of the certificate, that the provisioning
    * service uses to access.
@@ -214,8 +326,24 @@ export class DpsCertificate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  generateVerificationCode(certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, options: Models.DpsCertificateGenerateVerificationCodeOptionalParams, callback: msRest.ServiceCallback<Models.VerificationCodeResponse>): void;
-  generateVerificationCode(certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, options?: Models.DpsCertificateGenerateVerificationCodeOptionalParams | msRest.ServiceCallback<Models.VerificationCodeResponse>, callback?: msRest.ServiceCallback<Models.VerificationCodeResponse>): Promise<Models.DpsCertificateGenerateVerificationCodeResponse> {
+  generateVerificationCode(
+    certificateName: string,
+    ifMatch: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options: Models.DpsCertificateGenerateVerificationCodeOptionalParams,
+    callback: msRest.ServiceCallback<Models.VerificationCodeResponse>
+  ): void;
+  generateVerificationCode(
+    certificateName: string,
+    ifMatch: string,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?:
+      | Models.DpsCertificateGenerateVerificationCodeOptionalParams
+      | msRest.ServiceCallback<Models.VerificationCodeResponse>,
+    callback?: msRest.ServiceCallback<Models.VerificationCodeResponse>
+  ): Promise<Models.DpsCertificateGenerateVerificationCodeResponse> {
     return this.client.sendOperationRequest(
       {
         certificateName,
@@ -225,7 +353,8 @@ export class DpsCertificate {
         options
       },
       generateVerificationCodeOperationSpec,
-      callback) as Promise<Models.DpsCertificateGenerateVerificationCodeResponse>;
+      callback
+    ) as Promise<Models.DpsCertificateGenerateVerificationCodeResponse>;
   }
 
   /**
@@ -241,7 +370,14 @@ export class DpsCertificate {
    * @param [options] The optional parameters
    * @returns Promise<Models.DpsCertificateVerifyCertificateResponse>
    */
-  verifyCertificate(certificateName: string, ifMatch: string, request: Models.VerificationCodeRequest, resourceGroupName: string, provisioningServiceName: string, options?: Models.DpsCertificateVerifyCertificateOptionalParams): Promise<Models.DpsCertificateVerifyCertificateResponse>;
+  verifyCertificate(
+    certificateName: string,
+    ifMatch: string,
+    request: Models.VerificationCodeRequest,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?: Models.DpsCertificateVerifyCertificateOptionalParams
+  ): Promise<Models.DpsCertificateVerifyCertificateResponse>;
   /**
    * @param certificateName The mandatory logical name of the certificate, that the provisioning
    * service uses to access.
@@ -251,7 +387,14 @@ export class DpsCertificate {
    * @param provisioningServiceName Provisioning service name.
    * @param callback The callback
    */
-  verifyCertificate(certificateName: string, ifMatch: string, request: Models.VerificationCodeRequest, resourceGroupName: string, provisioningServiceName: string, callback: msRest.ServiceCallback<Models.CertificateResponse>): void;
+  verifyCertificate(
+    certificateName: string,
+    ifMatch: string,
+    request: Models.VerificationCodeRequest,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    callback: msRest.ServiceCallback<Models.CertificateResponse>
+  ): void;
   /**
    * @param certificateName The mandatory logical name of the certificate, that the provisioning
    * service uses to access.
@@ -262,8 +405,26 @@ export class DpsCertificate {
    * @param options The optional parameters
    * @param callback The callback
    */
-  verifyCertificate(certificateName: string, ifMatch: string, request: Models.VerificationCodeRequest, resourceGroupName: string, provisioningServiceName: string, options: Models.DpsCertificateVerifyCertificateOptionalParams, callback: msRest.ServiceCallback<Models.CertificateResponse>): void;
-  verifyCertificate(certificateName: string, ifMatch: string, request: Models.VerificationCodeRequest, resourceGroupName: string, provisioningServiceName: string, options?: Models.DpsCertificateVerifyCertificateOptionalParams | msRest.ServiceCallback<Models.CertificateResponse>, callback?: msRest.ServiceCallback<Models.CertificateResponse>): Promise<Models.DpsCertificateVerifyCertificateResponse> {
+  verifyCertificate(
+    certificateName: string,
+    ifMatch: string,
+    request: Models.VerificationCodeRequest,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options: Models.DpsCertificateVerifyCertificateOptionalParams,
+    callback: msRest.ServiceCallback<Models.CertificateResponse>
+  ): void;
+  verifyCertificate(
+    certificateName: string,
+    ifMatch: string,
+    request: Models.VerificationCodeRequest,
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?:
+      | Models.DpsCertificateVerifyCertificateOptionalParams
+      | msRest.ServiceCallback<Models.CertificateResponse>,
+    callback?: msRest.ServiceCallback<Models.CertificateResponse>
+  ): Promise<Models.DpsCertificateVerifyCertificateResponse> {
     return this.client.sendOperationRequest(
       {
         certificateName,
@@ -274,7 +435,8 @@ export class DpsCertificate {
         options
       },
       verifyCertificateOperationSpec,
-      callback) as Promise<Models.DpsCertificateVerifyCertificateResponse>;
+      callback
+    ) as Promise<Models.DpsCertificateVerifyCertificateResponse>;
   }
 }
 
@@ -282,20 +444,16 @@ export class DpsCertificate {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.certificateName0,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.provisioningServiceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateResponse
@@ -309,20 +467,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.provisioningServiceName,
     Parameters.certificateName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "certificateDescription",
     mapper: {
@@ -343,7 +497,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -361,10 +516,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.certificatenonce,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -377,18 +529,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.provisioningServiceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListDescription
@@ -402,7 +551,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const generateVerificationCodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/generateVerificationCode",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/generateVerificationCode",
   urlParameters: [
     Parameters.certificateName0,
     Parameters.subscriptionId,
@@ -420,10 +570,7 @@ const generateVerificationCodeOperationSpec: msRest.OperationSpec = {
     Parameters.certificatenonce,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VerificationCodeResponse
@@ -437,7 +584,8 @@ const generateVerificationCodeOperationSpec: msRest.OperationSpec = {
 
 const verifyCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/verify",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/verify",
   urlParameters: [
     Parameters.certificateName0,
     Parameters.subscriptionId,
@@ -455,10 +603,7 @@ const verifyCertificateOperationSpec: msRest.OperationSpec = {
     Parameters.certificatenonce,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {

@@ -21,10 +21,7 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
    *                 https://westus2.api.cognitive.microsoft.com).
    * @param options The parameter options
    */
-  constructor(
-    endpoint: string,
-    options?: Models.GeneratedClientOptionalParams
-  ) {
+  constructor(endpoint: string, options?: Models.GeneratedClientOptionalParams) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }

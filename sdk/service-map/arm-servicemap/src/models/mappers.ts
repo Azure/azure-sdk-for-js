@@ -175,13 +175,7 @@ export const MachineReferenceWithHints: msRest.CompositeMapper = {
         serializedName: "properties.osFamilyHint",
         type: {
           name: "Enum",
-          allowedValues: [
-            "unknown",
-            "windows",
-            "linux",
-            "solaris",
-            "aix"
-          ]
+          allowedValues: ["unknown", "windows", "linux", "solaris", "aix"]
         }
       }
     }
@@ -281,11 +275,7 @@ export const AgentConfiguration: msRest.CompositeMapper = {
         serializedName: "rebootStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "unknown",
-            "rebooted",
-            "notRebooted"
-          ]
+          allowedValues: ["unknown", "rebooted", "notRebooted"]
         }
       },
       clockGranularity: {
@@ -326,10 +316,7 @@ export const MachineResourcesConfiguration: msRest.CompositeMapper = {
         serializedName: "cpuSpeedAccuracy",
         type: {
           name: "Enum",
-          allowedValues: [
-            "actual",
-            "estimated"
-          ]
+          allowedValues: ["actual", "estimated"]
         }
       }
     }
@@ -351,7 +338,7 @@ export const Ipv4NetworkInterface: msRest.CompositeMapper = {
       },
       subnetMask: {
         serializedName: "subnetMask",
-        defaultValue: '255.255.255.255',
+        defaultValue: "255.255.255.255",
         type: {
           name: "String"
         }
@@ -455,13 +442,7 @@ export const OperatingSystemConfiguration: msRest.CompositeMapper = {
         serializedName: "family",
         type: {
           name: "Enum",
-          allowedValues: [
-            "unknown",
-            "windows",
-            "linux",
-            "solaris",
-            "aix"
-          ]
+          allowedValues: ["unknown", "windows", "linux", "solaris", "aix"]
         }
       },
       fullName: {
@@ -476,10 +457,7 @@ export const OperatingSystemConfiguration: msRest.CompositeMapper = {
         serializedName: "bitness",
         type: {
           name: "Enum",
-          allowedValues: [
-            "32bit",
-            "64bit"
-          ]
+          allowedValues: ["32bit", "64bit"]
         }
       }
     }
@@ -496,15 +474,7 @@ export const VirtualMachineConfiguration: msRest.CompositeMapper = {
         serializedName: "virtualMachineType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "unknown",
-            "hyperv",
-            "ldom",
-            "lpar",
-            "vmware",
-            "virtualPc",
-            "xen"
-          ]
+          allowedValues: ["unknown", "hyperv", "ldom", "lpar", "vmware", "virtualPc", "xen"]
         }
       },
       nativeMachineId: {
@@ -539,10 +509,7 @@ export const HypervisorConfiguration: msRest.CompositeMapper = {
         serializedName: "hypervisorType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "unknown",
-            "hyperv"
-          ]
+          allowedValues: ["unknown", "hyperv"]
         }
       },
       nativeHostMachineId: {
@@ -600,22 +567,14 @@ export const Machine: msRest.CompositeMapper = {
         serializedName: "properties.monitoringState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "monitored",
-            "discovered"
-          ]
+          allowedValues: ["monitored", "discovered"]
         }
       },
       virtualizationState: {
         serializedName: "properties.virtualizationState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "unknown",
-            "physical",
-            "virtual",
-            "hypervisor"
-          ]
+          allowedValues: ["unknown", "physical", "virtual", "hypervisor"]
         }
       },
       displayName: {
@@ -891,10 +850,7 @@ export const Process: msRest.CompositeMapper = {
         serializedName: "properties.monitoringState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "monitored",
-            "discovered"
-          ]
+          allowedValues: ["monitored", "discovered"]
         }
       },
       machine: {
@@ -984,10 +940,7 @@ export const Port: msRest.CompositeMapper = {
         serializedName: "properties.monitoringState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "monitored",
-            "discovered"
-          ]
+          allowedValues: ["monitored", "discovered"]
         }
       },
       machine: {
@@ -1271,11 +1224,7 @@ export const Connection: msRest.CompositeMapper = {
         serializedName: "properties.failureState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "ok",
-            "failed",
-            "mixed"
-          ]
+          allowedValues: ["ok", "failed", "mixed"]
         }
       }
     }
@@ -1451,11 +1400,7 @@ export const AzureCloudServiceConfiguration: msRest.CompositeMapper = {
         serializedName: "roleType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "unknown",
-            "worker",
-            "web"
-          ]
+          allowedValues: ["unknown", "worker", "web"]
         }
       }
     }
@@ -1971,10 +1916,7 @@ export const ClientGroupMembersCount: msRest.CompositeMapper = {
         serializedName: "accuracy",
         type: {
           name: "Enum",
-          allowedValues: [
-            "actual",
-            "estimated"
-          ]
+          allowedValues: ["actual", "estimated"]
         }
       }
     }
@@ -2191,29 +2133,28 @@ export const ClientGroupMembersCollection: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ResourceReference' : ResourceReference,
-  'ResourceReference.ref:machine' : MachineReference,
-  'ResourceReference.ref:process' : ProcessReference,
-  'ResourceReference.ref:port' : PortReference,
-  'ResourceReference.ref:machinewithhints' : MachineReferenceWithHints,
-  'ResourceReference.ref:clientgroup' : ClientGroupReference,
-  'BaseResource.CoreResource' : CoreResource,
-  'HostingConfiguration' : HostingConfiguration,
-  'BaseResource.machine' : Machine,
-  'ProcessHostingConfiguration' : ProcessHostingConfiguration,
-  'BaseResource.process' : Process,
-  'BaseResource.port' : Port,
-  'BaseResource.clientGroup' : ClientGroup,
-  'BaseResource.machineGroup' : MachineGroup,
-  'BaseResource.Relationship' : Relationship,
-  'BaseResource.rel:connection' : Connection,
-  'BaseResource.rel:acceptor' : Acceptor,
-  'HostingConfiguration.provider:azure' : AzureHostingConfiguration,
-  'ProcessHostingConfiguration.provider:azure' : AzureProcessHostingConfiguration,
-  'MapRequest' : MapRequest,
-  'MapRequest.map:single-machine-dependency' : SingleMachineDependencyMapRequest,
-  'MapRequest.MultipleMachinesMapRequest' : MultipleMachinesMapRequest,
-  'MapRequest.map:machine-list-dependency' : MachineListMapRequest,
-  'MapRequest.map:machine-group-dependency' : MachineGroupMapRequest
-
+  ResourceReference: ResourceReference,
+  "ResourceReference.ref:machine": MachineReference,
+  "ResourceReference.ref:process": ProcessReference,
+  "ResourceReference.ref:port": PortReference,
+  "ResourceReference.ref:machinewithhints": MachineReferenceWithHints,
+  "ResourceReference.ref:clientgroup": ClientGroupReference,
+  "BaseResource.CoreResource": CoreResource,
+  HostingConfiguration: HostingConfiguration,
+  "BaseResource.machine": Machine,
+  ProcessHostingConfiguration: ProcessHostingConfiguration,
+  "BaseResource.process": Process,
+  "BaseResource.port": Port,
+  "BaseResource.clientGroup": ClientGroup,
+  "BaseResource.machineGroup": MachineGroup,
+  "BaseResource.Relationship": Relationship,
+  "BaseResource.rel:connection": Connection,
+  "BaseResource.rel:acceptor": Acceptor,
+  "HostingConfiguration.provider:azure": AzureHostingConfiguration,
+  "ProcessHostingConfiguration.provider:azure": AzureProcessHostingConfiguration,
+  MapRequest: MapRequest,
+  "MapRequest.map:single-machine-dependency": SingleMachineDependencyMapRequest,
+  "MapRequest.MultipleMachinesMapRequest": MultipleMachinesMapRequest,
+  "MapRequest.map:machine-list-dependency": MachineListMapRequest,
+  "MapRequest.map:machine-group-dependency": MachineGroupMapRequest
 };

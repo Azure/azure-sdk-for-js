@@ -40,14 +40,21 @@ export class Skus {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuListResult>, callback?: msRest.ServiceCallback<Models.SkuListResult>): Promise<Models.SkusListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SkuListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuListResult>,
+    callback?: msRest.ServiceCallback<Models.SkuListResult>
+  ): Promise<Models.SkusListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SkusListResponse>;
+      callback
+    ) as Promise<Models.SkusListResponse>;
   }
 }
 
@@ -56,15 +63,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.MachineLearning/skus",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SkuListResult

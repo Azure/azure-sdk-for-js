@@ -38,7 +38,14 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsGetByResourceGroupResponse>
    */
-  getByResourceGroup(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: msRest.RequestOptionsBase): Promise<Models.LongTermRetentionBackupsGetByResourceGroupResponse>;
+  getByResourceGroup(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LongTermRetentionBackupsGetByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -48,7 +55,14 @@ export class LongTermRetentionBackups {
    * @param backupName The backup name.
    * @param callback The callback
    */
-  getByResourceGroup(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackup>): void;
+  getByResourceGroup(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -59,8 +73,24 @@ export class LongTermRetentionBackups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getByResourceGroup(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LongTermRetentionBackup>): void;
-  getByResourceGroup(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackup>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackup>): Promise<Models.LongTermRetentionBackupsGetByResourceGroupResponse> {
+  getByResourceGroup(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackup>
+  ): void;
+  getByResourceGroup(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackup>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackup>
+  ): Promise<Models.LongTermRetentionBackupsGetByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -71,7 +101,8 @@ export class LongTermRetentionBackups {
         options
       },
       getByResourceGroupOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsGetByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsGetByResourceGroupResponse>;
   }
 
   /**
@@ -85,9 +116,22 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteByResourceGroup(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteByResourceGroup(resourceGroupName,locationName,longTermRetentionServerName,longTermRetentionDatabaseName,backupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteByResourceGroup(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteByResourceGroup(
+      resourceGroupName,
+      locationName,
+      longTermRetentionServerName,
+      longTermRetentionDatabaseName,
+      backupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -100,7 +144,13 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseResponse>
    */
-  listByResourceGroupDatabase(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options?: Models.LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams): Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseResponse>;
+  listByResourceGroupDatabase(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    options?: Models.LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams
+  ): Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -109,7 +159,13 @@ export class LongTermRetentionBackups {
    * @param longTermRetentionDatabaseName The name of the database
    * @param callback The callback
    */
-  listByResourceGroupDatabase(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
+  listByResourceGroupDatabase(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -119,8 +175,24 @@ export class LongTermRetentionBackups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupDatabase(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options: Models.LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByResourceGroupDatabase(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options?: Models.LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseResponse> {
+  listByResourceGroupDatabase(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    options: Models.LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
+  listByResourceGroupDatabase(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    options?:
+      | Models.LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams
+      | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,7 +202,8 @@ export class LongTermRetentionBackups {
         options
       },
       listByResourceGroupDatabaseOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseResponse>;
   }
 
   /**
@@ -141,14 +214,22 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationResponse>
    */
-  listByResourceGroupLocation(resourceGroupName: string, locationName: string, options?: Models.LongTermRetentionBackupsListByResourceGroupLocationOptionalParams): Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationResponse>;
+  listByResourceGroupLocation(
+    resourceGroupName: string,
+    locationName: string,
+    options?: Models.LongTermRetentionBackupsListByResourceGroupLocationOptionalParams
+  ): Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param locationName The location of the database
    * @param callback The callback
    */
-  listByResourceGroupLocation(resourceGroupName: string, locationName: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
+  listByResourceGroupLocation(
+    resourceGroupName: string,
+    locationName: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -156,8 +237,20 @@ export class LongTermRetentionBackups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupLocation(resourceGroupName: string, locationName: string, options: Models.LongTermRetentionBackupsListByResourceGroupLocationOptionalParams, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByResourceGroupLocation(resourceGroupName: string, locationName: string, options?: Models.LongTermRetentionBackupsListByResourceGroupLocationOptionalParams | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationResponse> {
+  listByResourceGroupLocation(
+    resourceGroupName: string,
+    locationName: string,
+    options: Models.LongTermRetentionBackupsListByResourceGroupLocationOptionalParams,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
+  listByResourceGroupLocation(
+    resourceGroupName: string,
+    locationName: string,
+    options?:
+      | Models.LongTermRetentionBackupsListByResourceGroupLocationOptionalParams
+      | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -165,7 +258,8 @@ export class LongTermRetentionBackups {
         options
       },
       listByResourceGroupLocationOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationResponse>;
   }
 
   /**
@@ -177,7 +271,12 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByResourceGroupServerResponse>
    */
-  listByResourceGroupServer(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, options?: Models.LongTermRetentionBackupsListByResourceGroupServerOptionalParams): Promise<Models.LongTermRetentionBackupsListByResourceGroupServerResponse>;
+  listByResourceGroupServer(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    options?: Models.LongTermRetentionBackupsListByResourceGroupServerOptionalParams
+  ): Promise<Models.LongTermRetentionBackupsListByResourceGroupServerResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -185,7 +284,12 @@ export class LongTermRetentionBackups {
    * @param longTermRetentionServerName The name of the server
    * @param callback The callback
    */
-  listByResourceGroupServer(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
+  listByResourceGroupServer(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -194,8 +298,22 @@ export class LongTermRetentionBackups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupServer(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, options: Models.LongTermRetentionBackupsListByResourceGroupServerOptionalParams, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByResourceGroupServer(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, options?: Models.LongTermRetentionBackupsListByResourceGroupServerOptionalParams | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByResourceGroupServerResponse> {
+  listByResourceGroupServer(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    options: Models.LongTermRetentionBackupsListByResourceGroupServerOptionalParams,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
+  listByResourceGroupServer(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    options?:
+      | Models.LongTermRetentionBackupsListByResourceGroupServerOptionalParams
+      | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): Promise<Models.LongTermRetentionBackupsListByResourceGroupServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -204,7 +322,8 @@ export class LongTermRetentionBackups {
         options
       },
       listByResourceGroupServerOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsListByResourceGroupServerResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsListByResourceGroupServerResponse>;
   }
 
   /**
@@ -216,7 +335,13 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsGetResponse>
    */
-  get(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: msRest.RequestOptionsBase): Promise<Models.LongTermRetentionBackupsGetResponse>;
+  get(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LongTermRetentionBackupsGetResponse>;
   /**
    * @param locationName The location of the database.
    * @param longTermRetentionServerName The name of the server
@@ -224,7 +349,13 @@ export class LongTermRetentionBackups {
    * @param backupName The backup name.
    * @param callback The callback
    */
-  get(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackup>): void;
+  get(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackup>
+  ): void;
   /**
    * @param locationName The location of the database.
    * @param longTermRetentionServerName The name of the server
@@ -233,8 +364,22 @@ export class LongTermRetentionBackups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LongTermRetentionBackup>): void;
-  get(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackup>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackup>): Promise<Models.LongTermRetentionBackupsGetResponse> {
+  get(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackup>
+  ): void;
+  get(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackup>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackup>
+  ): Promise<Models.LongTermRetentionBackupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -244,7 +389,8 @@ export class LongTermRetentionBackups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsGetResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsGetResponse>;
   }
 
   /**
@@ -256,9 +402,20 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(locationName,longTermRetentionServerName,longTermRetentionDatabaseName,backupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      locationName,
+      longTermRetentionServerName,
+      longTermRetentionDatabaseName,
+      backupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -269,14 +426,24 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByDatabaseResponse>
    */
-  listByDatabase(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options?: Models.LongTermRetentionBackupsListByDatabaseOptionalParams): Promise<Models.LongTermRetentionBackupsListByDatabaseResponse>;
+  listByDatabase(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    options?: Models.LongTermRetentionBackupsListByDatabaseOptionalParams
+  ): Promise<Models.LongTermRetentionBackupsListByDatabaseResponse>;
   /**
    * @param locationName The location of the database
    * @param longTermRetentionServerName The name of the server
    * @param longTermRetentionDatabaseName The name of the database
    * @param callback The callback
    */
-  listByDatabase(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
+  listByDatabase(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
   /**
    * @param locationName The location of the database
    * @param longTermRetentionServerName The name of the server
@@ -284,8 +451,22 @@ export class LongTermRetentionBackups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options: Models.LongTermRetentionBackupsListByDatabaseOptionalParams, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByDatabase(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, options?: Models.LongTermRetentionBackupsListByDatabaseOptionalParams | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByDatabaseResponse> {
+  listByDatabase(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    options: Models.LongTermRetentionBackupsListByDatabaseOptionalParams,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
+  listByDatabase(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    options?:
+      | Models.LongTermRetentionBackupsListByDatabaseOptionalParams
+      | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): Promise<Models.LongTermRetentionBackupsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -294,7 +475,8 @@ export class LongTermRetentionBackups {
         options
       },
       listByDatabaseOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsListByDatabaseResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsListByDatabaseResponse>;
   }
 
   /**
@@ -303,26 +485,43 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByLocationResponse>
    */
-  listByLocation(locationName: string, options?: Models.LongTermRetentionBackupsListByLocationOptionalParams): Promise<Models.LongTermRetentionBackupsListByLocationResponse>;
+  listByLocation(
+    locationName: string,
+    options?: Models.LongTermRetentionBackupsListByLocationOptionalParams
+  ): Promise<Models.LongTermRetentionBackupsListByLocationResponse>;
   /**
    * @param locationName The location of the database
    * @param callback The callback
    */
-  listByLocation(locationName: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
+  listByLocation(
+    locationName: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
   /**
    * @param locationName The location of the database
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByLocation(locationName: string, options: Models.LongTermRetentionBackupsListByLocationOptionalParams, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByLocation(locationName: string, options?: Models.LongTermRetentionBackupsListByLocationOptionalParams | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByLocationResponse> {
+  listByLocation(
+    locationName: string,
+    options: Models.LongTermRetentionBackupsListByLocationOptionalParams,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
+  listByLocation(
+    locationName: string,
+    options?:
+      | Models.LongTermRetentionBackupsListByLocationOptionalParams
+      | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): Promise<Models.LongTermRetentionBackupsListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
         options
       },
       listByLocationOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsListByLocationResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsListByLocationResponse>;
   }
 
   /**
@@ -332,21 +531,41 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByServerResponse>
    */
-  listByServer(locationName: string, longTermRetentionServerName: string, options?: Models.LongTermRetentionBackupsListByServerOptionalParams): Promise<Models.LongTermRetentionBackupsListByServerResponse>;
+  listByServer(
+    locationName: string,
+    longTermRetentionServerName: string,
+    options?: Models.LongTermRetentionBackupsListByServerOptionalParams
+  ): Promise<Models.LongTermRetentionBackupsListByServerResponse>;
   /**
    * @param locationName The location of the database
    * @param longTermRetentionServerName The name of the server
    * @param callback The callback
    */
-  listByServer(locationName: string, longTermRetentionServerName: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
+  listByServer(
+    locationName: string,
+    longTermRetentionServerName: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
   /**
    * @param locationName The location of the database
    * @param longTermRetentionServerName The name of the server
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(locationName: string, longTermRetentionServerName: string, options: Models.LongTermRetentionBackupsListByServerOptionalParams, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByServer(locationName: string, longTermRetentionServerName: string, options?: Models.LongTermRetentionBackupsListByServerOptionalParams | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByServerResponse> {
+  listByServer(
+    locationName: string,
+    longTermRetentionServerName: string,
+    options: Models.LongTermRetentionBackupsListByServerOptionalParams,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
+  listByServer(
+    locationName: string,
+    longTermRetentionServerName: string,
+    options?:
+      | Models.LongTermRetentionBackupsListByServerOptionalParams
+      | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): Promise<Models.LongTermRetentionBackupsListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -354,7 +573,8 @@ export class LongTermRetentionBackups {
         options
       },
       listByServerOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsListByServerResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsListByServerResponse>;
   }
 
   /**
@@ -368,7 +588,14 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteByResourceGroup(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteByResourceGroup(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -379,7 +606,8 @@ export class LongTermRetentionBackups {
         options
       },
       beginDeleteByResourceGroupOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -391,7 +619,13 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         locationName,
@@ -401,7 +635,8 @@ export class LongTermRetentionBackups {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -410,26 +645,43 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseNextResponse>
    */
-  listByResourceGroupDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseNextResponse>;
+  listByResourceGroupDatabaseNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupDatabaseNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
+  listByResourceGroupDatabaseNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByResourceGroupDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseNextResponse> {
+  listByResourceGroupDatabaseNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
+  listByResourceGroupDatabaseNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupDatabaseNextOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseNextResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsListByResourceGroupDatabaseNextResponse>;
   }
 
   /**
@@ -438,26 +690,43 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationNextResponse>
    */
-  listByResourceGroupLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationNextResponse>;
+  listByResourceGroupLocationNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupLocationNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
+  listByResourceGroupLocationNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupLocationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByResourceGroupLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationNextResponse> {
+  listByResourceGroupLocationNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
+  listByResourceGroupLocationNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupLocationNextOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationNextResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsListByResourceGroupLocationNextResponse>;
   }
 
   /**
@@ -466,26 +735,43 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByResourceGroupServerNextResponse>
    */
-  listByResourceGroupServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LongTermRetentionBackupsListByResourceGroupServerNextResponse>;
+  listByResourceGroupServerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LongTermRetentionBackupsListByResourceGroupServerNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupServerNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
+  listByResourceGroupServerNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByResourceGroupServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByResourceGroupServerNextResponse> {
+  listByResourceGroupServerNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
+  listByResourceGroupServerNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): Promise<Models.LongTermRetentionBackupsListByResourceGroupServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupServerNextOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsListByResourceGroupServerNextResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsListByResourceGroupServerNextResponse>;
   }
 
   /**
@@ -494,26 +780,43 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByDatabaseNextResponse>
    */
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LongTermRetentionBackupsListByDatabaseNextResponse>;
+  listByDatabaseNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LongTermRetentionBackupsListByDatabaseNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByDatabaseNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
+  listByDatabaseNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByDatabaseNextResponse> {
+  listByDatabaseNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
+  listByDatabaseNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): Promise<Models.LongTermRetentionBackupsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByDatabaseNextOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsListByDatabaseNextResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsListByDatabaseNextResponse>;
   }
 
   /**
@@ -522,26 +825,43 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByLocationNextResponse>
    */
-  listByLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LongTermRetentionBackupsListByLocationNextResponse>;
+  listByLocationNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LongTermRetentionBackupsListByLocationNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByLocationNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
+  listByLocationNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByLocationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByLocationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByLocationNextResponse> {
+  listByLocationNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
+  listByLocationNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): Promise<Models.LongTermRetentionBackupsListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByLocationNextOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsListByLocationNextResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsListByLocationNextResponse>;
   }
 
   /**
@@ -550,26 +870,43 @@ export class LongTermRetentionBackups {
    * @param [options] The optional parameters
    * @returns Promise<Models.LongTermRetentionBackupsListByServerNextResponse>
    */
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LongTermRetentionBackupsListByServerNextResponse>;
+  listByServerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LongTermRetentionBackupsListByServerNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServerNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
+  listByServerNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>, callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>): Promise<Models.LongTermRetentionBackupsListByServerNextResponse> {
+  listByServerNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): void;
+  listByServerNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>,
+    callback?: msRest.ServiceCallback<Models.LongTermRetentionBackupListResult>
+  ): Promise<Models.LongTermRetentionBackupsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServerNextOperationSpec,
-      callback) as Promise<Models.LongTermRetentionBackupsListByServerNextResponse>;
+      callback
+    ) as Promise<Models.LongTermRetentionBackupsListByServerNextResponse>;
   }
 }
 
@@ -577,7 +914,8 @@ export class LongTermRetentionBackups {
 const serializer = new msRest.Serializer(Mappers);
 const getByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.locationName,
@@ -586,12 +924,8 @@ const getByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.backupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackup
@@ -605,7 +939,8 @@ const getByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.locationName,
@@ -618,9 +953,7 @@ const listByResourceGroupDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseState,
     Parameters.apiVersion4
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
@@ -634,20 +967,15 @@ const listByResourceGroupDatabaseOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupLocationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionBackups",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.locationName,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionBackups",
+  urlParameters: [Parameters.resourceGroupName, Parameters.locationName, Parameters.subscriptionId],
   queryParameters: [
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
     Parameters.apiVersion4
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
@@ -661,7 +989,8 @@ const listByResourceGroupLocationOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionBackups",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionBackups",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.locationName,
@@ -673,9 +1002,7 @@ const listByResourceGroupServerOperationSpec: msRest.OperationSpec = {
     Parameters.databaseState,
     Parameters.apiVersion4
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
@@ -689,7 +1016,8 @@ const listByResourceGroupServerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
   urlParameters: [
     Parameters.locationName,
     Parameters.longTermRetentionServerName,
@@ -697,12 +1025,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.backupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackup
@@ -716,7 +1040,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups",
   urlParameters: [
     Parameters.locationName,
     Parameters.longTermRetentionServerName,
@@ -728,9 +1053,7 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseState,
     Parameters.apiVersion4
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
@@ -744,19 +1067,15 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
 
 const listByLocationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionBackups",
-  urlParameters: [
-    Parameters.locationName,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionBackups",
+  urlParameters: [Parameters.locationName, Parameters.subscriptionId],
   queryParameters: [
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
     Parameters.apiVersion4
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
@@ -770,7 +1089,8 @@ const listByLocationOperationSpec: msRest.OperationSpec = {
 
 const listByServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionBackups",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionBackups",
   urlParameters: [
     Parameters.locationName,
     Parameters.longTermRetentionServerName,
@@ -781,9 +1101,7 @@ const listByServerOperationSpec: msRest.OperationSpec = {
     Parameters.databaseState,
     Parameters.apiVersion4
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
@@ -797,7 +1115,8 @@ const listByServerOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.locationName,
@@ -806,12 +1125,8 @@ const beginDeleteByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.backupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -824,7 +1139,8 @@ const beginDeleteByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
   urlParameters: [
     Parameters.locationName,
     Parameters.longTermRetentionServerName,
@@ -832,12 +1148,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.backupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -852,12 +1164,8 @@ const listByResourceGroupDatabaseNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
@@ -873,12 +1181,8 @@ const listByResourceGroupLocationNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
@@ -894,12 +1198,8 @@ const listByResourceGroupServerNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
@@ -915,12 +1215,8 @@ const listByDatabaseNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
@@ -936,12 +1232,8 @@ const listByLocationNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult
@@ -957,12 +1249,8 @@ const listByServerNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LongTermRetentionBackupListResult

@@ -92,7 +92,8 @@ export interface Operation {
 /**
  * Optional Parameters.
  */
-export interface ManagementLocksListAtResourceGroupLevelOptionalParams extends msRest.RequestOptionsBase {
+export interface ManagementLocksListAtResourceGroupLevelOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The filter to apply on the operation.
    */
@@ -102,7 +103,8 @@ export interface ManagementLocksListAtResourceGroupLevelOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface ManagementLocksListAtResourceLevelOptionalParams extends msRest.RequestOptionsBase {
+export interface ManagementLocksListAtResourceLevelOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The filter to apply on the operation.
    */
@@ -112,7 +114,8 @@ export interface ManagementLocksListAtResourceLevelOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface ManagementLocksListAtSubscriptionLevelOptionalParams extends msRest.RequestOptionsBase {
+export interface ManagementLocksListAtSubscriptionLevelOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The filter to apply on the operation.
    */
@@ -157,7 +160,7 @@ export interface ManagementLockListResult extends Array<ManagementLockObject> {
  * @readonly
  * @enum {string}
  */
-export type LockLevel = 'NotSpecified' | 'CanNotDelete' | 'ReadOnly';
+export type LockLevel = "NotSpecified" | "CanNotDelete" | "ReadOnly";
 
 /**
  * Contains response data for the list operation.
@@ -167,16 +170,16 @@ export type AuthorizationOperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -187,16 +190,16 @@ export type AuthorizationOperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -207,16 +210,16 @@ export type ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse = Manageme
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockObject;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockObject;
+  };
 };
 
 /**
@@ -227,16 +230,16 @@ export type ManagementLocksGetAtResourceGroupLevelResponse = ManagementLockObjec
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockObject;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockObject;
+  };
 };
 
 /**
@@ -247,16 +250,16 @@ export type ManagementLocksCreateOrUpdateByScopeResponse = ManagementLockObject 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockObject;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockObject;
+  };
 };
 
 /**
@@ -267,16 +270,16 @@ export type ManagementLocksGetByScopeResponse = ManagementLockObject & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockObject;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockObject;
+  };
 };
 
 /**
@@ -287,16 +290,16 @@ export type ManagementLocksCreateOrUpdateAtResourceLevelResponse = ManagementLoc
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockObject;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockObject;
+  };
 };
 
 /**
@@ -307,16 +310,16 @@ export type ManagementLocksGetAtResourceLevelResponse = ManagementLockObject & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockObject;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockObject;
+  };
 };
 
 /**
@@ -327,16 +330,16 @@ export type ManagementLocksCreateOrUpdateAtSubscriptionLevelResponse = Managemen
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockObject;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockObject;
+  };
 };
 
 /**
@@ -347,16 +350,16 @@ export type ManagementLocksGetAtSubscriptionLevelResponse = ManagementLockObject
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockObject;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockObject;
+  };
 };
 
 /**
@@ -367,16 +370,16 @@ export type ManagementLocksListAtResourceGroupLevelResponse = ManagementLockList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockListResult;
+  };
 };
 
 /**
@@ -387,16 +390,16 @@ export type ManagementLocksListAtResourceLevelResponse = ManagementLockListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockListResult;
+  };
 };
 
 /**
@@ -407,16 +410,16 @@ export type ManagementLocksListAtSubscriptionLevelResponse = ManagementLockListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockListResult;
+  };
 };
 
 /**
@@ -427,16 +430,16 @@ export type ManagementLocksListAtResourceGroupLevelNextResponse = ManagementLock
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockListResult;
+  };
 };
 
 /**
@@ -447,16 +450,16 @@ export type ManagementLocksListAtResourceLevelNextResponse = ManagementLockListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockListResult;
+  };
 };
 
 /**
@@ -467,14 +470,14 @@ export type ManagementLocksListAtSubscriptionLevelNextResponse = ManagementLockL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementLockListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementLockListResult;
+  };
 };

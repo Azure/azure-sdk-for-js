@@ -298,7 +298,7 @@ export const OperationInputs: msRest.CompositeMapper = {
       },
       type: {
         serializedName: "type",
-        defaultValue: 'IoTApps',
+        defaultValue: "IoTApps",
         type: {
           name: "String"
         }

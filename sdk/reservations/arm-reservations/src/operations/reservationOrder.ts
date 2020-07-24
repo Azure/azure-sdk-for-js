@@ -34,26 +34,41 @@ export class ReservationOrder {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationOrderCalculateResponse>
    */
-  calculate(body: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderCalculateResponse>;
+  calculate(
+    body: Models.PurchaseRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReservationOrderCalculateResponse>;
   /**
    * @param body Information needed for calculate or purchase reservation
    * @param callback The callback
    */
-  calculate(body: Models.PurchaseRequest, callback: msRest.ServiceCallback<Models.CalculatePriceResponse>): void;
+  calculate(
+    body: Models.PurchaseRequest,
+    callback: msRest.ServiceCallback<Models.CalculatePriceResponse>
+  ): void;
   /**
    * @param body Information needed for calculate or purchase reservation
    * @param options The optional parameters
    * @param callback The callback
    */
-  calculate(body: Models.PurchaseRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CalculatePriceResponse>): void;
-  calculate(body: Models.PurchaseRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CalculatePriceResponse>, callback?: msRest.ServiceCallback<Models.CalculatePriceResponse>): Promise<Models.ReservationOrderCalculateResponse> {
+  calculate(
+    body: Models.PurchaseRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CalculatePriceResponse>
+  ): void;
+  calculate(
+    body: Models.PurchaseRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CalculatePriceResponse>,
+    callback?: msRest.ServiceCallback<Models.CalculatePriceResponse>
+  ): Promise<Models.ReservationOrderCalculateResponse> {
     return this.client.sendOperationRequest(
       {
         body,
         options
       },
       calculateOperationSpec,
-      callback) as Promise<Models.ReservationOrderCalculateResponse>;
+      callback
+    ) as Promise<Models.ReservationOrderCalculateResponse>;
   }
 
   /**
@@ -71,14 +86,21 @@ export class ReservationOrder {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationOrderList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationOrderList>, callback?: msRest.ServiceCallback<Models.ReservationOrderList>): Promise<Models.ReservationOrderListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReservationOrderList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationOrderList>,
+    callback?: msRest.ServiceCallback<Models.ReservationOrderList>
+  ): Promise<Models.ReservationOrderListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ReservationOrderListResponse>;
+      callback
+    ) as Promise<Models.ReservationOrderListResponse>;
   }
 
   /**
@@ -89,9 +111,14 @@ export class ReservationOrder {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationOrderPurchaseResponse>
    */
-  purchase(reservationOrderId: string, body: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderPurchaseResponse> {
-    return this.beginPurchase(reservationOrderId,body,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReservationOrderPurchaseResponse>;
+  purchase(
+    reservationOrderId: string,
+    body: Models.PurchaseRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReservationOrderPurchaseResponse> {
+    return this.beginPurchase(reservationOrderId, body, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReservationOrderPurchaseResponse>;
   }
 
   /**
@@ -101,26 +128,43 @@ export class ReservationOrder {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationOrderGetResponse>
    */
-  get(reservationOrderId: string, options?: Models.ReservationOrderGetOptionalParams): Promise<Models.ReservationOrderGetResponse>;
+  get(
+    reservationOrderId: string,
+    options?: Models.ReservationOrderGetOptionalParams
+  ): Promise<Models.ReservationOrderGetResponse>;
   /**
    * @param reservationOrderId Order Id of the reservation
    * @param callback The callback
    */
-  get(reservationOrderId: string, callback: msRest.ServiceCallback<Models.ReservationOrderResponse>): void;
+  get(
+    reservationOrderId: string,
+    callback: msRest.ServiceCallback<Models.ReservationOrderResponse>
+  ): void;
   /**
    * @param reservationOrderId Order Id of the reservation
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(reservationOrderId: string, options: Models.ReservationOrderGetOptionalParams, callback: msRest.ServiceCallback<Models.ReservationOrderResponse>): void;
-  get(reservationOrderId: string, options?: Models.ReservationOrderGetOptionalParams | msRest.ServiceCallback<Models.ReservationOrderResponse>, callback?: msRest.ServiceCallback<Models.ReservationOrderResponse>): Promise<Models.ReservationOrderGetResponse> {
+  get(
+    reservationOrderId: string,
+    options: Models.ReservationOrderGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.ReservationOrderResponse>
+  ): void;
+  get(
+    reservationOrderId: string,
+    options?:
+      | Models.ReservationOrderGetOptionalParams
+      | msRest.ServiceCallback<Models.ReservationOrderResponse>,
+    callback?: msRest.ServiceCallback<Models.ReservationOrderResponse>
+  ): Promise<Models.ReservationOrderGetResponse> {
     return this.client.sendOperationRequest(
       {
         reservationOrderId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReservationOrderGetResponse>;
+      callback
+    ) as Promise<Models.ReservationOrderGetResponse>;
   }
 
   /**
@@ -131,7 +175,11 @@ export class ReservationOrder {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPurchase(reservationOrderId: string, body: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPurchase(
+    reservationOrderId: string,
+    body: Models.PurchaseRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         reservationOrderId,
@@ -139,7 +187,8 @@ export class ReservationOrder {
         options
       },
       beginPurchaseOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -149,26 +198,41 @@ export class ReservationOrder {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationOrderListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReservationOrderListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReservationOrderList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ReservationOrderList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReservationOrderList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationOrderList>, callback?: msRest.ServiceCallback<Models.ReservationOrderList>): Promise<Models.ReservationOrderListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReservationOrderList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReservationOrderList>,
+    callback?: msRest.ServiceCallback<Models.ReservationOrderList>
+  ): Promise<Models.ReservationOrderListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ReservationOrderListNextResponse>;
+      callback
+    ) as Promise<Models.ReservationOrderListNextResponse>;
   }
 }
 
@@ -177,12 +241,8 @@ const serializer = new msRest.Serializer(Mappers);
 const calculateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Capacity/calculatePrice",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -204,12 +264,8 @@ const calculateOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Capacity/reservationOrders",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReservationOrderList
@@ -224,16 +280,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}",
-  urlParameters: [
-    Parameters.reservationOrderId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.reservationOrderId],
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReservationOrderResponse
@@ -248,15 +297,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const beginPurchaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}",
-  urlParameters: [
-    Parameters.reservationOrderId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.reservationOrderId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -282,12 +325,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReservationOrderList

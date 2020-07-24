@@ -33,21 +33,39 @@ export class Schema {
    * @param [options] The optional parameters
    * @returns Promise<Models.SchemaGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SchemaGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SchemaGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.SearchGetSchemaResponse>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.SearchGetSchemaResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SearchGetSchemaResponse>): void;
-  get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SearchGetSchemaResponse>, callback?: msRest.ServiceCallback<Models.SearchGetSchemaResponse>): Promise<Models.SchemaGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SearchGetSchemaResponse>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SearchGetSchemaResponse>,
+    callback?: msRest.ServiceCallback<Models.SearchGetSchemaResponse>
+  ): Promise<Models.SchemaGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class Schema {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SchemaGetResponse>;
+      callback
+    ) as Promise<Models.SchemaGetResponse>;
   }
 }
 
@@ -63,18 +82,15 @@ export class Schema {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/schema",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/schema",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SearchGetSchemaResponse

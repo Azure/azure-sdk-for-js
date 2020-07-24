@@ -40,11 +40,7 @@ if (tenantId === undefined || clientId === undefined) {
   process.exit(1);
 }
 
-function getAuthorizeUrl(
-  tenantId: string,
-  clientId: string,
-  scopes: string
-): string {
+function getAuthorizeUrl(tenantId: string, clientId: string, scopes: string): string {
   const queryParams = qs.stringify({
     client_id: clientId,
     response_type: "code",
@@ -58,32 +54,34 @@ function getAuthorizeUrl(
 async function getCredential(): Promise<AuthorizationCodeCredential> {
   // Set up a temporary local endpoint that can wait for the
   // authentication redirect to be sent to the local redirect URI.
-  const authCodePromise =
-    new Promise<string>((resolve, reject) => {
-      const app = express();
-      let server: Server | undefined = undefined;
+  const authCodePromise = new Promise<string>((resolve, reject) => {
+    const app = express();
+    let server: Server | undefined = undefined;
 
-      app.get('/authresponse', (req, res) => {
-        // Close the temporary server once we've received the redirect.
-        res.sendStatus(200);
-        if (server) {
-          server.close();
-        }
+    app.get("/authresponse", (req, res) => {
+      // Close the temporary server once we've received the redirect.
+      res.sendStatus(200);
+      if (server) {
+        server.close();
+      }
 
-        // The redirect will either contain a "code" or an "error"
-        const authorizationCode = req.query["code"];
-        if (authorizationCode) {
-          resolve(authorizationCode.toString());
-        } else {
-          reject(new Error(`Authentication Error "${req.query["error"]}":\n\n${req.query["error_description"]}`));
-        }
-      });
-
-      server = app.listen(
-        port,
-        () => console.log(`Authorization code redirect server listening on port ${port}`)
-      );
+      // The redirect will either contain a "code" or an "error"
+      const authorizationCode = req.query["code"];
+      if (authorizationCode) {
+        resolve(authorizationCode.toString());
+      } else {
+        reject(
+          new Error(
+            `Authentication Error "${req.query["error"]}":\n\n${req.query["error_description"]}`
+          )
+        );
+      }
     });
+
+    server = app.listen(port, () =>
+      console.log(`Authorization code redirect server listening on port ${port}`)
+    );
+  });
 
   // Direct the user to the authentication URI either by opening a
   // browser (desktop and mobile apps) or redirecting their browser
@@ -147,6 +145,6 @@ async function runExample() {
   }
 }
 
-runExample().catch(err => {
+runExample().catch((err) => {
   console.log("Encountered an error:\n\n", err);
-})
+});

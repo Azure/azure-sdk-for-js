@@ -11,10 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "acceptLanguage"
-  ],
+  parameterPath: ["options", "acceptLanguage"],
   mapper: {
     serializedName: "Accept-Language",
     type: {
@@ -27,17 +24,14 @@ export const apiVersion: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "api-version",
-    defaultValue: '3.0',
+    defaultValue: "3.0",
     type: {
       name: "String"
     }
   }
 };
 export const category: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "category"
-  ],
+  parameterPath: ["options", "category"],
   mapper: {
     serializedName: "category",
     type: {
@@ -50,7 +44,7 @@ export const endpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -68,10 +62,7 @@ export const from0: msRest.OperationQueryParameter = {
   }
 };
 export const from1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "from"
-  ],
+  parameterPath: ["options", "from"],
   mapper: {
     serializedName: "from",
     type: {
@@ -80,10 +71,7 @@ export const from1: msRest.OperationQueryParameter = {
   }
 };
 export const fromScript0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "fromScript"
-  ],
+  parameterPath: ["options", "fromScript"],
   mapper: {
     serializedName: "fromScript",
     type: {
@@ -102,10 +90,7 @@ export const fromScript1: msRest.OperationQueryParameter = {
   }
 };
 export const includeAlignment: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeAlignment"
-  ],
+  parameterPath: ["options", "includeAlignment"],
   mapper: {
     serializedName: "includeAlignment",
     type: {
@@ -114,10 +99,7 @@ export const includeAlignment: msRest.OperationQueryParameter = {
   }
 };
 export const includeSentenceLength: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeSentenceLength"
-  ],
+  parameterPath: ["options", "includeSentenceLength"],
   mapper: {
     serializedName: "includeSentenceLength",
     type: {
@@ -126,10 +108,7 @@ export const includeSentenceLength: msRest.OperationQueryParameter = {
   }
 };
 export const language0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "language"
-  ],
+  parameterPath: ["options", "language"],
   mapper: {
     serializedName: "Language",
     type: {
@@ -148,10 +127,7 @@ export const language1: msRest.OperationQueryParameter = {
   }
 };
 export const profanityAction: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "profanityAction"
-  ],
+  parameterPath: ["options", "profanityAction"],
   mapper: {
     serializedName: "profanityAction",
     type: {
@@ -160,10 +136,7 @@ export const profanityAction: msRest.OperationQueryParameter = {
   }
 };
 export const profanityMarker: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "profanityMarker"
-  ],
+  parameterPath: ["options", "profanityMarker"],
   mapper: {
     serializedName: "profanityMarker",
     type: {
@@ -172,10 +145,7 @@ export const profanityMarker: msRest.OperationQueryParameter = {
   }
 };
 export const scope: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "scope"
-  ],
+  parameterPath: ["options", "scope"],
   mapper: {
     serializedName: "scope",
     constraints: {
@@ -194,10 +164,7 @@ export const scope: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const script: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "script"
-  ],
+  parameterPath: ["options", "script"],
   mapper: {
     serializedName: "Script",
     type: {
@@ -206,10 +173,7 @@ export const script: msRest.OperationQueryParameter = {
   }
 };
 export const suggestedFrom: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "suggestedFrom"
-  ],
+  parameterPath: ["options", "suggestedFrom"],
   mapper: {
     serializedName: "suggestedFrom",
     type: {
@@ -218,10 +182,7 @@ export const suggestedFrom: msRest.OperationQueryParameter = {
   }
 };
 export const textType: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "textType"
-  ],
+  parameterPath: ["options", "textType"],
   mapper: {
     serializedName: "textType",
     type: {
@@ -256,10 +217,7 @@ export const to1: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const toScript0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "toScript"
-  ],
+  parameterPath: ["options", "toScript"],
   mapper: {
     serializedName: "toScript",
     type: {
@@ -284,10 +242,7 @@ export const toScript1: msRest.OperationQueryParameter = {
   }
 };
 export const xClientTraceId: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xClientTraceId"
-  ],
+  parameterPath: ["options", "xClientTraceId"],
   mapper: {
     serializedName: "X-ClientTraceId",
     type: {

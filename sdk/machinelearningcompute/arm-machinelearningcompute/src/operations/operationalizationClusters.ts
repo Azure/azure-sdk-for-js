@@ -35,9 +35,20 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationalizationClustersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, clusterName: string, parameters: Models.OperationalizationCluster, options?: msRest.RequestOptionsBase): Promise<Models.OperationalizationClustersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,clusterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.OperationalizationClustersCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.OperationalizationCluster,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationalizationClustersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      clusterName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.OperationalizationClustersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -48,21 +59,39 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationalizationClustersGetResponse>
    */
-  get(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationalizationClustersGetResponse>;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationalizationClustersGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group in which the cluster is located.
    * @param clusterName The name of the cluster.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.OperationalizationCluster>): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.OperationalizationCluster>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group in which the cluster is located.
    * @param clusterName The name of the cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationalizationCluster>): void;
-  get(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationalizationCluster>, callback?: msRest.ServiceCallback<Models.OperationalizationCluster>): Promise<Models.OperationalizationClustersGetResponse> {
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationalizationCluster>
+  ): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationalizationCluster>,
+    callback?: msRest.ServiceCallback<Models.OperationalizationCluster>
+  ): Promise<Models.OperationalizationClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -70,7 +99,8 @@ export class OperationalizationClusters {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.OperationalizationClustersGetResponse>;
+      callback
+    ) as Promise<Models.OperationalizationClustersGetResponse>;
   }
 
   /**
@@ -82,14 +112,24 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationalizationClustersUpdateResponse>
    */
-  update(resourceGroupName: string, clusterName: string, parameters: Models.OperationalizationClusterUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.OperationalizationClustersUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.OperationalizationClusterUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationalizationClustersUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group in which the cluster is located.
    * @param clusterName The name of the cluster.
    * @param parameters The parameters supplied to patch the cluster.
    * @param callback The callback
    */
-  update(resourceGroupName: string, clusterName: string, parameters: Models.OperationalizationClusterUpdateParameters, callback: msRest.ServiceCallback<Models.OperationalizationCluster>): void;
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.OperationalizationClusterUpdateParameters,
+    callback: msRest.ServiceCallback<Models.OperationalizationCluster>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group in which the cluster is located.
    * @param clusterName The name of the cluster.
@@ -97,8 +137,20 @@ export class OperationalizationClusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, clusterName: string, parameters: Models.OperationalizationClusterUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationalizationCluster>): void;
-  update(resourceGroupName: string, clusterName: string, parameters: Models.OperationalizationClusterUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationalizationCluster>, callback?: msRest.ServiceCallback<Models.OperationalizationCluster>): Promise<Models.OperationalizationClustersUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.OperationalizationClusterUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationalizationCluster>
+  ): void;
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.OperationalizationClusterUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationalizationCluster>,
+    callback?: msRest.ServiceCallback<Models.OperationalizationCluster>
+  ): Promise<Models.OperationalizationClustersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +159,8 @@ export class OperationalizationClusters {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.OperationalizationClustersUpdateResponse>;
+      callback
+    ) as Promise<Models.OperationalizationClustersUpdateResponse>;
   }
 
   /**
@@ -117,9 +170,14 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationalizationClustersDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, clusterName: string, options?: Models.OperationalizationClustersDeleteMethodOptionalParams): Promise<Models.OperationalizationClustersDeleteResponse> {
-    return this.beginDeleteMethod(resourceGroupName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.OperationalizationClustersDeleteResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: Models.OperationalizationClustersDeleteMethodOptionalParams
+  ): Promise<Models.OperationalizationClustersDeleteResponse> {
+    return this.beginDeleteMethod(resourceGroupName, clusterName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.OperationalizationClustersDeleteResponse>;
   }
 
   /**
@@ -130,21 +188,41 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationalizationClustersListKeysResponse>
    */
-  listKeys(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationalizationClustersListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationalizationClustersListKeysResponse>;
   /**
    * @param resourceGroupName Name of the resource group in which the cluster is located.
    * @param clusterName The name of the cluster.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.OperationalizationClusterCredentials>): void;
+  listKeys(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.OperationalizationClusterCredentials>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group in which the cluster is located.
    * @param clusterName The name of the cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationalizationClusterCredentials>): void;
-  listKeys(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationalizationClusterCredentials>, callback?: msRest.ServiceCallback<Models.OperationalizationClusterCredentials>): Promise<Models.OperationalizationClustersListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationalizationClusterCredentials>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    clusterName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.OperationalizationClusterCredentials>,
+    callback?: msRest.ServiceCallback<Models.OperationalizationClusterCredentials>
+  ): Promise<Models.OperationalizationClustersListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -152,7 +230,8 @@ export class OperationalizationClusters {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.OperationalizationClustersListKeysResponse>;
+      callback
+    ) as Promise<Models.OperationalizationClustersListKeysResponse>;
   }
 
   /**
@@ -162,21 +241,41 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationalizationClustersCheckSystemServicesUpdatesAvailableResponse>
    */
-  checkSystemServicesUpdatesAvailable(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationalizationClustersCheckSystemServicesUpdatesAvailableResponse>;
+  checkSystemServicesUpdatesAvailable(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationalizationClustersCheckSystemServicesUpdatesAvailableResponse>;
   /**
    * @param resourceGroupName Name of the resource group in which the cluster is located.
    * @param clusterName The name of the cluster.
    * @param callback The callback
    */
-  checkSystemServicesUpdatesAvailable(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.CheckSystemServicesUpdatesAvailableResponse>): void;
+  checkSystemServicesUpdatesAvailable(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.CheckSystemServicesUpdatesAvailableResponse>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group in which the cluster is located.
    * @param clusterName The name of the cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkSystemServicesUpdatesAvailable(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckSystemServicesUpdatesAvailableResponse>): void;
-  checkSystemServicesUpdatesAvailable(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckSystemServicesUpdatesAvailableResponse>, callback?: msRest.ServiceCallback<Models.CheckSystemServicesUpdatesAvailableResponse>): Promise<Models.OperationalizationClustersCheckSystemServicesUpdatesAvailableResponse> {
+  checkSystemServicesUpdatesAvailable(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckSystemServicesUpdatesAvailableResponse>
+  ): void;
+  checkSystemServicesUpdatesAvailable(
+    resourceGroupName: string,
+    clusterName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckSystemServicesUpdatesAvailableResponse>,
+    callback?: msRest.ServiceCallback<Models.CheckSystemServicesUpdatesAvailableResponse>
+  ): Promise<Models.OperationalizationClustersCheckSystemServicesUpdatesAvailableResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +283,8 @@ export class OperationalizationClusters {
         options
       },
       checkSystemServicesUpdatesAvailableOperationSpec,
-      callback) as Promise<Models.OperationalizationClustersCheckSystemServicesUpdatesAvailableResponse>;
+      callback
+    ) as Promise<Models.OperationalizationClustersCheckSystemServicesUpdatesAvailableResponse>;
   }
 
   /**
@@ -194,9 +294,18 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationalizationClustersUpdateSystemServicesResponse>
    */
-  updateSystemServices(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationalizationClustersUpdateSystemServicesResponse> {
-    return this.beginUpdateSystemServices(resourceGroupName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.OperationalizationClustersUpdateSystemServicesResponse>;
+  updateSystemServices(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationalizationClustersUpdateSystemServicesResponse> {
+    return this.beginUpdateSystemServices(
+      resourceGroupName,
+      clusterName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.OperationalizationClustersUpdateSystemServicesResponse
+    >;
   }
 
   /**
@@ -205,26 +314,43 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationalizationClustersListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.OperationalizationClustersListByResourceGroupOptionalParams): Promise<Models.OperationalizationClustersListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.OperationalizationClustersListByResourceGroupOptionalParams
+  ): Promise<Models.OperationalizationClustersListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group in which the cluster is located.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group in which the cluster is located.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.OperationalizationClustersListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.OperationalizationClustersListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>, callback?: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>): Promise<Models.OperationalizationClustersListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.OperationalizationClustersListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.OperationalizationClustersListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>,
+    callback?: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>
+  ): Promise<Models.OperationalizationClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.OperationalizationClustersListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.OperationalizationClustersListByResourceGroupResponse>;
   }
 
   /**
@@ -232,23 +358,36 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationalizationClustersListBySubscriptionIdResponse>
    */
-  listBySubscriptionId(options?: Models.OperationalizationClustersListBySubscriptionIdOptionalParams): Promise<Models.OperationalizationClustersListBySubscriptionIdResponse>;
+  listBySubscriptionId(
+    options?: Models.OperationalizationClustersListBySubscriptionIdOptionalParams
+  ): Promise<Models.OperationalizationClustersListBySubscriptionIdResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscriptionId(callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>): void;
+  listBySubscriptionId(
+    callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionId(options: Models.OperationalizationClustersListBySubscriptionIdOptionalParams, callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>): void;
-  listBySubscriptionId(options?: Models.OperationalizationClustersListBySubscriptionIdOptionalParams | msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>, callback?: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>): Promise<Models.OperationalizationClustersListBySubscriptionIdResponse> {
+  listBySubscriptionId(
+    options: Models.OperationalizationClustersListBySubscriptionIdOptionalParams,
+    callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>
+  ): void;
+  listBySubscriptionId(
+    options?:
+      | Models.OperationalizationClustersListBySubscriptionIdOptionalParams
+      | msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>,
+    callback?: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>
+  ): Promise<Models.OperationalizationClustersListBySubscriptionIdResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionIdOperationSpec,
-      callback) as Promise<Models.OperationalizationClustersListBySubscriptionIdResponse>;
+      callback
+    ) as Promise<Models.OperationalizationClustersListBySubscriptionIdResponse>;
   }
 
   /**
@@ -259,7 +398,12 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Models.OperationalizationCluster, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: Models.OperationalizationCluster,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -268,7 +412,8 @@ export class OperationalizationClusters {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -278,7 +423,11 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, clusterName: string, options?: Models.OperationalizationClustersBeginDeleteMethodOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: Models.OperationalizationClustersBeginDeleteMethodOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -286,7 +435,8 @@ export class OperationalizationClusters {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -296,7 +446,11 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateSystemServices(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateSystemServices(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -304,7 +458,8 @@ export class OperationalizationClusters {
         options
       },
       beginUpdateSystemServicesOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -313,26 +468,43 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationalizationClustersListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationalizationClustersListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationalizationClustersListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>, callback?: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>): Promise<Models.OperationalizationClustersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>,
+    callback?: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>
+  ): Promise<Models.OperationalizationClustersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.OperationalizationClustersListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.OperationalizationClustersListByResourceGroupNextResponse>;
   }
 
   /**
@@ -341,26 +513,43 @@ export class OperationalizationClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationalizationClustersListBySubscriptionIdNextResponse>
    */
-  listBySubscriptionIdNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationalizationClustersListBySubscriptionIdNextResponse>;
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationalizationClustersListBySubscriptionIdNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionIdNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>): void;
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionIdNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>): void;
-  listBySubscriptionIdNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>, callback?: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>): Promise<Models.OperationalizationClustersListBySubscriptionIdNextResponse> {
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>
+  ): void;
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>,
+    callback?: msRest.ServiceCallback<Models.PaginatedOperationalizationClustersList>
+  ): Promise<Models.OperationalizationClustersListBySubscriptionIdNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionIdNextOperationSpec,
-      callback) as Promise<Models.OperationalizationClustersListBySubscriptionIdNextResponse>;
+      callback
+    ) as Promise<Models.OperationalizationClustersListBySubscriptionIdNextResponse>;
   }
 }
 
@@ -368,18 +557,11 @@ export class OperationalizationClusters {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationalizationCluster
@@ -393,18 +575,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -425,18 +600,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}/listKeys",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}/listKeys",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationalizationClusterCredentials
@@ -450,18 +618,11 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const checkSystemServicesUpdatesAvailableOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}/checkSystemServicesUpdatesAvailable",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}/checkSystemServicesUpdatesAvailable",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CheckSystemServicesUpdatesAvailableResponse
@@ -475,18 +636,11 @@ const checkSystemServicesUpdatesAvailableOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skiptoken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PaginatedOperationalizationClustersList
@@ -500,17 +654,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listBySubscriptionIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningCompute/operationalizationClusters",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skiptoken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningCompute/operationalizationClusters",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PaginatedOperationalizationClustersList
@@ -524,18 +672,11 @@ const listBySubscriptionIdOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -559,19 +700,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.deleteAll
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion, Parameters.deleteAll],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {
       headersMapper: Mappers.OperationalizationClustersDeleteHeaders
@@ -588,18 +721,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateSystemServicesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}/updateSystemServices",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningCompute/operationalizationClusters/{clusterName}/updateSystemServices",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UpdateSystemServicesResponse,
@@ -619,12 +745,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PaginatedOperationalizationClustersList
@@ -640,12 +762,8 @@ const listBySubscriptionIdNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PaginatedOperationalizationClustersList

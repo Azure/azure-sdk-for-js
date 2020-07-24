@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { CustomerInsightsManagementClientContext } from "./customerInsightsManagementClientContext";
 
-
 class CustomerInsightsManagementClient extends CustomerInsightsManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -42,7 +41,11 @@ class CustomerInsightsManagementClient extends CustomerInsightsManagementClientC
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CustomerInsightsManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.CustomerInsightsManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.hubs = new operations.Hubs(this);

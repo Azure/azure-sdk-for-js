@@ -15,7 +15,6 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { CognitiveServicesManagementClientContext } from "./cognitiveServicesManagementClientContext";
 
-
 class CognitiveServicesManagementClient extends CognitiveServicesManagementClientContext {
   // Operation groups
   accounts: operations.Accounts;
@@ -30,7 +29,11 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CognitiveServicesManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.CognitiveServicesManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.accounts = new operations.Accounts(this);
     this.resourceSkus = new operations.ResourceSkus(this);
@@ -48,7 +51,13 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckSkuAvailabilityResponse>
    */
-  checkSkuAvailability(location: string, skus: string[], kind: string, type: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckSkuAvailabilityResponse>;
+  checkSkuAvailability(
+    location: string,
+    skus: string[],
+    kind: string,
+    type: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CheckSkuAvailabilityResponse>;
   /**
    * @param location Resource location.
    * @param skus The SKU of the resource.
@@ -56,7 +65,13 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
    * @param type The Type of the resource.
    * @param callback The callback
    */
-  checkSkuAvailability(location: string, skus: string[], kind: string, type: string, callback: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): void;
+  checkSkuAvailability(
+    location: string,
+    skus: string[],
+    kind: string,
+    type: string,
+    callback: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>
+  ): void;
   /**
    * @param location Resource location.
    * @param skus The SKU of the resource.
@@ -65,8 +80,24 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkSkuAvailability(location: string, skus: string[], kind: string, type: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): void;
-  checkSkuAvailability(location: string, skus: string[], kind: string, type: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>, callback?: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>): Promise<Models.CheckSkuAvailabilityResponse> {
+  checkSkuAvailability(
+    location: string,
+    skus: string[],
+    kind: string,
+    type: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>
+  ): void;
+  checkSkuAvailability(
+    location: string,
+    skus: string[],
+    kind: string,
+    type: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>,
+    callback?: msRest.ServiceCallback<Models.CheckSkuAvailabilityResultList>
+  ): Promise<Models.CheckSkuAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         location,
@@ -76,7 +107,8 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
         options
       },
       checkSkuAvailabilityOperationSpec,
-      callback) as Promise<Models.CheckSkuAvailabilityResponse>;
+      callback
+    ) as Promise<Models.CheckSkuAvailabilityResponse>;
   }
 
   /**
@@ -86,21 +118,41 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckDomainAvailabilityResponse>
    */
-  checkDomainAvailability(subdomainName: string, type: string, options?: msRest.RequestOptionsBase): Promise<Models.CheckDomainAvailabilityResponse>;
+  checkDomainAvailability(
+    subdomainName: string,
+    type: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CheckDomainAvailabilityResponse>;
   /**
    * @param subdomainName The subdomain name to use.
    * @param type The Type of the resource.
    * @param callback The callback
    */
-  checkDomainAvailability(subdomainName: string, type: string, callback: msRest.ServiceCallback<Models.CheckDomainAvailabilityResult>): void;
+  checkDomainAvailability(
+    subdomainName: string,
+    type: string,
+    callback: msRest.ServiceCallback<Models.CheckDomainAvailabilityResult>
+  ): void;
   /**
    * @param subdomainName The subdomain name to use.
    * @param type The Type of the resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkDomainAvailability(subdomainName: string, type: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckDomainAvailabilityResult>): void;
-  checkDomainAvailability(subdomainName: string, type: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckDomainAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckDomainAvailabilityResult>): Promise<Models.CheckDomainAvailabilityResponse> {
+  checkDomainAvailability(
+    subdomainName: string,
+    type: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckDomainAvailabilityResult>
+  ): void;
+  checkDomainAvailability(
+    subdomainName: string,
+    type: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckDomainAvailabilityResult>,
+    callback?: msRest.ServiceCallback<Models.CheckDomainAvailabilityResult>
+  ): Promise<Models.CheckDomainAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         subdomainName,
@@ -108,7 +160,8 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
         options
       },
       checkDomainAvailabilityOperationSpec,
-      callback) as Promise<Models.CheckDomainAvailabilityResponse>;
+      callback
+    ) as Promise<Models.CheckDomainAvailabilityResponse>;
   }
 }
 
@@ -116,17 +169,11 @@ class CognitiveServicesManagementClient extends CognitiveServicesManagementClien
 const serializer = new msRest.Serializer(Mappers);
 const checkSkuAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/checkSkuAvailability",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/checkSkuAvailability",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       skus: "skus",
@@ -151,16 +198,11 @@ const checkSkuAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const checkDomainAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/checkDomainAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/checkDomainAvailability",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       subdomainName: "subdomainName",

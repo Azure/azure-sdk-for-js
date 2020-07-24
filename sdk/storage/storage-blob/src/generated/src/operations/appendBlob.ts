@@ -32,7 +32,10 @@ export class AppendBlob {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppendBlobCreateResponse>
    */
-  create(contentLength: number, options?: Models.AppendBlobCreateOptionalParams): Promise<Models.AppendBlobCreateResponse>;
+  create(
+    contentLength: number,
+    options?: Models.AppendBlobCreateOptionalParams
+  ): Promise<Models.AppendBlobCreateResponse>;
   /**
    * @param contentLength The length of the request.
    * @param callback The callback
@@ -43,15 +46,24 @@ export class AppendBlob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(contentLength: number, options: Models.AppendBlobCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  create(contentLength: number, options?: Models.AppendBlobCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.AppendBlobCreateResponse> {
+  create(
+    contentLength: number,
+    options: Models.AppendBlobCreateOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  create(
+    contentLength: number,
+    options?: Models.AppendBlobCreateOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.AppendBlobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         contentLength,
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.AppendBlobCreateResponse>;
+      callback
+    ) as Promise<Models.AppendBlobCreateResponse>;
   }
 
   /**
@@ -63,21 +75,39 @@ export class AppendBlob {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppendBlobAppendBlockResponse>
    */
-  appendBlock(body: coreHttp.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams): Promise<Models.AppendBlobAppendBlockResponse>;
+  appendBlock(
+    body: coreHttp.HttpRequestBody,
+    contentLength: number,
+    options?: Models.AppendBlobAppendBlockOptionalParams
+  ): Promise<Models.AppendBlobAppendBlockResponse>;
   /**
    * @param body Initial data
    * @param contentLength The length of the request.
    * @param callback The callback
    */
-  appendBlock(body: coreHttp.HttpRequestBody, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
+  appendBlock(
+    body: coreHttp.HttpRequestBody,
+    contentLength: number,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param body Initial data
    * @param contentLength The length of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  appendBlock(body: coreHttp.HttpRequestBody, contentLength: number, options: Models.AppendBlobAppendBlockOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  appendBlock(body: coreHttp.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.AppendBlobAppendBlockResponse> {
+  appendBlock(
+    body: coreHttp.HttpRequestBody,
+    contentLength: number,
+    options: Models.AppendBlobAppendBlockOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  appendBlock(
+    body: coreHttp.HttpRequestBody,
+    contentLength: number,
+    options?: Models.AppendBlobAppendBlockOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.AppendBlobAppendBlockResponse> {
     return this.client.sendOperationRequest(
       {
         body,
@@ -85,7 +115,8 @@ export class AppendBlob {
         options
       },
       appendBlockOperationSpec,
-      callback) as Promise<Models.AppendBlobAppendBlockResponse>;
+      callback
+    ) as Promise<Models.AppendBlobAppendBlockResponse>;
   }
 
   /**
@@ -98,21 +129,39 @@ export class AppendBlob {
    * @param [options] The optional parameters
    * @returns Promise<Models.AppendBlobAppendBlockFromUrlResponse>
    */
-  appendBlockFromUrl(sourceUrl: string, contentLength: number, options?: Models.AppendBlobAppendBlockFromUrlOptionalParams): Promise<Models.AppendBlobAppendBlockFromUrlResponse>;
+  appendBlockFromUrl(
+    sourceUrl: string,
+    contentLength: number,
+    options?: Models.AppendBlobAppendBlockFromUrlOptionalParams
+  ): Promise<Models.AppendBlobAppendBlockFromUrlResponse>;
   /**
    * @param sourceUrl Specify a URL to the copy source.
    * @param contentLength The length of the request.
    * @param callback The callback
    */
-  appendBlockFromUrl(sourceUrl: string, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
+  appendBlockFromUrl(
+    sourceUrl: string,
+    contentLength: number,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param sourceUrl Specify a URL to the copy source.
    * @param contentLength The length of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  appendBlockFromUrl(sourceUrl: string, contentLength: number, options: Models.AppendBlobAppendBlockFromUrlOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  appendBlockFromUrl(sourceUrl: string, contentLength: number, options?: Models.AppendBlobAppendBlockFromUrlOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
+  appendBlockFromUrl(
+    sourceUrl: string,
+    contentLength: number,
+    options: Models.AppendBlobAppendBlockFromUrlOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  appendBlockFromUrl(
+    sourceUrl: string,
+    contentLength: number,
+    options?: Models.AppendBlobAppendBlockFromUrlOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.AppendBlobAppendBlockFromUrlResponse> {
     return this.client.sendOperationRequest(
       {
         sourceUrl,
@@ -120,7 +169,8 @@ export class AppendBlob {
         options
       },
       appendBlockFromUrlOperationSpec,
-      callback) as Promise<Models.AppendBlobAppendBlockFromUrlResponse>;
+      callback
+    ) as Promise<Models.AppendBlobAppendBlockFromUrlResponse>;
   }
 
   /**
@@ -138,14 +188,21 @@ export class AppendBlob {
    * @param options The optional parameters
    * @param callback The callback
    */
-  seal(options: Models.AppendBlobSealOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  seal(options?: Models.AppendBlobSealOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.AppendBlobSealResponse> {
+  seal(
+    options: Models.AppendBlobSealOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  seal(
+    options?: Models.AppendBlobSealOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.AppendBlobSealResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       sealOperationSpec,
-      callback) as Promise<Models.AppendBlobSealResponse>;
+      callback
+    ) as Promise<Models.AppendBlobSealResponse>;
   }
 }
 
@@ -154,12 +211,8 @@ const serializer = new coreHttp.Serializer(Mappers, true);
 const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds],
   headerParameters: [
     Parameters.contentLength,
     Parameters.metadata,
@@ -200,13 +253,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
 const appendBlockOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp19
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp19],
   headerParameters: [
     Parameters.contentLength,
     Parameters.transactionalContentMD5,
@@ -253,13 +301,8 @@ const appendBlockOperationSpec: coreHttp.OperationSpec = {
 const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp19
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp19],
   headerParameters: [
     Parameters.sourceUrl,
     Parameters.sourceRange1,
@@ -302,13 +345,8 @@ const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
 const sealOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{containerName}/{blob}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp20
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp20],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,

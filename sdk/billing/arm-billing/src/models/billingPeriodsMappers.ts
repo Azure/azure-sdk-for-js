@@ -19,4 +19,3 @@ export {
   Invoice,
   DownloadUrl
 } from "../models/mappers";
-

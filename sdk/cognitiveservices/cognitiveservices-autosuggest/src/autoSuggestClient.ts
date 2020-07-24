@@ -20,7 +20,10 @@ class AutoSuggestClient extends AutoSuggestClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.AutoSuggestClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.AutoSuggestClientOptions
+  ) {
     super(credentials, options);
   }
 
@@ -32,7 +35,10 @@ class AutoSuggestClient extends AutoSuggestClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.AutoSuggestResponse>
    */
-  autoSuggest(query: string, options?: Models.AutoSuggestClientAutoSuggestOptionalParams): Promise<Models.AutoSuggestResponse>;
+  autoSuggest(
+    query: string,
+    options?: Models.AutoSuggestClientAutoSuggestOptionalParams
+  ): Promise<Models.AutoSuggestResponse>;
   /**
    * @param query The user's search term.
    * @param callback The callback
@@ -43,15 +49,26 @@ class AutoSuggestClient extends AutoSuggestClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  autoSuggest(query: string, options: Models.AutoSuggestClientAutoSuggestOptionalParams, callback: msRest.ServiceCallback<Models.Suggestions>): void;
-  autoSuggest(query: string, options?: Models.AutoSuggestClientAutoSuggestOptionalParams | msRest.ServiceCallback<Models.Suggestions>, callback?: msRest.ServiceCallback<Models.Suggestions>): Promise<Models.AutoSuggestResponse> {
+  autoSuggest(
+    query: string,
+    options: Models.AutoSuggestClientAutoSuggestOptionalParams,
+    callback: msRest.ServiceCallback<Models.Suggestions>
+  ): void;
+  autoSuggest(
+    query: string,
+    options?:
+      | Models.AutoSuggestClientAutoSuggestOptionalParams
+      | msRest.ServiceCallback<Models.Suggestions>,
+    callback?: msRest.ServiceCallback<Models.Suggestions>
+  ): Promise<Models.AutoSuggestResponse> {
     return this.sendOperationRequest(
       {
         query,
         options
       },
       autoSuggestOperationSpec,
-      callback) as Promise<Models.AutoSuggestResponse>;
+      callback
+    ) as Promise<Models.AutoSuggestResponse>;
   }
 }
 
@@ -60,9 +77,7 @@ const serializer = new msRest.Serializer(Mappers);
 const autoSuggestOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Suggestions",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.countryCode,
     Parameters.market,

@@ -490,7 +490,7 @@ export const VolumeProperties: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "provider",
-        defaultValue: 'SFAzureFile',
+        defaultValue: "SFAzureFile",
         type: {
           name: "String"
         }
@@ -587,7 +587,8 @@ export const ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk: m
   serializedName: "ServiceFabricVolumeDisk",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ApplicationScopedVolumeCreationParameters.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      ApplicationScopedVolumeCreationParameters.type.polymorphicDiscriminator,
     uberParent: "ApplicationScopedVolumeCreationParameters",
     className: "ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk",
     modelProperties: {
@@ -641,7 +642,7 @@ export const VolumeResourceDescription: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "properties.provider",
-        defaultValue: 'SFAzureFile',
+        defaultValue: "SFAzureFile",
         type: {
           name: "String"
         }
@@ -877,7 +878,7 @@ export const HttpRouteMatchPath: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'prefix',
+        defaultValue: "prefix",
         type: {
           name: "String"
         }
@@ -2726,20 +2727,20 @@ export const ServiceReplicaDescriptionList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ProvisionedResourceProperties.SecretResourceProperties' : SecretResourceProperties,
-  'ProvisionedResourceProperties.inlinedValue' : InlinedValueSecretResourceProperties,
-  'ProvisionedResourceProperties.SecretResourcePropertiesBase' : SecretResourcePropertiesBase,
-  'ApplicationScopedVolumeCreationParameters' : ApplicationScopedVolumeCreationParameters,
-  'ApplicationScopedVolumeCreationParameters.ServiceFabricVolumeDisk' : ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk,
-  'ProvisionedResourceProperties.NetworkResourceProperties' : NetworkResourceProperties,
-  'ProvisionedResourceProperties.Local' : LocalNetworkResourceProperties,
-  'ProvisionedResourceProperties.NetworkResourcePropertiesBase' : NetworkResourcePropertiesBase,
-  'AutoScalingTrigger' : AutoScalingTrigger,
-  'AutoScalingMechanism' : AutoScalingMechanism,
-  'DiagnosticsSinkProperties' : DiagnosticsSinkProperties,
-  'DiagnosticsSinkProperties.AzureInternalMonitoringPipeline' : AzureInternalMonitoringPipelineSinkDescription,
-  'AutoScalingMechanism.AddRemoveReplica' : AddRemoveReplicaScalingMechanism,
-  'AutoScalingMetric' : AutoScalingMetric,
-  'AutoScalingMetric.Resource' : AutoScalingResourceMetric,
-  'AutoScalingTrigger.AverageLoad' : AverageLoadScalingTrigger
+  "ProvisionedResourceProperties.SecretResourceProperties": SecretResourceProperties,
+  "ProvisionedResourceProperties.inlinedValue": InlinedValueSecretResourceProperties,
+  "ProvisionedResourceProperties.SecretResourcePropertiesBase": SecretResourcePropertiesBase,
+  ApplicationScopedVolumeCreationParameters: ApplicationScopedVolumeCreationParameters,
+  "ApplicationScopedVolumeCreationParameters.ServiceFabricVolumeDisk": ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk,
+  "ProvisionedResourceProperties.NetworkResourceProperties": NetworkResourceProperties,
+  "ProvisionedResourceProperties.Local": LocalNetworkResourceProperties,
+  "ProvisionedResourceProperties.NetworkResourcePropertiesBase": NetworkResourcePropertiesBase,
+  AutoScalingTrigger: AutoScalingTrigger,
+  AutoScalingMechanism: AutoScalingMechanism,
+  DiagnosticsSinkProperties: DiagnosticsSinkProperties,
+  "DiagnosticsSinkProperties.AzureInternalMonitoringPipeline": AzureInternalMonitoringPipelineSinkDescription,
+  "AutoScalingMechanism.AddRemoveReplica": AddRemoveReplicaScalingMechanism,
+  AutoScalingMetric: AutoScalingMetric,
+  "AutoScalingMetric.Resource": AutoScalingResourceMetric,
+  "AutoScalingTrigger.AverageLoad": AverageLoadScalingTrigger
 };

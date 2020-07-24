@@ -8,10 +8,4 @@
  * regenerated.
  */
 
-export {
-  OperationListResult,
-  Operation,
-  OperationDisplay,
-  ErrorDetails
-} from "../models/mappers";
-
+export { OperationListResult, Operation, OperationDisplay, ErrorDetails } from "../models/mappers";

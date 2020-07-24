@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing Principals.
@@ -190,14 +189,13 @@ export interface DataCatalogRestClientOptions extends AzureServiceClientOptions 
   baseUri?: string;
 }
 
-
 /**
  * Defines values for SkuType.
  * Possible values include: 'Free', 'Standard'
  * @readonly
  * @enum {string}
  */
-export type SkuType = 'Free' | 'Standard';
+export type SkuType = "Free" | "Standard";
 
 /**
  * Contains response data for the list operation.
@@ -207,15 +205,15 @@ export type ADCOperationsListResponse = OperationEntityListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationEntityListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationEntityListResult;
+  };
 };
 
 /**
@@ -226,15 +224,15 @@ export type ADCCatalogsListtByResourceGroupResponse = ADCCatalogsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ADCCatalogsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ADCCatalogsListResult;
+  };
 };
 
 /**
@@ -245,15 +243,15 @@ export type ADCCatalogsCreateOrUpdateResponse = ADCCatalog & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ADCCatalog;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ADCCatalog;
+  };
 };
 
 /**
@@ -264,15 +262,15 @@ export type ADCCatalogsGetResponse = ADCCatalog & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ADCCatalog;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ADCCatalog;
+  };
 };
 
 /**
@@ -283,13 +281,13 @@ export type ADCCatalogsUpdateResponse = ADCCatalog & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ADCCatalog;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ADCCatalog;
+  };
 };

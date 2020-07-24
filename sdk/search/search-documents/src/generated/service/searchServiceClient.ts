@@ -43,7 +43,9 @@ class SearchServiceClient extends SearchServiceClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetServiceStatisticsResponse>
    */
-  getServiceStatistics(options?: coreHttp.RequestOptionsBase): Promise<Models.GetServiceStatisticsResponse>;
+  getServiceStatistics(
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.GetServiceStatisticsResponse>;
   /**
    * @param callback The callback
    */
@@ -52,14 +54,21 @@ class SearchServiceClient extends SearchServiceClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getServiceStatistics(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ServiceStatistics>): void;
-  getServiceStatistics(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ServiceStatistics>, callback?: coreHttp.ServiceCallback<Models.ServiceStatistics>): Promise<Models.GetServiceStatisticsResponse> {
+  getServiceStatistics(
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.ServiceStatistics>
+  ): void;
+  getServiceStatistics(
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ServiceStatistics>,
+    callback?: coreHttp.ServiceCallback<Models.ServiceStatistics>
+  ): Promise<Models.GetServiceStatisticsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       getServiceStatisticsOperationSpec,
-      callback) as Promise<Models.GetServiceStatisticsResponse>;
+      callback
+    ) as Promise<Models.GetServiceStatisticsResponse>;
   }
 }
 
@@ -68,12 +77,8 @@ const serializer = new coreHttp.Serializer(Mappers);
 const getServiceStatisticsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "servicestats",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceStatistics

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ApplicationInsightsManagementClientContext } from "./applicationInsightsManagementClientContext";
 
-
 class ApplicationInsightsManagementClient extends ApplicationInsightsManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -40,7 +39,11 @@ class ApplicationInsightsManagementClient extends ApplicationInsightsManagementC
    * @param subscriptionId The Azure subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ApplicationInsightsManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ApplicationInsightsManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.annotations = new operations.Annotations(this);

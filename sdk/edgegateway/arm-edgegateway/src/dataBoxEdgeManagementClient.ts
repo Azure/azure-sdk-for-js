@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { DataBoxEdgeManagementClientContext } from "./dataBoxEdgeManagementClientContext";
 
-
 class DataBoxEdgeManagementClient extends DataBoxEdgeManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -36,7 +35,11 @@ class DataBoxEdgeManagementClient extends DataBoxEdgeManagementClientContext {
    * @param subscriptionId The subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DataBoxEdgeManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.DataBoxEdgeManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.devices = new operations.Devices(this);

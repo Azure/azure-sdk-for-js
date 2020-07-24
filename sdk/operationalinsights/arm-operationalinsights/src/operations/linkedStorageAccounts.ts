@@ -37,7 +37,13 @@ export class LinkedStorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedStorageAccountsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, parameters: Models.LinkedStorageAccountsResource, options?: msRest.RequestOptionsBase): Promise<Models.LinkedStorageAccountsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceType: Models.DataSourceType,
+    parameters: Models.LinkedStorageAccountsResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LinkedStorageAccountsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -46,7 +52,13 @@ export class LinkedStorageAccounts {
    * @param parameters The parameters required to create or update linked storage accounts.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, parameters: Models.LinkedStorageAccountsResource, callback: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceType: Models.DataSourceType,
+    parameters: Models.LinkedStorageAccountsResource,
+    callback: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -56,8 +68,24 @@ export class LinkedStorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, parameters: Models.LinkedStorageAccountsResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, parameters: Models.LinkedStorageAccountsResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedStorageAccountsResource>, callback?: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>): Promise<Models.LinkedStorageAccountsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceType: Models.DataSourceType,
+    parameters: Models.LinkedStorageAccountsResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceType: Models.DataSourceType,
+    parameters: Models.LinkedStorageAccountsResource,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.LinkedStorageAccountsResource>,
+    callback?: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>
+  ): Promise<Models.LinkedStorageAccountsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +95,8 @@ export class LinkedStorageAccounts {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.LinkedStorageAccountsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.LinkedStorageAccountsCreateOrUpdateResponse>;
   }
 
   /**
@@ -80,7 +109,12 @@ export class LinkedStorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceType: Models.DataSourceType,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -88,7 +122,12 @@ export class LinkedStorageAccounts {
    * 'AzureWatson'
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceType: Models.DataSourceType,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -97,8 +136,20 @@ export class LinkedStorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceType: Models.DataSourceType,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceType: Models.DataSourceType,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +158,8 @@ export class LinkedStorageAccounts {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -120,7 +172,12 @@ export class LinkedStorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedStorageAccountsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, options?: msRest.RequestOptionsBase): Promise<Models.LinkedStorageAccountsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceType: Models.DataSourceType,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LinkedStorageAccountsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -128,7 +185,12 @@ export class LinkedStorageAccounts {
    * 'AzureWatson'
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, callback: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceType: Models.DataSourceType,
+    callback: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -137,8 +199,22 @@ export class LinkedStorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>): void;
-  get(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedStorageAccountsResource>, callback?: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>): Promise<Models.LinkedStorageAccountsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceType: Models.DataSourceType,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceType: Models.DataSourceType,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.LinkedStorageAccountsResource>,
+    callback?: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>
+  ): Promise<Models.LinkedStorageAccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -147,7 +223,8 @@ export class LinkedStorageAccounts {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.LinkedStorageAccountsGetResponse>;
+      callback
+    ) as Promise<Models.LinkedStorageAccountsGetResponse>;
   }
 
   /**
@@ -158,21 +235,41 @@ export class LinkedStorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedStorageAccountsListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.LinkedStorageAccountsListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LinkedStorageAccountsListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.LinkedStorageAccountsListResult>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.LinkedStorageAccountsListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedStorageAccountsListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedStorageAccountsListResult>, callback?: msRest.ServiceCallback<Models.LinkedStorageAccountsListResult>): Promise<Models.LinkedStorageAccountsListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LinkedStorageAccountsListResult>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.LinkedStorageAccountsListResult>,
+    callback?: msRest.ServiceCallback<Models.LinkedStorageAccountsListResult>
+  ): Promise<Models.LinkedStorageAccountsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -180,7 +277,8 @@ export class LinkedStorageAccounts {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.LinkedStorageAccountsListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.LinkedStorageAccountsListByWorkspaceResponse>;
   }
 }
 
@@ -188,19 +286,16 @@ export class LinkedStorageAccounts {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.dataSourceType,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -221,19 +316,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.dataSourceType,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -245,19 +337,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts/{dataSourceType}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.dataSourceType,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LinkedStorageAccountsResource
@@ -271,18 +360,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedStorageAccounts",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LinkedStorageAccountsListResult

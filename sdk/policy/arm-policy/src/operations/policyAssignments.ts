@@ -40,7 +40,11 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsDeleteMethodResponse>
    */
-  deleteMethod(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsDeleteMethodResponse>;
+  deleteMethod(
+    scope: string,
+    policyAssignmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyAssignmentsDeleteMethodResponse>;
   /**
    * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
    * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
@@ -50,7 +54,11 @@ export class PolicyAssignments {
    * @param policyAssignmentName The name of the policy assignment to delete.
    * @param callback The callback
    */
-  deleteMethod(scope: string, policyAssignmentName: string, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  deleteMethod(
+    scope: string,
+    policyAssignmentName: string,
+    callback: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): void;
   /**
    * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
    * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
@@ -61,8 +69,18 @@ export class PolicyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(scope: string, policyAssignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  deleteMethod(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsDeleteMethodResponse> {
+  deleteMethod(
+    scope: string,
+    policyAssignmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): void;
+  deleteMethod(
+    scope: string,
+    policyAssignmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): Promise<Models.PolicyAssignmentsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -70,7 +88,8 @@ export class PolicyAssignments {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsDeleteMethodResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsDeleteMethodResponse>;
   }
 
   /**
@@ -88,7 +107,12 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsCreateResponse>
    */
-  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsCreateResponse>;
+  create(
+    scope: string,
+    policyAssignmentName: string,
+    parameters: Models.PolicyAssignment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyAssignmentsCreateResponse>;
   /**
    * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
    * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
@@ -99,7 +123,12 @@ export class PolicyAssignments {
    * @param parameters Parameters for the policy assignment.
    * @param callback The callback
    */
-  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  create(
+    scope: string,
+    policyAssignmentName: string,
+    parameters: Models.PolicyAssignment,
+    callback: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): void;
   /**
    * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
    * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
@@ -111,8 +140,20 @@ export class PolicyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsCreateResponse> {
+  create(
+    scope: string,
+    policyAssignmentName: string,
+    parameters: Models.PolicyAssignment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): void;
+  create(
+    scope: string,
+    policyAssignmentName: string,
+    parameters: Models.PolicyAssignment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): Promise<Models.PolicyAssignmentsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -121,7 +162,8 @@ export class PolicyAssignments {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsCreateResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsCreateResponse>;
   }
 
   /**
@@ -137,7 +179,11 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsGetResponse>
    */
-  get(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsGetResponse>;
+  get(
+    scope: string,
+    policyAssignmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyAssignmentsGetResponse>;
   /**
    * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
    * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
@@ -147,7 +193,11 @@ export class PolicyAssignments {
    * @param policyAssignmentName The name of the policy assignment to get.
    * @param callback The callback
    */
-  get(scope: string, policyAssignmentName: string, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  get(
+    scope: string,
+    policyAssignmentName: string,
+    callback: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): void;
   /**
    * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
    * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
@@ -158,8 +208,18 @@ export class PolicyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(scope: string, policyAssignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  get(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsGetResponse> {
+  get(
+    scope: string,
+    policyAssignmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): void;
+  get(
+    scope: string,
+    policyAssignmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): Promise<Models.PolicyAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -167,7 +227,8 @@ export class PolicyAssignments {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsGetResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsGetResponse>;
   }
 
   /**
@@ -186,26 +247,43 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListForResourceGroupResponse>
    */
-  listForResourceGroup(resourceGroupName: string, options?: Models.PolicyAssignmentsListForResourceGroupOptionalParams): Promise<Models.PolicyAssignmentsListForResourceGroupResponse>;
+  listForResourceGroup(
+    resourceGroupName: string,
+    options?: Models.PolicyAssignmentsListForResourceGroupOptionalParams
+  ): Promise<Models.PolicyAssignmentsListForResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains policy assignments.
    * @param callback The callback
    */
-  listForResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains policy assignments.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForResourceGroup(resourceGroupName: string, options: Models.PolicyAssignmentsListForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForResourceGroup(resourceGroupName: string, options?: Models.PolicyAssignmentsListForResourceGroupOptionalParams | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceGroupResponse> {
+  listForResourceGroup(
+    resourceGroupName: string,
+    options: Models.PolicyAssignmentsListForResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
+  listForResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.PolicyAssignmentsListForResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.PolicyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): Promise<Models.PolicyAssignmentsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listForResourceGroupOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsListForResourceGroupResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsListForResourceGroupResponse>;
   }
 
   /**
@@ -242,7 +320,14 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListForResourceResponse>
    */
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.PolicyAssignmentsListForResourceOptionalParams): Promise<Models.PolicyAssignmentsListForResourceResponse>;
+  listForResource(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options?: Models.PolicyAssignmentsListForResourceOptionalParams
+  ): Promise<Models.PolicyAssignmentsListForResourceResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the resource.
    * @param resourceProviderNamespace The namespace of the resource provider. For example, the
@@ -253,7 +338,14 @@ export class PolicyAssignments {
    * @param resourceName The name of the resource.
    * @param callback The callback
    */
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForResource(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the resource.
    * @param resourceProviderNamespace The namespace of the resource provider. For example, the
@@ -265,8 +357,26 @@ export class PolicyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: Models.PolicyAssignmentsListForResourceOptionalParams, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.PolicyAssignmentsListForResourceOptionalParams | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceResponse> {
+  listForResource(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options: Models.PolicyAssignmentsListForResourceOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
+  listForResource(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options?:
+      | Models.PolicyAssignmentsListForResourceOptionalParams
+      | msRest.ServiceCallback<Models.PolicyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): Promise<Models.PolicyAssignmentsListForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -277,7 +387,8 @@ export class PolicyAssignments {
         options
       },
       listForResourceOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsListForResourceResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsListForResourceResponse>;
   }
 
   /**
@@ -295,7 +406,11 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListForManagementGroupResponse>
    */
-  listForManagementGroup(managementGroupId: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListForManagementGroupResponse>;
+  listForManagementGroup(
+    managementGroupId: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyAssignmentsListForManagementGroupResponse>;
   /**
    * @param managementGroupId The ID of the management group.
    * @param filter The filter to apply on the operation. Valid values for $filter are: 'atScope()' or
@@ -303,7 +418,11 @@ export class PolicyAssignments {
    * management group scope.
    * @param callback The callback
    */
-  listForManagementGroup(managementGroupId: string, filter: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForManagementGroup(
+    managementGroupId: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
   /**
    * @param managementGroupId The ID of the management group.
    * @param filter The filter to apply on the operation. Valid values for $filter are: 'atScope()' or
@@ -312,8 +431,18 @@ export class PolicyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForManagementGroup(managementGroupId: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForManagementGroup(managementGroupId: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForManagementGroupResponse> {
+  listForManagementGroup(
+    managementGroupId: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
+  listForManagementGroup(
+    managementGroupId: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): Promise<Models.PolicyAssignmentsListForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -321,7 +450,8 @@ export class PolicyAssignments {
         options
       },
       listForManagementGroupOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsListForManagementGroupResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsListForManagementGroupResponse>;
   }
 
   /**
@@ -339,7 +469,9 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListResponse>
    */
-  list(options?: Models.PolicyAssignmentsListOptionalParams): Promise<Models.PolicyAssignmentsListResponse>;
+  list(
+    options?: Models.PolicyAssignmentsListOptionalParams
+  ): Promise<Models.PolicyAssignmentsListResponse>;
   /**
    * @param callback The callback
    */
@@ -348,14 +480,23 @@ export class PolicyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.PolicyAssignmentsListOptionalParams, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  list(options?: Models.PolicyAssignmentsListOptionalParams | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListResponse> {
+  list(
+    options: Models.PolicyAssignmentsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
+  list(
+    options?:
+      | Models.PolicyAssignmentsListOptionalParams
+      | msRest.ServiceCallback<Models.PolicyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): Promise<Models.PolicyAssignmentsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsListResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsListResponse>;
   }
 
   /**
@@ -372,28 +513,43 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsDeleteByIdResponse>
    */
-  deleteById(policyAssignmentId: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsDeleteByIdResponse>;
+  deleteById(
+    policyAssignmentId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyAssignmentsDeleteByIdResponse>;
   /**
    * @param policyAssignmentId The ID of the policy assignment to delete. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
    * @param callback The callback
    */
-  deleteById(policyAssignmentId: string, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  deleteById(
+    policyAssignmentId: string,
+    callback: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): void;
   /**
    * @param policyAssignmentId The ID of the policy assignment to delete. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteById(policyAssignmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  deleteById(policyAssignmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsDeleteByIdResponse> {
+  deleteById(
+    policyAssignmentId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): void;
+  deleteById(
+    policyAssignmentId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): Promise<Models.PolicyAssignmentsDeleteByIdResponse> {
     return this.client.sendOperationRequest(
       {
         policyAssignmentId,
         options
       },
       deleteByIdOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsDeleteByIdResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsDeleteByIdResponse>;
   }
 
   /**
@@ -414,14 +570,22 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsCreateByIdResponse>
    */
-  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsCreateByIdResponse>;
+  createById(
+    policyAssignmentId: string,
+    parameters: Models.PolicyAssignment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyAssignmentsCreateByIdResponse>;
   /**
    * @param policyAssignmentId The ID of the policy assignment to create. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
    * @param parameters Parameters for policy assignment.
    * @param callback The callback
    */
-  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  createById(
+    policyAssignmentId: string,
+    parameters: Models.PolicyAssignment,
+    callback: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): void;
   /**
    * @param policyAssignmentId The ID of the policy assignment to create. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
@@ -429,8 +593,18 @@ export class PolicyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsCreateByIdResponse> {
+  createById(
+    policyAssignmentId: string,
+    parameters: Models.PolicyAssignment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): void;
+  createById(
+    policyAssignmentId: string,
+    parameters: Models.PolicyAssignment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): Promise<Models.PolicyAssignmentsCreateByIdResponse> {
     return this.client.sendOperationRequest(
       {
         policyAssignmentId,
@@ -438,7 +612,8 @@ export class PolicyAssignments {
         options
       },
       createByIdOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsCreateByIdResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsCreateByIdResponse>;
   }
 
   /**
@@ -455,28 +630,43 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsGetByIdResponse>
    */
-  getById(policyAssignmentId: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsGetByIdResponse>;
+  getById(
+    policyAssignmentId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyAssignmentsGetByIdResponse>;
   /**
    * @param policyAssignmentId The ID of the policy assignment to get. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
    * @param callback The callback
    */
-  getById(policyAssignmentId: string, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  getById(
+    policyAssignmentId: string,
+    callback: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): void;
   /**
    * @param policyAssignmentId The ID of the policy assignment to get. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getById(policyAssignmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
-  getById(policyAssignmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsGetByIdResponse> {
+  getById(
+    policyAssignmentId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): void;
+  getById(
+    policyAssignmentId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignment>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignment>
+  ): Promise<Models.PolicyAssignmentsGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         policyAssignmentId,
         options
       },
       getByIdOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsGetByIdResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsGetByIdResponse>;
   }
 
   /**
@@ -495,26 +685,41 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse>
    */
-  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse>;
+  listForResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listForResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse> {
+  listForResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
+  listForResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listForResourceGroupNextOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse>;
   }
 
   /**
@@ -545,26 +750,41 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListForResourceNextResponse>
    */
-  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListForResourceNextResponse>;
+  listForResourceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyAssignmentsListForResourceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listForResourceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForResourceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceNextResponse> {
+  listForResourceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
+  listForResourceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): Promise<Models.PolicyAssignmentsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listForResourceNextOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsListForResourceNextResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsListForResourceNextResponse>;
   }
 
   /**
@@ -579,26 +799,41 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListForManagementGroupNextResponse>
    */
-  listForManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListForManagementGroupNextResponse>;
+  listForManagementGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyAssignmentsListForManagementGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listForManagementGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listForManagementGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listForManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForManagementGroupNextResponse> {
+  listForManagementGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
+  listForManagementGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): Promise<Models.PolicyAssignmentsListForManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listForManagementGroupNextOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsListForManagementGroupNextResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsListForManagementGroupNextResponse>;
   }
 
   /**
@@ -617,26 +852,41 @@ export class PolicyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyAssignmentsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyAssignmentsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>
+  ): Promise<Models.PolicyAssignmentsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PolicyAssignmentsListNextResponse>;
+      callback
+    ) as Promise<Models.PolicyAssignmentsListNextResponse>;
   }
 }
 
@@ -645,16 +895,9 @@ const serializer = new msRest.Serializer(Mappers);
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.policyAssignmentName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.policyAssignmentName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyAssignment
@@ -670,16 +913,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.policyAssignmentName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.policyAssignmentName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -701,16 +937,9 @@ const createOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.policyAssignmentName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.policyAssignmentName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyAssignment
@@ -724,18 +953,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listForResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.filter0, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyAssignmentListResult
@@ -749,7 +971,8 @@ const listForResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listForResourceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
@@ -758,13 +981,8 @@ const listForResourceOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter1,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter1, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyAssignmentListResult
@@ -778,17 +996,11 @@ const listForResourceOperationSpec: msRest.OperationSpec = {
 
 const listForManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Management/managementgroups/{managementGroupId}/providers/Microsoft.Authorization/policyAssignments",
-  urlParameters: [
-    Parameters.managementGroupId
-  ],
-  queryParameters: [
-    Parameters.filter2,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "providers/Microsoft.Management/managementgroups/{managementGroupId}/providers/Microsoft.Authorization/policyAssignments",
+  urlParameters: [Parameters.managementGroupId],
+  queryParameters: [Parameters.filter2, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyAssignmentListResult
@@ -803,16 +1015,9 @@ const listForManagementGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter1,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.filter1, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyAssignmentListResult
@@ -827,15 +1032,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const deleteByIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{policyAssignmentId}",
-  urlParameters: [
-    Parameters.policyAssignmentId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.policyAssignmentId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyAssignment
@@ -851,15 +1050,9 @@ const deleteByIdOperationSpec: msRest.OperationSpec = {
 const createByIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{policyAssignmentId}",
-  urlParameters: [
-    Parameters.policyAssignmentId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.policyAssignmentId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -881,15 +1074,9 @@ const createByIdOperationSpec: msRest.OperationSpec = {
 const getByIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{policyAssignmentId}",
-  urlParameters: [
-    Parameters.policyAssignmentId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.policyAssignmentId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyAssignment
@@ -905,12 +1092,8 @@ const listForResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyAssignmentListResult
@@ -926,12 +1109,8 @@ const listForResourceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyAssignmentListResult
@@ -947,12 +1126,8 @@ const listForManagementGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyAssignmentListResult
@@ -968,12 +1143,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyAssignmentListResult

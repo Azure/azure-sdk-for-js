@@ -35,8 +35,7 @@ export interface Resource extends BaseResource {
 /**
  * ARM proxy resource.
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * Sample result definition
@@ -251,7 +250,7 @@ export interface ResourceProviderOperationList extends Array<ResourceProviderOpe
  * @readonly
  * @enum {string}
  */
-export type ComplianceState = 'Pending' | 'Compliant' | 'Noncompliant' | 'Installed' | 'Failed';
+export type ComplianceState = "Pending" | "Compliant" | "Noncompliant" | "Installed" | "Failed";
 
 /**
  * Defines values for MessageLevel.
@@ -259,7 +258,7 @@ export type ComplianceState = 'Pending' | 'Compliant' | 'Noncompliant' | 'Instal
  * @readonly
  * @enum {string}
  */
-export type MessageLevel = 'Error' | 'Warning' | 'Information';
+export type MessageLevel = "Error" | "Warning" | "Information";
 
 /**
  * Defines values for OperatorType.
@@ -267,7 +266,7 @@ export type MessageLevel = 'Error' | 'Warning' | 'Information';
  * @readonly
  * @enum {string}
  */
-export type OperatorType = 'Flux';
+export type OperatorType = "Flux";
 
 /**
  * Defines values for OperatorScope.
@@ -275,7 +274,7 @@ export type OperatorType = 'Flux';
  * @readonly
  * @enum {string}
  */
-export type OperatorScope = 'cluster' | 'namespace';
+export type OperatorScope = "cluster" | "namespace";
 
 /**
  * Defines values for EnableHelmOperator.
@@ -283,7 +282,7 @@ export type OperatorScope = 'cluster' | 'namespace';
  * @readonly
  * @enum {string}
  */
-export type EnableHelmOperator = 'true' | 'false';
+export type EnableHelmOperator = "true" | "false";
 
 /**
  * Defines values for ProvisioningState.
@@ -291,7 +290,7 @@ export type EnableHelmOperator = 'true' | 'false';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Accepted' | 'Deleting' | 'Running' | 'Succeeded' | 'Failed';
+export type ProvisioningState = "Accepted" | "Deleting" | "Running" | "Succeeded" | "Failed";
 
 /**
  * Defines values for ClusterRp.
@@ -299,7 +298,7 @@ export type ProvisioningState = 'Accepted' | 'Deleting' | 'Running' | 'Succeeded
  * @readonly
  * @enum {string}
  */
-export type ClusterRp = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+export type ClusterRp = "Microsoft.ContainerService" | "Microsoft.Kubernetes";
 
 /**
  * Defines values for ClusterResourceName.
@@ -307,7 +306,7 @@ export type ClusterRp = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
  * @readonly
  * @enum {string}
  */
-export type ClusterResourceName = 'managedClusters' | 'connectedClusters';
+export type ClusterResourceName = "managedClusters" | "connectedClusters";
 
 /**
  * Defines values for ClusterRp1.
@@ -315,7 +314,7 @@ export type ClusterResourceName = 'managedClusters' | 'connectedClusters';
  * @readonly
  * @enum {string}
  */
-export type ClusterRp1 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+export type ClusterRp1 = "Microsoft.ContainerService" | "Microsoft.Kubernetes";
 
 /**
  * Defines values for ClusterResourceName1.
@@ -323,7 +322,7 @@ export type ClusterRp1 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
  * @readonly
  * @enum {string}
  */
-export type ClusterResourceName1 = 'managedClusters' | 'connectedClusters';
+export type ClusterResourceName1 = "managedClusters" | "connectedClusters";
 
 /**
  * Defines values for ClusterRp2.
@@ -331,7 +330,7 @@ export type ClusterResourceName1 = 'managedClusters' | 'connectedClusters';
  * @readonly
  * @enum {string}
  */
-export type ClusterRp2 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+export type ClusterRp2 = "Microsoft.ContainerService" | "Microsoft.Kubernetes";
 
 /**
  * Defines values for ClusterResourceName2.
@@ -339,7 +338,7 @@ export type ClusterRp2 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
  * @readonly
  * @enum {string}
  */
-export type ClusterResourceName2 = 'managedClusters' | 'connectedClusters';
+export type ClusterResourceName2 = "managedClusters" | "connectedClusters";
 
 /**
  * Defines values for ClusterRp3.
@@ -347,7 +346,7 @@ export type ClusterResourceName2 = 'managedClusters' | 'connectedClusters';
  * @readonly
  * @enum {string}
  */
-export type ClusterRp3 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+export type ClusterRp3 = "Microsoft.ContainerService" | "Microsoft.Kubernetes";
 
 /**
  * Defines values for ClusterResourceName3.
@@ -355,7 +354,7 @@ export type ClusterRp3 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
  * @readonly
  * @enum {string}
  */
-export type ClusterResourceName3 = 'managedClusters' | 'connectedClusters';
+export type ClusterResourceName3 = "managedClusters" | "connectedClusters";
 
 /**
  * Contains response data for the get operation.
@@ -365,16 +364,16 @@ export type SourceControlConfigurationsGetResponse = SourceControlConfiguration 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlConfiguration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlConfiguration;
+  };
 };
 
 /**
@@ -385,16 +384,16 @@ export type SourceControlConfigurationsCreateOrUpdateResponse = SourceControlCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlConfiguration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlConfiguration;
+  };
 };
 
 /**
@@ -405,16 +404,16 @@ export type SourceControlConfigurationsListResponse = SourceControlConfiguration
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlConfigurationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlConfigurationList;
+  };
 };
 
 /**
@@ -425,16 +424,16 @@ export type SourceControlConfigurationsListNextResponse = SourceControlConfigura
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SourceControlConfigurationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SourceControlConfigurationList;
+  };
 };
 
 /**
@@ -445,16 +444,16 @@ export type OperationsListResponse = ResourceProviderOperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceProviderOperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceProviderOperationList;
+  };
 };
 
 /**
@@ -465,14 +464,14 @@ export type OperationsListNextResponse = ResourceProviderOperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceProviderOperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceProviderOperationList;
+  };
 };

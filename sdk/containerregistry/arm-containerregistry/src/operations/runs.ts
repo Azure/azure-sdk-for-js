@@ -34,21 +34,39 @@ export class Runs {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunsListResponse>
    */
-  list(resourceGroupName: string, registryName: string, options?: Models.RunsListOptionalParams): Promise<Models.RunsListResponse>;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: Models.RunsListOptionalParams
+  ): Promise<Models.RunsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, callback: msRest.ServiceCallback<Models.RunListResult>): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    callback: msRest.ServiceCallback<Models.RunListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, options: Models.RunsListOptionalParams, callback: msRest.ServiceCallback<Models.RunListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: Models.RunsListOptionalParams | msRest.ServiceCallback<Models.RunListResult>, callback?: msRest.ServiceCallback<Models.RunListResult>): Promise<Models.RunsListResponse> {
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options: Models.RunsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.RunListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: Models.RunsListOptionalParams | msRest.ServiceCallback<Models.RunListResult>,
+    callback?: msRest.ServiceCallback<Models.RunListResult>
+  ): Promise<Models.RunsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class Runs {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.RunsListResponse>;
+      callback
+    ) as Promise<Models.RunsListResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class Runs {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunsGetResponse>
    */
-  get(resourceGroupName: string, registryName: string, runId: string, options?: msRest.RequestOptionsBase): Promise<Models.RunsGetResponse>;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param runId The run ID.
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, runId: string, callback: msRest.ServiceCallback<Models.Run>): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    callback: msRest.ServiceCallback<Models.Run>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -82,8 +111,20 @@ export class Runs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, runId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Run>): void;
-  get(resourceGroupName: string, registryName: string, runId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Run>, callback?: msRest.ServiceCallback<Models.Run>): Promise<Models.RunsGetResponse> {
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Run>
+  ): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Run>,
+    callback?: msRest.ServiceCallback<Models.Run>
+  ): Promise<Models.RunsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +133,8 @@ export class Runs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RunsGetResponse>;
+      callback
+    ) as Promise<Models.RunsGetResponse>;
   }
 
   /**
@@ -104,9 +146,20 @@ export class Runs {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunsUpdateResponse>
    */
-  update(resourceGroupName: string, registryName: string, runId: string, runUpdateParameters: Models.RunUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.RunsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,registryName,runId,runUpdateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RunsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    runUpdateParameters: Models.RunUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      registryName,
+      runId,
+      runUpdateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.RunsUpdateResponse>;
   }
 
   /**
@@ -117,14 +170,24 @@ export class Runs {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunsGetLogSasUrlResponse>
    */
-  getLogSasUrl(resourceGroupName: string, registryName: string, runId: string, options?: msRest.RequestOptionsBase): Promise<Models.RunsGetLogSasUrlResponse>;
+  getLogSasUrl(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunsGetLogSasUrlResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param runId The run ID.
    * @param callback The callback
    */
-  getLogSasUrl(resourceGroupName: string, registryName: string, runId: string, callback: msRest.ServiceCallback<Models.RunGetLogResult>): void;
+  getLogSasUrl(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    callback: msRest.ServiceCallback<Models.RunGetLogResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -132,8 +195,20 @@ export class Runs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getLogSasUrl(resourceGroupName: string, registryName: string, runId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunGetLogResult>): void;
-  getLogSasUrl(resourceGroupName: string, registryName: string, runId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunGetLogResult>, callback?: msRest.ServiceCallback<Models.RunGetLogResult>): Promise<Models.RunsGetLogSasUrlResponse> {
+  getLogSasUrl(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RunGetLogResult>
+  ): void;
+  getLogSasUrl(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunGetLogResult>,
+    callback?: msRest.ServiceCallback<Models.RunGetLogResult>
+  ): Promise<Models.RunsGetLogSasUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -142,7 +217,8 @@ export class Runs {
         options
       },
       getLogSasUrlOperationSpec,
-      callback) as Promise<Models.RunsGetLogSasUrlResponse>;
+      callback
+    ) as Promise<Models.RunsGetLogSasUrlResponse>;
   }
 
   /**
@@ -153,9 +229,15 @@ export class Runs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  cancel(resourceGroupName: string, registryName: string, runId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginCancel(resourceGroupName,registryName,runId,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  cancel(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginCancel(resourceGroupName, registryName, runId, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -167,7 +249,13 @@ export class Runs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, registryName: string, runId: string, runUpdateParameters: Models.RunUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    runUpdateParameters: Models.RunUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -177,7 +265,8 @@ export class Runs {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -188,7 +277,12 @@ export class Runs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCancel(resourceGroupName: string, registryName: string, runId: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCancel(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -197,7 +291,8 @@ export class Runs {
         options
       },
       beginCancelOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -206,7 +301,10 @@ export class Runs {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RunsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -217,15 +315,24 @@ export class Runs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunListResult>, callback?: msRest.ServiceCallback<Models.RunListResult>): Promise<Models.RunsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RunListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunListResult>,
+    callback?: msRest.ServiceCallback<Models.RunListResult>
+  ): Promise<Models.RunsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.RunsListNextResponse>;
+      callback
+    ) as Promise<Models.RunsListNextResponse>;
   }
 }
 
@@ -233,20 +340,11 @@ export class Runs {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.filter,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.registryName],
+  queryParameters: [Parameters.apiVersion1, Parameters.filter, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RunListResult
@@ -260,19 +358,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.runId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Run
@@ -286,19 +381,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const getLogSasUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/listLogSasUrl",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/listLogSasUrl",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.runId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RunGetLogResult
@@ -312,19 +404,16 @@ const getLogSasUrlOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.runId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "runUpdateParameters",
     mapper: {
@@ -348,19 +437,16 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginCancelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/cancel",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/runs/{runId}/cancel",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.runId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -375,12 +461,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RunListResult

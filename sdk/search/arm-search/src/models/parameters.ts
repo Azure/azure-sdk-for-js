@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -31,11 +31,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
   }
 };
 export const clientRequestId: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "searchManagementRequestOptions",
-    "clientRequestId"
-  ],
+  parameterPath: ["options", "searchManagementRequestOptions", "clientRequestId"],
   mapper: {
     serializedName: "x-ms-client-request-id",
     type: {
@@ -60,10 +56,7 @@ export const keyKind: msRest.OperationURLParameter = {
     serializedName: "keyKind",
     type: {
       name: "Enum",
-      allowedValues: [
-        "primary",
-        "secondary"
-      ]
+      allowedValues: ["primary", "secondary"]
     }
   }
 };

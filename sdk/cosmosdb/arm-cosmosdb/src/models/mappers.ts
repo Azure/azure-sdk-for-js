@@ -39,13 +39,7 @@ export const ConsistencyPolicy: msRest.CompositeMapper = {
         serializedName: "defaultConsistencyLevel",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Eventual",
-            "Session",
-            "BoundedStaleness",
-            "Strong",
-            "ConsistentPrefix"
-          ]
+          allowedValues: ["Eventual", "Session", "BoundedStaleness", "Strong", "ConsistentPrefix"]
         }
       },
       maxStalenessPrefix: {
@@ -390,7 +384,7 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
       ...ARMResourceProperties.type.modelProperties,
       kind: {
         serializedName: "kind",
-        defaultValue: 'GlobalDocumentDB',
+        defaultValue: "GlobalDocumentDB",
         type: {
           name: "String"
         }
@@ -413,9 +407,7 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
         serializedName: "properties.databaseAccountOfferType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Standard"
-          ]
+          allowedValues: ["Standard"]
         }
       },
       ipRules: {
@@ -714,7 +706,7 @@ export const Indexes: msRest.CompositeMapper = {
     modelProperties: {
       dataType: {
         serializedName: "dataType",
-        defaultValue: 'String',
+        defaultValue: "String",
         type: {
           name: "String"
         }
@@ -727,7 +719,7 @@ export const Indexes: msRest.CompositeMapper = {
       },
       kind: {
         serializedName: "kind",
-        defaultValue: 'Hash',
+        defaultValue: "Hash",
         type: {
           name: "String"
         }
@@ -843,7 +835,7 @@ export const IndexingPolicy: msRest.CompositeMapper = {
       },
       indexingMode: {
         serializedName: "indexingMode",
-        defaultValue: 'Consistent',
+        defaultValue: "Consistent",
         type: {
           name: "String"
         }
@@ -924,7 +916,7 @@ export const ContainerPartitionKey: msRest.CompositeMapper = {
       },
       kind: {
         serializedName: "kind",
-        defaultValue: 'Hash',
+        defaultValue: "Hash",
         type: {
           name: "String"
         }
@@ -994,7 +986,7 @@ export const ConflictResolutionPolicy: msRest.CompositeMapper = {
     modelProperties: {
       mode: {
         serializedName: "mode",
-        defaultValue: 'LastWriterWins',
+        defaultValue: "LastWriterWins",
         type: {
           name: "String"
         }
@@ -2373,7 +2365,7 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
       ...ARMResourceProperties.type.modelProperties,
       kind: {
         serializedName: "kind",
-        defaultValue: 'GlobalDocumentDB',
+        defaultValue: "GlobalDocumentDB",
         type: {
           name: "String"
         }
@@ -2402,7 +2394,7 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "properties.databaseAccountOfferType",
-        defaultValue: 'Standard',
+        defaultValue: "Standard",
         type: {
           name: "String"
         }

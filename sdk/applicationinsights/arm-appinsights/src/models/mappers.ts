@@ -125,7 +125,7 @@ export const Annotation: msRest.CompositeMapper = {
       },
       relatedAnnotation: {
         serializedName: "RelatedAnnotation",
-        defaultValue: 'null',
+        defaultValue: "null",
         type: {
           name: "String"
         }
@@ -1080,21 +1080,21 @@ export const ApplicationInsightsComponent: msRest.CompositeMapper = {
       applicationType: {
         required: true,
         serializedName: "properties.Application_Type",
-        defaultValue: 'web',
+        defaultValue: "web",
         type: {
           name: "String"
         }
       },
       flowType: {
         serializedName: "properties.Flow_Type",
-        defaultValue: 'Bluefield',
+        defaultValue: "Bluefield",
         type: {
           name: "String"
         }
       },
       requestSource: {
         serializedName: "properties.Request_Source",
-        defaultValue: 'rest',
+        defaultValue: "rest",
         type: {
           name: "String"
         }
@@ -1386,10 +1386,7 @@ export const ApplicationInsightsComponentFavorite: msRest.CompositeMapper = {
         serializedName: "FavoriteType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "shared",
-            "user"
-          ]
+          allowedValues: ["shared", "user"]
         }
       },
       sourceType: {
@@ -1553,13 +1550,10 @@ export const WebTest: msRest.CompositeMapper = {
       ...WebtestsResource.type.modelProperties,
       kind: {
         serializedName: "kind",
-        defaultValue: 'ping',
+        defaultValue: "ping",
         type: {
           name: "Enum",
-          allowedValues: [
-            "ping",
-            "multistep"
-          ]
+          allowedValues: ["ping", "multistep"]
         }
       },
       syntheticMonitorId: {
@@ -1605,13 +1599,10 @@ export const WebTest: msRest.CompositeMapper = {
       webTestKind: {
         required: true,
         serializedName: "properties.Kind",
-        defaultValue: 'ping',
+        defaultValue: "ping",
         type: {
           name: "Enum",
-          allowedValues: [
-            "ping",
-            "multistep"
-          ]
+          allowedValues: ["ping", "multistep"]
         }
       },
       retryEnabled: {
@@ -1826,7 +1817,7 @@ export const Workbook: msRest.CompositeMapper = {
       sharedTypeKind: {
         required: true,
         serializedName: "properties.kind",
-        defaultValue: 'shared',
+        defaultValue: "shared",
         type: {
           name: "String"
         }

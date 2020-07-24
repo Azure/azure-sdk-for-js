@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as msRest from "@azure/ms-rest-js";
 
 /**
@@ -185,7 +184,8 @@ export interface PredictionAPIClientClassifyImageOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface PredictionAPIClientClassifyImageWithNoStoreOptionalParams extends msRest.RequestOptionsBase {
+export interface PredictionAPIClientClassifyImageWithNoStoreOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Optional. Specifies the name of application using the endpoint.
    */
@@ -195,7 +195,8 @@ export interface PredictionAPIClientClassifyImageWithNoStoreOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface PredictionAPIClientClassifyImageUrlOptionalParams extends msRest.RequestOptionsBase {
+export interface PredictionAPIClientClassifyImageUrlOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Optional. Specifies the name of application using the endpoint.
    */
@@ -205,7 +206,8 @@ export interface PredictionAPIClientClassifyImageUrlOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface PredictionAPIClientClassifyImageUrlWithNoStoreOptionalParams extends msRest.RequestOptionsBase {
+export interface PredictionAPIClientClassifyImageUrlWithNoStoreOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Optional. Specifies the name of application using the endpoint.
    */
@@ -225,7 +227,8 @@ export interface PredictionAPIClientDetectImageOptionalParams extends msRest.Req
 /**
  * Optional Parameters.
  */
-export interface PredictionAPIClientDetectImageWithNoStoreOptionalParams extends msRest.RequestOptionsBase {
+export interface PredictionAPIClientDetectImageWithNoStoreOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Optional. Specifies the name of application using the endpoint.
    */
@@ -245,7 +248,8 @@ export interface PredictionAPIClientDetectImageUrlOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface PredictionAPIClientDetectImageUrlWithNoStoreOptionalParams extends msRest.RequestOptionsBase {
+export interface PredictionAPIClientDetectImageUrlWithNoStoreOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Optional. Specifies the name of application using the endpoint.
    */
@@ -312,7 +316,137 @@ export interface PredictionAPIClientDetectImageUrlWithNoStoreOptionalParams exte
  * @readonly
  * @enum {string}
  */
-export type CustomVisionErrorCodes = 'NoError' | 'BadRequest' | 'BadRequestExceededBatchSize' | 'BadRequestNotSupported' | 'BadRequestInvalidIds' | 'BadRequestProjectName' | 'BadRequestProjectNameNotUnique' | 'BadRequestProjectDescription' | 'BadRequestProjectUnknownDomain' | 'BadRequestProjectUnknownClassification' | 'BadRequestProjectUnsupportedDomainTypeChange' | 'BadRequestProjectUnsupportedExportPlatform' | 'BadRequestProjectImagePreprocessingSettings' | 'BadRequestProjectDuplicated' | 'BadRequestIterationName' | 'BadRequestIterationNameNotUnique' | 'BadRequestIterationDescription' | 'BadRequestIterationIsNotTrained' | 'BadRequestIterationValidationFailed' | 'BadRequestWorkspaceCannotBeModified' | 'BadRequestWorkspaceNotDeletable' | 'BadRequestTagName' | 'BadRequestTagNameNotUnique' | 'BadRequestTagDescription' | 'BadRequestTagType' | 'BadRequestMultipleNegativeTag' | 'BadRequestMultipleGeneralProductTag' | 'BadRequestImageTags' | 'BadRequestImageRegions' | 'BadRequestNegativeAndRegularTagOnSameImage' | 'BadRequestUnsupportedDomain' | 'BadRequestRequiredParamIsNull' | 'BadRequestIterationIsPublished' | 'BadRequestInvalidPublishName' | 'BadRequestInvalidPublishTarget' | 'BadRequestUnpublishFailed' | 'BadRequestIterationNotPublished' | 'BadRequestSubscriptionApi' | 'BadRequestExceedProjectLimit' | 'BadRequestExceedIterationPerProjectLimit' | 'BadRequestExceedTagPerProjectLimit' | 'BadRequestExceedTagPerImageLimit' | 'BadRequestExceededQuota' | 'BadRequestCannotMigrateProjectWithName' | 'BadRequestNotLimitedTrial' | 'BadRequestImageBatch' | 'BadRequestImageStream' | 'BadRequestImageUrl' | 'BadRequestImageFormat' | 'BadRequestImageSizeBytes' | 'BadRequestImageDimensions' | 'BadRequestImageExceededCount' | 'BadRequestTrainingNotNeeded' | 'BadRequestTrainingNotNeededButTrainingPipelineUpdated' | 'BadRequestTrainingValidationFailed' | 'BadRequestClassificationTrainingValidationFailed' | 'BadRequestMultiClassClassificationTrainingValidationFailed' | 'BadRequestMultiLabelClassificationTrainingValidationFailed' | 'BadRequestDetectionTrainingValidationFailed' | 'BadRequestTrainingAlreadyInProgress' | 'BadRequestDetectionTrainingNotAllowNegativeTag' | 'BadRequestInvalidEmailAddress' | 'BadRequestDomainNotSupportedForAdvancedTraining' | 'BadRequestExportPlatformNotSupportedForAdvancedTraining' | 'BadRequestReservedBudgetInHoursNotEnoughForAdvancedTraining' | 'BadRequestExportValidationFailed' | 'BadRequestExportAlreadyInProgress' | 'BadRequestPredictionIdsMissing' | 'BadRequestPredictionIdsExceededCount' | 'BadRequestPredictionTagsExceededCount' | 'BadRequestPredictionResultsExceededCount' | 'BadRequestPredictionInvalidApplicationName' | 'BadRequestPredictionInvalidQueryParameters' | 'BadRequestInvalidImportToken' | 'BadRequestExportWhileTraining' | 'BadRequestImageMetadataKey' | 'BadRequestImageMetadataValue' | 'BadRequestOperationNotSupported' | 'BadRequestInvalidArtifactUri' | 'BadRequestCustomerManagedKeyRevoked' | 'BadRequestInvalid' | 'UnsupportedMediaType' | 'Forbidden' | 'ForbiddenUser' | 'ForbiddenUserResource' | 'ForbiddenUserSignupDisabled' | 'ForbiddenUserSignupAllowanceExceeded' | 'ForbiddenUserDoesNotExist' | 'ForbiddenUserDisabled' | 'ForbiddenUserInsufficientCapability' | 'ForbiddenDRModeEnabled' | 'ForbiddenInvalid' | 'NotFound' | 'NotFoundProject' | 'NotFoundProjectDefaultIteration' | 'NotFoundIteration' | 'NotFoundIterationPerformance' | 'NotFoundTag' | 'NotFoundImage' | 'NotFoundDomain' | 'NotFoundApimSubscription' | 'NotFoundInvalid' | 'Conflict' | 'ConflictInvalid' | 'ErrorUnknown' | 'ErrorIterationCopyFailed' | 'ErrorPreparePerformanceMigrationFailed' | 'ErrorProjectInvalidWorkspace' | 'ErrorProjectInvalidPipelineConfiguration' | 'ErrorProjectInvalidDomain' | 'ErrorProjectTrainingRequestFailed' | 'ErrorProjectImportRequestFailed' | 'ErrorProjectExportRequestFailed' | 'ErrorFeaturizationServiceUnavailable' | 'ErrorFeaturizationQueueTimeout' | 'ErrorFeaturizationInvalidFeaturizer' | 'ErrorFeaturizationAugmentationUnavailable' | 'ErrorFeaturizationUnrecognizedJob' | 'ErrorFeaturizationAugmentationError' | 'ErrorExporterInvalidPlatform' | 'ErrorExporterInvalidFeaturizer' | 'ErrorExporterInvalidClassifier' | 'ErrorPredictionServiceUnavailable' | 'ErrorPredictionModelNotFound' | 'ErrorPredictionModelNotCached' | 'ErrorPrediction' | 'ErrorPredictionStorage' | 'ErrorRegionProposal' | 'ErrorUnknownBaseModel' | 'ErrorInvalid';
+export type CustomVisionErrorCodes =
+  | "NoError"
+  | "BadRequest"
+  | "BadRequestExceededBatchSize"
+  | "BadRequestNotSupported"
+  | "BadRequestInvalidIds"
+  | "BadRequestProjectName"
+  | "BadRequestProjectNameNotUnique"
+  | "BadRequestProjectDescription"
+  | "BadRequestProjectUnknownDomain"
+  | "BadRequestProjectUnknownClassification"
+  | "BadRequestProjectUnsupportedDomainTypeChange"
+  | "BadRequestProjectUnsupportedExportPlatform"
+  | "BadRequestProjectImagePreprocessingSettings"
+  | "BadRequestProjectDuplicated"
+  | "BadRequestIterationName"
+  | "BadRequestIterationNameNotUnique"
+  | "BadRequestIterationDescription"
+  | "BadRequestIterationIsNotTrained"
+  | "BadRequestIterationValidationFailed"
+  | "BadRequestWorkspaceCannotBeModified"
+  | "BadRequestWorkspaceNotDeletable"
+  | "BadRequestTagName"
+  | "BadRequestTagNameNotUnique"
+  | "BadRequestTagDescription"
+  | "BadRequestTagType"
+  | "BadRequestMultipleNegativeTag"
+  | "BadRequestMultipleGeneralProductTag"
+  | "BadRequestImageTags"
+  | "BadRequestImageRegions"
+  | "BadRequestNegativeAndRegularTagOnSameImage"
+  | "BadRequestUnsupportedDomain"
+  | "BadRequestRequiredParamIsNull"
+  | "BadRequestIterationIsPublished"
+  | "BadRequestInvalidPublishName"
+  | "BadRequestInvalidPublishTarget"
+  | "BadRequestUnpublishFailed"
+  | "BadRequestIterationNotPublished"
+  | "BadRequestSubscriptionApi"
+  | "BadRequestExceedProjectLimit"
+  | "BadRequestExceedIterationPerProjectLimit"
+  | "BadRequestExceedTagPerProjectLimit"
+  | "BadRequestExceedTagPerImageLimit"
+  | "BadRequestExceededQuota"
+  | "BadRequestCannotMigrateProjectWithName"
+  | "BadRequestNotLimitedTrial"
+  | "BadRequestImageBatch"
+  | "BadRequestImageStream"
+  | "BadRequestImageUrl"
+  | "BadRequestImageFormat"
+  | "BadRequestImageSizeBytes"
+  | "BadRequestImageDimensions"
+  | "BadRequestImageExceededCount"
+  | "BadRequestTrainingNotNeeded"
+  | "BadRequestTrainingNotNeededButTrainingPipelineUpdated"
+  | "BadRequestTrainingValidationFailed"
+  | "BadRequestClassificationTrainingValidationFailed"
+  | "BadRequestMultiClassClassificationTrainingValidationFailed"
+  | "BadRequestMultiLabelClassificationTrainingValidationFailed"
+  | "BadRequestDetectionTrainingValidationFailed"
+  | "BadRequestTrainingAlreadyInProgress"
+  | "BadRequestDetectionTrainingNotAllowNegativeTag"
+  | "BadRequestInvalidEmailAddress"
+  | "BadRequestDomainNotSupportedForAdvancedTraining"
+  | "BadRequestExportPlatformNotSupportedForAdvancedTraining"
+  | "BadRequestReservedBudgetInHoursNotEnoughForAdvancedTraining"
+  | "BadRequestExportValidationFailed"
+  | "BadRequestExportAlreadyInProgress"
+  | "BadRequestPredictionIdsMissing"
+  | "BadRequestPredictionIdsExceededCount"
+  | "BadRequestPredictionTagsExceededCount"
+  | "BadRequestPredictionResultsExceededCount"
+  | "BadRequestPredictionInvalidApplicationName"
+  | "BadRequestPredictionInvalidQueryParameters"
+  | "BadRequestInvalidImportToken"
+  | "BadRequestExportWhileTraining"
+  | "BadRequestImageMetadataKey"
+  | "BadRequestImageMetadataValue"
+  | "BadRequestOperationNotSupported"
+  | "BadRequestInvalidArtifactUri"
+  | "BadRequestCustomerManagedKeyRevoked"
+  | "BadRequestInvalid"
+  | "UnsupportedMediaType"
+  | "Forbidden"
+  | "ForbiddenUser"
+  | "ForbiddenUserResource"
+  | "ForbiddenUserSignupDisabled"
+  | "ForbiddenUserSignupAllowanceExceeded"
+  | "ForbiddenUserDoesNotExist"
+  | "ForbiddenUserDisabled"
+  | "ForbiddenUserInsufficientCapability"
+  | "ForbiddenDRModeEnabled"
+  | "ForbiddenInvalid"
+  | "NotFound"
+  | "NotFoundProject"
+  | "NotFoundProjectDefaultIteration"
+  | "NotFoundIteration"
+  | "NotFoundIterationPerformance"
+  | "NotFoundTag"
+  | "NotFoundImage"
+  | "NotFoundDomain"
+  | "NotFoundApimSubscription"
+  | "NotFoundInvalid"
+  | "Conflict"
+  | "ConflictInvalid"
+  | "ErrorUnknown"
+  | "ErrorIterationCopyFailed"
+  | "ErrorPreparePerformanceMigrationFailed"
+  | "ErrorProjectInvalidWorkspace"
+  | "ErrorProjectInvalidPipelineConfiguration"
+  | "ErrorProjectInvalidDomain"
+  | "ErrorProjectTrainingRequestFailed"
+  | "ErrorProjectImportRequestFailed"
+  | "ErrorProjectExportRequestFailed"
+  | "ErrorFeaturizationServiceUnavailable"
+  | "ErrorFeaturizationQueueTimeout"
+  | "ErrorFeaturizationInvalidFeaturizer"
+  | "ErrorFeaturizationAugmentationUnavailable"
+  | "ErrorFeaturizationUnrecognizedJob"
+  | "ErrorFeaturizationAugmentationError"
+  | "ErrorExporterInvalidPlatform"
+  | "ErrorExporterInvalidFeaturizer"
+  | "ErrorExporterInvalidClassifier"
+  | "ErrorPredictionServiceUnavailable"
+  | "ErrorPredictionModelNotFound"
+  | "ErrorPredictionModelNotCached"
+  | "ErrorPrediction"
+  | "ErrorPredictionStorage"
+  | "ErrorRegionProposal"
+  | "ErrorUnknownBaseModel"
+  | "ErrorInvalid";
 
 /**
  * Defines values for TagType.
@@ -320,7 +454,7 @@ export type CustomVisionErrorCodes = 'NoError' | 'BadRequest' | 'BadRequestExcee
  * @readonly
  * @enum {string}
  */
-export type TagType = 'Regular' | 'Negative' | 'GeneralProduct';
+export type TagType = "Regular" | "Negative" | "GeneralProduct";
 
 /**
  * Contains response data for the classifyImage operation.
@@ -330,16 +464,16 @@ export type ClassifyImageResponse = ImagePrediction & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePrediction;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImagePrediction;
+  };
 };
 
 /**
@@ -350,16 +484,16 @@ export type ClassifyImageWithNoStoreResponse = ImagePrediction & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePrediction;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImagePrediction;
+  };
 };
 
 /**
@@ -370,16 +504,16 @@ export type ClassifyImageUrlResponse = ImagePrediction & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePrediction;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImagePrediction;
+  };
 };
 
 /**
@@ -390,16 +524,16 @@ export type ClassifyImageUrlWithNoStoreResponse = ImagePrediction & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePrediction;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImagePrediction;
+  };
 };
 
 /**
@@ -410,16 +544,16 @@ export type DetectImageResponse = ImagePrediction & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePrediction;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImagePrediction;
+  };
 };
 
 /**
@@ -430,16 +564,16 @@ export type DetectImageWithNoStoreResponse = ImagePrediction & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePrediction;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImagePrediction;
+  };
 };
 
 /**
@@ -450,16 +584,16 @@ export type DetectImageUrlResponse = ImagePrediction & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePrediction;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImagePrediction;
+  };
 };
 
 /**
@@ -470,14 +604,14 @@ export type DetectImageUrlWithNoStoreResponse = ImagePrediction & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePrediction;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImagePrediction;
+  };
 };

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ManagementLockClientContext } from "./managementLockClientContext";
 
-
 class ManagementLockClient extends ManagementLockClientContext {
   // Operation groups
   authorizationOperations: operations.AuthorizationOperations;
@@ -26,7 +25,11 @@ class ManagementLockClient extends ManagementLockClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ManagementLockClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ManagementLockClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.authorizationOperations = new operations.AuthorizationOperations(this);
     this.managementLocks = new operations.ManagementLocks(this);

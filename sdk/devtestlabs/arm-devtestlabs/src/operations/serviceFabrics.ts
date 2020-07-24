@@ -35,14 +35,24 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceFabricsListResponse>
    */
-  list(resourceGroupName: string, labName: string, userName: string, options?: Models.ServiceFabricsListOptionalParams): Promise<Models.ServiceFabricsListResponse>;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    options?: Models.ServiceFabricsListOptionalParams
+  ): Promise<Models.ServiceFabricsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, userName: string, callback: msRest.ServiceCallback<Models.ServiceFabricList>): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    callback: msRest.ServiceCallback<Models.ServiceFabricList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -50,8 +60,22 @@ export class ServiceFabrics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, userName: string, options: Models.ServiceFabricsListOptionalParams, callback: msRest.ServiceCallback<Models.ServiceFabricList>): void;
-  list(resourceGroupName: string, labName: string, userName: string, options?: Models.ServiceFabricsListOptionalParams | msRest.ServiceCallback<Models.ServiceFabricList>, callback?: msRest.ServiceCallback<Models.ServiceFabricList>): Promise<Models.ServiceFabricsListResponse> {
+  list(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    options: Models.ServiceFabricsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ServiceFabricList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    options?:
+      | Models.ServiceFabricsListOptionalParams
+      | msRest.ServiceCallback<Models.ServiceFabricList>,
+    callback?: msRest.ServiceCallback<Models.ServiceFabricList>
+  ): Promise<Models.ServiceFabricsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +84,8 @@ export class ServiceFabrics {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ServiceFabricsListResponse>;
+      callback
+    ) as Promise<Models.ServiceFabricsListResponse>;
   }
 
   /**
@@ -72,7 +97,13 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceFabricsGetResponse>
    */
-  get(resourceGroupName: string, labName: string, userName: string, name: string, options?: Models.ServiceFabricsGetOptionalParams): Promise<Models.ServiceFabricsGetResponse>;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: Models.ServiceFabricsGetOptionalParams
+  ): Promise<Models.ServiceFabricsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -80,7 +111,13 @@ export class ServiceFabrics {
    * @param name The name of the service Fabric.
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, userName: string, name: string, callback: msRest.ServiceCallback<Models.ServiceFabric>): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.ServiceFabric>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -89,8 +126,22 @@ export class ServiceFabrics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, userName: string, name: string, options: Models.ServiceFabricsGetOptionalParams, callback: msRest.ServiceCallback<Models.ServiceFabric>): void;
-  get(resourceGroupName: string, labName: string, userName: string, name: string, options?: Models.ServiceFabricsGetOptionalParams | msRest.ServiceCallback<Models.ServiceFabric>, callback?: msRest.ServiceCallback<Models.ServiceFabric>): Promise<Models.ServiceFabricsGetResponse> {
+  get(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options: Models.ServiceFabricsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.ServiceFabric>
+  ): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: Models.ServiceFabricsGetOptionalParams | msRest.ServiceCallback<Models.ServiceFabric>,
+    callback?: msRest.ServiceCallback<Models.ServiceFabric>
+  ): Promise<Models.ServiceFabricsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +151,8 @@ export class ServiceFabrics {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServiceFabricsGetResponse>;
+      callback
+    ) as Promise<Models.ServiceFabricsGetResponse>;
   }
 
   /**
@@ -113,9 +165,24 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceFabricsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: Models.ServiceFabric, options?: msRest.RequestOptionsBase): Promise<Models.ServiceFabricsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,labName,userName,name,serviceFabric,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServiceFabricsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    serviceFabric: Models.ServiceFabric,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceFabricsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      labName,
+      userName,
+      name,
+      serviceFabric,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ServiceFabricsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -127,9 +194,20 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,labName,userName,name,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      labName,
+      userName,
+      name,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -142,7 +220,14 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceFabricsUpdateResponse>
    */
-  update(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: Models.ServiceFabricFragment, options?: msRest.RequestOptionsBase): Promise<Models.ServiceFabricsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    serviceFabric: Models.ServiceFabricFragment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceFabricsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -151,7 +236,14 @@ export class ServiceFabrics {
    * @param serviceFabric A Service Fabric.
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: Models.ServiceFabricFragment, callback: msRest.ServiceCallback<Models.ServiceFabric>): void;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    serviceFabric: Models.ServiceFabricFragment,
+    callback: msRest.ServiceCallback<Models.ServiceFabric>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -161,8 +253,24 @@ export class ServiceFabrics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: Models.ServiceFabricFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceFabric>): void;
-  update(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: Models.ServiceFabricFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceFabric>, callback?: msRest.ServiceCallback<Models.ServiceFabric>): Promise<Models.ServiceFabricsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    serviceFabric: Models.ServiceFabricFragment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceFabric>
+  ): void;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    serviceFabric: Models.ServiceFabricFragment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceFabric>,
+    callback?: msRest.ServiceCallback<Models.ServiceFabric>
+  ): Promise<Models.ServiceFabricsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -173,7 +281,8 @@ export class ServiceFabrics {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ServiceFabricsUpdateResponse>;
+      callback
+    ) as Promise<Models.ServiceFabricsUpdateResponse>;
   }
 
   /**
@@ -185,7 +294,13 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceFabricsListApplicableSchedulesResponse>
    */
-  listApplicableSchedules(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceFabricsListApplicableSchedulesResponse>;
+  listApplicableSchedules(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceFabricsListApplicableSchedulesResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -193,7 +308,13 @@ export class ServiceFabrics {
    * @param name The name of the service Fabric.
    * @param callback The callback
    */
-  listApplicableSchedules(resourceGroupName: string, labName: string, userName: string, name: string, callback: msRest.ServiceCallback<Models.ApplicableSchedule>): void;
+  listApplicableSchedules(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.ApplicableSchedule>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -202,8 +323,22 @@ export class ServiceFabrics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listApplicableSchedules(resourceGroupName: string, labName: string, userName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicableSchedule>): void;
-  listApplicableSchedules(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicableSchedule>, callback?: msRest.ServiceCallback<Models.ApplicableSchedule>): Promise<Models.ServiceFabricsListApplicableSchedulesResponse> {
+  listApplicableSchedules(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicableSchedule>
+  ): void;
+  listApplicableSchedules(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicableSchedule>,
+    callback?: msRest.ServiceCallback<Models.ApplicableSchedule>
+  ): Promise<Models.ServiceFabricsListApplicableSchedulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -213,7 +348,8 @@ export class ServiceFabrics {
         options
       },
       listApplicableSchedulesOperationSpec,
-      callback) as Promise<Models.ServiceFabricsListApplicableSchedulesResponse>;
+      callback
+    ) as Promise<Models.ServiceFabricsListApplicableSchedulesResponse>;
   }
 
   /**
@@ -225,9 +361,16 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStart(resourceGroupName,labName,userName,name,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  start(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStart(resourceGroupName, labName, userName, name, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -239,9 +382,16 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStop(resourceGroupName,labName,userName,name,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  stop(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStop(resourceGroupName, labName, userName, name, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -254,7 +404,14 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, serviceFabric: Models.ServiceFabric, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    serviceFabric: Models.ServiceFabric,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -265,7 +422,8 @@ export class ServiceFabrics {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -277,7 +435,13 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -287,7 +451,8 @@ export class ServiceFabrics {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -299,7 +464,13 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -309,7 +480,8 @@ export class ServiceFabrics {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -321,7 +493,13 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStop(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -331,7 +509,8 @@ export class ServiceFabrics {
         options
       },
       beginStopOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -340,7 +519,10 @@ export class ServiceFabrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceFabricsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceFabricsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceFabricsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -351,15 +533,24 @@ export class ServiceFabrics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceFabricList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceFabricList>, callback?: msRest.ServiceCallback<Models.ServiceFabricList>): Promise<Models.ServiceFabricsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceFabricList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceFabricList>,
+    callback?: msRest.ServiceCallback<Models.ServiceFabricList>
+  ): Promise<Models.ServiceFabricsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ServiceFabricsListNextResponse>;
+      callback
+    ) as Promise<Models.ServiceFabricsListNextResponse>;
   }
 }
 
@@ -367,7 +558,8 @@ export class ServiceFabrics {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -381,9 +573,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceFabricList
@@ -397,7 +587,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -405,13 +596,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceFabric
@@ -425,7 +611,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -433,12 +620,8 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "serviceFabric",
     mapper: {
@@ -459,7 +642,8 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listApplicableSchedulesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}/listApplicableSchedules",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}/listApplicableSchedules",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -467,12 +651,8 @@ const listApplicableSchedulesOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicableSchedule
@@ -486,7 +666,8 @@ const listApplicableSchedulesOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -494,12 +675,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "serviceFabric",
     mapper: {
@@ -523,7 +700,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -531,12 +709,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -550,7 +724,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}/start",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}/start",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -558,12 +733,8 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -576,7 +747,8 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginStopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}/stop",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{name}/stop",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -584,12 +756,8 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -604,12 +772,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceFabricList

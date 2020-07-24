@@ -35,14 +35,22 @@ export class PrivateLinkResourcesOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesListResponse>
    */
-  list(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesListResponse>;
+  list(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param vaultName The name of the recovery services vault.
    * @param callback The callback
    */
-  list(resourceGroupName: string, vaultName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResources>): void;
+  list(
+    resourceGroupName: string,
+    vaultName: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResources>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -50,8 +58,18 @@ export class PrivateLinkResourcesOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, vaultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResources>): void;
-  list(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResources>, callback?: msRest.ServiceCallback<Models.PrivateLinkResources>): Promise<Models.PrivateLinkResourcesListResponse> {
+  list(
+    resourceGroupName: string,
+    vaultName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResources>
+  ): void;
+  list(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResources>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResources>
+  ): Promise<Models.PrivateLinkResourcesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +77,8 @@ export class PrivateLinkResourcesOperations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesListResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesListResponse>;
   }
 
   /**
@@ -72,7 +91,12 @@ export class PrivateLinkResourcesOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesGetResponse>
    */
-  get(resourceGroupName: string, vaultName: string, privateLinkResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesGetResponse>;
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    privateLinkResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -80,7 +104,12 @@ export class PrivateLinkResourcesOperations {
    * @param privateLinkResourceName
    * @param callback The callback
    */
-  get(resourceGroupName: string, vaultName: string, privateLinkResourceName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    privateLinkResourceName: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -89,8 +118,20 @@ export class PrivateLinkResourcesOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, vaultName: string, privateLinkResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
-  get(resourceGroupName: string, vaultName: string, privateLinkResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResource>, callback?: msRest.ServiceCallback<Models.PrivateLinkResource>): Promise<Models.PrivateLinkResourcesGetResponse> {
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    privateLinkResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    privateLinkResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResource>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): Promise<Models.PrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +140,8 @@ export class PrivateLinkResourcesOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesGetResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesGetResponse>;
   }
 
   /**
@@ -109,26 +151,41 @@ export class PrivateLinkResourcesOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateLinkResources>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResources>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResources>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResources>, callback?: msRest.ServiceCallback<Models.PrivateLinkResources>): Promise<Models.PrivateLinkResourcesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResources>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResources>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResources>
+  ): Promise<Models.PrivateLinkResourcesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesListNextResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesListNextResponse>;
   }
 }
 
@@ -136,18 +193,11 @@ export class PrivateLinkResourcesOperations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.vaultName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResources
@@ -161,19 +211,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources/{privateLinkResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources/{privateLinkResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
     Parameters.privateLinkResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResource
@@ -189,12 +236,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResources

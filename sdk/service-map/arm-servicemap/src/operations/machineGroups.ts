@@ -33,21 +33,41 @@ export class MachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.MachineGroupsListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.MachineGroupsListByWorkspaceOptionalParams): Promise<Models.MachineGroupsListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: Models.MachineGroupsListByWorkspaceOptionalParams
+  ): Promise<Models.MachineGroupsListByWorkspaceResponse>;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.MachineGroupCollection>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.MachineGroupCollection>
+  ): void;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: Models.MachineGroupsListByWorkspaceOptionalParams, callback: msRest.ServiceCallback<Models.MachineGroupCollection>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.MachineGroupsListByWorkspaceOptionalParams | msRest.ServiceCallback<Models.MachineGroupCollection>, callback?: msRest.ServiceCallback<Models.MachineGroupCollection>): Promise<Models.MachineGroupsListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: Models.MachineGroupsListByWorkspaceOptionalParams,
+    callback: msRest.ServiceCallback<Models.MachineGroupCollection>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?:
+      | Models.MachineGroupsListByWorkspaceOptionalParams
+      | msRest.ServiceCallback<Models.MachineGroupCollection>,
+    callback?: msRest.ServiceCallback<Models.MachineGroupCollection>
+  ): Promise<Models.MachineGroupsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class MachineGroups {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.MachineGroupsListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.MachineGroupsListByWorkspaceResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class MachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.MachineGroupsCreateResponse>
    */
-  create(resourceGroupName: string, workspaceName: string, machineGroup: Models.MachineGroup, options?: msRest.RequestOptionsBase): Promise<Models.MachineGroupsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroup: Models.MachineGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MachineGroupsCreateResponse>;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
    * @param machineGroup Machine Group resource to create.
    * @param callback The callback
    */
-  create(resourceGroupName: string, workspaceName: string, machineGroup: Models.MachineGroup, callback: msRest.ServiceCallback<Models.MachineGroup>): void;
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroup: Models.MachineGroup,
+    callback: msRest.ServiceCallback<Models.MachineGroup>
+  ): void;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
@@ -81,8 +112,20 @@ export class MachineGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, workspaceName: string, machineGroup: Models.MachineGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MachineGroup>): void;
-  create(resourceGroupName: string, workspaceName: string, machineGroup: Models.MachineGroup, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineGroup>, callback?: msRest.ServiceCallback<Models.MachineGroup>): Promise<Models.MachineGroupsCreateResponse> {
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroup: Models.MachineGroup,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MachineGroup>
+  ): void;
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroup: Models.MachineGroup,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineGroup>,
+    callback?: msRest.ServiceCallback<Models.MachineGroup>
+  ): Promise<Models.MachineGroupsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +134,8 @@ export class MachineGroups {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.MachineGroupsCreateResponse>;
+      callback
+    ) as Promise<Models.MachineGroupsCreateResponse>;
   }
 
   /**
@@ -102,14 +146,24 @@ export class MachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.MachineGroupsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, machineGroupName: string, options?: Models.MachineGroupsGetOptionalParams): Promise<Models.MachineGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroupName: string,
+    options?: Models.MachineGroupsGetOptionalParams
+  ): Promise<Models.MachineGroupsGetResponse>;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
    * @param machineGroupName Machine Group resource name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, machineGroupName: string, callback: msRest.ServiceCallback<Models.MachineGroup>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroupName: string,
+    callback: msRest.ServiceCallback<Models.MachineGroup>
+  ): void;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
@@ -117,8 +171,20 @@ export class MachineGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, machineGroupName: string, options: Models.MachineGroupsGetOptionalParams, callback: msRest.ServiceCallback<Models.MachineGroup>): void;
-  get(resourceGroupName: string, workspaceName: string, machineGroupName: string, options?: Models.MachineGroupsGetOptionalParams | msRest.ServiceCallback<Models.MachineGroup>, callback?: msRest.ServiceCallback<Models.MachineGroup>): Promise<Models.MachineGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroupName: string,
+    options: Models.MachineGroupsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.MachineGroup>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroupName: string,
+    options?: Models.MachineGroupsGetOptionalParams | msRest.ServiceCallback<Models.MachineGroup>,
+    callback?: msRest.ServiceCallback<Models.MachineGroup>
+  ): Promise<Models.MachineGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +193,8 @@ export class MachineGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MachineGroupsGetResponse>;
+      callback
+    ) as Promise<Models.MachineGroupsGetResponse>;
   }
 
   /**
@@ -139,7 +206,13 @@ export class MachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.MachineGroupsUpdateResponse>
    */
-  update(resourceGroupName: string, workspaceName: string, machineGroupName: string, machineGroup: Models.MachineGroup, options?: msRest.RequestOptionsBase): Promise<Models.MachineGroupsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroupName: string,
+    machineGroup: Models.MachineGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MachineGroupsUpdateResponse>;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
@@ -147,7 +220,13 @@ export class MachineGroups {
    * @param machineGroup Machine Group resource to update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, workspaceName: string, machineGroupName: string, machineGroup: Models.MachineGroup, callback: msRest.ServiceCallback<Models.MachineGroup>): void;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroupName: string,
+    machineGroup: Models.MachineGroup,
+    callback: msRest.ServiceCallback<Models.MachineGroup>
+  ): void;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
@@ -156,8 +235,22 @@ export class MachineGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, workspaceName: string, machineGroupName: string, machineGroup: Models.MachineGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MachineGroup>): void;
-  update(resourceGroupName: string, workspaceName: string, machineGroupName: string, machineGroup: Models.MachineGroup, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineGroup>, callback?: msRest.ServiceCallback<Models.MachineGroup>): Promise<Models.MachineGroupsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroupName: string,
+    machineGroup: Models.MachineGroup,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MachineGroup>
+  ): void;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroupName: string,
+    machineGroup: Models.MachineGroup,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineGroup>,
+    callback?: msRest.ServiceCallback<Models.MachineGroup>
+  ): Promise<Models.MachineGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +260,8 @@ export class MachineGroups {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.MachineGroupsUpdateResponse>;
+      callback
+    ) as Promise<Models.MachineGroupsUpdateResponse>;
   }
 
   /**
@@ -178,14 +272,24 @@ export class MachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, machineGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
    * @param machineGroupName Machine Group resource name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, machineGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroupName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
@@ -193,8 +297,20 @@ export class MachineGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, machineGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workspaceName: string, machineGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    machineGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +319,8 @@ export class MachineGroups {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -212,26 +329,41 @@ export class MachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.MachineGroupsListByWorkspaceNextResponse>
    */
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MachineGroupsListByWorkspaceNextResponse>;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MachineGroupsListByWorkspaceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MachineGroupCollection>): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MachineGroupCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MachineGroupCollection>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineGroupCollection>, callback?: msRest.ServiceCallback<Models.MachineGroupCollection>): Promise<Models.MachineGroupsListByWorkspaceNextResponse> {
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MachineGroupCollection>
+  ): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineGroupCollection>,
+    callback?: msRest.ServiceCallback<Models.MachineGroupCollection>
+  ): Promise<Models.MachineGroupsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByWorkspaceNextOperationSpec,
-      callback) as Promise<Models.MachineGroupsListByWorkspaceNextResponse>;
+      callback
+    ) as Promise<Models.MachineGroupsListByWorkspaceNextResponse>;
   }
 }
 
@@ -239,20 +371,15 @@ export class MachineGroups {
 const serializer = new msRest.Serializer(Mappers);
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machineGroups",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machineGroups",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.startTime, Parameters.endTime],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MachineGroupCollection
@@ -266,18 +393,15 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machineGroups",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machineGroups",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "machineGroup",
     mapper: {
@@ -298,21 +422,16 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machineGroups/{machineGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machineGroups/{machineGroupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.machineGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.startTime, Parameters.endTime],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MachineGroup
@@ -326,19 +445,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machineGroups/{machineGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machineGroups/{machineGroupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.machineGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "machineGroup",
     mapper: {
@@ -359,19 +475,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machineGroups/{machineGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/machineGroups/{machineGroupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.machineGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -385,12 +498,8 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MachineGroupCollection

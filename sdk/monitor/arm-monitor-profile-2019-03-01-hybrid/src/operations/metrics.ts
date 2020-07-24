@@ -32,7 +32,10 @@ export class Metrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricsListResponse>
    */
-  list(resourceUri: string, options?: Models.MetricsListOptionalParams): Promise<Models.MetricsListResponse>;
+  list(
+    resourceUri: string,
+    options?: Models.MetricsListOptionalParams
+  ): Promise<Models.MetricsListResponse>;
   /**
    * @param resourceUri The identifier of the resource.
    * @param callback The callback
@@ -43,15 +46,24 @@ export class Metrics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceUri: string, options: Models.MetricsListOptionalParams, callback: msRest.ServiceCallback<Models.Response>): void;
-  list(resourceUri: string, options?: Models.MetricsListOptionalParams | msRest.ServiceCallback<Models.Response>, callback?: msRest.ServiceCallback<Models.Response>): Promise<Models.MetricsListResponse> {
+  list(
+    resourceUri: string,
+    options: Models.MetricsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.Response>
+  ): void;
+  list(
+    resourceUri: string,
+    options?: Models.MetricsListOptionalParams | msRest.ServiceCallback<Models.Response>,
+    callback?: msRest.ServiceCallback<Models.Response>
+  ): Promise<Models.MetricsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MetricsListResponse>;
+      callback
+    ) as Promise<Models.MetricsListResponse>;
   }
 }
 
@@ -60,9 +72,7 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceUri}/providers/microsoft.insights/metrics",
-  urlParameters: [
-    Parameters.resourceUri
-  ],
+  urlParameters: [Parameters.resourceUri],
   queryParameters: [
     Parameters.timespan,
     Parameters.interval,
@@ -75,9 +85,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion0,
     Parameters.metricnamespace
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Response

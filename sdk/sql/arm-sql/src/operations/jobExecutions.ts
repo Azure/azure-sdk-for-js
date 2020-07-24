@@ -36,7 +36,12 @@ export class JobExecutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobExecutionsListByAgentResponse>
    */
-  listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options?: Models.JobExecutionsListByAgentOptionalParams): Promise<Models.JobExecutionsListByAgentResponse>;
+  listByAgent(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    options?: Models.JobExecutionsListByAgentOptionalParams
+  ): Promise<Models.JobExecutionsListByAgentResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -44,7 +49,12 @@ export class JobExecutions {
    * @param jobAgentName The name of the job agent.
    * @param callback The callback
    */
-  listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, callback: msRest.ServiceCallback<Models.JobExecutionListResult>): void;
+  listByAgent(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    callback: msRest.ServiceCallback<Models.JobExecutionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -53,8 +63,22 @@ export class JobExecutions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options: Models.JobExecutionsListByAgentOptionalParams, callback: msRest.ServiceCallback<Models.JobExecutionListResult>): void;
-  listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options?: Models.JobExecutionsListByAgentOptionalParams | msRest.ServiceCallback<Models.JobExecutionListResult>, callback?: msRest.ServiceCallback<Models.JobExecutionListResult>): Promise<Models.JobExecutionsListByAgentResponse> {
+  listByAgent(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    options: Models.JobExecutionsListByAgentOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobExecutionListResult>
+  ): void;
+  listByAgent(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    options?:
+      | Models.JobExecutionsListByAgentOptionalParams
+      | msRest.ServiceCallback<Models.JobExecutionListResult>,
+    callback?: msRest.ServiceCallback<Models.JobExecutionListResult>
+  ): Promise<Models.JobExecutionsListByAgentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +87,8 @@ export class JobExecutions {
         options
       },
       listByAgentOperationSpec,
-      callback) as Promise<Models.JobExecutionsListByAgentResponse>;
+      callback
+    ) as Promise<Models.JobExecutionsListByAgentResponse>;
   }
 
   /**
@@ -77,7 +102,14 @@ export class JobExecutions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  cancel(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  cancel(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -87,7 +119,14 @@ export class JobExecutions {
    * @param jobExecutionId The id of the job execution to cancel.
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, callback: msRest.ServiceCallback<void>): void;
+  cancel(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -98,8 +137,24 @@ export class JobExecutions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancel(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancel(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  cancel(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -110,7 +165,8 @@ export class JobExecutions {
         options
       },
       cancelOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -123,9 +179,22 @@ export class JobExecutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobExecutionsCreateResponse>
    */
-  create(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<Models.JobExecutionsCreateResponse> {
-    return this.beginCreate(resourceGroupName,serverName,jobAgentName,jobName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.JobExecutionsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobExecutionsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      serverName,
+      jobAgentName,
+      jobName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.JobExecutionsCreateResponse
+    >;
   }
 
   /**
@@ -138,7 +207,13 @@ export class JobExecutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobExecutionsListByJobResponse>
    */
-  listByJob(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: Models.JobExecutionsListByJobOptionalParams): Promise<Models.JobExecutionsListByJobResponse>;
+  listByJob(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: Models.JobExecutionsListByJobOptionalParams
+  ): Promise<Models.JobExecutionsListByJobResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -147,7 +222,13 @@ export class JobExecutions {
    * @param jobName The name of the job to get.
    * @param callback The callback
    */
-  listByJob(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, callback: msRest.ServiceCallback<Models.JobExecutionListResult>): void;
+  listByJob(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<Models.JobExecutionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -157,8 +238,24 @@ export class JobExecutions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByJob(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options: Models.JobExecutionsListByJobOptionalParams, callback: msRest.ServiceCallback<Models.JobExecutionListResult>): void;
-  listByJob(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: Models.JobExecutionsListByJobOptionalParams | msRest.ServiceCallback<Models.JobExecutionListResult>, callback?: msRest.ServiceCallback<Models.JobExecutionListResult>): Promise<Models.JobExecutionsListByJobResponse> {
+  listByJob(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options: Models.JobExecutionsListByJobOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobExecutionListResult>
+  ): void;
+  listByJob(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?:
+      | Models.JobExecutionsListByJobOptionalParams
+      | msRest.ServiceCallback<Models.JobExecutionListResult>,
+    callback?: msRest.ServiceCallback<Models.JobExecutionListResult>
+  ): Promise<Models.JobExecutionsListByJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -168,7 +265,8 @@ export class JobExecutions {
         options
       },
       listByJobOperationSpec,
-      callback) as Promise<Models.JobExecutionsListByJobResponse>;
+      callback
+    ) as Promise<Models.JobExecutionsListByJobResponse>;
   }
 
   /**
@@ -182,7 +280,14 @@ export class JobExecutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobExecutionsGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: msRest.RequestOptionsBase): Promise<Models.JobExecutionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobExecutionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -192,7 +297,14 @@ export class JobExecutions {
    * @param jobExecutionId The id of the job execution
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, callback: msRest.ServiceCallback<Models.JobExecution>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    callback: msRest.ServiceCallback<Models.JobExecution>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -203,8 +315,24 @@ export class JobExecutions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobExecution>): void;
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobExecution>, callback?: msRest.ServiceCallback<Models.JobExecution>): Promise<Models.JobExecutionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobExecution>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobExecution>,
+    callback?: msRest.ServiceCallback<Models.JobExecution>
+  ): Promise<Models.JobExecutionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -215,7 +343,8 @@ export class JobExecutions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.JobExecutionsGetResponse>;
+      callback
+    ) as Promise<Models.JobExecutionsGetResponse>;
   }
 
   /**
@@ -229,9 +358,24 @@ export class JobExecutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobExecutionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: msRest.RequestOptionsBase): Promise<Models.JobExecutionsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serverName,jobAgentName,jobName,jobExecutionId,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.JobExecutionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobExecutionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      jobAgentName,
+      jobName,
+      jobExecutionId,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.JobExecutionsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -244,7 +388,13 @@ export class JobExecutions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -254,7 +404,8 @@ export class JobExecutions {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -268,7 +419,14 @@ export class JobExecutions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobExecutionId: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobExecutionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -279,7 +437,8 @@ export class JobExecutions {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -288,26 +447,41 @@ export class JobExecutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobExecutionsListByAgentNextResponse>
    */
-  listByAgentNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobExecutionsListByAgentNextResponse>;
+  listByAgentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobExecutionsListByAgentNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAgentNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.JobExecutionListResult>): void;
+  listByAgentNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.JobExecutionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAgentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobExecutionListResult>): void;
-  listByAgentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobExecutionListResult>, callback?: msRest.ServiceCallback<Models.JobExecutionListResult>): Promise<Models.JobExecutionsListByAgentNextResponse> {
+  listByAgentNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobExecutionListResult>
+  ): void;
+  listByAgentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobExecutionListResult>,
+    callback?: msRest.ServiceCallback<Models.JobExecutionListResult>
+  ): Promise<Models.JobExecutionsListByAgentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAgentNextOperationSpec,
-      callback) as Promise<Models.JobExecutionsListByAgentNextResponse>;
+      callback
+    ) as Promise<Models.JobExecutionsListByAgentNextResponse>;
   }
 
   /**
@@ -316,26 +490,41 @@ export class JobExecutions {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobExecutionsListByJobNextResponse>
    */
-  listByJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobExecutionsListByJobNextResponse>;
+  listByJobNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobExecutionsListByJobNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByJobNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.JobExecutionListResult>): void;
+  listByJobNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.JobExecutionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByJobNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobExecutionListResult>): void;
-  listByJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobExecutionListResult>, callback?: msRest.ServiceCallback<Models.JobExecutionListResult>): Promise<Models.JobExecutionsListByJobNextResponse> {
+  listByJobNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobExecutionListResult>
+  ): void;
+  listByJobNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobExecutionListResult>,
+    callback?: msRest.ServiceCallback<Models.JobExecutionListResult>
+  ): Promise<Models.JobExecutionsListByJobNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByJobNextOperationSpec,
-      callback) as Promise<Models.JobExecutionsListByJobNextResponse>;
+      callback
+    ) as Promise<Models.JobExecutionsListByJobNextResponse>;
   }
 }
 
@@ -343,7 +532,8 @@ export class JobExecutions {
 const serializer = new msRest.Serializer(Mappers);
 const listByAgentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/executions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/executions",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -360,9 +550,7 @@ const listByAgentOperationSpec: msRest.OperationSpec = {
     Parameters.top,
     Parameters.apiVersion4
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobExecutionListResult
@@ -376,7 +564,8 @@ const listByAgentOperationSpec: msRest.OperationSpec = {
 
 const cancelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/cancel",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}/cancel",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -385,12 +574,8 @@ const cancelOperationSpec: msRest.OperationSpec = {
     Parameters.jobExecutionId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -402,7 +587,8 @@ const cancelOperationSpec: msRest.OperationSpec = {
 
 const listByJobOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -420,9 +606,7 @@ const listByJobOperationSpec: msRest.OperationSpec = {
     Parameters.top,
     Parameters.apiVersion4
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobExecutionListResult
@@ -436,7 +620,8 @@ const listByJobOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -445,12 +630,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.jobExecutionId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobExecution
@@ -464,7 +645,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/start",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/start",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -472,12 +654,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.jobName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobExecution
@@ -492,7 +670,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/executions/{jobExecutionId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -501,12 +680,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.jobExecutionId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobExecution
@@ -526,12 +701,8 @@ const listByAgentNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobExecutionListResult
@@ -547,12 +718,8 @@ const listByJobNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobExecutionListResult

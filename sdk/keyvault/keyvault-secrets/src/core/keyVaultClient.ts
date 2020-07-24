@@ -35,14 +35,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SetSecretResponse>
    */
-  setSecret(vaultBaseUrl: string, secretName: string, value: string, options?: Models.KeyVaultClientSetSecretOptionalParams): Promise<Models.SetSecretResponse>;
+  setSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    value: string,
+    options?: Models.KeyVaultClientSetSecretOptionalParams
+  ): Promise<Models.SetSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param value The value of the secret.
    * @param callback The callback
    */
-  setSecret(vaultBaseUrl: string, secretName: string, value: string, callback: coreHttp.ServiceCallback<Models.SecretBundle>): void;
+  setSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    value: string,
+    callback: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
@@ -50,8 +60,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setSecret(vaultBaseUrl: string, secretName: string, value: string, options: Models.KeyVaultClientSetSecretOptionalParams, callback: coreHttp.ServiceCallback<Models.SecretBundle>): void;
-  setSecret(vaultBaseUrl: string, secretName: string, value: string, options?: Models.KeyVaultClientSetSecretOptionalParams | coreHttp.ServiceCallback<Models.SecretBundle>, callback?: coreHttp.ServiceCallback<Models.SecretBundle>): Promise<Models.SetSecretResponse> {
+  setSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    value: string,
+    options: Models.KeyVaultClientSetSecretOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): void;
+  setSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    value: string,
+    options?:
+      | Models.KeyVaultClientSetSecretOptionalParams
+      | coreHttp.ServiceCallback<Models.SecretBundle>,
+    callback?: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): Promise<Models.SetSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -60,7 +84,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       setSecretOperationSpec,
-      callback) as Promise<Models.SetSecretResponse>;
+      callback
+    ) as Promise<Models.SetSecretResponse>;
   }
 
   /**
@@ -72,21 +97,39 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteSecretResponse>
    */
-  deleteSecret(vaultBaseUrl: string, secretName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.DeleteSecretResponse>;
+  deleteSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.DeleteSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param callback The callback
    */
-  deleteSecret(vaultBaseUrl: string, secretName: string, callback: coreHttp.ServiceCallback<Models.DeletedSecretBundle>): void;
+  deleteSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    callback: coreHttp.ServiceCallback<Models.DeletedSecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteSecret(vaultBaseUrl: string, secretName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DeletedSecretBundle>): void;
-  deleteSecret(vaultBaseUrl: string, secretName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DeletedSecretBundle>, callback?: coreHttp.ServiceCallback<Models.DeletedSecretBundle>): Promise<Models.DeleteSecretResponse> {
+  deleteSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.DeletedSecretBundle>
+  ): void;
+  deleteSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DeletedSecretBundle>,
+    callback?: coreHttp.ServiceCallback<Models.DeletedSecretBundle>
+  ): Promise<Models.DeleteSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -94,7 +137,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       deleteSecretOperationSpec,
-      callback) as Promise<Models.DeleteSecretResponse>;
+      callback
+    ) as Promise<Models.DeleteSecretResponse>;
   }
 
   /**
@@ -108,14 +152,24 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateSecretResponse>
    */
-  updateSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, options?: Models.KeyVaultClientUpdateSecretOptionalParams): Promise<Models.UpdateSecretResponse>;
+  updateSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    options?: Models.KeyVaultClientUpdateSecretOptionalParams
+  ): Promise<Models.UpdateSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param secretVersion The version of the secret.
    * @param callback The callback
    */
-  updateSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, callback: coreHttp.ServiceCallback<Models.SecretBundle>): void;
+  updateSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    callback: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
@@ -123,8 +177,22 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, options: Models.KeyVaultClientUpdateSecretOptionalParams, callback: coreHttp.ServiceCallback<Models.SecretBundle>): void;
-  updateSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, options?: Models.KeyVaultClientUpdateSecretOptionalParams | coreHttp.ServiceCallback<Models.SecretBundle>, callback?: coreHttp.ServiceCallback<Models.SecretBundle>): Promise<Models.UpdateSecretResponse> {
+  updateSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    options: Models.KeyVaultClientUpdateSecretOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): void;
+  updateSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    options?:
+      | Models.KeyVaultClientUpdateSecretOptionalParams
+      | coreHttp.ServiceCallback<Models.SecretBundle>,
+    callback?: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): Promise<Models.UpdateSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -133,7 +201,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateSecretOperationSpec,
-      callback) as Promise<Models.UpdateSecretResponse>;
+      callback
+    ) as Promise<Models.UpdateSecretResponse>;
   }
 
   /**
@@ -147,7 +216,12 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSecretResponse>
    */
-  getSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GetSecretResponse>;
+  getSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.GetSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
@@ -155,7 +229,12 @@ class KeyVaultClient extends KeyVaultClientContext {
    * the latest version of the secret is returned.
    * @param callback The callback
    */
-  getSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, callback: coreHttp.ServiceCallback<Models.SecretBundle>): void;
+  getSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    callback: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
@@ -164,8 +243,20 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SecretBundle>): void;
-  getSecret(vaultBaseUrl: string, secretName: string, secretVersion: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SecretBundle>, callback?: coreHttp.ServiceCallback<Models.SecretBundle>): Promise<Models.GetSecretResponse> {
+  getSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): void;
+  getSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    secretVersion: string,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SecretBundle>,
+    callback?: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): Promise<Models.GetSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -174,7 +265,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getSecretOperationSpec,
-      callback) as Promise<Models.GetSecretResponse>;
+      callback
+    ) as Promise<Models.GetSecretResponse>;
   }
 
   /**
@@ -186,26 +278,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSecretsResponse>
    */
-  getSecrets(vaultBaseUrl: string, options?: Models.KeyVaultClientGetSecretsOptionalParams): Promise<Models.GetSecretsResponse>;
+  getSecrets(
+    vaultBaseUrl: string,
+    options?: Models.KeyVaultClientGetSecretsOptionalParams
+  ): Promise<Models.GetSecretsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getSecrets(vaultBaseUrl: string, callback: coreHttp.ServiceCallback<Models.SecretListResult>): void;
+  getSecrets(
+    vaultBaseUrl: string,
+    callback: coreHttp.ServiceCallback<Models.SecretListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSecrets(vaultBaseUrl: string, options: Models.KeyVaultClientGetSecretsOptionalParams, callback: coreHttp.ServiceCallback<Models.SecretListResult>): void;
-  getSecrets(vaultBaseUrl: string, options?: Models.KeyVaultClientGetSecretsOptionalParams | coreHttp.ServiceCallback<Models.SecretListResult>, callback?: coreHttp.ServiceCallback<Models.SecretListResult>): Promise<Models.GetSecretsResponse> {
+  getSecrets(
+    vaultBaseUrl: string,
+    options: Models.KeyVaultClientGetSecretsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SecretListResult>
+  ): void;
+  getSecrets(
+    vaultBaseUrl: string,
+    options?:
+      | Models.KeyVaultClientGetSecretsOptionalParams
+      | coreHttp.ServiceCallback<Models.SecretListResult>,
+    callback?: coreHttp.ServiceCallback<Models.SecretListResult>
+  ): Promise<Models.GetSecretsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getSecretsOperationSpec,
-      callback) as Promise<Models.GetSecretsResponse>;
+      callback
+    ) as Promise<Models.GetSecretsResponse>;
   }
 
   /**
@@ -217,21 +326,41 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetSecretVersionsResponse>
    */
-  getSecretVersions(vaultBaseUrl: string, secretName: string, options?: Models.KeyVaultClientGetSecretVersionsOptionalParams): Promise<Models.GetSecretVersionsResponse>;
+  getSecretVersions(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: Models.KeyVaultClientGetSecretVersionsOptionalParams
+  ): Promise<Models.GetSecretVersionsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param callback The callback
    */
-  getSecretVersions(vaultBaseUrl: string, secretName: string, callback: coreHttp.ServiceCallback<Models.SecretListResult>): void;
+  getSecretVersions(
+    vaultBaseUrl: string,
+    secretName: string,
+    callback: coreHttp.ServiceCallback<Models.SecretListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSecretVersions(vaultBaseUrl: string, secretName: string, options: Models.KeyVaultClientGetSecretVersionsOptionalParams, callback: coreHttp.ServiceCallback<Models.SecretListResult>): void;
-  getSecretVersions(vaultBaseUrl: string, secretName: string, options?: Models.KeyVaultClientGetSecretVersionsOptionalParams | coreHttp.ServiceCallback<Models.SecretListResult>, callback?: coreHttp.ServiceCallback<Models.SecretListResult>): Promise<Models.GetSecretVersionsResponse> {
+  getSecretVersions(
+    vaultBaseUrl: string,
+    secretName: string,
+    options: Models.KeyVaultClientGetSecretVersionsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SecretListResult>
+  ): void;
+  getSecretVersions(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?:
+      | Models.KeyVaultClientGetSecretVersionsOptionalParams
+      | coreHttp.ServiceCallback<Models.SecretListResult>,
+    callback?: coreHttp.ServiceCallback<Models.SecretListResult>
+  ): Promise<Models.GetSecretVersionsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -239,7 +368,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getSecretVersionsOperationSpec,
-      callback) as Promise<Models.GetSecretVersionsResponse>;
+      callback
+    ) as Promise<Models.GetSecretVersionsResponse>;
   }
 
   /**
@@ -250,26 +380,43 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedSecretsResponse>
    */
-  getDeletedSecrets(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedSecretsOptionalParams): Promise<Models.GetDeletedSecretsResponse>;
+  getDeletedSecrets(
+    vaultBaseUrl: string,
+    options?: Models.KeyVaultClientGetDeletedSecretsOptionalParams
+  ): Promise<Models.GetDeletedSecretsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getDeletedSecrets(vaultBaseUrl: string, callback: coreHttp.ServiceCallback<Models.DeletedSecretListResult>): void;
+  getDeletedSecrets(
+    vaultBaseUrl: string,
+    callback: coreHttp.ServiceCallback<Models.DeletedSecretListResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedSecrets(vaultBaseUrl: string, options: Models.KeyVaultClientGetDeletedSecretsOptionalParams, callback: coreHttp.ServiceCallback<Models.DeletedSecretListResult>): void;
-  getDeletedSecrets(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedSecretsOptionalParams | coreHttp.ServiceCallback<Models.DeletedSecretListResult>, callback?: coreHttp.ServiceCallback<Models.DeletedSecretListResult>): Promise<Models.GetDeletedSecretsResponse> {
+  getDeletedSecrets(
+    vaultBaseUrl: string,
+    options: Models.KeyVaultClientGetDeletedSecretsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.DeletedSecretListResult>
+  ): void;
+  getDeletedSecrets(
+    vaultBaseUrl: string,
+    options?:
+      | Models.KeyVaultClientGetDeletedSecretsOptionalParams
+      | coreHttp.ServiceCallback<Models.DeletedSecretListResult>,
+    callback?: coreHttp.ServiceCallback<Models.DeletedSecretListResult>
+  ): Promise<Models.GetDeletedSecretsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getDeletedSecretsOperationSpec,
-      callback) as Promise<Models.GetDeletedSecretsResponse>;
+      callback
+    ) as Promise<Models.GetDeletedSecretsResponse>;
   }
 
   /**
@@ -281,21 +428,39 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedSecretResponse>
    */
-  getDeletedSecret(vaultBaseUrl: string, secretName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GetDeletedSecretResponse>;
+  getDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.GetDeletedSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param callback The callback
    */
-  getDeletedSecret(vaultBaseUrl: string, secretName: string, callback: coreHttp.ServiceCallback<Models.DeletedSecretBundle>): void;
+  getDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    callback: coreHttp.ServiceCallback<Models.DeletedSecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedSecret(vaultBaseUrl: string, secretName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DeletedSecretBundle>): void;
-  getDeletedSecret(vaultBaseUrl: string, secretName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DeletedSecretBundle>, callback?: coreHttp.ServiceCallback<Models.DeletedSecretBundle>): Promise<Models.GetDeletedSecretResponse> {
+  getDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.DeletedSecretBundle>
+  ): void;
+  getDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DeletedSecretBundle>,
+    callback?: coreHttp.ServiceCallback<Models.DeletedSecretBundle>
+  ): Promise<Models.GetDeletedSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -303,7 +468,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getDeletedSecretOperationSpec,
-      callback) as Promise<Models.GetDeletedSecretResponse>;
+      callback
+    ) as Promise<Models.GetDeletedSecretResponse>;
   }
 
   /**
@@ -316,21 +482,39 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<coreHttp.RestResponse>
    */
-  purgeDeletedSecret(vaultBaseUrl: string, secretName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
+  purgeDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<coreHttp.RestResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param callback The callback
    */
-  purgeDeletedSecret(vaultBaseUrl: string, secretName: string, callback: coreHttp.ServiceCallback<void>): void;
+  purgeDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param options The optional parameters
    * @param callback The callback
    */
-  purgeDeletedSecret(vaultBaseUrl: string, secretName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
-  purgeDeletedSecret(vaultBaseUrl: string, secretName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
+  purgeDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  purgeDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<coreHttp.RestResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -338,7 +522,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       purgeDeletedSecretOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -350,21 +535,39 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoverDeletedSecretResponse>
    */
-  recoverDeletedSecret(vaultBaseUrl: string, secretName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.RecoverDeletedSecretResponse>;
+  recoverDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.RecoverDeletedSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the deleted secret.
    * @param callback The callback
    */
-  recoverDeletedSecret(vaultBaseUrl: string, secretName: string, callback: coreHttp.ServiceCallback<Models.SecretBundle>): void;
+  recoverDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    callback: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the deleted secret.
    * @param options The optional parameters
    * @param callback The callback
    */
-  recoverDeletedSecret(vaultBaseUrl: string, secretName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SecretBundle>): void;
-  recoverDeletedSecret(vaultBaseUrl: string, secretName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SecretBundle>, callback?: coreHttp.ServiceCallback<Models.SecretBundle>): Promise<Models.RecoverDeletedSecretResponse> {
+  recoverDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): void;
+  recoverDeletedSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SecretBundle>,
+    callback?: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): Promise<Models.RecoverDeletedSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -372,7 +575,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       recoverDeletedSecretOperationSpec,
-      callback) as Promise<Models.RecoverDeletedSecretResponse>;
+      callback
+    ) as Promise<Models.RecoverDeletedSecretResponse>;
   }
 
   /**
@@ -384,21 +588,39 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupSecretResponse>
    */
-  backupSecret(vaultBaseUrl: string, secretName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.BackupSecretResponse>;
+  backupSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.BackupSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param callback The callback
    */
-  backupSecret(vaultBaseUrl: string, secretName: string, callback: coreHttp.ServiceCallback<Models.BackupSecretResult>): void;
+  backupSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    callback: coreHttp.ServiceCallback<Models.BackupSecretResult>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretName The name of the secret.
    * @param options The optional parameters
    * @param callback The callback
    */
-  backupSecret(vaultBaseUrl: string, secretName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BackupSecretResult>): void;
-  backupSecret(vaultBaseUrl: string, secretName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BackupSecretResult>, callback?: coreHttp.ServiceCallback<Models.BackupSecretResult>): Promise<Models.BackupSecretResponse> {
+  backupSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.BackupSecretResult>
+  ): void;
+  backupSecret(
+    vaultBaseUrl: string,
+    secretName: string,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BackupSecretResult>,
+    callback?: coreHttp.ServiceCallback<Models.BackupSecretResult>
+  ): Promise<Models.BackupSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -406,7 +628,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       backupSecretOperationSpec,
-      callback) as Promise<Models.BackupSecretResponse>;
+      callback
+    ) as Promise<Models.BackupSecretResponse>;
   }
 
   /**
@@ -418,21 +641,39 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestoreSecretResponse>
    */
-  restoreSecret(vaultBaseUrl: string, secretBundleBackup: Uint8Array, options?: coreHttp.RequestOptionsBase): Promise<Models.RestoreSecretResponse>;
+  restoreSecret(
+    vaultBaseUrl: string,
+    secretBundleBackup: Uint8Array,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.RestoreSecretResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretBundleBackup The backup blob associated with a secret bundle.
    * @param callback The callback
    */
-  restoreSecret(vaultBaseUrl: string, secretBundleBackup: Uint8Array, callback: coreHttp.ServiceCallback<Models.SecretBundle>): void;
+  restoreSecret(
+    vaultBaseUrl: string,
+    secretBundleBackup: Uint8Array,
+    callback: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param secretBundleBackup The backup blob associated with a secret bundle.
    * @param options The optional parameters
    * @param callback The callback
    */
-  restoreSecret(vaultBaseUrl: string, secretBundleBackup: Uint8Array, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SecretBundle>): void;
-  restoreSecret(vaultBaseUrl: string, secretBundleBackup: Uint8Array, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SecretBundle>, callback?: coreHttp.ServiceCallback<Models.SecretBundle>): Promise<Models.RestoreSecretResponse> {
+  restoreSecret(
+    vaultBaseUrl: string,
+    secretBundleBackup: Uint8Array,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): void;
+  restoreSecret(
+    vaultBaseUrl: string,
+    secretBundleBackup: Uint8Array,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SecretBundle>,
+    callback?: coreHttp.ServiceCallback<Models.SecretBundle>
+  ): Promise<Models.RestoreSecretResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -440,7 +681,8 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       restoreSecretOperationSpec,
-      callback) as Promise<Models.RestoreSecretResponse>;
+      callback
+    ) as Promise<Models.RestoreSecretResponse>;
   }
 }
 
@@ -449,28 +691,14 @@ const serializer = new coreHttp.Serializer(Mappers);
 const setSecretOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "secrets/{secret-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName0],
+  queryParameters: [Parameters.apiVersion],
   requestBody: {
     parameterPath: {
       value: "value",
-      tags: [
-        "options",
-        "tags"
-      ],
-      contentType: [
-        "options",
-        "contentType"
-      ],
-      secretAttributes: [
-        "options",
-        "secretAttributes"
-      ]
+      tags: ["options", "tags"],
+      contentType: ["options", "contentType"],
+      secretAttributes: ["options", "secretAttributes"]
     },
     mapper: {
       ...Mappers.SecretSetParameters,
@@ -491,13 +719,8 @@ const setSecretOperationSpec: coreHttp.OperationSpec = {
 const deleteSecretOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "secrets/{secret-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
+  queryParameters: [Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSecretBundle
@@ -512,28 +735,13 @@ const deleteSecretOperationSpec: coreHttp.OperationSpec = {
 const updateSecretOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "secrets/{secret-name}/{secret-version}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1,
-    Parameters.secretVersion
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1, Parameters.secretVersion],
+  queryParameters: [Parameters.apiVersion],
   requestBody: {
     parameterPath: {
-      contentType: [
-        "options",
-        "contentType"
-      ],
-      secretAttributes: [
-        "options",
-        "secretAttributes"
-      ],
-      tags: [
-        "options",
-        "tags"
-      ]
+      contentType: ["options", "contentType"],
+      secretAttributes: ["options", "secretAttributes"],
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.SecretUpdateParameters,
@@ -554,14 +762,8 @@ const updateSecretOperationSpec: coreHttp.OperationSpec = {
 const getSecretOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "secrets/{secret-name}/{secret-version}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1,
-    Parameters.secretVersion
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1, Parameters.secretVersion],
+  queryParameters: [Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.SecretBundle
@@ -576,13 +778,8 @@ const getSecretOperationSpec: coreHttp.OperationSpec = {
 const getSecretsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "secrets",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.SecretListResult
@@ -597,14 +794,8 @@ const getSecretsOperationSpec: coreHttp.OperationSpec = {
 const getSecretVersionsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "secrets/{secret-name}/versions",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.SecretListResult
@@ -619,13 +810,8 @@ const getSecretVersionsOperationSpec: coreHttp.OperationSpec = {
 const getDeletedSecretsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "deletedsecrets",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.maxresults,
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSecretListResult
@@ -640,13 +826,8 @@ const getDeletedSecretsOperationSpec: coreHttp.OperationSpec = {
 const getDeletedSecretOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "deletedsecrets/{secret-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
+  queryParameters: [Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedSecretBundle
@@ -661,13 +842,8 @@ const getDeletedSecretOperationSpec: coreHttp.OperationSpec = {
 const purgeDeletedSecretOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "deletedsecrets/{secret-name}",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
+  queryParameters: [Parameters.apiVersion],
   responses: {
     204: {},
     default: {
@@ -680,13 +856,8 @@ const purgeDeletedSecretOperationSpec: coreHttp.OperationSpec = {
 const recoverDeletedSecretOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "deletedsecrets/{secret-name}/recover",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
+  queryParameters: [Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.SecretBundle
@@ -701,13 +872,8 @@ const recoverDeletedSecretOperationSpec: coreHttp.OperationSpec = {
 const backupSecretOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "secrets/{secret-name}/backup",
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.secretName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName1],
+  queryParameters: [Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.BackupSecretResult
@@ -722,12 +888,8 @@ const backupSecretOperationSpec: coreHttp.OperationSpec = {
 const restoreSecretOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "secrets/restore",
-  urlParameters: [
-    Parameters.vaultBaseUrl
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.vaultBaseUrl],
+  queryParameters: [Parameters.apiVersion],
   requestBody: {
     parameterPath: {
       secretBundleBackup: "secretBundleBackup"

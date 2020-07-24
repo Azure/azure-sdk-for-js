@@ -35,14 +35,24 @@ export class BackupScheduleGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupScheduleGroupsListByDeviceResponse>
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupScheduleGroupsListByDeviceResponse>;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupScheduleGroupsListByDeviceResponse>;
   /**
    * @param deviceName The name of the device.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.BackupScheduleGroupList>): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.BackupScheduleGroupList>
+  ): void;
   /**
    * @param deviceName The name of the device.
    * @param resourceGroupName The resource group name
@@ -50,8 +60,20 @@ export class BackupScheduleGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupScheduleGroupList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupScheduleGroupList>, callback?: msRest.ServiceCallback<Models.BackupScheduleGroupList>): Promise<Models.BackupScheduleGroupsListByDeviceResponse> {
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackupScheduleGroupList>
+  ): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupScheduleGroupList>,
+    callback?: msRest.ServiceCallback<Models.BackupScheduleGroupList>
+  ): Promise<Models.BackupScheduleGroupsListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -60,7 +82,8 @@ export class BackupScheduleGroups {
         options
       },
       listByDeviceOperationSpec,
-      callback) as Promise<Models.BackupScheduleGroupsListByDeviceResponse>;
+      callback
+    ) as Promise<Models.BackupScheduleGroupsListByDeviceResponse>;
   }
 
   /**
@@ -72,7 +95,13 @@ export class BackupScheduleGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupScheduleGroupsGetResponse>
    */
-  get(deviceName: string, scheduleGroupName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupScheduleGroupsGetResponse>;
+  get(
+    deviceName: string,
+    scheduleGroupName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupScheduleGroupsGetResponse>;
   /**
    * @param deviceName The name of the device.
    * @param scheduleGroupName The name of the schedule group.
@@ -80,7 +109,13 @@ export class BackupScheduleGroups {
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(deviceName: string, scheduleGroupName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.BackupScheduleGroup>): void;
+  get(
+    deviceName: string,
+    scheduleGroupName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.BackupScheduleGroup>
+  ): void;
   /**
    * @param deviceName The name of the device.
    * @param scheduleGroupName The name of the schedule group.
@@ -89,8 +124,22 @@ export class BackupScheduleGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(deviceName: string, scheduleGroupName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupScheduleGroup>): void;
-  get(deviceName: string, scheduleGroupName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupScheduleGroup>, callback?: msRest.ServiceCallback<Models.BackupScheduleGroup>): Promise<Models.BackupScheduleGroupsGetResponse> {
+  get(
+    deviceName: string,
+    scheduleGroupName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackupScheduleGroup>
+  ): void;
+  get(
+    deviceName: string,
+    scheduleGroupName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupScheduleGroup>,
+    callback?: msRest.ServiceCallback<Models.BackupScheduleGroup>
+  ): Promise<Models.BackupScheduleGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -100,7 +149,8 @@ export class BackupScheduleGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BackupScheduleGroupsGetResponse>;
+      callback
+    ) as Promise<Models.BackupScheduleGroupsGetResponse>;
   }
 
   /**
@@ -113,9 +163,24 @@ export class BackupScheduleGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupScheduleGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(deviceName: string, scheduleGroupName: string, scheduleGroup: Models.BackupScheduleGroup, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupScheduleGroupsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(deviceName,scheduleGroupName,scheduleGroup,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BackupScheduleGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    deviceName: string,
+    scheduleGroupName: string,
+    scheduleGroup: Models.BackupScheduleGroup,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupScheduleGroupsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      deviceName,
+      scheduleGroupName,
+      scheduleGroup,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.BackupScheduleGroupsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -127,9 +192,20 @@ export class BackupScheduleGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(deviceName: string, scheduleGroupName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(deviceName,scheduleGroupName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    deviceName: string,
+    scheduleGroupName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      deviceName,
+      scheduleGroupName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -142,7 +218,14 @@ export class BackupScheduleGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(deviceName: string, scheduleGroupName: string, scheduleGroup: Models.BackupScheduleGroup, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    deviceName: string,
+    scheduleGroupName: string,
+    scheduleGroup: Models.BackupScheduleGroup,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -153,7 +236,8 @@ export class BackupScheduleGroups {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -165,7 +249,13 @@ export class BackupScheduleGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(deviceName: string, scheduleGroupName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    deviceName: string,
+    scheduleGroupName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -175,7 +265,8 @@ export class BackupScheduleGroups {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -183,19 +274,16 @@ export class BackupScheduleGroups {
 const serializer = new msRest.Serializer(Mappers);
 const listByDeviceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backupScheduleGroups",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backupScheduleGroups",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupScheduleGroupList
@@ -209,7 +297,8 @@ const listByDeviceOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backupScheduleGroups/{scheduleGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backupScheduleGroups/{scheduleGroupName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.scheduleGroupName,
@@ -217,12 +306,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupScheduleGroup
@@ -236,7 +321,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backupScheduleGroups/{scheduleGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backupScheduleGroups/{scheduleGroupName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.scheduleGroupName,
@@ -244,12 +330,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "scheduleGroup",
     mapper: {
@@ -271,7 +353,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backupScheduleGroups/{scheduleGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backupScheduleGroups/{scheduleGroupName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.scheduleGroupName,
@@ -279,12 +362,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},

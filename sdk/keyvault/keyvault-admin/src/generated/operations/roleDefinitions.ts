@@ -99,10 +99,6 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.filter, Parameters.apiVersion],
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.scope,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.scope, Parameters.nextLink],
   serializer
 };

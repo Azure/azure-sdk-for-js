@@ -166,8 +166,7 @@ export interface AzureEntityResource extends Resource {
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * Datasources under OMS Workspace.
@@ -1182,8 +1181,7 @@ export interface WorkspacePurgePurgeHeaders {
  * Result of the request to list data exports.
  * @extends Array<DataExport>
  */
-export interface DataExportListResult extends Array<DataExport> {
-}
+export interface DataExportListResult extends Array<DataExport> {}
 
 /**
  * @interface
@@ -1202,24 +1200,21 @@ export interface DataSourceListResult extends Array<DataSource> {
  * The list linked service operation response.
  * @extends Array<LinkedService>
  */
-export interface LinkedServiceListResult extends Array<LinkedService> {
-}
+export interface LinkedServiceListResult extends Array<LinkedService> {}
 
 /**
  * @interface
  * The list linked storage accounts service operation response.
  * @extends Array<LinkedStorageAccountsResource>
  */
-export interface LinkedStorageAccountsListResult extends Array<LinkedStorageAccountsResource> {
-}
+export interface LinkedStorageAccountsListResult extends Array<LinkedStorageAccountsResource> {}
 
 /**
  * @interface
  * The list workspace management groups operation response.
  * @extends Array<ManagementGroup>
  */
-export interface WorkspaceListManagementGroupsResult extends Array<ManagementGroup> {
-}
+export interface WorkspaceListManagementGroupsResult extends Array<ManagementGroup> {}
 
 /**
  * @interface
@@ -1239,16 +1234,14 @@ export interface OperationListResult extends Array<Operation> {
  * The list workspace usages operation response.
  * @extends Array<UsageMetric>
  */
-export interface WorkspaceListUsagesResult extends Array<UsageMetric> {
-}
+export interface WorkspaceListUsagesResult extends Array<UsageMetric> {}
 
 /**
  * @interface
  * The list workspaces operation response.
  * @extends Array<Workspace>
  */
-export interface WorkspaceListResult extends Array<Workspace> {
-}
+export interface WorkspaceListResult extends Array<Workspace> {}
 
 /**
  * @interface
@@ -1279,8 +1272,7 @@ export interface StorageInsightListResult extends Array<StorageInsight> {
  * The list tables operation response.
  * @extends Array<Table>
  */
-export interface TablesListResult extends Array<Table> {
-}
+export interface TablesListResult extends Array<Table> {}
 
 /**
  * Defines values for Type.
@@ -1288,7 +1280,7 @@ export interface TablesListResult extends Array<Table> {
  * @readonly
  * @enum {string}
  */
-export type Type = 'StorageAccount' | 'EventHub';
+export type Type = "StorageAccount" | "EventHub";
 
 /**
  * Defines values for DataSourceKind.
@@ -1306,7 +1298,40 @@ export type Type = 'StorageAccount' | 'EventHub';
  * @readonly
  * @enum {string}
  */
-export type DataSourceKind = 'WindowsEvent' | 'WindowsPerformanceCounter' | 'IISLogs' | 'LinuxSyslog' | 'LinuxSyslogCollection' | 'LinuxPerformanceObject' | 'LinuxPerformanceCollection' | 'CustomLog' | 'CustomLogCollection' | 'AzureAuditLog' | 'AzureActivityLog' | 'GenericDataSource' | 'ChangeTrackingCustomPath' | 'ChangeTrackingPath' | 'ChangeTrackingServices' | 'ChangeTrackingDataTypeConfiguration' | 'ChangeTrackingDefaultRegistry' | 'ChangeTrackingRegistry' | 'ChangeTrackingLinuxPath' | 'LinuxChangeTrackingPath' | 'ChangeTrackingContentLocation' | 'WindowsTelemetry' | 'Office365' | 'SecurityWindowsBaselineConfiguration' | 'SecurityCenterSecurityWindowsBaselineConfiguration' | 'SecurityEventCollectionConfiguration' | 'SecurityInsightsSecurityEventCollectionConfiguration' | 'ImportComputerGroup' | 'NetworkMonitoring' | 'Itsm' | 'DnsAnalytics' | 'ApplicationInsights' | 'SqlDataClassification';
+export type DataSourceKind =
+  | "WindowsEvent"
+  | "WindowsPerformanceCounter"
+  | "IISLogs"
+  | "LinuxSyslog"
+  | "LinuxSyslogCollection"
+  | "LinuxPerformanceObject"
+  | "LinuxPerformanceCollection"
+  | "CustomLog"
+  | "CustomLogCollection"
+  | "AzureAuditLog"
+  | "AzureActivityLog"
+  | "GenericDataSource"
+  | "ChangeTrackingCustomPath"
+  | "ChangeTrackingPath"
+  | "ChangeTrackingServices"
+  | "ChangeTrackingDataTypeConfiguration"
+  | "ChangeTrackingDefaultRegistry"
+  | "ChangeTrackingRegistry"
+  | "ChangeTrackingLinuxPath"
+  | "LinuxChangeTrackingPath"
+  | "ChangeTrackingContentLocation"
+  | "WindowsTelemetry"
+  | "Office365"
+  | "SecurityWindowsBaselineConfiguration"
+  | "SecurityCenterSecurityWindowsBaselineConfiguration"
+  | "SecurityEventCollectionConfiguration"
+  | "SecurityInsightsSecurityEventCollectionConfiguration"
+  | "ImportComputerGroup"
+  | "NetworkMonitoring"
+  | "Itsm"
+  | "DnsAnalytics"
+  | "ApplicationInsights"
+  | "SqlDataClassification";
 
 /**
  * Defines values for LinkedServiceEntityStatus.
@@ -1314,7 +1339,11 @@ export type DataSourceKind = 'WindowsEvent' | 'WindowsPerformanceCounter' | 'IIS
  * @readonly
  * @enum {string}
  */
-export type LinkedServiceEntityStatus = 'Succeeded' | 'Deleting' | 'ProvisioningAccount' | 'Updating';
+export type LinkedServiceEntityStatus =
+  | "Succeeded"
+  | "Deleting"
+  | "ProvisioningAccount"
+  | "Updating";
 
 /**
  * Defines values for DataSourceType.
@@ -1322,7 +1351,7 @@ export type LinkedServiceEntityStatus = 'Succeeded' | 'Deleting' | 'Provisioning
  * @readonly
  * @enum {string}
  */
-export type DataSourceType = 'CustomLogs' | 'AzureWatson';
+export type DataSourceType = "CustomLogs" | "AzureWatson";
 
 /**
  * Defines values for WorkspaceSkuNameEnum.
@@ -1331,7 +1360,14 @@ export type DataSourceType = 'CustomLogs' | 'AzureWatson';
  * @readonly
  * @enum {string}
  */
-export type WorkspaceSkuNameEnum = 'Free' | 'Standard' | 'Premium' | 'PerNode' | 'PerGB2018' | 'Standalone' | 'CapacityReservation';
+export type WorkspaceSkuNameEnum =
+  | "Free"
+  | "Standard"
+  | "Premium"
+  | "PerNode"
+  | "PerGB2018"
+  | "Standalone"
+  | "CapacityReservation";
 
 /**
  * Defines values for DataIngestionStatus.
@@ -1340,7 +1376,13 @@ export type WorkspaceSkuNameEnum = 'Free' | 'Standard' | 'Premium' | 'PerNode' |
  * @readonly
  * @enum {string}
  */
-export type DataIngestionStatus = 'RespectQuota' | 'ForceOn' | 'ForceOff' | 'OverQuota' | 'SubscriptionSuspended' | 'ApproachingQuota';
+export type DataIngestionStatus =
+  | "RespectQuota"
+  | "ForceOn"
+  | "ForceOff"
+  | "OverQuota"
+  | "SubscriptionSuspended"
+  | "ApproachingQuota";
 
 /**
  * Defines values for WorkspaceEntityStatus.
@@ -1349,7 +1391,14 @@ export type DataIngestionStatus = 'RespectQuota' | 'ForceOn' | 'ForceOff' | 'Ove
  * @readonly
  * @enum {string}
  */
-export type WorkspaceEntityStatus = 'Creating' | 'Succeeded' | 'Failed' | 'Canceled' | 'Deleting' | 'ProvisioningAccount' | 'Updating';
+export type WorkspaceEntityStatus =
+  | "Creating"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Deleting"
+  | "ProvisioningAccount"
+  | "Updating";
 
 /**
  * Defines values for PublicNetworkAccessType.
@@ -1357,7 +1406,7 @@ export type WorkspaceEntityStatus = 'Creating' | 'Succeeded' | 'Failed' | 'Cance
  * @readonly
  * @enum {string}
  */
-export type PublicNetworkAccessType = 'Enabled' | 'Disabled';
+export type PublicNetworkAccessType = "Enabled" | "Disabled";
 
 /**
  * Defines values for ClusterEntityStatus.
@@ -1366,7 +1415,14 @@ export type PublicNetworkAccessType = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type ClusterEntityStatus = 'Creating' | 'Succeeded' | 'Failed' | 'Canceled' | 'Deleting' | 'ProvisioningAccount' | 'Updating';
+export type ClusterEntityStatus =
+  | "Creating"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Deleting"
+  | "ProvisioningAccount"
+  | "Updating";
 
 /**
  * Defines values for ClusterSkuNameEnum.
@@ -1374,7 +1430,7 @@ export type ClusterEntityStatus = 'Creating' | 'Succeeded' | 'Failed' | 'Cancele
  * @readonly
  * @enum {string}
  */
-export type ClusterSkuNameEnum = 'CapacityReservation';
+export type ClusterSkuNameEnum = "CapacityReservation";
 
 /**
  * Defines values for IdentityType.
@@ -1382,7 +1438,7 @@ export type ClusterSkuNameEnum = 'CapacityReservation';
  * @readonly
  * @enum {string}
  */
-export type IdentityType = 'SystemAssigned' | 'None';
+export type IdentityType = "SystemAssigned" | "None";
 
 /**
  * Defines values for StorageInsightState.
@@ -1390,7 +1446,7 @@ export type IdentityType = 'SystemAssigned' | 'None';
  * @readonly
  * @enum {string}
  */
-export type StorageInsightState = 'OK' | 'ERROR';
+export type StorageInsightState = "OK" | "ERROR";
 
 /**
  * Defines values for SkuNameEnum.
@@ -1399,7 +1455,14 @@ export type StorageInsightState = 'OK' | 'ERROR';
  * @readonly
  * @enum {string}
  */
-export type SkuNameEnum = 'Free' | 'Standard' | 'Premium' | 'PerNode' | 'PerGB2018' | 'Standalone' | 'CapacityReservation';
+export type SkuNameEnum =
+  | "Free"
+  | "Standard"
+  | "Premium"
+  | "PerNode"
+  | "PerGB2018"
+  | "Standalone"
+  | "CapacityReservation";
 
 /**
  * Defines values for SearchSortEnum.
@@ -1407,7 +1470,7 @@ export type SkuNameEnum = 'Free' | 'Standard' | 'Premium' | 'PerNode' | 'PerGB20
  * @readonly
  * @enum {string}
  */
-export type SearchSortEnum = 'asc' | 'desc';
+export type SearchSortEnum = "asc" | "desc";
 
 /**
  * Defines values for PurgeState.
@@ -1415,7 +1478,7 @@ export type SearchSortEnum = 'asc' | 'desc';
  * @readonly
  * @enum {string}
  */
-export type PurgeState = 'pending' | 'completed';
+export type PurgeState = "pending" | "completed";
 
 /**
  * Contains response data for the listByWorkspace operation.
@@ -1425,16 +1488,16 @@ export type DataExportsListByWorkspaceResponse = DataExportListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataExportListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataExportListResult;
+  };
 };
 
 /**
@@ -1445,16 +1508,16 @@ export type DataExportsCreateOrUpdateResponse = DataExport & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataExport;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataExport;
+  };
 };
 
 /**
@@ -1465,16 +1528,16 @@ export type DataExportsGetResponse = DataExport & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataExport;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataExport;
+  };
 };
 
 /**
@@ -1485,16 +1548,16 @@ export type DataSourcesCreateOrUpdateResponse = DataSource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataSource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataSource;
+  };
 };
 
 /**
@@ -1505,16 +1568,16 @@ export type DataSourcesGetResponse = DataSource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataSource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataSource;
+  };
 };
 
 /**
@@ -1525,16 +1588,16 @@ export type DataSourcesListByWorkspaceResponse = DataSourceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataSourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataSourceListResult;
+  };
 };
 
 /**
@@ -1545,16 +1608,16 @@ export type DataSourcesListByWorkspaceNextResponse = DataSourceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataSourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataSourceListResult;
+  };
 };
 
 /**
@@ -1565,16 +1628,16 @@ export type IntelligencePacksListResponse = Array<IntelligencePack> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntelligencePack[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntelligencePack[];
+  };
 };
 
 /**
@@ -1585,16 +1648,16 @@ export type LinkedServicesCreateOrUpdateResponse = LinkedService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LinkedService;
+  };
 };
 
 /**
@@ -1605,16 +1668,16 @@ export type LinkedServicesDeleteMethodResponse = LinkedService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LinkedService;
+  };
 };
 
 /**
@@ -1625,16 +1688,16 @@ export type LinkedServicesGetResponse = LinkedService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LinkedService;
+  };
 };
 
 /**
@@ -1645,16 +1708,16 @@ export type LinkedServicesListByWorkspaceResponse = LinkedServiceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LinkedServiceListResult;
+  };
 };
 
 /**
@@ -1665,16 +1728,16 @@ export type LinkedServicesBeginCreateOrUpdateResponse = LinkedService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LinkedService;
+  };
 };
 
 /**
@@ -1685,16 +1748,16 @@ export type LinkedServicesBeginDeleteMethodResponse = LinkedService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LinkedService;
+  };
 };
 
 /**
@@ -1705,16 +1768,16 @@ export type LinkedStorageAccountsCreateOrUpdateResponse = LinkedStorageAccountsR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedStorageAccountsResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LinkedStorageAccountsResource;
+  };
 };
 
 /**
@@ -1725,16 +1788,16 @@ export type LinkedStorageAccountsGetResponse = LinkedStorageAccountsResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedStorageAccountsResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LinkedStorageAccountsResource;
+  };
 };
 
 /**
@@ -1745,16 +1808,16 @@ export type LinkedStorageAccountsListByWorkspaceResponse = LinkedStorageAccounts
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedStorageAccountsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LinkedStorageAccountsListResult;
+  };
 };
 
 /**
@@ -1765,16 +1828,16 @@ export type ManagementGroupsListResponse = WorkspaceListManagementGroupsResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListManagementGroupsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListManagementGroupsResult;
+  };
 };
 
 /**
@@ -1785,16 +1848,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1805,16 +1868,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1825,16 +1888,16 @@ export type OperationStatusesGetResponse = OperationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus;
+  };
 };
 
 /**
@@ -1845,16 +1908,16 @@ export type SharedKeysGetSharedKeysResponse = SharedKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedKeys;
+  };
 };
 
 /**
@@ -1865,16 +1928,16 @@ export type SharedKeysRegenerateResponse = SharedKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SharedKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SharedKeys;
+  };
 };
 
 /**
@@ -1885,16 +1948,16 @@ export type UsagesListResponse = WorkspaceListUsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListUsagesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListUsagesResult;
+  };
 };
 
 /**
@@ -1905,16 +1968,16 @@ export type WorkspacesListResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -1925,16 +1988,16 @@ export type WorkspacesListByResourceGroupResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -1945,16 +2008,16 @@ export type WorkspacesCreateOrUpdateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -1965,16 +2028,16 @@ export type WorkspacesGetResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -1985,16 +2048,16 @@ export type WorkspacesUpdateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -2005,16 +2068,16 @@ export type WorkspacesBeginCreateOrUpdateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -2025,16 +2088,16 @@ export type DeletedWorkspacesListResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -2045,16 +2108,16 @@ export type DeletedWorkspacesListByResourceGroupResponse = WorkspaceListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -2065,16 +2128,16 @@ export type ClustersListByResourceGroupResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterListResult;
+  };
 };
 
 /**
@@ -2085,16 +2148,16 @@ export type ClustersListResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterListResult;
+  };
 };
 
 /**
@@ -2105,16 +2168,16 @@ export type ClustersCreateOrUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -2125,16 +2188,16 @@ export type ClustersGetResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -2145,16 +2208,16 @@ export type ClustersUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -2165,16 +2228,16 @@ export type ClustersBeginCreateOrUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -2185,16 +2248,16 @@ export type ClustersListByResourceGroupNextResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterListResult;
+  };
 };
 
 /**
@@ -2205,16 +2268,16 @@ export type ClustersListNextResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterListResult;
+  };
 };
 
 /**
@@ -2225,16 +2288,16 @@ export type StorageInsightConfigsCreateOrUpdateResponse = StorageInsight & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageInsight;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageInsight;
+  };
 };
 
 /**
@@ -2245,16 +2308,16 @@ export type StorageInsightConfigsGetResponse = StorageInsight & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageInsight;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageInsight;
+  };
 };
 
 /**
@@ -2265,16 +2328,16 @@ export type StorageInsightConfigsListByWorkspaceResponse = StorageInsightListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageInsightListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageInsightListResult;
+  };
 };
 
 /**
@@ -2285,16 +2348,16 @@ export type StorageInsightConfigsListByWorkspaceNextResponse = StorageInsightLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageInsightListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageInsightListResult;
+  };
 };
 
 /**
@@ -2305,16 +2368,16 @@ export type SavedSearchesCreateOrUpdateResponse = SavedSearch & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SavedSearch;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SavedSearch;
+  };
 };
 
 /**
@@ -2325,16 +2388,16 @@ export type SavedSearchesGetResponse = SavedSearch & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SavedSearch;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SavedSearch;
+  };
 };
 
 /**
@@ -2345,16 +2408,16 @@ export type SavedSearchesListByWorkspaceResponse = SavedSearchesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SavedSearchesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SavedSearchesListResult;
+  };
 };
 
 /**
@@ -2365,16 +2428,16 @@ export type AvailableServiceTiersListByWorkspaceResponse = Array<AvailableServic
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableServiceTier[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailableServiceTier[];
+  };
 };
 
 /**
@@ -2385,26 +2448,27 @@ export type SchemaGetResponse = SearchGetSchemaResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SearchGetSchemaResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchGetSchemaResponse;
+  };
 };
 
 /**
  * Contains response data for the purge operation.
  */
-export type WorkspacePurgePurgeResponse = WorkspacePurgeResponse & WorkspacePurgePurgeHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type WorkspacePurgePurgeResponse = WorkspacePurgeResponse &
+  WorkspacePurgePurgeHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2420,7 +2484,7 @@ export type WorkspacePurgePurgeResponse = WorkspacePurgeResponse & WorkspacePurg
        */
       parsedBody: WorkspacePurgeResponse;
     };
-};
+  };
 
 /**
  * Contains response data for the getPurgeStatus operation.
@@ -2430,16 +2494,16 @@ export type WorkspacePurgeGetPurgeStatusResponse = WorkspacePurgeStatusResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspacePurgeStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspacePurgeStatusResponse;
+  };
 };
 
 /**
@@ -2450,16 +2514,16 @@ export type TablesListByWorkspaceResponse = TablesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TablesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TablesListResult;
+  };
 };
 
 /**
@@ -2470,16 +2534,16 @@ export type TablesUpdateResponse = Table & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Table;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Table;
+  };
 };
 
 /**
@@ -2490,14 +2554,14 @@ export type TablesGetResponse = Table & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Table;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Table;
+  };
 };

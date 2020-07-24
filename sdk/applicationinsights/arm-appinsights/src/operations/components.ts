@@ -40,14 +40,23 @@ export class Components {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>): Promise<Models.ComponentsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>
+  ): Promise<Models.ComponentsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ComponentsListResponse>;
+      callback
+    ) as Promise<Models.ComponentsListResponse>;
   }
 
   /**
@@ -56,26 +65,43 @@ export class Components {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComponentsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>): Promise<Models.ComponentsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>
+  ): Promise<Models.ComponentsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ComponentsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ComponentsListByResourceGroupResponse>;
   }
 
   /**
@@ -85,21 +111,39 @@ export class Components {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +151,8 @@ export class Components {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -117,21 +162,41 @@ export class Components {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentsGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComponentsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponent>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponent>): Promise<Models.ComponentsGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponent>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponent>
+  ): Promise<Models.ComponentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,7 +204,8 @@ export class Components {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ComponentsGetResponse>;
+      callback
+    ) as Promise<Models.ComponentsGetResponse>;
   }
 
   /**
@@ -152,7 +218,12 @@ export class Components {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, insightProperties: Models.ApplicationInsightsComponent, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    insightProperties: Models.ApplicationInsightsComponent,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComponentsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -160,7 +231,12 @@ export class Components {
    * component.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, insightProperties: Models.ApplicationInsightsComponent, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    insightProperties: Models.ApplicationInsightsComponent,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -169,8 +245,22 @@ export class Components {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, insightProperties: Models.ApplicationInsightsComponent, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>): void;
-  createOrUpdate(resourceGroupName: string, resourceName: string, insightProperties: Models.ApplicationInsightsComponent, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponent>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponent>): Promise<Models.ComponentsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    insightProperties: Models.ApplicationInsightsComponent,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    insightProperties: Models.ApplicationInsightsComponent,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponent>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponent>
+  ): Promise<Models.ComponentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -179,7 +269,8 @@ export class Components {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ComponentsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ComponentsCreateOrUpdateResponse>;
   }
 
   /**
@@ -190,14 +281,24 @@ export class Components {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, resourceName: string, componentTags: Models.TagsResource, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    resourceName: string,
+    componentTags: Models.TagsResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComponentsUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param componentTags Updated tag information to set into the component instance.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, resourceName: string, componentTags: Models.TagsResource, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>): void;
+  updateTags(
+    resourceGroupName: string,
+    resourceName: string,
+    componentTags: Models.TagsResource,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -205,8 +306,22 @@ export class Components {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, resourceName: string, componentTags: Models.TagsResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>): void;
-  updateTags(resourceGroupName: string, resourceName: string, componentTags: Models.TagsResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponent>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponent>): Promise<Models.ComponentsUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    resourceName: string,
+    componentTags: Models.TagsResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponent>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    resourceName: string,
+    componentTags: Models.TagsResource,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponent>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponent>
+  ): Promise<Models.ComponentsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -215,7 +330,8 @@ export class Components {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.ComponentsUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.ComponentsUpdateTagsResponse>;
   }
 
   /**
@@ -227,7 +343,12 @@ export class Components {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentsPurgeResponse>
    */
-  purge(resourceGroupName: string, resourceName: string, body: Models.ComponentPurgeBody, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsPurgeResponse>;
+  purge(
+    resourceGroupName: string,
+    resourceName: string,
+    body: Models.ComponentPurgeBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComponentsPurgeResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -235,7 +356,12 @@ export class Components {
    * Insights component
    * @param callback The callback
    */
-  purge(resourceGroupName: string, resourceName: string, body: Models.ComponentPurgeBody, callback: msRest.ServiceCallback<Models.ComponentPurgeResponse>): void;
+  purge(
+    resourceGroupName: string,
+    resourceName: string,
+    body: Models.ComponentPurgeBody,
+    callback: msRest.ServiceCallback<Models.ComponentPurgeResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -244,8 +370,20 @@ export class Components {
    * @param options The optional parameters
    * @param callback The callback
    */
-  purge(resourceGroupName: string, resourceName: string, body: Models.ComponentPurgeBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComponentPurgeResponse>): void;
-  purge(resourceGroupName: string, resourceName: string, body: Models.ComponentPurgeBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComponentPurgeResponse>, callback?: msRest.ServiceCallback<Models.ComponentPurgeResponse>): Promise<Models.ComponentsPurgeResponse> {
+  purge(
+    resourceGroupName: string,
+    resourceName: string,
+    body: Models.ComponentPurgeBody,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ComponentPurgeResponse>
+  ): void;
+  purge(
+    resourceGroupName: string,
+    resourceName: string,
+    body: Models.ComponentPurgeBody,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComponentPurgeResponse>,
+    callback?: msRest.ServiceCallback<Models.ComponentPurgeResponse>
+  ): Promise<Models.ComponentsPurgeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -254,7 +392,8 @@ export class Components {
         options
       },
       purgeOperationSpec,
-      callback) as Promise<Models.ComponentsPurgeResponse>;
+      callback
+    ) as Promise<Models.ComponentsPurgeResponse>;
   }
 
   /**
@@ -266,7 +405,12 @@ export class Components {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentsGetPurgeStatusResponse>
    */
-  getPurgeStatus(resourceGroupName: string, resourceName: string, purgeId: string, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsGetPurgeStatusResponse>;
+  getPurgeStatus(
+    resourceGroupName: string,
+    resourceName: string,
+    purgeId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComponentsGetPurgeStatusResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -274,7 +418,12 @@ export class Components {
    * returned.
    * @param callback The callback
    */
-  getPurgeStatus(resourceGroupName: string, resourceName: string, purgeId: string, callback: msRest.ServiceCallback<Models.ComponentPurgeStatusResponse>): void;
+  getPurgeStatus(
+    resourceGroupName: string,
+    resourceName: string,
+    purgeId: string,
+    callback: msRest.ServiceCallback<Models.ComponentPurgeStatusResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -283,8 +432,22 @@ export class Components {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPurgeStatus(resourceGroupName: string, resourceName: string, purgeId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ComponentPurgeStatusResponse>): void;
-  getPurgeStatus(resourceGroupName: string, resourceName: string, purgeId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ComponentPurgeStatusResponse>, callback?: msRest.ServiceCallback<Models.ComponentPurgeStatusResponse>): Promise<Models.ComponentsGetPurgeStatusResponse> {
+  getPurgeStatus(
+    resourceGroupName: string,
+    resourceName: string,
+    purgeId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ComponentPurgeStatusResponse>
+  ): void;
+  getPurgeStatus(
+    resourceGroupName: string,
+    resourceName: string,
+    purgeId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ComponentPurgeStatusResponse>,
+    callback?: msRest.ServiceCallback<Models.ComponentPurgeStatusResponse>
+  ): Promise<Models.ComponentsGetPurgeStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -293,7 +456,8 @@ export class Components {
         options
       },
       getPurgeStatusOperationSpec,
-      callback) as Promise<Models.ComponentsGetPurgeStatusResponse>;
+      callback
+    ) as Promise<Models.ComponentsGetPurgeStatusResponse>;
   }
 
   /**
@@ -302,26 +466,43 @@ export class Components {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComponentsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>): Promise<Models.ComponentsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>
+  ): Promise<Models.ComponentsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ComponentsListNextResponse>;
+      callback
+    ) as Promise<Models.ComponentsListNextResponse>;
   }
 
   /**
@@ -330,26 +511,43 @@ export class Components {
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ComponentsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ComponentsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>): Promise<Models.ComponentsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentListResult>
+  ): Promise<Models.ComponentsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ComponentsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ComponentsListByResourceGroupNextResponse>;
   }
 }
 
@@ -358,15 +556,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Insights/components",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentListResult
@@ -380,17 +572,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentListResult
@@ -404,18 +590,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -428,18 +607,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponent
@@ -453,18 +625,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "insightProperties",
     mapper: {
@@ -485,18 +650,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "componentTags",
     mapper: {
@@ -517,18 +675,11 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 
 const purgeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/purge",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/purge",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -549,19 +700,16 @@ const purgeOperationSpec: msRest.OperationSpec = {
 
 const getPurgeStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/operations/{purgeId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/operations/{purgeId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.purgeId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ComponentPurgeStatusResponse
@@ -577,12 +725,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentListResult
@@ -598,12 +742,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentListResult

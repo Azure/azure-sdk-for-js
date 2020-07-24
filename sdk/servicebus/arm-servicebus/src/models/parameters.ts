@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -64,7 +64,7 @@ export const configName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "configName",
-    defaultValue: '$default',
+    defaultValue: "$default",
     type: {
       name: "String"
     }
@@ -147,10 +147,7 @@ export const ruleName: msRest.OperationURLParameter = {
   }
 };
 export const skip: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skip"
-  ],
+  parameterPath: ["options", "skip"],
   mapper: {
     serializedName: "$skip",
     constraints: {
@@ -201,10 +198,7 @@ export const subscriptionName: msRest.OperationURLParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "$top",
     constraints: {

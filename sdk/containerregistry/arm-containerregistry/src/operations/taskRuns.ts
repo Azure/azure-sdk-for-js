@@ -35,14 +35,24 @@ export class TaskRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskRunsGetResponse>
    */
-  get(resourceGroupName: string, registryName: string, taskRunName: string, options?: msRest.RequestOptionsBase): Promise<Models.TaskRunsGetResponse>;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TaskRunsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param taskRunName The run request name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, taskRunName: string, callback: msRest.ServiceCallback<Models.TaskRun>): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    callback: msRest.ServiceCallback<Models.TaskRun>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -50,8 +60,20 @@ export class TaskRuns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, taskRunName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TaskRun>): void;
-  get(resourceGroupName: string, registryName: string, taskRunName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TaskRun>, callback?: msRest.ServiceCallback<Models.TaskRun>): Promise<Models.TaskRunsGetResponse> {
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TaskRun>
+  ): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TaskRun>,
+    callback?: msRest.ServiceCallback<Models.TaskRun>
+  ): Promise<Models.TaskRunsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class TaskRuns {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TaskRunsGetResponse>;
+      callback
+    ) as Promise<Models.TaskRunsGetResponse>;
   }
 
   /**
@@ -72,9 +95,20 @@ export class TaskRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskRunsCreateResponse>
    */
-  create(resourceGroupName: string, registryName: string, taskRunName: string, taskRun: Models.TaskRun, options?: msRest.RequestOptionsBase): Promise<Models.TaskRunsCreateResponse> {
-    return this.beginCreate(resourceGroupName,registryName,taskRunName,taskRun,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TaskRunsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    taskRun: Models.TaskRun,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TaskRunsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      registryName,
+      taskRunName,
+      taskRun,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.TaskRunsCreateResponse>;
   }
 
   /**
@@ -85,9 +119,18 @@ export class TaskRuns {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, registryName: string, taskRunName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,registryName,taskRunName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      registryName,
+      taskRunName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -99,9 +142,20 @@ export class TaskRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskRunsUpdateResponse>
    */
-  update(resourceGroupName: string, registryName: string, taskRunName: string, updateParameters: Models.TaskRunUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.TaskRunsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,registryName,taskRunName,updateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TaskRunsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    updateParameters: Models.TaskRunUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TaskRunsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      registryName,
+      taskRunName,
+      updateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.TaskRunsUpdateResponse>;
   }
 
   /**
@@ -112,14 +166,24 @@ export class TaskRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskRunsGetDetailsResponse>
    */
-  getDetails(resourceGroupName: string, registryName: string, taskRunName: string, options?: msRest.RequestOptionsBase): Promise<Models.TaskRunsGetDetailsResponse>;
+  getDetails(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TaskRunsGetDetailsResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param taskRunName The run request name.
    * @param callback The callback
    */
-  getDetails(resourceGroupName: string, registryName: string, taskRunName: string, callback: msRest.ServiceCallback<Models.TaskRun>): void;
+  getDetails(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    callback: msRest.ServiceCallback<Models.TaskRun>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -127,8 +191,20 @@ export class TaskRuns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDetails(resourceGroupName: string, registryName: string, taskRunName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TaskRun>): void;
-  getDetails(resourceGroupName: string, registryName: string, taskRunName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TaskRun>, callback?: msRest.ServiceCallback<Models.TaskRun>): Promise<Models.TaskRunsGetDetailsResponse> {
+  getDetails(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TaskRun>
+  ): void;
+  getDetails(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TaskRun>,
+    callback?: msRest.ServiceCallback<Models.TaskRun>
+  ): Promise<Models.TaskRunsGetDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +213,8 @@ export class TaskRuns {
         options
       },
       getDetailsOperationSpec,
-      callback) as Promise<Models.TaskRunsGetDetailsResponse>;
+      callback
+    ) as Promise<Models.TaskRunsGetDetailsResponse>;
   }
 
   /**
@@ -147,21 +224,39 @@ export class TaskRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskRunsListResponse>
    */
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase): Promise<Models.TaskRunsListResponse>;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TaskRunsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, callback: msRest.ServiceCallback<Models.TaskRunListResult>): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    callback: msRest.ServiceCallback<Models.TaskRunListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TaskRunListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TaskRunListResult>, callback?: msRest.ServiceCallback<Models.TaskRunListResult>): Promise<Models.TaskRunsListResponse> {
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TaskRunListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TaskRunListResult>,
+    callback?: msRest.ServiceCallback<Models.TaskRunListResult>
+  ): Promise<Models.TaskRunsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +264,8 @@ export class TaskRuns {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.TaskRunsListResponse>;
+      callback
+    ) as Promise<Models.TaskRunsListResponse>;
   }
 
   /**
@@ -181,7 +277,13 @@ export class TaskRuns {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, registryName: string, taskRunName: string, taskRun: Models.TaskRun, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    taskRun: Models.TaskRun,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -191,7 +293,8 @@ export class TaskRuns {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -202,7 +305,12 @@ export class TaskRuns {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, registryName: string, taskRunName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -211,7 +319,8 @@ export class TaskRuns {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -223,7 +332,13 @@ export class TaskRuns {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, registryName: string, taskRunName: string, updateParameters: Models.TaskRunUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    registryName: string,
+    taskRunName: string,
+    updateParameters: Models.TaskRunUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -233,7 +348,8 @@ export class TaskRuns {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -242,7 +358,10 @@ export class TaskRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskRunsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TaskRunsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TaskRunsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -253,15 +372,24 @@ export class TaskRuns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TaskRunListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TaskRunListResult>, callback?: msRest.ServiceCallback<Models.TaskRunListResult>): Promise<Models.TaskRunsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TaskRunListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TaskRunListResult>,
+    callback?: msRest.ServiceCallback<Models.TaskRunListResult>
+  ): Promise<Models.TaskRunsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.TaskRunsListNextResponse>;
+      callback
+    ) as Promise<Models.TaskRunsListNextResponse>;
   }
 }
 
@@ -269,19 +397,16 @@ export class TaskRuns {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.taskRunName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TaskRun
@@ -295,19 +420,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const getDetailsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}/listDetails",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}/listDetails",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.taskRunName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TaskRun
@@ -321,18 +443,11 @@ const getDetailsOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.registryName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TaskRunListResult
@@ -346,19 +461,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.taskRunName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "taskRun",
     mapper: {
@@ -382,19 +494,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.taskRunName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -408,19 +517,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/taskRuns/{taskRunName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.taskRunName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "updateParameters",
     mapper: {
@@ -446,12 +552,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TaskRunListResult

@@ -15,4 +15,3 @@ export {
   SourceControlSyncJobById,
   SourceControlSyncJobListResult
 } from "../models/mappers";
-

@@ -33,21 +33,41 @@ export class Backend {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackendListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.BackendListByServiceOptionalParams): Promise<Models.BackendListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: Models.BackendListByServiceOptionalParams
+  ): Promise<Models.BackendListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.BackendCollection>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.BackendCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.BackendListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.BackendCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.BackendListByServiceOptionalParams | msRest.ServiceCallback<Models.BackendCollection>, callback?: msRest.ServiceCallback<Models.BackendCollection>): Promise<Models.BackendListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options: Models.BackendListByServiceOptionalParams,
+    callback: msRest.ServiceCallback<Models.BackendCollection>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?:
+      | Models.BackendListByServiceOptionalParams
+      | msRest.ServiceCallback<Models.BackendCollection>,
+    callback?: msRest.ServiceCallback<Models.BackendCollection>
+  ): Promise<Models.BackendListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class Backend {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.BackendListByServiceResponse>;
+      callback
+    ) as Promise<Models.BackendListByServiceResponse>;
   }
 
   /**
@@ -67,7 +88,12 @@ export class Backend {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackendGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, backendId: string, options?: msRest.RequestOptionsBase): Promise<Models.BackendGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackendGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -75,7 +101,12 @@ export class Backend {
    * service instance.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, backendId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -84,8 +115,20 @@ export class Backend {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, backendId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, backendId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BackendGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.BackendGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +137,8 @@ export class Backend {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.BackendGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.BackendGetEntityTagResponse>;
   }
 
   /**
@@ -106,7 +150,12 @@ export class Backend {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackendGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, backendId: string, options?: msRest.RequestOptionsBase): Promise<Models.BackendGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackendGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -114,7 +163,12 @@ export class Backend {
    * service instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, backendId: string, callback: msRest.ServiceCallback<Models.BackendContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    callback: msRest.ServiceCallback<Models.BackendContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -123,8 +177,20 @@ export class Backend {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, backendId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackendContract>): void;
-  get(resourceGroupName: string, serviceName: string, backendId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendContract>, callback?: msRest.ServiceCallback<Models.BackendContract>): Promise<Models.BackendGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackendContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendContract>,
+    callback?: msRest.ServiceCallback<Models.BackendContract>
+  ): Promise<Models.BackendGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +199,8 @@ export class Backend {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BackendGetResponse>;
+      callback
+    ) as Promise<Models.BackendGetResponse>;
   }
 
   /**
@@ -146,7 +213,13 @@ export class Backend {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackendCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendContract, options?: Models.BackendCreateOrUpdateOptionalParams): Promise<Models.BackendCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    parameters: Models.BackendContract,
+    options?: Models.BackendCreateOrUpdateOptionalParams
+  ): Promise<Models.BackendCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -155,7 +228,13 @@ export class Backend {
    * @param parameters Create parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendContract, callback: msRest.ServiceCallback<Models.BackendContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    parameters: Models.BackendContract,
+    callback: msRest.ServiceCallback<Models.BackendContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -165,8 +244,24 @@ export class Backend {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendContract, options: Models.BackendCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.BackendContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendContract, options?: Models.BackendCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.BackendContract>, callback?: msRest.ServiceCallback<Models.BackendContract>): Promise<Models.BackendCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    parameters: Models.BackendContract,
+    options: Models.BackendCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.BackendContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    parameters: Models.BackendContract,
+    options?:
+      | Models.BackendCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.BackendContract>,
+    callback?: msRest.ServiceCallback<Models.BackendContract>
+  ): Promise<Models.BackendCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -176,7 +271,8 @@ export class Backend {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.BackendCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.BackendCreateOrUpdateResponse>;
   }
 
   /**
@@ -191,7 +287,14 @@ export class Backend {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    parameters: Models.BackendUpdateParameters,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -202,7 +305,14 @@ export class Backend {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    parameters: Models.BackendUpdateParameters,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -214,8 +324,24 @@ export class Backend {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, backendId: string, parameters: Models.BackendUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    parameters: Models.BackendUpdateParameters,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    parameters: Models.BackendUpdateParameters,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -226,7 +352,8 @@ export class Backend {
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -240,7 +367,13 @@ export class Backend {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, backendId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -250,7 +383,13 @@ export class Backend {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, backendId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -261,8 +400,22 @@ export class Backend {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, backendId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, backendId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -272,7 +425,8 @@ export class Backend {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -285,7 +439,12 @@ export class Backend {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  reconnect(resourceGroupName: string, serviceName: string, backendId: string, options?: Models.BackendReconnectOptionalParams): Promise<msRest.RestResponse>;
+  reconnect(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    options?: Models.BackendReconnectOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -293,7 +452,12 @@ export class Backend {
    * service instance.
    * @param callback The callback
    */
-  reconnect(resourceGroupName: string, serviceName: string, backendId: string, callback: msRest.ServiceCallback<void>): void;
+  reconnect(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -302,8 +466,20 @@ export class Backend {
    * @param options The optional parameters
    * @param callback The callback
    */
-  reconnect(resourceGroupName: string, serviceName: string, backendId: string, options: Models.BackendReconnectOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  reconnect(resourceGroupName: string, serviceName: string, backendId: string, options?: Models.BackendReconnectOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reconnect(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    options: Models.BackendReconnectOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  reconnect(
+    resourceGroupName: string,
+    serviceName: string,
+    backendId: string,
+    options?: Models.BackendReconnectOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -312,7 +488,8 @@ export class Backend {
         options
       },
       reconnectOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -321,26 +498,41 @@ export class Backend {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackendListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BackendListByServiceNextResponse>;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackendListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BackendCollection>): void;
+  listByServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.BackendCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackendCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendCollection>, callback?: msRest.ServiceCallback<Models.BackendCollection>): Promise<Models.BackendListByServiceNextResponse> {
+  listByServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackendCollection>
+  ): void;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackendCollection>,
+    callback?: msRest.ServiceCallback<Models.BackendCollection>
+  ): Promise<Models.BackendListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.BackendListByServiceNextResponse>;
+      callback
+    ) as Promise<Models.BackendListByServiceNextResponse>;
   }
 }
 
@@ -348,21 +540,11 @@ export class Backend {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.filter0, Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackendCollection
@@ -376,19 +558,16 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.backendId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.BackendGetEntityTagHeaders
@@ -402,19 +581,16 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.backendId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackendContract,
@@ -429,20 +605,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.backendId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -468,20 +640,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.backendId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -500,20 +668,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.backendId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -526,24 +690,18 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const reconnectOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}/reconnect",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backends/{backendId}/reconnect",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.backendId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: Mappers.BackendReconnectContract
   },
   responses: {
@@ -559,12 +717,8 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackendCollection

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { IotDpsClientContext } from "./iotDpsClientContext";
 
-
 class IotDpsClient extends IotDpsClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -27,7 +26,11 @@ class IotDpsClient extends IotDpsClientContext {
    * @param subscriptionId The subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.IotDpsClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.IotDpsClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.dpsCertificate = new operations.DpsCertificate(this);
@@ -37,10 +40,5 @@ class IotDpsClient extends IotDpsClientContext {
 
 // Operation Specifications
 
-export {
-  IotDpsClient,
-  IotDpsClientContext,
-  Models as IotDpsModels,
-  Mappers as IotDpsMappers
-};
+export { IotDpsClient, IotDpsClientContext, Models as IotDpsModels, Mappers as IotDpsMappers };
 export * from "./operations";

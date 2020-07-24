@@ -35,14 +35,22 @@ export class ServerKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerKeysListByServerResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerKeysListByServerResponse>;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerKeysListByServerResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ServerKeyListResult>): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.ServerKeyListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -50,8 +58,18 @@ export class ServerKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerKeyListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerKeyListResult>, callback?: msRest.ServiceCallback<Models.ServerKeyListResult>): Promise<Models.ServerKeysListByServerResponse> {
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServerKeyListResult>
+  ): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerKeyListResult>,
+    callback?: msRest.ServiceCallback<Models.ServerKeyListResult>
+  ): Promise<Models.ServerKeysListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +77,8 @@ export class ServerKeys {
         options
       },
       listByServerOperationSpec,
-      callback) as Promise<Models.ServerKeysListByServerResponse>;
+      callback
+    ) as Promise<Models.ServerKeysListByServerResponse>;
   }
 
   /**
@@ -71,7 +90,12 @@ export class ServerKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerKeysGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, keyName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerKeysGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    keyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerKeysGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -79,7 +103,12 @@ export class ServerKeys {
    * @param keyName The name of the server key to be retrieved.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, keyName: string, callback: msRest.ServiceCallback<Models.ServerKey>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    keyName: string,
+    callback: msRest.ServiceCallback<Models.ServerKey>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -88,8 +117,20 @@ export class ServerKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, keyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerKey>): void;
-  get(resourceGroupName: string, serverName: string, keyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerKey>, callback?: msRest.ServiceCallback<Models.ServerKey>): Promise<Models.ServerKeysGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    keyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServerKey>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    keyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerKey>,
+    callback?: msRest.ServiceCallback<Models.ServerKey>
+  ): Promise<Models.ServerKeysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,7 +139,8 @@ export class ServerKeys {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServerKeysGetResponse>;
+      callback
+    ) as Promise<Models.ServerKeysGetResponse>;
   }
 
   /**
@@ -115,9 +157,22 @@ export class ServerKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerKeysCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, keyName: string, parameters: Models.ServerKey, options?: msRest.RequestOptionsBase): Promise<Models.ServerKeysCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serverName,keyName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServerKeysCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    keyName: string,
+    parameters: Models.ServerKey,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerKeysCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      keyName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ServerKeysCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -129,9 +184,18 @@ export class ServerKeys {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serverName: string, keyName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,serverName,keyName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    keyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      serverName,
+      keyName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -148,7 +212,13 @@ export class ServerKeys {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serverName: string, keyName: string, parameters: Models.ServerKey, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    keyName: string,
+    parameters: Models.ServerKey,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -158,7 +228,8 @@ export class ServerKeys {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,7 +241,12 @@ export class ServerKeys {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, serverName: string, keyName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    keyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -179,7 +255,8 @@ export class ServerKeys {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -188,26 +265,41 @@ export class ServerKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerKeysListByServerNextResponse>
    */
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerKeysListByServerNextResponse>;
+  listByServerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerKeysListByServerNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServerNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ServerKeyListResult>): void;
+  listByServerNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ServerKeyListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerKeyListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerKeyListResult>, callback?: msRest.ServiceCallback<Models.ServerKeyListResult>): Promise<Models.ServerKeysListByServerNextResponse> {
+  listByServerNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServerKeyListResult>
+  ): void;
+  listByServerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerKeyListResult>,
+    callback?: msRest.ServiceCallback<Models.ServerKeyListResult>
+  ): Promise<Models.ServerKeysListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServerNextOperationSpec,
-      callback) as Promise<Models.ServerKeysListByServerNextResponse>;
+      callback
+    ) as Promise<Models.ServerKeysListByServerNextResponse>;
   }
 }
 
@@ -215,18 +307,11 @@ export class ServerKeys {
 const serializer = new msRest.Serializer(Mappers);
 const listByServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServerKeyListResult
@@ -240,19 +325,16 @@ const listByServerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.keyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServerKey
@@ -266,19 +348,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.keyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -303,19 +382,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.keyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -331,12 +407,8 @@ const listByServerNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServerKeyListResult

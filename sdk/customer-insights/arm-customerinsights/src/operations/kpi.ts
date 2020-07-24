@@ -36,9 +36,22 @@ export class Kpi {
    * @param [options] The optional parameters
    * @returns Promise<Models.KpiCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, kpiName: string, parameters: Models.KpiResourceFormat, options?: msRest.RequestOptionsBase): Promise<Models.KpiCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,hubName,kpiName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.KpiCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    kpiName: string,
+    parameters: Models.KpiResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.KpiCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      hubName,
+      kpiName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.KpiCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -49,14 +62,24 @@ export class Kpi {
    * @param [options] The optional parameters
    * @returns Promise<Models.KpiGetResponse>
    */
-  get(resourceGroupName: string, hubName: string, kpiName: string, options?: msRest.RequestOptionsBase): Promise<Models.KpiGetResponse>;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    kpiName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.KpiGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param kpiName The name of the KPI.
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, kpiName: string, callback: msRest.ServiceCallback<Models.KpiResourceFormat>): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    kpiName: string,
+    callback: msRest.ServiceCallback<Models.KpiResourceFormat>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -64,8 +87,20 @@ export class Kpi {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, kpiName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KpiResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, kpiName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KpiResourceFormat>, callback?: msRest.ServiceCallback<Models.KpiResourceFormat>): Promise<Models.KpiGetResponse> {
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    kpiName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KpiResourceFormat>
+  ): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    kpiName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KpiResourceFormat>,
+    callback?: msRest.ServiceCallback<Models.KpiResourceFormat>
+  ): Promise<Models.KpiGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +109,8 @@ export class Kpi {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.KpiGetResponse>;
+      callback
+    ) as Promise<Models.KpiGetResponse>;
   }
 
   /**
@@ -85,9 +121,15 @@ export class Kpi {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, hubName: string, kpiName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,hubName,kpiName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    kpiName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, hubName, kpiName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -98,14 +140,24 @@ export class Kpi {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  reprocess(resourceGroupName: string, hubName: string, kpiName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  reprocess(
+    resourceGroupName: string,
+    hubName: string,
+    kpiName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param kpiName The name of the KPI.
    * @param callback The callback
    */
-  reprocess(resourceGroupName: string, hubName: string, kpiName: string, callback: msRest.ServiceCallback<void>): void;
+  reprocess(
+    resourceGroupName: string,
+    hubName: string,
+    kpiName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -113,8 +165,20 @@ export class Kpi {
    * @param options The optional parameters
    * @param callback The callback
    */
-  reprocess(resourceGroupName: string, hubName: string, kpiName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  reprocess(resourceGroupName: string, hubName: string, kpiName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  reprocess(
+    resourceGroupName: string,
+    hubName: string,
+    kpiName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  reprocess(
+    resourceGroupName: string,
+    hubName: string,
+    kpiName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -123,7 +187,8 @@ export class Kpi {
         options
       },
       reprocessOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -133,21 +198,39 @@ export class Kpi {
    * @param [options] The optional parameters
    * @returns Promise<Models.KpiListByHubResponse>
    */
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase): Promise<Models.KpiListByHubResponse>;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.KpiListByHubResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, callback: msRest.ServiceCallback<Models.KpiListResult>): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    callback: msRest.ServiceCallback<Models.KpiListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KpiListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KpiListResult>, callback?: msRest.ServiceCallback<Models.KpiListResult>): Promise<Models.KpiListByHubResponse> {
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KpiListResult>
+  ): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KpiListResult>,
+    callback?: msRest.ServiceCallback<Models.KpiListResult>
+  ): Promise<Models.KpiListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +238,8 @@ export class Kpi {
         options
       },
       listByHubOperationSpec,
-      callback) as Promise<Models.KpiListByHubResponse>;
+      callback
+    ) as Promise<Models.KpiListByHubResponse>;
   }
 
   /**
@@ -167,7 +251,13 @@ export class Kpi {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, hubName: string, kpiName: string, parameters: Models.KpiResourceFormat, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    kpiName: string,
+    parameters: Models.KpiResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -177,7 +267,8 @@ export class Kpi {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -188,7 +279,12 @@ export class Kpi {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, hubName: string, kpiName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    kpiName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -197,7 +293,8 @@ export class Kpi {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -206,7 +303,10 @@ export class Kpi {
    * @param [options] The optional parameters
    * @returns Promise<Models.KpiListByHubNextResponse>
    */
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.KpiListByHubNextResponse>;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.KpiListByHubNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -217,15 +317,24 @@ export class Kpi {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KpiListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KpiListResult>, callback?: msRest.ServiceCallback<Models.KpiListResult>): Promise<Models.KpiListByHubNextResponse> {
+  listByHubNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KpiListResult>
+  ): void;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KpiListResult>,
+    callback?: msRest.ServiceCallback<Models.KpiListResult>
+  ): Promise<Models.KpiListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByHubNextOperationSpec,
-      callback) as Promise<Models.KpiListByHubNextResponse>;
+      callback
+    ) as Promise<Models.KpiListByHubNextResponse>;
   }
 }
 
@@ -233,19 +342,16 @@ export class Kpi {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/kpi/{kpiName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/kpi/{kpiName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.kpiName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KpiResourceFormat
@@ -259,19 +365,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const reprocessOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/kpi/{kpiName}/reprocess",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/kpi/{kpiName}/reprocess",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.kpiName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     default: {
@@ -283,18 +386,11 @@ const reprocessOperationSpec: msRest.OperationSpec = {
 
 const listByHubOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/kpi",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.hubName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/kpi",
+  urlParameters: [Parameters.resourceGroupName, Parameters.hubName1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KpiListResult
@@ -308,19 +404,16 @@ const listByHubOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/kpi/{kpiName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/kpi/{kpiName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.kpiName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -342,19 +435,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/kpi/{kpiName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/kpi/{kpiName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.kpiName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -369,12 +459,8 @@ const listByHubNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KpiListResult

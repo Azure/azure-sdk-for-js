@@ -162,7 +162,7 @@ export interface ResourceLinkResult extends Array<ResourceLink> {
  * @readonly
  * @enum {string}
  */
-export type Filter = 'atScope()';
+export type Filter = "atScope()";
 
 /**
  * Contains response data for the list operation.
@@ -172,16 +172,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -192,16 +192,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -212,16 +212,16 @@ export type ResourceLinksCreateOrUpdateResponse = ResourceLink & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceLink;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceLink;
+  };
 };
 
 /**
@@ -232,16 +232,16 @@ export type ResourceLinksGetResponse = ResourceLink & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceLink;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceLink;
+  };
 };
 
 /**
@@ -252,16 +252,16 @@ export type ResourceLinksListAtSubscriptionResponse = ResourceLinkResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceLinkResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceLinkResult;
+  };
 };
 
 /**
@@ -272,16 +272,16 @@ export type ResourceLinksListAtSourceScopeResponse = ResourceLinkResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceLinkResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceLinkResult;
+  };
 };
 
 /**
@@ -292,16 +292,16 @@ export type ResourceLinksListAtSubscriptionNextResponse = ResourceLinkResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceLinkResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceLinkResult;
+  };
 };
 
 /**
@@ -312,14 +312,14 @@ export type ResourceLinksListAtSourceScopeNextResponse = ResourceLinkResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceLinkResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceLinkResult;
+  };
 };

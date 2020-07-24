@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as msRest from "@azure/ms-rest-js";
 
 /**
@@ -486,7 +485,8 @@ export interface ImageUrl {
 /**
  * Optional Parameters.
  */
-export interface FormRecognizerClientAnalyzeWithCustomModelOptionalParams extends msRest.RequestOptionsBase {
+export interface FormRecognizerClientAnalyzeWithCustomModelOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * An optional list of known keys to extract the values for.
    */
@@ -519,7 +519,7 @@ export interface BatchReadReceiptInStreamHeaders {
  * @readonly
  * @enum {string}
  */
-export type TextOperationStatusCodes = 'Not Started' | 'Running' | 'Failed' | 'Succeeded';
+export type TextOperationStatusCodes = "Not Started" | "Running" | "Failed" | "Succeeded";
 
 /**
  * Defines values for TextRecognitionResultDimensionUnit.
@@ -527,7 +527,7 @@ export type TextOperationStatusCodes = 'Not Started' | 'Running' | 'Failed' | 'S
  * @readonly
  * @enum {string}
  */
-export type TextRecognitionResultDimensionUnit = 'pixel' | 'inch';
+export type TextRecognitionResultDimensionUnit = "pixel" | "inch";
 
 /**
  * Defines values for TextRecognitionResultConfidenceClass.
@@ -535,7 +535,7 @@ export type TextRecognitionResultDimensionUnit = 'pixel' | 'inch';
  * @readonly
  * @enum {string}
  */
-export type TextRecognitionResultConfidenceClass = 'High' | 'Low';
+export type TextRecognitionResultConfidenceClass = "High" | "Low";
 
 /**
  * Defines values for Status.
@@ -543,7 +543,7 @@ export type TextRecognitionResultConfidenceClass = 'High' | 'Low';
  * @readonly
  * @enum {string}
  */
-export type Status = 'success' | 'partialSuccess' | 'failure';
+export type Status = "success" | "partialSuccess" | "failure";
 
 /**
  * Defines values for Status1.
@@ -551,7 +551,7 @@ export type Status = 'success' | 'partialSuccess' | 'failure';
  * @readonly
  * @enum {string}
  */
-export type Status1 = 'created' | 'ready' | 'invalid';
+export type Status1 = "created" | "ready" | "invalid";
 
 /**
  * Defines values for Status2.
@@ -559,7 +559,7 @@ export type Status1 = 'created' | 'ready' | 'invalid';
  * @readonly
  * @enum {string}
  */
-export type Status2 = 'success' | 'partialSuccess' | 'failure';
+export type Status2 = "success" | "partialSuccess" | "failure";
 
 /**
  * Contains response data for the trainCustomModel operation.
@@ -569,16 +569,16 @@ export type TrainCustomModelResponse = TrainResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TrainResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TrainResult;
+  };
 };
 
 /**
@@ -589,16 +589,16 @@ export type GetExtractedKeysResponse = KeysResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeysResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeysResult;
+  };
 };
 
 /**
@@ -609,16 +609,16 @@ export type GetCustomModelsResponse = ModelsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ModelsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ModelsResult;
+  };
 };
 
 /**
@@ -629,16 +629,16 @@ export type GetCustomModelResponse = ModelResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ModelResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ModelResult;
+  };
 };
 
 /**
@@ -649,16 +649,16 @@ export type AnalyzeWithCustomModelResponse = AnalyzeResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AnalyzeResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalyzeResult;
+  };
 };
 
 /**
@@ -669,11 +669,11 @@ export type BatchReadReceiptResponse = BatchReadReceiptHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: BatchReadReceiptHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: BatchReadReceiptHeaders;
+  };
 };
 
 /**
@@ -684,16 +684,16 @@ export type GetReadReceiptResultResponse = ReadReceiptResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReadReceiptResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReadReceiptResult;
+  };
 };
 
 /**
@@ -704,9 +704,9 @@ export type BatchReadReceiptInStreamResponse = BatchReadReceiptInStreamHeaders &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: BatchReadReceiptInStreamHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: BatchReadReceiptInStreamHeaders;
+  };
 };

@@ -35,14 +35,24 @@ export class SqlPoolSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolSensitivityLabelsListCurrentResponse>
    */
-  listCurrent(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: Models.SqlPoolSensitivityLabelsListCurrentOptionalParams): Promise<Models.SqlPoolSensitivityLabelsListCurrentResponse>;
+  listCurrent(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: Models.SqlPoolSensitivityLabelsListCurrentOptionalParams
+  ): Promise<Models.SqlPoolSensitivityLabelsListCurrentResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
-  listCurrent(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
+  listCurrent(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -50,8 +60,22 @@ export class SqlPoolSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCurrent(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: Models.SqlPoolSensitivityLabelsListCurrentOptionalParams, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
-  listCurrent(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: Models.SqlPoolSensitivityLabelsListCurrentOptionalParams | msRest.ServiceCallback<Models.SensitivityLabelListResult>, callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>): Promise<Models.SqlPoolSensitivityLabelsListCurrentResponse> {
+  listCurrent(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options: Models.SqlPoolSensitivityLabelsListCurrentOptionalParams,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
+  listCurrent(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?:
+      | Models.SqlPoolSensitivityLabelsListCurrentOptionalParams
+      | msRest.ServiceCallback<Models.SensitivityLabelListResult>,
+    callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): Promise<Models.SqlPoolSensitivityLabelsListCurrentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +84,8 @@ export class SqlPoolSensitivityLabels {
         options
       },
       listCurrentOperationSpec,
-      callback) as Promise<Models.SqlPoolSensitivityLabelsListCurrentResponse>;
+      callback
+    ) as Promise<Models.SqlPoolSensitivityLabelsListCurrentResponse>;
   }
 
   /**
@@ -72,14 +97,24 @@ export class SqlPoolSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolSensitivityLabelsListRecommendedResponse>
    */
-  listRecommended(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: Models.SqlPoolSensitivityLabelsListRecommendedOptionalParams): Promise<Models.SqlPoolSensitivityLabelsListRecommendedResponse>;
+  listRecommended(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: Models.SqlPoolSensitivityLabelsListRecommendedOptionalParams
+  ): Promise<Models.SqlPoolSensitivityLabelsListRecommendedResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
-  listRecommended(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
+  listRecommended(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -87,8 +122,22 @@ export class SqlPoolSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRecommended(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: Models.SqlPoolSensitivityLabelsListRecommendedOptionalParams, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
-  listRecommended(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: Models.SqlPoolSensitivityLabelsListRecommendedOptionalParams | msRest.ServiceCallback<Models.SensitivityLabelListResult>, callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>): Promise<Models.SqlPoolSensitivityLabelsListRecommendedResponse> {
+  listRecommended(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options: Models.SqlPoolSensitivityLabelsListRecommendedOptionalParams,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
+  listRecommended(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?:
+      | Models.SqlPoolSensitivityLabelsListRecommendedOptionalParams
+      | msRest.ServiceCallback<Models.SensitivityLabelListResult>,
+    callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): Promise<Models.SqlPoolSensitivityLabelsListRecommendedResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +146,8 @@ export class SqlPoolSensitivityLabels {
         options
       },
       listRecommendedOperationSpec,
-      callback) as Promise<Models.SqlPoolSensitivityLabelsListRecommendedResponse>;
+      callback
+    ) as Promise<Models.SqlPoolSensitivityLabelsListRecommendedResponse>;
   }
 
   /**
@@ -112,7 +162,16 @@ export class SqlPoolSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolSensitivityLabelsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, parameters: Models.SensitivityLabel, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolSensitivityLabelsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    parameters: Models.SensitivityLabel,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolSensitivityLabelsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -123,7 +182,16 @@ export class SqlPoolSensitivityLabels {
    * @param parameters The column sensitivity label resource.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, parameters: Models.SensitivityLabel, callback: msRest.ServiceCallback<Models.SensitivityLabel>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    parameters: Models.SensitivityLabel,
+    callback: msRest.ServiceCallback<Models.SensitivityLabel>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -135,8 +203,28 @@ export class SqlPoolSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, parameters: Models.SensitivityLabel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SensitivityLabel>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, parameters: Models.SensitivityLabel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabel>, callback?: msRest.ServiceCallback<Models.SensitivityLabel>): Promise<Models.SqlPoolSensitivityLabelsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    parameters: Models.SensitivityLabel,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SensitivityLabel>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    parameters: Models.SensitivityLabel,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabel>,
+    callback?: msRest.ServiceCallback<Models.SensitivityLabel>
+  ): Promise<Models.SqlPoolSensitivityLabelsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -149,7 +237,8 @@ export class SqlPoolSensitivityLabels {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.SqlPoolSensitivityLabelsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.SqlPoolSensitivityLabelsCreateOrUpdateResponse>;
   }
 
   /**
@@ -163,7 +252,15 @@ export class SqlPoolSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -173,7 +270,15 @@ export class SqlPoolSensitivityLabels {
    * @param columnName The name of the column.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -184,8 +289,26 @@ export class SqlPoolSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -197,7 +320,8 @@ export class SqlPoolSensitivityLabels {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -212,7 +336,15 @@ export class SqlPoolSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  enableRecommendation(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  enableRecommendation(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -222,7 +354,15 @@ export class SqlPoolSensitivityLabels {
    * @param columnName The name of the column.
    * @param callback The callback
    */
-  enableRecommendation(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, callback: msRest.ServiceCallback<void>): void;
+  enableRecommendation(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -233,8 +373,26 @@ export class SqlPoolSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  enableRecommendation(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  enableRecommendation(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  enableRecommendation(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  enableRecommendation(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -246,7 +404,8 @@ export class SqlPoolSensitivityLabels {
         options
       },
       enableRecommendationOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -260,7 +419,15 @@ export class SqlPoolSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  disableRecommendation(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  disableRecommendation(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -270,7 +437,15 @@ export class SqlPoolSensitivityLabels {
    * @param columnName The name of the column.
    * @param callback The callback
    */
-  disableRecommendation(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, callback: msRest.ServiceCallback<void>): void;
+  disableRecommendation(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -281,8 +456,26 @@ export class SqlPoolSensitivityLabels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  disableRecommendation(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disableRecommendation(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableRecommendation(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  disableRecommendation(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    columnName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -294,7 +487,8 @@ export class SqlPoolSensitivityLabels {
         options
       },
       disableRecommendationOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -304,26 +498,41 @@ export class SqlPoolSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolSensitivityLabelsListCurrentNextResponse>
    */
-  listCurrentNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolSensitivityLabelsListCurrentNextResponse>;
+  listCurrentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolSensitivityLabelsListCurrentNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listCurrentNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
+  listCurrentNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCurrentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
-  listCurrentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabelListResult>, callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>): Promise<Models.SqlPoolSensitivityLabelsListCurrentNextResponse> {
+  listCurrentNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
+  listCurrentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabelListResult>,
+    callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): Promise<Models.SqlPoolSensitivityLabelsListCurrentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listCurrentNextOperationSpec,
-      callback) as Promise<Models.SqlPoolSensitivityLabelsListCurrentNextResponse>;
+      callback
+    ) as Promise<Models.SqlPoolSensitivityLabelsListCurrentNextResponse>;
   }
 
   /**
@@ -333,26 +542,41 @@ export class SqlPoolSensitivityLabels {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolSensitivityLabelsListRecommendedNextResponse>
    */
-  listRecommendedNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolSensitivityLabelsListRecommendedNextResponse>;
+  listRecommendedNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolSensitivityLabelsListRecommendedNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listRecommendedNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
+  listRecommendedNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRecommendedNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
-  listRecommendedNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabelListResult>, callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>): Promise<Models.SqlPoolSensitivityLabelsListRecommendedNextResponse> {
+  listRecommendedNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): void;
+  listRecommendedNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SensitivityLabelListResult>,
+    callback?: msRest.ServiceCallback<Models.SensitivityLabelListResult>
+  ): Promise<Models.SqlPoolSensitivityLabelsListRecommendedNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listRecommendedNextOperationSpec,
-      callback) as Promise<Models.SqlPoolSensitivityLabelsListRecommendedNextResponse>;
+      callback
+    ) as Promise<Models.SqlPoolSensitivityLabelsListRecommendedNextResponse>;
   }
 }
 
@@ -360,20 +584,16 @@ export class SqlPoolSensitivityLabels {
 const serializer = new msRest.Serializer(Mappers);
 const listCurrentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/currentSensitivityLabels",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/currentSensitivityLabels",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SensitivityLabelListResult
@@ -387,7 +607,8 @@ const listCurrentOperationSpec: msRest.OperationSpec = {
 
 const listRecommendedOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/recommendedSensitivityLabels",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/recommendedSensitivityLabels",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -400,9 +621,7 @@ const listRecommendedOperationSpec: msRest.OperationSpec = {
     Parameters.skipToken,
     Parameters.filter
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SensitivityLabelListResult
@@ -416,7 +635,8 @@ const listRecommendedOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -427,12 +647,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.columnName,
     Parameters.sensitivityLabelSource0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -456,7 +672,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -467,12 +684,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.columnName,
     Parameters.sensitivityLabelSource0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -484,7 +697,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const enableRecommendationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -495,12 +709,8 @@ const enableRecommendationOperationSpec: msRest.OperationSpec = {
     Parameters.columnName,
     Parameters.sensitivityLabelSource1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -512,7 +722,8 @@ const enableRecommendationOperationSpec: msRest.OperationSpec = {
 
 const disableRecommendationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -523,12 +734,8 @@ const disableRecommendationOperationSpec: msRest.OperationSpec = {
     Parameters.columnName,
     Parameters.sensitivityLabelSource1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -542,12 +749,8 @@ const listCurrentNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SensitivityLabelListResult
@@ -563,12 +766,8 @@ const listRecommendedNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SensitivityLabelListResult

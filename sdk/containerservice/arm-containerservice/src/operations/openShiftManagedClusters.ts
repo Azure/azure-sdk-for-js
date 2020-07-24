@@ -43,14 +43,23 @@ export class OpenShiftManagedClusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>, callback?: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>): Promise<Models.OpenShiftManagedClustersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>
+  ): Promise<Models.OpenShiftManagedClustersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.OpenShiftManagedClustersListResponse>;
+      callback
+    ) as Promise<Models.OpenShiftManagedClustersListResponse>;
   }
 
   /**
@@ -61,26 +70,43 @@ export class OpenShiftManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OpenShiftManagedClustersListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.OpenShiftManagedClustersListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OpenShiftManagedClustersListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>, callback?: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>): Promise<Models.OpenShiftManagedClustersListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>
+  ): Promise<Models.OpenShiftManagedClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.OpenShiftManagedClustersListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.OpenShiftManagedClustersListByResourceGroupResponse>;
   }
 
   /**
@@ -91,21 +117,39 @@ export class OpenShiftManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OpenShiftManagedClustersGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.OpenShiftManagedClustersGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OpenShiftManagedClustersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the OpenShift managed cluster resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.OpenShiftManagedCluster>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.OpenShiftManagedCluster>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the OpenShift managed cluster resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OpenShiftManagedCluster>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OpenShiftManagedCluster>, callback?: msRest.ServiceCallback<Models.OpenShiftManagedCluster>): Promise<Models.OpenShiftManagedClustersGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OpenShiftManagedCluster>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OpenShiftManagedCluster>,
+    callback?: msRest.ServiceCallback<Models.OpenShiftManagedCluster>
+  ): Promise<Models.OpenShiftManagedClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +157,8 @@ export class OpenShiftManagedClusters {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.OpenShiftManagedClustersGetResponse>;
+      callback
+    ) as Promise<Models.OpenShiftManagedClustersGetResponse>;
   }
 
   /**
@@ -127,9 +172,20 @@ export class OpenShiftManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OpenShiftManagedClustersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, parameters: Models.OpenShiftManagedCluster, options?: msRest.RequestOptionsBase): Promise<Models.OpenShiftManagedClustersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,resourceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.OpenShiftManagedClustersCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: Models.OpenShiftManagedCluster,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OpenShiftManagedClustersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      resourceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.OpenShiftManagedClustersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -141,9 +197,20 @@ export class OpenShiftManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OpenShiftManagedClustersUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, resourceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.OpenShiftManagedClustersUpdateTagsResponse> {
-    return this.beginUpdateTags(resourceGroupName,resourceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.OpenShiftManagedClustersUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OpenShiftManagedClustersUpdateTagsResponse> {
+    return this.beginUpdateTags(
+      resourceGroupName,
+      resourceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.OpenShiftManagedClustersUpdateTagsResponse
+    >;
   }
 
   /**
@@ -154,9 +221,14 @@ export class OpenShiftManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, resourceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -170,7 +242,12 @@ export class OpenShiftManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: Models.OpenShiftManagedCluster, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: Models.OpenShiftManagedCluster,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -179,7 +256,8 @@ export class OpenShiftManagedClusters {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -191,7 +269,12 @@ export class OpenShiftManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, resourceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -200,7 +283,8 @@ export class OpenShiftManagedClusters {
         options
       },
       beginUpdateTagsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -211,7 +295,11 @@ export class OpenShiftManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -219,7 +307,8 @@ export class OpenShiftManagedClusters {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -230,26 +319,43 @@ export class OpenShiftManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OpenShiftManagedClustersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OpenShiftManagedClustersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OpenShiftManagedClustersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>, callback?: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>): Promise<Models.OpenShiftManagedClustersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>
+  ): Promise<Models.OpenShiftManagedClustersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.OpenShiftManagedClustersListNextResponse>;
+      callback
+    ) as Promise<Models.OpenShiftManagedClustersListNextResponse>;
   }
 
   /**
@@ -260,26 +366,43 @@ export class OpenShiftManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.OpenShiftManagedClustersListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OpenShiftManagedClustersListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OpenShiftManagedClustersListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>, callback?: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>): Promise<Models.OpenShiftManagedClustersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.OpenShiftManagedClusterListResult>
+  ): Promise<Models.OpenShiftManagedClustersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.OpenShiftManagedClustersListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.OpenShiftManagedClustersListByResourceGroupNextResponse>;
   }
 }
 
@@ -287,16 +410,11 @@ export class OpenShiftManagedClusters {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/openShiftManagedClusters",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/openShiftManagedClusters",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OpenShiftManagedClusterListResult
@@ -310,17 +428,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/openShiftManagedClusters",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/openShiftManagedClusters",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName0],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OpenShiftManagedClusterListResult
@@ -334,18 +446,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/openShiftManagedClusters/{resourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/openShiftManagedClusters/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName0
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OpenShiftManagedCluster
@@ -359,18 +468,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/openShiftManagedClusters/{resourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/openShiftManagedClusters/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName0
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -394,18 +500,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/openShiftManagedClusters/{resourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/openShiftManagedClusters/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName0
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -426,18 +529,15 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/openShiftManagedClusters/{resourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/openShiftManagedClusters/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName0
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -452,12 +552,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OpenShiftManagedClusterListResult
@@ -473,12 +569,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OpenShiftManagedClusterListResult

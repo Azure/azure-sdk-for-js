@@ -34,21 +34,41 @@ export class NotebookWorkspaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotebookWorkspacesListByDatabaseAccountResponse>
    */
-  listByDatabaseAccount(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.NotebookWorkspacesListByDatabaseAccountResponse>;
+  listByDatabaseAccount(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotebookWorkspacesListByDatabaseAccountResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listByDatabaseAccount(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.NotebookWorkspaceListResult>): void;
+  listByDatabaseAccount(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.NotebookWorkspaceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabaseAccount(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotebookWorkspaceListResult>): void;
-  listByDatabaseAccount(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotebookWorkspaceListResult>, callback?: msRest.ServiceCallback<Models.NotebookWorkspaceListResult>): Promise<Models.NotebookWorkspacesListByDatabaseAccountResponse> {
+  listByDatabaseAccount(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NotebookWorkspaceListResult>
+  ): void;
+  listByDatabaseAccount(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NotebookWorkspaceListResult>,
+    callback?: msRest.ServiceCallback<Models.NotebookWorkspaceListResult>
+  ): Promise<Models.NotebookWorkspacesListByDatabaseAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class NotebookWorkspaces {
         options
       },
       listByDatabaseAccountOperationSpec,
-      callback) as Promise<Models.NotebookWorkspacesListByDatabaseAccountResponse>;
+      callback
+    ) as Promise<Models.NotebookWorkspacesListByDatabaseAccountResponse>;
   }
 
   /**
@@ -66,21 +87,39 @@ export class NotebookWorkspaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotebookWorkspacesGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.NotebookWorkspacesGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotebookWorkspacesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.NotebookWorkspace>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.NotebookWorkspace>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotebookWorkspace>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotebookWorkspace>, callback?: msRest.ServiceCallback<Models.NotebookWorkspace>): Promise<Models.NotebookWorkspacesGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NotebookWorkspace>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotebookWorkspace>,
+    callback?: msRest.ServiceCallback<Models.NotebookWorkspace>
+  ): Promise<Models.NotebookWorkspacesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +127,8 @@ export class NotebookWorkspaces {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.NotebookWorkspacesGetResponse>;
+      callback
+    ) as Promise<Models.NotebookWorkspacesGetResponse>;
   }
 
   /**
@@ -98,9 +138,14 @@ export class NotebookWorkspaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotebookWorkspacesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.NotebookWorkspacesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,accountName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NotebookWorkspacesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotebookWorkspacesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName, accountName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.NotebookWorkspacesCreateOrUpdateResponse>;
   }
 
   /**
@@ -110,9 +155,14 @@ export class NotebookWorkspaces {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,accountName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, accountName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -122,21 +172,41 @@ export class NotebookWorkspaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotebookWorkspacesListConnectionInfoResponse>
    */
-  listConnectionInfo(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.NotebookWorkspacesListConnectionInfoResponse>;
+  listConnectionInfo(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotebookWorkspacesListConnectionInfoResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
-  listConnectionInfo(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.NotebookWorkspaceConnectionInfoResult>): void;
+  listConnectionInfo(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.NotebookWorkspaceConnectionInfoResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listConnectionInfo(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotebookWorkspaceConnectionInfoResult>): void;
-  listConnectionInfo(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotebookWorkspaceConnectionInfoResult>, callback?: msRest.ServiceCallback<Models.NotebookWorkspaceConnectionInfoResult>): Promise<Models.NotebookWorkspacesListConnectionInfoResponse> {
+  listConnectionInfo(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NotebookWorkspaceConnectionInfoResult>
+  ): void;
+  listConnectionInfo(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NotebookWorkspaceConnectionInfoResult>,
+    callback?: msRest.ServiceCallback<Models.NotebookWorkspaceConnectionInfoResult>
+  ): Promise<Models.NotebookWorkspacesListConnectionInfoResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,7 +214,8 @@ export class NotebookWorkspaces {
         options
       },
       listConnectionInfoOperationSpec,
-      callback) as Promise<Models.NotebookWorkspacesListConnectionInfoResponse>;
+      callback
+    ) as Promise<Models.NotebookWorkspacesListConnectionInfoResponse>;
   }
 
   /**
@@ -154,9 +225,16 @@ export class NotebookWorkspaces {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  regenerateAuthToken(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRegenerateAuthToken(resourceGroupName,accountName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  regenerateAuthToken(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRegenerateAuthToken(
+      resourceGroupName,
+      accountName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -166,9 +244,14 @@ export class NotebookWorkspaces {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStart(resourceGroupName,accountName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  start(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStart(resourceGroupName, accountName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -178,7 +261,11 @@ export class NotebookWorkspaces {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -186,7 +273,8 @@ export class NotebookWorkspaces {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -196,7 +284,11 @@ export class NotebookWorkspaces {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -204,7 +296,8 @@ export class NotebookWorkspaces {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -214,7 +307,11 @@ export class NotebookWorkspaces {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRegenerateAuthToken(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRegenerateAuthToken(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -222,7 +319,8 @@ export class NotebookWorkspaces {
         options
       },
       beginRegenerateAuthTokenOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -232,7 +330,11 @@ export class NotebookWorkspaces {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -240,7 +342,8 @@ export class NotebookWorkspaces {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -248,18 +351,11 @@ export class NotebookWorkspaces {
 const serializer = new msRest.Serializer(Mappers);
 const listByDatabaseAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NotebookWorkspaceListResult
@@ -273,19 +369,16 @@ const listByDatabaseAccountOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.notebookWorkspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NotebookWorkspace
@@ -299,19 +392,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listConnectionInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/listConnectionInfo",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/listConnectionInfo",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.notebookWorkspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NotebookWorkspaceConnectionInfoResult
@@ -325,19 +415,16 @@ const listConnectionInfoOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.notebookWorkspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "notebookCreateUpdateParameters",
     mapper: {
@@ -358,19 +445,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.notebookWorkspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -383,19 +467,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginRegenerateAuthTokenOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/regenerateAuthToken",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/regenerateAuthToken",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.notebookWorkspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -408,19 +489,16 @@ const beginRegenerateAuthTokenOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/start",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/start",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.notebookWorkspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

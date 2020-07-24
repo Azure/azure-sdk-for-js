@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const LanguagesResultTranslationLanguageCode: msRest.CompositeMapper = {
   serializedName: "LanguagesResult_translation_languageCode",
   type: {

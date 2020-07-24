@@ -36,7 +36,13 @@ export class VaultCertificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultCertificatesCreateResponse>
    */
-  create(resourceGroupName: string, vaultName: string, certificateName: string, certificateRequest: Models.CertificateRequest, options?: msRest.RequestOptionsBase): Promise<Models.VaultCertificatesCreateResponse>;
+  create(
+    resourceGroupName: string,
+    vaultName: string,
+    certificateName: string,
+    certificateRequest: Models.CertificateRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VaultCertificatesCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -45,7 +51,13 @@ export class VaultCertificates {
    * @param certificateRequest Input parameters for uploading the vault certificate.
    * @param callback The callback
    */
-  create(resourceGroupName: string, vaultName: string, certificateName: string, certificateRequest: Models.CertificateRequest, callback: msRest.ServiceCallback<Models.VaultCertificateResponse>): void;
+  create(
+    resourceGroupName: string,
+    vaultName: string,
+    certificateName: string,
+    certificateRequest: Models.CertificateRequest,
+    callback: msRest.ServiceCallback<Models.VaultCertificateResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -55,8 +67,22 @@ export class VaultCertificates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, vaultName: string, certificateName: string, certificateRequest: Models.CertificateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultCertificateResponse>): void;
-  create(resourceGroupName: string, vaultName: string, certificateName: string, certificateRequest: Models.CertificateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultCertificateResponse>, callback?: msRest.ServiceCallback<Models.VaultCertificateResponse>): Promise<Models.VaultCertificatesCreateResponse> {
+  create(
+    resourceGroupName: string,
+    vaultName: string,
+    certificateName: string,
+    certificateRequest: Models.CertificateRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VaultCertificateResponse>
+  ): void;
+  create(
+    resourceGroupName: string,
+    vaultName: string,
+    certificateName: string,
+    certificateRequest: Models.CertificateRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultCertificateResponse>,
+    callback?: msRest.ServiceCallback<Models.VaultCertificateResponse>
+  ): Promise<Models.VaultCertificatesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +92,8 @@ export class VaultCertificates {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.VaultCertificatesCreateResponse>;
+      callback
+    ) as Promise<Models.VaultCertificatesCreateResponse>;
   }
 }
 
@@ -74,19 +101,16 @@ export class VaultCertificates {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/certificates/{certificateName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
     Parameters.certificateName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "certificateRequest",
     mapper: {

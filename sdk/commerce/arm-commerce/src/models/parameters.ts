@@ -14,26 +14,20 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
   }
 };
 export const aggregationGranularity: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "aggregationGranularity"
-  ],
+  parameterPath: ["options", "aggregationGranularity"],
   mapper: {
     serializedName: "aggregationGranularity",
-    defaultValue: 'Daily',
+    defaultValue: "Daily",
     type: {
       name: "Enum",
-      allowedValues: [
-        "Daily",
-        "Hourly"
-      ]
+      allowedValues: ["Daily", "Hourly"]
     }
   }
 };
@@ -48,10 +42,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
   }
 };
 export const continuationToken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "continuationToken"
-  ],
+  parameterPath: ["options", "continuationToken"],
   mapper: {
     serializedName: "continuationToken",
     type: {
@@ -101,10 +92,7 @@ export const reportedStartTime: msRest.OperationQueryParameter = {
   }
 };
 export const showDetails: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "showDetails"
-  ],
+  parameterPath: ["options", "showDetails"],
   mapper: {
     serializedName: "showDetails",
     type: {

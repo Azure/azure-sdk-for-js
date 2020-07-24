@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { TrafficManagerManagementClientContext } from "./trafficManagerManagementClientContext";
 
-
 class TrafficManagerManagementClient extends TrafficManagerManagementClientContext {
   // Operation groups
   endpoints: operations.Endpoints;
@@ -30,7 +29,11 @@ class TrafficManagerManagementClient extends TrafficManagerManagementClientConte
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.TrafficManagerManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.TrafficManagerManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.endpoints = new operations.Endpoints(this);
     this.profiles = new operations.Profiles(this);

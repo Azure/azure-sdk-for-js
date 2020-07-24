@@ -33,21 +33,39 @@ export class Workspaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacesListResponse>
    */
-  list(resourceGroupName: string, workspaceCollectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesListResponse>;
+  list(
+    resourceGroupName: string,
+    workspaceCollectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspacesListResponse>;
   /**
    * @param resourceGroupName Azure resource group
    * @param workspaceCollectionName Power BI Embedded Workspace Collection name
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceCollectionName: string, callback: msRest.ServiceCallback<Models.WorkspaceList>): void;
+  list(
+    resourceGroupName: string,
+    workspaceCollectionName: string,
+    callback: msRest.ServiceCallback<Models.WorkspaceList>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group
    * @param workspaceCollectionName Power BI Embedded Workspace Collection name
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceCollectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceList>): void;
-  list(resourceGroupName: string, workspaceCollectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceList>, callback?: msRest.ServiceCallback<Models.WorkspaceList>): Promise<Models.WorkspacesListResponse> {
+  list(
+    resourceGroupName: string,
+    workspaceCollectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkspaceList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    workspaceCollectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceList>,
+    callback?: msRest.ServiceCallback<Models.WorkspaceList>
+  ): Promise<Models.WorkspacesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class Workspaces {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.WorkspacesListResponse>;
+      callback
+    ) as Promise<Models.WorkspacesListResponse>;
   }
 }
 
@@ -63,18 +82,15 @@ export class Workspaces {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBI/workspaceCollections/{workspaceCollectionName}/workspaces",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBI/workspaceCollections/{workspaceCollectionName}/workspaces",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceCollectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkspaceList

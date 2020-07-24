@@ -36,14 +36,24 @@ export class MeshServiceReplica {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshServiceReplicaGetResponse>
    */
-  get(applicationResourceName: string, serviceResourceName: string, replicaName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshServiceReplicaGetResponse>;
+  get(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshServiceReplicaGetResponse>;
   /**
    * @param applicationResourceName The identity of the application.
    * @param serviceResourceName The identity of the service.
    * @param replicaName Service Fabric replica name.
    * @param callback The callback
    */
-  get(applicationResourceName: string, serviceResourceName: string, replicaName: string, callback: msRest.ServiceCallback<Models.ServiceReplicaDescription>): void;
+  get(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    callback: msRest.ServiceCallback<Models.ServiceReplicaDescription>
+  ): void;
   /**
    * @param applicationResourceName The identity of the application.
    * @param serviceResourceName The identity of the service.
@@ -51,8 +61,20 @@ export class MeshServiceReplica {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(applicationResourceName: string, serviceResourceName: string, replicaName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceReplicaDescription>): void;
-  get(applicationResourceName: string, serviceResourceName: string, replicaName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceReplicaDescription>, callback?: msRest.ServiceCallback<Models.ServiceReplicaDescription>): Promise<Models.MeshServiceReplicaGetResponse> {
+  get(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceReplicaDescription>
+  ): void;
+  get(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    replicaName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceReplicaDescription>,
+    callback?: msRest.ServiceCallback<Models.ServiceReplicaDescription>
+  ): Promise<Models.MeshServiceReplicaGetResponse> {
     return this.client.sendOperationRequest(
       {
         applicationResourceName,
@@ -61,7 +83,8 @@ export class MeshServiceReplica {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MeshServiceReplicaGetResponse>;
+      callback
+    ) as Promise<Models.MeshServiceReplicaGetResponse>;
   }
 
   /**
@@ -73,21 +96,41 @@ export class MeshServiceReplica {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshServiceReplicaListResponse>
    */
-  list(applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshServiceReplicaListResponse>;
+  list(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshServiceReplicaListResponse>;
   /**
    * @param applicationResourceName The identity of the application.
    * @param serviceResourceName The identity of the service.
    * @param callback The callback
    */
-  list(applicationResourceName: string, serviceResourceName: string, callback: msRest.ServiceCallback<Models.PagedServiceReplicaDescriptionList>): void;
+  list(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    callback: msRest.ServiceCallback<Models.PagedServiceReplicaDescriptionList>
+  ): void;
   /**
    * @param applicationResourceName The identity of the application.
    * @param serviceResourceName The identity of the service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(applicationResourceName: string, serviceResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PagedServiceReplicaDescriptionList>): void;
-  list(applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PagedServiceReplicaDescriptionList>, callback?: msRest.ServiceCallback<Models.PagedServiceReplicaDescriptionList>): Promise<Models.MeshServiceReplicaListResponse> {
+  list(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PagedServiceReplicaDescriptionList>
+  ): void;
+  list(
+    applicationResourceName: string,
+    serviceResourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PagedServiceReplicaDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.PagedServiceReplicaDescriptionList>
+  ): Promise<Models.MeshServiceReplicaListResponse> {
     return this.client.sendOperationRequest(
       {
         applicationResourceName,
@@ -95,7 +138,8 @@ export class MeshServiceReplica {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MeshServiceReplicaListResponse>;
+      callback
+    ) as Promise<Models.MeshServiceReplicaListResponse>;
   }
 }
 
@@ -103,15 +147,14 @@ export class MeshServiceReplica {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Resources/Applications/{applicationResourceName}/Services/{serviceResourceName}/Replicas/{replicaName}",
+  path:
+    "Resources/Applications/{applicationResourceName}/Services/{serviceResourceName}/Replicas/{replicaName}",
   urlParameters: [
     Parameters.applicationResourceName,
     Parameters.serviceResourceName,
     Parameters.replicaName
   ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceReplicaDescription
@@ -126,13 +169,8 @@ const getOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Applications/{applicationResourceName}/Services/{serviceResourceName}/Replicas",
-  urlParameters: [
-    Parameters.applicationResourceName,
-    Parameters.serviceResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.applicationResourceName, Parameters.serviceResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.PagedServiceReplicaDescriptionList

@@ -32,23 +32,36 @@ export class ManagementConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementConfigurationsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.ManagementConfigurationsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementConfigurationsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.ManagementConfigurationPropertiesList>): void;
+  listBySubscription(
+    callback: msRest.ServiceCallback<Models.ManagementConfigurationPropertiesList>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementConfigurationPropertiesList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementConfigurationPropertiesList>, callback?: msRest.ServiceCallback<Models.ManagementConfigurationPropertiesList>): Promise<Models.ManagementConfigurationsListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementConfigurationPropertiesList>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagementConfigurationPropertiesList>,
+    callback?: msRest.ServiceCallback<Models.ManagementConfigurationPropertiesList>
+  ): Promise<Models.ManagementConfigurationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.ManagementConfigurationsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.ManagementConfigurationsListBySubscriptionResponse>;
   }
 
   /**
@@ -60,14 +73,24 @@ export class ManagementConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementConfigurationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, managementConfigurationName: string, parameters: Models.ManagementConfiguration, options?: msRest.RequestOptionsBase): Promise<Models.ManagementConfigurationsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    managementConfigurationName: string,
+    parameters: Models.ManagementConfiguration,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementConfigurationsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param managementConfigurationName User Management Configuration Name.
    * @param parameters The parameters required to create OMS Solution.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, managementConfigurationName: string, parameters: Models.ManagementConfiguration, callback: msRest.ServiceCallback<Models.ManagementConfiguration>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    managementConfigurationName: string,
+    parameters: Models.ManagementConfiguration,
+    callback: msRest.ServiceCallback<Models.ManagementConfiguration>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param managementConfigurationName User Management Configuration Name.
@@ -75,8 +98,20 @@ export class ManagementConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, managementConfigurationName: string, parameters: Models.ManagementConfiguration, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementConfiguration>): void;
-  createOrUpdate(resourceGroupName: string, managementConfigurationName: string, parameters: Models.ManagementConfiguration, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementConfiguration>, callback?: msRest.ServiceCallback<Models.ManagementConfiguration>): Promise<Models.ManagementConfigurationsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    managementConfigurationName: string,
+    parameters: Models.ManagementConfiguration,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementConfiguration>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    managementConfigurationName: string,
+    parameters: Models.ManagementConfiguration,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementConfiguration>,
+    callback?: msRest.ServiceCallback<Models.ManagementConfiguration>
+  ): Promise<Models.ManagementConfigurationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -85,7 +120,8 @@ export class ManagementConfigurations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ManagementConfigurationsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ManagementConfigurationsCreateOrUpdateResponse>;
   }
 
   /**
@@ -96,21 +132,39 @@ export class ManagementConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, managementConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    managementConfigurationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param managementConfigurationName User Management Configuration Name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, managementConfigurationName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    managementConfigurationName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param managementConfigurationName User Management Configuration Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, managementConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, managementConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    managementConfigurationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    managementConfigurationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +172,8 @@ export class ManagementConfigurations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -129,21 +184,39 @@ export class ManagementConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagementConfigurationsGetResponse>
    */
-  get(resourceGroupName: string, managementConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementConfigurationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    managementConfigurationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagementConfigurationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param managementConfigurationName User Management Configuration Name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, managementConfigurationName: string, callback: msRest.ServiceCallback<Models.ManagementConfiguration>): void;
+  get(
+    resourceGroupName: string,
+    managementConfigurationName: string,
+    callback: msRest.ServiceCallback<Models.ManagementConfiguration>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
    * @param managementConfigurationName User Management Configuration Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managementConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementConfiguration>): void;
-  get(resourceGroupName: string, managementConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementConfiguration>, callback?: msRest.ServiceCallback<Models.ManagementConfiguration>): Promise<Models.ManagementConfigurationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    managementConfigurationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagementConfiguration>
+  ): void;
+  get(
+    resourceGroupName: string,
+    managementConfigurationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementConfiguration>,
+    callback?: msRest.ServiceCallback<Models.ManagementConfiguration>
+  ): Promise<Models.ManagementConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -151,7 +224,8 @@ export class ManagementConfigurations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagementConfigurationsGetResponse>;
+      callback
+    ) as Promise<Models.ManagementConfigurationsGetResponse>;
   }
 }
 
@@ -159,16 +233,11 @@ export class ManagementConfigurations {
 const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.OperationsManagement/ManagementConfigurations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.OperationsManagement/ManagementConfigurations",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementConfigurationPropertiesList
@@ -182,18 +251,15 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/ManagementConfigurations/{managementConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/ManagementConfigurations/{managementConfigurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managementConfigurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -214,18 +280,15 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/ManagementConfigurations/{managementConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/ManagementConfigurations/{managementConfigurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managementConfigurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -237,18 +300,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/ManagementConfigurations/{managementConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationsManagement/ManagementConfigurations/{managementConfigurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managementConfigurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagementConfiguration

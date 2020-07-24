@@ -35,14 +35,24 @@ export class Origins {
    * @param [options] The optional parameters
    * @returns Promise<Models.OriginsListByEndpointResponse>
    */
-  listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options?: msRest.RequestOptionsBase): Promise<Models.OriginsListByEndpointResponse>;
+  listByEndpoint(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OriginsListByEndpointResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param callback The callback
    */
-  listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, callback: msRest.ServiceCallback<Models.OriginListResult>): void;
+  listByEndpoint(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    callback: msRest.ServiceCallback<Models.OriginListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -50,8 +60,20 @@ export class Origins {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OriginListResult>): void;
-  listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OriginListResult>, callback?: msRest.ServiceCallback<Models.OriginListResult>): Promise<Models.OriginsListByEndpointResponse> {
+  listByEndpoint(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OriginListResult>
+  ): void;
+  listByEndpoint(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OriginListResult>,
+    callback?: msRest.ServiceCallback<Models.OriginListResult>
+  ): Promise<Models.OriginsListByEndpointResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class Origins {
         options
       },
       listByEndpointOperationSpec,
-      callback) as Promise<Models.OriginsListByEndpointResponse>;
+      callback
+    ) as Promise<Models.OriginsListByEndpointResponse>;
   }
 
   /**
@@ -72,7 +95,13 @@ export class Origins {
    * @param [options] The optional parameters
    * @returns Promise<Models.OriginsGetResponse>
    */
-  get(resourceGroupName: string, profileName: string, endpointName: string, originName: string, options?: msRest.RequestOptionsBase): Promise<Models.OriginsGetResponse>;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    originName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OriginsGetResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -80,7 +109,13 @@ export class Origins {
    * @param originName Name of the origin which is unique within the endpoint.
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, endpointName: string, originName: string, callback: msRest.ServiceCallback<Models.Origin>): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    originName: string,
+    callback: msRest.ServiceCallback<Models.Origin>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -89,8 +124,22 @@ export class Origins {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, endpointName: string, originName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Origin>): void;
-  get(resourceGroupName: string, profileName: string, endpointName: string, originName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Origin>, callback?: msRest.ServiceCallback<Models.Origin>): Promise<Models.OriginsGetResponse> {
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    originName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Origin>
+  ): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    originName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Origin>,
+    callback?: msRest.ServiceCallback<Models.Origin>
+  ): Promise<Models.OriginsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +149,8 @@ export class Origins {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.OriginsGetResponse>;
+      callback
+    ) as Promise<Models.OriginsGetResponse>;
   }
 
   /**
@@ -113,9 +163,22 @@ export class Origins {
    * @param [options] The optional parameters
    * @returns Promise<Models.OriginsUpdateResponse>
    */
-  update(resourceGroupName: string, profileName: string, endpointName: string, originName: string, originUpdateProperties: Models.OriginUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.OriginsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,profileName,endpointName,originName,originUpdateProperties,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.OriginsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    originName: string,
+    originUpdateProperties: Models.OriginUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OriginsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      profileName,
+      endpointName,
+      originName,
+      originUpdateProperties,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.OriginsUpdateResponse>;
   }
 
   /**
@@ -128,7 +191,14 @@ export class Origins {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, profileName: string, endpointName: string, originName: string, originUpdateProperties: Models.OriginUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    endpointName: string,
+    originName: string,
+    originUpdateProperties: Models.OriginUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -139,7 +209,8 @@ export class Origins {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -148,26 +219,41 @@ export class Origins {
    * @param [options] The optional parameters
    * @returns Promise<Models.OriginsListByEndpointNextResponse>
    */
-  listByEndpointNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OriginsListByEndpointNextResponse>;
+  listByEndpointNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OriginsListByEndpointNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByEndpointNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OriginListResult>): void;
+  listByEndpointNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.OriginListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByEndpointNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OriginListResult>): void;
-  listByEndpointNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OriginListResult>, callback?: msRest.ServiceCallback<Models.OriginListResult>): Promise<Models.OriginsListByEndpointNextResponse> {
+  listByEndpointNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OriginListResult>
+  ): void;
+  listByEndpointNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OriginListResult>,
+    callback?: msRest.ServiceCallback<Models.OriginListResult>
+  ): Promise<Models.OriginsListByEndpointNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByEndpointNextOperationSpec,
-      callback) as Promise<Models.OriginsListByEndpointNextResponse>;
+      callback
+    ) as Promise<Models.OriginsListByEndpointNextResponse>;
   }
 }
 
@@ -175,19 +261,16 @@ export class Origins {
 const serializer = new msRest.Serializer(Mappers);
 const listByEndpointOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.endpointName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OriginListResult
@@ -201,7 +284,8 @@ const listByEndpointOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
@@ -209,12 +293,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.originName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Origin
@@ -228,7 +308,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
@@ -236,12 +317,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.originName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "originUpdateProperties",
     mapper: {
@@ -267,12 +344,8 @@ const listByEndpointNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OriginListResult

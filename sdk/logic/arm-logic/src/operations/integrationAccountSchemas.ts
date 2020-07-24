@@ -33,21 +33,41 @@ export class IntegrationAccountSchemas {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountSchemasListResponse>
    */
-  list(resourceGroupName: string, integrationAccountName: string, options?: Models.IntegrationAccountSchemasListOptionalParams): Promise<Models.IntegrationAccountSchemasListResponse>;
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    options?: Models.IntegrationAccountSchemasListOptionalParams
+  ): Promise<Models.IntegrationAccountSchemasListResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, integrationAccountName: string, callback: msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>): void;
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, integrationAccountName: string, options: Models.IntegrationAccountSchemasListOptionalParams, callback: msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>): void;
-  list(resourceGroupName: string, integrationAccountName: string, options?: Models.IntegrationAccountSchemasListOptionalParams | msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>, callback?: msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>): Promise<Models.IntegrationAccountSchemasListResponse> {
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    options: Models.IntegrationAccountSchemasListOptionalParams,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    options?:
+      | Models.IntegrationAccountSchemasListOptionalParams
+      | msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>,
+    callback?: msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>
+  ): Promise<Models.IntegrationAccountSchemasListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class IntegrationAccountSchemas {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IntegrationAccountSchemasListResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountSchemasListResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class IntegrationAccountSchemas {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountSchemasGetResponse>
    */
-  get(resourceGroupName: string, integrationAccountName: string, schemaName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountSchemasGetResponse>;
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountSchemasGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param schemaName The integration account schema name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, integrationAccountName: string, schemaName: string, callback: msRest.ServiceCallback<Models.IntegrationAccountSchema>): void;
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountSchema>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -81,8 +112,20 @@ export class IntegrationAccountSchemas {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, integrationAccountName: string, schemaName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountSchema>): void;
-  get(resourceGroupName: string, integrationAccountName: string, schemaName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountSchema>, callback?: msRest.ServiceCallback<Models.IntegrationAccountSchema>): Promise<Models.IntegrationAccountSchemasGetResponse> {
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountSchema>
+  ): void;
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountSchema>,
+    callback?: msRest.ServiceCallback<Models.IntegrationAccountSchema>
+  ): Promise<Models.IntegrationAccountSchemasGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +134,8 @@ export class IntegrationAccountSchemas {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IntegrationAccountSchemasGetResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountSchemasGetResponse>;
   }
 
   /**
@@ -103,7 +147,13 @@ export class IntegrationAccountSchemas {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountSchemasCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, schemaName: string, schema: Models.IntegrationAccountSchema, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountSchemasCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    schema: Models.IntegrationAccountSchema,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountSchemasCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -111,7 +161,13 @@ export class IntegrationAccountSchemas {
    * @param schema The integration account schema.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, schemaName: string, schema: Models.IntegrationAccountSchema, callback: msRest.ServiceCallback<Models.IntegrationAccountSchema>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    schema: Models.IntegrationAccountSchema,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountSchema>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -120,8 +176,22 @@ export class IntegrationAccountSchemas {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, schemaName: string, schema: Models.IntegrationAccountSchema, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountSchema>): void;
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, schemaName: string, schema: Models.IntegrationAccountSchema, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountSchema>, callback?: msRest.ServiceCallback<Models.IntegrationAccountSchema>): Promise<Models.IntegrationAccountSchemasCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    schema: Models.IntegrationAccountSchema,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountSchema>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    schema: Models.IntegrationAccountSchema,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountSchema>,
+    callback?: msRest.ServiceCallback<Models.IntegrationAccountSchema>
+  ): Promise<Models.IntegrationAccountSchemasCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +201,8 @@ export class IntegrationAccountSchemas {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.IntegrationAccountSchemasCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountSchemasCreateOrUpdateResponse>;
   }
 
   /**
@@ -142,14 +213,24 @@ export class IntegrationAccountSchemas {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, schemaName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param schemaName The integration account schema name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, schemaName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -157,8 +238,20 @@ export class IntegrationAccountSchemas {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, schemaName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, schemaName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +260,8 @@ export class IntegrationAccountSchemas {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -179,7 +273,13 @@ export class IntegrationAccountSchemas {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountSchemasListContentCallbackUrlResponse>
    */
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, schemaName: string, listContentCallbackUrlParameter: Models.GetCallbackUrlParameters, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountSchemasListContentCallbackUrlResponse>;
+  listContentCallbackUrl(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    listContentCallbackUrlParameter: Models.GetCallbackUrlParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountSchemasListContentCallbackUrlResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -187,7 +287,13 @@ export class IntegrationAccountSchemas {
    * @param listContentCallbackUrlParameter
    * @param callback The callback
    */
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, schemaName: string, listContentCallbackUrlParameter: Models.GetCallbackUrlParameters, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
+  listContentCallbackUrl(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    listContentCallbackUrlParameter: Models.GetCallbackUrlParameters,
+    callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -196,8 +302,22 @@ export class IntegrationAccountSchemas {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, schemaName: string, listContentCallbackUrlParameter: Models.GetCallbackUrlParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, schemaName: string, listContentCallbackUrlParameter: Models.GetCallbackUrlParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.IntegrationAccountSchemasListContentCallbackUrlResponse> {
+  listContentCallbackUrl(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    listContentCallbackUrlParameter: Models.GetCallbackUrlParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): void;
+  listContentCallbackUrl(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    schemaName: string,
+    listContentCallbackUrlParameter: Models.GetCallbackUrlParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>,
+    callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): Promise<Models.IntegrationAccountSchemasListContentCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +327,8 @@ export class IntegrationAccountSchemas {
         options
       },
       listContentCallbackUrlOperationSpec,
-      callback) as Promise<Models.IntegrationAccountSchemasListContentCallbackUrlResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountSchemasListContentCallbackUrlResponse>;
   }
 
   /**
@@ -216,26 +337,43 @@ export class IntegrationAccountSchemas {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountSchemasListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountSchemasListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountSchemasListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>, callback?: msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>): Promise<Models.IntegrationAccountSchemasListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>,
+    callback?: msRest.ServiceCallback<Models.IntegrationAccountSchemaListResult>
+  ): Promise<Models.IntegrationAccountSchemasListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.IntegrationAccountSchemasListNextResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountSchemasListNextResponse>;
   }
 }
 
@@ -243,20 +381,15 @@ export class IntegrationAccountSchemas {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IntegrationAccountSchemaListResult
@@ -270,19 +403,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.schemaName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IntegrationAccountSchema
@@ -296,19 +426,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.schemaName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "schema",
     mapper: {
@@ -332,19 +459,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.schemaName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -357,19 +481,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listContentCallbackUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}/listContentCallbackUrl",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/schemas/{schemaName}/listContentCallbackUrl",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.schemaName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "listContentCallbackUrlParameter",
     mapper: {
@@ -392,12 +513,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IntegrationAccountSchemaListResult

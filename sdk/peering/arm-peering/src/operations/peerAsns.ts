@@ -32,7 +32,10 @@ export class PeerAsns {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeerAsnsGetResponse>
    */
-  get(peerAsnName: string, options?: msRest.RequestOptionsBase): Promise<Models.PeerAsnsGetResponse>;
+  get(
+    peerAsnName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeerAsnsGetResponse>;
   /**
    * @param peerAsnName The peer ASN name.
    * @param callback The callback
@@ -43,15 +46,24 @@ export class PeerAsns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(peerAsnName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeerAsn>): void;
-  get(peerAsnName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeerAsn>, callback?: msRest.ServiceCallback<Models.PeerAsn>): Promise<Models.PeerAsnsGetResponse> {
+  get(
+    peerAsnName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeerAsn>
+  ): void;
+  get(
+    peerAsnName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeerAsn>,
+    callback?: msRest.ServiceCallback<Models.PeerAsn>
+  ): Promise<Models.PeerAsnsGetResponse> {
     return this.client.sendOperationRequest(
       {
         peerAsnName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PeerAsnsGetResponse>;
+      callback
+    ) as Promise<Models.PeerAsnsGetResponse>;
   }
 
   /**
@@ -62,21 +74,39 @@ export class PeerAsns {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeerAsnsCreateOrUpdateResponse>
    */
-  createOrUpdate(peerAsnName: string, peerAsn: Models.PeerAsn, options?: msRest.RequestOptionsBase): Promise<Models.PeerAsnsCreateOrUpdateResponse>;
+  createOrUpdate(
+    peerAsnName: string,
+    peerAsn: Models.PeerAsn,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeerAsnsCreateOrUpdateResponse>;
   /**
    * @param peerAsnName The peer ASN name.
    * @param peerAsn The peer ASN.
    * @param callback The callback
    */
-  createOrUpdate(peerAsnName: string, peerAsn: Models.PeerAsn, callback: msRest.ServiceCallback<Models.PeerAsn>): void;
+  createOrUpdate(
+    peerAsnName: string,
+    peerAsn: Models.PeerAsn,
+    callback: msRest.ServiceCallback<Models.PeerAsn>
+  ): void;
   /**
    * @param peerAsnName The peer ASN name.
    * @param peerAsn The peer ASN.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(peerAsnName: string, peerAsn: Models.PeerAsn, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeerAsn>): void;
-  createOrUpdate(peerAsnName: string, peerAsn: Models.PeerAsn, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeerAsn>, callback?: msRest.ServiceCallback<Models.PeerAsn>): Promise<Models.PeerAsnsCreateOrUpdateResponse> {
+  createOrUpdate(
+    peerAsnName: string,
+    peerAsn: Models.PeerAsn,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeerAsn>
+  ): void;
+  createOrUpdate(
+    peerAsnName: string,
+    peerAsn: Models.PeerAsn,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeerAsn>,
+    callback?: msRest.ServiceCallback<Models.PeerAsn>
+  ): Promise<Models.PeerAsnsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         peerAsnName,
@@ -84,7 +114,8 @@ export class PeerAsns {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.PeerAsnsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.PeerAsnsCreateOrUpdateResponse>;
   }
 
   /**
@@ -93,7 +124,10 @@ export class PeerAsns {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(peerAsnName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    peerAsnName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param peerAsnName The peer ASN name.
    * @param callback The callback
@@ -104,15 +138,24 @@ export class PeerAsns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(peerAsnName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(peerAsnName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    peerAsnName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    peerAsnName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         peerAsnName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -120,7 +163,9 @@ export class PeerAsns {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeerAsnsListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.PeerAsnsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeerAsnsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -129,14 +174,21 @@ export class PeerAsns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeerAsnListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeerAsnListResult>, callback?: msRest.ServiceCallback<Models.PeerAsnListResult>): Promise<Models.PeerAsnsListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeerAsnListResult>
+  ): void;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeerAsnListResult>,
+    callback?: msRest.ServiceCallback<Models.PeerAsnListResult>
+  ): Promise<Models.PeerAsnsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.PeerAsnsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.PeerAsnsListBySubscriptionResponse>;
   }
 
   /**
@@ -145,26 +197,41 @@ export class PeerAsns {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeerAsnsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PeerAsnsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeerAsnsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PeerAsnListResult>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PeerAsnListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeerAsnListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeerAsnListResult>, callback?: msRest.ServiceCallback<Models.PeerAsnListResult>): Promise<Models.PeerAsnsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeerAsnListResult>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeerAsnListResult>,
+    callback?: msRest.ServiceCallback<Models.PeerAsnListResult>
+  ): Promise<Models.PeerAsnsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.PeerAsnsListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.PeerAsnsListBySubscriptionNextResponse>;
   }
 }
 
@@ -173,16 +240,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}",
-  urlParameters: [
-    Parameters.peerAsnName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.peerAsnName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeerAsn
@@ -197,16 +257,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}",
-  urlParameters: [
-    Parameters.peerAsnName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.peerAsnName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "peerAsn",
     mapper: {
@@ -231,16 +284,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}",
-  urlParameters: [
-    Parameters.peerAsnName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.peerAsnName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -254,15 +300,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeerAsnListResult
@@ -278,12 +318,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeerAsnListResult

@@ -35,9 +35,14 @@ export class LogAnalytics {
    * @param [options] The optional parameters
    * @returns Promise<Models.LogAnalyticsExportRequestRateByIntervalResponse>
    */
-  exportRequestRateByInterval(parameters: Models.RequestRateByIntervalInput, location: string, options?: msRest.RequestOptionsBase): Promise<Models.LogAnalyticsExportRequestRateByIntervalResponse> {
-    return this.beginExportRequestRateByInterval(parameters,location,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LogAnalyticsExportRequestRateByIntervalResponse>;
+  exportRequestRateByInterval(
+    parameters: Models.RequestRateByIntervalInput,
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LogAnalyticsExportRequestRateByIntervalResponse> {
+    return this.beginExportRequestRateByInterval(parameters, location, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.LogAnalyticsExportRequestRateByIntervalResponse>;
   }
 
   /**
@@ -48,9 +53,14 @@ export class LogAnalytics {
    * @param [options] The optional parameters
    * @returns Promise<Models.LogAnalyticsExportThrottledRequestsResponse>
    */
-  exportThrottledRequests(parameters: Models.ThrottledRequestsInput, location: string, options?: msRest.RequestOptionsBase): Promise<Models.LogAnalyticsExportThrottledRequestsResponse> {
-    return this.beginExportThrottledRequests(parameters,location,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LogAnalyticsExportThrottledRequestsResponse>;
+  exportThrottledRequests(
+    parameters: Models.ThrottledRequestsInput,
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LogAnalyticsExportThrottledRequestsResponse> {
+    return this.beginExportThrottledRequests(parameters, location, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.LogAnalyticsExportThrottledRequestsResponse>;
   }
 
   /**
@@ -61,7 +71,11 @@ export class LogAnalytics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginExportRequestRateByInterval(parameters: Models.RequestRateByIntervalInput, location: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginExportRequestRateByInterval(
+    parameters: Models.RequestRateByIntervalInput,
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         parameters,
@@ -69,7 +83,8 @@ export class LogAnalytics {
         options
       },
       beginExportRequestRateByIntervalOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -80,7 +95,11 @@ export class LogAnalytics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginExportThrottledRequests(parameters: Models.ThrottledRequestsInput, location: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginExportThrottledRequests(
+    parameters: Models.ThrottledRequestsInput,
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         parameters,
@@ -88,7 +107,8 @@ export class LogAnalytics {
         options
       },
       beginExportThrottledRequestsOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -96,17 +116,11 @@ export class LogAnalytics {
 const serializer = new msRest.Serializer(Mappers);
 const beginExportRequestRateByIntervalOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval",
-  urlParameters: [
-    Parameters.location1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval",
+  urlParameters: [Parameters.location1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -128,17 +142,11 @@ const beginExportRequestRateByIntervalOperationSpec: msRest.OperationSpec = {
 
 const beginExportThrottledRequestsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests",
-  urlParameters: [
-    Parameters.location1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests",
+  urlParameters: [Parameters.location1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

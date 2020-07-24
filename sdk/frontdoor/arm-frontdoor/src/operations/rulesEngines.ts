@@ -34,21 +34,39 @@ export class RulesEngines {
    * @param [options] The optional parameters
    * @returns Promise<Models.RulesEnginesListByFrontDoorResponse>
    */
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase): Promise<Models.RulesEnginesListByFrontDoorResponse>;
+  listByFrontDoor(
+    resourceGroupName: string,
+    frontDoorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RulesEnginesListByFrontDoorResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
    * @param callback The callback
    */
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, callback: msRest.ServiceCallback<Models.RulesEngineListResult>): void;
+  listByFrontDoor(
+    resourceGroupName: string,
+    frontDoorName: string,
+    callback: msRest.ServiceCallback<Models.RulesEngineListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RulesEngineListResult>): void;
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RulesEngineListResult>, callback?: msRest.ServiceCallback<Models.RulesEngineListResult>): Promise<Models.RulesEnginesListByFrontDoorResponse> {
+  listByFrontDoor(
+    resourceGroupName: string,
+    frontDoorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RulesEngineListResult>
+  ): void;
+  listByFrontDoor(
+    resourceGroupName: string,
+    frontDoorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RulesEngineListResult>,
+    callback?: msRest.ServiceCallback<Models.RulesEngineListResult>
+  ): Promise<Models.RulesEnginesListByFrontDoorResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class RulesEngines {
         options
       },
       listByFrontDoorOperationSpec,
-      callback) as Promise<Models.RulesEnginesListByFrontDoorResponse>;
+      callback
+    ) as Promise<Models.RulesEnginesListByFrontDoorResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class RulesEngines {
    * @param [options] The optional parameters
    * @returns Promise<Models.RulesEnginesGetResponse>
    */
-  get(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: msRest.RequestOptionsBase): Promise<Models.RulesEnginesGetResponse>;
+  get(
+    resourceGroupName: string,
+    frontDoorName: string,
+    rulesEngineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RulesEnginesGetResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
    * @param rulesEngineName Name of the Rules Engine which is unique within the Front Door.
    * @param callback The callback
    */
-  get(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, callback: msRest.ServiceCallback<Models.RulesEngine>): void;
+  get(
+    resourceGroupName: string,
+    frontDoorName: string,
+    rulesEngineName: string,
+    callback: msRest.ServiceCallback<Models.RulesEngine>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
@@ -82,8 +111,20 @@ export class RulesEngines {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RulesEngine>): void;
-  get(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RulesEngine>, callback?: msRest.ServiceCallback<Models.RulesEngine>): Promise<Models.RulesEnginesGetResponse> {
+  get(
+    resourceGroupName: string,
+    frontDoorName: string,
+    rulesEngineName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RulesEngine>
+  ): void;
+  get(
+    resourceGroupName: string,
+    frontDoorName: string,
+    rulesEngineName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RulesEngine>,
+    callback?: msRest.ServiceCallback<Models.RulesEngine>
+  ): Promise<Models.RulesEnginesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +133,8 @@ export class RulesEngines {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RulesEnginesGetResponse>;
+      callback
+    ) as Promise<Models.RulesEnginesGetResponse>;
   }
 
   /**
@@ -106,9 +148,22 @@ export class RulesEngines {
    * @param [options] The optional parameters
    * @returns Promise<Models.RulesEnginesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: Models.RulesEngine, options?: msRest.RequestOptionsBase): Promise<Models.RulesEnginesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,frontDoorName,rulesEngineName,rulesEngineParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RulesEnginesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    frontDoorName: string,
+    rulesEngineName: string,
+    rulesEngineParameters: Models.RulesEngine,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RulesEnginesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      frontDoorName,
+      rulesEngineName,
+      rulesEngineParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.RulesEnginesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -119,9 +174,18 @@ export class RulesEngines {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,frontDoorName,rulesEngineName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    frontDoorName: string,
+    rulesEngineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      frontDoorName,
+      rulesEngineName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -135,7 +199,13 @@ export class RulesEngines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, rulesEngineParameters: Models.RulesEngine, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    frontDoorName: string,
+    rulesEngineName: string,
+    rulesEngineParameters: Models.RulesEngine,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -145,7 +215,8 @@ export class RulesEngines {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -156,7 +227,12 @@ export class RulesEngines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, frontDoorName: string, rulesEngineName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    frontDoorName: string,
+    rulesEngineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -165,7 +241,8 @@ export class RulesEngines {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -174,26 +251,41 @@ export class RulesEngines {
    * @param [options] The optional parameters
    * @returns Promise<Models.RulesEnginesListByFrontDoorNextResponse>
    */
-  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RulesEnginesListByFrontDoorNextResponse>;
+  listByFrontDoorNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RulesEnginesListByFrontDoorNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByFrontDoorNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RulesEngineListResult>): void;
+  listByFrontDoorNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RulesEngineListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFrontDoorNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RulesEngineListResult>): void;
-  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RulesEngineListResult>, callback?: msRest.ServiceCallback<Models.RulesEngineListResult>): Promise<Models.RulesEnginesListByFrontDoorNextResponse> {
+  listByFrontDoorNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RulesEngineListResult>
+  ): void;
+  listByFrontDoorNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RulesEngineListResult>,
+    callback?: msRest.ServiceCallback<Models.RulesEngineListResult>
+  ): Promise<Models.RulesEnginesListByFrontDoorNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByFrontDoorNextOperationSpec,
-      callback) as Promise<Models.RulesEnginesListByFrontDoorNextResponse>;
+      callback
+    ) as Promise<Models.RulesEnginesListByFrontDoorNextResponse>;
   }
 }
 
@@ -201,18 +293,15 @@ export class RulesEngines {
 const serializer = new msRest.Serializer(Mappers);
 const listByFrontDoorOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RulesEngineListResult
@@ -226,19 +315,16 @@ const listByFrontDoorOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.rulesEngineName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RulesEngine
@@ -252,19 +338,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.rulesEngineName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "rulesEngineParameters",
     mapper: {
@@ -291,19 +374,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/rulesEngines/{rulesEngineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.rulesEngineName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -318,12 +398,8 @@ const listByFrontDoorNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RulesEngineListResult

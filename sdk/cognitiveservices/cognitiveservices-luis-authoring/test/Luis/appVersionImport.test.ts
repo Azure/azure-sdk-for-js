@@ -13,7 +13,6 @@ import { delay } from "@azure/ms-rest-js";
 let appIds: Array<string> = [];
 
 describe("Import Tests", () => {
-
   it("should import version", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       fs.readFile("test/SessionRecords/ImportApp.json", "utf-8", async (err, data) => {
@@ -28,7 +27,9 @@ describe("Import Tests", () => {
           domain: "Comics",
           usageScenario: "IoT"
         });
-        var newVersion = await client.versions.importMethod(importVersion.body, app, { versionId: "0.2" });
+        var newVersion = await client.versions.importMethod(importVersion.body, app, {
+          versionId: "0.2"
+        });
 
         chai.expect(newVersion.body, "0.2");
 
@@ -39,7 +40,7 @@ describe("Import Tests", () => {
       });
     });
   });
-   
+
   it("should import version in Lu format", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       fs.readFile("test/SessionRecords/ImportLuApp.json", "utf-8", async (err, app) => {
@@ -53,13 +54,15 @@ describe("Import Tests", () => {
           domain: "Comics",
           usageScenario: "IoT"
         });
-        var newVersion = await client.versions.importLuFormat(importLuVersion.body, app, { versionId: "0.2" });
-        
+        var newVersion = await client.versions.importLuFormat(importLuVersion.body, app, {
+          versionId: "0.2"
+        });
+
         chai.expect(newVersion.body, "0.2");
 
         await delay(1000);
         var deleteRespose = await client.apps.deleteMethod(importLuVersion.body);
-        chai.expect(deleteRespose.code, "Success");  
+        chai.expect(deleteRespose.code, "Success");
         await delay(1000);
       });
     });
@@ -70,7 +73,7 @@ describe("Import Tests", () => {
       fs.readFile("test/SessionRecords/ImportV2App.json", "utf-8", async (err, data) => {
         if (err) {
           throw err;
-        }     
+        }
         let importV2Version = await client.apps.add({
           name: "LUIS App to import V2 version",
           description: "New LUIS App",
@@ -86,7 +89,7 @@ describe("Import Tests", () => {
 
         await delay(1000);
         var deleteRespose = await client.apps.deleteMethod(importV2Version.body);
-        chai.expect(deleteRespose.code, "Success");  
+        chai.expect(deleteRespose.code, "Success");
         await delay(1000);
       });
     });

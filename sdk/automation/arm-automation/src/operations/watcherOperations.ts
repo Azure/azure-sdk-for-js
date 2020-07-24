@@ -35,7 +35,13 @@ export class WatcherOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WatcherCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.Watcher, options?: msRest.RequestOptionsBase): Promise<Models.WatcherCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    parameters: Models.Watcher,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WatcherCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -43,7 +49,13 @@ export class WatcherOperations {
    * @param parameters The create or update parameters for watcher.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.Watcher, callback: msRest.ServiceCallback<Models.Watcher>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    parameters: Models.Watcher,
+    callback: msRest.ServiceCallback<Models.Watcher>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -52,8 +64,22 @@ export class WatcherOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.Watcher, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Watcher>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.Watcher, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Watcher>, callback?: msRest.ServiceCallback<Models.Watcher>): Promise<Models.WatcherCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    parameters: Models.Watcher,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Watcher>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    parameters: Models.Watcher,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Watcher>,
+    callback?: msRest.ServiceCallback<Models.Watcher>
+  ): Promise<Models.WatcherCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class WatcherOperations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.WatcherCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.WatcherCreateOrUpdateResponse>;
   }
 
   /**
@@ -74,14 +101,24 @@ export class WatcherOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WatcherGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase): Promise<Models.WatcherGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WatcherGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param watcherName The watcher name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, watcherName: string, callback: msRest.ServiceCallback<Models.Watcher>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    callback: msRest.ServiceCallback<Models.Watcher>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -89,8 +126,20 @@ export class WatcherOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, watcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Watcher>): void;
-  get(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Watcher>, callback?: msRest.ServiceCallback<Models.Watcher>): Promise<Models.WatcherGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Watcher>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Watcher>,
+    callback?: msRest.ServiceCallback<Models.Watcher>
+  ): Promise<Models.WatcherGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +148,8 @@ export class WatcherOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WatcherGetResponse>;
+      callback
+    ) as Promise<Models.WatcherGetResponse>;
   }
 
   /**
@@ -111,7 +161,13 @@ export class WatcherOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WatcherUpdateResponse>
    */
-  update(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.WatcherUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.WatcherUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    parameters: Models.WatcherUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WatcherUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -119,7 +175,13 @@ export class WatcherOperations {
    * @param parameters The update parameters for watcher.
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.WatcherUpdateParameters, callback: msRest.ServiceCallback<Models.Watcher>): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    parameters: Models.WatcherUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Watcher>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -128,8 +190,22 @@ export class WatcherOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.WatcherUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Watcher>): void;
-  update(resourceGroupName: string, automationAccountName: string, watcherName: string, parameters: Models.WatcherUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Watcher>, callback?: msRest.ServiceCallback<Models.Watcher>): Promise<Models.WatcherUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    parameters: Models.WatcherUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Watcher>
+  ): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    parameters: Models.WatcherUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Watcher>,
+    callback?: msRest.ServiceCallback<Models.Watcher>
+  ): Promise<Models.WatcherUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,7 +215,8 @@ export class WatcherOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.WatcherUpdateResponse>;
+      callback
+    ) as Promise<Models.WatcherUpdateResponse>;
   }
 
   /**
@@ -150,14 +227,24 @@ export class WatcherOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param watcherName The watcher name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, watcherName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -165,8 +252,20 @@ export class WatcherOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, watcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,7 +274,8 @@ export class WatcherOperations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -186,14 +286,24 @@ export class WatcherOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  start(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param watcherName The watcher name.
    * @param callback The callback
    */
-  start(resourceGroupName: string, automationAccountName: string, watcherName: string, callback: msRest.ServiceCallback<void>): void;
+  start(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -201,8 +311,20 @@ export class WatcherOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  start(resourceGroupName: string, automationAccountName: string, watcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  start(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  start(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  start(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -211,7 +333,8 @@ export class WatcherOperations {
         options
       },
       startOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -222,14 +345,24 @@ export class WatcherOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  stop(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param watcherName The watcher name.
    * @param callback The callback
    */
-  stop(resourceGroupName: string, automationAccountName: string, watcherName: string, callback: msRest.ServiceCallback<void>): void;
+  stop(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -237,8 +370,20 @@ export class WatcherOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  stop(resourceGroupName: string, automationAccountName: string, watcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stop(resourceGroupName: string, automationAccountName: string, watcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stop(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  stop(
+    resourceGroupName: string,
+    automationAccountName: string,
+    watcherName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -247,7 +392,8 @@ export class WatcherOperations {
         options
       },
       stopOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -257,21 +403,41 @@ export class WatcherOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WatcherListByAutomationAccountResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.WatcherListByAutomationAccountOptionalParams): Promise<Models.WatcherListByAutomationAccountResponse>;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: Models.WatcherListByAutomationAccountOptionalParams
+  ): Promise<Models.WatcherListByAutomationAccountResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.WatcherListResult>): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.WatcherListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.WatcherListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.WatcherListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.WatcherListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.WatcherListResult>, callback?: msRest.ServiceCallback<Models.WatcherListResult>): Promise<Models.WatcherListByAutomationAccountResponse> {
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: Models.WatcherListByAutomationAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.WatcherListResult>
+  ): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?:
+      | Models.WatcherListByAutomationAccountOptionalParams
+      | msRest.ServiceCallback<Models.WatcherListResult>,
+    callback?: msRest.ServiceCallback<Models.WatcherListResult>
+  ): Promise<Models.WatcherListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -279,7 +445,8 @@ export class WatcherOperations {
         options
       },
       listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.WatcherListByAutomationAccountResponse>;
+      callback
+    ) as Promise<Models.WatcherListByAutomationAccountResponse>;
   }
 
   /**
@@ -288,26 +455,41 @@ export class WatcherOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WatcherListByAutomationAccountNextResponse>
    */
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WatcherListByAutomationAccountNextResponse>;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WatcherListByAutomationAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WatcherListResult>): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.WatcherListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WatcherListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WatcherListResult>, callback?: msRest.ServiceCallback<Models.WatcherListResult>): Promise<Models.WatcherListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WatcherListResult>
+  ): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WatcherListResult>,
+    callback?: msRest.ServiceCallback<Models.WatcherListResult>
+  ): Promise<Models.WatcherListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAutomationAccountNextOperationSpec,
-      callback) as Promise<Models.WatcherListByAutomationAccountNextResponse>;
+      callback
+    ) as Promise<Models.WatcherListByAutomationAccountNextResponse>;
   }
 }
 
@@ -315,19 +497,16 @@ export class WatcherOperations {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers/{watcherName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers/{watcherName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.watcherName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -351,19 +530,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers/{watcherName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers/{watcherName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.watcherName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Watcher
@@ -377,19 +553,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers/{watcherName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers/{watcherName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.watcherName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -410,19 +583,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers/{watcherName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers/{watcherName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.watcherName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -434,19 +604,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const startOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers/{watcherName}/start",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers/{watcherName}/start",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.watcherName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -458,19 +625,16 @@ const startOperationSpec: msRest.OperationSpec = {
 
 const stopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers/{watcherName}/stop",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers/{watcherName}/stop",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.watcherName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -482,19 +646,15 @@ const stopOperationSpec: msRest.OperationSpec = {
 
 const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/watchers",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter, Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WatcherListResult
@@ -510,12 +670,8 @@ const listByAutomationAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WatcherListResult

@@ -31,7 +31,9 @@ export class Vaults {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultsListBySubscriptionIdResponse>
    */
-  listBySubscriptionId(options?: msRest.RequestOptionsBase): Promise<Models.VaultsListBySubscriptionIdResponse>;
+  listBySubscriptionId(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VaultsListBySubscriptionIdResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,21 @@ export class Vaults {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionId(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultList>): void;
-  listBySubscriptionId(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultList>, callback?: msRest.ServiceCallback<Models.VaultList>): Promise<Models.VaultsListBySubscriptionIdResponse> {
+  listBySubscriptionId(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VaultList>
+  ): void;
+  listBySubscriptionId(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultList>,
+    callback?: msRest.ServiceCallback<Models.VaultList>
+  ): Promise<Models.VaultsListBySubscriptionIdResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionIdOperationSpec,
-      callback) as Promise<Models.VaultsListBySubscriptionIdResponse>;
+      callback
+    ) as Promise<Models.VaultsListBySubscriptionIdResponse>;
   }
 
   /**
@@ -57,28 +66,43 @@ export class Vaults {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.VaultsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VaultsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.VaultList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.VaultList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultList>, callback?: msRest.ServiceCallback<Models.VaultList>): Promise<Models.VaultsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VaultList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultList>,
+    callback?: msRest.ServiceCallback<Models.VaultList>
+  ): Promise<Models.VaultsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.VaultsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.VaultsListByResourceGroupResponse>;
   }
 
   /**
@@ -89,14 +113,22 @@ export class Vaults {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultsGetResponse>
    */
-  get(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase): Promise<Models.VaultsGetResponse>;
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VaultsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param vaultName The name of the recovery services vault.
    * @param callback The callback
    */
-  get(resourceGroupName: string, vaultName: string, callback: msRest.ServiceCallback<Models.Vault>): void;
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    callback: msRest.ServiceCallback<Models.Vault>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -104,8 +136,18 @@ export class Vaults {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, vaultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Vault>): void;
-  get(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Vault>, callback?: msRest.ServiceCallback<Models.Vault>): Promise<Models.VaultsGetResponse> {
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Vault>
+  ): void;
+  get(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Vault>,
+    callback?: msRest.ServiceCallback<Models.Vault>
+  ): Promise<Models.VaultsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +155,8 @@ export class Vaults {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VaultsGetResponse>;
+      callback
+    ) as Promise<Models.VaultsGetResponse>;
   }
 
   /**
@@ -125,7 +168,12 @@ export class Vaults {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, vaultName: string, vault: Models.Vault, options?: msRest.RequestOptionsBase): Promise<Models.VaultsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    vaultName: string,
+    vault: Models.Vault,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VaultsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -133,7 +181,12 @@ export class Vaults {
    * @param vault Recovery Services Vault to be created.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, vaultName: string, vault: Models.Vault, callback: msRest.ServiceCallback<Models.Vault>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    vaultName: string,
+    vault: Models.Vault,
+    callback: msRest.ServiceCallback<Models.Vault>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -142,8 +195,20 @@ export class Vaults {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, vaultName: string, vault: Models.Vault, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Vault>): void;
-  createOrUpdate(resourceGroupName: string, vaultName: string, vault: Models.Vault, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Vault>, callback?: msRest.ServiceCallback<Models.Vault>): Promise<Models.VaultsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    vaultName: string,
+    vault: Models.Vault,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Vault>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    vaultName: string,
+    vault: Models.Vault,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Vault>,
+    callback?: msRest.ServiceCallback<Models.Vault>
+  ): Promise<Models.VaultsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -152,7 +217,8 @@ export class Vaults {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.VaultsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.VaultsCreateOrUpdateResponse>;
   }
 
   /**
@@ -163,14 +229,22 @@ export class Vaults {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param vaultName The name of the recovery services vault.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, vaultName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    vaultName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -178,8 +252,18 @@ export class Vaults {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, vaultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    vaultName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -187,7 +271,8 @@ export class Vaults {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -199,7 +284,12 @@ export class Vaults {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultsUpdateResponse>
    */
-  update(resourceGroupName: string, vaultName: string, vault: Models.PatchVault, options?: msRest.RequestOptionsBase): Promise<Models.VaultsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    vaultName: string,
+    vault: Models.PatchVault,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VaultsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -207,7 +297,12 @@ export class Vaults {
    * @param vault Recovery Services Vault to be created.
    * @param callback The callback
    */
-  update(resourceGroupName: string, vaultName: string, vault: Models.PatchVault, callback: msRest.ServiceCallback<Models.Vault>): void;
+  update(
+    resourceGroupName: string,
+    vaultName: string,
+    vault: Models.PatchVault,
+    callback: msRest.ServiceCallback<Models.Vault>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -216,8 +311,20 @@ export class Vaults {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, vaultName: string, vault: Models.PatchVault, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Vault>): void;
-  update(resourceGroupName: string, vaultName: string, vault: Models.PatchVault, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Vault>, callback?: msRest.ServiceCallback<Models.Vault>): Promise<Models.VaultsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    vaultName: string,
+    vault: Models.PatchVault,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Vault>
+  ): void;
+  update(
+    resourceGroupName: string,
+    vaultName: string,
+    vault: Models.PatchVault,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Vault>,
+    callback?: msRest.ServiceCallback<Models.Vault>
+  ): Promise<Models.VaultsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -226,7 +333,8 @@ export class Vaults {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.VaultsUpdateResponse>;
+      callback
+    ) as Promise<Models.VaultsUpdateResponse>;
   }
 
   /**
@@ -235,26 +343,41 @@ export class Vaults {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultsListBySubscriptionIdNextResponse>
    */
-  listBySubscriptionIdNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VaultsListBySubscriptionIdNextResponse>;
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VaultsListBySubscriptionIdNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionIdNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VaultList>): void;
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VaultList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionIdNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultList>): void;
-  listBySubscriptionIdNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultList>, callback?: msRest.ServiceCallback<Models.VaultList>): Promise<Models.VaultsListBySubscriptionIdNextResponse> {
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VaultList>
+  ): void;
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultList>,
+    callback?: msRest.ServiceCallback<Models.VaultList>
+  ): Promise<Models.VaultsListBySubscriptionIdNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionIdNextOperationSpec,
-      callback) as Promise<Models.VaultsListBySubscriptionIdNextResponse>;
+      callback
+    ) as Promise<Models.VaultsListBySubscriptionIdNextResponse>;
   }
 
   /**
@@ -263,26 +386,41 @@ export class Vaults {
    * @param [options] The optional parameters
    * @returns Promise<Models.VaultsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VaultsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VaultsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VaultList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VaultList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultList>, callback?: msRest.ServiceCallback<Models.VaultList>): Promise<Models.VaultsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VaultList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultList>,
+    callback?: msRest.ServiceCallback<Models.VaultList>
+  ): Promise<Models.VaultsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.VaultsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.VaultsListByResourceGroupNextResponse>;
   }
 }
 
@@ -291,15 +429,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.RecoveryServices/vaults",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VaultList
@@ -313,17 +445,11 @@ const listBySubscriptionIdOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VaultList
@@ -337,18 +463,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.vaultName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Vault
@@ -362,18 +481,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.vaultName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "vault",
     mapper: {
@@ -397,18 +509,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.vaultName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -420,18 +525,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.vaultName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "vault",
     mapper: {
@@ -457,12 +555,8 @@ const listBySubscriptionIdNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VaultList
@@ -478,12 +572,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VaultList

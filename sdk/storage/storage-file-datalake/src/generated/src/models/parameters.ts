@@ -11,10 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 export const acl: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "acl"
-  ],
+  parameterPath: ["options", "acl"],
   mapper: {
     serializedName: "x-ms-acl",
     type: {
@@ -40,18 +37,12 @@ export const action0: coreHttp.OperationQueryParameter = {
   }
 };
 export const action1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "action"
-  ],
+  parameterPath: ["options", "action"],
   mapper: {
     serializedName: "action",
     type: {
       name: "Enum",
-      allowedValues: [
-        "getAccessControl",
-        "getStatus"
-      ]
+      allowedValues: ["getAccessControl", "getStatus"]
     }
   }
 };
@@ -61,7 +52,7 @@ export const action2: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "action",
-    defaultValue: 'setAccessControl',
+    defaultValue: "setAccessControl",
     type: {
       name: "String"
     }
@@ -73,7 +64,7 @@ export const action3: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "action",
-    defaultValue: 'setAccessControlRecursive',
+    defaultValue: "setAccessControlRecursive",
     type: {
       name: "String"
     }
@@ -85,7 +76,7 @@ export const action4: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "action",
-    defaultValue: 'flush',
+    defaultValue: "flush",
     type: {
       name: "String"
     }
@@ -97,18 +88,14 @@ export const action5: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "action",
-    defaultValue: 'append',
+    defaultValue: "append",
     type: {
       name: "String"
     }
   }
 };
 export const cacheControl: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "pathHttpHeaders",
-    "cacheControl"
-  ],
+  parameterPath: ["options", "pathHttpHeaders", "cacheControl"],
   mapper: {
     serializedName: "x-ms-cache-control",
     type: {
@@ -117,10 +104,7 @@ export const cacheControl: coreHttp.OperationParameter = {
   }
 };
 export const close: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "close"
-  ],
+  parameterPath: ["options", "close"],
   mapper: {
     serializedName: "close",
     type: {
@@ -134,18 +118,14 @@ export const comp: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'expiry',
+    defaultValue: "expiry",
     type: {
       name: "String"
     }
   }
 };
 export const contentDisposition: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "pathHttpHeaders",
-    "contentDisposition"
-  ],
+  parameterPath: ["options", "pathHttpHeaders", "contentDisposition"],
   mapper: {
     serializedName: "x-ms-content-disposition",
     type: {
@@ -154,11 +134,7 @@ export const contentDisposition: coreHttp.OperationParameter = {
   }
 };
 export const contentEncoding: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "pathHttpHeaders",
-    "contentEncoding"
-  ],
+  parameterPath: ["options", "pathHttpHeaders", "contentEncoding"],
   mapper: {
     serializedName: "x-ms-content-encoding",
     type: {
@@ -167,11 +143,7 @@ export const contentEncoding: coreHttp.OperationParameter = {
   }
 };
 export const contentLanguage: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "pathHttpHeaders",
-    "contentLanguage"
-  ],
+  parameterPath: ["options", "pathHttpHeaders", "contentLanguage"],
   mapper: {
     serializedName: "x-ms-content-language",
     type: {
@@ -180,10 +152,7 @@ export const contentLanguage: coreHttp.OperationParameter = {
   }
 };
 export const contentLength: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "contentLength"
-  ],
+  parameterPath: ["options", "contentLength"],
   mapper: {
     serializedName: "Content-Length",
     constraints: {
@@ -195,11 +164,7 @@ export const contentLength: coreHttp.OperationParameter = {
   }
 };
 export const contentMD5: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "pathHttpHeaders",
-    "contentMD5"
-  ],
+  parameterPath: ["options", "pathHttpHeaders", "contentMD5"],
   mapper: {
     serializedName: "x-ms-content-md5",
     type: {
@@ -208,11 +173,7 @@ export const contentMD5: coreHttp.OperationParameter = {
   }
 };
 export const contentType: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "pathHttpHeaders",
-    "contentType"
-  ],
+  parameterPath: ["options", "pathHttpHeaders", "contentType"],
   mapper: {
     serializedName: "x-ms-content-type",
     type: {
@@ -221,10 +182,7 @@ export const contentType: coreHttp.OperationParameter = {
   }
 };
 export const continuation: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "continuation"
-  ],
+  parameterPath: ["options", "continuation"],
   mapper: {
     serializedName: "continuation",
     type: {
@@ -233,10 +191,7 @@ export const continuation: coreHttp.OperationQueryParameter = {
   }
 };
 export const expiresOn: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "expiresOn"
-  ],
+  parameterPath: ["options", "expiresOn"],
   mapper: {
     serializedName: "x-ms-expiry-time",
     type: {
@@ -255,10 +210,7 @@ export const expiryOptions: coreHttp.OperationParameter = {
   }
 };
 export const group: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "group"
-  ],
+  parameterPath: ["options", "group"],
   mapper: {
     serializedName: "x-ms-group",
     type: {
@@ -267,11 +219,7 @@ export const group: coreHttp.OperationParameter = {
   }
 };
 export const ifMatch: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "modifiedAccessConditions",
-    "ifMatch"
-  ],
+  parameterPath: ["options", "modifiedAccessConditions", "ifMatch"],
   mapper: {
     serializedName: "If-Match",
     type: {
@@ -280,11 +228,7 @@ export const ifMatch: coreHttp.OperationParameter = {
   }
 };
 export const ifModifiedSince: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "modifiedAccessConditions",
-    "ifModifiedSince"
-  ],
+  parameterPath: ["options", "modifiedAccessConditions", "ifModifiedSince"],
   mapper: {
     serializedName: "If-Modified-Since",
     type: {
@@ -293,11 +237,7 @@ export const ifModifiedSince: coreHttp.OperationParameter = {
   }
 };
 export const ifNoneMatch: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "modifiedAccessConditions",
-    "ifNoneMatch"
-  ],
+  parameterPath: ["options", "modifiedAccessConditions", "ifNoneMatch"],
   mapper: {
     serializedName: "If-None-Match",
     type: {
@@ -306,11 +246,7 @@ export const ifNoneMatch: coreHttp.OperationParameter = {
   }
 };
 export const ifUnmodifiedSince: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "modifiedAccessConditions",
-    "ifUnmodifiedSince"
-  ],
+  parameterPath: ["options", "modifiedAccessConditions", "ifUnmodifiedSince"],
   mapper: {
     serializedName: "If-Unmodified-Since",
     type: {
@@ -319,11 +255,7 @@ export const ifUnmodifiedSince: coreHttp.OperationParameter = {
   }
 };
 export const leaseId: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "leaseAccessConditions",
-    "leaseId"
-  ],
+  parameterPath: ["options", "leaseAccessConditions", "leaseId"],
   mapper: {
     serializedName: "x-ms-lease-id",
     type: {
@@ -332,10 +264,7 @@ export const leaseId: coreHttp.OperationParameter = {
   }
 };
 export const maxRecords: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "maxRecords"
-  ],
+  parameterPath: ["options", "maxRecords"],
   mapper: {
     serializedName: "maxRecords",
     constraints: {
@@ -347,10 +276,7 @@ export const maxRecords: coreHttp.OperationQueryParameter = {
   }
 };
 export const maxResults: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "maxResults"
-  ],
+  parameterPath: ["options", "maxResults"],
   mapper: {
     serializedName: "maxResults",
     constraints: {
@@ -362,18 +288,12 @@ export const maxResults: coreHttp.OperationQueryParameter = {
   }
 };
 export const mode0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "mode"
-  ],
+  parameterPath: ["options", "mode"],
   mapper: {
     serializedName: "mode",
     type: {
       name: "Enum",
-      allowedValues: [
-        "legacy",
-        "posix"
-      ]
+      allowedValues: ["legacy", "posix"]
     }
   }
 };
@@ -384,19 +304,12 @@ export const mode1: coreHttp.OperationQueryParameter = {
     serializedName: "mode",
     type: {
       name: "Enum",
-      allowedValues: [
-        "set",
-        "modify",
-        "remove"
-      ]
+      allowedValues: ["set", "modify", "remove"]
     }
   }
 };
 export const owner: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "owner"
-  ],
+  parameterPath: ["options", "owner"],
   mapper: {
     serializedName: "x-ms-owner",
     type: {
@@ -405,10 +318,7 @@ export const owner: coreHttp.OperationParameter = {
   }
 };
 export const path: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "path"
-  ],
+  parameterPath: ["options", "path"],
   mapper: {
     serializedName: "directory",
     type: {
@@ -417,10 +327,7 @@ export const path: coreHttp.OperationQueryParameter = {
   }
 };
 export const permissions: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "permissions"
-  ],
+  parameterPath: ["options", "permissions"],
   mapper: {
     serializedName: "x-ms-permissions",
     type: {
@@ -429,10 +336,7 @@ export const permissions: coreHttp.OperationParameter = {
   }
 };
 export const position: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "position"
-  ],
+  parameterPath: ["options", "position"],
   mapper: {
     serializedName: "position",
     type: {
@@ -441,10 +345,7 @@ export const position: coreHttp.OperationQueryParameter = {
   }
 };
 export const prefix: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "prefix"
-  ],
+  parameterPath: ["options", "prefix"],
   mapper: {
     serializedName: "prefix",
     type: {
@@ -453,10 +354,7 @@ export const prefix: coreHttp.OperationQueryParameter = {
   }
 };
 export const properties: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "properties"
-  ],
+  parameterPath: ["options", "properties"],
   mapper: {
     serializedName: "x-ms-properties",
     type: {
@@ -465,10 +363,7 @@ export const properties: coreHttp.OperationParameter = {
   }
 };
 export const proposedLeaseId: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "proposedLeaseId"
-  ],
+  parameterPath: ["options", "proposedLeaseId"],
   mapper: {
     serializedName: "x-ms-proposed-lease-id",
     type: {
@@ -477,10 +372,7 @@ export const proposedLeaseId: coreHttp.OperationParameter = {
   }
 };
 export const range: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "range"
-  ],
+  parameterPath: ["options", "range"],
   mapper: {
     serializedName: "Range",
     type: {
@@ -499,10 +391,7 @@ export const recursive0: coreHttp.OperationQueryParameter = {
   }
 };
 export const recursive1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "recursive"
-  ],
+  parameterPath: ["options", "recursive"],
   mapper: {
     serializedName: "recursive",
     type: {
@@ -511,10 +400,7 @@ export const recursive1: coreHttp.OperationQueryParameter = {
   }
 };
 export const renameSource: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "renameSource"
-  ],
+  parameterPath: ["options", "renameSource"],
   mapper: {
     serializedName: "x-ms-rename-source",
     type: {
@@ -523,10 +409,7 @@ export const renameSource: coreHttp.OperationParameter = {
   }
 };
 export const requestId: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "requestId"
-  ],
+  parameterPath: ["options", "requestId"],
   mapper: {
     serializedName: "x-ms-client-request-id",
     type: {
@@ -540,7 +423,7 @@ export const resource0: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "resource",
-    defaultValue: 'account',
+    defaultValue: "account",
     type: {
       name: "String"
     }
@@ -552,33 +435,24 @@ export const resource1: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "resource",
-    defaultValue: 'filesystem',
+    defaultValue: "filesystem",
     type: {
       name: "String"
     }
   }
 };
 export const resource2: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "resource"
-  ],
+  parameterPath: ["options", "resource"],
   mapper: {
     serializedName: "resource",
     type: {
       name: "Enum",
-      allowedValues: [
-        "directory",
-        "file"
-      ]
+      allowedValues: ["directory", "file"]
     }
   }
 };
 export const retainUncommittedData: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "retainUncommittedData"
-  ],
+  parameterPath: ["options", "retainUncommittedData"],
   mapper: {
     serializedName: "retainUncommittedData",
     type: {
@@ -587,11 +461,7 @@ export const retainUncommittedData: coreHttp.OperationQueryParameter = {
   }
 };
 export const sourceIfMatch: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceModifiedAccessConditions",
-    "sourceIfMatch"
-  ],
+  parameterPath: ["options", "sourceModifiedAccessConditions", "sourceIfMatch"],
   mapper: {
     serializedName: "x-ms-source-if-match",
     type: {
@@ -600,11 +470,7 @@ export const sourceIfMatch: coreHttp.OperationParameter = {
   }
 };
 export const sourceIfModifiedSince: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceModifiedAccessConditions",
-    "sourceIfModifiedSince"
-  ],
+  parameterPath: ["options", "sourceModifiedAccessConditions", "sourceIfModifiedSince"],
   mapper: {
     serializedName: "x-ms-source-if-modified-since",
     type: {
@@ -613,11 +479,7 @@ export const sourceIfModifiedSince: coreHttp.OperationParameter = {
   }
 };
 export const sourceIfNoneMatch: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceModifiedAccessConditions",
-    "sourceIfNoneMatch"
-  ],
+  parameterPath: ["options", "sourceModifiedAccessConditions", "sourceIfNoneMatch"],
   mapper: {
     serializedName: "x-ms-source-if-none-match",
     type: {
@@ -626,11 +488,7 @@ export const sourceIfNoneMatch: coreHttp.OperationParameter = {
   }
 };
 export const sourceIfUnmodifiedSince: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceModifiedAccessConditions",
-    "sourceIfUnmodifiedSince"
-  ],
+  parameterPath: ["options", "sourceModifiedAccessConditions", "sourceIfUnmodifiedSince"],
   mapper: {
     serializedName: "x-ms-source-if-unmodified-since",
     type: {
@@ -639,10 +497,7 @@ export const sourceIfUnmodifiedSince: coreHttp.OperationParameter = {
   }
 };
 export const sourceLeaseId: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceLeaseId"
-  ],
+  parameterPath: ["options", "sourceLeaseId"],
   mapper: {
     serializedName: "x-ms-source-lease-id",
     type: {
@@ -651,10 +506,7 @@ export const sourceLeaseId: coreHttp.OperationParameter = {
   }
 };
 export const timeout: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "timeout"
-  ],
+  parameterPath: ["options", "timeout"],
   mapper: {
     serializedName: "timeout",
     constraints: {
@@ -666,11 +518,7 @@ export const timeout: coreHttp.OperationQueryParameter = {
   }
 };
 export const transactionalContentHash: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "pathHttpHeaders",
-    "transactionalContentHash"
-  ],
+  parameterPath: ["options", "pathHttpHeaders", "transactionalContentHash"],
   mapper: {
     serializedName: "Content-MD5",
     type: {
@@ -679,10 +527,7 @@ export const transactionalContentHash: coreHttp.OperationParameter = {
   }
 };
 export const umask: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "umask"
-  ],
+  parameterPath: ["options", "umask"],
   mapper: {
     serializedName: "x-ms-umask",
     type: {
@@ -691,10 +536,7 @@ export const umask: coreHttp.OperationParameter = {
   }
 };
 export const upn: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "upn"
-  ],
+  parameterPath: ["options", "upn"],
   mapper: {
     serializedName: "upn",
     type: {
@@ -707,7 +549,7 @@ export const url: coreHttp.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "url",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -720,7 +562,7 @@ export const version: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-version",
-    defaultValue: '2019-12-12',
+    defaultValue: "2019-12-12",
     type: {
       name: "String"
     }
@@ -733,21 +575,12 @@ export const xMsLeaseAction: coreHttp.OperationParameter = {
     serializedName: "x-ms-lease-action",
     type: {
       name: "Enum",
-      allowedValues: [
-        "acquire",
-        "break",
-        "change",
-        "renew",
-        "release"
-      ]
+      allowedValues: ["acquire", "break", "change", "renew", "release"]
     }
   }
 };
 export const xMsLeaseBreakPeriod: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsLeaseBreakPeriod"
-  ],
+  parameterPath: ["options", "xMsLeaseBreakPeriod"],
   mapper: {
     serializedName: "x-ms-lease-break-period",
     type: {
@@ -756,10 +589,7 @@ export const xMsLeaseBreakPeriod: coreHttp.OperationParameter = {
   }
 };
 export const xMsLeaseDuration: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsLeaseDuration"
-  ],
+  parameterPath: ["options", "xMsLeaseDuration"],
   mapper: {
     serializedName: "x-ms-lease-duration",
     type: {
@@ -768,10 +598,7 @@ export const xMsLeaseDuration: coreHttp.OperationParameter = {
   }
 };
 export const xMsRangeGetContentMd5: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsRangeGetContentMd5"
-  ],
+  parameterPath: ["options", "xMsRangeGetContentMd5"],
   mapper: {
     serializedName: "x-ms-range-get-content-md5",
     type: {

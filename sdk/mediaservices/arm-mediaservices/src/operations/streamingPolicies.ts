@@ -34,21 +34,41 @@ export class StreamingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingPoliciesListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: Models.StreamingPoliciesListOptionalParams): Promise<Models.StreamingPoliciesListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: Models.StreamingPoliciesListOptionalParams
+  ): Promise<Models.StreamingPoliciesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.StreamingPolicyCollection>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.StreamingPolicyCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: Models.StreamingPoliciesListOptionalParams, callback: msRest.ServiceCallback<Models.StreamingPolicyCollection>): void;
-  list(resourceGroupName: string, accountName: string, options?: Models.StreamingPoliciesListOptionalParams | msRest.ServiceCallback<Models.StreamingPolicyCollection>, callback?: msRest.ServiceCallback<Models.StreamingPolicyCollection>): Promise<Models.StreamingPoliciesListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: Models.StreamingPoliciesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.StreamingPolicyCollection>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | Models.StreamingPoliciesListOptionalParams
+      | msRest.ServiceCallback<Models.StreamingPolicyCollection>,
+    callback?: msRest.ServiceCallback<Models.StreamingPolicyCollection>
+  ): Promise<Models.StreamingPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class StreamingPolicies {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.StreamingPoliciesListResponse>;
+      callback
+    ) as Promise<Models.StreamingPoliciesListResponse>;
   }
 
   /**
@@ -68,14 +89,24 @@ export class StreamingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingPoliciesGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, streamingPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.StreamingPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    streamingPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param streamingPolicyName The Streaming Policy name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, streamingPolicyName: string, callback: msRest.ServiceCallback<Models.StreamingPolicy>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    streamingPolicyName: string,
+    callback: msRest.ServiceCallback<Models.StreamingPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -83,8 +114,20 @@ export class StreamingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, streamingPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingPolicy>): void;
-  get(resourceGroupName: string, accountName: string, streamingPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingPolicy>, callback?: msRest.ServiceCallback<Models.StreamingPolicy>): Promise<Models.StreamingPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    streamingPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StreamingPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    streamingPolicyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingPolicy>,
+    callback?: msRest.ServiceCallback<Models.StreamingPolicy>
+  ): Promise<Models.StreamingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -93,7 +136,8 @@ export class StreamingPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.StreamingPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.StreamingPoliciesGetResponse>;
   }
 
   /**
@@ -106,7 +150,13 @@ export class StreamingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingPoliciesCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, streamingPolicyName: string, parameters: Models.StreamingPolicy, options?: msRest.RequestOptionsBase): Promise<Models.StreamingPoliciesCreateResponse>;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    streamingPolicyName: string,
+    parameters: Models.StreamingPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingPoliciesCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -114,7 +164,13 @@ export class StreamingPolicies {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, streamingPolicyName: string, parameters: Models.StreamingPolicy, callback: msRest.ServiceCallback<Models.StreamingPolicy>): void;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    streamingPolicyName: string,
+    parameters: Models.StreamingPolicy,
+    callback: msRest.ServiceCallback<Models.StreamingPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -123,8 +179,22 @@ export class StreamingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, streamingPolicyName: string, parameters: Models.StreamingPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingPolicy>): void;
-  create(resourceGroupName: string, accountName: string, streamingPolicyName: string, parameters: Models.StreamingPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingPolicy>, callback?: msRest.ServiceCallback<Models.StreamingPolicy>): Promise<Models.StreamingPoliciesCreateResponse> {
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    streamingPolicyName: string,
+    parameters: Models.StreamingPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StreamingPolicy>
+  ): void;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    streamingPolicyName: string,
+    parameters: Models.StreamingPolicy,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingPolicy>,
+    callback?: msRest.ServiceCallback<Models.StreamingPolicy>
+  ): Promise<Models.StreamingPoliciesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +204,8 @@ export class StreamingPolicies {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.StreamingPoliciesCreateResponse>;
+      callback
+    ) as Promise<Models.StreamingPoliciesCreateResponse>;
   }
 
   /**
@@ -146,14 +217,24 @@ export class StreamingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, streamingPolicyName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    streamingPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param streamingPolicyName The Streaming Policy name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, streamingPolicyName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    streamingPolicyName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -161,8 +242,20 @@ export class StreamingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, streamingPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, streamingPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    streamingPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    streamingPolicyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +264,8 @@ export class StreamingPolicies {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -181,26 +275,41 @@ export class StreamingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingPoliciesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StreamingPoliciesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingPoliciesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StreamingPolicyCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.StreamingPolicyCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingPolicyCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingPolicyCollection>, callback?: msRest.ServiceCallback<Models.StreamingPolicyCollection>): Promise<Models.StreamingPoliciesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StreamingPolicyCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingPolicyCollection>,
+    callback?: msRest.ServiceCallback<Models.StreamingPolicyCollection>
+  ): Promise<Models.StreamingPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.StreamingPoliciesListNextResponse>;
+      callback
+    ) as Promise<Models.StreamingPoliciesListNextResponse>;
   }
 }
 
@@ -208,21 +317,11 @@ export class StreamingPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingPolicies",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingPolicies",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.orderby],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingPolicyCollection
@@ -236,19 +335,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingPolicies/{streamingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingPolicies/{streamingPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingPolicy
@@ -263,19 +359,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingPolicies/{streamingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingPolicies/{streamingPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -296,19 +389,16 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingPolicies/{streamingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingPolicies/{streamingPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -323,12 +413,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingPolicyCollection

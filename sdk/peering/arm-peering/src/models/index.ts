@@ -603,7 +603,8 @@ export interface ErrorResponse {
 /**
  * Optional Parameters.
  */
-export interface PeeringManagementClientCheckServiceProviderAvailabilityOptionalParams extends msRest.RequestOptionsBase {
+export interface PeeringManagementClientCheckServiceProviderAvailabilityOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Gets or sets the PeeringServiceLocation
    */
@@ -754,7 +755,13 @@ export interface PeeringServiceListResult extends Array<PeeringService> {
  * @readonly
  * @enum {string}
  */
-export type Name = 'Basic_Exchange_Free' | 'Basic_Direct_Free' | 'Premium_Direct_Free' | 'Premium_Exchange_Metered' | 'Premium_Direct_Metered' | 'Premium_Direct_Unlimited';
+export type Name =
+  | "Basic_Exchange_Free"
+  | "Basic_Direct_Free"
+  | "Premium_Direct_Free"
+  | "Premium_Exchange_Metered"
+  | "Premium_Direct_Metered"
+  | "Premium_Direct_Unlimited";
 
 /**
  * Defines values for Tier.
@@ -762,7 +769,7 @@ export type Name = 'Basic_Exchange_Free' | 'Basic_Direct_Free' | 'Premium_Direct
  * @readonly
  * @enum {string}
  */
-export type Tier = 'Basic' | 'Premium';
+export type Tier = "Basic" | "Premium";
 
 /**
  * Defines values for Family.
@@ -770,7 +777,7 @@ export type Tier = 'Basic' | 'Premium';
  * @readonly
  * @enum {string}
  */
-export type Family = 'Direct' | 'Exchange';
+export type Family = "Direct" | "Exchange";
 
 /**
  * Defines values for Size.
@@ -778,7 +785,7 @@ export type Family = 'Direct' | 'Exchange';
  * @readonly
  * @enum {string}
  */
-export type Size = 'Free' | 'Metered' | 'Unlimited';
+export type Size = "Free" | "Metered" | "Unlimited";
 
 /**
  * Defines values for Kind.
@@ -786,7 +793,7 @@ export type Size = 'Free' | 'Metered' | 'Unlimited';
  * @readonly
  * @enum {string}
  */
-export type Kind = 'Direct' | 'Exchange';
+export type Kind = "Direct" | "Exchange";
 
 /**
  * Defines values for SessionAddressProvider.
@@ -794,7 +801,7 @@ export type Kind = 'Direct' | 'Exchange';
  * @readonly
  * @enum {string}
  */
-export type SessionAddressProvider = 'Microsoft' | 'Peer';
+export type SessionAddressProvider = "Microsoft" | "Peer";
 
 /**
  * Defines values for ConnectionState.
@@ -803,7 +810,15 @@ export type SessionAddressProvider = 'Microsoft' | 'Peer';
  * @readonly
  * @enum {string}
  */
-export type ConnectionState = 'None' | 'PendingApproval' | 'Approved' | 'ProvisioningStarted' | 'ProvisioningFailed' | 'ProvisioningCompleted' | 'Validating' | 'Active';
+export type ConnectionState =
+  | "None"
+  | "PendingApproval"
+  | "Approved"
+  | "ProvisioningStarted"
+  | "ProvisioningFailed"
+  | "ProvisioningCompleted"
+  | "Validating"
+  | "Active";
 
 /**
  * Defines values for SessionStateV4.
@@ -812,7 +827,18 @@ export type ConnectionState = 'None' | 'PendingApproval' | 'Approved' | 'Provisi
  * @readonly
  * @enum {string}
  */
-export type SessionStateV4 = 'None' | 'Idle' | 'Connect' | 'Active' | 'OpenSent' | 'OpenConfirm' | 'OpenReceived' | 'Established' | 'PendingAdd' | 'PendingUpdate' | 'PendingRemove';
+export type SessionStateV4 =
+  | "None"
+  | "Idle"
+  | "Connect"
+  | "Active"
+  | "OpenSent"
+  | "OpenConfirm"
+  | "OpenReceived"
+  | "Established"
+  | "PendingAdd"
+  | "PendingUpdate"
+  | "PendingRemove";
 
 /**
  * Defines values for SessionStateV6.
@@ -821,7 +847,18 @@ export type SessionStateV4 = 'None' | 'Idle' | 'Connect' | 'Active' | 'OpenSent'
  * @readonly
  * @enum {string}
  */
-export type SessionStateV6 = 'None' | 'Idle' | 'Connect' | 'Active' | 'OpenSent' | 'OpenConfirm' | 'OpenReceived' | 'Established' | 'PendingAdd' | 'PendingUpdate' | 'PendingRemove';
+export type SessionStateV6 =
+  | "None"
+  | "Idle"
+  | "Connect"
+  | "Active"
+  | "OpenSent"
+  | "OpenConfirm"
+  | "OpenReceived"
+  | "Established"
+  | "PendingAdd"
+  | "PendingUpdate"
+  | "PendingRemove";
 
 /**
  * Defines values for DirectPeeringType.
@@ -829,7 +866,7 @@ export type SessionStateV6 = 'None' | 'Idle' | 'Connect' | 'Active' | 'OpenSent'
  * @readonly
  * @enum {string}
  */
-export type DirectPeeringType = 'Edge' | 'Transit' | 'Cdn' | 'Internal';
+export type DirectPeeringType = "Edge" | "Transit" | "Cdn" | "Internal";
 
 /**
  * Defines values for ProvisioningState.
@@ -837,7 +874,7 @@ export type DirectPeeringType = 'Edge' | 'Transit' | 'Cdn' | 'Internal';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Succeeded' | 'Updating' | 'Deleting' | 'Failed';
+export type ProvisioningState = "Succeeded" | "Updating" | "Deleting" | "Failed";
 
 /**
  * Defines values for ValidationState.
@@ -845,7 +882,7 @@ export type ProvisioningState = 'Succeeded' | 'Updating' | 'Deleting' | 'Failed'
  * @readonly
  * @enum {string}
  */
-export type ValidationState = 'None' | 'Pending' | 'Approved' | 'Failed';
+export type ValidationState = "None" | "Pending" | "Approved" | "Failed";
 
 /**
  * Defines values for PrefixValidationState.
@@ -853,7 +890,13 @@ export type ValidationState = 'None' | 'Pending' | 'Approved' | 'Failed';
  * @readonly
  * @enum {string}
  */
-export type PrefixValidationState = 'None' | 'Invalid' | 'Verified' | 'Failed' | 'Pending' | 'Unknown';
+export type PrefixValidationState =
+  | "None"
+  | "Invalid"
+  | "Verified"
+  | "Failed"
+  | "Pending"
+  | "Unknown";
 
 /**
  * Defines values for LearnedType.
@@ -861,7 +904,7 @@ export type PrefixValidationState = 'None' | 'Invalid' | 'Verified' | 'Failed' |
  * @readonly
  * @enum {string}
  */
-export type LearnedType = 'None' | 'ViaPartner' | 'ViaSession';
+export type LearnedType = "None" | "ViaPartner" | "ViaSession";
 
 /**
  * Defines values for DirectPeeringType1.
@@ -869,7 +912,7 @@ export type LearnedType = 'None' | 'ViaPartner' | 'ViaSession';
  * @readonly
  * @enum {string}
  */
-export type DirectPeeringType1 = 'Edge' | 'Transit' | 'Cdn' | 'Internal';
+export type DirectPeeringType1 = "Edge" | "Transit" | "Cdn" | "Internal";
 
 /**
  * Defines values for CheckServiceProviderAvailabilityOKResponse.
@@ -877,7 +920,7 @@ export type DirectPeeringType1 = 'Edge' | 'Transit' | 'Cdn' | 'Internal';
  * @readonly
  * @enum {string}
  */
-export type CheckServiceProviderAvailabilityOKResponse = 'Available' | 'UnAvailable';
+export type CheckServiceProviderAvailabilityOKResponse = "Available" | "UnAvailable";
 
 /**
  * Defines values for Kind1.
@@ -885,7 +928,7 @@ export type CheckServiceProviderAvailabilityOKResponse = 'Available' | 'UnAvaila
  * @readonly
  * @enum {string}
  */
-export type Kind1 = 'Direct' | 'Exchange';
+export type Kind1 = "Direct" | "Exchange";
 
 /**
  * Defines values for Kind2.
@@ -893,7 +936,7 @@ export type Kind1 = 'Direct' | 'Exchange';
  * @readonly
  * @enum {string}
  */
-export type Kind2 = 'Direct' | 'Exchange';
+export type Kind2 = "Direct" | "Exchange";
 
 /**
  * Contains response data for the checkServiceProviderAvailability operation.
@@ -908,16 +951,16 @@ export type CheckServiceProviderAvailabilityResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckServiceProviderAvailabilityOKResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckServiceProviderAvailabilityOKResponse;
+  };
 };
 
 /**
@@ -928,16 +971,16 @@ export type LegacyPeeringsListResponse = PeeringListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringListResult;
+  };
 };
 
 /**
@@ -948,16 +991,16 @@ export type LegacyPeeringsListNextResponse = PeeringListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringListResult;
+  };
 };
 
 /**
@@ -968,16 +1011,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -988,16 +1031,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1008,16 +1051,16 @@ export type PeerAsnsGetResponse = PeerAsn & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeerAsn;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeerAsn;
+  };
 };
 
 /**
@@ -1028,16 +1071,16 @@ export type PeerAsnsCreateOrUpdateResponse = PeerAsn & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeerAsn;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeerAsn;
+  };
 };
 
 /**
@@ -1048,16 +1091,16 @@ export type PeerAsnsListBySubscriptionResponse = PeerAsnListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeerAsnListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeerAsnListResult;
+  };
 };
 
 /**
@@ -1068,16 +1111,16 @@ export type PeerAsnsListBySubscriptionNextResponse = PeerAsnListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeerAsnListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeerAsnListResult;
+  };
 };
 
 /**
@@ -1088,16 +1131,16 @@ export type PeeringLocationsListResponse = PeeringLocationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringLocationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringLocationListResult;
+  };
 };
 
 /**
@@ -1108,16 +1151,16 @@ export type PeeringLocationsListNextResponse = PeeringLocationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringLocationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringLocationListResult;
+  };
 };
 
 /**
@@ -1128,16 +1171,16 @@ export type PeeringsGetResponse = Peering & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Peering;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Peering;
+  };
 };
 
 /**
@@ -1148,16 +1191,16 @@ export type PeeringsCreateOrUpdateResponse = Peering & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Peering;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Peering;
+  };
 };
 
 /**
@@ -1168,16 +1211,16 @@ export type PeeringsUpdateResponse = Peering & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Peering;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Peering;
+  };
 };
 
 /**
@@ -1188,16 +1231,16 @@ export type PeeringsListByResourceGroupResponse = PeeringListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringListResult;
+  };
 };
 
 /**
@@ -1208,16 +1251,16 @@ export type PeeringsListBySubscriptionResponse = PeeringListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringListResult;
+  };
 };
 
 /**
@@ -1228,16 +1271,16 @@ export type PeeringsListByResourceGroupNextResponse = PeeringListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringListResult;
+  };
 };
 
 /**
@@ -1248,16 +1291,16 @@ export type PeeringsListBySubscriptionNextResponse = PeeringListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringListResult;
+  };
 };
 
 /**
@@ -1268,16 +1311,16 @@ export type PeeringServiceLocationsListResponse = PeeringServiceLocationListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringServiceLocationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringServiceLocationListResult;
+  };
 };
 
 /**
@@ -1288,16 +1331,16 @@ export type PeeringServiceLocationsListNextResponse = PeeringServiceLocationList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringServiceLocationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringServiceLocationListResult;
+  };
 };
 
 /**
@@ -1308,16 +1351,16 @@ export type PeeringServicePrefixesGetResponse = PeeringServicePrefix & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringServicePrefix;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringServicePrefix;
+  };
 };
 
 /**
@@ -1328,16 +1371,16 @@ export type PeeringServicePrefixesCreateOrUpdateResponse = PeeringServicePrefix 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringServicePrefix;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringServicePrefix;
+  };
 };
 
 /**
@@ -1348,16 +1391,16 @@ export type PrefixesListByPeeringServiceResponse = PeeringServicePrefixListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringServicePrefixListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringServicePrefixListResult;
+  };
 };
 
 /**
@@ -1368,16 +1411,16 @@ export type PrefixesListByPeeringServiceNextResponse = PeeringServicePrefixListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringServicePrefixListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringServicePrefixListResult;
+  };
 };
 
 /**
@@ -1388,16 +1431,16 @@ export type PeeringServiceProvidersListResponse = PeeringServiceProviderListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringServiceProviderListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringServiceProviderListResult;
+  };
 };
 
 /**
@@ -1408,16 +1451,16 @@ export type PeeringServiceProvidersListNextResponse = PeeringServiceProviderList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringServiceProviderListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringServiceProviderListResult;
+  };
 };
 
 /**
@@ -1428,16 +1471,16 @@ export type PeeringServicesGetResponse = PeeringService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringService;
+  };
 };
 
 /**
@@ -1448,16 +1491,16 @@ export type PeeringServicesCreateOrUpdateResponse = PeeringService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringService;
+  };
 };
 
 /**
@@ -1468,16 +1511,16 @@ export type PeeringServicesUpdateResponse = PeeringService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringService;
+  };
 };
 
 /**
@@ -1488,16 +1531,16 @@ export type PeeringServicesListByResourceGroupResponse = PeeringServiceListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringServiceListResult;
+  };
 };
 
 /**
@@ -1508,16 +1551,16 @@ export type PeeringServicesListBySubscriptionResponse = PeeringServiceListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringServiceListResult;
+  };
 };
 
 /**
@@ -1528,16 +1571,16 @@ export type PeeringServicesListByResourceGroupNextResponse = PeeringServiceListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringServiceListResult;
+  };
 };
 
 /**
@@ -1548,14 +1591,14 @@ export type PeeringServicesListBySubscriptionNextResponse = PeeringServiceListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeeringServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeeringServiceListResult;
+  };
 };

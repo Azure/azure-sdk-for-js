@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { RedisManagementClientContext } from "./redisManagementClientContext";
 
-
 class RedisManagementClient extends RedisManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -30,7 +29,11 @@ class RedisManagementClient extends RedisManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.RedisManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.RedisManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.redis = new operations.Redis(this);

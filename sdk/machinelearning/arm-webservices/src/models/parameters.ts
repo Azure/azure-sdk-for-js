@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -42,10 +42,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const region0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "region"
-  ],
+  parameterPath: ["options", "region"],
   mapper: {
     serializedName: "region",
     type: {
@@ -74,10 +71,7 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   }
 };
 export const skiptoken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skiptoken"
-  ],
+  parameterPath: ["options", "skiptoken"],
   mapper: {
     serializedName: "$skiptoken",
     type: {

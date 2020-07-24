@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -51,10 +51,7 @@ export const extensionResourceName: msRest.OperationURLParameter = {
   }
 };
 export const jobId: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "jobId"
-  ],
+  parameterPath: ["options", "jobId"],
   mapper: {
     serializedName: "jobId",
     type: {
@@ -123,10 +120,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const validating: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "validating"
-  ],
+  parameterPath: ["options", "validating"],
   mapper: {
     serializedName: "validating",
     type: {

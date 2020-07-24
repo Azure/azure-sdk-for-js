@@ -8,9 +8,4 @@
  * regenerated.
  */
 
-export {
-  QueryKey,
-  CloudError,
-  ListQueryKeysResult
-} from "../models/mappers";
-
+export { QueryKey, CloudError, ListQueryKeysResult } from "../models/mappers";

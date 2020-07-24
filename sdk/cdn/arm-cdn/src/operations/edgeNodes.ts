@@ -41,14 +41,21 @@ export class EdgeNodes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EdgenodeResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EdgenodeResult>, callback?: msRest.ServiceCallback<Models.EdgenodeResult>): Promise<Models.EdgeNodesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EdgenodeResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EdgenodeResult>,
+    callback?: msRest.ServiceCallback<Models.EdgenodeResult>
+  ): Promise<Models.EdgeNodesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.EdgeNodesListResponse>;
+      callback
+    ) as Promise<Models.EdgeNodesListResponse>;
   }
 
   /**
@@ -58,7 +65,10 @@ export class EdgeNodes {
    * @param [options] The optional parameters
    * @returns Promise<Models.EdgeNodesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EdgeNodesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EdgeNodesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -69,15 +79,24 @@ export class EdgeNodes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EdgenodeResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EdgenodeResult>, callback?: msRest.ServiceCallback<Models.EdgenodeResult>): Promise<Models.EdgeNodesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EdgenodeResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EdgenodeResult>,
+    callback?: msRest.ServiceCallback<Models.EdgenodeResult>
+  ): Promise<Models.EdgeNodesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.EdgeNodesListNextResponse>;
+      callback
+    ) as Promise<Models.EdgeNodesListNextResponse>;
   }
 }
 
@@ -86,12 +105,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Cdn/edgenodes",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EdgenodeResult
@@ -107,12 +122,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EdgenodeResult

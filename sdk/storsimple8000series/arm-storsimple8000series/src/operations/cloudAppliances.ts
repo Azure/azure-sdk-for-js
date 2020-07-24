@@ -34,21 +34,41 @@ export class CloudAppliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudAppliancesListSupportedConfigurationsResponse>
    */
-  listSupportedConfigurations(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudAppliancesListSupportedConfigurationsResponse>;
+  listSupportedConfigurations(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudAppliancesListSupportedConfigurationsResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listSupportedConfigurations(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.CloudApplianceConfigurationList>): void;
+  listSupportedConfigurations(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.CloudApplianceConfigurationList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSupportedConfigurations(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudApplianceConfigurationList>): void;
-  listSupportedConfigurations(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudApplianceConfigurationList>, callback?: msRest.ServiceCallback<Models.CloudApplianceConfigurationList>): Promise<Models.CloudAppliancesListSupportedConfigurationsResponse> {
+  listSupportedConfigurations(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CloudApplianceConfigurationList>
+  ): void;
+  listSupportedConfigurations(
+    resourceGroupName: string,
+    managerName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CloudApplianceConfigurationList>,
+    callback?: msRest.ServiceCallback<Models.CloudApplianceConfigurationList>
+  ): Promise<Models.CloudAppliancesListSupportedConfigurationsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class CloudAppliances {
         options
       },
       listSupportedConfigurationsOperationSpec,
-      callback) as Promise<Models.CloudAppliancesListSupportedConfigurationsResponse>;
+      callback
+    ) as Promise<Models.CloudAppliancesListSupportedConfigurationsResponse>;
   }
 
   /**
@@ -67,9 +88,18 @@ export class CloudAppliances {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  provision(parameters: Models.CloudAppliance, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginProvision(parameters,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  provision(
+    parameters: Models.CloudAppliance,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginProvision(
+      parameters,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -80,7 +110,12 @@ export class CloudAppliances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginProvision(parameters: Models.CloudAppliance, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginProvision(
+    parameters: Models.CloudAppliance,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         parameters,
@@ -89,7 +124,8 @@ export class CloudAppliances {
         options
       },
       beginProvisionOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -97,18 +133,11 @@ export class CloudAppliances {
 const serializer = new msRest.Serializer(Mappers);
 const listSupportedConfigurationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/cloudApplianceConfigurations",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/cloudApplianceConfigurations",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CloudApplianceConfigurationList
@@ -122,18 +151,11 @@ const listSupportedConfigurationsOperationSpec: msRest.OperationSpec = {
 
 const beginProvisionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/provisionCloudAppliance",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/provisionCloudAppliance",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

@@ -33,23 +33,36 @@ export class DedicatedCloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudServicesListBySubscriptionResponse>
    */
-  listBySubscription(options?: Models.DedicatedCloudServicesListBySubscriptionOptionalParams): Promise<Models.DedicatedCloudServicesListBySubscriptionResponse>;
+  listBySubscription(
+    options?: Models.DedicatedCloudServicesListBySubscriptionOptionalParams
+  ): Promise<Models.DedicatedCloudServicesListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>): void;
+  listBySubscription(
+    callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: Models.DedicatedCloudServicesListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>): void;
-  listBySubscription(options?: Models.DedicatedCloudServicesListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>, callback?: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>): Promise<Models.DedicatedCloudServicesListBySubscriptionResponse> {
+  listBySubscription(
+    options: Models.DedicatedCloudServicesListBySubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>
+  ): void;
+  listBySubscription(
+    options?:
+      | Models.DedicatedCloudServicesListBySubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>
+  ): Promise<Models.DedicatedCloudServicesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.DedicatedCloudServicesListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudServicesListBySubscriptionResponse>;
   }
 
   /**
@@ -59,26 +72,43 @@ export class DedicatedCloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudServicesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.DedicatedCloudServicesListByResourceGroupOptionalParams): Promise<Models.DedicatedCloudServicesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.DedicatedCloudServicesListByResourceGroupOptionalParams
+  ): Promise<Models.DedicatedCloudServicesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.DedicatedCloudServicesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.DedicatedCloudServicesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>, callback?: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>): Promise<Models.DedicatedCloudServicesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.DedicatedCloudServicesListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.DedicatedCloudServicesListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>
+  ): Promise<Models.DedicatedCloudServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.DedicatedCloudServicesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudServicesListByResourceGroupResponse>;
   }
 
   /**
@@ -89,21 +119,39 @@ export class DedicatedCloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudServicesGetResponse>
    */
-  get(resourceGroupName: string, dedicatedCloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedCloudServicesGetResponse>;
+  get(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedCloudServicesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group
    * @param dedicatedCloudServiceName dedicated cloud Service name
    * @param callback The callback
    */
-  get(resourceGroupName: string, dedicatedCloudServiceName: string, callback: msRest.ServiceCallback<Models.DedicatedCloudService>): void;
+  get(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudService>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group
    * @param dedicatedCloudServiceName dedicated cloud Service name
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, dedicatedCloudServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCloudService>): void;
-  get(resourceGroupName: string, dedicatedCloudServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCloudService>, callback?: msRest.ServiceCallback<Models.DedicatedCloudService>): Promise<Models.DedicatedCloudServicesGetResponse> {
+  get(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudService>
+  ): void;
+  get(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCloudService>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudService>
+  ): Promise<Models.DedicatedCloudServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +159,8 @@ export class DedicatedCloudServices {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DedicatedCloudServicesGetResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudServicesGetResponse>;
   }
 
   /**
@@ -123,14 +172,24 @@ export class DedicatedCloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudServicesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, dedicatedCloudServiceName: string, dedicatedCloudServiceRequest: Models.DedicatedCloudService, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedCloudServicesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    dedicatedCloudServiceRequest: Models.DedicatedCloudService,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedCloudServicesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group
    * @param dedicatedCloudServiceName dedicated cloud Service name
    * @param dedicatedCloudServiceRequest Create Dedicated Cloud Service request
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, dedicatedCloudServiceName: string, dedicatedCloudServiceRequest: Models.DedicatedCloudService, callback: msRest.ServiceCallback<Models.DedicatedCloudService>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    dedicatedCloudServiceRequest: Models.DedicatedCloudService,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudService>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group
    * @param dedicatedCloudServiceName dedicated cloud Service name
@@ -138,8 +197,20 @@ export class DedicatedCloudServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, dedicatedCloudServiceName: string, dedicatedCloudServiceRequest: Models.DedicatedCloudService, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCloudService>): void;
-  createOrUpdate(resourceGroupName: string, dedicatedCloudServiceName: string, dedicatedCloudServiceRequest: Models.DedicatedCloudService, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCloudService>, callback?: msRest.ServiceCallback<Models.DedicatedCloudService>): Promise<Models.DedicatedCloudServicesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    dedicatedCloudServiceRequest: Models.DedicatedCloudService,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudService>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    dedicatedCloudServiceRequest: Models.DedicatedCloudService,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCloudService>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudService>
+  ): Promise<Models.DedicatedCloudServicesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -148,7 +219,8 @@ export class DedicatedCloudServices {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DedicatedCloudServicesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudServicesCreateOrUpdateResponse>;
   }
 
   /**
@@ -159,9 +231,18 @@ export class DedicatedCloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudServicesDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, dedicatedCloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedCloudServicesDeleteResponse> {
-    return this.beginDeleteMethod(resourceGroupName,dedicatedCloudServiceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DedicatedCloudServicesDeleteResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedCloudServicesDeleteResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      dedicatedCloudServiceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DedicatedCloudServicesDeleteResponse
+    >;
   }
 
   /**
@@ -172,21 +253,41 @@ export class DedicatedCloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudServicesUpdateResponse>
    */
-  update(resourceGroupName: string, dedicatedCloudServiceName: string, options?: Models.DedicatedCloudServicesUpdateOptionalParams): Promise<Models.DedicatedCloudServicesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    options?: Models.DedicatedCloudServicesUpdateOptionalParams
+  ): Promise<Models.DedicatedCloudServicesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group
    * @param dedicatedCloudServiceName dedicated cloud service name
    * @param callback The callback
    */
-  update(resourceGroupName: string, dedicatedCloudServiceName: string, callback: msRest.ServiceCallback<Models.DedicatedCloudService>): void;
+  update(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudService>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group
    * @param dedicatedCloudServiceName dedicated cloud service name
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, dedicatedCloudServiceName: string, options: Models.DedicatedCloudServicesUpdateOptionalParams, callback: msRest.ServiceCallback<Models.DedicatedCloudService>): void;
-  update(resourceGroupName: string, dedicatedCloudServiceName: string, options?: Models.DedicatedCloudServicesUpdateOptionalParams | msRest.ServiceCallback<Models.DedicatedCloudService>, callback?: msRest.ServiceCallback<Models.DedicatedCloudService>): Promise<Models.DedicatedCloudServicesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    options: Models.DedicatedCloudServicesUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudService>
+  ): void;
+  update(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    options?:
+      | Models.DedicatedCloudServicesUpdateOptionalParams
+      | msRest.ServiceCallback<Models.DedicatedCloudService>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudService>
+  ): Promise<Models.DedicatedCloudServicesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +295,8 @@ export class DedicatedCloudServices {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.DedicatedCloudServicesUpdateResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudServicesUpdateResponse>;
   }
 
   /**
@@ -205,7 +307,11 @@ export class DedicatedCloudServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, dedicatedCloudServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    dedicatedCloudServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -213,7 +319,8 @@ export class DedicatedCloudServices {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -223,26 +330,43 @@ export class DedicatedCloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudServicesListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedCloudServicesListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedCloudServicesListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>, callback?: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>): Promise<Models.DedicatedCloudServicesListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>
+  ): Promise<Models.DedicatedCloudServicesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.DedicatedCloudServicesListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudServicesListBySubscriptionNextResponse>;
   }
 
   /**
@@ -252,26 +376,43 @@ export class DedicatedCloudServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedCloudServicesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedCloudServicesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedCloudServicesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>, callback?: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>): Promise<Models.DedicatedCloudServicesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCloudServiceListResponse>
+  ): Promise<Models.DedicatedCloudServicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.DedicatedCloudServicesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.DedicatedCloudServicesListByResourceGroupNextResponse>;
   }
 }
 
@@ -279,19 +420,11 @@ export class DedicatedCloudServices {
 const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudServices",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudServices",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCloudServiceListResponse
@@ -305,20 +438,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudServices",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudServices",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCloudServiceListResponse
@@ -332,18 +456,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudServices/{dedicatedCloudServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudServices/{dedicatedCloudServiceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dedicatedCloudServiceName0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCloudService
@@ -357,18 +478,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudServices/{dedicatedCloudServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudServices/{dedicatedCloudServiceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dedicatedCloudServiceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "dedicatedCloudServiceRequest",
     mapper: {
@@ -389,24 +507,18 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudServices/{dedicatedCloudServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudServices/{dedicatedCloudServiceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dedicatedCloudServiceName0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      tags: [
-        "options",
-        "tags"
-      ]
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.PatchPayload,
@@ -426,18 +538,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudServices/{dedicatedCloudServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VMwareCloudSimple/dedicatedCloudServices/{dedicatedCloudServiceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dedicatedCloudServiceName0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {
       headersMapper: Mappers.DedicatedCloudServicesDeleteHeaders
@@ -453,12 +562,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCloudServiceListResponse
@@ -474,12 +579,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCloudServiceListResponse

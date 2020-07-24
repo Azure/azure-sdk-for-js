@@ -33,21 +33,39 @@ export class SignUpSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignUpSettingsGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignUpSettingsGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignUpSettingsGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.SignUpSettingsGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.SignUpSettingsGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class SignUpSettings {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.SignUpSettingsGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.SignUpSettingsGetEntityTagResponse>;
   }
 
   /**
@@ -65,21 +84,39 @@ export class SignUpSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignUpSettingsGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignUpSettingsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignUpSettingsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.PortalSignupSettings>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.PortalSignupSettings>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalSignupSettings>): void;
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalSignupSettings>, callback?: msRest.ServiceCallback<Models.PortalSignupSettings>): Promise<Models.SignUpSettingsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PortalSignupSettings>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalSignupSettings>,
+    callback?: msRest.ServiceCallback<Models.PortalSignupSettings>
+  ): Promise<Models.SignUpSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -87,7 +124,8 @@ export class SignUpSettings {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SignUpSettingsGetResponse>;
+      callback
+    ) as Promise<Models.SignUpSettingsGetResponse>;
   }
 
   /**
@@ -100,7 +138,13 @@ export class SignUpSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSignupSettings,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -109,7 +153,13 @@ export class SignUpSettings {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSignupSettings,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -119,8 +169,22 @@ export class SignUpSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSignupSettings,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSignupSettings,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,7 +194,8 @@ export class SignUpSettings {
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -141,14 +206,24 @@ export class SignUpSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignUpSettingsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, options?: Models.SignUpSettingsCreateOrUpdateOptionalParams): Promise<Models.SignUpSettingsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSignupSettings,
+    options?: Models.SignUpSettingsCreateOrUpdateOptionalParams
+  ): Promise<Models.SignUpSettingsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param parameters Create or update parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, callback: msRest.ServiceCallback<Models.PortalSignupSettings>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSignupSettings,
+    callback: msRest.ServiceCallback<Models.PortalSignupSettings>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -156,8 +231,22 @@ export class SignUpSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, options: Models.SignUpSettingsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PortalSignupSettings>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalSignupSettings, options?: Models.SignUpSettingsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PortalSignupSettings>, callback?: msRest.ServiceCallback<Models.PortalSignupSettings>): Promise<Models.SignUpSettingsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSignupSettings,
+    options: Models.SignUpSettingsCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.PortalSignupSettings>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalSignupSettings,
+    options?:
+      | Models.SignUpSettingsCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.PortalSignupSettings>,
+    callback?: msRest.ServiceCallback<Models.PortalSignupSettings>
+  ): Promise<Models.SignUpSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +255,8 @@ export class SignUpSettings {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.SignUpSettingsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.SignUpSettingsCreateOrUpdateResponse>;
   }
 }
 
@@ -174,18 +264,11 @@ export class SignUpSettings {
 const serializer = new msRest.Serializer(Mappers);
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.SignUpSettingsGetEntityTagHeaders
@@ -199,18 +282,11 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PortalSignupSettings,
@@ -225,19 +301,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -256,19 +324,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

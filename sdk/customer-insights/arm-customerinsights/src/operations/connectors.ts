@@ -36,9 +36,22 @@ export class Connectors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectorsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, connectorName: string, parameters: Models.ConnectorResourceFormat, options?: msRest.RequestOptionsBase): Promise<Models.ConnectorsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,hubName,connectorName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ConnectorsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    parameters: Models.ConnectorResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectorsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      hubName,
+      connectorName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ConnectorsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -49,14 +62,24 @@ export class Connectors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectorsGetResponse>
    */
-  get(resourceGroupName: string, hubName: string, connectorName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectorsGetResponse>;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectorsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param connectorName The name of the connector.
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, connectorName: string, callback: msRest.ServiceCallback<Models.ConnectorResourceFormat>): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    callback: msRest.ServiceCallback<Models.ConnectorResourceFormat>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -64,8 +87,20 @@ export class Connectors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, connectorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, connectorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorResourceFormat>, callback?: msRest.ServiceCallback<Models.ConnectorResourceFormat>): Promise<Models.ConnectorsGetResponse> {
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectorResourceFormat>
+  ): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorResourceFormat>,
+    callback?: msRest.ServiceCallback<Models.ConnectorResourceFormat>
+  ): Promise<Models.ConnectorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +109,8 @@ export class Connectors {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ConnectorsGetResponse>;
+      callback
+    ) as Promise<Models.ConnectorsGetResponse>;
   }
 
   /**
@@ -85,9 +121,18 @@ export class Connectors {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, hubName: string, connectorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,hubName,connectorName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      hubName,
+      connectorName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -97,21 +142,39 @@ export class Connectors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectorsListByHubResponse>
    */
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectorsListByHubResponse>;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectorsListByHubResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, callback: msRest.ServiceCallback<Models.ConnectorListResult>): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    callback: msRest.ServiceCallback<Models.ConnectorListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorListResult>, callback?: msRest.ServiceCallback<Models.ConnectorListResult>): Promise<Models.ConnectorsListByHubResponse> {
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectorListResult>
+  ): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorListResult>,
+    callback?: msRest.ServiceCallback<Models.ConnectorListResult>
+  ): Promise<Models.ConnectorsListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +182,8 @@ export class Connectors {
         options
       },
       listByHubOperationSpec,
-      callback) as Promise<Models.ConnectorsListByHubResponse>;
+      callback
+    ) as Promise<Models.ConnectorsListByHubResponse>;
   }
 
   /**
@@ -131,7 +195,13 @@ export class Connectors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, hubName: string, connectorName: string, parameters: Models.ConnectorResourceFormat, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    parameters: Models.ConnectorResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -141,7 +211,8 @@ export class Connectors {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +223,12 @@ export class Connectors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, hubName: string, connectorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +237,8 @@ export class Connectors {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,26 +247,41 @@ export class Connectors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectorsListByHubNextResponse>
    */
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectorsListByHubNextResponse>;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectorsListByHubNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ConnectorListResult>): void;
+  listByHubNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ConnectorListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorListResult>, callback?: msRest.ServiceCallback<Models.ConnectorListResult>): Promise<Models.ConnectorsListByHubNextResponse> {
+  listByHubNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectorListResult>
+  ): void;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorListResult>,
+    callback?: msRest.ServiceCallback<Models.ConnectorListResult>
+  ): Promise<Models.ConnectorsListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByHubNextOperationSpec,
-      callback) as Promise<Models.ConnectorsListByHubNextResponse>;
+      callback
+    ) as Promise<Models.ConnectorsListByHubNextResponse>;
   }
 }
 
@@ -197,19 +289,16 @@ export class Connectors {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.connectorName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectorResourceFormat
@@ -223,18 +312,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByHubOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.hubName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors",
+  urlParameters: [Parameters.resourceGroupName, Parameters.hubName1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectorListResult
@@ -248,19 +330,16 @@ const listByHubOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.connectorName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -282,19 +361,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.connectorName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -310,12 +386,8 @@ const listByHubNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectorListResult

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AzureMediaServicesContext } from "./azureMediaServicesContext";
 
-
 class AzureMediaServices extends AzureMediaServicesContext {
   // Operation groups
   accountFilters: operations.AccountFilters;
@@ -38,7 +37,11 @@ class AzureMediaServices extends AzureMediaServicesContext {
    * @param subscriptionId The unique identifier for a Microsoft Azure subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureMediaServicesOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AzureMediaServicesOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.accountFilters = new operations.AccountFilters(this);
     this.operations = new operations.Operations(this);

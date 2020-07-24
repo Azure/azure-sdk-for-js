@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { BillingManagementClientContext } from "./billingManagementClientContext";
 
-
 class BillingManagementClient extends BillingManagementClientContext {
   // Operation groups
   enrollmentAccounts: operations.EnrollmentAccounts;
@@ -28,7 +27,11 @@ class BillingManagementClient extends BillingManagementClientContext {
    * @param subscriptionId Azure Subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.BillingManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.BillingManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.enrollmentAccounts = new operations.EnrollmentAccounts(this);
     this.billingPeriods = new operations.BillingPeriods(this);

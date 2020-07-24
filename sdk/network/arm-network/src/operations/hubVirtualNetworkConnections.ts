@@ -37,9 +37,22 @@ export class HubVirtualNetworkConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HubVirtualNetworkConnectionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualHubName: string, connectionName: string, hubVirtualNetworkConnectionParameters: Models.HubVirtualNetworkConnection, options?: msRest.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,virtualHubName,connectionName,hubVirtualNetworkConnectionParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.HubVirtualNetworkConnectionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    hubVirtualNetworkConnectionParameters: Models.HubVirtualNetworkConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HubVirtualNetworkConnectionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      virtualHubName,
+      connectionName,
+      hubVirtualNetworkConnectionParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.HubVirtualNetworkConnectionsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -50,9 +63,18 @@ export class HubVirtualNetworkConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,virtualHubName,connectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      virtualHubName,
+      connectionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -63,14 +85,24 @@ export class HubVirtualNetworkConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HubVirtualNetworkConnectionsGetResponse>
    */
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HubVirtualNetworkConnectionsGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param connectionName The name of the vpn connection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, callback: msRest.ServiceCallback<Models.HubVirtualNetworkConnection>): void;
+  get(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    callback: msRest.ServiceCallback<Models.HubVirtualNetworkConnection>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
@@ -78,8 +110,22 @@ export class HubVirtualNetworkConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HubVirtualNetworkConnection>): void;
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HubVirtualNetworkConnection>, callback?: msRest.ServiceCallback<Models.HubVirtualNetworkConnection>): Promise<Models.HubVirtualNetworkConnectionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HubVirtualNetworkConnection>
+  ): void;
+  get(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.HubVirtualNetworkConnection>,
+    callback?: msRest.ServiceCallback<Models.HubVirtualNetworkConnection>
+  ): Promise<Models.HubVirtualNetworkConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +134,8 @@ export class HubVirtualNetworkConnections {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.HubVirtualNetworkConnectionsGetResponse>;
+      callback
+    ) as Promise<Models.HubVirtualNetworkConnectionsGetResponse>;
   }
 
   /**
@@ -98,21 +145,41 @@ export class HubVirtualNetworkConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HubVirtualNetworkConnectionsListResponse>
    */
-  list(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsListResponse>;
+  list(
+    resourceGroupName: string,
+    virtualHubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HubVirtualNetworkConnectionsListResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param callback The callback
    */
-  list(resourceGroupName: string, virtualHubName: string, callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
+  list(
+    resourceGroupName: string,
+    virtualHubName: string,
+    callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, virtualHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
-  list(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>, callback?: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): Promise<Models.HubVirtualNetworkConnectionsListResponse> {
+  list(
+    resourceGroupName: string,
+    virtualHubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    virtualHubName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>,
+    callback?: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>
+  ): Promise<Models.HubVirtualNetworkConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +187,8 @@ export class HubVirtualNetworkConnections {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.HubVirtualNetworkConnectionsListResponse>;
+      callback
+    ) as Promise<Models.HubVirtualNetworkConnectionsListResponse>;
   }
 
   /**
@@ -133,7 +201,13 @@ export class HubVirtualNetworkConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualHubName: string, connectionName: string, hubVirtualNetworkConnectionParameters: Models.HubVirtualNetworkConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    hubVirtualNetworkConnectionParameters: Models.HubVirtualNetworkConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -143,7 +217,8 @@ export class HubVirtualNetworkConnections {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -154,7 +229,12 @@ export class HubVirtualNetworkConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -163,7 +243,8 @@ export class HubVirtualNetworkConnections {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -172,26 +253,43 @@ export class HubVirtualNetworkConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HubVirtualNetworkConnectionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HubVirtualNetworkConnectionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>, callback?: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>): Promise<Models.HubVirtualNetworkConnectionsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>,
+    callback?: msRest.ServiceCallback<Models.ListHubVirtualNetworkConnectionsResult>
+  ): Promise<Models.HubVirtualNetworkConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.HubVirtualNetworkConnectionsListNextResponse>;
+      callback
+    ) as Promise<Models.HubVirtualNetworkConnectionsListNextResponse>;
   }
 }
 
@@ -199,19 +297,16 @@ export class HubVirtualNetworkConnections {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualHubName,
     Parameters.connectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HubVirtualNetworkConnection
@@ -225,18 +320,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualHubName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListHubVirtualNetworkConnectionsResult
@@ -250,19 +342,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualHubName,
     Parameters.connectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "hubVirtualNetworkConnectionParameters",
     mapper: {
@@ -286,19 +375,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualHubName,
     Parameters.connectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -314,12 +400,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListHubVirtualNetworkConnectionsResult

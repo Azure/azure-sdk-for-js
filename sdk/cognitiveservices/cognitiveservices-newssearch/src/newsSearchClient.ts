@@ -23,7 +23,10 @@ class NewsSearchClient extends NewsSearchClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.NewsSearchClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.NewsSearchClientOptions
+  ) {
     super(credentials, options);
     this.news = new operations.NewsOperations(this);
   }

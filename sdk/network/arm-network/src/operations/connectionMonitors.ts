@@ -36,9 +36,22 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectionMonitorsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.ConnectionMonitor, options?: msRest.RequestOptionsBase): Promise<Models.ConnectionMonitorsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,networkWatcherName,connectionMonitorName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ConnectionMonitorsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    parameters: Models.ConnectionMonitor,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectionMonitorsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      networkWatcherName,
+      connectionMonitorName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ConnectionMonitorsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -49,14 +62,24 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectionMonitorsGetResponse>
    */
-  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectionMonitorsGetResponse>;
+  get(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectionMonitorsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing Network Watcher.
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param connectionMonitorName The name of the connection monitor.
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>): void;
+  get(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing Network Watcher.
    * @param networkWatcherName The name of the Network Watcher resource.
@@ -64,8 +87,20 @@ export class ConnectionMonitors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>): void;
-  get(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionMonitorResult>, callback?: msRest.ServiceCallback<Models.ConnectionMonitorResult>): Promise<Models.ConnectionMonitorsGetResponse> {
+  get(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>
+  ): void;
+  get(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionMonitorResult>,
+    callback?: msRest.ServiceCallback<Models.ConnectionMonitorResult>
+  ): Promise<Models.ConnectionMonitorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +109,8 @@ export class ConnectionMonitors {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ConnectionMonitorsGetResponse>;
+      callback
+    ) as Promise<Models.ConnectionMonitorsGetResponse>;
   }
 
   /**
@@ -85,9 +121,18 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,networkWatcherName,connectionMonitorName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      networkWatcherName,
+      connectionMonitorName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -99,7 +144,13 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectionMonitorsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ConnectionMonitorsUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectionMonitorsUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
@@ -107,7 +158,13 @@ export class ConnectionMonitors {
    * @param parameters Parameters supplied to update connection monitor tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>): void;
+  updateTags(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    parameters: Models.TagsObject,
+    callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
@@ -116,8 +173,22 @@ export class ConnectionMonitors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>): void;
-  updateTags(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionMonitorResult>, callback?: msRest.ServiceCallback<Models.ConnectionMonitorResult>): Promise<Models.ConnectionMonitorsUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    parameters: Models.TagsObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectionMonitorResult>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionMonitorResult>,
+    callback?: msRest.ServiceCallback<Models.ConnectionMonitorResult>
+  ): Promise<Models.ConnectionMonitorsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +198,8 @@ export class ConnectionMonitors {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.ConnectionMonitorsUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.ConnectionMonitorsUpdateTagsResponse>;
   }
 
   /**
@@ -138,9 +210,18 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStop(resourceGroupName,networkWatcherName,connectionMonitorName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  stop(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStop(
+      resourceGroupName,
+      networkWatcherName,
+      connectionMonitorName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -151,9 +232,18 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStart(resourceGroupName,networkWatcherName,connectionMonitorName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  start(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStart(
+      resourceGroupName,
+      networkWatcherName,
+      connectionMonitorName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -164,9 +254,20 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectionMonitorsQueryResponse>
    */
-  query(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectionMonitorsQueryResponse> {
-    return this.beginQuery(resourceGroupName,networkWatcherName,connectionMonitorName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ConnectionMonitorsQueryResponse>;
+  query(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectionMonitorsQueryResponse> {
+    return this.beginQuery(
+      resourceGroupName,
+      networkWatcherName,
+      connectionMonitorName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ConnectionMonitorsQueryResponse
+    >;
   }
 
   /**
@@ -176,21 +277,41 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectionMonitorsListResponse>
    */
-  list(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectionMonitorsListResponse>;
+  list(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectionMonitorsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing Network Watcher.
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkWatcherName: string, callback: msRest.ServiceCallback<Models.ConnectionMonitorListResult>): void;
+  list(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    callback: msRest.ServiceCallback<Models.ConnectionMonitorListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing Network Watcher.
    * @param networkWatcherName The name of the Network Watcher resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkWatcherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectionMonitorListResult>): void;
-  list(resourceGroupName: string, networkWatcherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectionMonitorListResult>, callback?: msRest.ServiceCallback<Models.ConnectionMonitorListResult>): Promise<Models.ConnectionMonitorsListResponse> {
+  list(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectionMonitorListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ConnectionMonitorListResult>,
+    callback?: msRest.ServiceCallback<Models.ConnectionMonitorListResult>
+  ): Promise<Models.ConnectionMonitorsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -198,7 +319,8 @@ export class ConnectionMonitors {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ConnectionMonitorsListResponse>;
+      callback
+    ) as Promise<Models.ConnectionMonitorsListResponse>;
   }
 
   /**
@@ -210,7 +332,13 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, parameters: Models.ConnectionMonitor, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    parameters: Models.ConnectionMonitor,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -220,7 +348,8 @@ export class ConnectionMonitors {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -231,7 +360,12 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -240,7 +374,8 @@ export class ConnectionMonitors {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -251,7 +386,12 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStop(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -260,7 +400,8 @@ export class ConnectionMonitors {
         options
       },
       beginStopOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -271,7 +412,12 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -280,7 +426,8 @@ export class ConnectionMonitors {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -291,7 +438,12 @@ export class ConnectionMonitors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginQuery(resourceGroupName: string, networkWatcherName: string, connectionMonitorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginQuery(
+    resourceGroupName: string,
+    networkWatcherName: string,
+    connectionMonitorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -300,7 +452,8 @@ export class ConnectionMonitors {
         options
       },
       beginQueryOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -308,19 +461,16 @@ export class ConnectionMonitors {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkWatcherName,
     Parameters.connectionMonitorName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectionMonitorResult
@@ -334,19 +484,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkWatcherName,
     Parameters.connectionMonitorName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -367,18 +514,15 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkWatcherName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectionMonitorListResult
@@ -392,19 +536,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkWatcherName,
     Parameters.connectionMonitorName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -428,19 +569,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkWatcherName,
     Parameters.connectionMonitorName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -453,19 +591,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginStopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkWatcherName,
     Parameters.connectionMonitorName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -478,19 +613,16 @@ const beginStopOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkWatcherName,
     Parameters.connectionMonitorName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -503,19 +635,16 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginQueryOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkWatcherName,
     Parameters.connectionMonitorName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectionMonitorQueryResult

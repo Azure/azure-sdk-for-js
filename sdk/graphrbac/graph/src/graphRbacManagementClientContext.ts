@@ -26,26 +26,30 @@ export class GraphRbacManagementClientContext extends msRestAzure.AzureServiceCl
    * @param tenantID The tenant ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, tenantID: string, options?: Models.GraphRbacManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    tenantID: string,
+    options?: Models.GraphRbacManagementClientOptions
+  ) {
     if (credentials == undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+      throw new Error("'credentials' cannot be null.");
     }
     if (tenantID == undefined) {
-      throw new Error('\'tenantID\' cannot be null.');
+      throw new Error("'tenantID' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+    if (!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = '1.6';
-    this.acceptLanguage = 'en-US';
+    this.apiVersion = "1.6";
+    this.acceptLanguage = "en-US";
     this.longRunningOperationRetryTimeout = 30;
 
     // This is a manual patch to mitigate a bug in autorest.typescript
@@ -59,10 +63,13 @@ export class GraphRbacManagementClientContext extends msRestAzure.AzureServiceCl
     this.credentials = credentials;
     this.tenantID = tenantID;
 
-    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (
+      options.longRunningOperationRetryTimeout !== null &&
+      options.longRunningOperationRetryTimeout !== undefined
+    ) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

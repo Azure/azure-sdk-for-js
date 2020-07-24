@@ -47,7 +47,13 @@ export interface Identifiable {
 /**
  * Contains the possible cases for Response.
  */
-export type ResponseUnion = Response | AnswerUnion | ThingUnion | ErrorResponse | TrendingVideos | VideoDetails;
+export type ResponseUnion =
+  | Response
+  | AnswerUnion
+  | ThingUnion
+  | ErrorResponse
+  | TrendingVideos
+  | VideoDetails;
 
 /**
  * Defines a response. All schemas that could be returned at the root of a response should inherit
@@ -1519,7 +1525,7 @@ export interface VideosTrendingOptionalParams extends msRest.RequestOptionsBase 
  * @readonly
  * @enum {string}
  */
-export type VideoQueryScenario = 'List' | 'SingleDominantVideo';
+export type VideoQueryScenario = "List" | "SingleDominantVideo";
 
 /**
  * Defines values for ErrorCode.
@@ -1528,7 +1534,13 @@ export type VideoQueryScenario = 'List' | 'SingleDominantVideo';
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export type ErrorCode =
+  | "None"
+  | "ServerError"
+  | "InvalidRequest"
+  | "RateLimitExceeded"
+  | "InvalidAuthorization"
+  | "InsufficientAuthorization";
 
 /**
  * Defines values for ErrorSubCode.
@@ -1539,7 +1551,18 @@ export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitEx
  * @readonly
  * @enum {string}
  */
-export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
+export type ErrorSubCode =
+  | "UnexpectedError"
+  | "ResourceError"
+  | "NotImplemented"
+  | "ParameterMissing"
+  | "ParameterInvalidValue"
+  | "HttpNotAllowed"
+  | "Blocked"
+  | "AuthorizationMissing"
+  | "AuthorizationRedundancy"
+  | "AuthorizationDisabled"
+  | "AuthorizationExpired";
 
 /**
  * Defines values for Freshness.
@@ -1547,7 +1570,7 @@ export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented
  * @readonly
  * @enum {string}
  */
-export type Freshness = 'Day' | 'Week' | 'Month';
+export type Freshness = "Day" | "Week" | "Month";
 
 /**
  * Defines values for VideoLength.
@@ -1555,7 +1578,7 @@ export type Freshness = 'Day' | 'Week' | 'Month';
  * @readonly
  * @enum {string}
  */
-export type VideoLength = 'All' | 'Short' | 'Medium' | 'Long';
+export type VideoLength = "All" | "Short" | "Medium" | "Long";
 
 /**
  * Defines values for VideoPricing.
@@ -1563,7 +1586,7 @@ export type VideoLength = 'All' | 'Short' | 'Medium' | 'Long';
  * @readonly
  * @enum {string}
  */
-export type VideoPricing = 'All' | 'Free' | 'Paid';
+export type VideoPricing = "All" | "Free" | "Paid";
 
 /**
  * Defines values for VideoResolution.
@@ -1571,7 +1594,7 @@ export type VideoPricing = 'All' | 'Free' | 'Paid';
  * @readonly
  * @enum {string}
  */
-export type VideoResolution = 'All' | 'SD480p' | 'HD720p' | 'HD1080p';
+export type VideoResolution = "All" | "SD480p" | "HD720p" | "HD1080p";
 
 /**
  * Defines values for SafeSearch.
@@ -1579,7 +1602,7 @@ export type VideoResolution = 'All' | 'SD480p' | 'HD720p' | 'HD1080p';
  * @readonly
  * @enum {string}
  */
-export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
+export type SafeSearch = "Off" | "Moderate" | "Strict";
 
 /**
  * Defines values for TextFormat.
@@ -1587,7 +1610,7 @@ export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
  * @readonly
  * @enum {string}
  */
-export type TextFormat = 'Raw' | 'Html';
+export type TextFormat = "Raw" | "Html";
 
 /**
  * Defines values for VideoInsightModule.
@@ -1595,7 +1618,7 @@ export type TextFormat = 'Raw' | 'Html';
  * @readonly
  * @enum {string}
  */
-export type VideoInsightModule = 'All' | 'RelatedVideos' | 'VideoResult';
+export type VideoInsightModule = "All" | "RelatedVideos" | "VideoResult";
 
 /**
  * Contains response data for the search operation.
@@ -1605,16 +1628,16 @@ export type VideosSearchResponse = Videos & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Videos;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Videos;
+  };
 };
 
 /**
@@ -1625,16 +1648,16 @@ export type VideosDetailsResponse = VideoDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VideoDetails;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VideoDetails;
+  };
 };
 
 /**
@@ -1645,14 +1668,14 @@ export type VideosTrendingResponse = TrendingVideos & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TrendingVideos;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TrendingVideos;
+  };
 };

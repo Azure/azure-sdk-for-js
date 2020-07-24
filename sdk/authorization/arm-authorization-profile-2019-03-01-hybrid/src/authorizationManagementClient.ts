@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AuthorizationManagementClientContext } from "./authorizationManagementClientContext";
 
-
 class AuthorizationManagementClient extends AuthorizationManagementClientContext {
   // Operation groups
   permissions: operations.Permissions;
@@ -29,7 +28,11 @@ class AuthorizationManagementClient extends AuthorizationManagementClientContext
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AuthorizationManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AuthorizationManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.permissions = new operations.Permissions(this);
     this.providerOperationsMetadata = new operations.ProviderOperationsMetadataOperations(this);

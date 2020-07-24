@@ -34,9 +34,14 @@ export class AzureFirewalls {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, azureFirewallName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,azureFirewallName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, azureFirewallName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -46,21 +51,39 @@ export class AzureFirewalls {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureFirewallsGetResponse>
    */
-  get(resourceGroupName: string, azureFirewallName: string, options?: msRest.RequestOptionsBase): Promise<Models.AzureFirewallsGetResponse>;
+  get(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AzureFirewallsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param azureFirewallName The name of the Azure Firewall.
    * @param callback The callback
    */
-  get(resourceGroupName: string, azureFirewallName: string, callback: msRest.ServiceCallback<Models.AzureFirewall>): void;
+  get(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    callback: msRest.ServiceCallback<Models.AzureFirewall>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param azureFirewallName The name of the Azure Firewall.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, azureFirewallName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewall>): void;
-  get(resourceGroupName: string, azureFirewallName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewall>, callback?: msRest.ServiceCallback<Models.AzureFirewall>): Promise<Models.AzureFirewallsGetResponse> {
+  get(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AzureFirewall>
+  ): void;
+  get(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewall>,
+    callback?: msRest.ServiceCallback<Models.AzureFirewall>
+  ): Promise<Models.AzureFirewallsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +91,8 @@ export class AzureFirewalls {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AzureFirewallsGetResponse>;
+      callback
+    ) as Promise<Models.AzureFirewallsGetResponse>;
   }
 
   /**
@@ -79,9 +103,20 @@ export class AzureFirewalls {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureFirewallsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, azureFirewallName: string, parameters: Models.AzureFirewall, options?: msRest.RequestOptionsBase): Promise<Models.AzureFirewallsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,azureFirewallName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AzureFirewallsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    parameters: Models.AzureFirewall,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AzureFirewallsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      azureFirewallName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.AzureFirewallsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -92,9 +127,20 @@ export class AzureFirewalls {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureFirewallsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.AzureFirewallsUpdateTagsResponse> {
-    return this.beginUpdateTags(resourceGroupName,azureFirewallName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AzureFirewallsUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AzureFirewallsUpdateTagsResponse> {
+    return this.beginUpdateTags(
+      resourceGroupName,
+      azureFirewallName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.AzureFirewallsUpdateTagsResponse
+    >;
   }
 
   /**
@@ -103,26 +149,41 @@ export class AzureFirewalls {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureFirewallsListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AzureFirewallsListResponse>;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AzureFirewallsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.AzureFirewallListResult>): void;
+  list(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.AzureFirewallListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewallListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallListResult>, callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>): Promise<Models.AzureFirewallsListResponse> {
+  list(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AzureFirewallListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallListResult>,
+    callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>
+  ): Promise<Models.AzureFirewallsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AzureFirewallsListResponse>;
+      callback
+    ) as Promise<Models.AzureFirewallsListResponse>;
   }
 
   /**
@@ -139,14 +200,21 @@ export class AzureFirewalls {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewallListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallListResult>, callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>): Promise<Models.AzureFirewallsListAllResponse> {
+  listAll(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AzureFirewallListResult>
+  ): void;
+  listAll(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallListResult>,
+    callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>
+  ): Promise<Models.AzureFirewallsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAllOperationSpec,
-      callback) as Promise<Models.AzureFirewallsListAllResponse>;
+      callback
+    ) as Promise<Models.AzureFirewallsListAllResponse>;
   }
 
   /**
@@ -156,7 +224,11 @@ export class AzureFirewalls {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, azureFirewallName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -164,7 +236,8 @@ export class AzureFirewalls {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -175,7 +248,12 @@ export class AzureFirewalls {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, azureFirewallName: string, parameters: Models.AzureFirewall, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    parameters: Models.AzureFirewall,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -184,7 +262,8 @@ export class AzureFirewalls {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -195,7 +274,12 @@ export class AzureFirewalls {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, azureFirewallName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -204,7 +288,8 @@ export class AzureFirewalls {
         options
       },
       beginUpdateTagsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -213,26 +298,41 @@ export class AzureFirewalls {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureFirewallsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AzureFirewallsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AzureFirewallsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AzureFirewallListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AzureFirewallListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewallListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallListResult>, callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>): Promise<Models.AzureFirewallsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AzureFirewallListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallListResult>,
+    callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>
+  ): Promise<Models.AzureFirewallsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AzureFirewallsListNextResponse>;
+      callback
+    ) as Promise<Models.AzureFirewallsListNextResponse>;
   }
 
   /**
@@ -241,26 +341,41 @@ export class AzureFirewalls {
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureFirewallsListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AzureFirewallsListAllNextResponse>;
+  listAllNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AzureFirewallsListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AzureFirewallListResult>): void;
+  listAllNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AzureFirewallListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AzureFirewallListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallListResult>, callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>): Promise<Models.AzureFirewallsListAllNextResponse> {
+  listAllNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AzureFirewallListResult>
+  ): void;
+  listAllNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AzureFirewallListResult>,
+    callback?: msRest.ServiceCallback<Models.AzureFirewallListResult>
+  ): Promise<Models.AzureFirewallsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAllNextOperationSpec,
-      callback) as Promise<Models.AzureFirewallsListAllNextResponse>;
+      callback
+    ) as Promise<Models.AzureFirewallsListAllNextResponse>;
   }
 }
 
@@ -268,18 +383,15 @@ export class AzureFirewalls {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.azureFirewallName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AzureFirewall
@@ -293,17 +405,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AzureFirewallListResult
@@ -318,15 +424,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const listAllOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewalls",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AzureFirewallListResult
@@ -340,18 +440,15 @@ const listAllOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.azureFirewallName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -365,18 +462,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.azureFirewallName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -400,18 +494,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.azureFirewallName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -435,12 +526,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AzureFirewallListResult
@@ -456,12 +543,8 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AzureFirewallListResult

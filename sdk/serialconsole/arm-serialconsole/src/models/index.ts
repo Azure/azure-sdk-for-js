@@ -82,16 +82,16 @@ export type ListOperationsResponse = SerialConsoleOperations & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SerialConsoleOperations;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SerialConsoleOperations;
+  };
 };
 
 /**
@@ -102,16 +102,16 @@ export type ListConsoleDisabledResponse = GetDisabledResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GetDisabledResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GetDisabledResult;
+  };
 };
 
 /**
@@ -122,16 +122,16 @@ export type ConsoleEnableConsoleResponse = SetDisabledResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SetDisabledResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SetDisabledResult;
+  };
 };
 
 /**
@@ -142,14 +142,14 @@ export type ConsoleDisableConsoleResponse = SetDisabledResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SetDisabledResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SetDisabledResult;
+  };
 };

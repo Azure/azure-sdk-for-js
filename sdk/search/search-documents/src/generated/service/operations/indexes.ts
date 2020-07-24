@@ -32,7 +32,10 @@ export class Indexes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IndexesCreateResponse>
    */
-  create(index: Models.SearchIndex, options?: coreHttp.RequestOptionsBase): Promise<Models.IndexesCreateResponse>;
+  create(
+    index: Models.SearchIndex,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.IndexesCreateResponse>;
   /**
    * @param index The definition of the index to create.
    * @param callback The callback
@@ -43,15 +46,24 @@ export class Indexes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(index: Models.SearchIndex, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SearchIndex>): void;
-  create(index: Models.SearchIndex, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndex>, callback?: coreHttp.ServiceCallback<Models.SearchIndex>): Promise<Models.IndexesCreateResponse> {
+  create(
+    index: Models.SearchIndex,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.SearchIndex>
+  ): void;
+  create(
+    index: Models.SearchIndex,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndex>,
+    callback?: coreHttp.ServiceCallback<Models.SearchIndex>
+  ): Promise<Models.IndexesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         index,
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.IndexesCreateResponse>;
+      callback
+    ) as Promise<Models.IndexesCreateResponse>;
   }
 
   /**
@@ -68,14 +80,21 @@ export class Indexes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.IndexesListOptionalParams, callback: coreHttp.ServiceCallback<Models.ListIndexesResult>): void;
-  list(options?: Models.IndexesListOptionalParams | coreHttp.ServiceCallback<Models.ListIndexesResult>, callback?: coreHttp.ServiceCallback<Models.ListIndexesResult>): Promise<Models.IndexesListResponse> {
+  list(
+    options: Models.IndexesListOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ListIndexesResult>
+  ): void;
+  list(
+    options?: Models.IndexesListOptionalParams | coreHttp.ServiceCallback<Models.ListIndexesResult>,
+    callback?: coreHttp.ServiceCallback<Models.ListIndexesResult>
+  ): Promise<Models.IndexesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IndexesListResponse>;
+      callback
+    ) as Promise<Models.IndexesListResponse>;
   }
 
   /**
@@ -85,21 +104,41 @@ export class Indexes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IndexesCreateOrUpdateResponse>
    */
-  createOrUpdate(indexName: string, index: Models.SearchIndex, options?: Models.IndexesCreateOrUpdateOptionalParams): Promise<Models.IndexesCreateOrUpdateResponse>;
+  createOrUpdate(
+    indexName: string,
+    index: Models.SearchIndex,
+    options?: Models.IndexesCreateOrUpdateOptionalParams
+  ): Promise<Models.IndexesCreateOrUpdateResponse>;
   /**
    * @param indexName The definition of the index to create or update.
    * @param index The definition of the index to create or update.
    * @param callback The callback
    */
-  createOrUpdate(indexName: string, index: Models.SearchIndex, callback: coreHttp.ServiceCallback<Models.SearchIndex>): void;
+  createOrUpdate(
+    indexName: string,
+    index: Models.SearchIndex,
+    callback: coreHttp.ServiceCallback<Models.SearchIndex>
+  ): void;
   /**
    * @param indexName The definition of the index to create or update.
    * @param index The definition of the index to create or update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(indexName: string, index: Models.SearchIndex, options: Models.IndexesCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.SearchIndex>): void;
-  createOrUpdate(indexName: string, index: Models.SearchIndex, options?: Models.IndexesCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.SearchIndex>, callback?: coreHttp.ServiceCallback<Models.SearchIndex>): Promise<Models.IndexesCreateOrUpdateResponse> {
+  createOrUpdate(
+    indexName: string,
+    index: Models.SearchIndex,
+    options: Models.IndexesCreateOrUpdateOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SearchIndex>
+  ): void;
+  createOrUpdate(
+    indexName: string,
+    index: Models.SearchIndex,
+    options?:
+      | Models.IndexesCreateOrUpdateOptionalParams
+      | coreHttp.ServiceCallback<Models.SearchIndex>,
+    callback?: coreHttp.ServiceCallback<Models.SearchIndex>
+  ): Promise<Models.IndexesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         indexName,
@@ -107,7 +146,8 @@ export class Indexes {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.IndexesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.IndexesCreateOrUpdateResponse>;
   }
 
   /**
@@ -118,7 +158,10 @@ export class Indexes {
    * @param [options] The optional parameters
    * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(indexName: string, options?: Models.IndexesDeleteMethodOptionalParams): Promise<coreHttp.RestResponse>;
+  deleteMethod(
+    indexName: string,
+    options?: Models.IndexesDeleteMethodOptionalParams
+  ): Promise<coreHttp.RestResponse>;
   /**
    * @param indexName The name of the index to delete.
    * @param callback The callback
@@ -129,15 +172,24 @@ export class Indexes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(indexName: string, options: Models.IndexesDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  deleteMethod(indexName: string, options?: Models.IndexesDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
+  deleteMethod(
+    indexName: string,
+    options: Models.IndexesDeleteMethodOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    indexName: string,
+    options?: Models.IndexesDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         indexName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -157,15 +209,24 @@ export class Indexes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(indexName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SearchIndex>): void;
-  get(indexName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndex>, callback?: coreHttp.ServiceCallback<Models.SearchIndex>): Promise<Models.IndexesGetResponse> {
+  get(
+    indexName: string,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.SearchIndex>
+  ): void;
+  get(
+    indexName: string,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndex>,
+    callback?: coreHttp.ServiceCallback<Models.SearchIndex>
+  ): Promise<Models.IndexesGetResponse> {
     return this.client.sendOperationRequest(
       {
         indexName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IndexesGetResponse>;
+      callback
+    ) as Promise<Models.IndexesGetResponse>;
   }
 
   /**
@@ -174,26 +235,43 @@ export class Indexes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IndexesGetStatisticsResponse>
    */
-  getStatistics(indexName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.IndexesGetStatisticsResponse>;
+  getStatistics(
+    indexName: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.IndexesGetStatisticsResponse>;
   /**
    * @param indexName The name of the index for which to retrieve statistics.
    * @param callback The callback
    */
-  getStatistics(indexName: string, callback: coreHttp.ServiceCallback<Models.GetIndexStatisticsResult>): void;
+  getStatistics(
+    indexName: string,
+    callback: coreHttp.ServiceCallback<Models.GetIndexStatisticsResult>
+  ): void;
   /**
    * @param indexName The name of the index for which to retrieve statistics.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatistics(indexName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.GetIndexStatisticsResult>): void;
-  getStatistics(indexName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.GetIndexStatisticsResult>, callback?: coreHttp.ServiceCallback<Models.GetIndexStatisticsResult>): Promise<Models.IndexesGetStatisticsResponse> {
+  getStatistics(
+    indexName: string,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.GetIndexStatisticsResult>
+  ): void;
+  getStatistics(
+    indexName: string,
+    options?:
+      | coreHttp.RequestOptionsBase
+      | coreHttp.ServiceCallback<Models.GetIndexStatisticsResult>,
+    callback?: coreHttp.ServiceCallback<Models.GetIndexStatisticsResult>
+  ): Promise<Models.IndexesGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       {
         indexName,
         options
       },
       getStatisticsOperationSpec,
-      callback) as Promise<Models.IndexesGetStatisticsResponse>;
+      callback
+    ) as Promise<Models.IndexesGetStatisticsResponse>;
   }
 
   /**
@@ -203,21 +281,39 @@ export class Indexes {
    * @param [options] The optional parameters
    * @returns Promise<Models.IndexesAnalyzeResponse>
    */
-  analyze(indexName: string, request: Models.AnalyzeRequest, options?: coreHttp.RequestOptionsBase): Promise<Models.IndexesAnalyzeResponse>;
+  analyze(
+    indexName: string,
+    request: Models.AnalyzeRequest,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.IndexesAnalyzeResponse>;
   /**
    * @param indexName The name of the index for which to test an analyzer.
    * @param request The text and analyzer or analysis components to test.
    * @param callback The callback
    */
-  analyze(indexName: string, request: Models.AnalyzeRequest, callback: coreHttp.ServiceCallback<Models.AnalyzeResult>): void;
+  analyze(
+    indexName: string,
+    request: Models.AnalyzeRequest,
+    callback: coreHttp.ServiceCallback<Models.AnalyzeResult>
+  ): void;
   /**
    * @param indexName The name of the index for which to test an analyzer.
    * @param request The text and analyzer or analysis components to test.
    * @param options The optional parameters
    * @param callback The callback
    */
-  analyze(indexName: string, request: Models.AnalyzeRequest, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AnalyzeResult>): void;
-  analyze(indexName: string, request: Models.AnalyzeRequest, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AnalyzeResult>, callback?: coreHttp.ServiceCallback<Models.AnalyzeResult>): Promise<Models.IndexesAnalyzeResponse> {
+  analyze(
+    indexName: string,
+    request: Models.AnalyzeRequest,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.AnalyzeResult>
+  ): void;
+  analyze(
+    indexName: string,
+    request: Models.AnalyzeRequest,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AnalyzeResult>,
+    callback?: coreHttp.ServiceCallback<Models.AnalyzeResult>
+  ): Promise<Models.IndexesAnalyzeResponse> {
     return this.client.sendOperationRequest(
       {
         indexName,
@@ -225,7 +321,8 @@ export class Indexes {
         options
       },
       analyzeOperationSpec,
-      callback) as Promise<Models.IndexesAnalyzeResponse>;
+      callback
+    ) as Promise<Models.IndexesAnalyzeResponse>;
   }
 }
 
@@ -234,12 +331,8 @@ const serializer = new coreHttp.Serializer(Mappers);
 const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "indexes",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.apiVersion],
   requestBody: {
     parameterPath: "index",
     mapper: {
@@ -261,13 +354,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
 const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "indexes",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.select,
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.select, Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.ListIndexesResult
@@ -282,19 +370,9 @@ const listOperationSpec: coreHttp.OperationSpec = {
 const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "indexes('{indexName}')",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
-  queryParameters: [
-    Parameters.allowIndexDowntime,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.prefer
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
+  queryParameters: [Parameters.allowIndexDowntime, Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.ifNoneMatch, Parameters.prefer],
   requestBody: {
     parameterPath: "index",
     mapper: {
@@ -319,17 +397,9 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
 const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "indexes('{indexName}')",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.ifNoneMatch],
   responses: {
     204: {},
     404: {},
@@ -343,13 +413,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
 const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "indexes('{indexName}')",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
+  queryParameters: [Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.SearchIndex
@@ -364,13 +429,8 @@ const getOperationSpec: coreHttp.OperationSpec = {
 const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "indexes('{indexName}')/search.stats",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
+  queryParameters: [Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.GetIndexStatisticsResult
@@ -385,13 +445,8 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
 const analyzeOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "indexes('{indexName}')/search.analyze",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
+  queryParameters: [Parameters.apiVersion],
   requestBody: {
     parameterPath: "request",
     mapper: {

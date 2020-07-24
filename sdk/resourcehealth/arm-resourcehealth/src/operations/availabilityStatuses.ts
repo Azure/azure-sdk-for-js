@@ -32,7 +32,9 @@ export class AvailabilityStatuses {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilityStatusesListBySubscriptionIdResponse>
    */
-  listBySubscriptionId(options?: Models.AvailabilityStatusesListBySubscriptionIdOptionalParams): Promise<Models.AvailabilityStatusesListBySubscriptionIdResponse>;
+  listBySubscriptionId(
+    options?: Models.AvailabilityStatusesListBySubscriptionIdOptionalParams
+  ): Promise<Models.AvailabilityStatusesListBySubscriptionIdResponse>;
   /**
    * @param callback The callback
    */
@@ -41,14 +43,23 @@ export class AvailabilityStatuses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionId(options: Models.AvailabilityStatusesListBySubscriptionIdOptionalParams, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
-  listBySubscriptionId(options?: Models.AvailabilityStatusesListBySubscriptionIdOptionalParams | msRest.ServiceCallback<Models.AvailabilityStatusListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListBySubscriptionIdResponse> {
+  listBySubscriptionId(
+    options: Models.AvailabilityStatusesListBySubscriptionIdOptionalParams,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): void;
+  listBySubscriptionId(
+    options?:
+      | Models.AvailabilityStatusesListBySubscriptionIdOptionalParams
+      | msRest.ServiceCallback<Models.AvailabilityStatusListResult>,
+    callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): Promise<Models.AvailabilityStatusesListBySubscriptionIdResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionIdOperationSpec,
-      callback) as Promise<Models.AvailabilityStatusesListBySubscriptionIdResponse>;
+      callback
+    ) as Promise<Models.AvailabilityStatusesListBySubscriptionIdResponse>;
   }
 
   /**
@@ -58,26 +69,43 @@ export class AvailabilityStatuses {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilityStatusesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.AvailabilityStatusesListByResourceGroupOptionalParams): Promise<Models.AvailabilityStatusesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.AvailabilityStatusesListByResourceGroupOptionalParams
+  ): Promise<Models.AvailabilityStatusesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.AvailabilityStatusesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.AvailabilityStatusesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.AvailabilityStatusListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.AvailabilityStatusesListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.AvailabilityStatusesListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.AvailabilityStatusListResult>,
+    callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): Promise<Models.AvailabilityStatusesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.AvailabilityStatusesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.AvailabilityStatusesListByResourceGroupResponse>;
   }
 
   /**
@@ -90,7 +118,10 @@ export class AvailabilityStatuses {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilityStatusesGetByResourceResponse>
    */
-  getByResource(resourceUri: string, options?: Models.AvailabilityStatusesGetByResourceOptionalParams): Promise<Models.AvailabilityStatusesGetByResourceResponse>;
+  getByResource(
+    resourceUri: string,
+    options?: Models.AvailabilityStatusesGetByResourceOptionalParams
+  ): Promise<Models.AvailabilityStatusesGetByResourceResponse>;
   /**
    * @param resourceUri The fully qualified ID of the resource, including the resource name and
    * resource type. Currently the API support not nested and one nesting level resource types :
@@ -99,7 +130,10 @@ export class AvailabilityStatuses {
    * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resource-provider-name}/{parentResourceType}/{parentResourceName}/{resourceType}/{resourceName}
    * @param callback The callback
    */
-  getByResource(resourceUri: string, callback: msRest.ServiceCallback<Models.AvailabilityStatus>): void;
+  getByResource(
+    resourceUri: string,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatus>
+  ): void;
   /**
    * @param resourceUri The fully qualified ID of the resource, including the resource name and
    * resource type. Currently the API support not nested and one nesting level resource types :
@@ -109,15 +143,26 @@ export class AvailabilityStatuses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getByResource(resourceUri: string, options: Models.AvailabilityStatusesGetByResourceOptionalParams, callback: msRest.ServiceCallback<Models.AvailabilityStatus>): void;
-  getByResource(resourceUri: string, options?: Models.AvailabilityStatusesGetByResourceOptionalParams | msRest.ServiceCallback<Models.AvailabilityStatus>, callback?: msRest.ServiceCallback<Models.AvailabilityStatus>): Promise<Models.AvailabilityStatusesGetByResourceResponse> {
+  getByResource(
+    resourceUri: string,
+    options: Models.AvailabilityStatusesGetByResourceOptionalParams,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatus>
+  ): void;
+  getByResource(
+    resourceUri: string,
+    options?:
+      | Models.AvailabilityStatusesGetByResourceOptionalParams
+      | msRest.ServiceCallback<Models.AvailabilityStatus>,
+    callback?: msRest.ServiceCallback<Models.AvailabilityStatus>
+  ): Promise<Models.AvailabilityStatusesGetByResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
         options
       },
       getByResourceOperationSpec,
-      callback) as Promise<Models.AvailabilityStatusesGetByResourceResponse>;
+      callback
+    ) as Promise<Models.AvailabilityStatusesGetByResourceResponse>;
   }
 
   /**
@@ -131,7 +176,10 @@ export class AvailabilityStatuses {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilityStatusesListResponse>
    */
-  list(resourceUri: string, options?: Models.AvailabilityStatusesListOptionalParams): Promise<Models.AvailabilityStatusesListResponse>;
+  list(
+    resourceUri: string,
+    options?: Models.AvailabilityStatusesListOptionalParams
+  ): Promise<Models.AvailabilityStatusesListResponse>;
   /**
    * @param resourceUri The fully qualified ID of the resource, including the resource name and
    * resource type. Currently the API support not nested and one nesting level resource types :
@@ -140,7 +188,10 @@ export class AvailabilityStatuses {
    * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resource-provider-name}/{parentResourceType}/{parentResourceName}/{resourceType}/{resourceName}
    * @param callback The callback
    */
-  list(resourceUri: string, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
+  list(
+    resourceUri: string,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): void;
   /**
    * @param resourceUri The fully qualified ID of the resource, including the resource name and
    * resource type. Currently the API support not nested and one nesting level resource types :
@@ -150,15 +201,26 @@ export class AvailabilityStatuses {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceUri: string, options: Models.AvailabilityStatusesListOptionalParams, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
-  list(resourceUri: string, options?: Models.AvailabilityStatusesListOptionalParams | msRest.ServiceCallback<Models.AvailabilityStatusListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListResponse> {
+  list(
+    resourceUri: string,
+    options: Models.AvailabilityStatusesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): void;
+  list(
+    resourceUri: string,
+    options?:
+      | Models.AvailabilityStatusesListOptionalParams
+      | msRest.ServiceCallback<Models.AvailabilityStatusListResult>,
+    callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): Promise<Models.AvailabilityStatusesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AvailabilityStatusesListResponse>;
+      callback
+    ) as Promise<Models.AvailabilityStatusesListResponse>;
   }
 
   /**
@@ -168,26 +230,43 @@ export class AvailabilityStatuses {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilityStatusesListBySubscriptionIdNextResponse>
    */
-  listBySubscriptionIdNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilityStatusesListBySubscriptionIdNextResponse>;
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailabilityStatusesListBySubscriptionIdNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionIdNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionIdNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
-  listBySubscriptionIdNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilityStatusListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListBySubscriptionIdNextResponse> {
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): void;
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AvailabilityStatusListResult>,
+    callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): Promise<Models.AvailabilityStatusesListBySubscriptionIdNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionIdNextOperationSpec,
-      callback) as Promise<Models.AvailabilityStatusesListBySubscriptionIdNextResponse>;
+      callback
+    ) as Promise<Models.AvailabilityStatusesListBySubscriptionIdNextResponse>;
   }
 
   /**
@@ -197,26 +276,43 @@ export class AvailabilityStatuses {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilityStatusesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilityStatusesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailabilityStatusesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilityStatusListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AvailabilityStatusListResult>,
+    callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): Promise<Models.AvailabilityStatusesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.AvailabilityStatusesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.AvailabilityStatusesListByResourceGroupNextResponse>;
   }
 
   /**
@@ -226,26 +322,43 @@ export class AvailabilityStatuses {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilityStatusesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilityStatusesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailabilityStatusesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilityStatusListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>): Promise<Models.AvailabilityStatusesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AvailabilityStatusListResult>,
+    callback?: msRest.ServiceCallback<Models.AvailabilityStatusListResult>
+  ): Promise<Models.AvailabilityStatusesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AvailabilityStatusesListNextResponse>;
+      callback
+    ) as Promise<Models.AvailabilityStatusesListNextResponse>;
   }
 }
 
@@ -254,17 +367,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/availabilityStatuses",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailabilityStatusListResult
@@ -278,19 +383,11 @@ const listBySubscriptionIdOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceHealth/availabilityStatuses",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceHealth/availabilityStatuses",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailabilityStatusListResult
@@ -305,17 +402,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const getByResourceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses/current",
-  urlParameters: [
-    Parameters.resourceUri
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceUri],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailabilityStatus
@@ -330,17 +419,9 @@ const getByResourceOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses",
-  urlParameters: [
-    Parameters.resourceUri
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceUri],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailabilityStatusListResult
@@ -356,12 +437,8 @@ const listBySubscriptionIdNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailabilityStatusListResult
@@ -377,12 +454,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailabilityStatusListResult
@@ -398,12 +471,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailabilityStatusListResult

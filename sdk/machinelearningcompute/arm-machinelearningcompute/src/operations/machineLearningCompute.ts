@@ -31,7 +31,9 @@ export class MachineLearningCompute {
    * @param [options] The optional parameters
    * @returns Promise<Models.MachineLearningComputeListAvailableOperationsResponse>
    */
-  listAvailableOperations(options?: msRest.RequestOptionsBase): Promise<Models.MachineLearningComputeListAvailableOperationsResponse>;
+  listAvailableOperations(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MachineLearningComputeListAvailableOperationsResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,21 @@ export class MachineLearningCompute {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableOperations>): void;
-  listAvailableOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableOperations>, callback?: msRest.ServiceCallback<Models.AvailableOperations>): Promise<Models.MachineLearningComputeListAvailableOperationsResponse> {
+  listAvailableOperations(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableOperations>
+  ): void;
+  listAvailableOperations(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableOperations>,
+    callback?: msRest.ServiceCallback<Models.AvailableOperations>
+  ): Promise<Models.MachineLearningComputeListAvailableOperationsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAvailableOperationsOperationSpec,
-      callback) as Promise<Models.MachineLearningComputeListAvailableOperationsResponse>;
+      callback
+    ) as Promise<Models.MachineLearningComputeListAvailableOperationsResponse>;
   }
 }
 
@@ -56,12 +65,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listAvailableOperationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.MachineLearningCompute/operations",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailableOperations

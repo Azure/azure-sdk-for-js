@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const ErrorModel: msRest.CompositeMapper = {
   serializedName: "Error",
   type: {
@@ -448,16 +447,7 @@ export const HairColor: msRest.CompositeMapper = {
         serializedName: "color",
         type: {
           name: "Enum",
-          allowedValues: [
-            "unknown",
-            "white",
-            "gray",
-            "blond",
-            "brown",
-            "red",
-            "black",
-            "other"
-          ]
+          allowedValues: ["unknown", "white", "gray", "blond", "brown", "red", "black", "other"]
         }
       },
       confidence: {
@@ -573,11 +563,7 @@ export const Accessory: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "headWear",
-            "glasses",
-            "mask"
-          ]
+          allowedValues: ["headWear", "glasses", "mask"]
         }
       },
       confidence: {
@@ -602,11 +588,7 @@ export const Blur: msRest.CompositeMapper = {
         serializedName: "blurLevel",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Low",
-            "Medium",
-            "High"
-          ]
+          allowedValues: ["Low", "Medium", "High"]
         }
       },
       value: {
@@ -631,11 +613,7 @@ export const Exposure: msRest.CompositeMapper = {
         serializedName: "exposureLevel",
         type: {
           name: "Enum",
-          allowedValues: [
-            "UnderExposure",
-            "GoodExposure",
-            "OverExposure"
-          ]
+          allowedValues: ["UnderExposure", "GoodExposure", "OverExposure"]
         }
       },
       value: {
@@ -660,11 +638,7 @@ export const Noise: msRest.CompositeMapper = {
         serializedName: "noiseLevel",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Low",
-            "Medium",
-            "High"
-          ]
+          allowedValues: ["Low", "Medium", "High"]
         }
       },
       value: {
@@ -694,10 +668,7 @@ export const FaceAttributes: msRest.CompositeMapper = {
         serializedName: "gender",
         type: {
           name: "Enum",
-          allowedValues: [
-            "male",
-            "female"
-          ]
+          allowedValues: ["male", "female"]
         }
       },
       smile: {
@@ -717,12 +688,7 @@ export const FaceAttributes: msRest.CompositeMapper = {
         serializedName: "glasses",
         type: {
           name: "Enum",
-          allowedValues: [
-            "noGlasses",
-            "readingGlasses",
-            "sunglasses",
-            "swimmingGoggles"
-          ]
+          allowedValues: ["noGlasses", "readingGlasses", "sunglasses", "swimmingGoggles"]
         }
       },
       headPose: {
@@ -812,7 +778,7 @@ export const DetectedFace: msRest.CompositeMapper = {
       recognitionModel: {
         nullable: false,
         serializedName: "recognitionModel",
-        defaultValue: 'recognition_01',
+        defaultValue: "recognition_01",
         type: {
           name: "String"
         }
@@ -904,13 +870,10 @@ export const FindSimilarRequest: msRest.CompositeMapper = {
       mode: {
         nullable: false,
         serializedName: "mode",
-        defaultValue: 'matchPerson',
+        defaultValue: "matchPerson",
         type: {
           name: "Enum",
-          allowedValues: [
-            "matchPerson",
-            "matchFace"
-          ]
+          allowedValues: ["matchPerson", "matchFace"]
         }
       }
     }
@@ -1281,7 +1244,7 @@ export const MetaDataContract: msRest.CompositeMapper = {
       recognitionModel: {
         nullable: false,
         serializedName: "recognitionModel",
-        defaultValue: 'recognition_01',
+        defaultValue: "recognition_01",
         type: {
           name: "String"
         }
@@ -1449,12 +1412,7 @@ export const TrainingStatus: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "nonstarted",
-            "running",
-            "succeeded",
-            "failed"
-          ]
+          allowedValues: ["nonstarted", "running", "succeeded", "failed"]
         }
       },
       created: {
@@ -1506,12 +1464,10 @@ export const ApplySnapshotRequest: msRest.CompositeMapper = {
       mode: {
         nullable: false,
         serializedName: "mode",
-        defaultValue: 'CreateNew',
+        defaultValue: "CreateNew",
         type: {
           name: "Enum",
-          allowedValues: [
-            "CreateNew"
-          ]
+          allowedValues: ["CreateNew"]
         }
       }
     }
@@ -1543,12 +1499,7 @@ export const Snapshot: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "FaceList",
-            "LargeFaceList",
-            "LargePersonGroup",
-            "PersonGroup"
-          ]
+          allowedValues: ["FaceList", "LargeFaceList", "LargePersonGroup", "PersonGroup"]
         }
       },
       applyScope: {
@@ -1601,12 +1552,7 @@ export const TakeSnapshotRequest: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "FaceList",
-            "LargeFaceList",
-            "LargePersonGroup",
-            "PersonGroup"
-          ]
+          allowedValues: ["FaceList", "LargeFaceList", "LargePersonGroup", "PersonGroup"]
         }
       },
       objectId: {
@@ -1686,12 +1632,7 @@ export const OperationStatus: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "notstarted",
-            "running",
-            "succeeded",
-            "failed"
-          ]
+          allowedValues: ["notstarted", "running", "succeeded", "failed"]
         }
       },
       createdTime: {

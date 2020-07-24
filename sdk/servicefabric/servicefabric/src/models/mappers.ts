@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const FabricErrorError: msRest.CompositeMapper = {
   serializedName: "FabricErrorError",
   type: {
@@ -1609,14 +1608,14 @@ export const ApplicationUpgradeDescription: msRest.CompositeMapper = {
       upgradeKind: {
         required: true,
         serializedName: "UpgradeKind",
-        defaultValue: 'Rolling',
+        defaultValue: "Rolling",
         type: {
           name: "String"
         }
       },
       rollingUpgradeMode: {
         serializedName: "RollingUpgradeMode",
-        defaultValue: 'UnmonitoredAuto',
+        defaultValue: "UnmonitoredAuto",
         type: {
           name: "String"
         }
@@ -1635,7 +1634,7 @@ export const ApplicationUpgradeDescription: msRest.CompositeMapper = {
       },
       sortOrder: {
         serializedName: "SortOrder",
-        defaultValue: 'Default',
+        defaultValue: "Default",
         type: {
           name: "String"
         }
@@ -1865,7 +1864,7 @@ export const ApplicationUpgradeProgressInfo: msRest.CompositeMapper = {
       },
       rollingUpgradeMode: {
         serializedName: "RollingUpgradeMode",
-        defaultValue: 'UnmonitoredAuto',
+        defaultValue: "UnmonitoredAuto",
         type: {
           name: "String"
         }
@@ -4631,14 +4630,14 @@ export const StartClusterUpgradeDescription: msRest.CompositeMapper = {
       },
       upgradeKind: {
         serializedName: "UpgradeKind",
-        defaultValue: 'Rolling',
+        defaultValue: "Rolling",
         type: {
           name: "String"
         }
       },
       rollingUpgradeMode: {
         serializedName: "RollingUpgradeMode",
-        defaultValue: 'UnmonitoredAuto',
+        defaultValue: "UnmonitoredAuto",
         type: {
           name: "String"
         }
@@ -4657,7 +4656,7 @@ export const StartClusterUpgradeDescription: msRest.CompositeMapper = {
       },
       sortOrder: {
         serializedName: "SortOrder",
-        defaultValue: 'Default',
+        defaultValue: "Default",
         type: {
           name: "String"
         }
@@ -4715,7 +4714,7 @@ export const RollingUpgradeUpdateDescription: msRest.CompositeMapper = {
       rollingUpgradeMode: {
         required: true,
         serializedName: "RollingUpgradeMode",
-        defaultValue: 'UnmonitoredAuto',
+        defaultValue: "UnmonitoredAuto",
         type: {
           name: "String"
         }
@@ -4786,7 +4785,7 @@ export const UpdateClusterUpgradeDescription: msRest.CompositeMapper = {
     modelProperties: {
       upgradeKind: {
         serializedName: "UpgradeKind",
-        defaultValue: 'Rolling',
+        defaultValue: "Rolling",
         type: {
           name: "String"
         }
@@ -5063,14 +5062,14 @@ export const RestartNodeDescription: msRest.CompositeMapper = {
       nodeInstanceId: {
         required: true,
         serializedName: "NodeInstanceId",
-        defaultValue: '0',
+        defaultValue: "0",
         type: {
           name: "String"
         }
       },
       createFabricDump: {
         serializedName: "CreateFabricDump",
-        defaultValue: 'False',
+        defaultValue: "False",
         type: {
           name: "String"
         }
@@ -6112,14 +6111,14 @@ export const ClusterUpgradeDescriptionObject: msRest.CompositeMapper = {
       },
       upgradeKind: {
         serializedName: "UpgradeKind",
-        defaultValue: 'Rolling',
+        defaultValue: "Rolling",
         type: {
           name: "String"
         }
       },
       rollingUpgradeMode: {
         serializedName: "RollingUpgradeMode",
-        defaultValue: 'UnmonitoredAuto',
+        defaultValue: "UnmonitoredAuto",
         type: {
           name: "String"
         }
@@ -6138,7 +6137,7 @@ export const ClusterUpgradeDescriptionObject: msRest.CompositeMapper = {
       },
       sortOrder: {
         serializedName: "SortOrder",
-        defaultValue: 'Default',
+        defaultValue: "Default",
         type: {
           name: "String"
         }
@@ -6258,7 +6257,7 @@ export const ClusterUpgradeProgressObject: msRest.CompositeMapper = {
       },
       rollingUpgradeMode: {
         serializedName: "RollingUpgradeMode",
-        defaultValue: 'UnmonitoredAuto',
+        defaultValue: "UnmonitoredAuto",
         type: {
           name: "String"
         }
@@ -6345,35 +6344,35 @@ export const ClusterConfigurationUpgradeDescription: msRest.CompositeMapper = {
       },
       healthCheckRetryTimeout: {
         serializedName: "HealthCheckRetryTimeout",
-        defaultValue: 'PT0H0M0S',
+        defaultValue: "PT0H0M0S",
         type: {
           name: "TimeSpan"
         }
       },
       healthCheckWaitDurationInSeconds: {
         serializedName: "HealthCheckWaitDurationInSeconds",
-        defaultValue: 'PT0H0M0S',
+        defaultValue: "PT0H0M0S",
         type: {
           name: "TimeSpan"
         }
       },
       healthCheckStableDurationInSeconds: {
         serializedName: "HealthCheckStableDurationInSeconds",
-        defaultValue: 'PT0H0M0S',
+        defaultValue: "PT0H0M0S",
         type: {
           name: "TimeSpan"
         }
       },
       upgradeDomainTimeoutInSeconds: {
         serializedName: "UpgradeDomainTimeoutInSeconds",
-        defaultValue: 'PT0H0M0S',
+        defaultValue: "PT0H0M0S",
         type: {
           name: "TimeSpan"
         }
       },
       upgradeTimeoutInSeconds: {
         serializedName: "UpgradeTimeoutInSeconds",
-        defaultValue: 'PT0H0M0S',
+        defaultValue: "PT0H0M0S",
         type: {
           name: "TimeSpan"
         }
@@ -6775,7 +6774,7 @@ export const ChaosParameters: msRest.CompositeMapper = {
     modelProperties: {
       timeToRunInSeconds: {
         serializedName: "TimeToRunInSeconds",
-        defaultValue: '4294967295',
+        defaultValue: "4294967295",
         type: {
           name: "String"
         }
@@ -7140,14 +7139,14 @@ export const ChaosSchedule: msRest.CompositeMapper = {
     modelProperties: {
       startDate: {
         serializedName: "StartDate",
-        defaultValue: new Date('1601-01-01T00:00:00Z'),
+        defaultValue: new Date("1601-01-01T00:00:00Z"),
         type: {
           name: "DateTime"
         }
       },
       expiryDate: {
         serializedName: "ExpiryDate",
-        defaultValue: new Date('9999-12-31T23:59:59.999Z'),
+        defaultValue: new Date("9999-12-31T23:59:59.999Z"),
         type: {
           name: "DateTime"
         }
@@ -7567,14 +7566,14 @@ export const ComposeDeploymentUpgradeDescription: msRest.CompositeMapper = {
       upgradeKind: {
         required: true,
         serializedName: "UpgradeKind",
-        defaultValue: 'Rolling',
+        defaultValue: "Rolling",
         type: {
           name: "String"
         }
       },
       rollingUpgradeMode: {
         serializedName: "RollingUpgradeMode",
-        defaultValue: 'UnmonitoredAuto',
+        defaultValue: "UnmonitoredAuto",
         type: {
           name: "String"
         }
@@ -7641,14 +7640,14 @@ export const ComposeDeploymentUpgradeProgressInfo: msRest.CompositeMapper = {
       },
       upgradeKind: {
         serializedName: "UpgradeKind",
-        defaultValue: 'Rolling',
+        defaultValue: "Rolling",
         type: {
           name: "String"
         }
       },
       rollingUpgradeMode: {
         serializedName: "RollingUpgradeMode",
-        defaultValue: 'UnmonitoredAuto',
+        defaultValue: "UnmonitoredAuto",
         type: {
           name: "String"
         }
@@ -9809,7 +9808,7 @@ export const ApplicationUpgradeUpdateDescription: msRest.CompositeMapper = {
       upgradeKind: {
         required: true,
         serializedName: "UpgradeKind",
-        defaultValue: 'Rolling',
+        defaultValue: "Rolling",
         type: {
           name: "String"
         }
@@ -15580,7 +15579,8 @@ export const ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk: m
   serializedName: "ServiceFabricVolumeDisk",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ApplicationScopedVolumeCreationParameters.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      ApplicationScopedVolumeCreationParameters.type.polymorphicDiscriminator,
     uberParent: "ApplicationScopedVolumeCreationParameters",
     className: "ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk",
     modelProperties: {
@@ -15633,7 +15633,7 @@ export const VolumeResourceDescription: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "properties.provider",
-        defaultValue: 'SFAzureFile',
+        defaultValue: "SFAzureFile",
         type: {
           name: "String"
         }
@@ -15934,7 +15934,7 @@ export const HttpRouteMatchPath: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'prefix',
+        defaultValue: "prefix",
         type: {
           name: "String"
         }
@@ -16238,7 +16238,7 @@ export const ImageRegistryCredential: msRest.CompositeMapper = {
       },
       passwordType: {
         serializedName: "passwordType",
-        defaultValue: 'ClearText',
+        defaultValue: "ClearText",
         type: {
           name: "String"
         }
@@ -16261,7 +16261,7 @@ export const EnvironmentVariable: msRest.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
-        defaultValue: 'ClearText',
+        defaultValue: "ClearText",
         type: {
           name: "String"
         }
@@ -16290,7 +16290,7 @@ export const Setting: msRest.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
-        defaultValue: 'ClearText',
+        defaultValue: "ClearText",
         type: {
           name: "String"
         }
@@ -17357,14 +17357,14 @@ export const ApplicationResourceUpgradeProgressInfo: msRest.CompositeMapper = {
       },
       rollingUpgradeMode: {
         serializedName: "RollingUpgradeMode",
-        defaultValue: 'Monitored',
+        defaultValue: "Monitored",
         type: {
           name: "String"
         }
       },
       upgradeDuration: {
         serializedName: "UpgradeDuration",
-        defaultValue: 'PT0H2M0S',
+        defaultValue: "PT0H2M0S",
         type: {
           name: "String"
         }
@@ -17979,219 +17979,218 @@ export const PagedApplicationResourceDescriptionList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'FabricEvent.ApplicationEvent' : ApplicationEvent,
-  'HealthEvaluation' : HealthEvaluation,
-  'HealthEvaluation.Application' : ApplicationHealthEvaluation,
-  'HealthEvaluation.Applications' : ApplicationsHealthEvaluation,
-  'HealthEvaluation.ApplicationTypeApplications' : ApplicationTypeApplicationsHealthEvaluation,
-  'SafetyCheck' : SafetyCheck,
-  'FabricEvent.ClusterEvent' : ClusterEvent,
-  'FabricEvent.ContainerInstanceEvent' : ContainerInstanceEvent,
-  'HealthEvaluation.DeltaNodesCheck' : DeltaNodesCheckHealthEvaluation,
-  'HealthEvaluation.DeployedApplication' : DeployedApplicationHealthEvaluation,
-  'HealthEvaluation.DeployedApplications' : DeployedApplicationsHealthEvaluation,
-  'HealthEvaluation.DeployedServicePackage' : DeployedServicePackageHealthEvaluation,
-  'HealthEvaluation.DeployedServicePackages' : DeployedServicePackagesHealthEvaluation,
-  'DeployedServiceReplicaInfo' : DeployedServiceReplicaInfo,
-  'DeployedServiceReplicaInfo.Stateful' : DeployedStatefulServiceReplicaInfo,
-  'DeployedServiceReplicaInfo.Stateless' : DeployedStatelessServiceInstanceInfo,
-  'HealthEvaluation.Event' : EventHealthEvaluation,
-  'FabricEvent' : FabricEvent,
-  'PartitionInformation.Int64Range' : Int64RangePartitionInformation,
-  'PartitionInformation.Named' : NamedPartitionInformation,
-  'FabricEvent.NodeEvent' : NodeEvent,
-  'HealthEvaluation.Node' : NodeHealthEvaluation,
-  'HealthEvaluation.Nodes' : NodesHealthEvaluation,
-  'PartitionInformation' : PartitionInformation,
-  'ServicePartitionInfo' : ServicePartitionInfo,
-  'ReplicaInfo' : ReplicaInfo,
-  'ServiceInfo' : ServiceInfo,
-  'FabricEvent.PartitionAnalysisEvent' : PartitionAnalysisEvent,
-  'FabricEvent.PartitionEvent' : PartitionEvent,
-  'EntityHealthState.ReplicaHealthState' : ReplicaHealthState,
-  'HealthEvaluation.Partition' : PartitionHealthEvaluation,
-  'ProvisionApplicationTypeDescriptionBase' : ProvisionApplicationTypeDescriptionBase,
-  'ProvisionApplicationTypeDescriptionBase.ImageStorePath' : ProvisionApplicationTypeDescription,
-  'ProvisionApplicationTypeDescriptionBase.ExternalStore' : ExternalStoreProvisionApplicationTypeDescription,
-  'SafetyCheck.PartitionSafetyCheck' : PartitionSafetyCheck,
-  'SafetyCheck.EnsureAvailability' : EnsureAvailabilitySafetyCheck,
-  'SafetyCheck.EnsurePartitionQuorum' : EnsurePartitionQuorumSafetyCheck,
-  'SafetyCheck.EnsureSeedNodeQuorum' : SeedNodeSafetyCheck,
-  'HealthEvaluation.Partitions' : PartitionsHealthEvaluation,
-  'FabricEvent.ReplicaEvent' : ReplicaEvent,
-  'EntityHealth.ReplicaHealth' : ReplicaHealth,
-  'HealthEvaluation.Replica' : ReplicaHealthEvaluation,
-  'HealthEvaluation.Replicas' : ReplicasHealthEvaluation,
-  'FabricEvent.ServiceEvent' : ServiceEvent,
-  'HealthEvaluation.Service' : ServiceHealthEvaluation,
-  'ServicePlacementPolicyDescription.InvalidDomain' : ServicePlacementInvalidDomainPolicyDescription,
-  'ServicePlacementPolicyDescription.NonPartiallyPlaceService' : ServicePlacementNonPartiallyPlaceServicePolicyDescription,
-  'ServicePlacementPolicyDescription' : ServicePlacementPolicyDescription,
-  'ServicePlacementPolicyDescription.PreferPrimaryDomain' : ServicePlacementPreferPrimaryDomainPolicyDescription,
-  'ServicePlacementPolicyDescription.RequireDomain' : ServicePlacementRequiredDomainPolicyDescription,
-  'ServicePlacementPolicyDescription.RequireDomainDistribution' : ServicePlacementRequireDomainDistributionPolicyDescription,
-  'HealthEvaluation.Services' : ServicesHealthEvaluation,
-  'ServiceTypeDescription' : ServiceTypeDescription,
-  'PartitionInformation.Singleton' : SingletonPartitionInformation,
-  'ServiceInfo.Stateful' : StatefulServiceInfo,
-  'ServicePartitionInfo.Stateful' : StatefulServicePartitionInfo,
-  'EntityHealth.Stateful' : StatefulServiceReplicaHealth,
-  'EntityHealthState.Stateful' : StatefulServiceReplicaHealthState,
-  'ServiceTypeDescription.Stateful' : StatefulServiceTypeDescription,
-  'ServiceInfo.Stateless' : StatelessServiceInfo,
-  'EntityHealth.Stateless' : StatelessServiceInstanceHealth,
-  'EntityHealthState.Stateless' : StatelessServiceInstanceHealthState,
-  'ServicePartitionInfo.Stateless' : StatelessServicePartitionInfo,
-  'ServiceTypeDescription.Stateless' : StatelessServiceTypeDescription,
-  'HealthEvaluation.SystemApplication' : SystemApplicationHealthEvaluation,
-  'HealthEvaluation.UpgradeDomainDeltaNodesCheck' : UpgradeDomainDeltaNodesCheckHealthEvaluation,
-  'HealthEvaluation.UpgradeDomainNodes' : UpgradeDomainNodesHealthEvaluation,
-  'SafetyCheck.WaitForInbuildReplica' : WaitForInbuildReplicaSafetyCheck,
-  'SafetyCheck.WaitForPrimaryPlacement' : WaitForPrimaryPlacementSafetyCheck,
-  'SafetyCheck.WaitForPrimarySwap' : WaitForPrimarySwapSafetyCheck,
-  'SafetyCheck.WaitForReconfiguration' : WaitForReconfigurationSafetyCheck,
-  'ReplicaInfo.Stateful' : StatefulServiceReplicaInfo,
-  'ReplicaInfo.Stateless' : StatelessServiceInstanceInfo,
-  'ChaosEvent' : ChaosEvent,
-  'ChaosEvent.ExecutingFaults' : ExecutingFaultsChaosEvent,
-  'ChaosEvent.Started' : StartedChaosEvent,
-  'ChaosEvent.Stopped' : StoppedChaosEvent,
-  'ChaosEvent.TestError' : TestErrorChaosEvent,
-  'ChaosEvent.ValidationFailed' : ValidationFailedChaosEvent,
-  'ChaosEvent.Waiting' : WaitingChaosEvent,
-  'PartitionSchemeDescription' : PartitionSchemeDescription,
-  'PartitionSchemeDescription.Named' : NamedPartitionSchemeDescription,
-  'PartitionSchemeDescription.Singleton' : SingletonPartitionSchemeDescription,
-  'PartitionSchemeDescription.UniformInt64Range' : UniformInt64RangePartitionSchemeDescription,
-  'ScalingTriggerDescription' : ScalingTriggerDescription,
-  'ScalingMechanismDescription' : ScalingMechanismDescription,
-  'ServiceDescription' : ServiceDescription,
-  'ServiceDescription.Stateful' : StatefulServiceDescription,
-  'ServiceDescription.Stateless' : StatelessServiceDescription,
-  'ReplicatorStatus' : ReplicatorStatus,
-  'ReplicatorStatus.Primary' : PrimaryReplicatorStatus,
-  'ReplicatorStatus.SecondaryReplicatorStatus' : SecondaryReplicatorStatus,
-  'ReplicatorStatus.ActiveSecondary' : SecondaryActiveReplicatorStatus,
-  'ReplicatorStatus.IdleSecondary' : SecondaryIdleReplicatorStatus,
-  'DeployedServiceReplicaDetailInfo' : DeployedServiceReplicaDetailInfo,
-  'ReplicaStatusBase.KeyValueStore' : KeyValueStoreReplicaStatus,
-  'DeployedServiceReplicaDetailInfo.Stateful' : DeployedStatefulServiceReplicaDetailInfo,
-  'DeployedServiceReplicaDetailInfo.Stateless' : DeployedStatelessServiceInstanceDetailInfo,
-  'ReplicaStatusBase' : ReplicaStatusBase,
-  'ServiceUpdateDescription' : ServiceUpdateDescription,
-  'ServiceUpdateDescription.Stateful' : StatefulServiceUpdateDescription,
-  'ServiceUpdateDescription.Stateless' : StatelessServiceUpdateDescription,
-  'PropertyValue' : PropertyValue,
-  'PropertyValue.Binary' : BinaryPropertyValue,
-  'PropertyValue.Int64' : Int64PropertyValue,
-  'PropertyValue.Double' : DoublePropertyValue,
-  'PropertyValue.String' : StringPropertyValue,
-  'PropertyValue.Guid' : GuidPropertyValue,
-  'PropertyBatchOperation' : PropertyBatchOperation,
-  'PropertyBatchOperation.CheckExists' : CheckExistsPropertyBatchOperation,
-  'PropertyBatchOperation.CheckSequence' : CheckSequencePropertyBatchOperation,
-  'PropertyBatchOperation.CheckValue' : CheckValuePropertyBatchOperation,
-  'PropertyBatchOperation.Delete' : DeletePropertyBatchOperation,
-  'PropertyBatchOperation.Get' : GetPropertyBatchOperation,
-  'PropertyBatchOperation.Put' : PutPropertyBatchOperation,
-  'PropertyBatchInfo' : PropertyBatchInfo,
-  'PropertyBatchInfo.Successful' : SuccessfulPropertyBatchInfo,
-  'PropertyBatchInfo.Failed' : FailedPropertyBatchInfo,
-  'BackupScheduleDescription' : BackupScheduleDescription,
-  'BackupStorageDescription' : BackupStorageDescription,
-  'RetentionPolicyDescription' : RetentionPolicyDescription,
-  'RetentionPolicyDescription.Basic' : BasicRetentionPolicyDescription,
-  'BackupConfigurationInfo.Application' : ApplicationBackupConfigurationInfo,
-  'BackupConfigurationInfo.Service' : ServiceBackupConfigurationInfo,
-  'BackupConfigurationInfo' : BackupConfigurationInfo,
-  'BackupStorageDescription.AzureBlobStore' : AzureBlobBackupStorageDescription,
-  'BackupStorageDescription.FileShare' : FileShareBackupStorageDescription,
-  'BackupScheduleDescription.FrequencyBased' : FrequencyBasedBackupScheduleDescription,
-  'BackupScheduleDescription.TimeBased' : TimeBasedBackupScheduleDescription,
-  'BackupConfigurationInfo.Partition' : PartitionBackupConfigurationInfo,
-  'BackupEntity' : BackupEntity,
-  'BackupEntity.Application' : ApplicationBackupEntity,
-  'BackupEntity.Service' : ServiceBackupEntity,
-  'BackupEntity.Partition' : PartitionBackupEntity,
-  'RepairImpactDescriptionBase.Node' : NodeRepairImpactDescription,
-  'RepairTargetDescriptionBase.Node' : NodeRepairTargetDescription,
-  'RepairImpactDescriptionBase' : RepairImpactDescriptionBase,
-  'RepairTargetDescriptionBase' : RepairTargetDescriptionBase,
-  'ScalingTriggerDescription.AveragePartitionLoad' : AveragePartitionLoadScalingTrigger,
-  'ScalingTriggerDescription.AverageServiceLoad' : AverageServiceLoadScalingTrigger,
-  'ScalingMechanismDescription.PartitionInstanceCount' : PartitionInstanceCountScaleMechanism,
-  'ScalingMechanismDescription.AddRemoveIncrementalNamedPartition' : AddRemoveIncrementalNamedPartitionScalingMechanism,
-  'FabricEvent.ApplicationCreated' : ApplicationCreatedEvent,
-  'FabricEvent.ApplicationDeleted' : ApplicationDeletedEvent,
-  'FabricEvent.ApplicationNewHealthReport' : ApplicationNewHealthReportEvent,
-  'FabricEvent.ApplicationHealthReportExpired' : ApplicationHealthReportExpiredEvent,
-  'FabricEvent.ApplicationUpgradeCompleted' : ApplicationUpgradeCompletedEvent,
-  'FabricEvent.ApplicationUpgradeDomainCompleted' : ApplicationUpgradeDomainCompletedEvent,
-  'FabricEvent.ApplicationUpgradeRollbackCompleted' : ApplicationUpgradeRollbackCompletedEvent,
-  'FabricEvent.ApplicationUpgradeRollbackStarted' : ApplicationUpgradeRollbackStartedEvent,
-  'FabricEvent.ApplicationUpgradeStarted' : ApplicationUpgradeStartedEvent,
-  'FabricEvent.DeployedApplicationNewHealthReport' : DeployedApplicationNewHealthReportEvent,
-  'FabricEvent.DeployedApplicationHealthReportExpired' : DeployedApplicationHealthReportExpiredEvent,
-  'FabricEvent.ApplicationProcessExited' : ApplicationProcessExitedEvent,
-  'FabricEvent.ApplicationContainerInstanceExited' : ApplicationContainerInstanceExitedEvent,
-  'FabricEvent.NodeAborted' : NodeAbortedEvent,
-  'FabricEvent.NodeAddedToCluster' : NodeAddedToClusterEvent,
-  'FabricEvent.NodeClosed' : NodeClosedEvent,
-  'FabricEvent.NodeDeactivateCompleted' : NodeDeactivateCompletedEvent,
-  'FabricEvent.NodeDeactivateStarted' : NodeDeactivateStartedEvent,
-  'FabricEvent.NodeDown' : NodeDownEvent,
-  'FabricEvent.NodeNewHealthReport' : NodeNewHealthReportEvent,
-  'FabricEvent.NodeHealthReportExpired' : NodeHealthReportExpiredEvent,
-  'FabricEvent.NodeOpenSucceeded' : NodeOpenSucceededEvent,
-  'FabricEvent.NodeOpenFailed' : NodeOpenFailedEvent,
-  'FabricEvent.NodeRemovedFromCluster' : NodeRemovedFromClusterEvent,
-  'FabricEvent.NodeUp' : NodeUpEvent,
-  'FabricEvent.PartitionNewHealthReport' : PartitionNewHealthReportEvent,
-  'FabricEvent.PartitionHealthReportExpired' : PartitionHealthReportExpiredEvent,
-  'FabricEvent.PartitionReconfigured' : PartitionReconfiguredEvent,
-  'FabricEvent.PartitionPrimaryMoveAnalysis' : PartitionPrimaryMoveAnalysisEvent,
-  'FabricEvent.ServiceCreated' : ServiceCreatedEvent,
-  'FabricEvent.ServiceDeleted' : ServiceDeletedEvent,
-  'FabricEvent.ServiceNewHealthReport' : ServiceNewHealthReportEvent,
-  'FabricEvent.ServiceHealthReportExpired' : ServiceHealthReportExpiredEvent,
-  'FabricEvent.DeployedServicePackageNewHealthReport' : DeployedServicePackageNewHealthReportEvent,
-  'FabricEvent.DeployedServicePackageHealthReportExpired' : DeployedServicePackageHealthReportExpiredEvent,
-  'FabricEvent.StatefulReplicaNewHealthReport' : StatefulReplicaNewHealthReportEvent,
-  'FabricEvent.StatefulReplicaHealthReportExpired' : StatefulReplicaHealthReportExpiredEvent,
-  'FabricEvent.StatelessReplicaNewHealthReport' : StatelessReplicaNewHealthReportEvent,
-  'FabricEvent.StatelessReplicaHealthReportExpired' : StatelessReplicaHealthReportExpiredEvent,
-  'FabricEvent.ClusterNewHealthReport' : ClusterNewHealthReportEvent,
-  'FabricEvent.ClusterHealthReportExpired' : ClusterHealthReportExpiredEvent,
-  'FabricEvent.ClusterUpgradeCompleted' : ClusterUpgradeCompletedEvent,
-  'FabricEvent.ClusterUpgradeDomainCompleted' : ClusterUpgradeDomainCompletedEvent,
-  'FabricEvent.ClusterUpgradeRollbackCompleted' : ClusterUpgradeRollbackCompletedEvent,
-  'FabricEvent.ClusterUpgradeRollbackStarted' : ClusterUpgradeRollbackStartedEvent,
-  'FabricEvent.ClusterUpgradeStarted' : ClusterUpgradeStartedEvent,
-  'FabricEvent.ChaosStopped' : ChaosStoppedEvent,
-  'FabricEvent.ChaosStarted' : ChaosStartedEvent,
-  'FabricEvent.ChaosCodePackageRestartScheduled' : ChaosCodePackageRestartScheduledEvent,
-  'FabricEvent.ChaosReplicaRemovalScheduled' : ChaosReplicaRemovalScheduledEvent,
-  'FabricEvent.ChaosPartitionSecondaryMoveScheduled' : ChaosPartitionSecondaryMoveScheduledEvent,
-  'FabricEvent.ChaosPartitionPrimaryMoveScheduled' : ChaosPartitionPrimaryMoveScheduledEvent,
-  'FabricEvent.ChaosReplicaRestartScheduled' : ChaosReplicaRestartScheduledEvent,
-  'FabricEvent.ChaosNodeRestartScheduled' : ChaosNodeRestartScheduledEvent,
-  'SecretResourcePropertiesBase.SecretResourceProperties' : SecretResourceProperties,
-  'SecretResourcePropertiesBase.inlinedValue' : InlinedValueSecretResourceProperties,
-  'SecretResourcePropertiesBase' : SecretResourcePropertiesBase,
-  'ApplicationScopedVolumeCreationParameters' : ApplicationScopedVolumeCreationParameters,
-  'ApplicationScopedVolumeCreationParameters.ServiceFabricVolumeDisk' : ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk,
-  'NetworkResourcePropertiesBase.NetworkResourceProperties' : NetworkResourceProperties,
-  'NetworkResourcePropertiesBase.Local' : LocalNetworkResourceProperties,
-  'NetworkResourcePropertiesBase' : NetworkResourcePropertiesBase,
-  'ExecutionPolicy' : ExecutionPolicy,
-  'AutoScalingTrigger' : AutoScalingTrigger,
-  'AutoScalingMechanism' : AutoScalingMechanism,
-  'DiagnosticsSinkProperties' : DiagnosticsSinkProperties,
-  'DiagnosticsSinkProperties.AzureInternalMonitoringPipeline' : AzureInternalMonitoringPipelineSinkDescription,
-  'AutoScalingMechanism.AddRemoveReplica' : AddRemoveReplicaScalingMechanism,
-  'AutoScalingMetric' : AutoScalingMetric,
-  'AutoScalingMetric.Resource' : AutoScalingResourceMetric,
-  'ExecutionPolicy.runToCompletion' : RunToCompletionExecutionPolicy,
-  'AutoScalingTrigger.AverageLoad' : AverageLoadScalingTrigger
-
+  "FabricEvent.ApplicationEvent": ApplicationEvent,
+  HealthEvaluation: HealthEvaluation,
+  "HealthEvaluation.Application": ApplicationHealthEvaluation,
+  "HealthEvaluation.Applications": ApplicationsHealthEvaluation,
+  "HealthEvaluation.ApplicationTypeApplications": ApplicationTypeApplicationsHealthEvaluation,
+  SafetyCheck: SafetyCheck,
+  "FabricEvent.ClusterEvent": ClusterEvent,
+  "FabricEvent.ContainerInstanceEvent": ContainerInstanceEvent,
+  "HealthEvaluation.DeltaNodesCheck": DeltaNodesCheckHealthEvaluation,
+  "HealthEvaluation.DeployedApplication": DeployedApplicationHealthEvaluation,
+  "HealthEvaluation.DeployedApplications": DeployedApplicationsHealthEvaluation,
+  "HealthEvaluation.DeployedServicePackage": DeployedServicePackageHealthEvaluation,
+  "HealthEvaluation.DeployedServicePackages": DeployedServicePackagesHealthEvaluation,
+  DeployedServiceReplicaInfo: DeployedServiceReplicaInfo,
+  "DeployedServiceReplicaInfo.Stateful": DeployedStatefulServiceReplicaInfo,
+  "DeployedServiceReplicaInfo.Stateless": DeployedStatelessServiceInstanceInfo,
+  "HealthEvaluation.Event": EventHealthEvaluation,
+  FabricEvent: FabricEvent,
+  "PartitionInformation.Int64Range": Int64RangePartitionInformation,
+  "PartitionInformation.Named": NamedPartitionInformation,
+  "FabricEvent.NodeEvent": NodeEvent,
+  "HealthEvaluation.Node": NodeHealthEvaluation,
+  "HealthEvaluation.Nodes": NodesHealthEvaluation,
+  PartitionInformation: PartitionInformation,
+  ServicePartitionInfo: ServicePartitionInfo,
+  ReplicaInfo: ReplicaInfo,
+  ServiceInfo: ServiceInfo,
+  "FabricEvent.PartitionAnalysisEvent": PartitionAnalysisEvent,
+  "FabricEvent.PartitionEvent": PartitionEvent,
+  "EntityHealthState.ReplicaHealthState": ReplicaHealthState,
+  "HealthEvaluation.Partition": PartitionHealthEvaluation,
+  ProvisionApplicationTypeDescriptionBase: ProvisionApplicationTypeDescriptionBase,
+  "ProvisionApplicationTypeDescriptionBase.ImageStorePath": ProvisionApplicationTypeDescription,
+  "ProvisionApplicationTypeDescriptionBase.ExternalStore": ExternalStoreProvisionApplicationTypeDescription,
+  "SafetyCheck.PartitionSafetyCheck": PartitionSafetyCheck,
+  "SafetyCheck.EnsureAvailability": EnsureAvailabilitySafetyCheck,
+  "SafetyCheck.EnsurePartitionQuorum": EnsurePartitionQuorumSafetyCheck,
+  "SafetyCheck.EnsureSeedNodeQuorum": SeedNodeSafetyCheck,
+  "HealthEvaluation.Partitions": PartitionsHealthEvaluation,
+  "FabricEvent.ReplicaEvent": ReplicaEvent,
+  "EntityHealth.ReplicaHealth": ReplicaHealth,
+  "HealthEvaluation.Replica": ReplicaHealthEvaluation,
+  "HealthEvaluation.Replicas": ReplicasHealthEvaluation,
+  "FabricEvent.ServiceEvent": ServiceEvent,
+  "HealthEvaluation.Service": ServiceHealthEvaluation,
+  "ServicePlacementPolicyDescription.InvalidDomain": ServicePlacementInvalidDomainPolicyDescription,
+  "ServicePlacementPolicyDescription.NonPartiallyPlaceService": ServicePlacementNonPartiallyPlaceServicePolicyDescription,
+  ServicePlacementPolicyDescription: ServicePlacementPolicyDescription,
+  "ServicePlacementPolicyDescription.PreferPrimaryDomain": ServicePlacementPreferPrimaryDomainPolicyDescription,
+  "ServicePlacementPolicyDescription.RequireDomain": ServicePlacementRequiredDomainPolicyDescription,
+  "ServicePlacementPolicyDescription.RequireDomainDistribution": ServicePlacementRequireDomainDistributionPolicyDescription,
+  "HealthEvaluation.Services": ServicesHealthEvaluation,
+  ServiceTypeDescription: ServiceTypeDescription,
+  "PartitionInformation.Singleton": SingletonPartitionInformation,
+  "ServiceInfo.Stateful": StatefulServiceInfo,
+  "ServicePartitionInfo.Stateful": StatefulServicePartitionInfo,
+  "EntityHealth.Stateful": StatefulServiceReplicaHealth,
+  "EntityHealthState.Stateful": StatefulServiceReplicaHealthState,
+  "ServiceTypeDescription.Stateful": StatefulServiceTypeDescription,
+  "ServiceInfo.Stateless": StatelessServiceInfo,
+  "EntityHealth.Stateless": StatelessServiceInstanceHealth,
+  "EntityHealthState.Stateless": StatelessServiceInstanceHealthState,
+  "ServicePartitionInfo.Stateless": StatelessServicePartitionInfo,
+  "ServiceTypeDescription.Stateless": StatelessServiceTypeDescription,
+  "HealthEvaluation.SystemApplication": SystemApplicationHealthEvaluation,
+  "HealthEvaluation.UpgradeDomainDeltaNodesCheck": UpgradeDomainDeltaNodesCheckHealthEvaluation,
+  "HealthEvaluation.UpgradeDomainNodes": UpgradeDomainNodesHealthEvaluation,
+  "SafetyCheck.WaitForInbuildReplica": WaitForInbuildReplicaSafetyCheck,
+  "SafetyCheck.WaitForPrimaryPlacement": WaitForPrimaryPlacementSafetyCheck,
+  "SafetyCheck.WaitForPrimarySwap": WaitForPrimarySwapSafetyCheck,
+  "SafetyCheck.WaitForReconfiguration": WaitForReconfigurationSafetyCheck,
+  "ReplicaInfo.Stateful": StatefulServiceReplicaInfo,
+  "ReplicaInfo.Stateless": StatelessServiceInstanceInfo,
+  ChaosEvent: ChaosEvent,
+  "ChaosEvent.ExecutingFaults": ExecutingFaultsChaosEvent,
+  "ChaosEvent.Started": StartedChaosEvent,
+  "ChaosEvent.Stopped": StoppedChaosEvent,
+  "ChaosEvent.TestError": TestErrorChaosEvent,
+  "ChaosEvent.ValidationFailed": ValidationFailedChaosEvent,
+  "ChaosEvent.Waiting": WaitingChaosEvent,
+  PartitionSchemeDescription: PartitionSchemeDescription,
+  "PartitionSchemeDescription.Named": NamedPartitionSchemeDescription,
+  "PartitionSchemeDescription.Singleton": SingletonPartitionSchemeDescription,
+  "PartitionSchemeDescription.UniformInt64Range": UniformInt64RangePartitionSchemeDescription,
+  ScalingTriggerDescription: ScalingTriggerDescription,
+  ScalingMechanismDescription: ScalingMechanismDescription,
+  ServiceDescription: ServiceDescription,
+  "ServiceDescription.Stateful": StatefulServiceDescription,
+  "ServiceDescription.Stateless": StatelessServiceDescription,
+  ReplicatorStatus: ReplicatorStatus,
+  "ReplicatorStatus.Primary": PrimaryReplicatorStatus,
+  "ReplicatorStatus.SecondaryReplicatorStatus": SecondaryReplicatorStatus,
+  "ReplicatorStatus.ActiveSecondary": SecondaryActiveReplicatorStatus,
+  "ReplicatorStatus.IdleSecondary": SecondaryIdleReplicatorStatus,
+  DeployedServiceReplicaDetailInfo: DeployedServiceReplicaDetailInfo,
+  "ReplicaStatusBase.KeyValueStore": KeyValueStoreReplicaStatus,
+  "DeployedServiceReplicaDetailInfo.Stateful": DeployedStatefulServiceReplicaDetailInfo,
+  "DeployedServiceReplicaDetailInfo.Stateless": DeployedStatelessServiceInstanceDetailInfo,
+  ReplicaStatusBase: ReplicaStatusBase,
+  ServiceUpdateDescription: ServiceUpdateDescription,
+  "ServiceUpdateDescription.Stateful": StatefulServiceUpdateDescription,
+  "ServiceUpdateDescription.Stateless": StatelessServiceUpdateDescription,
+  PropertyValue: PropertyValue,
+  "PropertyValue.Binary": BinaryPropertyValue,
+  "PropertyValue.Int64": Int64PropertyValue,
+  "PropertyValue.Double": DoublePropertyValue,
+  "PropertyValue.String": StringPropertyValue,
+  "PropertyValue.Guid": GuidPropertyValue,
+  PropertyBatchOperation: PropertyBatchOperation,
+  "PropertyBatchOperation.CheckExists": CheckExistsPropertyBatchOperation,
+  "PropertyBatchOperation.CheckSequence": CheckSequencePropertyBatchOperation,
+  "PropertyBatchOperation.CheckValue": CheckValuePropertyBatchOperation,
+  "PropertyBatchOperation.Delete": DeletePropertyBatchOperation,
+  "PropertyBatchOperation.Get": GetPropertyBatchOperation,
+  "PropertyBatchOperation.Put": PutPropertyBatchOperation,
+  PropertyBatchInfo: PropertyBatchInfo,
+  "PropertyBatchInfo.Successful": SuccessfulPropertyBatchInfo,
+  "PropertyBatchInfo.Failed": FailedPropertyBatchInfo,
+  BackupScheduleDescription: BackupScheduleDescription,
+  BackupStorageDescription: BackupStorageDescription,
+  RetentionPolicyDescription: RetentionPolicyDescription,
+  "RetentionPolicyDescription.Basic": BasicRetentionPolicyDescription,
+  "BackupConfigurationInfo.Application": ApplicationBackupConfigurationInfo,
+  "BackupConfigurationInfo.Service": ServiceBackupConfigurationInfo,
+  BackupConfigurationInfo: BackupConfigurationInfo,
+  "BackupStorageDescription.AzureBlobStore": AzureBlobBackupStorageDescription,
+  "BackupStorageDescription.FileShare": FileShareBackupStorageDescription,
+  "BackupScheduleDescription.FrequencyBased": FrequencyBasedBackupScheduleDescription,
+  "BackupScheduleDescription.TimeBased": TimeBasedBackupScheduleDescription,
+  "BackupConfigurationInfo.Partition": PartitionBackupConfigurationInfo,
+  BackupEntity: BackupEntity,
+  "BackupEntity.Application": ApplicationBackupEntity,
+  "BackupEntity.Service": ServiceBackupEntity,
+  "BackupEntity.Partition": PartitionBackupEntity,
+  "RepairImpactDescriptionBase.Node": NodeRepairImpactDescription,
+  "RepairTargetDescriptionBase.Node": NodeRepairTargetDescription,
+  RepairImpactDescriptionBase: RepairImpactDescriptionBase,
+  RepairTargetDescriptionBase: RepairTargetDescriptionBase,
+  "ScalingTriggerDescription.AveragePartitionLoad": AveragePartitionLoadScalingTrigger,
+  "ScalingTriggerDescription.AverageServiceLoad": AverageServiceLoadScalingTrigger,
+  "ScalingMechanismDescription.PartitionInstanceCount": PartitionInstanceCountScaleMechanism,
+  "ScalingMechanismDescription.AddRemoveIncrementalNamedPartition": AddRemoveIncrementalNamedPartitionScalingMechanism,
+  "FabricEvent.ApplicationCreated": ApplicationCreatedEvent,
+  "FabricEvent.ApplicationDeleted": ApplicationDeletedEvent,
+  "FabricEvent.ApplicationNewHealthReport": ApplicationNewHealthReportEvent,
+  "FabricEvent.ApplicationHealthReportExpired": ApplicationHealthReportExpiredEvent,
+  "FabricEvent.ApplicationUpgradeCompleted": ApplicationUpgradeCompletedEvent,
+  "FabricEvent.ApplicationUpgradeDomainCompleted": ApplicationUpgradeDomainCompletedEvent,
+  "FabricEvent.ApplicationUpgradeRollbackCompleted": ApplicationUpgradeRollbackCompletedEvent,
+  "FabricEvent.ApplicationUpgradeRollbackStarted": ApplicationUpgradeRollbackStartedEvent,
+  "FabricEvent.ApplicationUpgradeStarted": ApplicationUpgradeStartedEvent,
+  "FabricEvent.DeployedApplicationNewHealthReport": DeployedApplicationNewHealthReportEvent,
+  "FabricEvent.DeployedApplicationHealthReportExpired": DeployedApplicationHealthReportExpiredEvent,
+  "FabricEvent.ApplicationProcessExited": ApplicationProcessExitedEvent,
+  "FabricEvent.ApplicationContainerInstanceExited": ApplicationContainerInstanceExitedEvent,
+  "FabricEvent.NodeAborted": NodeAbortedEvent,
+  "FabricEvent.NodeAddedToCluster": NodeAddedToClusterEvent,
+  "FabricEvent.NodeClosed": NodeClosedEvent,
+  "FabricEvent.NodeDeactivateCompleted": NodeDeactivateCompletedEvent,
+  "FabricEvent.NodeDeactivateStarted": NodeDeactivateStartedEvent,
+  "FabricEvent.NodeDown": NodeDownEvent,
+  "FabricEvent.NodeNewHealthReport": NodeNewHealthReportEvent,
+  "FabricEvent.NodeHealthReportExpired": NodeHealthReportExpiredEvent,
+  "FabricEvent.NodeOpenSucceeded": NodeOpenSucceededEvent,
+  "FabricEvent.NodeOpenFailed": NodeOpenFailedEvent,
+  "FabricEvent.NodeRemovedFromCluster": NodeRemovedFromClusterEvent,
+  "FabricEvent.NodeUp": NodeUpEvent,
+  "FabricEvent.PartitionNewHealthReport": PartitionNewHealthReportEvent,
+  "FabricEvent.PartitionHealthReportExpired": PartitionHealthReportExpiredEvent,
+  "FabricEvent.PartitionReconfigured": PartitionReconfiguredEvent,
+  "FabricEvent.PartitionPrimaryMoveAnalysis": PartitionPrimaryMoveAnalysisEvent,
+  "FabricEvent.ServiceCreated": ServiceCreatedEvent,
+  "FabricEvent.ServiceDeleted": ServiceDeletedEvent,
+  "FabricEvent.ServiceNewHealthReport": ServiceNewHealthReportEvent,
+  "FabricEvent.ServiceHealthReportExpired": ServiceHealthReportExpiredEvent,
+  "FabricEvent.DeployedServicePackageNewHealthReport": DeployedServicePackageNewHealthReportEvent,
+  "FabricEvent.DeployedServicePackageHealthReportExpired": DeployedServicePackageHealthReportExpiredEvent,
+  "FabricEvent.StatefulReplicaNewHealthReport": StatefulReplicaNewHealthReportEvent,
+  "FabricEvent.StatefulReplicaHealthReportExpired": StatefulReplicaHealthReportExpiredEvent,
+  "FabricEvent.StatelessReplicaNewHealthReport": StatelessReplicaNewHealthReportEvent,
+  "FabricEvent.StatelessReplicaHealthReportExpired": StatelessReplicaHealthReportExpiredEvent,
+  "FabricEvent.ClusterNewHealthReport": ClusterNewHealthReportEvent,
+  "FabricEvent.ClusterHealthReportExpired": ClusterHealthReportExpiredEvent,
+  "FabricEvent.ClusterUpgradeCompleted": ClusterUpgradeCompletedEvent,
+  "FabricEvent.ClusterUpgradeDomainCompleted": ClusterUpgradeDomainCompletedEvent,
+  "FabricEvent.ClusterUpgradeRollbackCompleted": ClusterUpgradeRollbackCompletedEvent,
+  "FabricEvent.ClusterUpgradeRollbackStarted": ClusterUpgradeRollbackStartedEvent,
+  "FabricEvent.ClusterUpgradeStarted": ClusterUpgradeStartedEvent,
+  "FabricEvent.ChaosStopped": ChaosStoppedEvent,
+  "FabricEvent.ChaosStarted": ChaosStartedEvent,
+  "FabricEvent.ChaosCodePackageRestartScheduled": ChaosCodePackageRestartScheduledEvent,
+  "FabricEvent.ChaosReplicaRemovalScheduled": ChaosReplicaRemovalScheduledEvent,
+  "FabricEvent.ChaosPartitionSecondaryMoveScheduled": ChaosPartitionSecondaryMoveScheduledEvent,
+  "FabricEvent.ChaosPartitionPrimaryMoveScheduled": ChaosPartitionPrimaryMoveScheduledEvent,
+  "FabricEvent.ChaosReplicaRestartScheduled": ChaosReplicaRestartScheduledEvent,
+  "FabricEvent.ChaosNodeRestartScheduled": ChaosNodeRestartScheduledEvent,
+  "SecretResourcePropertiesBase.SecretResourceProperties": SecretResourceProperties,
+  "SecretResourcePropertiesBase.inlinedValue": InlinedValueSecretResourceProperties,
+  SecretResourcePropertiesBase: SecretResourcePropertiesBase,
+  ApplicationScopedVolumeCreationParameters: ApplicationScopedVolumeCreationParameters,
+  "ApplicationScopedVolumeCreationParameters.ServiceFabricVolumeDisk": ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk,
+  "NetworkResourcePropertiesBase.NetworkResourceProperties": NetworkResourceProperties,
+  "NetworkResourcePropertiesBase.Local": LocalNetworkResourceProperties,
+  NetworkResourcePropertiesBase: NetworkResourcePropertiesBase,
+  ExecutionPolicy: ExecutionPolicy,
+  AutoScalingTrigger: AutoScalingTrigger,
+  AutoScalingMechanism: AutoScalingMechanism,
+  DiagnosticsSinkProperties: DiagnosticsSinkProperties,
+  "DiagnosticsSinkProperties.AzureInternalMonitoringPipeline": AzureInternalMonitoringPipelineSinkDescription,
+  "AutoScalingMechanism.AddRemoveReplica": AddRemoveReplicaScalingMechanism,
+  AutoScalingMetric: AutoScalingMetric,
+  "AutoScalingMetric.Resource": AutoScalingResourceMetric,
+  "ExecutionPolicy.runToCompletion": RunToCompletionExecutionPolicy,
+  "AutoScalingTrigger.AverageLoad": AverageLoadScalingTrigger
 };

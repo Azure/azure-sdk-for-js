@@ -15,7 +15,6 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { ManagedApplicationClientContext } from "./managedApplicationClientContext";
 
-
 class ManagedApplicationClient extends ManagedApplicationClientContext {
   // Operation groups
   appliances: operations.Appliances;
@@ -27,7 +26,11 @@ class ManagedApplicationClient extends ManagedApplicationClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ManagedApplicationClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ManagedApplicationClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.appliances = new operations.Appliances(this);
     this.applianceDefinitions = new operations.ApplianceDefinitions(this);
@@ -47,14 +50,21 @@ class ManagedApplicationClient extends ManagedApplicationClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  listOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.ListOperationsResponse> {
+  listOperations(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationListResult>
+  ): void;
+  listOperations(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>,
+    callback?: msRest.ServiceCallback<Models.OperationListResult>
+  ): Promise<Models.ListOperationsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       listOperationsOperationSpec,
-      callback) as Promise<Models.ListOperationsResponse>;
+      callback
+    ) as Promise<Models.ListOperationsResponse>;
   }
 
   /**
@@ -63,26 +73,41 @@ class ManagedApplicationClient extends ManagedApplicationClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListOperationsNextResponse>
    */
-  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ListOperationsNextResponse>;
+  listOperationsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ListOperationsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listOperationsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  listOperationsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.OperationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOperationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.ListOperationsNextResponse> {
+  listOperationsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationListResult>
+  ): void;
+  listOperationsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>,
+    callback?: msRest.ServiceCallback<Models.OperationListResult>
+  ): Promise<Models.ListOperationsNextResponse> {
     return this.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listOperationsNextOperationSpec,
-      callback) as Promise<Models.ListOperationsNextResponse>;
+      callback
+    ) as Promise<Models.ListOperationsNextResponse>;
   }
 }
 
@@ -91,12 +116,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Solutions/operations",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationListResult
@@ -112,12 +133,8 @@ const listOperationsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationListResult

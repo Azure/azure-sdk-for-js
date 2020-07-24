@@ -352,10 +352,7 @@ export const ApplianceArtifact: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Template",
-            "Custom"
-          ]
+          allowedValues: ["Template", "Custom"]
         }
       }
     }
@@ -374,11 +371,7 @@ export const ApplianceDefinition: msRest.CompositeMapper = {
         serializedName: "properties.lockLevel",
         type: {
           name: "Enum",
-          allowedValues: [
-            "CanNotDelete",
-            "ReadOnly",
-            "None"
-          ]
+          allowedValues: ["CanNotDelete", "ReadOnly", "None"]
         }
       },
       displayName: {
@@ -500,9 +493,7 @@ export const Identity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned"
-          ]
+          allowedValues: ["SystemAssigned"]
         }
       }
     }

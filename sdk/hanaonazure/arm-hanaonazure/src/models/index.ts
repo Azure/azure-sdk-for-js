@@ -389,8 +389,7 @@ export interface HanaManagementClientOptions extends AzureServiceClientOptions {
  * List of HANA operations
  * @extends Array<Operation>
  */
-export interface OperationList extends Array<Operation> {
-}
+export interface OperationList extends Array<Operation> {}
 
 /**
  * @interface
@@ -422,7 +421,7 @@ export interface SapMonitorListResult extends Array<SapMonitor> {
  * @readonly
  * @enum {string}
  */
-export type HanaHardwareTypeNamesEnum = 'Cisco_UCS' | 'HPE';
+export type HanaHardwareTypeNamesEnum = "Cisco_UCS" | "HPE";
 
 /**
  * Defines values for HanaInstanceSizeNamesEnum.
@@ -432,7 +431,32 @@ export type HanaHardwareTypeNamesEnum = 'Cisco_UCS' | 'HPE';
  * @readonly
  * @enum {string}
  */
-export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S192' | 'S192m' | 'S192xm' | 'S96' | 'S112' | 'S224' | 'S224m' | 'S224om' | 'S224oo' | 'S224oom' | 'S224ooo' | 'S384' | 'S384m' | 'S384xm' | 'S384xxm' | 'S576m' | 'S576xm' | 'S768' | 'S768m' | 'S768xm' | 'S960m';
+export type HanaInstanceSizeNamesEnum =
+  | "S72m"
+  | "S144m"
+  | "S72"
+  | "S144"
+  | "S192"
+  | "S192m"
+  | "S192xm"
+  | "S96"
+  | "S112"
+  | "S224"
+  | "S224m"
+  | "S224om"
+  | "S224oo"
+  | "S224oom"
+  | "S224ooo"
+  | "S384"
+  | "S384m"
+  | "S384xm"
+  | "S384xxm"
+  | "S576m"
+  | "S576xm"
+  | "S768"
+  | "S768m"
+  | "S768xm"
+  | "S960m";
 
 /**
  * Defines values for HanaInstancePowerStateEnum.
@@ -440,7 +464,13 @@ export type HanaInstanceSizeNamesEnum = 'S72m' | 'S144m' | 'S72' | 'S144' | 'S19
  * @readonly
  * @enum {string}
  */
-export type HanaInstancePowerStateEnum = 'starting' | 'started' | 'stopping' | 'stopped' | 'restarting' | 'unknown';
+export type HanaInstancePowerStateEnum =
+  | "starting"
+  | "started"
+  | "stopping"
+  | "stopped"
+  | "restarting"
+  | "unknown";
 
 /**
  * Defines values for HanaProvisioningStatesEnum.
@@ -449,7 +479,14 @@ export type HanaInstancePowerStateEnum = 'starting' | 'started' | 'stopping' | '
  * @readonly
  * @enum {string}
  */
-export type HanaProvisioningStatesEnum = 'Accepted' | 'Creating' | 'Updating' | 'Failed' | 'Succeeded' | 'Deleting' | 'Migrating';
+export type HanaProvisioningStatesEnum =
+  | "Accepted"
+  | "Creating"
+  | "Updating"
+  | "Failed"
+  | "Succeeded"
+  | "Deleting"
+  | "Migrating";
 
 /**
  * Contains response data for the list operation.
@@ -459,16 +496,16 @@ export type OperationsListResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -479,16 +516,16 @@ export type HanaInstancesListResponse = HanaInstancesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HanaInstancesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HanaInstancesListResult;
+  };
 };
 
 /**
@@ -499,16 +536,16 @@ export type HanaInstancesListByResourceGroupResponse = HanaInstancesListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HanaInstancesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HanaInstancesListResult;
+  };
 };
 
 /**
@@ -519,16 +556,16 @@ export type HanaInstancesGetResponse = HanaInstance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HanaInstance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HanaInstance;
+  };
 };
 
 /**
@@ -539,16 +576,16 @@ export type HanaInstancesCreateResponse = HanaInstance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HanaInstance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HanaInstance;
+  };
 };
 
 /**
@@ -559,16 +596,16 @@ export type HanaInstancesUpdateResponse = HanaInstance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HanaInstance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HanaInstance;
+  };
 };
 
 /**
@@ -579,16 +616,16 @@ export type HanaInstancesBeginCreateResponse = HanaInstance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HanaInstance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HanaInstance;
+  };
 };
 
 /**
@@ -599,16 +636,16 @@ export type HanaInstancesListNextResponse = HanaInstancesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HanaInstancesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HanaInstancesListResult;
+  };
 };
 
 /**
@@ -619,16 +656,16 @@ export type HanaInstancesListByResourceGroupNextResponse = HanaInstancesListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HanaInstancesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HanaInstancesListResult;
+  };
 };
 
 /**
@@ -639,16 +676,16 @@ export type SapMonitorsListResponse = SapMonitorListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SapMonitorListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SapMonitorListResult;
+  };
 };
 
 /**
@@ -659,16 +696,16 @@ export type SapMonitorsGetResponse = SapMonitor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SapMonitor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SapMonitor;
+  };
 };
 
 /**
@@ -679,16 +716,16 @@ export type SapMonitorsCreateResponse = SapMonitor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SapMonitor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SapMonitor;
+  };
 };
 
 /**
@@ -699,16 +736,16 @@ export type SapMonitorsUpdateResponse = SapMonitor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SapMonitor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SapMonitor;
+  };
 };
 
 /**
@@ -719,16 +756,16 @@ export type SapMonitorsBeginCreateResponse = SapMonitor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SapMonitor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SapMonitor;
+  };
 };
 
 /**
@@ -739,14 +776,14 @@ export type SapMonitorsListNextResponse = SapMonitorListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SapMonitorListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SapMonitorListResult;
+  };
 };

@@ -32,7 +32,10 @@ export class Operations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsGetDetailsResponse>
    */
-  getDetails(operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsGetDetailsResponse>;
+  getDetails(
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationsGetDetailsResponse>;
   /**
    * @param operationId Operation id.
    * @param callback The callback
@@ -43,15 +46,24 @@ export class Operations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDetails(operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Operation>): void;
-  getDetails(operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Operation>, callback?: msRest.ServiceCallback<Models.Operation>): Promise<Models.OperationsGetDetailsResponse> {
+  getDetails(
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Operation>
+  ): void;
+  getDetails(
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Operation>,
+    callback?: msRest.ServiceCallback<Models.Operation>
+  ): Promise<Models.OperationsGetDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         operationId,
         options
       },
       getDetailsOperationSpec,
-      callback) as Promise<Models.OperationsGetDetailsResponse>;
+      callback
+    ) as Promise<Models.OperationsGetDetailsResponse>;
   }
 }
 
@@ -60,10 +72,7 @@ const serializer = new msRest.Serializer(Mappers);
 const getDetailsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "operations/{operationId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.operationId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.operationId],
   responses: {
     200: {
       bodyMapper: Mappers.Operation,

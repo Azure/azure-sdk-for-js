@@ -23,7 +23,10 @@ class VisualSearchClient extends VisualSearchClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.VisualSearchClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.VisualSearchClientOptions
+  ) {
     super(credentials, options);
     this.images = new operations.Images(this);
   }

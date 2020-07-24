@@ -34,21 +34,39 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesListByManagerResponse>
    */
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.DevicesListByManagerOptionalParams): Promise<Models.DevicesListByManagerResponse>;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.DevicesListByManagerOptionalParams
+  ): Promise<Models.DevicesListByManagerResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.DeviceList>): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.DeviceList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, options: Models.DevicesListByManagerOptionalParams, callback: msRest.ServiceCallback<Models.DeviceList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.DevicesListByManagerOptionalParams | msRest.ServiceCallback<Models.DeviceList>, callback?: msRest.ServiceCallback<Models.DeviceList>): Promise<Models.DevicesListByManagerResponse> {
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.DevicesListByManagerOptionalParams,
+    callback: msRest.ServiceCallback<Models.DeviceList>
+  ): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.DevicesListByManagerOptionalParams | msRest.ServiceCallback<Models.DeviceList>,
+    callback?: msRest.ServiceCallback<Models.DeviceList>
+  ): Promise<Models.DevicesListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class Devices {
         options
       },
       listByManagerOperationSpec,
-      callback) as Promise<Models.DevicesListByManagerResponse>;
+      callback
+    ) as Promise<Models.DevicesListByManagerResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesGetResponse>
    */
-  get(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesGetOptionalParams): Promise<Models.DevicesGetResponse>;
+  get(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.DevicesGetOptionalParams
+  ): Promise<Models.DevicesGetResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.Device>): void;
+  get(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.Device>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
@@ -82,8 +111,20 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(deviceName: string, resourceGroupName: string, managerName: string, options: Models.DevicesGetOptionalParams, callback: msRest.ServiceCallback<Models.Device>): void;
-  get(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesGetOptionalParams | msRest.ServiceCallback<Models.Device>, callback?: msRest.ServiceCallback<Models.Device>): Promise<Models.DevicesGetResponse> {
+  get(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.DevicesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.Device>
+  ): void;
+  get(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.DevicesGetOptionalParams | msRest.ServiceCallback<Models.Device>,
+    callback?: msRest.ServiceCallback<Models.Device>
+  ): Promise<Models.DevicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -92,7 +133,8 @@ export class Devices {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DevicesGetResponse>;
+      callback
+    ) as Promise<Models.DevicesGetResponse>;
   }
 
   /**
@@ -103,9 +145,18 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(deviceName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      deviceName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -117,9 +168,20 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesPatchResponse>
    */
-  patch(deviceName: string, devicePatch: Models.DevicePatch, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesPatchResponse> {
-    return this.beginPatch(deviceName,devicePatch,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DevicesPatchResponse>;
+  patch(
+    deviceName: string,
+    devicePatch: Models.DevicePatch,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesPatchResponse> {
+    return this.beginPatch(
+      deviceName,
+      devicePatch,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.DevicesPatchResponse>;
   }
 
   /**
@@ -130,14 +192,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesGetAlertSettingsResponse>
    */
-  getAlertSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesGetAlertSettingsResponse>;
+  getAlertSettings(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesGetAlertSettingsResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  getAlertSettings(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.AlertSettings>): void;
+  getAlertSettings(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.AlertSettings>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
@@ -145,8 +217,20 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAlertSettings(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertSettings>): void;
-  getAlertSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertSettings>, callback?: msRest.ServiceCallback<Models.AlertSettings>): Promise<Models.DevicesGetAlertSettingsResponse> {
+  getAlertSettings(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertSettings>
+  ): void;
+  getAlertSettings(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertSettings>,
+    callback?: msRest.ServiceCallback<Models.AlertSettings>
+  ): Promise<Models.DevicesGetAlertSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -155,7 +239,8 @@ export class Devices {
         options
       },
       getAlertSettingsOperationSpec,
-      callback) as Promise<Models.DevicesGetAlertSettingsResponse>;
+      callback
+    ) as Promise<Models.DevicesGetAlertSettingsResponse>;
   }
 
   /**
@@ -167,9 +252,22 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesCreateOrUpdateAlertSettingsResponse>
    */
-  createOrUpdateAlertSettings(deviceName: string, alertSettings: Models.AlertSettings, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesCreateOrUpdateAlertSettingsResponse> {
-    return this.beginCreateOrUpdateAlertSettings(deviceName,alertSettings,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DevicesCreateOrUpdateAlertSettingsResponse>;
+  createOrUpdateAlertSettings(
+    deviceName: string,
+    alertSettings: Models.AlertSettings,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesCreateOrUpdateAlertSettingsResponse> {
+    return this.beginCreateOrUpdateAlertSettings(
+      deviceName,
+      alertSettings,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DevicesCreateOrUpdateAlertSettingsResponse
+    >;
   }
 
   /**
@@ -180,9 +278,18 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deactivate(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeactivate(deviceName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deactivate(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeactivate(
+      deviceName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -193,9 +300,18 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  downloadUpdates(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDownloadUpdates(deviceName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  downloadUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDownloadUpdates(
+      deviceName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -207,9 +323,20 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  failover(deviceName: string, failoverRequest: Models.FailoverRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginFailover(deviceName,failoverRequest,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  failover(
+    deviceName: string,
+    failoverRequest: Models.FailoverRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginFailover(
+      deviceName,
+      failoverRequest,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -220,14 +347,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesListFailoverTargetResponse>
    */
-  listFailoverTarget(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesListFailoverTargetOptionalParams): Promise<Models.DevicesListFailoverTargetResponse>;
+  listFailoverTarget(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.DevicesListFailoverTargetOptionalParams
+  ): Promise<Models.DevicesListFailoverTargetResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listFailoverTarget(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.DeviceList>): void;
+  listFailoverTarget(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.DeviceList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
@@ -235,8 +372,22 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listFailoverTarget(deviceName: string, resourceGroupName: string, managerName: string, options: Models.DevicesListFailoverTargetOptionalParams, callback: msRest.ServiceCallback<Models.DeviceList>): void;
-  listFailoverTarget(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesListFailoverTargetOptionalParams | msRest.ServiceCallback<Models.DeviceList>, callback?: msRest.ServiceCallback<Models.DeviceList>): Promise<Models.DevicesListFailoverTargetResponse> {
+  listFailoverTarget(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.DevicesListFailoverTargetOptionalParams,
+    callback: msRest.ServiceCallback<Models.DeviceList>
+  ): void;
+  listFailoverTarget(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?:
+      | Models.DevicesListFailoverTargetOptionalParams
+      | msRest.ServiceCallback<Models.DeviceList>,
+    callback?: msRest.ServiceCallback<Models.DeviceList>
+  ): Promise<Models.DevicesListFailoverTargetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -245,7 +396,8 @@ export class Devices {
         options
       },
       listFailoverTargetOperationSpec,
-      callback) as Promise<Models.DevicesListFailoverTargetResponse>;
+      callback
+    ) as Promise<Models.DevicesListFailoverTargetResponse>;
   }
 
   /**
@@ -256,9 +408,18 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  installUpdates(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginInstallUpdates(deviceName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  installUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginInstallUpdates(
+      deviceName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -269,14 +430,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesListMetricsResponse>
    */
-  listMetrics(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesListMetricsOptionalParams): Promise<Models.DevicesListMetricsResponse>;
+  listMetrics(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.DevicesListMetricsOptionalParams
+  ): Promise<Models.DevicesListMetricsResponse>;
   /**
    * @param deviceName The name of the appliance.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listMetrics(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricList>): void;
+  listMetrics(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
   /**
    * @param deviceName The name of the appliance.
    * @param resourceGroupName The resource group name
@@ -284,8 +455,20 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(deviceName: string, resourceGroupName: string, managerName: string, options: Models.DevicesListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesListMetricsOptionalParams | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.DevicesListMetricsResponse> {
+  listMetrics(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.DevicesListMetricsOptionalParams,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
+  listMetrics(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.DevicesListMetricsOptionalParams | msRest.ServiceCallback<Models.MetricList>,
+    callback?: msRest.ServiceCallback<Models.MetricList>
+  ): Promise<Models.DevicesListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -294,7 +477,8 @@ export class Devices {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.DevicesListMetricsResponse>;
+      callback
+    ) as Promise<Models.DevicesListMetricsResponse>;
   }
 
   /**
@@ -305,14 +489,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesListMetricDefinitionResponse>
    */
-  listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesListMetricDefinitionResponse>;
+  listMetricDefinition(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesListMetricDefinitionResponse>;
   /**
    * @param deviceName The name of the appliance.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
+  listMetricDefinition(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
   /**
    * @param deviceName The name of the appliance.
    * @param resourceGroupName The resource group name
@@ -320,8 +514,20 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.DevicesListMetricDefinitionResponse> {
+  listMetricDefinition(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
+  listMetricDefinition(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): Promise<Models.DevicesListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -330,7 +536,8 @@ export class Devices {
         options
       },
       listMetricDefinitionOperationSpec,
-      callback) as Promise<Models.DevicesListMetricDefinitionResponse>;
+      callback
+    ) as Promise<Models.DevicesListMetricDefinitionResponse>;
   }
 
   /**
@@ -341,14 +548,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesGetNetworkSettingsResponse>
    */
-  getNetworkSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesGetNetworkSettingsResponse>;
+  getNetworkSettings(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesGetNetworkSettingsResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  getNetworkSettings(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.NetworkSettings>): void;
+  getNetworkSettings(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.NetworkSettings>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
@@ -356,8 +573,20 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getNetworkSettings(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkSettings>): void;
-  getNetworkSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkSettings>, callback?: msRest.ServiceCallback<Models.NetworkSettings>): Promise<Models.DevicesGetNetworkSettingsResponse> {
+  getNetworkSettings(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkSettings>
+  ): void;
+  getNetworkSettings(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkSettings>,
+    callback?: msRest.ServiceCallback<Models.NetworkSettings>
+  ): Promise<Models.DevicesGetNetworkSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -366,7 +595,8 @@ export class Devices {
         options
       },
       getNetworkSettingsOperationSpec,
-      callback) as Promise<Models.DevicesGetNetworkSettingsResponse>;
+      callback
+    ) as Promise<Models.DevicesGetNetworkSettingsResponse>;
   }
 
   /**
@@ -377,9 +607,18 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  scanForUpdates(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginScanForUpdates(deviceName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  scanForUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginScanForUpdates(
+      deviceName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -391,9 +630,20 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  createOrUpdateSecuritySettings(deviceName: string, securitySettings: Models.SecuritySettings, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginCreateOrUpdateSecuritySettings(deviceName,securitySettings,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  createOrUpdateSecuritySettings(
+    deviceName: string,
+    securitySettings: Models.SecuritySettings,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginCreateOrUpdateSecuritySettings(
+      deviceName,
+      securitySettings,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -404,14 +654,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesGetTimeSettingsResponse>
    */
-  getTimeSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesGetTimeSettingsResponse>;
+  getTimeSettings(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesGetTimeSettingsResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  getTimeSettings(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.TimeSettings>): void;
+  getTimeSettings(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.TimeSettings>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
@@ -419,8 +679,20 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getTimeSettings(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TimeSettings>): void;
-  getTimeSettings(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TimeSettings>, callback?: msRest.ServiceCallback<Models.TimeSettings>): Promise<Models.DevicesGetTimeSettingsResponse> {
+  getTimeSettings(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TimeSettings>
+  ): void;
+  getTimeSettings(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TimeSettings>,
+    callback?: msRest.ServiceCallback<Models.TimeSettings>
+  ): Promise<Models.DevicesGetTimeSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -429,7 +701,8 @@ export class Devices {
         options
       },
       getTimeSettingsOperationSpec,
-      callback) as Promise<Models.DevicesGetTimeSettingsResponse>;
+      callback
+    ) as Promise<Models.DevicesGetTimeSettingsResponse>;
   }
 
   /**
@@ -440,14 +713,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesGetUpdateSummaryResponse>
    */
-  getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesGetUpdateSummaryResponse>;
+  getUpdateSummary(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesGetUpdateSummaryResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.Updates>): void;
+  getUpdateSummary(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.Updates>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
@@ -455,8 +738,20 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Updates>): void;
-  getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Updates>, callback?: msRest.ServiceCallback<Models.Updates>): Promise<Models.DevicesGetUpdateSummaryResponse> {
+  getUpdateSummary(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Updates>
+  ): void;
+  getUpdateSummary(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Updates>,
+    callback?: msRest.ServiceCallback<Models.Updates>
+  ): Promise<Models.DevicesGetUpdateSummaryResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -465,7 +760,8 @@ export class Devices {
         options
       },
       getUpdateSummaryOperationSpec,
-      callback) as Promise<Models.DevicesGetUpdateSummaryResponse>;
+      callback
+    ) as Promise<Models.DevicesGetUpdateSummaryResponse>;
   }
 
   /**
@@ -476,7 +772,12 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -485,7 +786,8 @@ export class Devices {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -497,7 +799,13 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPatch(deviceName: string, devicePatch: Models.DevicePatch, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPatch(
+    deviceName: string,
+    devicePatch: Models.DevicePatch,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -507,7 +815,8 @@ export class Devices {
         options
       },
       beginPatchOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -519,7 +828,13 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdateAlertSettings(deviceName: string, alertSettings: Models.AlertSettings, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdateAlertSettings(
+    deviceName: string,
+    alertSettings: Models.AlertSettings,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -529,7 +844,8 @@ export class Devices {
         options
       },
       beginCreateOrUpdateAlertSettingsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -540,7 +856,12 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeactivate(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeactivate(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -549,7 +870,8 @@ export class Devices {
         options
       },
       beginDeactivateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -560,7 +882,12 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDownloadUpdates(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDownloadUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -569,7 +896,8 @@ export class Devices {
         options
       },
       beginDownloadUpdatesOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -581,7 +909,13 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginFailover(deviceName: string, failoverRequest: Models.FailoverRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginFailover(
+    deviceName: string,
+    failoverRequest: Models.FailoverRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -591,7 +925,8 @@ export class Devices {
         options
       },
       beginFailoverOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -602,7 +937,12 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginInstallUpdates(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginInstallUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -611,7 +951,8 @@ export class Devices {
         options
       },
       beginInstallUpdatesOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -622,7 +963,12 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginScanForUpdates(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginScanForUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -631,7 +977,8 @@ export class Devices {
         options
       },
       beginScanForUpdatesOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -643,7 +990,13 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdateSecuritySettings(deviceName: string, securitySettings: Models.SecuritySettings, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdateSecuritySettings(
+    deviceName: string,
+    securitySettings: Models.SecuritySettings,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -653,7 +1006,8 @@ export class Devices {
         options
       },
       beginCreateOrUpdateSecuritySettingsOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -661,19 +1015,11 @@ export class Devices {
 const serializer = new msRest.Serializer(Mappers);
 const listByManagerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeviceList
@@ -687,20 +1033,16 @@ const listByManagerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Device
@@ -714,19 +1056,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const getAlertSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/alertSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/alertSettings/default",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertSettings
@@ -740,20 +1079,16 @@ const getAlertSettingsOperationSpec: msRest.OperationSpec = {
 
 const listFailoverTargetOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/failoverTargets",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/failoverTargets",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeviceList
@@ -767,20 +1102,16 @@ const listFailoverTargetOperationSpec: msRest.OperationSpec = {
 
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/metrics",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricList
@@ -794,19 +1125,16 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
 
 const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/metricsDefinitions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/metricsDefinitions",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricDefinitionList
@@ -820,19 +1148,16 @@ const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
 
 const getNetworkSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/networkSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/networkSettings/default",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkSettings
@@ -846,19 +1171,16 @@ const getNetworkSettingsOperationSpec: msRest.OperationSpec = {
 
 const getTimeSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/timeSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/timeSettings/default",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TimeSettings
@@ -872,19 +1194,16 @@ const getTimeSettingsOperationSpec: msRest.OperationSpec = {
 
 const getUpdateSummaryOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/updateSummary/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/updateSummary/default",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Updates
@@ -898,19 +1217,16 @@ const getUpdateSummaryOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -923,19 +1239,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginPatchOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "devicePatch",
     mapper: {
@@ -957,19 +1270,16 @@ const beginPatchOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateAlertSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/alertSettings/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/alertSettings/default",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "alertSettings",
     mapper: {
@@ -991,19 +1301,16 @@ const beginCreateOrUpdateAlertSettingsOperationSpec: msRest.OperationSpec = {
 
 const beginDeactivateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/deactivate",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/deactivate",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -1016,19 +1323,16 @@ const beginDeactivateOperationSpec: msRest.OperationSpec = {
 
 const beginDownloadUpdatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/download",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/download",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -1041,19 +1345,16 @@ const beginDownloadUpdatesOperationSpec: msRest.OperationSpec = {
 
 const beginFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/failover",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/failover",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "failoverRequest",
     mapper: {
@@ -1073,19 +1374,16 @@ const beginFailoverOperationSpec: msRest.OperationSpec = {
 
 const beginInstallUpdatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/install",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/install",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -1098,19 +1396,16 @@ const beginInstallUpdatesOperationSpec: msRest.OperationSpec = {
 
 const beginScanForUpdatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/scanForUpdates",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/scanForUpdates",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -1123,19 +1418,16 @@ const beginScanForUpdatesOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateSecuritySettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/securitySettings/default/update",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/securitySettings/default/update",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "securitySettings",
     mapper: {

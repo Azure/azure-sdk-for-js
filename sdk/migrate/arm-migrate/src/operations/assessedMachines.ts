@@ -42,7 +42,13 @@ export class AssessedMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessedMachinesListByAssessmentResponse>
    */
-  listByAssessment(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessedMachinesListByAssessmentResponse>;
+  listByAssessment(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessedMachinesListByAssessmentResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -50,7 +56,13 @@ export class AssessedMachines {
    * @param assessmentName Unique name of an assessment within a project.
    * @param callback The callback
    */
-  listByAssessment(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, callback: msRest.ServiceCallback<Models.AssessedMachineResultList>): void;
+  listByAssessment(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    callback: msRest.ServiceCallback<Models.AssessedMachineResultList>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -59,8 +71,22 @@ export class AssessedMachines {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAssessment(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssessedMachineResultList>): void;
-  listByAssessment(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessedMachineResultList>, callback?: msRest.ServiceCallback<Models.AssessedMachineResultList>): Promise<Models.AssessedMachinesListByAssessmentResponse> {
+  listByAssessment(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AssessedMachineResultList>
+  ): void;
+  listByAssessment(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessedMachineResultList>,
+    callback?: msRest.ServiceCallback<Models.AssessedMachineResultList>
+  ): Promise<Models.AssessedMachinesListByAssessmentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -70,7 +96,8 @@ export class AssessedMachines {
         options
       },
       listByAssessmentOperationSpec,
-      callback) as Promise<Models.AssessedMachinesListByAssessmentResponse>;
+      callback
+    ) as Promise<Models.AssessedMachinesListByAssessmentResponse>;
   }
 
   /**
@@ -86,7 +113,14 @@ export class AssessedMachines {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssessedMachinesGetResponse>
    */
-  get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedMachineName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssessedMachinesGetResponse>;
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    assessedMachineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssessedMachinesGetResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -96,7 +130,14 @@ export class AssessedMachines {
    * assessment.
    * @param callback The callback
    */
-  get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedMachineName: string, callback: msRest.ServiceCallback<Models.AssessedMachine>): void;
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    assessedMachineName: string,
+    callback: msRest.ServiceCallback<Models.AssessedMachine>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -107,8 +148,24 @@ export class AssessedMachines {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedMachineName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssessedMachine>): void;
-  get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedMachineName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessedMachine>, callback?: msRest.ServiceCallback<Models.AssessedMachine>): Promise<Models.AssessedMachinesGetResponse> {
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    assessedMachineName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AssessedMachine>
+  ): void;
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    groupName: string,
+    assessmentName: string,
+    assessedMachineName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssessedMachine>,
+    callback?: msRest.ServiceCallback<Models.AssessedMachine>
+  ): Promise<Models.AssessedMachinesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +176,8 @@ export class AssessedMachines {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AssessedMachinesGetResponse>;
+      callback
+    ) as Promise<Models.AssessedMachinesGetResponse>;
   }
 }
 
@@ -127,7 +185,8 @@ export class AssessedMachines {
 const serializer = new msRest.Serializer(Mappers);
 const listByAssessmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}/assessedMachines",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}/assessedMachines",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -135,12 +194,8 @@ const listByAssessmentOperationSpec: msRest.OperationSpec = {
     Parameters.groupName,
     Parameters.assessmentName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AssessedMachineResultList,
@@ -155,7 +210,8 @@ const listByAssessmentOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}/assessedMachines/{assessedMachineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}/assessedMachines/{assessedMachineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -164,12 +220,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.assessmentName,
     Parameters.assessedMachineName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AssessedMachine,

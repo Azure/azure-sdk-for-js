@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing BaseModel.
@@ -1839,8 +1838,7 @@ export interface ManagerIntrinsicSettings {
  * The Sku.
  *
  */
-export interface ManagerSku {
-}
+export interface ManagerSku {}
 
 /**
  * @interface
@@ -2863,7 +2861,6 @@ export interface StorSimple8000SeriesManagementClientOptions extends AzureServic
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the AvailableProviderOperationList.
@@ -2885,8 +2882,7 @@ export interface AvailableProviderOperationList extends Array<AvailableProviderO
  *
  * @extends Array<Manager>
  */
-export interface ManagerList extends Array<Manager> {
-}
+export interface ManagerList extends Array<Manager> {}
 
 /**
  * @interface
@@ -2895,8 +2891,7 @@ export interface ManagerList extends Array<Manager> {
  *
  * @extends Array<Feature>
  */
-export interface FeatureList extends Array<Feature> {
-}
+export interface FeatureList extends Array<Feature> {}
 
 /**
  * @interface
@@ -2905,8 +2900,7 @@ export interface FeatureList extends Array<Feature> {
  *
  * @extends Array<Metrics>
  */
-export interface MetricList extends Array<Metrics> {
-}
+export interface MetricList extends Array<Metrics> {}
 
 /**
  * @interface
@@ -2915,8 +2909,7 @@ export interface MetricList extends Array<Metrics> {
  *
  * @extends Array<MetricDefinition>
  */
-export interface MetricDefinitionList extends Array<MetricDefinition> {
-}
+export interface MetricDefinitionList extends Array<MetricDefinition> {}
 
 /**
  * @interface
@@ -2925,8 +2918,7 @@ export interface MetricDefinitionList extends Array<MetricDefinition> {
  *
  * @extends Array<AccessControlRecord>
  */
-export interface AccessControlRecordList extends Array<AccessControlRecord> {
-}
+export interface AccessControlRecordList extends Array<AccessControlRecord> {}
 
 /**
  * @interface
@@ -2949,8 +2941,7 @@ export interface AlertList extends Array<Alert> {
  *
  * @extends Array<BandwidthSetting>
  */
-export interface BandwidthSettingList extends Array<BandwidthSetting> {
-}
+export interface BandwidthSettingList extends Array<BandwidthSetting> {}
 
 /**
  * @interface
@@ -2959,8 +2950,7 @@ export interface BandwidthSettingList extends Array<BandwidthSetting> {
  *
  * @extends Array<CloudApplianceConfiguration>
  */
-export interface CloudApplianceConfigurationList extends Array<CloudApplianceConfiguration> {
-}
+export interface CloudApplianceConfigurationList extends Array<CloudApplianceConfiguration> {}
 
 /**
  * @interface
@@ -2969,8 +2959,7 @@ export interface CloudApplianceConfigurationList extends Array<CloudApplianceCon
  *
  * @extends Array<Device>
  */
-export interface DeviceList extends Array<Device> {
-}
+export interface DeviceList extends Array<Device> {}
 
 /**
  * @interface
@@ -2979,8 +2968,7 @@ export interface DeviceList extends Array<Device> {
  *
  * @extends Array<FailoverSet>
  */
-export interface FailoverSetsList extends Array<FailoverSet> {
-}
+export interface FailoverSetsList extends Array<FailoverSet> {}
 
 /**
  * @interface
@@ -2990,8 +2978,7 @@ export interface FailoverSetsList extends Array<FailoverSet> {
  *
  * @extends Array<FailoverTarget>
  */
-export interface FailoverTargetsList extends Array<FailoverTarget> {
-}
+export interface FailoverTargetsList extends Array<FailoverTarget> {}
 
 /**
  * @interface
@@ -3000,8 +2987,7 @@ export interface FailoverTargetsList extends Array<FailoverTarget> {
  *
  * @extends Array<BackupPolicy>
  */
-export interface BackupPolicyList extends Array<BackupPolicy> {
-}
+export interface BackupPolicyList extends Array<BackupPolicy> {}
 
 /**
  * @interface
@@ -3010,8 +2996,7 @@ export interface BackupPolicyList extends Array<BackupPolicy> {
  *
  * @extends Array<BackupSchedule>
  */
-export interface BackupScheduleList extends Array<BackupSchedule> {
-}
+export interface BackupScheduleList extends Array<BackupSchedule> {}
 
 /**
  * @interface
@@ -3034,8 +3019,7 @@ export interface BackupList extends Array<Backup> {
  *
  * @extends Array<HardwareComponentGroup>
  */
-export interface HardwareComponentGroupList extends Array<HardwareComponentGroup> {
-}
+export interface HardwareComponentGroupList extends Array<HardwareComponentGroup> {}
 
 /**
  * @interface
@@ -3058,8 +3042,7 @@ export interface JobList extends Array<Job> {
  *
  * @extends Array<VolumeContainer>
  */
-export interface VolumeContainerList extends Array<VolumeContainer> {
-}
+export interface VolumeContainerList extends Array<VolumeContainer> {}
 
 /**
  * @interface
@@ -3068,8 +3051,7 @@ export interface VolumeContainerList extends Array<VolumeContainer> {
  *
  * @extends Array<Volume>
  */
-export interface VolumeList extends Array<Volume> {
-}
+export interface VolumeList extends Array<Volume> {}
 
 /**
  * @interface
@@ -3078,8 +3060,7 @@ export interface VolumeList extends Array<Volume> {
  *
  * @extends Array<StorageAccountCredential>
  */
-export interface StorageAccountCredentialList extends Array<StorageAccountCredential> {
-}
+export interface StorageAccountCredentialList extends Array<StorageAccountCredential> {}
 
 /**
  * Defines values for AlertScope.
@@ -3087,7 +3068,7 @@ export interface StorageAccountCredentialList extends Array<StorageAccountCreden
  * @readonly
  * @enum {string}
  */
-export type AlertScope = 'Resource' | 'Device';
+export type AlertScope = "Resource" | "Device";
 
 /**
  * Defines values for AlertSourceType.
@@ -3095,7 +3076,7 @@ export type AlertScope = 'Resource' | 'Device';
  * @readonly
  * @enum {string}
  */
-export type AlertSourceType = 'Resource' | 'Device';
+export type AlertSourceType = "Resource" | "Device";
 
 /**
  * Defines values for AlertSeverity.
@@ -3103,7 +3084,7 @@ export type AlertSourceType = 'Resource' | 'Device';
  * @readonly
  * @enum {string}
  */
-export type AlertSeverity = 'Informational' | 'Warning' | 'Critical';
+export type AlertSeverity = "Informational" | "Warning" | "Critical";
 
 /**
  * Defines values for AlertStatus.
@@ -3111,7 +3092,7 @@ export type AlertSeverity = 'Informational' | 'Warning' | 'Critical';
  * @readonly
  * @enum {string}
  */
-export type AlertStatus = 'Active' | 'Cleared';
+export type AlertStatus = "Active" | "Cleared";
 
 /**
  * Defines values for AlertEmailNotificationStatus.
@@ -3119,7 +3100,7 @@ export type AlertStatus = 'Active' | 'Cleared';
  * @readonly
  * @enum {string}
  */
-export type AlertEmailNotificationStatus = 'Enabled' | 'Disabled';
+export type AlertEmailNotificationStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for EncryptionAlgorithm.
@@ -3127,7 +3108,7 @@ export type AlertEmailNotificationStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type EncryptionAlgorithm = 'None' | 'AES256' | 'RSAES_PKCS1_v_1_5';
+export type EncryptionAlgorithm = "None" | "AES256" | "RSAES_PKCS1_v_1_5";
 
 /**
  * Defines values for BackupType.
@@ -3135,7 +3116,7 @@ export type EncryptionAlgorithm = 'None' | 'AES256' | 'RSAES_PKCS1_v_1_5';
  * @readonly
  * @enum {string}
  */
-export type BackupType = 'LocalSnapshot' | 'CloudSnapshot';
+export type BackupType = "LocalSnapshot" | "CloudSnapshot";
 
 /**
  * Defines values for BackupJobCreationType.
@@ -3143,7 +3124,7 @@ export type BackupType = 'LocalSnapshot' | 'CloudSnapshot';
  * @readonly
  * @enum {string}
  */
-export type BackupJobCreationType = 'Adhoc' | 'BySchedule' | 'BySSM';
+export type BackupJobCreationType = "Adhoc" | "BySchedule" | "BySSM";
 
 /**
  * Defines values for VolumeType.
@@ -3151,7 +3132,7 @@ export type BackupJobCreationType = 'Adhoc' | 'BySchedule' | 'BySSM';
  * @readonly
  * @enum {string}
  */
-export type VolumeType = 'Tiered' | 'Archival' | 'LocallyPinned';
+export type VolumeType = "Tiered" | "Archival" | "LocallyPinned";
 
 /**
  * Defines values for ScheduledBackupStatus.
@@ -3159,7 +3140,7 @@ export type VolumeType = 'Tiered' | 'Archival' | 'LocallyPinned';
  * @readonly
  * @enum {string}
  */
-export type ScheduledBackupStatus = 'Disabled' | 'Enabled';
+export type ScheduledBackupStatus = "Disabled" | "Enabled";
 
 /**
  * Defines values for BackupPolicyCreationType.
@@ -3167,7 +3148,7 @@ export type ScheduledBackupStatus = 'Disabled' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type BackupPolicyCreationType = 'BySaaS' | 'BySSM';
+export type BackupPolicyCreationType = "BySaaS" | "BySSM";
 
 /**
  * Defines values for RecurrenceType.
@@ -3175,7 +3156,7 @@ export type BackupPolicyCreationType = 'BySaaS' | 'BySSM';
  * @readonly
  * @enum {string}
  */
-export type RecurrenceType = 'Minutes' | 'Hourly' | 'Daily' | 'Weekly';
+export type RecurrenceType = "Minutes" | "Hourly" | "Daily" | "Weekly";
 
 /**
  * Defines values for DayOfWeek.
@@ -3184,7 +3165,14 @@ export type RecurrenceType = 'Minutes' | 'Hourly' | 'Daily' | 'Weekly';
  * @readonly
  * @enum {string}
  */
-export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+export type DayOfWeek =
+  | "Sunday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday";
 
 /**
  * Defines values for ScheduleStatus.
@@ -3192,7 +3180,7 @@ export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursda
  * @readonly
  * @enum {string}
  */
-export type ScheduleStatus = 'Enabled' | 'Disabled';
+export type ScheduleStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for Kind.
@@ -3200,7 +3188,7 @@ export type ScheduleStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type Kind = 'Series8000';
+export type Kind = "Series8000";
 
 /**
  * Defines values for ControllerPowerStateAction.
@@ -3208,7 +3196,7 @@ export type Kind = 'Series8000';
  * @readonly
  * @enum {string}
  */
-export type ControllerPowerStateAction = 'Start' | 'Restart' | 'Shutdown';
+export type ControllerPowerStateAction = "Start" | "Restart" | "Shutdown";
 
 /**
  * Defines values for ControllerId.
@@ -3216,7 +3204,7 @@ export type ControllerPowerStateAction = 'Start' | 'Restart' | 'Shutdown';
  * @readonly
  * @enum {string}
  */
-export type ControllerId = 'Unknown' | 'None' | 'Controller0' | 'Controller1';
+export type ControllerId = "Unknown" | "None" | "Controller0" | "Controller1";
 
 /**
  * Defines values for ControllerStatus.
@@ -3224,7 +3212,13 @@ export type ControllerId = 'Unknown' | 'None' | 'Controller0' | 'Controller1';
  * @readonly
  * @enum {string}
  */
-export type ControllerStatus = 'NotPresent' | 'PoweredOff' | 'Ok' | 'Recovering' | 'Warning' | 'Failure';
+export type ControllerStatus =
+  | "NotPresent"
+  | "PoweredOff"
+  | "Ok"
+  | "Recovering"
+  | "Warning"
+  | "Failure";
 
 /**
  * Defines values for DeviceConfigurationStatus.
@@ -3232,7 +3226,7 @@ export type ControllerStatus = 'NotPresent' | 'PoweredOff' | 'Ok' | 'Recovering'
  * @readonly
  * @enum {string}
  */
-export type DeviceConfigurationStatus = 'Complete' | 'Pending';
+export type DeviceConfigurationStatus = "Complete" | "Pending";
 
 /**
  * Defines values for DeviceStatus.
@@ -3241,7 +3235,18 @@ export type DeviceConfigurationStatus = 'Complete' | 'Pending';
  * @readonly
  * @enum {string}
  */
-export type DeviceStatus = 'Unknown' | 'Online' | 'Offline' | 'Deactivated' | 'RequiresAttention' | 'MaintenanceMode' | 'Creating' | 'Provisioning' | 'Deactivating' | 'Deleted' | 'ReadyToSetup';
+export type DeviceStatus =
+  | "Unknown"
+  | "Online"
+  | "Offline"
+  | "Deactivated"
+  | "RequiresAttention"
+  | "MaintenanceMode"
+  | "Creating"
+  | "Provisioning"
+  | "Deactivating"
+  | "Deleted"
+  | "ReadyToSetup";
 
 /**
  * Defines values for DeviceType.
@@ -3249,7 +3254,7 @@ export type DeviceStatus = 'Unknown' | 'Online' | 'Offline' | 'Deactivated' | 'R
  * @readonly
  * @enum {string}
  */
-export type DeviceType = 'Invalid' | 'Series8000VirtualAppliance' | 'Series8000PhysicalAppliance';
+export type DeviceType = "Invalid" | "Series8000VirtualAppliance" | "Series8000PhysicalAppliance";
 
 /**
  * Defines values for VirtualMachineApiType.
@@ -3257,7 +3262,7 @@ export type DeviceType = 'Invalid' | 'Series8000VirtualAppliance' | 'Series8000P
  * @readonly
  * @enum {string}
  */
-export type VirtualMachineApiType = 'Classic' | 'Arm';
+export type VirtualMachineApiType = "Classic" | "Arm";
 
 /**
  * Defines values for AuthorizationEligibility.
@@ -3265,7 +3270,7 @@ export type VirtualMachineApiType = 'Classic' | 'Arm';
  * @readonly
  * @enum {string}
  */
-export type AuthorizationEligibility = 'InEligible' | 'Eligible';
+export type AuthorizationEligibility = "InEligible" | "Eligible";
 
 /**
  * Defines values for AuthorizationStatus.
@@ -3273,7 +3278,7 @@ export type AuthorizationEligibility = 'InEligible' | 'Eligible';
  * @readonly
  * @enum {string}
  */
-export type AuthorizationStatus = 'Disabled' | 'Enabled';
+export type AuthorizationStatus = "Disabled" | "Enabled";
 
 /**
  * Defines values for InEligibilityCategory.
@@ -3281,7 +3286,7 @@ export type AuthorizationStatus = 'Disabled' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type InEligibilityCategory = 'DeviceNotOnline' | 'NotSupportedAppliance' | 'RolloverPending';
+export type InEligibilityCategory = "DeviceNotOnline" | "NotSupportedAppliance" | "RolloverPending";
 
 /**
  * Defines values for EncryptionStatus.
@@ -3289,7 +3294,7 @@ export type InEligibilityCategory = 'DeviceNotOnline' | 'NotSupportedAppliance' 
  * @readonly
  * @enum {string}
  */
-export type EncryptionStatus = 'Enabled' | 'Disabled';
+export type EncryptionStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for KeyRolloverStatus.
@@ -3297,7 +3302,7 @@ export type EncryptionStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type KeyRolloverStatus = 'Required' | 'NotRequired';
+export type KeyRolloverStatus = "Required" | "NotRequired";
 
 /**
  * Defines values for TargetEligibilityStatus.
@@ -3305,7 +3310,7 @@ export type KeyRolloverStatus = 'Required' | 'NotRequired';
  * @readonly
  * @enum {string}
  */
-export type TargetEligibilityStatus = 'NotEligible' | 'Eligible';
+export type TargetEligibilityStatus = "NotEligible" | "Eligible";
 
 /**
  * Defines values for TargetEligibilityResultCode.
@@ -3316,7 +3321,14 @@ export type TargetEligibilityStatus = 'NotEligible' | 'Eligible';
  * @readonly
  * @enum {string}
  */
-export type TargetEligibilityResultCode = 'TargetAndSourceCannotBeSameError' | 'TargetIsNotOnlineError' | 'TargetSourceIncompatibleVersionError' | 'LocalToTieredVolumesConversionWarning' | 'TargetInsufficientCapacityError' | 'TargetInsufficientLocalVolumeMemoryError' | 'TargetInsufficientTieredVolumeMemoryError';
+export type TargetEligibilityResultCode =
+  | "TargetAndSourceCannotBeSameError"
+  | "TargetIsNotOnlineError"
+  | "TargetSourceIncompatibleVersionError"
+  | "LocalToTieredVolumesConversionWarning"
+  | "TargetInsufficientCapacityError"
+  | "TargetInsufficientLocalVolumeMemoryError"
+  | "TargetInsufficientTieredVolumeMemoryError";
 
 /**
  * Defines values for FeatureSupportStatus.
@@ -3324,7 +3336,7 @@ export type TargetEligibilityResultCode = 'TargetAndSourceCannotBeSameError' | '
  * @readonly
  * @enum {string}
  */
-export type FeatureSupportStatus = 'NotAvailable' | 'UnsupportedDeviceVersion' | 'Supported';
+export type FeatureSupportStatus = "NotAvailable" | "UnsupportedDeviceVersion" | "Supported";
 
 /**
  * Defines values for HardwareComponentStatus.
@@ -3333,7 +3345,14 @@ export type FeatureSupportStatus = 'NotAvailable' | 'UnsupportedDeviceVersion' |
  * @readonly
  * @enum {string}
  */
-export type HardwareComponentStatus = 'Unknown' | 'NotPresent' | 'PoweredOff' | 'Ok' | 'Recovering' | 'Warning' | 'Failure';
+export type HardwareComponentStatus =
+  | "Unknown"
+  | "NotPresent"
+  | "PoweredOff"
+  | "Ok"
+  | "Recovering"
+  | "Warning"
+  | "Failure";
 
 /**
  * Defines values for JobStatus.
@@ -3341,7 +3360,7 @@ export type HardwareComponentStatus = 'Unknown' | 'NotPresent' | 'PoweredOff' | 
  * @readonly
  * @enum {string}
  */
-export type JobStatus = 'Running' | 'Succeeded' | 'Failed' | 'Canceled';
+export type JobStatus = "Running" | "Succeeded" | "Failed" | "Canceled";
 
 /**
  * Defines values for JobType.
@@ -3351,7 +3370,17 @@ export type JobStatus = 'Running' | 'Succeeded' | 'Failed' | 'Canceled';
  * @readonly
  * @enum {string}
  */
-export type JobType = 'ScheduledBackup' | 'ManualBackup' | 'RestoreBackup' | 'CloneVolume' | 'FailoverVolumeContainers' | 'CreateLocallyPinnedVolume' | 'ModifyVolume' | 'InstallUpdates' | 'SupportPackageLogs' | 'CreateCloudAppliance';
+export type JobType =
+  | "ScheduledBackup"
+  | "ManualBackup"
+  | "RestoreBackup"
+  | "CloneVolume"
+  | "FailoverVolumeContainers"
+  | "CreateLocallyPinnedVolume"
+  | "ModifyVolume"
+  | "InstallUpdates"
+  | "SupportPackageLogs"
+  | "CreateCloudAppliance";
 
 /**
  * Defines values for ManagerType.
@@ -3359,7 +3388,7 @@ export type JobType = 'ScheduledBackup' | 'ManualBackup' | 'RestoreBackup' | 'Cl
  * @readonly
  * @enum {string}
  */
-export type ManagerType = 'GardaV1' | 'HelsinkiV1';
+export type ManagerType = "GardaV1" | "HelsinkiV1";
 
 /**
  * Defines values for MetricUnit.
@@ -3368,7 +3397,13 @@ export type ManagerType = 'GardaV1' | 'HelsinkiV1';
  * @readonly
  * @enum {string}
  */
-export type MetricUnit = 'Bytes' | 'BytesPerSecond' | 'Count' | 'CountPerSecond' | 'Percent' | 'Seconds';
+export type MetricUnit =
+  | "Bytes"
+  | "BytesPerSecond"
+  | "Count"
+  | "CountPerSecond"
+  | "Percent"
+  | "Seconds";
 
 /**
  * Defines values for MetricAggregationType.
@@ -3376,7 +3411,7 @@ export type MetricUnit = 'Bytes' | 'BytesPerSecond' | 'Count' | 'CountPerSecond'
  * @readonly
  * @enum {string}
  */
-export type MetricAggregationType = 'Average' | 'Last' | 'Maximum' | 'Minimum' | 'None' | 'Total';
+export type MetricAggregationType = "Average" | "Last" | "Maximum" | "Minimum" | "None" | "Total";
 
 /**
  * Defines values for NetInterfaceId.
@@ -3384,7 +3419,7 @@ export type MetricAggregationType = 'Average' | 'Last' | 'Maximum' | 'Minimum' |
  * @readonly
  * @enum {string}
  */
-export type NetInterfaceId = 'Invalid' | 'Data0' | 'Data1' | 'Data2' | 'Data3' | 'Data4' | 'Data5';
+export type NetInterfaceId = "Invalid" | "Data0" | "Data1" | "Data2" | "Data3" | "Data4" | "Data5";
 
 /**
  * Defines values for NetInterfaceStatus.
@@ -3392,7 +3427,7 @@ export type NetInterfaceId = 'Invalid' | 'Data0' | 'Data1' | 'Data2' | 'Data3' |
  * @readonly
  * @enum {string}
  */
-export type NetInterfaceStatus = 'Enabled' | 'Disabled';
+export type NetInterfaceStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for ISCSIAndCloudStatus.
@@ -3400,7 +3435,11 @@ export type NetInterfaceStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type ISCSIAndCloudStatus = 'Disabled' | 'IscsiEnabled' | 'CloudEnabled' | 'IscsiAndCloudEnabled';
+export type ISCSIAndCloudStatus =
+  | "Disabled"
+  | "IscsiEnabled"
+  | "CloudEnabled"
+  | "IscsiAndCloudEnabled";
 
 /**
  * Defines values for NetworkMode.
@@ -3408,7 +3447,7 @@ export type ISCSIAndCloudStatus = 'Disabled' | 'IscsiEnabled' | 'CloudEnabled' |
  * @readonly
  * @enum {string}
  */
-export type NetworkMode = 'Invalid' | 'IPV4' | 'IPV6' | 'BOTH';
+export type NetworkMode = "Invalid" | "IPV4" | "IPV6" | "BOTH";
 
 /**
  * Defines values for AuthenticationType.
@@ -3416,7 +3455,7 @@ export type NetworkMode = 'Invalid' | 'IPV4' | 'IPV6' | 'BOTH';
  * @readonly
  * @enum {string}
  */
-export type AuthenticationType = 'Invalid' | 'None' | 'Basic' | 'NTLM';
+export type AuthenticationType = "Invalid" | "None" | "Basic" | "NTLM";
 
 /**
  * Defines values for RemoteManagementModeConfiguration.
@@ -3424,7 +3463,11 @@ export type AuthenticationType = 'Invalid' | 'None' | 'Basic' | 'NTLM';
  * @readonly
  * @enum {string}
  */
-export type RemoteManagementModeConfiguration = 'Unknown' | 'Disabled' | 'HttpsEnabled' | 'HttpsAndHttpEnabled';
+export type RemoteManagementModeConfiguration =
+  | "Unknown"
+  | "Disabled"
+  | "HttpsEnabled"
+  | "HttpsAndHttpEnabled";
 
 /**
  * Defines values for SslStatus.
@@ -3432,7 +3475,7 @@ export type RemoteManagementModeConfiguration = 'Unknown' | 'Disabled' | 'HttpsE
  * @readonly
  * @enum {string}
  */
-export type SslStatus = 'Enabled' | 'Disabled';
+export type SslStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for VolumeStatus.
@@ -3440,7 +3483,7 @@ export type SslStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type VolumeStatus = 'Online' | 'Offline';
+export type VolumeStatus = "Online" | "Offline";
 
 /**
  * Defines values for OperationStatus.
@@ -3448,7 +3491,7 @@ export type VolumeStatus = 'Online' | 'Offline';
  * @readonly
  * @enum {string}
  */
-export type OperationStatus = 'None' | 'Updating' | 'Deleting' | 'Restoring';
+export type OperationStatus = "None" | "Updating" | "Deleting" | "Restoring";
 
 /**
  * Defines values for BackupStatus.
@@ -3456,7 +3499,7 @@ export type OperationStatus = 'None' | 'Updating' | 'Deleting' | 'Restoring';
  * @readonly
  * @enum {string}
  */
-export type BackupStatus = 'Enabled' | 'Disabled';
+export type BackupStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for MonitoringStatus.
@@ -3464,7 +3507,7 @@ export type BackupStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type MonitoringStatus = 'Enabled' | 'Disabled';
+export type MonitoringStatus = "Enabled" | "Disabled";
 
 /**
  * Defines values for OwnerShipStatus.
@@ -3472,7 +3515,7 @@ export type MonitoringStatus = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type OwnerShipStatus = 'Owned' | 'NotOwned';
+export type OwnerShipStatus = "Owned" | "NotOwned";
 
 /**
  * Contains response data for the list operation.
@@ -3482,15 +3525,15 @@ export type OperationsListResponse = AvailableProviderOperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableProviderOperationList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailableProviderOperationList;
+  };
 };
 
 /**
@@ -3501,15 +3544,15 @@ export type OperationsListNextResponse = AvailableProviderOperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableProviderOperationList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailableProviderOperationList;
+  };
 };
 
 /**
@@ -3520,15 +3563,15 @@ export type ManagersListResponse = ManagerList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagerList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagerList;
+  };
 };
 
 /**
@@ -3539,15 +3582,15 @@ export type ManagersListByResourceGroupResponse = ManagerList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagerList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagerList;
+  };
 };
 
 /**
@@ -3558,15 +3601,15 @@ export type ManagersGetResponse = Manager & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Manager;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Manager;
+  };
 };
 
 /**
@@ -3577,15 +3620,15 @@ export type ManagersCreateOrUpdateResponse = Manager & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Manager;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Manager;
+  };
 };
 
 /**
@@ -3596,15 +3639,15 @@ export type ManagersUpdateResponse = Manager & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Manager;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Manager;
+  };
 };
 
 /**
@@ -3615,15 +3658,15 @@ export type ManagersGetDevicePublicEncryptionKeyResponse = PublicKey & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PublicKey;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PublicKey;
+  };
 };
 
 /**
@@ -3634,15 +3677,15 @@ export type ManagersGetEncryptionSettingsResponse = EncryptionSettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EncryptionSettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EncryptionSettings;
+  };
 };
 
 /**
@@ -3653,15 +3696,15 @@ export type ManagersGetExtendedInfoResponse = ManagerExtendedInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagerExtendedInfo;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagerExtendedInfo;
+  };
 };
 
 /**
@@ -3672,15 +3715,15 @@ export type ManagersCreateExtendedInfoResponse = ManagerExtendedInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagerExtendedInfo;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagerExtendedInfo;
+  };
 };
 
 /**
@@ -3691,15 +3734,15 @@ export type ManagersUpdateExtendedInfoResponse = ManagerExtendedInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagerExtendedInfo;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagerExtendedInfo;
+  };
 };
 
 /**
@@ -3710,15 +3753,15 @@ export type ManagersListFeatureSupportStatusResponse = FeatureList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FeatureList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FeatureList;
+  };
 };
 
 /**
@@ -3729,15 +3772,15 @@ export type ManagersGetActivationKeyResponse = Key & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Key;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Key;
+  };
 };
 
 /**
@@ -3748,15 +3791,15 @@ export type ManagersGetPublicEncryptionKeyResponse = SymmetricEncryptedSecret & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SymmetricEncryptedSecret;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SymmetricEncryptedSecret;
+  };
 };
 
 /**
@@ -3767,15 +3810,15 @@ export type ManagersListMetricsResponse = MetricList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetricList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetricList;
+  };
 };
 
 /**
@@ -3786,15 +3829,15 @@ export type ManagersListMetricDefinitionResponse = MetricDefinitionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetricDefinitionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetricDefinitionList;
+  };
 };
 
 /**
@@ -3805,15 +3848,15 @@ export type ManagersRegenerateActivationKeyResponse = Key & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Key;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Key;
+  };
 };
 
 /**
@@ -3824,15 +3867,15 @@ export type AccessControlRecordsListByManagerResponse = AccessControlRecordList 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessControlRecordList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessControlRecordList;
+  };
 };
 
 /**
@@ -3843,15 +3886,15 @@ export type AccessControlRecordsGetResponse = AccessControlRecord & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessControlRecord;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessControlRecord;
+  };
 };
 
 /**
@@ -3862,15 +3905,15 @@ export type AccessControlRecordsCreateOrUpdateResponse = AccessControlRecord & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessControlRecord;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessControlRecord;
+  };
 };
 
 /**
@@ -3881,15 +3924,15 @@ export type AccessControlRecordsBeginCreateOrUpdateResponse = AccessControlRecor
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessControlRecord;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessControlRecord;
+  };
 };
 
 /**
@@ -3900,15 +3943,15 @@ export type AlertsListByManagerResponse = AlertList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertList;
+  };
 };
 
 /**
@@ -3919,15 +3962,15 @@ export type AlertsListByManagerNextResponse = AlertList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertList;
+  };
 };
 
 /**
@@ -3938,15 +3981,15 @@ export type BandwidthSettingsListByManagerResponse = BandwidthSettingList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BandwidthSettingList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BandwidthSettingList;
+  };
 };
 
 /**
@@ -3957,15 +4000,15 @@ export type BandwidthSettingsGetResponse = BandwidthSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BandwidthSetting;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BandwidthSetting;
+  };
 };
 
 /**
@@ -3976,15 +4019,15 @@ export type BandwidthSettingsCreateOrUpdateResponse = BandwidthSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BandwidthSetting;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BandwidthSetting;
+  };
 };
 
 /**
@@ -3995,15 +4038,15 @@ export type BandwidthSettingsBeginCreateOrUpdateResponse = BandwidthSetting & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BandwidthSetting;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BandwidthSetting;
+  };
 };
 
 /**
@@ -4014,15 +4057,15 @@ export type CloudAppliancesListSupportedConfigurationsResponse = CloudApplianceC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CloudApplianceConfigurationList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CloudApplianceConfigurationList;
+  };
 };
 
 /**
@@ -4033,15 +4076,15 @@ export type DevicesListByManagerResponse = DeviceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeviceList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeviceList;
+  };
 };
 
 /**
@@ -4052,15 +4095,15 @@ export type DevicesGetResponse = Device & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Device;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Device;
+  };
 };
 
 /**
@@ -4071,15 +4114,15 @@ export type DevicesUpdateResponse = Device & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Device;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Device;
+  };
 };
 
 /**
@@ -4090,15 +4133,15 @@ export type DevicesListFailoverSetsResponse = FailoverSetsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FailoverSetsList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FailoverSetsList;
+  };
 };
 
 /**
@@ -4109,15 +4152,15 @@ export type DevicesListMetricsResponse = MetricList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetricList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetricList;
+  };
 };
 
 /**
@@ -4128,15 +4171,15 @@ export type DevicesListMetricDefinitionResponse = MetricDefinitionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetricDefinitionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetricDefinitionList;
+  };
 };
 
 /**
@@ -4147,15 +4190,15 @@ export type DevicesGetUpdateSummaryResponse = Updates & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Updates;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Updates;
+  };
 };
 
 /**
@@ -4166,15 +4209,15 @@ export type DevicesListFailoverTargetsResponse = FailoverTargetsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FailoverTargetsList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FailoverTargetsList;
+  };
 };
 
 /**
@@ -4185,15 +4228,15 @@ export type DeviceSettingsGetAlertSettingsResponse = AlertSettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertSettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertSettings;
+  };
 };
 
 /**
@@ -4204,15 +4247,15 @@ export type DeviceSettingsCreateOrUpdateAlertSettingsResponse = AlertSettings & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertSettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertSettings;
+  };
 };
 
 /**
@@ -4223,15 +4266,15 @@ export type DeviceSettingsGetNetworkSettingsResponse = NetworkSettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkSettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkSettings;
+  };
 };
 
 /**
@@ -4242,15 +4285,15 @@ export type DeviceSettingsUpdateNetworkSettingsResponse = NetworkSettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkSettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkSettings;
+  };
 };
 
 /**
@@ -4261,15 +4304,15 @@ export type DeviceSettingsGetSecuritySettingsResponse = SecuritySettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySettings;
+  };
 };
 
 /**
@@ -4280,15 +4323,15 @@ export type DeviceSettingsUpdateSecuritySettingsResponse = SecuritySettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySettings;
+  };
 };
 
 /**
@@ -4299,15 +4342,15 @@ export type DeviceSettingsGetTimeSettingsResponse = TimeSettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TimeSettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TimeSettings;
+  };
 };
 
 /**
@@ -4318,15 +4361,15 @@ export type DeviceSettingsCreateOrUpdateTimeSettingsResponse = TimeSettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TimeSettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TimeSettings;
+  };
 };
 
 /**
@@ -4337,15 +4380,15 @@ export type DeviceSettingsBeginCreateOrUpdateAlertSettingsResponse = AlertSettin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AlertSettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AlertSettings;
+  };
 };
 
 /**
@@ -4356,15 +4399,15 @@ export type DeviceSettingsBeginUpdateNetworkSettingsResponse = NetworkSettings &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkSettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkSettings;
+  };
 };
 
 /**
@@ -4375,15 +4418,15 @@ export type DeviceSettingsBeginUpdateSecuritySettingsResponse = SecuritySettings
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecuritySettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecuritySettings;
+  };
 };
 
 /**
@@ -4394,15 +4437,15 @@ export type DeviceSettingsBeginCreateOrUpdateTimeSettingsResponse = TimeSettings
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TimeSettings;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TimeSettings;
+  };
 };
 
 /**
@@ -4413,15 +4456,15 @@ export type BackupPoliciesListByDeviceResponse = BackupPolicyList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupPolicyList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupPolicyList;
+  };
 };
 
 /**
@@ -4432,15 +4475,15 @@ export type BackupPoliciesGetResponse = BackupPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupPolicy;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupPolicy;
+  };
 };
 
 /**
@@ -4451,15 +4494,15 @@ export type BackupPoliciesCreateOrUpdateResponse = BackupPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupPolicy;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupPolicy;
+  };
 };
 
 /**
@@ -4470,15 +4513,15 @@ export type BackupPoliciesBeginCreateOrUpdateResponse = BackupPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupPolicy;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupPolicy;
+  };
 };
 
 /**
@@ -4489,15 +4532,15 @@ export type BackupSchedulesListByBackupPolicyResponse = BackupScheduleList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupScheduleList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupScheduleList;
+  };
 };
 
 /**
@@ -4508,15 +4551,15 @@ export type BackupSchedulesGetResponse = BackupSchedule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupSchedule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupSchedule;
+  };
 };
 
 /**
@@ -4527,15 +4570,15 @@ export type BackupSchedulesCreateOrUpdateResponse = BackupSchedule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupSchedule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupSchedule;
+  };
 };
 
 /**
@@ -4546,15 +4589,15 @@ export type BackupSchedulesBeginCreateOrUpdateResponse = BackupSchedule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupSchedule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupSchedule;
+  };
 };
 
 /**
@@ -4565,15 +4608,15 @@ export type BackupsListByDeviceResponse = BackupList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupList;
+  };
 };
 
 /**
@@ -4584,15 +4627,15 @@ export type BackupsListByDeviceNextResponse = BackupList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupList;
+  };
 };
 
 /**
@@ -4603,15 +4646,15 @@ export type HardwareComponentGroupsListByDeviceResponse = HardwareComponentGroup
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HardwareComponentGroupList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HardwareComponentGroupList;
+  };
 };
 
 /**
@@ -4622,15 +4665,15 @@ export type JobsListByDeviceResponse = JobList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobList;
+  };
 };
 
 /**
@@ -4641,15 +4684,15 @@ export type JobsGetResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -4660,15 +4703,15 @@ export type JobsListByManagerResponse = JobList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobList;
+  };
 };
 
 /**
@@ -4679,15 +4722,15 @@ export type JobsListByDeviceNextResponse = JobList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobList;
+  };
 };
 
 /**
@@ -4698,15 +4741,15 @@ export type JobsListByManagerNextResponse = JobList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobList;
+  };
 };
 
 /**
@@ -4717,15 +4760,15 @@ export type VolumeContainersListByDeviceResponse = VolumeContainerList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeContainerList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeContainerList;
+  };
 };
 
 /**
@@ -4736,15 +4779,15 @@ export type VolumeContainersGetResponse = VolumeContainer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeContainer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeContainer;
+  };
 };
 
 /**
@@ -4755,15 +4798,15 @@ export type VolumeContainersCreateOrUpdateResponse = VolumeContainer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeContainer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeContainer;
+  };
 };
 
 /**
@@ -4774,15 +4817,15 @@ export type VolumeContainersListMetricsResponse = MetricList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetricList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetricList;
+  };
 };
 
 /**
@@ -4793,15 +4836,15 @@ export type VolumeContainersListMetricDefinitionResponse = MetricDefinitionList 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetricDefinitionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetricDefinitionList;
+  };
 };
 
 /**
@@ -4812,15 +4855,15 @@ export type VolumeContainersBeginCreateOrUpdateResponse = VolumeContainer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeContainer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeContainer;
+  };
 };
 
 /**
@@ -4831,15 +4874,15 @@ export type VolumesListByVolumeContainerResponse = VolumeList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeList;
+  };
 };
 
 /**
@@ -4850,15 +4893,15 @@ export type VolumesGetResponse = Volume & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Volume;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Volume;
+  };
 };
 
 /**
@@ -4869,15 +4912,15 @@ export type VolumesCreateOrUpdateResponse = Volume & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Volume;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Volume;
+  };
 };
 
 /**
@@ -4888,15 +4931,15 @@ export type VolumesListMetricsResponse = MetricList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetricList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetricList;
+  };
 };
 
 /**
@@ -4907,15 +4950,15 @@ export type VolumesListMetricDefinitionResponse = MetricDefinitionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetricDefinitionList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetricDefinitionList;
+  };
 };
 
 /**
@@ -4926,15 +4969,15 @@ export type VolumesListByDeviceResponse = VolumeList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeList;
+  };
 };
 
 /**
@@ -4945,15 +4988,15 @@ export type VolumesBeginCreateOrUpdateResponse = Volume & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Volume;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Volume;
+  };
 };
 
 /**
@@ -4964,15 +5007,15 @@ export type StorageAccountCredentialsListByManagerResponse = StorageAccountCrede
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountCredentialList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageAccountCredentialList;
+  };
 };
 
 /**
@@ -4983,15 +5026,15 @@ export type StorageAccountCredentialsGetResponse = StorageAccountCredential & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountCredential;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageAccountCredential;
+  };
 };
 
 /**
@@ -5002,15 +5045,15 @@ export type StorageAccountCredentialsCreateOrUpdateResponse = StorageAccountCred
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountCredential;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageAccountCredential;
+  };
 };
 
 /**
@@ -5021,13 +5064,13 @@ export type StorageAccountCredentialsBeginCreateOrUpdateResponse = StorageAccoun
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountCredential;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageAccountCredential;
+  };
 };

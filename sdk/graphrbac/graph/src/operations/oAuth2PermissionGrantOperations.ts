@@ -31,7 +31,9 @@ export class OAuth2PermissionGrantOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OAuth2PermissionGrantListResponse>
    */
-  list(options?: Models.OAuth2PermissionGrantListOptionalParams): Promise<Models.OAuth2PermissionGrantListResponse>;
+  list(
+    options?: Models.OAuth2PermissionGrantListOptionalParams
+  ): Promise<Models.OAuth2PermissionGrantListResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,23 @@ export class OAuth2PermissionGrantOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.OAuth2PermissionGrantListOptionalParams, callback: msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>): void;
-  list(options?: Models.OAuth2PermissionGrantListOptionalParams | msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>, callback?: msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>): Promise<Models.OAuth2PermissionGrantListResponse> {
+  list(
+    options: Models.OAuth2PermissionGrantListOptionalParams,
+    callback: msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>
+  ): void;
+  list(
+    options?:
+      | Models.OAuth2PermissionGrantListOptionalParams
+      | msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>,
+    callback?: msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>
+  ): Promise<Models.OAuth2PermissionGrantListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.OAuth2PermissionGrantListResponse>;
+      callback
+    ) as Promise<Models.OAuth2PermissionGrantListResponse>;
   }
 
   /**
@@ -55,7 +66,9 @@ export class OAuth2PermissionGrantOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OAuth2PermissionGrantCreateResponse>
    */
-  create(options?: Models.OAuth2PermissionGrantCreateOptionalParams): Promise<Models.OAuth2PermissionGrantCreateResponse>;
+  create(
+    options?: Models.OAuth2PermissionGrantCreateOptionalParams
+  ): Promise<Models.OAuth2PermissionGrantCreateResponse>;
   /**
    * @param callback The callback
    */
@@ -64,14 +77,23 @@ export class OAuth2PermissionGrantOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(options: Models.OAuth2PermissionGrantCreateOptionalParams, callback: msRest.ServiceCallback<Models.OAuth2PermissionGrant>): void;
-  create(options?: Models.OAuth2PermissionGrantCreateOptionalParams | msRest.ServiceCallback<Models.OAuth2PermissionGrant>, callback?: msRest.ServiceCallback<Models.OAuth2PermissionGrant>): Promise<Models.OAuth2PermissionGrantCreateResponse> {
+  create(
+    options: Models.OAuth2PermissionGrantCreateOptionalParams,
+    callback: msRest.ServiceCallback<Models.OAuth2PermissionGrant>
+  ): void;
+  create(
+    options?:
+      | Models.OAuth2PermissionGrantCreateOptionalParams
+      | msRest.ServiceCallback<Models.OAuth2PermissionGrant>,
+    callback?: msRest.ServiceCallback<Models.OAuth2PermissionGrant>
+  ): Promise<Models.OAuth2PermissionGrantCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.OAuth2PermissionGrantCreateResponse>;
+      callback
+    ) as Promise<Models.OAuth2PermissionGrantCreateResponse>;
   }
 
   /**
@@ -91,15 +113,24 @@ export class OAuth2PermissionGrantOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    objectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    objectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -108,26 +139,43 @@ export class OAuth2PermissionGrantOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OAuth2PermissionGrantListNextResponse>
    */
-  listNext(nextLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OAuth2PermissionGrantListNextResponse>;
+  listNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OAuth2PermissionGrantListNextResponse>;
   /**
    * @param nextLink Next link for the list operation.
    * @param callback The callback
    */
-  listNext(nextLink: string, callback: msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>): void;
+  listNext(
+    nextLink: string,
+    callback: msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>
+  ): void;
   /**
    * @param nextLink Next link for the list operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>): void;
-  listNext(nextLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>, callback?: msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>): Promise<Models.OAuth2PermissionGrantListNextResponse> {
+  listNext(
+    nextLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>
+  ): void;
+  listNext(
+    nextLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>,
+    callback?: msRest.ServiceCallback<Models.OAuth2PermissionGrantListResult>
+  ): Promise<Models.OAuth2PermissionGrantListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.OAuth2PermissionGrantListNextResponse>;
+      callback
+    ) as Promise<Models.OAuth2PermissionGrantListNextResponse>;
   }
 }
 
@@ -136,16 +184,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/oauth2PermissionGrants",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OAuth2PermissionGrantListResult
@@ -160,20 +201,11 @@ const listOperationSpec: msRest.OperationSpec = {
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/oauth2PermissionGrants",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "body"
-    ],
+    parameterPath: ["options", "body"],
     mapper: Mappers.OAuth2PermissionGrant
   },
   responses: {
@@ -190,16 +222,9 @@ const createOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{tenantID}/oauth2PermissionGrants/{objectId}",
-  urlParameters: [
-    Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.objectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -212,16 +237,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/{nextLink}",
-  urlParameters: [
-    Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextLink, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OAuth2PermissionGrantListResult

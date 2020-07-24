@@ -31,7 +31,7 @@ export const CheckNameAvailabilityInput: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'searchServices',
+        defaultValue: "searchServices",
         type: {
           name: "String"
         }
@@ -129,13 +129,7 @@ export const Sku: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "Enum",
-          allowedValues: [
-            "free",
-            "basic",
-            "standard",
-            "standard2",
-            "standard3"
-          ]
+          allowedValues: ["free", "basic", "standard", "standard2", "standard3"]
         }
       }
     }
@@ -228,13 +222,10 @@ export const SearchService: msRest.CompositeMapper = {
       },
       hostingMode: {
         serializedName: "properties.hostingMode",
-        defaultValue: 'default',
+        defaultValue: "default",
         type: {
           name: "Enum",
-          allowedValues: [
-            "default",
-            "highDensity"
-          ]
+          allowedValues: ["default", "highDensity"]
         }
       },
       status: {
@@ -242,14 +233,7 @@ export const SearchService: msRest.CompositeMapper = {
         serializedName: "properties.status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "running",
-            "provisioning",
-            "deleting",
-            "degraded",
-            "disabled",
-            "error"
-          ]
+          allowedValues: ["running", "provisioning", "deleting", "degraded", "disabled", "error"]
         }
       },
       statusDetails: {
@@ -264,11 +248,7 @@ export const SearchService: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "succeeded",
-            "provisioning",
-            "failed"
-          ]
+          allowedValues: ["succeeded", "provisioning", "failed"]
         }
       },
       sku: {
@@ -306,7 +286,7 @@ export const Identity: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'SystemAssigned',
+        defaultValue: "SystemAssigned",
         type: {
           name: "String"
         }

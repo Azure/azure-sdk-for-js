@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AzureMLCommitmentPlansManagementClientContext } from "./azureMLCommitmentPlansManagementClientContext";
 
-
 class AzureMLCommitmentPlansManagementClient extends AzureMLCommitmentPlansManagementClientContext {
   // Operation groups
   skus: operations.Skus;
@@ -28,7 +27,11 @@ class AzureMLCommitmentPlansManagementClient extends AzureMLCommitmentPlansManag
    * @param subscriptionId Azure Subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureMLCommitmentPlansManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AzureMLCommitmentPlansManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.skus = new operations.Skus(this);
     this.commitmentAssociations = new operations.CommitmentAssociations(this);

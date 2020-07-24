@@ -32,26 +32,43 @@ export class AvailableServiceAliases {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailableServiceAliasesListResponse>
    */
-  list(location: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailableServiceAliasesListResponse>;
+  list(
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailableServiceAliasesListResponse>;
   /**
    * @param location The location.
    * @param callback The callback
    */
-  list(location: string, callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>): void;
+  list(
+    location: string,
+    callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>
+  ): void;
   /**
    * @param location The location.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>): void;
-  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableServiceAliasesResult>, callback?: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>): Promise<Models.AvailableServiceAliasesListResponse> {
+  list(
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>
+  ): void;
+  list(
+    location: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AvailableServiceAliasesResult>,
+    callback?: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>
+  ): Promise<Models.AvailableServiceAliasesListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AvailableServiceAliasesListResponse>;
+      callback
+    ) as Promise<Models.AvailableServiceAliasesListResponse>;
   }
 
   /**
@@ -61,21 +78,41 @@ export class AvailableServiceAliases {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailableServiceAliasesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, location: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailableServiceAliasesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailableServiceAliasesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param location The location.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, location: string, callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    location: string,
+    callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param location The location.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>): void;
-  listByResourceGroup(resourceGroupName: string, location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableServiceAliasesResult>, callback?: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>): Promise<Models.AvailableServiceAliasesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    location: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AvailableServiceAliasesResult>,
+    callback?: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>
+  ): Promise<Models.AvailableServiceAliasesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +120,8 @@ export class AvailableServiceAliases {
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.AvailableServiceAliasesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.AvailableServiceAliasesListByResourceGroupResponse>;
   }
 
   /**
@@ -92,26 +130,43 @@ export class AvailableServiceAliases {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailableServiceAliasesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailableServiceAliasesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailableServiceAliasesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableServiceAliasesResult>, callback?: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>): Promise<Models.AvailableServiceAliasesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AvailableServiceAliasesResult>,
+    callback?: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>
+  ): Promise<Models.AvailableServiceAliasesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AvailableServiceAliasesListNextResponse>;
+      callback
+    ) as Promise<Models.AvailableServiceAliasesListNextResponse>;
   }
 
   /**
@@ -120,26 +175,43 @@ export class AvailableServiceAliases {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailableServiceAliasesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailableServiceAliasesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailableServiceAliasesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableServiceAliasesResult>, callback?: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>): Promise<Models.AvailableServiceAliasesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AvailableServiceAliasesResult>,
+    callback?: msRest.ServiceCallback<Models.AvailableServiceAliasesResult>
+  ): Promise<Models.AvailableServiceAliasesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.AvailableServiceAliasesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.AvailableServiceAliasesListByResourceGroupNextResponse>;
   }
 }
 
@@ -147,17 +219,11 @@ export class AvailableServiceAliases {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
-  urlParameters: [
-    Parameters.location0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
+  urlParameters: [Parameters.location0, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailableServiceAliasesResult
@@ -171,18 +237,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.location0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
+  urlParameters: [Parameters.resourceGroupName, Parameters.location0, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailableServiceAliasesResult
@@ -198,12 +257,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailableServiceAliasesResult
@@ -219,12 +274,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailableServiceAliasesResult

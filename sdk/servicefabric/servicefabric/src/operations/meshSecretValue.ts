@@ -37,7 +37,12 @@ export class MeshSecretValue {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshSecretValueAddValueResponse>
    */
-  addValue(secretResourceName: string, secretValueResourceName: string, secretValueResourceDescription: Models.SecretValueResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.MeshSecretValueAddValueResponse>;
+  addValue(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    secretValueResourceDescription: Models.SecretValueResourceDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshSecretValueAddValueResponse>;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param secretValueResourceName The name of the secret resource value which is typically the
@@ -45,7 +50,12 @@ export class MeshSecretValue {
    * @param secretValueResourceDescription Description for creating a value of a secret resource.
    * @param callback The callback
    */
-  addValue(secretResourceName: string, secretValueResourceName: string, secretValueResourceDescription: Models.SecretValueResourceDescription, callback: msRest.ServiceCallback<Models.SecretValueResourceDescription>): void;
+  addValue(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    secretValueResourceDescription: Models.SecretValueResourceDescription,
+    callback: msRest.ServiceCallback<Models.SecretValueResourceDescription>
+  ): void;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param secretValueResourceName The name of the secret resource value which is typically the
@@ -54,8 +64,22 @@ export class MeshSecretValue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addValue(secretResourceName: string, secretValueResourceName: string, secretValueResourceDescription: Models.SecretValueResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretValueResourceDescription>): void;
-  addValue(secretResourceName: string, secretValueResourceName: string, secretValueResourceDescription: Models.SecretValueResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretValueResourceDescription>, callback?: msRest.ServiceCallback<Models.SecretValueResourceDescription>): Promise<Models.MeshSecretValueAddValueResponse> {
+  addValue(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    secretValueResourceDescription: Models.SecretValueResourceDescription,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretValueResourceDescription>
+  ): void;
+  addValue(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    secretValueResourceDescription: Models.SecretValueResourceDescription,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecretValueResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.SecretValueResourceDescription>
+  ): Promise<Models.MeshSecretValueAddValueResponse> {
     return this.client.sendOperationRequest(
       {
         secretResourceName,
@@ -64,7 +88,8 @@ export class MeshSecretValue {
         options
       },
       addValueOperationSpec,
-      callback) as Promise<Models.MeshSecretValueAddValueResponse>;
+      callback
+    ) as Promise<Models.MeshSecretValueAddValueResponse>;
   }
 
   /**
@@ -77,14 +102,22 @@ export class MeshSecretValue {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshSecretValueGetResponse>
    */
-  get(secretResourceName: string, secretValueResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshSecretValueGetResponse>;
+  get(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshSecretValueGetResponse>;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param secretValueResourceName The name of the secret resource value which is typically the
    * version identifier for the value.
    * @param callback The callback
    */
-  get(secretResourceName: string, secretValueResourceName: string, callback: msRest.ServiceCallback<Models.SecretValueResourceDescription>): void;
+  get(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    callback: msRest.ServiceCallback<Models.SecretValueResourceDescription>
+  ): void;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param secretValueResourceName The name of the secret resource value which is typically the
@@ -92,8 +125,20 @@ export class MeshSecretValue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(secretResourceName: string, secretValueResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretValueResourceDescription>): void;
-  get(secretResourceName: string, secretValueResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretValueResourceDescription>, callback?: msRest.ServiceCallback<Models.SecretValueResourceDescription>): Promise<Models.MeshSecretValueGetResponse> {
+  get(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretValueResourceDescription>
+  ): void;
+  get(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecretValueResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.SecretValueResourceDescription>
+  ): Promise<Models.MeshSecretValueGetResponse> {
     return this.client.sendOperationRequest(
       {
         secretResourceName,
@@ -101,7 +146,8 @@ export class MeshSecretValue {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MeshSecretValueGetResponse>;
+      callback
+    ) as Promise<Models.MeshSecretValueGetResponse>;
   }
 
   /**
@@ -114,14 +160,22 @@ export class MeshSecretValue {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(secretResourceName: string, secretValueResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param secretValueResourceName The name of the secret resource value which is typically the
    * version identifier for the value.
    * @param callback The callback
    */
-  deleteMethod(secretResourceName: string, secretValueResourceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param secretValueResourceName The name of the secret resource value which is typically the
@@ -129,8 +183,18 @@ export class MeshSecretValue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(secretResourceName: string, secretValueResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(secretResourceName: string, secretValueResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         secretResourceName,
@@ -138,7 +202,8 @@ export class MeshSecretValue {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -149,26 +214,43 @@ export class MeshSecretValue {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshSecretValueListResponse>
    */
-  list(secretResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshSecretValueListResponse>;
+  list(
+    secretResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshSecretValueListResponse>;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param callback The callback
    */
-  list(secretResourceName: string, callback: msRest.ServiceCallback<Models.PagedSecretValueResourceDescriptionList>): void;
+  list(
+    secretResourceName: string,
+    callback: msRest.ServiceCallback<Models.PagedSecretValueResourceDescriptionList>
+  ): void;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(secretResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PagedSecretValueResourceDescriptionList>): void;
-  list(secretResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PagedSecretValueResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.PagedSecretValueResourceDescriptionList>): Promise<Models.MeshSecretValueListResponse> {
+  list(
+    secretResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PagedSecretValueResourceDescriptionList>
+  ): void;
+  list(
+    secretResourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PagedSecretValueResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.PagedSecretValueResourceDescriptionList>
+  ): Promise<Models.MeshSecretValueListResponse> {
     return this.client.sendOperationRequest(
       {
         secretResourceName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MeshSecretValueListResponse>;
+      callback
+    ) as Promise<Models.MeshSecretValueListResponse>;
   }
 
   /**
@@ -181,14 +263,22 @@ export class MeshSecretValue {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshSecretValueShowResponse>
    */
-  show(secretResourceName: string, secretValueResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshSecretValueShowResponse>;
+  show(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshSecretValueShowResponse>;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param secretValueResourceName The name of the secret resource value which is typically the
    * version identifier for the value.
    * @param callback The callback
    */
-  show(secretResourceName: string, secretValueResourceName: string, callback: msRest.ServiceCallback<Models.SecretValue>): void;
+  show(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    callback: msRest.ServiceCallback<Models.SecretValue>
+  ): void;
   /**
    * @param secretResourceName The name of the secret resource.
    * @param secretValueResourceName The name of the secret resource value which is typically the
@@ -196,8 +286,18 @@ export class MeshSecretValue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  show(secretResourceName: string, secretValueResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretValue>): void;
-  show(secretResourceName: string, secretValueResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretValue>, callback?: msRest.ServiceCallback<Models.SecretValue>): Promise<Models.MeshSecretValueShowResponse> {
+  show(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretValue>
+  ): void;
+  show(
+    secretResourceName: string,
+    secretValueResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretValue>,
+    callback?: msRest.ServiceCallback<Models.SecretValue>
+  ): Promise<Models.MeshSecretValueShowResponse> {
     return this.client.sendOperationRequest(
       {
         secretResourceName,
@@ -205,7 +305,8 @@ export class MeshSecretValue {
         options
       },
       showOperationSpec,
-      callback) as Promise<Models.MeshSecretValueShowResponse>;
+      callback
+    ) as Promise<Models.MeshSecretValueShowResponse>;
   }
 }
 
@@ -214,13 +315,8 @@ const serializer = new msRest.Serializer(Mappers);
 const addValueOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "Resources/Secrets/{secretResourceName}/values/{secretValueResourceName}",
-  urlParameters: [
-    Parameters.secretResourceName,
-    Parameters.secretValueResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.secretResourceName, Parameters.secretValueResourceName],
+  queryParameters: [Parameters.apiVersion8],
   requestBody: {
     parameterPath: "secretValueResourceDescription",
     mapper: {
@@ -246,13 +342,8 @@ const addValueOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Secrets/{secretResourceName}/values/{secretValueResourceName}",
-  urlParameters: [
-    Parameters.secretResourceName,
-    Parameters.secretValueResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.secretResourceName, Parameters.secretValueResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.SecretValueResourceDescription
@@ -267,13 +358,8 @@ const getOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "Resources/Secrets/{secretResourceName}/values/{secretValueResourceName}",
-  urlParameters: [
-    Parameters.secretResourceName,
-    Parameters.secretValueResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.secretResourceName, Parameters.secretValueResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {},
     202: {},
@@ -288,12 +374,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Secrets/{secretResourceName}/values",
-  urlParameters: [
-    Parameters.secretResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.secretResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.PagedSecretValueResourceDescriptionList
@@ -308,13 +390,8 @@ const listOperationSpec: msRest.OperationSpec = {
 const showOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Resources/Secrets/{secretResourceName}/values/{secretValueResourceName}/list_value",
-  urlParameters: [
-    Parameters.secretResourceName,
-    Parameters.secretValueResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.secretResourceName, Parameters.secretValueResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.SecretValue

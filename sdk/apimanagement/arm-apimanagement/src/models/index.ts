@@ -5565,7 +5565,8 @@ export interface CertificateCreateOrUpdateOptionalParams extends msRest.RequestO
 /**
  * Optional Parameters.
  */
-export interface ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Parameters supplied to the Apply Network Configuration operation. If the parameters are empty,
    * all the regions in which the Api Management service is deployed will be updated sequentially
@@ -5577,7 +5578,8 @@ export interface ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalPar
 /**
  * Optional Parameters.
  */
-export interface ApiManagementServiceBeginApplyNetworkConfigurationUpdatesOptionalParams extends msRest.RequestOptionsBase {
+export interface ApiManagementServiceBeginApplyNetworkConfigurationUpdatesOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Parameters supplied to the Apply Network Configuration operation. If the parameters are empty,
    * all the regions in which the Api Management service is deployed will be updated sequentially
@@ -5676,7 +5678,8 @@ export interface GatewayCreateOrUpdateOptionalParams extends msRest.RequestOptio
 /**
  * Optional Parameters.
  */
-export interface GatewayHostnameConfigurationListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface GatewayHostnameConfigurationListByServiceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Number of records to return.
    */
@@ -5918,7 +5921,8 @@ export interface NotificationCreateOrUpdateOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
-export interface OpenIdConnectProviderListByServiceOptionalParams extends msRest.RequestOptionsBase {
+export interface OpenIdConnectProviderListByServiceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * |   Field     |     Usage     |     Supported operators     |     Supported functions
    * |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le,
@@ -5939,7 +5943,8 @@ export interface OpenIdConnectProviderListByServiceOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface OpenIdConnectProviderCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface OpenIdConnectProviderCreateOrUpdateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
@@ -8072,7 +8077,8 @@ export interface GatewayCollection extends Array<GatewayContract> {
  * Paged Gateway hostname configuration list representation.
  * @extends Array<GatewayHostnameConfigurationContract>
  */
-export interface GatewayHostnameConfigurationCollection extends Array<GatewayHostnameConfigurationContract> {
+export interface GatewayHostnameConfigurationCollection
+  extends Array<GatewayHostnameConfigurationContract> {
   /**
    * Next page link if any.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -8246,7 +8252,11 @@ export interface UserIdentityCollection extends Array<UserIdentityContract> {
  * @readonly
  * @enum {string}
  */
-export type ExportResultFormat = 'swagger-link-json' | 'wsdl-link+xml' | 'wadl-link-json' | 'openapi-link';
+export type ExportResultFormat =
+  | "swagger-link-json"
+  | "wsdl-link+xml"
+  | "wadl-link-json"
+  | "openapi-link";
 
 /**
  * Defines values for ProductState.
@@ -8254,7 +8264,7 @@ export type ExportResultFormat = 'swagger-link-json' | 'wsdl-link+xml' | 'wadl-l
  * @readonly
  * @enum {string}
  */
-export type ProductState = 'notPublished' | 'published';
+export type ProductState = "notPublished" | "published";
 
 /**
  * Defines values for BearerTokenSendingMethods.
@@ -8262,7 +8272,7 @@ export type ProductState = 'notPublished' | 'published';
  * @readonly
  * @enum {string}
  */
-export type BearerTokenSendingMethods = 'authorizationHeader' | 'query';
+export type BearerTokenSendingMethods = "authorizationHeader" | "query";
 
 /**
  * Defines values for Protocol.
@@ -8270,7 +8280,7 @@ export type BearerTokenSendingMethods = 'authorizationHeader' | 'query';
  * @readonly
  * @enum {string}
  */
-export type Protocol = 'http' | 'https';
+export type Protocol = "http" | "https";
 
 /**
  * Defines values for ContentFormat.
@@ -8279,7 +8289,17 @@ export type Protocol = 'http' | 'https';
  * @readonly
  * @enum {string}
  */
-export type ContentFormat = 'wadl-xml' | 'wadl-link-json' | 'swagger-json' | 'swagger-link-json' | 'wsdl' | 'wsdl-link' | 'openapi' | 'openapi+json' | 'openapi-link' | 'openapi+json-link';
+export type ContentFormat =
+  | "wadl-xml"
+  | "wadl-link-json"
+  | "swagger-json"
+  | "swagger-link-json"
+  | "wsdl"
+  | "wsdl-link"
+  | "openapi"
+  | "openapi+json"
+  | "openapi-link"
+  | "openapi+json-link";
 
 /**
  * Defines values for SoapApiType.
@@ -8287,7 +8307,7 @@ export type ContentFormat = 'wadl-xml' | 'wadl-link-json' | 'swagger-json' | 'sw
  * @readonly
  * @enum {string}
  */
-export type SoapApiType = 'http' | 'soap';
+export type SoapApiType = "http" | "soap";
 
 /**
  * Defines values for ApiType.
@@ -8295,7 +8315,7 @@ export type SoapApiType = 'http' | 'soap';
  * @readonly
  * @enum {string}
  */
-export type ApiType = 'http' | 'soap';
+export type ApiType = "http" | "soap";
 
 /**
  * Defines values for State.
@@ -8303,7 +8323,7 @@ export type ApiType = 'http' | 'soap';
  * @readonly
  * @enum {string}
  */
-export type State = 'proposed' | 'open' | 'removed' | 'resolved' | 'closed';
+export type State = "proposed" | "open" | "removed" | "resolved" | "closed";
 
 /**
  * Defines values for SamplingType.
@@ -8311,7 +8331,7 @@ export type State = 'proposed' | 'open' | 'removed' | 'resolved' | 'closed';
  * @readonly
  * @enum {string}
  */
-export type SamplingType = 'fixed';
+export type SamplingType = "fixed";
 
 /**
  * Defines values for AlwaysLog.
@@ -8319,7 +8339,7 @@ export type SamplingType = 'fixed';
  * @readonly
  * @enum {string}
  */
-export type AlwaysLog = 'allErrors';
+export type AlwaysLog = "allErrors";
 
 /**
  * Defines values for HttpCorrelationProtocol.
@@ -8327,7 +8347,7 @@ export type AlwaysLog = 'allErrors';
  * @readonly
  * @enum {string}
  */
-export type HttpCorrelationProtocol = 'None' | 'Legacy' | 'W3C';
+export type HttpCorrelationProtocol = "None" | "Legacy" | "W3C";
 
 /**
  * Defines values for Verbosity.
@@ -8335,7 +8355,7 @@ export type HttpCorrelationProtocol = 'None' | 'Legacy' | 'W3C';
  * @readonly
  * @enum {string}
  */
-export type Verbosity = 'verbose' | 'information' | 'error';
+export type Verbosity = "verbose" | "information" | "error";
 
 /**
  * Defines values for PolicyContentFormat.
@@ -8343,7 +8363,7 @@ export type Verbosity = 'verbose' | 'information' | 'error';
  * @readonly
  * @enum {string}
  */
-export type PolicyContentFormat = 'xml' | 'xml-link' | 'rawxml' | 'rawxml-link';
+export type PolicyContentFormat = "xml" | "xml-link" | "rawxml" | "rawxml-link";
 
 /**
  * Defines values for VersioningScheme.
@@ -8351,7 +8371,7 @@ export type PolicyContentFormat = 'xml' | 'xml-link' | 'rawxml' | 'rawxml-link';
  * @readonly
  * @enum {string}
  */
-export type VersioningScheme = 'Segment' | 'Query' | 'Header';
+export type VersioningScheme = "Segment" | "Query" | "Header";
 
 /**
  * Defines values for GrantType.
@@ -8360,7 +8380,11 @@ export type VersioningScheme = 'Segment' | 'Query' | 'Header';
  * @readonly
  * @enum {string}
  */
-export type GrantType = 'authorizationCode' | 'implicit' | 'resourceOwnerPassword' | 'clientCredentials';
+export type GrantType =
+  | "authorizationCode"
+  | "implicit"
+  | "resourceOwnerPassword"
+  | "clientCredentials";
 
 /**
  * Defines values for AuthorizationMethod.
@@ -8368,7 +8392,15 @@ export type GrantType = 'authorizationCode' | 'implicit' | 'resourceOwnerPasswor
  * @readonly
  * @enum {string}
  */
-export type AuthorizationMethod = 'HEAD' | 'OPTIONS' | 'TRACE' | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+export type AuthorizationMethod =
+  | "HEAD"
+  | "OPTIONS"
+  | "TRACE"
+  | "GET"
+  | "POST"
+  | "PUT"
+  | "PATCH"
+  | "DELETE";
 
 /**
  * Defines values for ClientAuthenticationMethod.
@@ -8376,7 +8408,7 @@ export type AuthorizationMethod = 'HEAD' | 'OPTIONS' | 'TRACE' | 'GET' | 'POST' 
  * @readonly
  * @enum {string}
  */
-export type ClientAuthenticationMethod = 'Basic' | 'Body';
+export type ClientAuthenticationMethod = "Basic" | "Body";
 
 /**
  * Defines values for BearerTokenSendingMethod.
@@ -8384,7 +8416,7 @@ export type ClientAuthenticationMethod = 'Basic' | 'Body';
  * @readonly
  * @enum {string}
  */
-export type BearerTokenSendingMethod = 'authorizationHeader' | 'query';
+export type BearerTokenSendingMethod = "authorizationHeader" | "query";
 
 /**
  * Defines values for BackendProtocol.
@@ -8392,7 +8424,7 @@ export type BearerTokenSendingMethod = 'authorizationHeader' | 'query';
  * @readonly
  * @enum {string}
  */
-export type BackendProtocol = 'http' | 'soap';
+export type BackendProtocol = "http" | "soap";
 
 /**
  * Defines values for SkuType.
@@ -8400,7 +8432,7 @@ export type BackendProtocol = 'http' | 'soap';
  * @readonly
  * @enum {string}
  */
-export type SkuType = 'Developer' | 'Standard' | 'Premium' | 'Basic' | 'Consumption';
+export type SkuType = "Developer" | "Standard" | "Premium" | "Basic" | "Consumption";
 
 /**
  * Defines values for ResourceSkuCapacityScaleType.
@@ -8408,7 +8440,7 @@ export type SkuType = 'Developer' | 'Standard' | 'Premium' | 'Basic' | 'Consumpt
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuCapacityScaleType = 'automatic' | 'manual' | 'none';
+export type ResourceSkuCapacityScaleType = "automatic" | "manual" | "none";
 
 /**
  * Defines values for HostnameType.
@@ -8416,7 +8448,7 @@ export type ResourceSkuCapacityScaleType = 'automatic' | 'manual' | 'none';
  * @readonly
  * @enum {string}
  */
-export type HostnameType = 'Proxy' | 'Portal' | 'Management' | 'Scm' | 'DeveloperPortal';
+export type HostnameType = "Proxy" | "Portal" | "Management" | "Scm" | "DeveloperPortal";
 
 /**
  * Defines values for VirtualNetworkType.
@@ -8424,7 +8456,7 @@ export type HostnameType = 'Proxy' | 'Portal' | 'Management' | 'Scm' | 'Develope
  * @readonly
  * @enum {string}
  */
-export type VirtualNetworkType = 'None' | 'External' | 'Internal';
+export type VirtualNetworkType = "None" | "External" | "Internal";
 
 /**
  * Defines values for ApimIdentityType.
@@ -8433,7 +8465,11 @@ export type VirtualNetworkType = 'None' | 'External' | 'Internal';
  * @readonly
  * @enum {string}
  */
-export type ApimIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+export type ApimIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 
 /**
  * Defines values for NameAvailabilityReason.
@@ -8441,7 +8477,7 @@ export type ApimIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssign
  * @readonly
  * @enum {string}
  */
-export type NameAvailabilityReason = 'Valid' | 'Invalid' | 'AlreadyExists';
+export type NameAvailabilityReason = "Valid" | "Invalid" | "AlreadyExists";
 
 /**
  * Defines values for ProvisioningState.
@@ -8449,7 +8485,7 @@ export type NameAvailabilityReason = 'Valid' | 'Invalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'created';
+export type ProvisioningState = "created";
 
 /**
  * Defines values for KeyType.
@@ -8457,7 +8493,7 @@ export type ProvisioningState = 'created';
  * @readonly
  * @enum {string}
  */
-export type KeyType = 'primary' | 'secondary';
+export type KeyType = "primary" | "secondary";
 
 /**
  * Defines values for AppType.
@@ -8465,7 +8501,7 @@ export type KeyType = 'primary' | 'secondary';
  * @readonly
  * @enum {string}
  */
-export type AppType = 'developerPortal';
+export type AppType = "developerPortal";
 
 /**
  * Defines values for Confirmation.
@@ -8473,7 +8509,7 @@ export type AppType = 'developerPortal';
  * @readonly
  * @enum {string}
  */
-export type Confirmation = 'signup' | 'invite';
+export type Confirmation = "signup" | "invite";
 
 /**
  * Defines values for UserState.
@@ -8481,7 +8517,7 @@ export type Confirmation = 'signup' | 'invite';
  * @readonly
  * @enum {string}
  */
-export type UserState = 'active' | 'blocked' | 'pending' | 'deleted';
+export type UserState = "active" | "blocked" | "pending" | "deleted";
 
 /**
  * Defines values for GroupType.
@@ -8489,7 +8525,7 @@ export type UserState = 'active' | 'blocked' | 'pending' | 'deleted';
  * @readonly
  * @enum {string}
  */
-export type GroupType = 'custom' | 'system' | 'external';
+export type GroupType = "custom" | "system" | "external";
 
 /**
  * Defines values for IdentityProviderType.
@@ -8497,7 +8533,13 @@ export type GroupType = 'custom' | 'system' | 'external';
  * @readonly
  * @enum {string}
  */
-export type IdentityProviderType = 'facebook' | 'google' | 'microsoft' | 'twitter' | 'aad' | 'aadB2C';
+export type IdentityProviderType =
+  | "facebook"
+  | "google"
+  | "microsoft"
+  | "twitter"
+  | "aad"
+  | "aadB2C";
 
 /**
  * Defines values for LoggerType.
@@ -8505,7 +8547,7 @@ export type IdentityProviderType = 'facebook' | 'google' | 'microsoft' | 'twitte
  * @readonly
  * @enum {string}
  */
-export type LoggerType = 'azureEventHub' | 'applicationInsights';
+export type LoggerType = "azureEventHub" | "applicationInsights";
 
 /**
  * Defines values for ConnectivityStatusType.
@@ -8513,7 +8555,7 @@ export type LoggerType = 'azureEventHub' | 'applicationInsights';
  * @readonly
  * @enum {string}
  */
-export type ConnectivityStatusType = 'initializing' | 'success' | 'failure';
+export type ConnectivityStatusType = "initializing" | "success" | "failure";
 
 /**
  * Defines values for SubscriptionState.
@@ -8521,7 +8563,13 @@ export type ConnectivityStatusType = 'initializing' | 'success' | 'failure';
  * @readonly
  * @enum {string}
  */
-export type SubscriptionState = 'suspended' | 'active' | 'expired' | 'submitted' | 'rejected' | 'cancelled';
+export type SubscriptionState =
+  | "suspended"
+  | "active"
+  | "expired"
+  | "submitted"
+  | "rejected"
+  | "cancelled";
 
 /**
  * Defines values for AsyncOperationStatus.
@@ -8529,7 +8577,7 @@ export type SubscriptionState = 'suspended' | 'active' | 'expired' | 'submitted'
  * @readonly
  * @enum {string}
  */
-export type AsyncOperationStatus = 'Started' | 'InProgress' | 'Succeeded' | 'Failed';
+export type AsyncOperationStatus = "Started" | "InProgress" | "Succeeded" | "Failed";
 
 /**
  * Defines values for NotificationName.
@@ -8540,7 +8588,14 @@ export type AsyncOperationStatus = 'Started' | 'InProgress' | 'Succeeded' | 'Fai
  * @readonly
  * @enum {string}
  */
-export type NotificationName = 'RequestPublisherNotificationMessage' | 'PurchasePublisherNotificationMessage' | 'NewApplicationNotificationMessage' | 'BCC' | 'NewIssuePublisherNotificationMessage' | 'AccountClosedPublisher' | 'QuotaLimitApproachingPublisherNotificationMessage';
+export type NotificationName =
+  | "RequestPublisherNotificationMessage"
+  | "PurchasePublisherNotificationMessage"
+  | "NewApplicationNotificationMessage"
+  | "BCC"
+  | "NewIssuePublisherNotificationMessage"
+  | "AccountClosedPublisher"
+  | "QuotaLimitApproachingPublisherNotificationMessage";
 
 /**
  * Defines values for PolicyExportFormat.
@@ -8548,7 +8603,7 @@ export type NotificationName = 'RequestPublisherNotificationMessage' | 'Purchase
  * @readonly
  * @enum {string}
  */
-export type PolicyExportFormat = 'xml' | 'rawxml';
+export type PolicyExportFormat = "xml" | "rawxml";
 
 /**
  * Defines values for TemplateName.
@@ -8562,7 +8617,21 @@ export type PolicyExportFormat = 'xml' | 'rawxml';
  * @readonly
  * @enum {string}
  */
-export type TemplateName = 'applicationApprovedNotificationMessage' | 'accountClosedDeveloper' | 'quotaLimitApproachingDeveloperNotificationMessage' | 'newDeveloperNotificationMessage' | 'emailChangeIdentityDefault' | 'inviteUserNotificationMessage' | 'newCommentNotificationMessage' | 'confirmSignUpIdentityDefault' | 'newIssueNotificationMessage' | 'purchaseDeveloperNotificationMessage' | 'passwordResetIdentityDefault' | 'passwordResetByAdminNotificationMessage' | 'rejectDeveloperNotificationMessage' | 'requestDeveloperNotificationMessage';
+export type TemplateName =
+  | "applicationApprovedNotificationMessage"
+  | "accountClosedDeveloper"
+  | "quotaLimitApproachingDeveloperNotificationMessage"
+  | "newDeveloperNotificationMessage"
+  | "emailChangeIdentityDefault"
+  | "inviteUserNotificationMessage"
+  | "newCommentNotificationMessage"
+  | "confirmSignUpIdentityDefault"
+  | "newIssueNotificationMessage"
+  | "purchaseDeveloperNotificationMessage"
+  | "passwordResetIdentityDefault"
+  | "passwordResetByAdminNotificationMessage"
+  | "rejectDeveloperNotificationMessage"
+  | "requestDeveloperNotificationMessage";
 
 /**
  * Defines values for PolicyScopeContract.
@@ -8570,7 +8639,7 @@ export type TemplateName = 'applicationApprovedNotificationMessage' | 'accountCl
  * @readonly
  * @enum {string}
  */
-export type PolicyScopeContract = 'Tenant' | 'Product' | 'Api' | 'Operation' | 'All';
+export type PolicyScopeContract = "Tenant" | "Product" | "Api" | "Operation" | "All";
 
 /**
  * Defines values for ExportFormat.
@@ -8578,7 +8647,12 @@ export type PolicyScopeContract = 'Tenant' | 'Product' | 'Api' | 'Operation' | '
  * @readonly
  * @enum {string}
  */
-export type ExportFormat = 'swagger-link' | 'wsdl-link' | 'wadl-link' | 'openapi-link' | 'openapi+json-link';
+export type ExportFormat =
+  | "swagger-link"
+  | "wsdl-link"
+  | "wadl-link"
+  | "openapi-link"
+  | "openapi+json-link";
 
 /**
  * Defines values for VersioningScheme1.
@@ -8586,7 +8660,7 @@ export type ExportFormat = 'swagger-link' | 'wsdl-link' | 'wadl-link' | 'openapi
  * @readonly
  * @enum {string}
  */
-export type VersioningScheme1 = 'Segment' | 'Query' | 'Header';
+export type VersioningScheme1 = "Segment" | "Query" | "Header";
 
 /**
  * Defines values for StoreName.
@@ -8594,7 +8668,7 @@ export type VersioningScheme1 = 'Segment' | 'Query' | 'Header';
  * @readonly
  * @enum {string}
  */
-export type StoreName = 'CertificateAuthority' | 'Root';
+export type StoreName = "CertificateAuthority" | "Root";
 
 /**
  * Contains response data for the listByService operation.
@@ -8604,16 +8678,16 @@ export type ApiListByServiceResponse = ApiCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiCollection;
+  };
 };
 
 /**
@@ -8624,21 +8698,22 @@ export type ApiGetEntityTagResponse = ApiGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ApiGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApiGetResponse = ApiContract & ApiGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiGetResponse = ApiContract &
+  ApiGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8654,16 +8729,17 @@ export type ApiGetResponse = ApiContract & ApiGetHeaders & {
        */
       parsedBody: ApiContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiCreateOrUpdateResponse = ApiContract & ApiCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiCreateOrUpdateResponse = ApiContract &
+  ApiCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8679,7 +8755,7 @@ export type ApiCreateOrUpdateResponse = ApiContract & ApiCreateOrUpdateHeaders &
        */
       parsedBody: ApiContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByTags operation.
@@ -8689,16 +8765,16 @@ export type ApiListByTagsResponse = TagResourceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResourceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagResourceCollection;
+  };
 };
 
 /**
@@ -8709,16 +8785,16 @@ export type ApiListByServiceNextResponse = ApiCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiCollection;
+  };
 };
 
 /**
@@ -8729,16 +8805,16 @@ export type ApiListByTagsNextResponse = TagResourceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResourceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagResourceCollection;
+  };
 };
 
 /**
@@ -8749,16 +8825,16 @@ export type ApiRevisionListByServiceResponse = ApiRevisionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiRevisionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiRevisionCollection;
+  };
 };
 
 /**
@@ -8769,16 +8845,16 @@ export type ApiRevisionListByServiceNextResponse = ApiRevisionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiRevisionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiRevisionCollection;
+  };
 };
 
 /**
@@ -8789,16 +8865,16 @@ export type ApiReleaseListByServiceResponse = ApiReleaseCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiReleaseCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiReleaseCollection;
+  };
 };
 
 /**
@@ -8809,21 +8885,22 @@ export type ApiReleaseGetEntityTagResponse = ApiReleaseGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiReleaseGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ApiReleaseGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApiReleaseGetResponse = ApiReleaseContract & ApiReleaseGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiReleaseGetResponse = ApiReleaseContract &
+  ApiReleaseGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8839,16 +8916,17 @@ export type ApiReleaseGetResponse = ApiReleaseContract & ApiReleaseGetHeaders & 
        */
       parsedBody: ApiReleaseContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiReleaseCreateOrUpdateResponse = ApiReleaseContract & ApiReleaseCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiReleaseCreateOrUpdateResponse = ApiReleaseContract &
+  ApiReleaseCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8864,7 +8942,7 @@ export type ApiReleaseCreateOrUpdateResponse = ApiReleaseContract & ApiReleaseCr
        */
       parsedBody: ApiReleaseContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -8874,16 +8952,16 @@ export type ApiReleaseListByServiceNextResponse = ApiReleaseCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiReleaseCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiReleaseCollection;
+  };
 };
 
 /**
@@ -8894,16 +8972,16 @@ export type ApiOperationListByApiResponse = OperationCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationCollection;
+  };
 };
 
 /**
@@ -8914,21 +8992,22 @@ export type ApiOperationGetEntityTagResponse = ApiOperationGetEntityTagHeaders &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiOperationGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ApiOperationGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApiOperationGetResponse = OperationContract & ApiOperationGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiOperationGetResponse = OperationContract &
+  ApiOperationGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8944,16 +9023,17 @@ export type ApiOperationGetResponse = OperationContract & ApiOperationGetHeaders
        */
       parsedBody: OperationContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiOperationCreateOrUpdateResponse = OperationContract & ApiOperationCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiOperationCreateOrUpdateResponse = OperationContract &
+  ApiOperationCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -8969,7 +9049,7 @@ export type ApiOperationCreateOrUpdateResponse = OperationContract & ApiOperatio
        */
       parsedBody: OperationContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByApiNext operation.
@@ -8979,16 +9059,16 @@ export type ApiOperationListByApiNextResponse = OperationCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationCollection;
+  };
 };
 
 /**
@@ -8999,16 +9079,16 @@ export type ApiOperationPolicyListByOperationResponse = PolicyCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyCollection;
+  };
 };
 
 /**
@@ -9019,21 +9099,22 @@ export type ApiOperationPolicyGetEntityTagResponse = ApiOperationPolicyGetEntity
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiOperationPolicyGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ApiOperationPolicyGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApiOperationPolicyGetResponse = PolicyContract & ApiOperationPolicyGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiOperationPolicyGetResponse = PolicyContract &
+  ApiOperationPolicyGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9049,16 +9130,17 @@ export type ApiOperationPolicyGetResponse = PolicyContract & ApiOperationPolicyG
        */
       parsedBody: PolicyContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiOperationPolicyCreateOrUpdateResponse = PolicyContract & ApiOperationPolicyCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiOperationPolicyCreateOrUpdateResponse = PolicyContract &
+  ApiOperationPolicyCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9074,7 +9156,7 @@ export type ApiOperationPolicyCreateOrUpdateResponse = PolicyContract & ApiOpera
        */
       parsedBody: PolicyContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByOperation operation.
@@ -9084,16 +9166,16 @@ export type TagListByOperationResponse = TagCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagCollection;
+  };
 };
 
 /**
@@ -9104,21 +9186,22 @@ export type TagGetEntityStateByOperationResponse = TagGetEntityStateByOperationH
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagGetEntityStateByOperationHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: TagGetEntityStateByOperationHeaders;
+  };
 };
 
 /**
  * Contains response data for the getByOperation operation.
  */
-export type TagGetByOperationResponse = TagContract & TagGetByOperationHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TagGetByOperationResponse = TagContract &
+  TagGetByOperationHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9134,7 +9217,7 @@ export type TagGetByOperationResponse = TagContract & TagGetByOperationHeaders &
        */
       parsedBody: TagContract;
     };
-};
+  };
 
 /**
  * Contains response data for the assignToOperation operation.
@@ -9144,16 +9227,16 @@ export type TagAssignToOperationResponse = TagContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagContract;
+  };
 };
 
 /**
@@ -9164,16 +9247,16 @@ export type TagListByApiResponse = TagCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagCollection;
+  };
 };
 
 /**
@@ -9184,21 +9267,22 @@ export type TagGetEntityStateByApiResponse = TagGetEntityStateByApiHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagGetEntityStateByApiHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: TagGetEntityStateByApiHeaders;
+  };
 };
 
 /**
  * Contains response data for the getByApi operation.
  */
-export type TagGetByApiResponse = TagContract & TagGetByApiHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TagGetByApiResponse = TagContract &
+  TagGetByApiHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9214,16 +9298,17 @@ export type TagGetByApiResponse = TagContract & TagGetByApiHeaders & {
        */
       parsedBody: TagContract;
     };
-};
+  };
 
 /**
  * Contains response data for the assignToApi operation.
  */
-export type TagAssignToApiResponse = TagContract & TagAssignToApiHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TagAssignToApiResponse = TagContract &
+  TagAssignToApiHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9239,7 +9324,7 @@ export type TagAssignToApiResponse = TagContract & TagAssignToApiHeaders & {
        */
       parsedBody: TagContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByProduct operation.
@@ -9249,16 +9334,16 @@ export type TagListByProductResponse = TagCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagCollection;
+  };
 };
 
 /**
@@ -9269,21 +9354,22 @@ export type TagGetEntityStateByProductResponse = TagGetEntityStateByProductHeade
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagGetEntityStateByProductHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: TagGetEntityStateByProductHeaders;
+  };
 };
 
 /**
  * Contains response data for the getByProduct operation.
  */
-export type TagGetByProductResponse = TagContract & TagGetByProductHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TagGetByProductResponse = TagContract &
+  TagGetByProductHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9299,7 +9385,7 @@ export type TagGetByProductResponse = TagContract & TagGetByProductHeaders & {
        */
       parsedBody: TagContract;
     };
-};
+  };
 
 /**
  * Contains response data for the assignToProduct operation.
@@ -9309,16 +9395,16 @@ export type TagAssignToProductResponse = TagContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagContract;
+  };
 };
 
 /**
@@ -9329,16 +9415,16 @@ export type TagListByServiceResponse = TagCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagCollection;
+  };
 };
 
 /**
@@ -9349,21 +9435,22 @@ export type TagGetEntityStateResponse = TagGetEntityStateHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TagGetEntityStateHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: TagGetEntityStateHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type TagGetResponse = TagContract & TagGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TagGetResponse = TagContract &
+  TagGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9379,16 +9466,17 @@ export type TagGetResponse = TagContract & TagGetHeaders & {
        */
       parsedBody: TagContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type TagCreateOrUpdateResponse = TagContract & TagCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TagCreateOrUpdateResponse = TagContract &
+  TagCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9404,7 +9492,7 @@ export type TagCreateOrUpdateResponse = TagContract & TagCreateOrUpdateHeaders &
        */
       parsedBody: TagContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByOperationNext operation.
@@ -9414,16 +9502,16 @@ export type TagListByOperationNextResponse = TagCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagCollection;
+  };
 };
 
 /**
@@ -9434,16 +9522,16 @@ export type TagListByApiNextResponse = TagCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagCollection;
+  };
 };
 
 /**
@@ -9454,16 +9542,16 @@ export type TagListByProductNextResponse = TagCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagCollection;
+  };
 };
 
 /**
@@ -9474,16 +9562,16 @@ export type TagListByServiceNextResponse = TagCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagCollection;
+  };
 };
 
 /**
@@ -9494,16 +9582,16 @@ export type ApiProductListByApisResponse = ProductCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProductCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProductCollection;
+  };
 };
 
 /**
@@ -9514,16 +9602,16 @@ export type ApiProductListByApisNextResponse = ProductCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProductCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProductCollection;
+  };
 };
 
 /**
@@ -9534,16 +9622,16 @@ export type ApiPolicyListByApiResponse = PolicyCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyCollection;
+  };
 };
 
 /**
@@ -9554,21 +9642,22 @@ export type ApiPolicyGetEntityTagResponse = ApiPolicyGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiPolicyGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ApiPolicyGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApiPolicyGetResponse = PolicyContract & ApiPolicyGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiPolicyGetResponse = PolicyContract &
+  ApiPolicyGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9584,16 +9673,17 @@ export type ApiPolicyGetResponse = PolicyContract & ApiPolicyGetHeaders & {
        */
       parsedBody: PolicyContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiPolicyCreateOrUpdateResponse = PolicyContract & ApiPolicyCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiPolicyCreateOrUpdateResponse = PolicyContract &
+  ApiPolicyCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9609,7 +9699,7 @@ export type ApiPolicyCreateOrUpdateResponse = PolicyContract & ApiPolicyCreateOr
        */
       parsedBody: PolicyContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByApi operation.
@@ -9619,16 +9709,16 @@ export type ApiSchemaListByApiResponse = SchemaCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SchemaCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SchemaCollection;
+  };
 };
 
 /**
@@ -9639,21 +9729,22 @@ export type ApiSchemaGetEntityTagResponse = ApiSchemaGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiSchemaGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ApiSchemaGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApiSchemaGetResponse = SchemaContract & ApiSchemaGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiSchemaGetResponse = SchemaContract &
+  ApiSchemaGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9669,16 +9760,17 @@ export type ApiSchemaGetResponse = SchemaContract & ApiSchemaGetHeaders & {
        */
       parsedBody: SchemaContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiSchemaCreateOrUpdateResponse = SchemaContract & ApiSchemaCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiSchemaCreateOrUpdateResponse = SchemaContract &
+  ApiSchemaCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9694,7 +9786,7 @@ export type ApiSchemaCreateOrUpdateResponse = SchemaContract & ApiSchemaCreateOr
        */
       parsedBody: SchemaContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByApiNext operation.
@@ -9704,16 +9796,16 @@ export type ApiSchemaListByApiNextResponse = SchemaCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SchemaCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SchemaCollection;
+  };
 };
 
 /**
@@ -9724,16 +9816,16 @@ export type ApiDiagnosticListByServiceResponse = DiagnosticCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiagnosticCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiagnosticCollection;
+  };
 };
 
 /**
@@ -9744,21 +9836,22 @@ export type ApiDiagnosticGetEntityTagResponse = ApiDiagnosticGetEntityTagHeaders
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiDiagnosticGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ApiDiagnosticGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApiDiagnosticGetResponse = DiagnosticContract & ApiDiagnosticGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiDiagnosticGetResponse = DiagnosticContract &
+  ApiDiagnosticGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9774,16 +9867,17 @@ export type ApiDiagnosticGetResponse = DiagnosticContract & ApiDiagnosticGetHead
        */
       parsedBody: DiagnosticContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiDiagnosticCreateOrUpdateResponse = DiagnosticContract & ApiDiagnosticCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiDiagnosticCreateOrUpdateResponse = DiagnosticContract &
+  ApiDiagnosticCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9799,7 +9893,7 @@ export type ApiDiagnosticCreateOrUpdateResponse = DiagnosticContract & ApiDiagno
        */
       parsedBody: DiagnosticContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -9809,16 +9903,16 @@ export type ApiDiagnosticListByServiceNextResponse = DiagnosticCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiagnosticCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiagnosticCollection;
+  };
 };
 
 /**
@@ -9829,16 +9923,16 @@ export type ApiIssueListByServiceResponse = IssueCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssueCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssueCollection;
+  };
 };
 
 /**
@@ -9849,21 +9943,22 @@ export type ApiIssueGetEntityTagResponse = ApiIssueGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiIssueGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ApiIssueGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApiIssueGetResponse = IssueContract & ApiIssueGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiIssueGetResponse = IssueContract &
+  ApiIssueGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9879,16 +9974,17 @@ export type ApiIssueGetResponse = IssueContract & ApiIssueGetHeaders & {
        */
       parsedBody: IssueContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiIssueCreateOrUpdateResponse = IssueContract & ApiIssueCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiIssueCreateOrUpdateResponse = IssueContract &
+  ApiIssueCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9904,7 +10000,7 @@ export type ApiIssueCreateOrUpdateResponse = IssueContract & ApiIssueCreateOrUpd
        */
       parsedBody: IssueContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -9914,16 +10010,16 @@ export type ApiIssueListByServiceNextResponse = IssueCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssueCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssueCollection;
+  };
 };
 
 /**
@@ -9934,16 +10030,16 @@ export type ApiIssueCommentListByServiceResponse = IssueCommentCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssueCommentCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssueCommentCollection;
+  };
 };
 
 /**
@@ -9954,21 +10050,22 @@ export type ApiIssueCommentGetEntityTagResponse = ApiIssueCommentGetEntityTagHea
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiIssueCommentGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ApiIssueCommentGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApiIssueCommentGetResponse = IssueCommentContract & ApiIssueCommentGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiIssueCommentGetResponse = IssueCommentContract &
+  ApiIssueCommentGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -9984,16 +10081,17 @@ export type ApiIssueCommentGetResponse = IssueCommentContract & ApiIssueCommentG
        */
       parsedBody: IssueCommentContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiIssueCommentCreateOrUpdateResponse = IssueCommentContract & ApiIssueCommentCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiIssueCommentCreateOrUpdateResponse = IssueCommentContract &
+  ApiIssueCommentCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10009,7 +10107,7 @@ export type ApiIssueCommentCreateOrUpdateResponse = IssueCommentContract & ApiIs
        */
       parsedBody: IssueCommentContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -10019,16 +10117,16 @@ export type ApiIssueCommentListByServiceNextResponse = IssueCommentCollection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssueCommentCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssueCommentCollection;
+  };
 };
 
 /**
@@ -10039,16 +10137,16 @@ export type ApiIssueAttachmentListByServiceResponse = IssueAttachmentCollection 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssueAttachmentCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssueAttachmentCollection;
+  };
 };
 
 /**
@@ -10059,21 +10157,22 @@ export type ApiIssueAttachmentGetEntityTagResponse = ApiIssueAttachmentGetEntity
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiIssueAttachmentGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ApiIssueAttachmentGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApiIssueAttachmentGetResponse = IssueAttachmentContract & ApiIssueAttachmentGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiIssueAttachmentGetResponse = IssueAttachmentContract &
+  ApiIssueAttachmentGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10089,16 +10188,17 @@ export type ApiIssueAttachmentGetResponse = IssueAttachmentContract & ApiIssueAt
        */
       parsedBody: IssueAttachmentContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiIssueAttachmentCreateOrUpdateResponse = IssueAttachmentContract & ApiIssueAttachmentCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiIssueAttachmentCreateOrUpdateResponse = IssueAttachmentContract &
+  ApiIssueAttachmentCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10114,7 +10214,7 @@ export type ApiIssueAttachmentCreateOrUpdateResponse = IssueAttachmentContract &
        */
       parsedBody: IssueAttachmentContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -10124,16 +10224,16 @@ export type ApiIssueAttachmentListByServiceNextResponse = IssueAttachmentCollect
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssueAttachmentCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssueAttachmentCollection;
+  };
 };
 
 /**
@@ -10144,16 +10244,16 @@ export type ApiTagDescriptionListByServiceResponse = TagDescriptionCollection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagDescriptionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagDescriptionCollection;
+  };
 };
 
 /**
@@ -10164,21 +10264,22 @@ export type ApiTagDescriptionGetEntityTagResponse = ApiTagDescriptionGetEntityTa
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiTagDescriptionGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ApiTagDescriptionGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApiTagDescriptionGetResponse = TagDescriptionContract & ApiTagDescriptionGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiTagDescriptionGetResponse = TagDescriptionContract &
+  ApiTagDescriptionGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10194,16 +10295,17 @@ export type ApiTagDescriptionGetResponse = TagDescriptionContract & ApiTagDescri
        */
       parsedBody: TagDescriptionContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiTagDescriptionCreateOrUpdateResponse = TagDescriptionContract & ApiTagDescriptionCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiTagDescriptionCreateOrUpdateResponse = TagDescriptionContract &
+  ApiTagDescriptionCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10219,7 +10321,7 @@ export type ApiTagDescriptionCreateOrUpdateResponse = TagDescriptionContract & A
        */
       parsedBody: TagDescriptionContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -10229,16 +10331,16 @@ export type ApiTagDescriptionListByServiceNextResponse = TagDescriptionCollectio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagDescriptionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagDescriptionCollection;
+  };
 };
 
 /**
@@ -10249,16 +10351,16 @@ export type OperationListByTagsResponse = TagResourceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResourceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagResourceCollection;
+  };
 };
 
 /**
@@ -10269,16 +10371,16 @@ export type OperationListByTagsNextResponse = TagResourceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResourceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagResourceCollection;
+  };
 };
 
 /**
@@ -10289,16 +10391,16 @@ export type ApiVersionSetListByServiceResponse = ApiVersionSetCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiVersionSetCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiVersionSetCollection;
+  };
 };
 
 /**
@@ -10309,21 +10411,22 @@ export type ApiVersionSetGetEntityTagResponse = ApiVersionSetGetEntityTagHeaders
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ApiVersionSetGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ApiVersionSetGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApiVersionSetGetResponse = ApiVersionSetContract & ApiVersionSetGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiVersionSetGetResponse = ApiVersionSetContract &
+  ApiVersionSetGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10339,16 +10442,17 @@ export type ApiVersionSetGetResponse = ApiVersionSetContract & ApiVersionSetGetH
        */
       parsedBody: ApiVersionSetContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApiVersionSetCreateOrUpdateResponse = ApiVersionSetContract & ApiVersionSetCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ApiVersionSetCreateOrUpdateResponse = ApiVersionSetContract &
+  ApiVersionSetCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10364,7 +10468,7 @@ export type ApiVersionSetCreateOrUpdateResponse = ApiVersionSetContract & ApiVer
        */
       parsedBody: ApiVersionSetContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -10374,16 +10478,16 @@ export type ApiVersionSetListByServiceNextResponse = ApiVersionSetCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiVersionSetCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiVersionSetCollection;
+  };
 };
 
 /**
@@ -10394,16 +10498,16 @@ export type AuthorizationServerListByServiceResponse = AuthorizationServerCollec
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationServerCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationServerCollection;
+  };
 };
 
 /**
@@ -10414,21 +10518,22 @@ export type AuthorizationServerGetEntityTagResponse = AuthorizationServerGetEnti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: AuthorizationServerGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: AuthorizationServerGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type AuthorizationServerGetResponse = AuthorizationServerContract & AuthorizationServerGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type AuthorizationServerGetResponse = AuthorizationServerContract &
+  AuthorizationServerGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10444,16 +10549,17 @@ export type AuthorizationServerGetResponse = AuthorizationServerContract & Autho
        */
       parsedBody: AuthorizationServerContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type AuthorizationServerCreateOrUpdateResponse = AuthorizationServerContract & AuthorizationServerCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type AuthorizationServerCreateOrUpdateResponse = AuthorizationServerContract &
+  AuthorizationServerCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10469,7 +10575,7 @@ export type AuthorizationServerCreateOrUpdateResponse = AuthorizationServerContr
        */
       parsedBody: AuthorizationServerContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listSecrets operation.
@@ -10479,16 +10585,16 @@ export type AuthorizationServerListSecretsResponse = ClientSecretContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClientSecretContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClientSecretContract;
+  };
 };
 
 /**
@@ -10499,16 +10605,16 @@ export type AuthorizationServerListByServiceNextResponse = AuthorizationServerCo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationServerCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationServerCollection;
+  };
 };
 
 /**
@@ -10519,16 +10625,16 @@ export type BackendListByServiceResponse = BackendCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackendCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackendCollection;
+  };
 };
 
 /**
@@ -10539,21 +10645,22 @@ export type BackendGetEntityTagResponse = BackendGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: BackendGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: BackendGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type BackendGetResponse = BackendContract & BackendGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type BackendGetResponse = BackendContract &
+  BackendGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10569,16 +10676,17 @@ export type BackendGetResponse = BackendContract & BackendGetHeaders & {
        */
       parsedBody: BackendContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type BackendCreateOrUpdateResponse = BackendContract & BackendCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type BackendCreateOrUpdateResponse = BackendContract &
+  BackendCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10594,7 +10702,7 @@ export type BackendCreateOrUpdateResponse = BackendContract & BackendCreateOrUpd
        */
       parsedBody: BackendContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -10604,16 +10712,16 @@ export type BackendListByServiceNextResponse = BackendCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackendCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackendCollection;
+  };
 };
 
 /**
@@ -10624,16 +10732,16 @@ export type CacheListByServiceResponse = CacheCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CacheCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CacheCollection;
+  };
 };
 
 /**
@@ -10644,21 +10752,22 @@ export type CacheGetEntityTagResponse = CacheGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CacheGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CacheGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type CacheGetResponse = CacheContract & CacheGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type CacheGetResponse = CacheContract &
+  CacheGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10674,16 +10783,17 @@ export type CacheGetResponse = CacheContract & CacheGetHeaders & {
        */
       parsedBody: CacheContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type CacheCreateOrUpdateResponse = CacheContract & CacheCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type CacheCreateOrUpdateResponse = CacheContract &
+  CacheCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10699,7 +10809,7 @@ export type CacheCreateOrUpdateResponse = CacheContract & CacheCreateOrUpdateHea
        */
       parsedBody: CacheContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -10709,16 +10819,16 @@ export type CacheListByServiceNextResponse = CacheCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CacheCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CacheCollection;
+  };
 };
 
 /**
@@ -10729,16 +10839,16 @@ export type CertificateListByServiceResponse = CertificateCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateCollection;
+  };
 };
 
 /**
@@ -10749,21 +10859,22 @@ export type CertificateGetEntityTagResponse = CertificateGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CertificateGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CertificateGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type CertificateGetResponse = CertificateContract & CertificateGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type CertificateGetResponse = CertificateContract &
+  CertificateGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10779,16 +10890,17 @@ export type CertificateGetResponse = CertificateContract & CertificateGetHeaders
        */
       parsedBody: CertificateContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type CertificateCreateOrUpdateResponse = CertificateContract & CertificateCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type CertificateCreateOrUpdateResponse = CertificateContract &
+  CertificateCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -10804,7 +10916,7 @@ export type CertificateCreateOrUpdateResponse = CertificateContract & Certificat
        */
       parsedBody: CertificateContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -10814,16 +10926,16 @@ export type CertificateListByServiceNextResponse = CertificateCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateCollection;
+  };
 };
 
 /**
@@ -10834,16 +10946,16 @@ export type ApiManagementOperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -10854,16 +10966,16 @@ export type ApiManagementOperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -10874,16 +10986,16 @@ export type ApiManagementServiceSkusListAvailableServiceSkusResponse = ResourceS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceSkuResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceSkuResults;
+  };
 };
 
 /**
@@ -10894,16 +11006,16 @@ export type ApiManagementServiceSkusListAvailableServiceSkusNextResponse = Resou
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceSkuResults;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceSkuResults;
+  };
 };
 
 /**
@@ -10914,16 +11026,16 @@ export type ApiManagementServiceRestoreResponse = ApiManagementServiceResource &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -10934,16 +11046,16 @@ export type ApiManagementServiceBackupResponse = ApiManagementServiceResource & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -10954,16 +11066,16 @@ export type ApiManagementServiceCreateOrUpdateResponse = ApiManagementServiceRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -10974,16 +11086,16 @@ export type ApiManagementServiceUpdateResponse = ApiManagementServiceResource & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -10994,16 +11106,16 @@ export type ApiManagementServiceGetResponse = ApiManagementServiceResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -11014,16 +11126,16 @@ export type ApiManagementServiceDeleteMethodResponse = ApiManagementServiceResou
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -11034,16 +11146,16 @@ export type ApiManagementServiceListByResourceGroupResponse = ApiManagementServi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceListResult;
+  };
 };
 
 /**
@@ -11054,16 +11166,16 @@ export type ApiManagementServiceListResponse = ApiManagementServiceListResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceListResult;
+  };
 };
 
 /**
@@ -11074,16 +11186,16 @@ export type ApiManagementServiceGetSsoTokenResponse = ApiManagementServiceGetSso
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceGetSsoTokenResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceGetSsoTokenResult;
+  };
 };
 
 /**
@@ -11094,16 +11206,16 @@ export type ApiManagementServiceCheckNameAvailabilityResponse = ApiManagementSer
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceNameAvailabilityResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceNameAvailabilityResult;
+  };
 };
 
 /**
@@ -11114,16 +11226,16 @@ export type ApiManagementServiceApplyNetworkConfigurationUpdatesResponse = ApiMa
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -11134,16 +11246,16 @@ export type ApiManagementServiceBeginRestoreResponse = ApiManagementServiceResou
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -11154,16 +11266,16 @@ export type ApiManagementServiceBeginBackupResponse = ApiManagementServiceResour
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -11174,16 +11286,16 @@ export type ApiManagementServiceBeginCreateOrUpdateResponse = ApiManagementServi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -11194,16 +11306,16 @@ export type ApiManagementServiceBeginUpdateResponse = ApiManagementServiceResour
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -11214,16 +11326,16 @@ export type ApiManagementServiceBeginDeleteMethodResponse = ApiManagementService
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -11234,16 +11346,16 @@ export type ApiManagementServiceBeginApplyNetworkConfigurationUpdatesResponse = 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceResource;
+  };
 };
 
 /**
@@ -11254,16 +11366,16 @@ export type ApiManagementServiceListByResourceGroupNextResponse = ApiManagementS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceListResult;
+  };
 };
 
 /**
@@ -11274,16 +11386,16 @@ export type ApiManagementServiceListNextResponse = ApiManagementServiceListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiManagementServiceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiManagementServiceListResult;
+  };
 };
 
 /**
@@ -11294,16 +11406,16 @@ export type DiagnosticListByServiceResponse = DiagnosticCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiagnosticCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiagnosticCollection;
+  };
 };
 
 /**
@@ -11314,21 +11426,22 @@ export type DiagnosticGetEntityTagResponse = DiagnosticGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: DiagnosticGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: DiagnosticGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type DiagnosticGetResponse = DiagnosticContract & DiagnosticGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type DiagnosticGetResponse = DiagnosticContract &
+  DiagnosticGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11344,16 +11457,17 @@ export type DiagnosticGetResponse = DiagnosticContract & DiagnosticGetHeaders & 
        */
       parsedBody: DiagnosticContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type DiagnosticCreateOrUpdateResponse = DiagnosticContract & DiagnosticCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type DiagnosticCreateOrUpdateResponse = DiagnosticContract &
+  DiagnosticCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11369,7 +11483,7 @@ export type DiagnosticCreateOrUpdateResponse = DiagnosticContract & DiagnosticCr
        */
       parsedBody: DiagnosticContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -11379,16 +11493,16 @@ export type DiagnosticListByServiceNextResponse = DiagnosticCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiagnosticCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiagnosticCollection;
+  };
 };
 
 /**
@@ -11399,16 +11513,16 @@ export type EmailTemplateListByServiceResponse = EmailTemplateCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EmailTemplateCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EmailTemplateCollection;
+  };
 };
 
 /**
@@ -11419,21 +11533,22 @@ export type EmailTemplateGetEntityTagResponse = EmailTemplateGetEntityTagHeaders
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: EmailTemplateGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: EmailTemplateGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type EmailTemplateGetResponse = EmailTemplateContract & EmailTemplateGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type EmailTemplateGetResponse = EmailTemplateContract &
+  EmailTemplateGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11449,7 +11564,7 @@ export type EmailTemplateGetResponse = EmailTemplateContract & EmailTemplateGetH
        */
       parsedBody: EmailTemplateContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
@@ -11459,16 +11574,16 @@ export type EmailTemplateCreateOrUpdateResponse = EmailTemplateContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EmailTemplateContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EmailTemplateContract;
+  };
 };
 
 /**
@@ -11479,16 +11594,16 @@ export type EmailTemplateListByServiceNextResponse = EmailTemplateCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EmailTemplateCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EmailTemplateCollection;
+  };
 };
 
 /**
@@ -11499,16 +11614,16 @@ export type GatewayListByServiceResponse = GatewayCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayCollection;
+  };
 };
 
 /**
@@ -11519,21 +11634,22 @@ export type GatewayGetEntityTagResponse = GatewayGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: GatewayGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GatewayGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type GatewayGetResponse = GatewayContract & GatewayGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type GatewayGetResponse = GatewayContract &
+  GatewayGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11549,16 +11665,17 @@ export type GatewayGetResponse = GatewayContract & GatewayGetHeaders & {
        */
       parsedBody: GatewayContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type GatewayCreateOrUpdateResponse = GatewayContract & GatewayCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type GatewayCreateOrUpdateResponse = GatewayContract &
+  GatewayCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11574,16 +11691,17 @@ export type GatewayCreateOrUpdateResponse = GatewayContract & GatewayCreateOrUpd
        */
       parsedBody: GatewayContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listKeys operation.
  */
-export type GatewayListKeysResponse = GatewayKeysContract & GatewayListKeysHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type GatewayListKeysResponse = GatewayKeysContract &
+  GatewayListKeysHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11599,7 +11717,7 @@ export type GatewayListKeysResponse = GatewayKeysContract & GatewayListKeysHeade
        */
       parsedBody: GatewayKeysContract;
     };
-};
+  };
 
 /**
  * Contains response data for the generateToken operation.
@@ -11609,16 +11727,16 @@ export type GatewayGenerateTokenResponse = GatewayTokenContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayTokenContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayTokenContract;
+  };
 };
 
 /**
@@ -11629,16 +11747,16 @@ export type GatewayListByServiceNextResponse = GatewayCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayCollection;
+  };
 };
 
 /**
@@ -11649,16 +11767,16 @@ export type GatewayHostnameConfigurationListByServiceResponse = GatewayHostnameC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayHostnameConfigurationCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayHostnameConfigurationCollection;
+  };
 };
 
 /**
@@ -11669,21 +11787,22 @@ export type GatewayHostnameConfigurationGetEntityTagResponse = GatewayHostnameCo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: GatewayHostnameConfigurationGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GatewayHostnameConfigurationGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type GatewayHostnameConfigurationGetResponse = GatewayHostnameConfigurationContract & GatewayHostnameConfigurationGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type GatewayHostnameConfigurationGetResponse = GatewayHostnameConfigurationContract &
+  GatewayHostnameConfigurationGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11699,16 +11818,17 @@ export type GatewayHostnameConfigurationGetResponse = GatewayHostnameConfigurati
        */
       parsedBody: GatewayHostnameConfigurationContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type GatewayHostnameConfigurationCreateOrUpdateResponse = GatewayHostnameConfigurationContract & GatewayHostnameConfigurationCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type GatewayHostnameConfigurationCreateOrUpdateResponse = GatewayHostnameConfigurationContract &
+  GatewayHostnameConfigurationCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11724,7 +11844,7 @@ export type GatewayHostnameConfigurationCreateOrUpdateResponse = GatewayHostname
        */
       parsedBody: GatewayHostnameConfigurationContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -11734,16 +11854,16 @@ export type GatewayHostnameConfigurationListByServiceNextResponse = GatewayHostn
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayHostnameConfigurationCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayHostnameConfigurationCollection;
+  };
 };
 
 /**
@@ -11754,16 +11874,16 @@ export type GatewayApiListByServiceResponse = ApiCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiCollection;
+  };
 };
 
 /**
@@ -11774,11 +11894,11 @@ export type GatewayApiGetEntityTagResponse = GatewayApiGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: GatewayApiGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GatewayApiGetEntityTagHeaders;
+  };
 };
 
 /**
@@ -11789,16 +11909,16 @@ export type GatewayApiCreateOrUpdateResponse = ApiContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiContract;
+  };
 };
 
 /**
@@ -11809,16 +11929,16 @@ export type GatewayApiListByServiceNextResponse = ApiCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiCollection;
+  };
 };
 
 /**
@@ -11829,16 +11949,16 @@ export type GroupListByServiceResponse = GroupCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GroupCollection;
+  };
 };
 
 /**
@@ -11849,21 +11969,22 @@ export type GroupGetEntityTagResponse = GroupGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: GroupGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GroupGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type GroupGetResponse = GroupContract & GroupGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type GroupGetResponse = GroupContract &
+  GroupGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11879,16 +12000,17 @@ export type GroupGetResponse = GroupContract & GroupGetHeaders & {
        */
       parsedBody: GroupContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type GroupCreateOrUpdateResponse = GroupContract & GroupCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type GroupCreateOrUpdateResponse = GroupContract &
+  GroupCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -11904,7 +12026,7 @@ export type GroupCreateOrUpdateResponse = GroupContract & GroupCreateOrUpdateHea
        */
       parsedBody: GroupContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -11914,16 +12036,16 @@ export type GroupListByServiceNextResponse = GroupCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GroupCollection;
+  };
 };
 
 /**
@@ -11934,16 +12056,16 @@ export type GroupUserListResponse = UserCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserCollection;
+  };
 };
 
 /**
@@ -11959,16 +12081,16 @@ export type GroupUserCheckEntityExistsResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: boolean;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: boolean;
+  };
 };
 
 /**
@@ -11979,16 +12101,16 @@ export type GroupUserCreateResponse = UserContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserContract;
+  };
 };
 
 /**
@@ -11999,16 +12121,16 @@ export type GroupUserListNextResponse = UserCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserCollection;
+  };
 };
 
 /**
@@ -12019,16 +12141,16 @@ export type IdentityProviderListByServiceResponse = IdentityProviderList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IdentityProviderList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IdentityProviderList;
+  };
 };
 
 /**
@@ -12039,21 +12161,22 @@ export type IdentityProviderGetEntityTagResponse = IdentityProviderGetEntityTagH
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: IdentityProviderGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: IdentityProviderGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type IdentityProviderGetResponse = IdentityProviderContract & IdentityProviderGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type IdentityProviderGetResponse = IdentityProviderContract &
+  IdentityProviderGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12069,16 +12192,17 @@ export type IdentityProviderGetResponse = IdentityProviderContract & IdentityPro
        */
       parsedBody: IdentityProviderContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type IdentityProviderCreateOrUpdateResponse = IdentityProviderContract & IdentityProviderCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type IdentityProviderCreateOrUpdateResponse = IdentityProviderContract &
+  IdentityProviderCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12094,7 +12218,7 @@ export type IdentityProviderCreateOrUpdateResponse = IdentityProviderContract & 
        */
       parsedBody: IdentityProviderContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listSecrets operation.
@@ -12104,16 +12228,16 @@ export type IdentityProviderListSecretsResponse = ClientSecretContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClientSecretContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClientSecretContract;
+  };
 };
 
 /**
@@ -12124,16 +12248,16 @@ export type IdentityProviderListByServiceNextResponse = IdentityProviderList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IdentityProviderList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IdentityProviderList;
+  };
 };
 
 /**
@@ -12144,26 +12268,27 @@ export type IssueListByServiceResponse = IssueCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssueCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssueCollection;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type IssueGetResponse = IssueContract & IssueGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type IssueGetResponse = IssueContract &
+  IssueGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12179,7 +12304,7 @@ export type IssueGetResponse = IssueContract & IssueGetHeaders & {
        */
       parsedBody: IssueContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -12189,16 +12314,16 @@ export type IssueListByServiceNextResponse = IssueCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssueCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssueCollection;
+  };
 };
 
 /**
@@ -12209,16 +12334,16 @@ export type LoggerListByServiceResponse = LoggerCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LoggerCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LoggerCollection;
+  };
 };
 
 /**
@@ -12229,21 +12354,22 @@ export type LoggerGetEntityTagResponse = LoggerGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: LoggerGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: LoggerGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type LoggerGetResponse = LoggerContract & LoggerGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type LoggerGetResponse = LoggerContract &
+  LoggerGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12259,16 +12385,17 @@ export type LoggerGetResponse = LoggerContract & LoggerGetHeaders & {
        */
       parsedBody: LoggerContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type LoggerCreateOrUpdateResponse = LoggerContract & LoggerCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type LoggerCreateOrUpdateResponse = LoggerContract &
+  LoggerCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12284,7 +12411,7 @@ export type LoggerCreateOrUpdateResponse = LoggerContract & LoggerCreateOrUpdate
        */
       parsedBody: LoggerContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByServiceNext operation.
@@ -12294,16 +12421,16 @@ export type LoggerListByServiceNextResponse = LoggerCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LoggerCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LoggerCollection;
+  };
 };
 
 /**
@@ -12314,16 +12441,16 @@ export type NamedValueListByServiceResponse = NamedValueCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NamedValueCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NamedValueCollection;
+  };
 };
 
 /**
@@ -12334,21 +12461,22 @@ export type NamedValueGetEntityTagResponse = NamedValueGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: NamedValueGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: NamedValueGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type NamedValueGetResponse = NamedValueContract & NamedValueGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type NamedValueGetResponse = NamedValueContract &
+  NamedValueGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12364,16 +12492,17 @@ export type NamedValueGetResponse = NamedValueContract & NamedValueGetHeaders & 
        */
       parsedBody: NamedValueContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type NamedValueCreateOrUpdateResponse = NamedValueContract & NamedValueCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type NamedValueCreateOrUpdateResponse = NamedValueContract &
+  NamedValueCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12389,16 +12518,17 @@ export type NamedValueCreateOrUpdateResponse = NamedValueContract & NamedValueCr
        */
       parsedBody: NamedValueContract;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
  */
-export type NamedValueUpdateResponse = NamedValueContract & NamedValueUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type NamedValueUpdateResponse = NamedValueContract &
+  NamedValueUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12414,7 +12544,7 @@ export type NamedValueUpdateResponse = NamedValueContract & NamedValueUpdateHead
        */
       parsedBody: NamedValueContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listValue operation.
@@ -12424,16 +12554,16 @@ export type NamedValueListValueResponse = PropertyValueContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PropertyValueContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PropertyValueContract;
+  };
 };
 
 /**
@@ -12444,16 +12574,16 @@ export type NamedValueListByServiceNextResponse = NamedValueCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NamedValueCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NamedValueCollection;
+  };
 };
 
 /**
@@ -12464,16 +12594,16 @@ export type NetworkStatusListByServiceResponse = Array<NetworkStatusContractByLo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkStatusContractByLocation[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkStatusContractByLocation[];
+  };
 };
 
 /**
@@ -12484,16 +12614,16 @@ export type NetworkStatusListByLocationResponse = NetworkStatusContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkStatusContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkStatusContract;
+  };
 };
 
 /**
@@ -12504,16 +12634,16 @@ export type NotificationListByServiceResponse = NotificationCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotificationCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NotificationCollection;
+  };
 };
 
 /**
@@ -12524,16 +12654,16 @@ export type NotificationGetResponse = NotificationContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotificationContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NotificationContract;
+  };
 };
 
 /**
@@ -12544,16 +12674,16 @@ export type NotificationCreateOrUpdateResponse = NotificationContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotificationContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NotificationContract;
+  };
 };
 
 /**
@@ -12564,16 +12694,16 @@ export type NotificationListByServiceNextResponse = NotificationCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotificationCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NotificationCollection;
+  };
 };
 
 /**
@@ -12584,16 +12714,16 @@ export type NotificationRecipientUserListByNotificationResponse = RecipientUserC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecipientUserCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecipientUserCollection;
+  };
 };
 
 /**
@@ -12609,16 +12739,16 @@ export type NotificationRecipientUserCheckEntityExistsResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: boolean;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: boolean;
+  };
 };
 
 /**
@@ -12629,16 +12759,16 @@ export type NotificationRecipientUserCreateOrUpdateResponse = RecipientUserContr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecipientUserContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecipientUserContract;
+  };
 };
 
 /**
@@ -12649,16 +12779,16 @@ export type NotificationRecipientEmailListByNotificationResponse = RecipientEmai
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecipientEmailCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecipientEmailCollection;
+  };
 };
 
 /**
@@ -12674,16 +12804,16 @@ export type NotificationRecipientEmailCheckEntityExistsResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: boolean;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: boolean;
+  };
 };
 
 /**
@@ -12694,16 +12824,16 @@ export type NotificationRecipientEmailCreateOrUpdateResponse = RecipientEmailCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecipientEmailContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecipientEmailContract;
+  };
 };
 
 /**
@@ -12714,16 +12844,16 @@ export type OpenIdConnectProviderListByServiceResponse = OpenIdConnectProviderCo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenIdConnectProviderCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OpenIdConnectProviderCollection;
+  };
 };
 
 /**
@@ -12734,21 +12864,22 @@ export type OpenIdConnectProviderGetEntityTagResponse = OpenIdConnectProviderGet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: OpenIdConnectProviderGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: OpenIdConnectProviderGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type OpenIdConnectProviderGetResponse = OpenidConnectProviderContract & OpenIdConnectProviderGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type OpenIdConnectProviderGetResponse = OpenidConnectProviderContract &
+  OpenIdConnectProviderGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12764,16 +12895,17 @@ export type OpenIdConnectProviderGetResponse = OpenidConnectProviderContract & O
        */
       parsedBody: OpenidConnectProviderContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type OpenIdConnectProviderCreateOrUpdateResponse = OpenidConnectProviderContract & OpenIdConnectProviderCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type OpenIdConnectProviderCreateOrUpdateResponse = OpenidConnectProviderContract &
+  OpenIdConnectProviderCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12789,7 +12921,7 @@ export type OpenIdConnectProviderCreateOrUpdateResponse = OpenidConnectProviderC
        */
       parsedBody: OpenidConnectProviderContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listSecrets operation.
@@ -12799,16 +12931,16 @@ export type OpenIdConnectProviderListSecretsResponse = ClientSecretContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClientSecretContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClientSecretContract;
+  };
 };
 
 /**
@@ -12819,16 +12951,16 @@ export type OpenIdConnectProviderListByServiceNextResponse = OpenIdConnectProvid
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OpenIdConnectProviderCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OpenIdConnectProviderCollection;
+  };
 };
 
 /**
@@ -12839,16 +12971,16 @@ export type PolicyListByServiceResponse = PolicyCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyCollection;
+  };
 };
 
 /**
@@ -12859,21 +12991,22 @@ export type PolicyGetEntityTagResponse = PolicyGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: PolicyGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: PolicyGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type PolicyGetResponse = PolicyContract & PolicyGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type PolicyGetResponse = PolicyContract &
+  PolicyGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12889,16 +13022,17 @@ export type PolicyGetResponse = PolicyContract & PolicyGetHeaders & {
        */
       parsedBody: PolicyContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type PolicyCreateOrUpdateResponse = PolicyContract & PolicyCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type PolicyCreateOrUpdateResponse = PolicyContract &
+  PolicyCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12914,7 +13048,7 @@ export type PolicyCreateOrUpdateResponse = PolicyContract & PolicyCreateOrUpdate
        */
       parsedBody: PolicyContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByService operation.
@@ -12924,16 +13058,16 @@ export type PolicyDescriptionListByServiceResponse = PolicyDescriptionCollection
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyDescriptionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyDescriptionCollection;
+  };
 };
 
 /**
@@ -12944,21 +13078,22 @@ export type SignInSettingsGetEntityTagResponse = SignInSettingsGetEntityTagHeade
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: SignInSettingsGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: SignInSettingsGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type SignInSettingsGetResponse = PortalSigninSettings & SignInSettingsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type SignInSettingsGetResponse = PortalSigninSettings &
+  SignInSettingsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -12974,7 +13109,7 @@ export type SignInSettingsGetResponse = PortalSigninSettings & SignInSettingsGet
        */
       parsedBody: PortalSigninSettings;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
@@ -12984,16 +13119,16 @@ export type SignInSettingsCreateOrUpdateResponse = PortalSigninSettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PortalSigninSettings;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PortalSigninSettings;
+  };
 };
 
 /**
@@ -13004,21 +13139,22 @@ export type SignUpSettingsGetEntityTagResponse = SignUpSettingsGetEntityTagHeade
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: SignUpSettingsGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: SignUpSettingsGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type SignUpSettingsGetResponse = PortalSignupSettings & SignUpSettingsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type SignUpSettingsGetResponse = PortalSignupSettings &
+  SignUpSettingsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -13034,7 +13170,7 @@ export type SignUpSettingsGetResponse = PortalSignupSettings & SignUpSettingsGet
        */
       parsedBody: PortalSignupSettings;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
@@ -13044,16 +13180,16 @@ export type SignUpSettingsCreateOrUpdateResponse = PortalSignupSettings & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PortalSignupSettings;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PortalSignupSettings;
+  };
 };
 
 /**
@@ -13064,21 +13200,22 @@ export type DelegationSettingsGetEntityTagResponse = DelegationSettingsGetEntity
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: DelegationSettingsGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: DelegationSettingsGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type DelegationSettingsGetResponse = PortalDelegationSettings & DelegationSettingsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type DelegationSettingsGetResponse = PortalDelegationSettings &
+  DelegationSettingsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -13094,7 +13231,7 @@ export type DelegationSettingsGetResponse = PortalDelegationSettings & Delegatio
        */
       parsedBody: PortalDelegationSettings;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
@@ -13104,16 +13241,16 @@ export type DelegationSettingsCreateOrUpdateResponse = PortalDelegationSettings 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PortalDelegationSettings;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PortalDelegationSettings;
+  };
 };
 
 /**
@@ -13124,16 +13261,16 @@ export type DelegationSettingsListSecretsResponse = PortalSettingValidationKeyCo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PortalSettingValidationKeyContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PortalSettingValidationKeyContract;
+  };
 };
 
 /**
@@ -13144,16 +13281,16 @@ export type ProductListByServiceResponse = ProductCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProductCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProductCollection;
+  };
 };
 
 /**
@@ -13164,21 +13301,22 @@ export type ProductGetEntityTagResponse = ProductGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ProductGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ProductGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ProductGetResponse = ProductContract & ProductGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ProductGetResponse = ProductContract &
+  ProductGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -13194,16 +13332,17 @@ export type ProductGetResponse = ProductContract & ProductGetHeaders & {
        */
       parsedBody: ProductContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ProductCreateOrUpdateResponse = ProductContract & ProductCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ProductCreateOrUpdateResponse = ProductContract &
+  ProductCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -13219,7 +13358,7 @@ export type ProductCreateOrUpdateResponse = ProductContract & ProductCreateOrUpd
        */
       parsedBody: ProductContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByTags operation.
@@ -13229,16 +13368,16 @@ export type ProductListByTagsResponse = TagResourceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResourceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagResourceCollection;
+  };
 };
 
 /**
@@ -13249,16 +13388,16 @@ export type ProductListByServiceNextResponse = ProductCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProductCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProductCollection;
+  };
 };
 
 /**
@@ -13269,16 +13408,16 @@ export type ProductListByTagsNextResponse = TagResourceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResourceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagResourceCollection;
+  };
 };
 
 /**
@@ -13289,16 +13428,16 @@ export type ProductApiListByProductResponse = ApiCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiCollection;
+  };
 };
 
 /**
@@ -13309,16 +13448,16 @@ export type ProductApiCreateOrUpdateResponse = ApiContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiContract;
+  };
 };
 
 /**
@@ -13329,16 +13468,16 @@ export type ProductApiListByProductNextResponse = ApiCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiCollection;
+  };
 };
 
 /**
@@ -13349,16 +13488,16 @@ export type ProductGroupListByProductResponse = GroupCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GroupCollection;
+  };
 };
 
 /**
@@ -13369,16 +13508,16 @@ export type ProductGroupCreateOrUpdateResponse = GroupContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GroupContract;
+  };
 };
 
 /**
@@ -13389,16 +13528,16 @@ export type ProductGroupListByProductNextResponse = GroupCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GroupCollection;
+  };
 };
 
 /**
@@ -13409,16 +13548,16 @@ export type ProductSubscriptionsListResponse = SubscriptionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionCollection;
+  };
 };
 
 /**
@@ -13429,16 +13568,16 @@ export type ProductSubscriptionsListNextResponse = SubscriptionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionCollection;
+  };
 };
 
 /**
@@ -13449,16 +13588,16 @@ export type ProductPolicyListByProductResponse = PolicyCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PolicyCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PolicyCollection;
+  };
 };
 
 /**
@@ -13469,21 +13608,22 @@ export type ProductPolicyGetEntityTagResponse = ProductPolicyGetEntityTagHeaders
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ProductPolicyGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ProductPolicyGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ProductPolicyGetResponse = PolicyContract & ProductPolicyGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ProductPolicyGetResponse = PolicyContract &
+  ProductPolicyGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -13499,16 +13639,17 @@ export type ProductPolicyGetResponse = PolicyContract & ProductPolicyGetHeaders 
        */
       parsedBody: PolicyContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ProductPolicyCreateOrUpdateResponse = PolicyContract & ProductPolicyCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ProductPolicyCreateOrUpdateResponse = PolicyContract &
+  ProductPolicyCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -13524,7 +13665,7 @@ export type ProductPolicyCreateOrUpdateResponse = PolicyContract & ProductPolicy
        */
       parsedBody: PolicyContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listByService operation.
@@ -13534,16 +13675,16 @@ export type QuotaByCounterKeysListByServiceResponse = QuotaCounterCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QuotaCounterCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QuotaCounterCollection;
+  };
 };
 
 /**
@@ -13554,16 +13695,16 @@ export type QuotaByPeriodKeysGetResponse = QuotaCounterContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QuotaCounterContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QuotaCounterContract;
+  };
 };
 
 /**
@@ -13574,16 +13715,16 @@ export type RegionListByServiceResponse = RegionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegionListResult;
+  };
 };
 
 /**
@@ -13594,16 +13735,16 @@ export type RegionListByServiceNextResponse = RegionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegionListResult;
+  };
 };
 
 /**
@@ -13614,16 +13755,16 @@ export type ReportsListByApiResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13634,16 +13775,16 @@ export type ReportsListByUserResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13654,16 +13795,16 @@ export type ReportsListByOperationResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13674,16 +13815,16 @@ export type ReportsListByProductResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13694,16 +13835,16 @@ export type ReportsListByGeoResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13714,16 +13855,16 @@ export type ReportsListBySubscriptionResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13734,16 +13875,16 @@ export type ReportsListByTimeResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13754,16 +13895,16 @@ export type ReportsListByRequestResponse = RequestReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RequestReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RequestReportCollection;
+  };
 };
 
 /**
@@ -13774,16 +13915,16 @@ export type ReportsListByApiNextResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13794,16 +13935,16 @@ export type ReportsListByUserNextResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13814,16 +13955,16 @@ export type ReportsListByOperationNextResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13834,16 +13975,16 @@ export type ReportsListByProductNextResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13854,16 +13995,16 @@ export type ReportsListByGeoNextResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13874,16 +14015,16 @@ export type ReportsListBySubscriptionNextResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13894,16 +14035,16 @@ export type ReportsListByTimeNextResponse = ReportCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReportCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReportCollection;
+  };
 };
 
 /**
@@ -13914,16 +14055,16 @@ export type SubscriptionListResponse = SubscriptionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionCollection;
+  };
 };
 
 /**
@@ -13934,21 +14075,22 @@ export type SubscriptionGetEntityTagResponse = SubscriptionGetEntityTagHeaders &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: SubscriptionGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: SubscriptionGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type SubscriptionGetResponse = SubscriptionContract & SubscriptionGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type SubscriptionGetResponse = SubscriptionContract &
+  SubscriptionGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -13964,16 +14106,17 @@ export type SubscriptionGetResponse = SubscriptionContract & SubscriptionGetHead
        */
       parsedBody: SubscriptionContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type SubscriptionCreateOrUpdateResponse = SubscriptionContract & SubscriptionCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type SubscriptionCreateOrUpdateResponse = SubscriptionContract &
+  SubscriptionCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -13989,7 +14132,7 @@ export type SubscriptionCreateOrUpdateResponse = SubscriptionContract & Subscrip
        */
       parsedBody: SubscriptionContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listSecrets operation.
@@ -13999,16 +14142,16 @@ export type SubscriptionListSecretsResponse = SubscriptionKeysContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionKeysContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionKeysContract;
+  };
 };
 
 /**
@@ -14019,16 +14162,16 @@ export type SubscriptionListNextResponse = SubscriptionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionCollection;
+  };
 };
 
 /**
@@ -14039,16 +14182,16 @@ export type TagResourceListByServiceResponse = TagResourceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResourceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagResourceCollection;
+  };
 };
 
 /**
@@ -14059,16 +14202,16 @@ export type TagResourceListByServiceNextResponse = TagResourceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagResourceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagResourceCollection;
+  };
 };
 
 /**
@@ -14079,21 +14222,22 @@ export type TenantAccessGetEntityTagResponse = TenantAccessGetEntityTagHeaders &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TenantAccessGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: TenantAccessGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type TenantAccessGetResponse = AccessInformationContract & TenantAccessGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TenantAccessGetResponse = AccessInformationContract &
+  TenantAccessGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -14109,16 +14253,17 @@ export type TenantAccessGetResponse = AccessInformationContract & TenantAccessGe
        */
       parsedBody: AccessInformationContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listSecrets operation.
  */
-export type TenantAccessListSecretsResponse = AccessInformationContract & TenantAccessListSecretsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TenantAccessListSecretsResponse = AccessInformationContract &
+  TenantAccessListSecretsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -14134,16 +14279,17 @@ export type TenantAccessListSecretsResponse = AccessInformationContract & Tenant
        */
       parsedBody: AccessInformationContract;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type TenantAccessGitGetResponse = AccessInformationContract & TenantAccessGitGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TenantAccessGitGetResponse = AccessInformationContract &
+  TenantAccessGitGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -14159,16 +14305,17 @@ export type TenantAccessGitGetResponse = AccessInformationContract & TenantAcces
        */
       parsedBody: AccessInformationContract;
     };
-};
+  };
 
 /**
  * Contains response data for the listSecrets operation.
  */
-export type TenantAccessGitListSecretsResponse = AccessInformationContract & TenantAccessGitListSecretsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type TenantAccessGitListSecretsResponse = AccessInformationContract &
+  TenantAccessGitListSecretsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -14184,7 +14331,7 @@ export type TenantAccessGitListSecretsResponse = AccessInformationContract & Ten
        */
       parsedBody: AccessInformationContract;
     };
-};
+  };
 
 /**
  * Contains response data for the deploy operation.
@@ -14194,16 +14341,16 @@ export type TenantConfigurationDeployResponse = OperationResultContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResultContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationResultContract;
+  };
 };
 
 /**
@@ -14214,16 +14361,16 @@ export type TenantConfigurationSaveResponse = OperationResultContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResultContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationResultContract;
+  };
 };
 
 /**
@@ -14234,16 +14381,16 @@ export type TenantConfigurationValidateResponse = OperationResultContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResultContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationResultContract;
+  };
 };
 
 /**
@@ -14254,16 +14401,16 @@ export type TenantConfigurationGetSyncStateResponse = TenantConfigurationSyncSta
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TenantConfigurationSyncStateContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TenantConfigurationSyncStateContract;
+  };
 };
 
 /**
@@ -14274,16 +14421,16 @@ export type TenantConfigurationBeginDeployResponse = OperationResultContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResultContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationResultContract;
+  };
 };
 
 /**
@@ -14294,16 +14441,16 @@ export type TenantConfigurationBeginSaveResponse = OperationResultContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResultContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationResultContract;
+  };
 };
 
 /**
@@ -14314,16 +14461,16 @@ export type TenantConfigurationBeginValidateResponse = OperationResultContract &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResultContract;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationResultContract;
+  };
 };
 
 /**
@@ -14334,16 +14481,16 @@ export type UserListByServiceResponse = UserCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserCollection;
+  };
 };
 
 /**
@@ -14354,21 +14501,22 @@ export type UserGetEntityTagResponse = UserGetEntityTagHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: UserGetEntityTagHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: UserGetEntityTagHeaders;
+  };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type UserGetResponse = UserContract & UserGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type UserGetResponse = UserContract &
+  UserGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -14384,16 +14532,17 @@ export type UserGetResponse = UserContract & UserGetHeaders & {
        */
       parsedBody: UserContract;
     };
-};
+  };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type UserCreateOrUpdateResponse = UserContract & UserCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type UserCreateOrUpdateResponse = UserContract &
+  UserCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -14409,7 +14558,7 @@ export type UserCreateOrUpdateResponse = UserContract & UserCreateOrUpdateHeader
        */
       parsedBody: UserContract;
     };
-};
+  };
 
 /**
  * Contains response data for the generateSsoUrl operation.
@@ -14419,16 +14568,16 @@ export type UserGenerateSsoUrlResponse = GenerateSsoUrlResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GenerateSsoUrlResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GenerateSsoUrlResult;
+  };
 };
 
 /**
@@ -14439,16 +14588,16 @@ export type UserGetSharedAccessTokenResponse = UserTokenResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserTokenResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserTokenResult;
+  };
 };
 
 /**
@@ -14459,16 +14608,16 @@ export type UserListByServiceNextResponse = UserCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserCollection;
+  };
 };
 
 /**
@@ -14479,16 +14628,16 @@ export type UserGroupListResponse = GroupCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GroupCollection;
+  };
 };
 
 /**
@@ -14499,16 +14648,16 @@ export type UserGroupListNextResponse = GroupCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GroupCollection;
+  };
 };
 
 /**
@@ -14519,16 +14668,16 @@ export type UserSubscriptionListResponse = SubscriptionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionCollection;
+  };
 };
 
 /**
@@ -14539,16 +14688,16 @@ export type UserSubscriptionListNextResponse = SubscriptionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionCollection;
+  };
 };
 
 /**
@@ -14559,16 +14708,16 @@ export type UserIdentitiesListResponse = UserIdentityCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserIdentityCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserIdentityCollection;
+  };
 };
 
 /**
@@ -14579,16 +14728,16 @@ export type UserIdentitiesListNextResponse = UserIdentityCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserIdentityCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserIdentityCollection;
+  };
 };
 
 /**
@@ -14599,14 +14748,14 @@ export type ApiExportGetResponse = ApiExportResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiExportResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiExportResult;
+  };
 };

@@ -337,7 +337,7 @@ export const CheckCapacityNameAvailabilityParameters: msRest.CompositeMapper = {
       },
       type: {
         serializedName: "type",
-        defaultValue: 'Microsoft.PowerBIDedicated/capacities',
+        defaultValue: "Microsoft.PowerBIDedicated/capacities",
         type: {
           name: "String"
         }

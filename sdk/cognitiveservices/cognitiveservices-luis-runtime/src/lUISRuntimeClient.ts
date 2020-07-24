@@ -25,7 +25,11 @@ class LUISRuntimeClient extends LUISRuntimeClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    endpoint: string,
+    options?: msRest.ServiceClientOptions
+  ) {
     super(credentials, endpoint, options);
     this.prediction = new operations.PredictionOperations(this);
   }

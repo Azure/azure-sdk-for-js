@@ -35,14 +35,24 @@ export class Disks {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisksListResponse>
    */
-  list(resourceGroupName: string, labName: string, userName: string, options?: Models.DisksListOptionalParams): Promise<Models.DisksListResponse>;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    options?: Models.DisksListOptionalParams
+  ): Promise<Models.DisksListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, userName: string, callback: msRest.ServiceCallback<Models.DiskList>): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    callback: msRest.ServiceCallback<Models.DiskList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -50,8 +60,20 @@ export class Disks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, userName: string, options: Models.DisksListOptionalParams, callback: msRest.ServiceCallback<Models.DiskList>): void;
-  list(resourceGroupName: string, labName: string, userName: string, options?: Models.DisksListOptionalParams | msRest.ServiceCallback<Models.DiskList>, callback?: msRest.ServiceCallback<Models.DiskList>): Promise<Models.DisksListResponse> {
+  list(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    options: Models.DisksListOptionalParams,
+    callback: msRest.ServiceCallback<Models.DiskList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    options?: Models.DisksListOptionalParams | msRest.ServiceCallback<Models.DiskList>,
+    callback?: msRest.ServiceCallback<Models.DiskList>
+  ): Promise<Models.DisksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class Disks {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DisksListResponse>;
+      callback
+    ) as Promise<Models.DisksListResponse>;
   }
 
   /**
@@ -72,7 +95,13 @@ export class Disks {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisksGetResponse>
    */
-  get(resourceGroupName: string, labName: string, userName: string, name: string, options?: Models.DisksGetOptionalParams): Promise<Models.DisksGetResponse>;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: Models.DisksGetOptionalParams
+  ): Promise<Models.DisksGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -80,7 +109,13 @@ export class Disks {
    * @param name The name of the disk.
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, userName: string, name: string, callback: msRest.ServiceCallback<Models.Disk>): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.Disk>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -89,8 +124,22 @@ export class Disks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, userName: string, name: string, options: Models.DisksGetOptionalParams, callback: msRest.ServiceCallback<Models.Disk>): void;
-  get(resourceGroupName: string, labName: string, userName: string, name: string, options?: Models.DisksGetOptionalParams | msRest.ServiceCallback<Models.Disk>, callback?: msRest.ServiceCallback<Models.Disk>): Promise<Models.DisksGetResponse> {
+  get(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options: Models.DisksGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.Disk>
+  ): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: Models.DisksGetOptionalParams | msRest.ServiceCallback<Models.Disk>,
+    callback?: msRest.ServiceCallback<Models.Disk>
+  ): Promise<Models.DisksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +149,8 @@ export class Disks {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DisksGetResponse>;
+      callback
+    ) as Promise<Models.DisksGetResponse>;
   }
 
   /**
@@ -113,9 +163,24 @@ export class Disks {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisksCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.Disk, options?: msRest.RequestOptionsBase): Promise<Models.DisksCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,labName,userName,name,disk,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DisksCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    disk: Models.Disk,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisksCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      labName,
+      userName,
+      name,
+      disk,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DisksCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -127,9 +192,20 @@ export class Disks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,labName,userName,name,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      labName,
+      userName,
+      name,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -142,7 +218,14 @@ export class Disks {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisksUpdateResponse>
    */
-  update(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.DiskFragment, options?: msRest.RequestOptionsBase): Promise<Models.DisksUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    disk: Models.DiskFragment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisksUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -151,7 +234,14 @@ export class Disks {
    * @param disk A Disk.
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.DiskFragment, callback: msRest.ServiceCallback<Models.Disk>): void;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    disk: Models.DiskFragment,
+    callback: msRest.ServiceCallback<Models.Disk>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -161,8 +251,24 @@ export class Disks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.DiskFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Disk>): void;
-  update(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.DiskFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Disk>, callback?: msRest.ServiceCallback<Models.Disk>): Promise<Models.DisksUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    disk: Models.DiskFragment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Disk>
+  ): void;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    disk: Models.DiskFragment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Disk>,
+    callback?: msRest.ServiceCallback<Models.Disk>
+  ): Promise<Models.DisksUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -173,7 +279,8 @@ export class Disks {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.DisksUpdateResponse>;
+      callback
+    ) as Promise<Models.DisksUpdateResponse>;
   }
 
   /**
@@ -187,9 +294,22 @@ export class Disks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  attach(resourceGroupName: string, labName: string, userName: string, name: string, attachDiskProperties: Models.AttachDiskProperties, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginAttach(resourceGroupName,labName,userName,name,attachDiskProperties,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  attach(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    attachDiskProperties: Models.AttachDiskProperties,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginAttach(
+      resourceGroupName,
+      labName,
+      userName,
+      name,
+      attachDiskProperties,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -203,9 +323,22 @@ export class Disks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  detach(resourceGroupName: string, labName: string, userName: string, name: string, detachDiskProperties: Models.DetachDiskProperties, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDetach(resourceGroupName,labName,userName,name,detachDiskProperties,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  detach(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    detachDiskProperties: Models.DetachDiskProperties,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDetach(
+      resourceGroupName,
+      labName,
+      userName,
+      name,
+      detachDiskProperties,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -218,7 +351,14 @@ export class Disks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, labName: string, userName: string, name: string, disk: Models.Disk, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    disk: Models.Disk,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -229,7 +369,8 @@ export class Disks {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -241,7 +382,13 @@ export class Disks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, labName: string, userName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -251,7 +398,8 @@ export class Disks {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -265,7 +413,14 @@ export class Disks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginAttach(resourceGroupName: string, labName: string, userName: string, name: string, attachDiskProperties: Models.AttachDiskProperties, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginAttach(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    attachDiskProperties: Models.AttachDiskProperties,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -276,7 +431,8 @@ export class Disks {
         options
       },
       beginAttachOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -290,7 +446,14 @@ export class Disks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDetach(resourceGroupName: string, labName: string, userName: string, name: string, detachDiskProperties: Models.DetachDiskProperties, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDetach(
+    resourceGroupName: string,
+    labName: string,
+    userName: string,
+    name: string,
+    detachDiskProperties: Models.DetachDiskProperties,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -301,7 +464,8 @@ export class Disks {
         options
       },
       beginDetachOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -310,7 +474,10 @@ export class Disks {
    * @param [options] The optional parameters
    * @returns Promise<Models.DisksListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DisksListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DisksListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -321,15 +488,24 @@ export class Disks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskList>, callback?: msRest.ServiceCallback<Models.DiskList>): Promise<Models.DisksListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiskList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskList>,
+    callback?: msRest.ServiceCallback<Models.DiskList>
+  ): Promise<Models.DisksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DisksListNextResponse>;
+      callback
+    ) as Promise<Models.DisksListNextResponse>;
   }
 }
 
@@ -337,7 +513,8 @@ export class Disks {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -351,9 +528,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiskList
@@ -367,7 +542,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -375,13 +551,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Disk
@@ -395,7 +566,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -403,12 +575,8 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "disk",
     mapper: {
@@ -429,7 +597,8 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -437,12 +606,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "disk",
     mapper: {
@@ -466,7 +631,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -474,12 +640,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -493,7 +655,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginAttachOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}/attach",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}/attach",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -501,12 +664,8 @@ const beginAttachOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "attachDiskProperties",
     mapper: {
@@ -526,7 +685,8 @@ const beginAttachOperationSpec: msRest.OperationSpec = {
 
 const beginDetachOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}/detach",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/disks/{name}/detach",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -534,12 +694,8 @@ const beginDetachOperationSpec: msRest.OperationSpec = {
     Parameters.userName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "detachDiskProperties",
     mapper: {
@@ -561,12 +717,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiskList

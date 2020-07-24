@@ -36,9 +36,22 @@ export class Interactions {
    * @param [options] The optional parameters
    * @returns Promise<Models.InteractionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, interactionName: string, parameters: Models.InteractionResourceFormat, options?: msRest.RequestOptionsBase): Promise<Models.InteractionsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,hubName,interactionName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InteractionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    interactionName: string,
+    parameters: Models.InteractionResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InteractionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      hubName,
+      interactionName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.InteractionsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -49,14 +62,24 @@ export class Interactions {
    * @param [options] The optional parameters
    * @returns Promise<Models.InteractionsGetResponse>
    */
-  get(resourceGroupName: string, hubName: string, interactionName: string, options?: Models.InteractionsGetOptionalParams): Promise<Models.InteractionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    interactionName: string,
+    options?: Models.InteractionsGetOptionalParams
+  ): Promise<Models.InteractionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param interactionName The name of the interaction.
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, interactionName: string, callback: msRest.ServiceCallback<Models.InteractionResourceFormat>): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    interactionName: string,
+    callback: msRest.ServiceCallback<Models.InteractionResourceFormat>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -64,8 +87,22 @@ export class Interactions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, interactionName: string, options: Models.InteractionsGetOptionalParams, callback: msRest.ServiceCallback<Models.InteractionResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, interactionName: string, options?: Models.InteractionsGetOptionalParams | msRest.ServiceCallback<Models.InteractionResourceFormat>, callback?: msRest.ServiceCallback<Models.InteractionResourceFormat>): Promise<Models.InteractionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    interactionName: string,
+    options: Models.InteractionsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.InteractionResourceFormat>
+  ): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    interactionName: string,
+    options?:
+      | Models.InteractionsGetOptionalParams
+      | msRest.ServiceCallback<Models.InteractionResourceFormat>,
+    callback?: msRest.ServiceCallback<Models.InteractionResourceFormat>
+  ): Promise<Models.InteractionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +111,8 @@ export class Interactions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.InteractionsGetResponse>;
+      callback
+    ) as Promise<Models.InteractionsGetResponse>;
   }
 
   /**
@@ -84,21 +122,41 @@ export class Interactions {
    * @param [options] The optional parameters
    * @returns Promise<Models.InteractionsListByHubResponse>
    */
-  listByHub(resourceGroupName: string, hubName: string, options?: Models.InteractionsListByHubOptionalParams): Promise<Models.InteractionsListByHubResponse>;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?: Models.InteractionsListByHubOptionalParams
+  ): Promise<Models.InteractionsListByHubResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, callback: msRest.ServiceCallback<Models.InteractionListResult>): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    callback: msRest.ServiceCallback<Models.InteractionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHub(resourceGroupName: string, hubName: string, options: Models.InteractionsListByHubOptionalParams, callback: msRest.ServiceCallback<Models.InteractionListResult>): void;
-  listByHub(resourceGroupName: string, hubName: string, options?: Models.InteractionsListByHubOptionalParams | msRest.ServiceCallback<Models.InteractionListResult>, callback?: msRest.ServiceCallback<Models.InteractionListResult>): Promise<Models.InteractionsListByHubResponse> {
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options: Models.InteractionsListByHubOptionalParams,
+    callback: msRest.ServiceCallback<Models.InteractionListResult>
+  ): void;
+  listByHub(
+    resourceGroupName: string,
+    hubName: string,
+    options?:
+      | Models.InteractionsListByHubOptionalParams
+      | msRest.ServiceCallback<Models.InteractionListResult>,
+    callback?: msRest.ServiceCallback<Models.InteractionListResult>
+  ): Promise<Models.InteractionsListByHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +164,8 @@ export class Interactions {
         options
       },
       listByHubOperationSpec,
-      callback) as Promise<Models.InteractionsListByHubResponse>;
+      callback
+    ) as Promise<Models.InteractionsListByHubResponse>;
   }
 
   /**
@@ -117,14 +176,24 @@ export class Interactions {
    * @param [options] The optional parameters
    * @returns Promise<Models.InteractionsSuggestRelationshipLinksResponse>
    */
-  suggestRelationshipLinks(resourceGroupName: string, hubName: string, interactionName: string, options?: msRest.RequestOptionsBase): Promise<Models.InteractionsSuggestRelationshipLinksResponse>;
+  suggestRelationshipLinks(
+    resourceGroupName: string,
+    hubName: string,
+    interactionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InteractionsSuggestRelationshipLinksResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param interactionName The name of the interaction.
    * @param callback The callback
    */
-  suggestRelationshipLinks(resourceGroupName: string, hubName: string, interactionName: string, callback: msRest.ServiceCallback<Models.SuggestRelationshipLinksResponse>): void;
+  suggestRelationshipLinks(
+    resourceGroupName: string,
+    hubName: string,
+    interactionName: string,
+    callback: msRest.ServiceCallback<Models.SuggestRelationshipLinksResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -132,8 +201,22 @@ export class Interactions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  suggestRelationshipLinks(resourceGroupName: string, hubName: string, interactionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SuggestRelationshipLinksResponse>): void;
-  suggestRelationshipLinks(resourceGroupName: string, hubName: string, interactionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SuggestRelationshipLinksResponse>, callback?: msRest.ServiceCallback<Models.SuggestRelationshipLinksResponse>): Promise<Models.InteractionsSuggestRelationshipLinksResponse> {
+  suggestRelationshipLinks(
+    resourceGroupName: string,
+    hubName: string,
+    interactionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SuggestRelationshipLinksResponse>
+  ): void;
+  suggestRelationshipLinks(
+    resourceGroupName: string,
+    hubName: string,
+    interactionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SuggestRelationshipLinksResponse>,
+    callback?: msRest.ServiceCallback<Models.SuggestRelationshipLinksResponse>
+  ): Promise<Models.InteractionsSuggestRelationshipLinksResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -142,7 +225,8 @@ export class Interactions {
         options
       },
       suggestRelationshipLinksOperationSpec,
-      callback) as Promise<Models.InteractionsSuggestRelationshipLinksResponse>;
+      callback
+    ) as Promise<Models.InteractionsSuggestRelationshipLinksResponse>;
   }
 
   /**
@@ -154,7 +238,13 @@ export class Interactions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, hubName: string, interactionName: string, parameters: Models.InteractionResourceFormat, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    interactionName: string,
+    parameters: Models.InteractionResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -164,7 +254,8 @@ export class Interactions {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -173,26 +264,41 @@ export class Interactions {
    * @param [options] The optional parameters
    * @returns Promise<Models.InteractionsListByHubNextResponse>
    */
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.InteractionsListByHubNextResponse>;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InteractionsListByHubNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.InteractionListResult>): void;
+  listByHubNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.InteractionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InteractionListResult>): void;
-  listByHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InteractionListResult>, callback?: msRest.ServiceCallback<Models.InteractionListResult>): Promise<Models.InteractionsListByHubNextResponse> {
+  listByHubNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.InteractionListResult>
+  ): void;
+  listByHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InteractionListResult>,
+    callback?: msRest.ServiceCallback<Models.InteractionListResult>
+  ): Promise<Models.InteractionsListByHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByHubNextOperationSpec,
-      callback) as Promise<Models.InteractionsListByHubNextResponse>;
+      callback
+    ) as Promise<Models.InteractionsListByHubNextResponse>;
   }
 }
 
@@ -200,20 +306,16 @@ export class Interactions {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/interactions/{interactionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/interactions/{interactionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.interactionName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.localeCode,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.localeCode, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InteractionResourceFormat
@@ -227,19 +329,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByHubOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/interactions",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.hubName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.localeCode,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/interactions",
+  urlParameters: [Parameters.resourceGroupName, Parameters.hubName1, Parameters.subscriptionId],
+  queryParameters: [Parameters.localeCode, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InteractionListResult
@@ -253,19 +347,16 @@ const listByHubOperationSpec: msRest.OperationSpec = {
 
 const suggestRelationshipLinksOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/interactions/{interactionName}/suggestRelationshipLinks",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/interactions/{interactionName}/suggestRelationshipLinks",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.interactionName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SuggestRelationshipLinksResponse
@@ -279,19 +370,16 @@ const suggestRelationshipLinksOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/interactions/{interactionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/interactions/{interactionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.interactionName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -315,12 +403,8 @@ const listByHubNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InteractionListResult

@@ -33,21 +33,39 @@ export class HybridConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HybridConnectionsListByNamespaceResponse>
    */
-  listByNamespace(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.HybridConnectionsListByNamespaceResponse>;
+  listByNamespace(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HybridConnectionsListByNamespaceResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param callback The callback
    */
-  listByNamespace(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.HybridConnectionListResult>): void;
+  listByNamespace(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<Models.HybridConnectionListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByNamespace(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionListResult>): void;
-  listByNamespace(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionListResult>, callback?: msRest.ServiceCallback<Models.HybridConnectionListResult>): Promise<Models.HybridConnectionsListByNamespaceResponse> {
+  listByNamespace(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HybridConnectionListResult>
+  ): void;
+  listByNamespace(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionListResult>,
+    callback?: msRest.ServiceCallback<Models.HybridConnectionListResult>
+  ): Promise<Models.HybridConnectionsListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class HybridConnections {
         options
       },
       listByNamespaceOperationSpec,
-      callback) as Promise<Models.HybridConnectionsListByNamespaceResponse>;
+      callback
+    ) as Promise<Models.HybridConnectionsListByNamespaceResponse>;
   }
 
   /**
@@ -67,7 +86,13 @@ export class HybridConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HybridConnectionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, parameters: Models.HybridConnection, options?: msRest.RequestOptionsBase): Promise<Models.HybridConnectionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    parameters: Models.HybridConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HybridConnectionsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -75,7 +100,13 @@ export class HybridConnections {
    * @param parameters Parameters supplied to create a hybrid connection.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, parameters: Models.HybridConnection, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    parameters: Models.HybridConnection,
+    callback: msRest.ServiceCallback<Models.HybridConnection>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -84,8 +115,22 @@ export class HybridConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, parameters: Models.HybridConnection, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, parameters: Models.HybridConnection, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.HybridConnectionsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    parameters: Models.HybridConnection,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HybridConnection>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    parameters: Models.HybridConnection,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>,
+    callback?: msRest.ServiceCallback<Models.HybridConnection>
+  ): Promise<Models.HybridConnectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +140,8 @@ export class HybridConnections {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.HybridConnectionsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.HybridConnectionsCreateOrUpdateResponse>;
   }
 
   /**
@@ -106,14 +152,24 @@ export class HybridConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -121,8 +177,20 @@ export class HybridConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +199,8 @@ export class HybridConnections {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -142,14 +211,24 @@ export class HybridConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HybridConnectionsGetResponse>
    */
-  get(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.HybridConnectionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HybridConnectionsGetResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    callback: msRest.ServiceCallback<Models.HybridConnection>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -157,8 +236,20 @@ export class HybridConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnection>): void;
-  get(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>, callback?: msRest.ServiceCallback<Models.HybridConnection>): Promise<Models.HybridConnectionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HybridConnection>
+  ): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnection>,
+    callback?: msRest.ServiceCallback<Models.HybridConnection>
+  ): Promise<Models.HybridConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +258,8 @@ export class HybridConnections {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.HybridConnectionsGetResponse>;
+      callback
+    ) as Promise<Models.HybridConnectionsGetResponse>;
   }
 
   /**
@@ -178,14 +270,24 @@ export class HybridConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HybridConnectionsListAuthorizationRulesResponse>
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.HybridConnectionsListAuthorizationRulesResponse>;
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HybridConnectionsListAuthorizationRulesResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param hybridConnectionName The hybrid connection name.
    * @param callback The callback
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -193,8 +295,22 @@ export class HybridConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.HybridConnectionsListAuthorizationRulesResponse> {
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>
+  ): void;
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AuthorizationRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>
+  ): Promise<Models.HybridConnectionsListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +319,8 @@ export class HybridConnections {
         options
       },
       listAuthorizationRulesOperationSpec,
-      callback) as Promise<Models.HybridConnectionsListAuthorizationRulesResponse>;
+      callback
+    ) as Promise<Models.HybridConnectionsListAuthorizationRulesResponse>;
   }
 
   /**
@@ -216,7 +333,14 @@ export class HybridConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HybridConnectionsCreateOrUpdateAuthorizationRuleResponse>
    */
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options?: msRest.RequestOptionsBase): Promise<Models.HybridConnectionsCreateOrUpdateAuthorizationRuleResponse>;
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    parameters: Models.AuthorizationRule,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HybridConnectionsCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -225,7 +349,14 @@ export class HybridConnections {
    * @param parameters The authorization rule parameters.
    * @param callback The callback
    */
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    parameters: Models.AuthorizationRule,
+    callback: msRest.ServiceCallback<Models.AuthorizationRule>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -235,8 +366,24 @@ export class HybridConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.HybridConnectionsCreateOrUpdateAuthorizationRuleResponse> {
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    parameters: Models.AuthorizationRule,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationRule>
+  ): void;
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    parameters: Models.AuthorizationRule,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationRule>
+  ): Promise<Models.HybridConnectionsCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -247,7 +394,8 @@ export class HybridConnections {
         options
       },
       createOrUpdateAuthorizationRuleOperationSpec,
-      callback) as Promise<Models.HybridConnectionsCreateOrUpdateAuthorizationRuleResponse>;
+      callback
+    ) as Promise<Models.HybridConnectionsCreateOrUpdateAuthorizationRuleResponse>;
   }
 
   /**
@@ -259,7 +407,13 @@ export class HybridConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -267,7 +421,13 @@ export class HybridConnections {
    * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -276,8 +436,22 @@ export class HybridConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -287,7 +461,8 @@ export class HybridConnections {
         options
       },
       deleteAuthorizationRuleOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -299,7 +474,13 @@ export class HybridConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HybridConnectionsGetAuthorizationRuleResponse>
    */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.HybridConnectionsGetAuthorizationRuleResponse>;
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HybridConnectionsGetAuthorizationRuleResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -307,7 +488,13 @@ export class HybridConnections {
    * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationRule>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -316,8 +503,22 @@ export class HybridConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.HybridConnectionsGetAuthorizationRuleResponse> {
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationRule>
+  ): void;
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationRule>
+  ): Promise<Models.HybridConnectionsGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -327,7 +528,8 @@ export class HybridConnections {
         options
       },
       getAuthorizationRuleOperationSpec,
-      callback) as Promise<Models.HybridConnectionsGetAuthorizationRuleResponse>;
+      callback
+    ) as Promise<Models.HybridConnectionsGetAuthorizationRuleResponse>;
   }
 
   /**
@@ -339,7 +541,13 @@ export class HybridConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HybridConnectionsListKeysResponse>
    */
-  listKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.HybridConnectionsListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HybridConnectionsListKeysResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -347,7 +555,13 @@ export class HybridConnections {
    * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    callback: msRest.ServiceCallback<Models.AccessKeys>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -356,8 +570,22 @@ export class HybridConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  listKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.HybridConnectionsListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessKeys>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>,
+    callback?: msRest.ServiceCallback<Models.AccessKeys>
+  ): Promise<Models.HybridConnectionsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -367,7 +595,8 @@ export class HybridConnections {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.HybridConnectionsListKeysResponse>;
+      callback
+    ) as Promise<Models.HybridConnectionsListKeysResponse>;
   }
 
   /**
@@ -380,7 +609,14 @@ export class HybridConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HybridConnectionsRegenerateKeysResponse>
    */
-  regenerateKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options?: msRest.RequestOptionsBase): Promise<Models.HybridConnectionsRegenerateKeysResponse>;
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    parameters: Models.RegenerateAccessKeyParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HybridConnectionsRegenerateKeysResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -389,7 +625,14 @@ export class HybridConnections {
    * @param parameters Parameters supplied to regenerate authorization rule.
    * @param callback The callback
    */
-  regenerateKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    parameters: Models.RegenerateAccessKeyParameters,
+    callback: msRest.ServiceCallback<Models.AccessKeys>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -399,8 +642,24 @@ export class HybridConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  regenerateKeys(resourceGroupName: string, namespaceName: string, hybridConnectionName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.HybridConnectionsRegenerateKeysResponse> {
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    parameters: Models.RegenerateAccessKeyParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessKeys>
+  ): void;
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    hybridConnectionName: string,
+    authorizationRuleName: string,
+    parameters: Models.RegenerateAccessKeyParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>,
+    callback?: msRest.ServiceCallback<Models.AccessKeys>
+  ): Promise<Models.HybridConnectionsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -411,7 +670,8 @@ export class HybridConnections {
         options
       },
       regenerateKeysOperationSpec,
-      callback) as Promise<Models.HybridConnectionsRegenerateKeysResponse>;
+      callback
+    ) as Promise<Models.HybridConnectionsRegenerateKeysResponse>;
   }
 
   /**
@@ -420,26 +680,41 @@ export class HybridConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HybridConnectionsListByNamespaceNextResponse>
    */
-  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.HybridConnectionsListByNamespaceNextResponse>;
+  listByNamespaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HybridConnectionsListByNamespaceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByNamespaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.HybridConnectionListResult>): void;
+  listByNamespaceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.HybridConnectionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByNamespaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HybridConnectionListResult>): void;
-  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionListResult>, callback?: msRest.ServiceCallback<Models.HybridConnectionListResult>): Promise<Models.HybridConnectionsListByNamespaceNextResponse> {
+  listByNamespaceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HybridConnectionListResult>
+  ): void;
+  listByNamespaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HybridConnectionListResult>,
+    callback?: msRest.ServiceCallback<Models.HybridConnectionListResult>
+  ): Promise<Models.HybridConnectionsListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByNamespaceNextOperationSpec,
-      callback) as Promise<Models.HybridConnectionsListByNamespaceNextResponse>;
+      callback
+    ) as Promise<Models.HybridConnectionsListByNamespaceNextResponse>;
   }
 
   /**
@@ -448,26 +723,43 @@ export class HybridConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.HybridConnectionsListAuthorizationRulesNextResponse>
    */
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.HybridConnectionsListAuthorizationRulesNextResponse>;
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HybridConnectionsListAuthorizationRulesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAuthorizationRulesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAuthorizationRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.HybridConnectionsListAuthorizationRulesNextResponse> {
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>
+  ): void;
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AuthorizationRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>
+  ): Promise<Models.HybridConnectionsListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAuthorizationRulesNextOperationSpec,
-      callback) as Promise<Models.HybridConnectionsListAuthorizationRulesNextResponse>;
+      callback
+    ) as Promise<Models.HybridConnectionsListAuthorizationRulesNextResponse>;
   }
 }
 
@@ -475,18 +767,15 @@ export class HybridConnections {
 const serializer = new msRest.Serializer(Mappers);
 const listByNamespaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HybridConnectionListResult
@@ -500,19 +789,16 @@ const listByNamespaceOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.hybridConnectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -533,19 +819,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.hybridConnectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -558,19 +841,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.hybridConnectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HybridConnection
@@ -584,19 +864,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.hybridConnectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationRuleListResult
@@ -610,7 +887,8 @@ const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -618,12 +896,8 @@ const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -644,7 +918,8 @@ const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
 
 const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -652,12 +927,8 @@ const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -670,7 +941,8 @@ const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
 
 const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -678,12 +950,8 @@ const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationRule
@@ -697,7 +965,8 @@ const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}/listKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}/listKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -705,12 +974,8 @@ const listKeysOperationSpec: msRest.OperationSpec = {
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccessKeys
@@ -724,7 +989,8 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -732,12 +998,8 @@ const regenerateKeysOperationSpec: msRest.OperationSpec = {
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -760,12 +1022,8 @@ const listByNamespaceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HybridConnectionListResult
@@ -781,12 +1039,8 @@ const listAuthorizationRulesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationRuleListResult

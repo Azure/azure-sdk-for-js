@@ -32,26 +32,41 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsCreateResponse>
    */
-  create(parameters: Models.ApplicationCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsCreateResponse>;
+  create(
+    parameters: Models.ApplicationCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsCreateResponse>;
   /**
    * @param parameters The parameters for creating an application.
    * @param callback The callback
    */
-  create(parameters: Models.ApplicationCreateParameters, callback: msRest.ServiceCallback<Models.Application>): void;
+  create(
+    parameters: Models.ApplicationCreateParameters,
+    callback: msRest.ServiceCallback<Models.Application>
+  ): void;
   /**
    * @param parameters The parameters for creating an application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(parameters: Models.ApplicationCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Application>): void;
-  create(parameters: Models.ApplicationCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationsCreateResponse> {
+  create(
+    parameters: Models.ApplicationCreateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Application>
+  ): void;
+  create(
+    parameters: Models.ApplicationCreateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>,
+    callback?: msRest.ServiceCallback<Models.Application>
+  ): Promise<Models.ApplicationsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.ApplicationsCreateResponse>;
+      callback
+    ) as Promise<Models.ApplicationsCreateResponse>;
   }
 
   /**
@@ -68,14 +83,23 @@ export class Applications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ApplicationsListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  list(options?: Models.ApplicationsListOptionalParams | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationsListResponse> {
+  list(
+    options: Models.ApplicationsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): void;
+  list(
+    options?:
+      | Models.ApplicationsListOptionalParams
+      | msRest.ServiceCallback<Models.ApplicationListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): Promise<Models.ApplicationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ApplicationsListResponse>;
+      callback
+    ) as Promise<Models.ApplicationsListResponse>;
   }
 
   /**
@@ -84,7 +108,10 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(applicationObjectId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    applicationObjectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param applicationObjectId Application object ID.
    * @param callback The callback
@@ -95,15 +122,24 @@ export class Applications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(applicationObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(applicationObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    applicationObjectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    applicationObjectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -112,7 +148,10 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsGetResponse>
    */
-  get(applicationObjectId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsGetResponse>;
+  get(
+    applicationObjectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsGetResponse>;
   /**
    * @param applicationObjectId Application object ID.
    * @param callback The callback
@@ -123,15 +162,24 @@ export class Applications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(applicationObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Application>): void;
-  get(applicationObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.ApplicationsGetResponse> {
+  get(
+    applicationObjectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Application>
+  ): void;
+  get(
+    applicationObjectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>,
+    callback?: msRest.ServiceCallback<Models.Application>
+  ): Promise<Models.ApplicationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ApplicationsGetResponse>;
+      callback
+    ) as Promise<Models.ApplicationsGetResponse>;
   }
 
   /**
@@ -141,21 +189,39 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  patch(applicationObjectId: string, parameters: Models.ApplicationUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  patch(
+    applicationObjectId: string,
+    parameters: Models.ApplicationUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param applicationObjectId Application object ID.
    * @param parameters Parameters to update an existing application.
    * @param callback The callback
    */
-  patch(applicationObjectId: string, parameters: Models.ApplicationUpdateParameters, callback: msRest.ServiceCallback<void>): void;
+  patch(
+    applicationObjectId: string,
+    parameters: Models.ApplicationUpdateParameters,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param applicationObjectId Application object ID.
    * @param parameters Parameters to update an existing application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  patch(applicationObjectId: string, parameters: Models.ApplicationUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  patch(applicationObjectId: string, parameters: Models.ApplicationUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  patch(
+    applicationObjectId: string,
+    parameters: Models.ApplicationUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  patch(
+    applicationObjectId: string,
+    parameters: Models.ApplicationUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
@@ -163,7 +229,8 @@ export class Applications {
         options
       },
       patchOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -173,26 +240,41 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsListOwnersResponse>
    */
-  listOwners(applicationObjectId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsListOwnersResponse>;
+  listOwners(
+    applicationObjectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsListOwnersResponse>;
   /**
    * @param applicationObjectId The object ID of the application for which to get owners.
    * @param callback The callback
    */
-  listOwners(applicationObjectId: string, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
+  listOwners(
+    applicationObjectId: string,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
   /**
    * @param applicationObjectId The object ID of the application for which to get owners.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOwners(applicationObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  listOwners(applicationObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.ApplicationsListOwnersResponse> {
+  listOwners(
+    applicationObjectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
+  listOwners(
+    applicationObjectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>,
+    callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): Promise<Models.ApplicationsListOwnersResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
         options
       },
       listOwnersOperationSpec,
-      callback) as Promise<Models.ApplicationsListOwnersResponse>;
+      callback
+    ) as Promise<Models.ApplicationsListOwnersResponse>;
   }
 
   /**
@@ -203,14 +285,22 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  addOwner(applicationObjectId: string, parameters: Models.AddOwnerParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  addOwner(
+    applicationObjectId: string,
+    parameters: Models.AddOwnerParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param applicationObjectId The object ID of the application to which to add the owner.
    * @param parameters The URL of the owner object, such as
    * https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
    * @param callback The callback
    */
-  addOwner(applicationObjectId: string, parameters: Models.AddOwnerParameters, callback: msRest.ServiceCallback<void>): void;
+  addOwner(
+    applicationObjectId: string,
+    parameters: Models.AddOwnerParameters,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param applicationObjectId The object ID of the application to which to add the owner.
    * @param parameters The URL of the owner object, such as
@@ -218,8 +308,18 @@ export class Applications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addOwner(applicationObjectId: string, parameters: Models.AddOwnerParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  addOwner(applicationObjectId: string, parameters: Models.AddOwnerParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  addOwner(
+    applicationObjectId: string,
+    parameters: Models.AddOwnerParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  addOwner(
+    applicationObjectId: string,
+    parameters: Models.AddOwnerParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
@@ -227,7 +327,8 @@ export class Applications {
         options
       },
       addOwnerOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -237,21 +338,39 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  removeOwner(applicationObjectId: string, ownerObjectId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  removeOwner(
+    applicationObjectId: string,
+    ownerObjectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param applicationObjectId The object ID of the application from which to remove the owner.
    * @param ownerObjectId Owner object id
    * @param callback The callback
    */
-  removeOwner(applicationObjectId: string, ownerObjectId: string, callback: msRest.ServiceCallback<void>): void;
+  removeOwner(
+    applicationObjectId: string,
+    ownerObjectId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param applicationObjectId The object ID of the application from which to remove the owner.
    * @param ownerObjectId Owner object id
    * @param options The optional parameters
    * @param callback The callback
    */
-  removeOwner(applicationObjectId: string, ownerObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  removeOwner(applicationObjectId: string, ownerObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  removeOwner(
+    applicationObjectId: string,
+    ownerObjectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  removeOwner(
+    applicationObjectId: string,
+    ownerObjectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
@@ -259,7 +378,8 @@ export class Applications {
         options
       },
       removeOwnerOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -268,26 +388,41 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsListKeyCredentialsResponse>
    */
-  listKeyCredentials(applicationObjectId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsListKeyCredentialsResponse>;
+  listKeyCredentials(
+    applicationObjectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsListKeyCredentialsResponse>;
   /**
    * @param applicationObjectId Application object ID.
    * @param callback The callback
    */
-  listKeyCredentials(applicationObjectId: string, callback: msRest.ServiceCallback<Models.KeyCredentialListResult>): void;
+  listKeyCredentials(
+    applicationObjectId: string,
+    callback: msRest.ServiceCallback<Models.KeyCredentialListResult>
+  ): void;
   /**
    * @param applicationObjectId Application object ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeyCredentials(applicationObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeyCredentialListResult>): void;
-  listKeyCredentials(applicationObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyCredentialListResult>, callback?: msRest.ServiceCallback<Models.KeyCredentialListResult>): Promise<Models.ApplicationsListKeyCredentialsResponse> {
+  listKeyCredentials(
+    applicationObjectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeyCredentialListResult>
+  ): void;
+  listKeyCredentials(
+    applicationObjectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeyCredentialListResult>,
+    callback?: msRest.ServiceCallback<Models.KeyCredentialListResult>
+  ): Promise<Models.ApplicationsListKeyCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
         options
       },
       listKeyCredentialsOperationSpec,
-      callback) as Promise<Models.ApplicationsListKeyCredentialsResponse>;
+      callback
+    ) as Promise<Models.ApplicationsListKeyCredentialsResponse>;
   }
 
   /**
@@ -297,21 +432,39 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  updateKeyCredentials(applicationObjectId: string, value: Models.KeyCredential[], options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  updateKeyCredentials(
+    applicationObjectId: string,
+    value: Models.KeyCredential[],
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param applicationObjectId Application object ID.
    * @param value A collection of KeyCredentials.
    * @param callback The callback
    */
-  updateKeyCredentials(applicationObjectId: string, value: Models.KeyCredential[], callback: msRest.ServiceCallback<void>): void;
+  updateKeyCredentials(
+    applicationObjectId: string,
+    value: Models.KeyCredential[],
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param applicationObjectId Application object ID.
    * @param value A collection of KeyCredentials.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateKeyCredentials(applicationObjectId: string, value: Models.KeyCredential[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateKeyCredentials(applicationObjectId: string, value: Models.KeyCredential[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateKeyCredentials(
+    applicationObjectId: string,
+    value: Models.KeyCredential[],
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  updateKeyCredentials(
+    applicationObjectId: string,
+    value: Models.KeyCredential[],
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
@@ -319,7 +472,8 @@ export class Applications {
         options
       },
       updateKeyCredentialsOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -328,26 +482,43 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsListPasswordCredentialsResponse>
    */
-  listPasswordCredentials(applicationObjectId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsListPasswordCredentialsResponse>;
+  listPasswordCredentials(
+    applicationObjectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsListPasswordCredentialsResponse>;
   /**
    * @param applicationObjectId Application object ID.
    * @param callback The callback
    */
-  listPasswordCredentials(applicationObjectId: string, callback: msRest.ServiceCallback<Models.PasswordCredentialListResult>): void;
+  listPasswordCredentials(
+    applicationObjectId: string,
+    callback: msRest.ServiceCallback<Models.PasswordCredentialListResult>
+  ): void;
   /**
    * @param applicationObjectId Application object ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPasswordCredentials(applicationObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PasswordCredentialListResult>): void;
-  listPasswordCredentials(applicationObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PasswordCredentialListResult>, callback?: msRest.ServiceCallback<Models.PasswordCredentialListResult>): Promise<Models.ApplicationsListPasswordCredentialsResponse> {
+  listPasswordCredentials(
+    applicationObjectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PasswordCredentialListResult>
+  ): void;
+  listPasswordCredentials(
+    applicationObjectId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PasswordCredentialListResult>,
+    callback?: msRest.ServiceCallback<Models.PasswordCredentialListResult>
+  ): Promise<Models.ApplicationsListPasswordCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
         options
       },
       listPasswordCredentialsOperationSpec,
-      callback) as Promise<Models.ApplicationsListPasswordCredentialsResponse>;
+      callback
+    ) as Promise<Models.ApplicationsListPasswordCredentialsResponse>;
   }
 
   /**
@@ -357,21 +528,39 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  updatePasswordCredentials(applicationObjectId: string, value: Models.PasswordCredential[], options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  updatePasswordCredentials(
+    applicationObjectId: string,
+    value: Models.PasswordCredential[],
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param applicationObjectId Application object ID.
    * @param value A collection of PasswordCredentials.
    * @param callback The callback
    */
-  updatePasswordCredentials(applicationObjectId: string, value: Models.PasswordCredential[], callback: msRest.ServiceCallback<void>): void;
+  updatePasswordCredentials(
+    applicationObjectId: string,
+    value: Models.PasswordCredential[],
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param applicationObjectId Application object ID.
    * @param value A collection of PasswordCredentials.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updatePasswordCredentials(applicationObjectId: string, value: Models.PasswordCredential[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updatePasswordCredentials(applicationObjectId: string, value: Models.PasswordCredential[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updatePasswordCredentials(
+    applicationObjectId: string,
+    value: Models.PasswordCredential[],
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  updatePasswordCredentials(
+    applicationObjectId: string,
+    value: Models.PasswordCredential[],
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
@@ -379,7 +568,8 @@ export class Applications {
         options
       },
       updatePasswordCredentialsOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -388,26 +578,43 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsGetServicePrincipalsIdByAppIdResponse>
    */
-  getServicePrincipalsIdByAppId(applicationID: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsGetServicePrincipalsIdByAppIdResponse>;
+  getServicePrincipalsIdByAppId(
+    applicationID: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsGetServicePrincipalsIdByAppIdResponse>;
   /**
    * @param applicationID The application ID.
    * @param callback The callback
    */
-  getServicePrincipalsIdByAppId(applicationID: string, callback: msRest.ServiceCallback<Models.ServicePrincipalObjectResult>): void;
+  getServicePrincipalsIdByAppId(
+    applicationID: string,
+    callback: msRest.ServiceCallback<Models.ServicePrincipalObjectResult>
+  ): void;
   /**
    * @param applicationID The application ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getServicePrincipalsIdByAppId(applicationID: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServicePrincipalObjectResult>): void;
-  getServicePrincipalsIdByAppId(applicationID: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServicePrincipalObjectResult>, callback?: msRest.ServiceCallback<Models.ServicePrincipalObjectResult>): Promise<Models.ApplicationsGetServicePrincipalsIdByAppIdResponse> {
+  getServicePrincipalsIdByAppId(
+    applicationID: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServicePrincipalObjectResult>
+  ): void;
+  getServicePrincipalsIdByAppId(
+    applicationID: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ServicePrincipalObjectResult>,
+    callback?: msRest.ServiceCallback<Models.ServicePrincipalObjectResult>
+  ): Promise<Models.ApplicationsGetServicePrincipalsIdByAppIdResponse> {
     return this.client.sendOperationRequest(
       {
         applicationID,
         options
       },
       getServicePrincipalsIdByAppIdOperationSpec,
-      callback) as Promise<Models.ApplicationsGetServicePrincipalsIdByAppIdResponse>;
+      callback
+    ) as Promise<Models.ApplicationsGetServicePrincipalsIdByAppIdResponse>;
   }
 
   /**
@@ -416,7 +623,10 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsListNextResponse>
    */
-  listNext(nextLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsListNextResponse>;
+  listNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsListNextResponse>;
   /**
    * @param nextLink Next link for the list operation.
    * @param callback The callback
@@ -427,15 +637,24 @@ export class Applications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  listNext(nextLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.ApplicationsListNextResponse> {
+  listNext(
+    nextLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): void;
+  listNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): Promise<Models.ApplicationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ApplicationsListNextResponse>;
+      callback
+    ) as Promise<Models.ApplicationsListNextResponse>;
   }
 
   /**
@@ -445,26 +664,41 @@ export class Applications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationsListOwnersNextResponse>
    */
-  listOwnersNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationsListOwnersNextResponse>;
+  listOwnersNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationsListOwnersNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listOwnersNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
+  listOwnersNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOwnersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  listOwnersNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.ApplicationsListOwnersNextResponse> {
+  listOwnersNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
+  listOwnersNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>,
+    callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): Promise<Models.ApplicationsListOwnersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listOwnersNextOperationSpec,
-      callback) as Promise<Models.ApplicationsListOwnersNextResponse>;
+      callback
+    ) as Promise<Models.ApplicationsListOwnersNextResponse>;
   }
 }
 
@@ -473,15 +707,9 @@ const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/applications",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -503,16 +731,9 @@ const createOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/applications",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationListResult
@@ -527,16 +748,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{tenantID}/applications/{applicationObjectId}",
-  urlParameters: [
-    Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applicationObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -549,16 +763,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/applications/{applicationObjectId}",
-  urlParameters: [
-    Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applicationObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Application
@@ -573,16 +780,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const patchOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "{tenantID}/applications/{applicationObjectId}",
-  urlParameters: [
-    Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applicationObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -602,16 +802,9 @@ const patchOperationSpec: msRest.OperationSpec = {
 const listOwnersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/applications/{applicationObjectId}/owners",
-  urlParameters: [
-    Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applicationObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DirectoryObjectListResult
@@ -626,16 +819,9 @@ const listOwnersOperationSpec: msRest.OperationSpec = {
 const addOwnerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/applications/{applicationObjectId}/$links/owners",
-  urlParameters: [
-    Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applicationObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -655,17 +841,9 @@ const addOwnerOperationSpec: msRest.OperationSpec = {
 const removeOwnerOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{tenantID}/applications/{applicationObjectId}/$links/owners/{ownerObjectId}",
-  urlParameters: [
-    Parameters.applicationObjectId,
-    Parameters.ownerObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applicationObjectId, Parameters.ownerObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -678,16 +856,9 @@ const removeOwnerOperationSpec: msRest.OperationSpec = {
 const listKeyCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/applications/{applicationObjectId}/keyCredentials",
-  urlParameters: [
-    Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applicationObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.KeyCredentialListResult
@@ -702,16 +873,9 @@ const listKeyCredentialsOperationSpec: msRest.OperationSpec = {
 const updateKeyCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "{tenantID}/applications/{applicationObjectId}/keyCredentials",
-  urlParameters: [
-    Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applicationObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       value: "value"
@@ -733,16 +897,9 @@ const updateKeyCredentialsOperationSpec: msRest.OperationSpec = {
 const listPasswordCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/applications/{applicationObjectId}/passwordCredentials",
-  urlParameters: [
-    Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applicationObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PasswordCredentialListResult
@@ -757,16 +914,9 @@ const listPasswordCredentialsOperationSpec: msRest.OperationSpec = {
 const updatePasswordCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "{tenantID}/applications/{applicationObjectId}/passwordCredentials",
-  urlParameters: [
-    Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applicationObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       value: "value"
@@ -788,16 +938,9 @@ const updatePasswordCredentialsOperationSpec: msRest.OperationSpec = {
 const getServicePrincipalsIdByAppIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/servicePrincipalsByAppId/{applicationID}/objectId",
-  urlParameters: [
-    Parameters.tenantID,
-    Parameters.applicationID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID, Parameters.applicationID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServicePrincipalObjectResult
@@ -812,16 +955,9 @@ const getServicePrincipalsIdByAppIdOperationSpec: msRest.OperationSpec = {
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/{nextLink}",
-  urlParameters: [
-    Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextLink, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationListResult
@@ -837,12 +973,8 @@ const listOwnersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://graph.windows.net",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DirectoryObjectListResult

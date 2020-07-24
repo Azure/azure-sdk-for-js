@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { MicrosoftResourceHealthContext } from "./microsoftResourceHealthContext";
 
-
 class MicrosoftResourceHealth extends MicrosoftResourceHealthContext {
   // Operation groups
   availabilityStatuses: operations.AvailabilityStatuses;
@@ -27,7 +26,11 @@ class MicrosoftResourceHealth extends MicrosoftResourceHealthContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MicrosoftResourceHealthOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.MicrosoftResourceHealthOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.availabilityStatuses = new operations.AvailabilityStatuses(this);
     this.operations = new operations.Operations(this);

@@ -35,9 +35,20 @@ export class IntegrationRuntimeObjectMetadata {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>
    */
-  refresh(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse> {
-    return this.beginRefresh(resourceGroupName,factoryName,integrationRuntimeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>;
+  refresh(
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse> {
+    return this.beginRefresh(
+      resourceGroupName,
+      factoryName,
+      integrationRuntimeName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.IntegrationRuntimeObjectMetadataRefreshResponse
+    >;
   }
 
   /**
@@ -49,14 +60,24 @@ export class IntegrationRuntimeObjectMetadata {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>
    */
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: Models.IntegrationRuntimeObjectMetadataGetOptionalParams): Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options?: Models.IntegrationRuntimeObjectMetadataGetOptionalParams
+  ): Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param integrationRuntimeName The integration runtime name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): void;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -64,8 +85,22 @@ export class IntegrationRuntimeObjectMetadata {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options: Models.IntegrationRuntimeObjectMetadataGetOptionalParams, callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): void;
-  get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: Models.IntegrationRuntimeObjectMetadataGetOptionalParams | msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>, callback?: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): Promise<Models.IntegrationRuntimeObjectMetadataGetResponse> {
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options: Models.IntegrationRuntimeObjectMetadataGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>
+  ): void;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options?:
+      | Models.IntegrationRuntimeObjectMetadataGetOptionalParams
+      | msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>,
+    callback?: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>
+  ): Promise<Models.IntegrationRuntimeObjectMetadataGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +109,8 @@ export class IntegrationRuntimeObjectMetadata {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>;
+      callback
+    ) as Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>;
   }
 
   /**
@@ -85,7 +121,12 @@ export class IntegrationRuntimeObjectMetadata {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRefresh(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRefresh(
+    resourceGroupName: string,
+    factoryName: string,
+    integrationRuntimeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -94,7 +135,8 @@ export class IntegrationRuntimeObjectMetadata {
         options
       },
       beginRefreshOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -102,24 +144,18 @@ export class IntegrationRuntimeObjectMetadata {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.integrationRuntimeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "getMetadataRequest"
-    ],
+    parameterPath: ["options", "getMetadataRequest"],
     mapper: Mappers.GetSsisObjectMetadataRequest
   },
   responses: {
@@ -135,19 +171,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginRefreshOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/refreshObjectMetadata",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/refreshObjectMetadata",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.integrationRuntimeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SsisObjectMetadataStatusResponse

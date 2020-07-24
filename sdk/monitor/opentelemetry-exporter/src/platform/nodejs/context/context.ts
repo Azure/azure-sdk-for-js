@@ -47,7 +47,7 @@ export class Context {
      * relative to `Context.ROOT_PATH`
      * @default `../../`
      */
-    private _appPrefix = "../../../",
+    private _appPrefix = "../../../"
   ) {
     this.keys = new Contracts.ContextTagKeys();
     this.tags = <{ [key: string]: string }>{};
@@ -66,13 +66,13 @@ export class Context {
         Context.JS_NODE_PREFIX,
         this._appPrefix,
         Context.ROOT_PATH,
-        "./package.json",
+        "./package.json"
       );
       const packageJsonPathTsNode = path.resolve(
         __dirname,
         this._appPrefix,
         Context.ROOT_PATH,
-        "./package.json",
+        "./package.json"
       );
 
       Context.appVersion[packageJsonPath] = "unknown";
@@ -118,13 +118,13 @@ export class Context {
         Context.JS_NODE_PREFIX,
         this._exporterPrefix,
         Context.ROOT_PATH,
-        "./package.json",
+        "./package.json"
       );
       const packageJsonPathTsNode = path.resolve(
         __dirname,
         this._exporterPrefix,
         Context.ROOT_PATH,
-        "./package.json",
+        "./package.json"
       );
 
       Context.sdkVersion = "unknown";

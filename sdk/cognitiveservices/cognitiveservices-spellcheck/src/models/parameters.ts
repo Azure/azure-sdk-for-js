@@ -11,10 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "acceptLanguage"
-  ],
+  parameterPath: ["options", "acceptLanguage"],
   mapper: {
     serializedName: "Accept-Language",
     type: {
@@ -23,10 +20,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   }
 };
 export const actionType: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "actionType"
-  ],
+  parameterPath: ["options", "actionType"],
   mapper: {
     serializedName: "ActionType",
     type: {
@@ -35,10 +29,7 @@ export const actionType: msRest.OperationQueryParameter = {
   }
 };
 export const appName: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "appName"
-  ],
+  parameterPath: ["options", "appName"],
   mapper: {
     serializedName: "AppName",
     type: {
@@ -47,10 +38,7 @@ export const appName: msRest.OperationQueryParameter = {
   }
 };
 export const clientId: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "clientId"
-  ],
+  parameterPath: ["options", "clientId"],
   mapper: {
     serializedName: "X-MSEdge-ClientID",
     type: {
@@ -59,10 +47,7 @@ export const clientId: msRest.OperationParameter = {
   }
 };
 export const clientIp: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "clientIp"
-  ],
+  parameterPath: ["options", "clientIp"],
   mapper: {
     serializedName: "X-MSEdge-ClientIP",
     type: {
@@ -71,10 +56,7 @@ export const clientIp: msRest.OperationParameter = {
   }
 };
 export const clientMachineName: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "clientMachineName"
-  ],
+  parameterPath: ["options", "clientMachineName"],
   mapper: {
     serializedName: "ClientMachineName",
     type: {
@@ -83,10 +65,7 @@ export const clientMachineName: msRest.OperationQueryParameter = {
   }
 };
 export const countryCode: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "countryCode"
-  ],
+  parameterPath: ["options", "countryCode"],
   mapper: {
     serializedName: "cc",
     type: {
@@ -95,10 +74,7 @@ export const countryCode: msRest.OperationQueryParameter = {
   }
 };
 export const docId: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "docId"
-  ],
+  parameterPath: ["options", "docId"],
   mapper: {
     serializedName: "DocId",
     type: {
@@ -111,7 +87,7 @@ export const endpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: 'https://api.cognitive.microsoft.com',
+    defaultValue: "https://api.cognitive.microsoft.com",
     type: {
       name: "String"
     }
@@ -119,10 +95,7 @@ export const endpoint: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const location: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "location"
-  ],
+  parameterPath: ["options", "location"],
   mapper: {
     serializedName: "X-Search-Location",
     type: {
@@ -131,10 +104,7 @@ export const location: msRest.OperationParameter = {
   }
 };
 export const market: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "market"
-  ],
+  parameterPath: ["options", "market"],
   mapper: {
     serializedName: "mkt",
     type: {
@@ -143,10 +113,7 @@ export const market: msRest.OperationQueryParameter = {
   }
 };
 export const mode: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "mode"
-  ],
+  parameterPath: ["options", "mode"],
   mapper: {
     serializedName: "Mode",
     type: {
@@ -155,10 +122,7 @@ export const mode: msRest.OperationQueryParameter = {
   }
 };
 export const postContextText: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "postContextText"
-  ],
+  parameterPath: ["options", "postContextText"],
   mapper: {
     serializedName: "PostContextText",
     type: {
@@ -167,10 +131,7 @@ export const postContextText: msRest.OperationQueryParameter = {
   }
 };
 export const pragma: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "pragma"
-  ],
+  parameterPath: ["options", "pragma"],
   mapper: {
     serializedName: "Pragma",
     type: {
@@ -179,10 +140,7 @@ export const pragma: msRest.OperationParameter = {
   }
 };
 export const preContextText: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "preContextText"
-  ],
+  parameterPath: ["options", "preContextText"],
   mapper: {
     serializedName: "PreContextText",
     type: {
@@ -191,10 +149,7 @@ export const preContextText: msRest.OperationQueryParameter = {
   }
 };
 export const sessionId: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "sessionId"
-  ],
+  parameterPath: ["options", "sessionId"],
   mapper: {
     serializedName: "SessionId",
     type: {
@@ -203,10 +158,7 @@ export const sessionId: msRest.OperationQueryParameter = {
   }
 };
 export const setLang: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "setLang"
-  ],
+  parameterPath: ["options", "setLang"],
   mapper: {
     serializedName: "SetLang",
     type: {
@@ -225,10 +177,7 @@ export const text: msRest.OperationQueryParameter = {
   }
 };
 export const userAgent: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "userAgent"
-  ],
+  parameterPath: ["options", "userAgent"],
   mapper: {
     serializedName: "User-Agent",
     type: {
@@ -237,10 +186,7 @@ export const userAgent: msRest.OperationParameter = {
   }
 };
 export const userId: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "userId"
-  ],
+  parameterPath: ["options", "userId"],
   mapper: {
     serializedName: "UserId",
     type: {
@@ -254,7 +200,7 @@ export const xBingApisSDK: msRest.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "X-BingApis-SDK",
-    defaultValue: 'true',
+    defaultValue: "true",
     type: {
       name: "String"
     }

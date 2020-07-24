@@ -1108,7 +1108,7 @@ export const RecommendationConfigurationProperties: msRest.CompositeMapper = {
       status: {
         required: true,
         serializedName: "status",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -1177,7 +1177,7 @@ export const IoTSecuritySolutionModel: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "properties.status",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -1249,7 +1249,7 @@ export const IoTSecuritySolutionModel: msRest.CompositeMapper = {
       },
       unmaskedIpLoggingStatus: {
         serializedName: "properties.unmaskedIpLoggingStatus",
-        defaultValue: 'Disabled',
+        defaultValue: "Disabled",
         type: {
           name: "String"
         }
@@ -2055,13 +2055,7 @@ export const SensitivityLabel: msRest.CompositeMapper = {
         serializedName: "rank",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Low",
-            "Medium",
-            "High",
-            "Critical"
-          ]
+          allowedValues: ["None", "Low", "Medium", "High", "Critical"]
         }
       },
       order: {
@@ -3336,11 +3330,7 @@ export const AlertsSuppressionRule: msRest.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled",
-            "Expired"
-          ]
+          allowedValues: ["Enabled", "Disabled", "Expired"]
         }
       },
       comment: {
@@ -6433,48 +6423,47 @@ export const SecureScoreControlDefinitionList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'BaseResource.Setting' : Setting,
-  'BaseResource.DataExportSettings' : DataExportSettings,
-  'BaseResource.SettingResource' : SettingResource,
-  'CustomAlertRule.ThresholdCustomAlertRule' : ThresholdCustomAlertRule,
-  'CustomAlertRule.TimeWindowCustomAlertRule' : TimeWindowCustomAlertRule,
-  'CustomAlertRule.AllowlistCustomAlertRule' : AllowlistCustomAlertRule,
-  'CustomAlertRule.DenylistCustomAlertRule' : DenylistCustomAlertRule,
-  'CustomAlertRule' : CustomAlertRule,
-  'CustomAlertRule.ListCustomAlertRule' : ListCustomAlertRule,
-  'CustomAlertRule.ConnectionToIpNotAllowed' : ConnectionToIpNotAllowed,
-  'CustomAlertRule.LocalUserNotAllowed' : LocalUserNotAllowed,
-  'CustomAlertRule.ProcessNotAllowed' : ProcessNotAllowed,
-  'CustomAlertRule.ActiveConnectionsNotInAllowedRange' : ActiveConnectionsNotInAllowedRange,
-  'CustomAlertRule.AmqpC2DMessagesNotInAllowedRange' : AmqpC2DMessagesNotInAllowedRange,
-  'CustomAlertRule.MqttC2DMessagesNotInAllowedRange' : MqttC2DMessagesNotInAllowedRange,
-  'CustomAlertRule.HttpC2DMessagesNotInAllowedRange' : HttpC2DMessagesNotInAllowedRange,
-  'CustomAlertRule.AmqpC2DRejectedMessagesNotInAllowedRange' : AmqpC2DRejectedMessagesNotInAllowedRange,
-  'CustomAlertRule.MqttC2DRejectedMessagesNotInAllowedRange' : MqttC2DRejectedMessagesNotInAllowedRange,
-  'CustomAlertRule.HttpC2DRejectedMessagesNotInAllowedRange' : HttpC2DRejectedMessagesNotInAllowedRange,
-  'CustomAlertRule.AmqpD2CMessagesNotInAllowedRange' : AmqpD2CMessagesNotInAllowedRange,
-  'CustomAlertRule.MqttD2CMessagesNotInAllowedRange' : MqttD2CMessagesNotInAllowedRange,
-  'CustomAlertRule.HttpD2CMessagesNotInAllowedRange' : HttpD2CMessagesNotInAllowedRange,
-  'CustomAlertRule.DirectMethodInvokesNotInAllowedRange' : DirectMethodInvokesNotInAllowedRange,
-  'CustomAlertRule.FailedLocalLoginsNotInAllowedRange' : FailedLocalLoginsNotInAllowedRange,
-  'CustomAlertRule.FileUploadsNotInAllowedRange' : FileUploadsNotInAllowedRange,
-  'CustomAlertRule.QueuePurgesNotInAllowedRange' : QueuePurgesNotInAllowedRange,
-  'CustomAlertRule.TwinUpdatesNotInAllowedRange' : TwinUpdatesNotInAllowedRange,
-  'CustomAlertRule.UnauthorizedOperationsNotInAllowedRange' : UnauthorizedOperationsNotInAllowedRange,
-  'ResourceDetails' : ResourceDetails,
-  'AdditionalData' : AdditionalData,
-  'AdditionalData.SqlServerVulnerability' : SqlServerVulnerabilityProperties,
-  'AdditionalData.ContainerRegistryVulnerability' : ContainerRegistryVulnerabilityProperties,
-  'AdditionalData.ServerVulnerabilityAssessment' : ServerVulnerabilityProperties,
-  'ResourceDetails.OnPremise' : OnPremiseResourceDetails,
-  'ResourceDetails.Azure' : AzureResourceDetails,
-  'AutomationAction' : AutomationAction,
-  'AutomationAction.LogicApp' : AutomationActionLogicApp,
-  'AutomationAction.EventHub' : AutomationActionEventHub,
-  'AutomationAction.Workspace' : AutomationActionWorkspace,
-  'ExternalSecuritySolution' : ExternalSecuritySolution,
-  'ExternalSecuritySolution.CEF' : CefExternalSecuritySolution,
-  'ExternalSecuritySolution.ATA' : AtaExternalSecuritySolution,
-  'ExternalSecuritySolution.AAD' : AadExternalSecuritySolution
-
+  "BaseResource.Setting": Setting,
+  "BaseResource.DataExportSettings": DataExportSettings,
+  "BaseResource.SettingResource": SettingResource,
+  "CustomAlertRule.ThresholdCustomAlertRule": ThresholdCustomAlertRule,
+  "CustomAlertRule.TimeWindowCustomAlertRule": TimeWindowCustomAlertRule,
+  "CustomAlertRule.AllowlistCustomAlertRule": AllowlistCustomAlertRule,
+  "CustomAlertRule.DenylistCustomAlertRule": DenylistCustomAlertRule,
+  CustomAlertRule: CustomAlertRule,
+  "CustomAlertRule.ListCustomAlertRule": ListCustomAlertRule,
+  "CustomAlertRule.ConnectionToIpNotAllowed": ConnectionToIpNotAllowed,
+  "CustomAlertRule.LocalUserNotAllowed": LocalUserNotAllowed,
+  "CustomAlertRule.ProcessNotAllowed": ProcessNotAllowed,
+  "CustomAlertRule.ActiveConnectionsNotInAllowedRange": ActiveConnectionsNotInAllowedRange,
+  "CustomAlertRule.AmqpC2DMessagesNotInAllowedRange": AmqpC2DMessagesNotInAllowedRange,
+  "CustomAlertRule.MqttC2DMessagesNotInAllowedRange": MqttC2DMessagesNotInAllowedRange,
+  "CustomAlertRule.HttpC2DMessagesNotInAllowedRange": HttpC2DMessagesNotInAllowedRange,
+  "CustomAlertRule.AmqpC2DRejectedMessagesNotInAllowedRange": AmqpC2DRejectedMessagesNotInAllowedRange,
+  "CustomAlertRule.MqttC2DRejectedMessagesNotInAllowedRange": MqttC2DRejectedMessagesNotInAllowedRange,
+  "CustomAlertRule.HttpC2DRejectedMessagesNotInAllowedRange": HttpC2DRejectedMessagesNotInAllowedRange,
+  "CustomAlertRule.AmqpD2CMessagesNotInAllowedRange": AmqpD2CMessagesNotInAllowedRange,
+  "CustomAlertRule.MqttD2CMessagesNotInAllowedRange": MqttD2CMessagesNotInAllowedRange,
+  "CustomAlertRule.HttpD2CMessagesNotInAllowedRange": HttpD2CMessagesNotInAllowedRange,
+  "CustomAlertRule.DirectMethodInvokesNotInAllowedRange": DirectMethodInvokesNotInAllowedRange,
+  "CustomAlertRule.FailedLocalLoginsNotInAllowedRange": FailedLocalLoginsNotInAllowedRange,
+  "CustomAlertRule.FileUploadsNotInAllowedRange": FileUploadsNotInAllowedRange,
+  "CustomAlertRule.QueuePurgesNotInAllowedRange": QueuePurgesNotInAllowedRange,
+  "CustomAlertRule.TwinUpdatesNotInAllowedRange": TwinUpdatesNotInAllowedRange,
+  "CustomAlertRule.UnauthorizedOperationsNotInAllowedRange": UnauthorizedOperationsNotInAllowedRange,
+  ResourceDetails: ResourceDetails,
+  AdditionalData: AdditionalData,
+  "AdditionalData.SqlServerVulnerability": SqlServerVulnerabilityProperties,
+  "AdditionalData.ContainerRegistryVulnerability": ContainerRegistryVulnerabilityProperties,
+  "AdditionalData.ServerVulnerabilityAssessment": ServerVulnerabilityProperties,
+  "ResourceDetails.OnPremise": OnPremiseResourceDetails,
+  "ResourceDetails.Azure": AzureResourceDetails,
+  AutomationAction: AutomationAction,
+  "AutomationAction.LogicApp": AutomationActionLogicApp,
+  "AutomationAction.EventHub": AutomationActionEventHub,
+  "AutomationAction.Workspace": AutomationActionWorkspace,
+  ExternalSecuritySolution: ExternalSecuritySolution,
+  "ExternalSecuritySolution.CEF": CefExternalSecuritySolution,
+  "ExternalSecuritySolution.ATA": AtaExternalSecuritySolution,
+  "ExternalSecuritySolution.AAD": AadExternalSecuritySolution
 };

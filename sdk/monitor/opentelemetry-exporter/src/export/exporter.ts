@@ -30,7 +30,7 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
     this._options = {
       ...DEFAULT_EXPORTER_CONFIG,
       ..._options,
-      instrumentationKey,
+      instrumentationKey
     };
 
     if (connectionString) {
@@ -39,7 +39,7 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
         ...DEFAULT_EXPORTER_CONFIG,
         // Overwrite options with connection string results, if any
         instrumentationKey: parsedConnectionString.instrumentationkey || instrumentationKey,
-        endpointUrl: parsedConnectionString.ingestionendpoint || _options.endpointUrl!,
+        endpointUrl: parsedConnectionString.ingestionendpoint || _options.endpointUrl!
       };
     }
 

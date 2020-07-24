@@ -999,7 +999,7 @@ export const HealthProbeSettingsModel: msRest.CompositeMapper = {
       },
       healthProbeMethod: {
         serializedName: "properties.healthProbeMethod",
-        defaultValue: 'HEAD',
+        defaultValue: "HEAD",
         type: {
           name: "String"
         }
@@ -1122,7 +1122,7 @@ export const CustomHttpsConfiguration: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "protocolType",
-        defaultValue: 'ServerNameIndication',
+        defaultValue: "ServerNameIndication",
         type: {
           name: "String"
         }
@@ -1248,7 +1248,7 @@ export const BackendPoolsSettings: msRest.CompositeMapper = {
     modelProperties: {
       enforceCertificateNameCheck: {
         serializedName: "enforceCertificateNameCheck",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -1637,13 +1637,7 @@ export const Backend: msRest.CompositeMapper = {
         serializedName: "privateEndpointStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Pending",
-            "Approved",
-            "Rejected",
-            "Disconnected",
-            "Timeout"
-          ]
+          allowedValues: ["Pending", "Approved", "Rejected", "Disconnected", "Timeout"]
         }
       },
       privateLinkApprovalMessage: {
@@ -1820,7 +1814,7 @@ export const HealthProbeSettingsUpdateParameters: msRest.CompositeMapper = {
       },
       healthProbeMethod: {
         serializedName: "healthProbeMethod",
-        defaultValue: 'HEAD',
+        defaultValue: "HEAD",
         type: {
           name: "String"
         }
@@ -3086,8 +3080,7 @@ export const ManagedRuleSetDefinitionList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'RouteConfiguration' : RouteConfiguration,
-  'RouteConfiguration.#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration' : ForwardingConfiguration,
-  'RouteConfiguration.#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration' : RedirectConfiguration
-
+  RouteConfiguration: RouteConfiguration,
+  "RouteConfiguration.#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration": ForwardingConfiguration,
+  "RouteConfiguration.#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration": RedirectConfiguration
 };

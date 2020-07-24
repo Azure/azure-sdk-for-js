@@ -33,21 +33,41 @@ export class GalleryImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleryImagesListResponse>
    */
-  list(resourceGroupName: string, labAccountName: string, options?: Models.GalleryImagesListOptionalParams): Promise<Models.GalleryImagesListResponse>;
+  list(
+    resourceGroupName: string,
+    labAccountName: string,
+    options?: Models.GalleryImagesListOptionalParams
+  ): Promise<Models.GalleryImagesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labAccountName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>): void;
+  list(
+    resourceGroupName: string,
+    labAccountName: string,
+    callback: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labAccountName: string, options: Models.GalleryImagesListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>): void;
-  list(resourceGroupName: string, labAccountName: string, options?: Models.GalleryImagesListOptionalParams | msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>): Promise<Models.GalleryImagesListResponse> {
+  list(
+    resourceGroupName: string,
+    labAccountName: string,
+    options: Models.GalleryImagesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>
+  ): void;
+  list(
+    resourceGroupName: string,
+    labAccountName: string,
+    options?:
+      | Models.GalleryImagesListOptionalParams
+      | msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>,
+    callback?: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>
+  ): Promise<Models.GalleryImagesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class GalleryImages {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.GalleryImagesListResponse>;
+      callback
+    ) as Promise<Models.GalleryImagesListResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class GalleryImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleryImagesGetResponse>
    */
-  get(resourceGroupName: string, labAccountName: string, galleryImageName: string, options?: Models.GalleryImagesGetOptionalParams): Promise<Models.GalleryImagesGetResponse>;
+  get(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    options?: Models.GalleryImagesGetOptionalParams
+  ): Promise<Models.GalleryImagesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
    * @param galleryImageName The name of the gallery Image.
    * @param callback The callback
    */
-  get(resourceGroupName: string, labAccountName: string, galleryImageName: string, callback: msRest.ServiceCallback<Models.GalleryImage>): void;
+  get(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    callback: msRest.ServiceCallback<Models.GalleryImage>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -81,8 +112,20 @@ export class GalleryImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, labAccountName: string, galleryImageName: string, options: Models.GalleryImagesGetOptionalParams, callback: msRest.ServiceCallback<Models.GalleryImage>): void;
-  get(resourceGroupName: string, labAccountName: string, galleryImageName: string, options?: Models.GalleryImagesGetOptionalParams | msRest.ServiceCallback<Models.GalleryImage>, callback?: msRest.ServiceCallback<Models.GalleryImage>): Promise<Models.GalleryImagesGetResponse> {
+  get(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    options: Models.GalleryImagesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.GalleryImage>
+  ): void;
+  get(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    options?: Models.GalleryImagesGetOptionalParams | msRest.ServiceCallback<Models.GalleryImage>,
+    callback?: msRest.ServiceCallback<Models.GalleryImage>
+  ): Promise<Models.GalleryImagesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +134,8 @@ export class GalleryImages {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.GalleryImagesGetResponse>;
+      callback
+    ) as Promise<Models.GalleryImagesGetResponse>;
   }
 
   /**
@@ -103,7 +147,13 @@ export class GalleryImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleryImagesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labAccountName: string, galleryImageName: string, galleryImage: Models.GalleryImage, options?: msRest.RequestOptionsBase): Promise<Models.GalleryImagesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    galleryImage: Models.GalleryImage,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GalleryImagesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -111,7 +161,13 @@ export class GalleryImages {
    * @param galleryImage Represents an image from the Azure Marketplace
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labAccountName: string, galleryImageName: string, galleryImage: Models.GalleryImage, callback: msRest.ServiceCallback<Models.GalleryImage>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    galleryImage: Models.GalleryImage,
+    callback: msRest.ServiceCallback<Models.GalleryImage>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -120,8 +176,22 @@ export class GalleryImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labAccountName: string, galleryImageName: string, galleryImage: Models.GalleryImage, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryImage>): void;
-  createOrUpdate(resourceGroupName: string, labAccountName: string, galleryImageName: string, galleryImage: Models.GalleryImage, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryImage>, callback?: msRest.ServiceCallback<Models.GalleryImage>): Promise<Models.GalleryImagesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    galleryImage: Models.GalleryImage,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GalleryImage>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    galleryImage: Models.GalleryImage,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryImage>,
+    callback?: msRest.ServiceCallback<Models.GalleryImage>
+  ): Promise<Models.GalleryImagesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +201,8 @@ export class GalleryImages {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.GalleryImagesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.GalleryImagesCreateOrUpdateResponse>;
   }
 
   /**
@@ -142,14 +213,24 @@ export class GalleryImages {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, labAccountName: string, galleryImageName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
    * @param galleryImageName The name of the gallery Image.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, labAccountName: string, galleryImageName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -157,8 +238,20 @@ export class GalleryImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, labAccountName: string, galleryImageName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labAccountName: string, galleryImageName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +260,8 @@ export class GalleryImages {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -179,7 +273,13 @@ export class GalleryImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleryImagesUpdateResponse>
    */
-  update(resourceGroupName: string, labAccountName: string, galleryImageName: string, galleryImage: Models.GalleryImageFragment, options?: msRest.RequestOptionsBase): Promise<Models.GalleryImagesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    galleryImage: Models.GalleryImageFragment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GalleryImagesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -187,7 +287,13 @@ export class GalleryImages {
    * @param galleryImage Represents an image from the Azure Marketplace
    * @param callback The callback
    */
-  update(resourceGroupName: string, labAccountName: string, galleryImageName: string, galleryImage: Models.GalleryImageFragment, callback: msRest.ServiceCallback<Models.GalleryImage>): void;
+  update(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    galleryImage: Models.GalleryImageFragment,
+    callback: msRest.ServiceCallback<Models.GalleryImage>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -196,8 +302,22 @@ export class GalleryImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, labAccountName: string, galleryImageName: string, galleryImage: Models.GalleryImageFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryImage>): void;
-  update(resourceGroupName: string, labAccountName: string, galleryImageName: string, galleryImage: Models.GalleryImageFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryImage>, callback?: msRest.ServiceCallback<Models.GalleryImage>): Promise<Models.GalleryImagesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    galleryImage: Models.GalleryImageFragment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GalleryImage>
+  ): void;
+  update(
+    resourceGroupName: string,
+    labAccountName: string,
+    galleryImageName: string,
+    galleryImage: Models.GalleryImageFragment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryImage>,
+    callback?: msRest.ServiceCallback<Models.GalleryImage>
+  ): Promise<Models.GalleryImagesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +327,8 @@ export class GalleryImages {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.GalleryImagesUpdateResponse>;
+      callback
+    ) as Promise<Models.GalleryImagesUpdateResponse>;
   }
 
   /**
@@ -216,26 +337,43 @@ export class GalleryImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleryImagesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GalleryImagesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GalleryImagesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>): Promise<Models.GalleryImagesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>,
+    callback?: msRest.ServiceCallback<Models.ResponseWithContinuationGalleryImage>
+  ): Promise<Models.GalleryImagesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.GalleryImagesListNextResponse>;
+      callback
+    ) as Promise<Models.GalleryImagesListNextResponse>;
   }
 }
 
@@ -243,7 +381,8 @@ export class GalleryImages {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -256,9 +395,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResponseWithContinuationGalleryImage
@@ -272,20 +409,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages/{galleryImageName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages/{galleryImageName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labAccountName,
     Parameters.galleryImageName
   ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GalleryImage
@@ -299,19 +432,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages/{galleryImageName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages/{galleryImageName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labAccountName,
     Parameters.galleryImageName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "galleryImage",
     mapper: {
@@ -335,19 +465,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages/{galleryImageName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages/{galleryImageName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labAccountName,
     Parameters.galleryImageName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -360,19 +487,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages/{galleryImageName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/galleryimages/{galleryImageName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labAccountName,
     Parameters.galleryImageName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "galleryImage",
     mapper: {
@@ -395,12 +519,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResponseWithContinuationGalleryImage

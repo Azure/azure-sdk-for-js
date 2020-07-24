@@ -44,14 +44,21 @@ export class ContainerGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerGroupListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroupListResult>, callback?: msRest.ServiceCallback<Models.ContainerGroupListResult>): Promise<Models.ContainerGroupsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ContainerGroupListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ContainerGroupListResult>
+  ): Promise<Models.ContainerGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ContainerGroupsListResponse>;
+      callback
+    ) as Promise<Models.ContainerGroupsListResponse>;
   }
 
   /**
@@ -63,26 +70,41 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerGroupsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerGroupsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ContainerGroupsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ContainerGroupListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ContainerGroupListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerGroupListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroupListResult>, callback?: msRest.ServiceCallback<Models.ContainerGroupListResult>): Promise<Models.ContainerGroupsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ContainerGroupListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ContainerGroupListResult>
+  ): Promise<Models.ContainerGroupsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ContainerGroupsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ContainerGroupsListByResourceGroupResponse>;
   }
 
   /**
@@ -95,21 +117,39 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerGroupsGetResponse>
    */
-  get(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    containerGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ContainerGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, containerGroupName: string, callback: msRest.ServiceCallback<Models.ContainerGroup>): void;
+  get(
+    resourceGroupName: string,
+    containerGroupName: string,
+    callback: msRest.ServiceCallback<Models.ContainerGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, containerGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerGroup>): void;
-  get(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroup>, callback?: msRest.ServiceCallback<Models.ContainerGroup>): Promise<Models.ContainerGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    containerGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ContainerGroup>
+  ): void;
+  get(
+    resourceGroupName: string,
+    containerGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroup>,
+    callback?: msRest.ServiceCallback<Models.ContainerGroup>
+  ): Promise<Models.ContainerGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +157,8 @@ export class ContainerGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ContainerGroupsGetResponse>;
+      callback
+    ) as Promise<Models.ContainerGroupsGetResponse>;
   }
 
   /**
@@ -129,9 +170,20 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, containerGroupName: string, containerGroup: Models.ContainerGroup, options?: msRest.RequestOptionsBase): Promise<Models.ContainerGroupsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,containerGroupName,containerGroup,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ContainerGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    containerGroupName: string,
+    containerGroup: Models.ContainerGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ContainerGroupsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      containerGroupName,
+      containerGroup,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ContainerGroupsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -143,14 +195,24 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerGroupsUpdateResponse>
    */
-  update(resourceGroupName: string, containerGroupName: string, resource: Models.Resource, options?: msRest.RequestOptionsBase): Promise<Models.ContainerGroupsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    containerGroupName: string,
+    resource: Models.Resource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ContainerGroupsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param resource The container group resource with just the tags to be updated.
    * @param callback The callback
    */
-  update(resourceGroupName: string, containerGroupName: string, resource: Models.Resource, callback: msRest.ServiceCallback<Models.ContainerGroup>): void;
+  update(
+    resourceGroupName: string,
+    containerGroupName: string,
+    resource: Models.Resource,
+    callback: msRest.ServiceCallback<Models.ContainerGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
@@ -158,8 +220,20 @@ export class ContainerGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, containerGroupName: string, resource: Models.Resource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerGroup>): void;
-  update(resourceGroupName: string, containerGroupName: string, resource: Models.Resource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroup>, callback?: msRest.ServiceCallback<Models.ContainerGroup>): Promise<Models.ContainerGroupsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    containerGroupName: string,
+    resource: Models.Resource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ContainerGroup>
+  ): void;
+  update(
+    resourceGroupName: string,
+    containerGroupName: string,
+    resource: Models.Resource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroup>,
+    callback?: msRest.ServiceCallback<Models.ContainerGroup>
+  ): Promise<Models.ContainerGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -168,7 +242,8 @@ export class ContainerGroups {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ContainerGroupsUpdateResponse>;
+      callback
+    ) as Promise<Models.ContainerGroupsUpdateResponse>;
   }
 
   /**
@@ -180,9 +255,18 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerGroupsDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerGroupsDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,containerGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ContainerGroupsDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    containerGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ContainerGroupsDeleteMethodResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      containerGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ContainerGroupsDeleteMethodResponse
+    >;
   }
 
   /**
@@ -194,9 +278,14 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  restart(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRestart(resourceGroupName,containerGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  restart(
+    resourceGroupName: string,
+    containerGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRestart(resourceGroupName, containerGroupName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -208,21 +297,39 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  stop(
+    resourceGroupName: string,
+    containerGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param callback The callback
    */
-  stop(resourceGroupName: string, containerGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  stop(
+    resourceGroupName: string,
+    containerGroupName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  stop(resourceGroupName: string, containerGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stop(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stop(
+    resourceGroupName: string,
+    containerGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  stop(
+    resourceGroupName: string,
+    containerGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -230,7 +337,8 @@ export class ContainerGroups {
         options
       },
       stopOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -242,9 +350,14 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStart(resourceGroupName,containerGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  start(
+    resourceGroupName: string,
+    containerGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStart(resourceGroupName, containerGroupName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -256,7 +369,12 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, containerGroupName: string, containerGroup: Models.ContainerGroup, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    containerGroupName: string,
+    containerGroup: Models.ContainerGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -265,7 +383,8 @@ export class ContainerGroups {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -277,7 +396,11 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    containerGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -285,7 +408,8 @@ export class ContainerGroups {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -297,7 +421,11 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRestart(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRestart(
+    resourceGroupName: string,
+    containerGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -305,7 +433,8 @@ export class ContainerGroups {
         options
       },
       beginRestartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -317,7 +446,11 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, containerGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    containerGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -325,7 +458,8 @@ export class ContainerGroups {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -337,26 +471,41 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerGroupsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerGroupsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ContainerGroupsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ContainerGroupListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ContainerGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerGroupListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroupListResult>, callback?: msRest.ServiceCallback<Models.ContainerGroupListResult>): Promise<Models.ContainerGroupsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ContainerGroupListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ContainerGroupListResult>
+  ): Promise<Models.ContainerGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ContainerGroupsListNextResponse>;
+      callback
+    ) as Promise<Models.ContainerGroupsListNextResponse>;
   }
 
   /**
@@ -368,26 +517,41 @@ export class ContainerGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContainerGroupsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ContainerGroupsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ContainerGroupsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ContainerGroupListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ContainerGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContainerGroupListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroupListResult>, callback?: msRest.ServiceCallback<Models.ContainerGroupListResult>): Promise<Models.ContainerGroupsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ContainerGroupListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContainerGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ContainerGroupListResult>
+  ): Promise<Models.ContainerGroupsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ContainerGroupsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ContainerGroupsListByResourceGroupNextResponse>;
   }
 }
 
@@ -396,15 +560,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/containerGroups",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ContainerGroupListResult
@@ -418,17 +576,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ContainerGroupListResult
@@ -442,18 +594,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ContainerGroup
@@ -467,18 +616,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "resource",
     mapper: {
@@ -499,18 +645,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const stopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/stop",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/stop",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -522,18 +665,15 @@ const stopOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "containerGroup",
     mapper: {
@@ -557,18 +697,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ContainerGroup
@@ -584,18 +721,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginRestartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/restart",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/restart",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -607,18 +741,15 @@ const beginRestartOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/start",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/start",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -632,12 +763,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ContainerGroupListResult
@@ -653,12 +780,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ContainerGroupListResult

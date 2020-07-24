@@ -35,7 +35,12 @@ export class RecommendedElasticPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendedElasticPoolsGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecommendedElasticPoolsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    recommendedElasticPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecommendedElasticPoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -43,7 +48,12 @@ export class RecommendedElasticPools {
    * @param recommendedElasticPoolName The name of the recommended elastic pool to be retrieved.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, callback: msRest.ServiceCallback<Models.RecommendedElasticPool>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    recommendedElasticPoolName: string,
+    callback: msRest.ServiceCallback<Models.RecommendedElasticPool>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -52,8 +62,20 @@ export class RecommendedElasticPools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendedElasticPool>): void;
-  get(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendedElasticPool>, callback?: msRest.ServiceCallback<Models.RecommendedElasticPool>): Promise<Models.RecommendedElasticPoolsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    recommendedElasticPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecommendedElasticPool>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    recommendedElasticPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendedElasticPool>,
+    callback?: msRest.ServiceCallback<Models.RecommendedElasticPool>
+  ): Promise<Models.RecommendedElasticPoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +84,8 @@ export class RecommendedElasticPools {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RecommendedElasticPoolsGetResponse>;
+      callback
+    ) as Promise<Models.RecommendedElasticPoolsGetResponse>;
   }
 
   /**
@@ -73,14 +96,22 @@ export class RecommendedElasticPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendedElasticPoolsListByServerResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecommendedElasticPoolsListByServerResponse>;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecommendedElasticPoolsListByServerResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.RecommendedElasticPoolListResult>): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.RecommendedElasticPoolListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -88,8 +119,20 @@ export class RecommendedElasticPools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendedElasticPoolListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendedElasticPoolListResult>, callback?: msRest.ServiceCallback<Models.RecommendedElasticPoolListResult>): Promise<Models.RecommendedElasticPoolsListByServerResponse> {
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecommendedElasticPoolListResult>
+  ): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RecommendedElasticPoolListResult>,
+    callback?: msRest.ServiceCallback<Models.RecommendedElasticPoolListResult>
+  ): Promise<Models.RecommendedElasticPoolsListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +140,8 @@ export class RecommendedElasticPools {
         options
       },
       listByServerOperationSpec,
-      callback) as Promise<Models.RecommendedElasticPoolsListByServerResponse>;
+      callback
+    ) as Promise<Models.RecommendedElasticPoolsListByServerResponse>;
   }
 
   /**
@@ -109,7 +153,12 @@ export class RecommendedElasticPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendedElasticPoolsListMetricsResponse>
    */
-  listMetrics(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecommendedElasticPoolsListMetricsResponse>;
+  listMetrics(
+    resourceGroupName: string,
+    serverName: string,
+    recommendedElasticPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecommendedElasticPoolsListMetricsResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -117,7 +166,12 @@ export class RecommendedElasticPools {
    * @param recommendedElasticPoolName The name of the recommended elastic pool to be retrieved.
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, callback: msRest.ServiceCallback<Models.RecommendedElasticPoolListMetricsResult>): void;
+  listMetrics(
+    resourceGroupName: string,
+    serverName: string,
+    recommendedElasticPoolName: string,
+    callback: msRest.ServiceCallback<Models.RecommendedElasticPoolListMetricsResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -126,8 +180,22 @@ export class RecommendedElasticPools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendedElasticPoolListMetricsResult>): void;
-  listMetrics(resourceGroupName: string, serverName: string, recommendedElasticPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendedElasticPoolListMetricsResult>, callback?: msRest.ServiceCallback<Models.RecommendedElasticPoolListMetricsResult>): Promise<Models.RecommendedElasticPoolsListMetricsResponse> {
+  listMetrics(
+    resourceGroupName: string,
+    serverName: string,
+    recommendedElasticPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecommendedElasticPoolListMetricsResult>
+  ): void;
+  listMetrics(
+    resourceGroupName: string,
+    serverName: string,
+    recommendedElasticPoolName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.RecommendedElasticPoolListMetricsResult>,
+    callback?: msRest.ServiceCallback<Models.RecommendedElasticPoolListMetricsResult>
+  ): Promise<Models.RecommendedElasticPoolsListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +204,8 @@ export class RecommendedElasticPools {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.RecommendedElasticPoolsListMetricsResponse>;
+      callback
+    ) as Promise<Models.RecommendedElasticPoolsListMetricsResponse>;
   }
 }
 
@@ -144,19 +213,16 @@ export class RecommendedElasticPools {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recommendedElasticPools/{recommendedElasticPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recommendedElasticPools/{recommendedElasticPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.recommendedElasticPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendedElasticPool
@@ -170,18 +236,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recommendedElasticPools",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recommendedElasticPools",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.serverName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendedElasticPoolListResult
@@ -195,19 +254,16 @@ const listByServerOperationSpec: msRest.OperationSpec = {
 
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recommendedElasticPools/{recommendedElasticPoolName}/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/recommendedElasticPools/{recommendedElasticPoolName}/metrics",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.recommendedElasticPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendedElasticPoolListMetricsResult

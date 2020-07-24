@@ -34,14 +34,24 @@ export class ApiDiagnostic {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiDiagnosticListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiDiagnosticListByServiceOptionalParams): Promise<Models.ApiDiagnosticListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: Models.ApiDiagnosticListByServiceOptionalParams
+  ): Promise<Models.ApiDiagnosticListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, callback: msRest.ServiceCallback<Models.DiagnosticCollection>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -49,8 +59,22 @@ export class ApiDiagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiDiagnosticListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.DiagnosticCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiDiagnosticListByServiceOptionalParams | msRest.ServiceCallback<Models.DiagnosticCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticCollection>): Promise<Models.ApiDiagnosticListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options: Models.ApiDiagnosticListByServiceOptionalParams,
+    callback: msRest.ServiceCallback<Models.DiagnosticCollection>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?:
+      | Models.ApiDiagnosticListByServiceOptionalParams
+      | msRest.ServiceCallback<Models.DiagnosticCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticCollection>
+  ): Promise<Models.ApiDiagnosticListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +83,8 @@ export class ApiDiagnostic {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.ApiDiagnosticListByServiceResponse>;
+      callback
+    ) as Promise<Models.ApiDiagnosticListByServiceResponse>;
   }
 
   /**
@@ -72,7 +97,13 @@ export class ApiDiagnostic {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiDiagnosticGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiDiagnosticGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApiDiagnosticGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -81,7 +112,13 @@ export class ApiDiagnostic {
    * instance.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -91,8 +128,22 @@ export class ApiDiagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiDiagnosticGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.ApiDiagnosticGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -102,7 +153,8 @@ export class ApiDiagnostic {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.ApiDiagnosticGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.ApiDiagnosticGetEntityTagResponse>;
   }
 
   /**
@@ -115,7 +167,13 @@ export class ApiDiagnostic {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiDiagnosticGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiDiagnosticGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApiDiagnosticGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -124,7 +182,13 @@ export class ApiDiagnostic {
    * instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, callback: msRest.ServiceCallback<Models.DiagnosticContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -134,8 +198,22 @@ export class ApiDiagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticContract>, callback?: msRest.ServiceCallback<Models.DiagnosticContract>): Promise<Models.ApiDiagnosticGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticContract>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticContract>
+  ): Promise<Models.ApiDiagnosticGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -145,7 +223,8 @@ export class ApiDiagnostic {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ApiDiagnosticGetResponse>;
+      callback
+    ) as Promise<Models.ApiDiagnosticGetResponse>;
   }
 
   /**
@@ -159,7 +238,14 @@ export class ApiDiagnostic {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiDiagnosticCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, options?: Models.ApiDiagnosticCreateOrUpdateOptionalParams): Promise<Models.ApiDiagnosticCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    parameters: Models.DiagnosticContract,
+    options?: Models.ApiDiagnosticCreateOrUpdateOptionalParams
+  ): Promise<Models.ApiDiagnosticCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -169,7 +255,14 @@ export class ApiDiagnostic {
    * @param parameters Create parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, callback: msRest.ServiceCallback<Models.DiagnosticContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    parameters: Models.DiagnosticContract,
+    callback: msRest.ServiceCallback<Models.DiagnosticContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -180,8 +273,26 @@ export class ApiDiagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, options: Models.ApiDiagnosticCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.DiagnosticContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, options?: Models.ApiDiagnosticCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.DiagnosticContract>, callback?: msRest.ServiceCallback<Models.DiagnosticContract>): Promise<Models.ApiDiagnosticCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    parameters: Models.DiagnosticContract,
+    options: Models.ApiDiagnosticCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.DiagnosticContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    parameters: Models.DiagnosticContract,
+    options?:
+      | Models.ApiDiagnosticCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.DiagnosticContract>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticContract>
+  ): Promise<Models.ApiDiagnosticCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +303,8 @@ export class ApiDiagnostic {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ApiDiagnosticCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ApiDiagnosticCreateOrUpdateResponse>;
   }
 
   /**
@@ -208,7 +320,15 @@ export class ApiDiagnostic {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    parameters: Models.DiagnosticContract,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -220,7 +340,15 @@ export class ApiDiagnostic {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    parameters: Models.DiagnosticContract,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -233,8 +361,26 @@ export class ApiDiagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, parameters: Models.DiagnosticContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    parameters: Models.DiagnosticContract,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    parameters: Models.DiagnosticContract,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -246,7 +392,8 @@ export class ApiDiagnostic {
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -261,7 +408,14 @@ export class ApiDiagnostic {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -272,7 +426,14 @@ export class ApiDiagnostic {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -284,8 +445,24 @@ export class ApiDiagnostic {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, diagnosticId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    diagnosticId: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -296,7 +473,8 @@ export class ApiDiagnostic {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -305,26 +483,41 @@ export class ApiDiagnostic {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiDiagnosticListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiDiagnosticListByServiceNextResponse>;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApiDiagnosticListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiagnosticCollection>): void;
+  listByServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DiagnosticCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiagnosticCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticCollection>, callback?: msRest.ServiceCallback<Models.DiagnosticCollection>): Promise<Models.ApiDiagnosticListByServiceNextResponse> {
+  listByServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiagnosticCollection>
+  ): void;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiagnosticCollection>,
+    callback?: msRest.ServiceCallback<Models.DiagnosticCollection>
+  ): Promise<Models.ApiDiagnosticListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.ApiDiagnosticListByServiceNextResponse>;
+      callback
+    ) as Promise<Models.ApiDiagnosticListByServiceNextResponse>;
   }
 }
 
@@ -332,22 +525,16 @@ export class ApiDiagnostic {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.apiId1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter0, Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticCollection
@@ -361,7 +548,8 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -369,12 +557,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
     Parameters.diagnosticId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.ApiDiagnosticGetEntityTagHeaders
@@ -388,7 +572,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -396,12 +581,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.diagnosticId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticContract,
@@ -416,7 +597,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -424,13 +606,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.diagnosticId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -456,7 +633,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -464,13 +642,8 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.diagnosticId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -489,7 +662,8 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/diagnostics/{diagnosticId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -497,13 +671,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.diagnosticId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -518,12 +687,8 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiagnosticCollection

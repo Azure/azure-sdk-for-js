@@ -35,7 +35,12 @@ export class OperationOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationListByTagsResponse>
    */
-  listByTags(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.OperationListByTagsOptionalParams): Promise<Models.OperationListByTagsResponse>;
+  listByTags(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: Models.OperationListByTagsOptionalParams
+  ): Promise<Models.OperationListByTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -43,7 +48,12 @@ export class OperationOperations {
    * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param callback The callback
    */
-  listByTags(resourceGroupName: string, serviceName: string, apiId: string, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
+  listByTags(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    callback: msRest.ServiceCallback<Models.TagResourceCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -52,8 +62,22 @@ export class OperationOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTags(resourceGroupName: string, serviceName: string, apiId: string, options: Models.OperationListByTagsOptionalParams, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
-  listByTags(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.OperationListByTagsOptionalParams | msRest.ServiceCallback<Models.TagResourceCollection>, callback?: msRest.ServiceCallback<Models.TagResourceCollection>): Promise<Models.OperationListByTagsResponse> {
+  listByTags(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options: Models.OperationListByTagsOptionalParams,
+    callback: msRest.ServiceCallback<Models.TagResourceCollection>
+  ): void;
+  listByTags(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?:
+      | Models.OperationListByTagsOptionalParams
+      | msRest.ServiceCallback<Models.TagResourceCollection>,
+    callback?: msRest.ServiceCallback<Models.TagResourceCollection>
+  ): Promise<Models.OperationListByTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +86,8 @@ export class OperationOperations {
         options
       },
       listByTagsOperationSpec,
-      callback) as Promise<Models.OperationListByTagsResponse>;
+      callback
+    ) as Promise<Models.OperationListByTagsResponse>;
   }
 
   /**
@@ -71,26 +96,41 @@ export class OperationOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationListByTagsNextResponse>
    */
-  listByTagsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationListByTagsNextResponse>;
+  listByTagsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationListByTagsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByTagsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
+  listByTagsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.TagResourceCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTagsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagResourceCollection>): void;
-  listByTagsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagResourceCollection>, callback?: msRest.ServiceCallback<Models.TagResourceCollection>): Promise<Models.OperationListByTagsNextResponse> {
+  listByTagsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TagResourceCollection>
+  ): void;
+  listByTagsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagResourceCollection>,
+    callback?: msRest.ServiceCallback<Models.TagResourceCollection>
+  ): Promise<Models.OperationListByTagsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByTagsNextOperationSpec,
-      callback) as Promise<Models.OperationListByTagsNextResponse>;
+      callback
+    ) as Promise<Models.OperationListByTagsNextResponse>;
   }
 }
 
@@ -98,7 +138,8 @@ export class OperationOperations {
 const serializer = new msRest.Serializer(Mappers);
 const listByTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operationsByTags",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/operationsByTags",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -112,9 +153,7 @@ const listByTagsOperationSpec: msRest.OperationSpec = {
     Parameters.includeNotTaggedOperations,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TagResourceCollection
@@ -130,12 +169,8 @@ const listByTagsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TagResourceCollection

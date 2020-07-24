@@ -21,4 +21,3 @@ export {
   CommitmentAssociation,
   CommitmentAssociationProperties
 } from "../models/mappers";
-

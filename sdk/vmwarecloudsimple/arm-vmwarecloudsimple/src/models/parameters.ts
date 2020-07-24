@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -67,10 +67,7 @@ export const dedicatedCloudServiceName1: msRest.OperationURLParameter = {
   }
 };
 export const filter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -79,20 +76,12 @@ export const filter: msRest.OperationQueryParameter = {
   }
 };
 export const mode: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "mode"
-  ],
+  parameterPath: ["options", "mode"],
   mapper: {
     serializedName: "mode",
     type: {
       name: "Enum",
-      allowedValues: [
-        "reboot",
-        "suspend",
-        "shutdown",
-        "poweroff"
-      ]
+      allowedValues: ["reboot", "suspend", "shutdown", "poweroff"]
     }
   }
 };
@@ -168,10 +157,7 @@ export const resourcePoolName: msRest.OperationURLParameter = {
   }
 };
 export const skipToken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skipToken"
-  ],
+  parameterPath: ["options", "skipToken"],
   mapper: {
     serializedName: "$skipToken",
     type: {
@@ -180,10 +166,7 @@ export const skipToken: msRest.OperationQueryParameter = {
   }
 };
 export const skuId: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skuId"
-  ],
+  parameterPath: ["options", "skuId"],
   mapper: {
     serializedName: "skuId",
     type: {
@@ -202,10 +185,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "$top",
     type: {

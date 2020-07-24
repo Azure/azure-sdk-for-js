@@ -52,15 +52,24 @@ export class ResourceLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(linkId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(linkId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    linkId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    linkId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         linkId,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -73,7 +82,11 @@ export class ResourceLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceLinksCreateOrUpdateResponse>
    */
-  createOrUpdate(linkId: string, parameters: Models.ResourceLink, options?: msRest.RequestOptionsBase): Promise<Models.ResourceLinksCreateOrUpdateResponse>;
+  createOrUpdate(
+    linkId: string,
+    parameters: Models.ResourceLink,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceLinksCreateOrUpdateResponse>;
   /**
    * @param linkId The fully qualified ID of the resource link. Use the format,
    * /subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/{provider-namespace}/{resource-type}/{resource-name}/Microsoft.Resources/links/{link-name}.
@@ -82,7 +95,11 @@ export class ResourceLinks {
    * @param parameters Parameters for creating or updating a resource link.
    * @param callback The callback
    */
-  createOrUpdate(linkId: string, parameters: Models.ResourceLink, callback: msRest.ServiceCallback<Models.ResourceLink>): void;
+  createOrUpdate(
+    linkId: string,
+    parameters: Models.ResourceLink,
+    callback: msRest.ServiceCallback<Models.ResourceLink>
+  ): void;
   /**
    * @param linkId The fully qualified ID of the resource link. Use the format,
    * /subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/{provider-namespace}/{resource-type}/{resource-name}/Microsoft.Resources/links/{link-name}.
@@ -92,8 +109,18 @@ export class ResourceLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(linkId: string, parameters: Models.ResourceLink, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceLink>): void;
-  createOrUpdate(linkId: string, parameters: Models.ResourceLink, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceLink>, callback?: msRest.ServiceCallback<Models.ResourceLink>): Promise<Models.ResourceLinksCreateOrUpdateResponse> {
+  createOrUpdate(
+    linkId: string,
+    parameters: Models.ResourceLink,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceLink>
+  ): void;
+  createOrUpdate(
+    linkId: string,
+    parameters: Models.ResourceLink,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceLink>,
+    callback?: msRest.ServiceCallback<Models.ResourceLink>
+  ): Promise<Models.ResourceLinksCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         linkId,
@@ -101,7 +128,8 @@ export class ResourceLinks {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ResourceLinksCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ResourceLinksCreateOrUpdateResponse>;
   }
 
   /**
@@ -111,7 +139,10 @@ export class ResourceLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceLinksGetResponse>
    */
-  get(linkId: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceLinksGetResponse>;
+  get(
+    linkId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceLinksGetResponse>;
   /**
    * @param linkId The fully qualified Id of the resource link. For example,
    * /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite/Microsoft.Resources/links/myLink
@@ -124,15 +155,24 @@ export class ResourceLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(linkId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceLink>): void;
-  get(linkId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceLink>, callback?: msRest.ServiceCallback<Models.ResourceLink>): Promise<Models.ResourceLinksGetResponse> {
+  get(
+    linkId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceLink>
+  ): void;
+  get(
+    linkId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceLink>,
+    callback?: msRest.ServiceCallback<Models.ResourceLink>
+  ): Promise<Models.ResourceLinksGetResponse> {
     return this.client.sendOperationRequest(
       {
         linkId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ResourceLinksGetResponse>;
+      callback
+    ) as Promise<Models.ResourceLinksGetResponse>;
   }
 
   /**
@@ -140,7 +180,9 @@ export class ResourceLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceLinksListAtSubscriptionResponse>
    */
-  listAtSubscription(options?: Models.ResourceLinksListAtSubscriptionOptionalParams): Promise<Models.ResourceLinksListAtSubscriptionResponse>;
+  listAtSubscription(
+    options?: Models.ResourceLinksListAtSubscriptionOptionalParams
+  ): Promise<Models.ResourceLinksListAtSubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -149,14 +191,23 @@ export class ResourceLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtSubscription(options: Models.ResourceLinksListAtSubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.ResourceLinkResult>): void;
-  listAtSubscription(options?: Models.ResourceLinksListAtSubscriptionOptionalParams | msRest.ServiceCallback<Models.ResourceLinkResult>, callback?: msRest.ServiceCallback<Models.ResourceLinkResult>): Promise<Models.ResourceLinksListAtSubscriptionResponse> {
+  listAtSubscription(
+    options: Models.ResourceLinksListAtSubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.ResourceLinkResult>
+  ): void;
+  listAtSubscription(
+    options?:
+      | Models.ResourceLinksListAtSubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.ResourceLinkResult>,
+    callback?: msRest.ServiceCallback<Models.ResourceLinkResult>
+  ): Promise<Models.ResourceLinksListAtSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAtSubscriptionOperationSpec,
-      callback) as Promise<Models.ResourceLinksListAtSubscriptionResponse>;
+      callback
+    ) as Promise<Models.ResourceLinksListAtSubscriptionResponse>;
   }
 
   /**
@@ -167,14 +218,20 @@ export class ResourceLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceLinksListAtSourceScopeResponse>
    */
-  listAtSourceScope(scope: string, options?: Models.ResourceLinksListAtSourceScopeOptionalParams): Promise<Models.ResourceLinksListAtSourceScopeResponse>;
+  listAtSourceScope(
+    scope: string,
+    options?: Models.ResourceLinksListAtSourceScopeOptionalParams
+  ): Promise<Models.ResourceLinksListAtSourceScopeResponse>;
   /**
    * @param scope The fully qualified ID of the scope for getting the resource links. For example, to
    * list resource links at and under a resource group, set the scope to
    * /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup.
    * @param callback The callback
    */
-  listAtSourceScope(scope: string, callback: msRest.ServiceCallback<Models.ResourceLinkResult>): void;
+  listAtSourceScope(
+    scope: string,
+    callback: msRest.ServiceCallback<Models.ResourceLinkResult>
+  ): void;
   /**
    * @param scope The fully qualified ID of the scope for getting the resource links. For example, to
    * list resource links at and under a resource group, set the scope to
@@ -182,15 +239,26 @@ export class ResourceLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtSourceScope(scope: string, options: Models.ResourceLinksListAtSourceScopeOptionalParams, callback: msRest.ServiceCallback<Models.ResourceLinkResult>): void;
-  listAtSourceScope(scope: string, options?: Models.ResourceLinksListAtSourceScopeOptionalParams | msRest.ServiceCallback<Models.ResourceLinkResult>, callback?: msRest.ServiceCallback<Models.ResourceLinkResult>): Promise<Models.ResourceLinksListAtSourceScopeResponse> {
+  listAtSourceScope(
+    scope: string,
+    options: Models.ResourceLinksListAtSourceScopeOptionalParams,
+    callback: msRest.ServiceCallback<Models.ResourceLinkResult>
+  ): void;
+  listAtSourceScope(
+    scope: string,
+    options?:
+      | Models.ResourceLinksListAtSourceScopeOptionalParams
+      | msRest.ServiceCallback<Models.ResourceLinkResult>,
+    callback?: msRest.ServiceCallback<Models.ResourceLinkResult>
+  ): Promise<Models.ResourceLinksListAtSourceScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       listAtSourceScopeOperationSpec,
-      callback) as Promise<Models.ResourceLinksListAtSourceScopeResponse>;
+      callback
+    ) as Promise<Models.ResourceLinksListAtSourceScopeResponse>;
   }
 
   /**
@@ -199,26 +267,41 @@ export class ResourceLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceLinksListAtSubscriptionNextResponse>
    */
-  listAtSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceLinksListAtSubscriptionNextResponse>;
+  listAtSubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceLinksListAtSubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAtSubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceLinkResult>): void;
+  listAtSubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResourceLinkResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtSubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceLinkResult>): void;
-  listAtSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceLinkResult>, callback?: msRest.ServiceCallback<Models.ResourceLinkResult>): Promise<Models.ResourceLinksListAtSubscriptionNextResponse> {
+  listAtSubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceLinkResult>
+  ): void;
+  listAtSubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceLinkResult>,
+    callback?: msRest.ServiceCallback<Models.ResourceLinkResult>
+  ): Promise<Models.ResourceLinksListAtSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAtSubscriptionNextOperationSpec,
-      callback) as Promise<Models.ResourceLinksListAtSubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.ResourceLinksListAtSubscriptionNextResponse>;
   }
 
   /**
@@ -227,26 +310,41 @@ export class ResourceLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceLinksListAtSourceScopeNextResponse>
    */
-  listAtSourceScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceLinksListAtSourceScopeNextResponse>;
+  listAtSourceScopeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceLinksListAtSourceScopeNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAtSourceScopeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceLinkResult>): void;
+  listAtSourceScopeNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResourceLinkResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtSourceScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceLinkResult>): void;
-  listAtSourceScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceLinkResult>, callback?: msRest.ServiceCallback<Models.ResourceLinkResult>): Promise<Models.ResourceLinksListAtSourceScopeNextResponse> {
+  listAtSourceScopeNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceLinkResult>
+  ): void;
+  listAtSourceScopeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceLinkResult>,
+    callback?: msRest.ServiceCallback<Models.ResourceLinkResult>
+  ): Promise<Models.ResourceLinksListAtSourceScopeNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAtSourceScopeNextOperationSpec,
-      callback) as Promise<Models.ResourceLinksListAtSourceScopeNextResponse>;
+      callback
+    ) as Promise<Models.ResourceLinksListAtSourceScopeNextResponse>;
   }
 }
 
@@ -255,15 +353,9 @@ const serializer = new msRest.Serializer(Mappers);
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{linkId}",
-  urlParameters: [
-    Parameters.linkId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.linkId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -277,15 +369,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{linkId}",
-  urlParameters: [
-    Parameters.linkId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.linkId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -310,15 +396,9 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{linkId}",
-  urlParameters: [
-    Parameters.linkId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.linkId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceLink
@@ -333,16 +413,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listAtSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/links",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceLinkResult
@@ -357,16 +430,9 @@ const listAtSubscriptionOperationSpec: msRest.OperationSpec = {
 const listAtSourceScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Resources/links",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceLinkResult
@@ -382,12 +448,8 @@ const listAtSubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceLinkResult
@@ -403,12 +465,8 @@ const listAtSourceScopeNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceLinkResult

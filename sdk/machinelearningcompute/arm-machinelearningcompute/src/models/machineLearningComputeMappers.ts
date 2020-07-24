@@ -14,4 +14,3 @@ export {
   ResourceOperationDisplay,
   CloudError
 } from "../models/mappers";
-

@@ -40,14 +40,21 @@ export class SecurityContacts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityContactList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContactList>, callback?: msRest.ServiceCallback<Models.SecurityContactList>): Promise<Models.SecurityContactsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityContactList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContactList>,
+    callback?: msRest.ServiceCallback<Models.SecurityContactList>
+  ): Promise<Models.SecurityContactsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SecurityContactsListResponse>;
+      callback
+    ) as Promise<Models.SecurityContactsListResponse>;
   }
 
   /**
@@ -56,7 +63,10 @@ export class SecurityContacts {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityContactsGetResponse>
    */
-  get(securityContactName: string, options?: msRest.RequestOptionsBase): Promise<Models.SecurityContactsGetResponse>;
+  get(
+    securityContactName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityContactsGetResponse>;
   /**
    * @param securityContactName Name of the security contact object
    * @param callback The callback
@@ -67,15 +77,24 @@ export class SecurityContacts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(securityContactName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityContact>): void;
-  get(securityContactName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContact>, callback?: msRest.ServiceCallback<Models.SecurityContact>): Promise<Models.SecurityContactsGetResponse> {
+  get(
+    securityContactName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityContact>
+  ): void;
+  get(
+    securityContactName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContact>,
+    callback?: msRest.ServiceCallback<Models.SecurityContact>
+  ): Promise<Models.SecurityContactsGetResponse> {
     return this.client.sendOperationRequest(
       {
         securityContactName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SecurityContactsGetResponse>;
+      callback
+    ) as Promise<Models.SecurityContactsGetResponse>;
   }
 
   /**
@@ -85,21 +104,39 @@ export class SecurityContacts {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityContactsCreateResponse>
    */
-  create(securityContactName: string, securityContact: Models.SecurityContact, options?: msRest.RequestOptionsBase): Promise<Models.SecurityContactsCreateResponse>;
+  create(
+    securityContactName: string,
+    securityContact: Models.SecurityContact,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityContactsCreateResponse>;
   /**
    * @param securityContactName Name of the security contact object
    * @param securityContact Security contact object
    * @param callback The callback
    */
-  create(securityContactName: string, securityContact: Models.SecurityContact, callback: msRest.ServiceCallback<Models.SecurityContact>): void;
+  create(
+    securityContactName: string,
+    securityContact: Models.SecurityContact,
+    callback: msRest.ServiceCallback<Models.SecurityContact>
+  ): void;
   /**
    * @param securityContactName Name of the security contact object
    * @param securityContact Security contact object
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(securityContactName: string, securityContact: Models.SecurityContact, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityContact>): void;
-  create(securityContactName: string, securityContact: Models.SecurityContact, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContact>, callback?: msRest.ServiceCallback<Models.SecurityContact>): Promise<Models.SecurityContactsCreateResponse> {
+  create(
+    securityContactName: string,
+    securityContact: Models.SecurityContact,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityContact>
+  ): void;
+  create(
+    securityContactName: string,
+    securityContact: Models.SecurityContact,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContact>,
+    callback?: msRest.ServiceCallback<Models.SecurityContact>
+  ): Promise<Models.SecurityContactsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         securityContactName,
@@ -107,7 +144,8 @@ export class SecurityContacts {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.SecurityContactsCreateResponse>;
+      callback
+    ) as Promise<Models.SecurityContactsCreateResponse>;
   }
 
   /**
@@ -116,7 +154,10 @@ export class SecurityContacts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(securityContactName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    securityContactName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param securityContactName Name of the security contact object
    * @param callback The callback
@@ -127,15 +168,24 @@ export class SecurityContacts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(securityContactName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(securityContactName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    securityContactName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    securityContactName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         securityContactName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -145,21 +195,39 @@ export class SecurityContacts {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityContactsUpdateResponse>
    */
-  update(securityContactName: string, securityContact: Models.SecurityContact, options?: msRest.RequestOptionsBase): Promise<Models.SecurityContactsUpdateResponse>;
+  update(
+    securityContactName: string,
+    securityContact: Models.SecurityContact,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityContactsUpdateResponse>;
   /**
    * @param securityContactName Name of the security contact object
    * @param securityContact Security contact object
    * @param callback The callback
    */
-  update(securityContactName: string, securityContact: Models.SecurityContact, callback: msRest.ServiceCallback<Models.SecurityContact>): void;
+  update(
+    securityContactName: string,
+    securityContact: Models.SecurityContact,
+    callback: msRest.ServiceCallback<Models.SecurityContact>
+  ): void;
   /**
    * @param securityContactName Name of the security contact object
    * @param securityContact Security contact object
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(securityContactName: string, securityContact: Models.SecurityContact, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityContact>): void;
-  update(securityContactName: string, securityContact: Models.SecurityContact, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContact>, callback?: msRest.ServiceCallback<Models.SecurityContact>): Promise<Models.SecurityContactsUpdateResponse> {
+  update(
+    securityContactName: string,
+    securityContact: Models.SecurityContact,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityContact>
+  ): void;
+  update(
+    securityContactName: string,
+    securityContact: Models.SecurityContact,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContact>,
+    callback?: msRest.ServiceCallback<Models.SecurityContact>
+  ): Promise<Models.SecurityContactsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         securityContactName,
@@ -167,7 +235,8 @@ export class SecurityContacts {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.SecurityContactsUpdateResponse>;
+      callback
+    ) as Promise<Models.SecurityContactsUpdateResponse>;
   }
 
   /**
@@ -176,26 +245,41 @@ export class SecurityContacts {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityContactsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SecurityContactsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityContactsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecurityContactList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecurityContactList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityContactList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContactList>, callback?: msRest.ServiceCallback<Models.SecurityContactList>): Promise<Models.SecurityContactsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityContactList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityContactList>,
+    callback?: msRest.ServiceCallback<Models.SecurityContactList>
+  ): Promise<Models.SecurityContactsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SecurityContactsListNextResponse>;
+      callback
+    ) as Promise<Models.SecurityContactsListNextResponse>;
   }
 }
 
@@ -204,15 +288,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityContactList
@@ -226,17 +304,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.securityContactName
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.securityContactName],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityContact
@@ -250,17 +322,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.securityContactName
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.securityContactName],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "securityContact",
     mapper: {
@@ -281,17 +347,11 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.securityContactName
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.securityContactName],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -303,17 +363,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.securityContactName
-  ],
-  queryParameters: [
-    Parameters.apiVersion5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.securityContactName],
+  queryParameters: [Parameters.apiVersion5],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "securityContact",
     mapper: {
@@ -336,12 +390,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityContactList

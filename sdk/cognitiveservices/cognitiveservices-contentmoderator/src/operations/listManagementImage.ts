@@ -32,7 +32,10 @@ export class ListManagementImage {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListManagementImageAddImageResponse>
    */
-  addImage(listId: string, options?: Models.ListManagementImageAddImageOptionalParams): Promise<Models.ListManagementImageAddImageResponse>;
+  addImage(
+    listId: string,
+    options?: Models.ListManagementImageAddImageOptionalParams
+  ): Promise<Models.ListManagementImageAddImageResponse>;
   /**
    * @param listId List Id of the image list.
    * @param callback The callback
@@ -43,15 +46,26 @@ export class ListManagementImage {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addImage(listId: string, options: Models.ListManagementImageAddImageOptionalParams, callback: msRest.ServiceCallback<Models.Image>): void;
-  addImage(listId: string, options?: Models.ListManagementImageAddImageOptionalParams | msRest.ServiceCallback<Models.Image>, callback?: msRest.ServiceCallback<Models.Image>): Promise<Models.ListManagementImageAddImageResponse> {
+  addImage(
+    listId: string,
+    options: Models.ListManagementImageAddImageOptionalParams,
+    callback: msRest.ServiceCallback<Models.Image>
+  ): void;
+  addImage(
+    listId: string,
+    options?:
+      | Models.ListManagementImageAddImageOptionalParams
+      | msRest.ServiceCallback<Models.Image>,
+    callback?: msRest.ServiceCallback<Models.Image>
+  ): Promise<Models.ListManagementImageAddImageResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
         options
       },
       addImageOperationSpec,
-      callback) as Promise<Models.ListManagementImageAddImageResponse>;
+      callback
+    ) as Promise<Models.ListManagementImageAddImageResponse>;
   }
 
   /**
@@ -60,7 +74,10 @@ export class ListManagementImage {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListManagementImageDeleteAllImagesResponse>
    */
-  deleteAllImages(listId: string, options?: msRest.RequestOptionsBase): Promise<Models.ListManagementImageDeleteAllImagesResponse>;
+  deleteAllImages(
+    listId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ListManagementImageDeleteAllImagesResponse>;
   /**
    * @param listId List Id of the image list.
    * @param callback The callback
@@ -71,15 +88,24 @@ export class ListManagementImage {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteAllImages(listId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  deleteAllImages(listId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ListManagementImageDeleteAllImagesResponse> {
+  deleteAllImages(
+    listId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<string>
+  ): void;
+  deleteAllImages(
+    listId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>,
+    callback?: msRest.ServiceCallback<string>
+  ): Promise<Models.ListManagementImageDeleteAllImagesResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
         options
       },
       deleteAllImagesOperationSpec,
-      callback) as Promise<Models.ListManagementImageDeleteAllImagesResponse>;
+      callback
+    ) as Promise<Models.ListManagementImageDeleteAllImagesResponse>;
   }
 
   /**
@@ -88,7 +114,10 @@ export class ListManagementImage {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListManagementImageGetAllImageIdsResponse>
    */
-  getAllImageIds(listId: string, options?: msRest.RequestOptionsBase): Promise<Models.ListManagementImageGetAllImageIdsResponse>;
+  getAllImageIds(
+    listId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ListManagementImageGetAllImageIdsResponse>;
   /**
    * @param listId List Id of the image list.
    * @param callback The callback
@@ -99,15 +128,24 @@ export class ListManagementImage {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAllImageIds(listId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageIds>): void;
-  getAllImageIds(listId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageIds>, callback?: msRest.ServiceCallback<Models.ImageIds>): Promise<Models.ListManagementImageGetAllImageIdsResponse> {
+  getAllImageIds(
+    listId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ImageIds>
+  ): void;
+  getAllImageIds(
+    listId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageIds>,
+    callback?: msRest.ServiceCallback<Models.ImageIds>
+  ): Promise<Models.ListManagementImageGetAllImageIdsResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
         options
       },
       getAllImageIdsOperationSpec,
-      callback) as Promise<Models.ListManagementImageGetAllImageIdsResponse>;
+      callback
+    ) as Promise<Models.ListManagementImageGetAllImageIdsResponse>;
   }
 
   /**
@@ -117,7 +155,11 @@ export class ListManagementImage {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListManagementImageDeleteImageResponse>
    */
-  deleteImage(listId: string, imageId: string, options?: msRest.RequestOptionsBase): Promise<Models.ListManagementImageDeleteImageResponse>;
+  deleteImage(
+    listId: string,
+    imageId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ListManagementImageDeleteImageResponse>;
   /**
    * @param listId List Id of the image list.
    * @param imageId Id of the image.
@@ -130,8 +172,18 @@ export class ListManagementImage {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteImage(listId: string, imageId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  deleteImage(listId: string, imageId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ListManagementImageDeleteImageResponse> {
+  deleteImage(
+    listId: string,
+    imageId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<string>
+  ): void;
+  deleteImage(
+    listId: string,
+    imageId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>,
+    callback?: msRest.ServiceCallback<string>
+  ): Promise<Models.ListManagementImageDeleteImageResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -139,7 +191,8 @@ export class ListManagementImage {
         options
       },
       deleteImageOperationSpec,
-      callback) as Promise<Models.ListManagementImageDeleteImageResponse>;
+      callback
+    ) as Promise<Models.ListManagementImageDeleteImageResponse>;
   }
 
   /**
@@ -150,14 +203,24 @@ export class ListManagementImage {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListManagementImageAddImageUrlInputResponse>
    */
-  addImageUrlInput(listId: string, contentType: string, imageUrl: Models.ImageUrl, options?: Models.ListManagementImageAddImageUrlInputOptionalParams): Promise<Models.ListManagementImageAddImageUrlInputResponse>;
+  addImageUrlInput(
+    listId: string,
+    contentType: string,
+    imageUrl: Models.ImageUrl,
+    options?: Models.ListManagementImageAddImageUrlInputOptionalParams
+  ): Promise<Models.ListManagementImageAddImageUrlInputResponse>;
   /**
    * @param listId List Id of the image list.
    * @param contentType The content type.
    * @param imageUrl The image url.
    * @param callback The callback
    */
-  addImageUrlInput(listId: string, contentType: string, imageUrl: Models.ImageUrl, callback: msRest.ServiceCallback<Models.Image>): void;
+  addImageUrlInput(
+    listId: string,
+    contentType: string,
+    imageUrl: Models.ImageUrl,
+    callback: msRest.ServiceCallback<Models.Image>
+  ): void;
   /**
    * @param listId List Id of the image list.
    * @param contentType The content type.
@@ -165,8 +228,22 @@ export class ListManagementImage {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addImageUrlInput(listId: string, contentType: string, imageUrl: Models.ImageUrl, options: Models.ListManagementImageAddImageUrlInputOptionalParams, callback: msRest.ServiceCallback<Models.Image>): void;
-  addImageUrlInput(listId: string, contentType: string, imageUrl: Models.ImageUrl, options?: Models.ListManagementImageAddImageUrlInputOptionalParams | msRest.ServiceCallback<Models.Image>, callback?: msRest.ServiceCallback<Models.Image>): Promise<Models.ListManagementImageAddImageUrlInputResponse> {
+  addImageUrlInput(
+    listId: string,
+    contentType: string,
+    imageUrl: Models.ImageUrl,
+    options: Models.ListManagementImageAddImageUrlInputOptionalParams,
+    callback: msRest.ServiceCallback<Models.Image>
+  ): void;
+  addImageUrlInput(
+    listId: string,
+    contentType: string,
+    imageUrl: Models.ImageUrl,
+    options?:
+      | Models.ListManagementImageAddImageUrlInputOptionalParams
+      | msRest.ServiceCallback<Models.Image>,
+    callback?: msRest.ServiceCallback<Models.Image>
+  ): Promise<Models.ListManagementImageAddImageUrlInputResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -175,7 +252,8 @@ export class ListManagementImage {
         options
       },
       addImageUrlInputOperationSpec,
-      callback) as Promise<Models.ListManagementImageAddImageUrlInputResponse>;
+      callback
+    ) as Promise<Models.ListManagementImageAddImageUrlInputResponse>;
   }
 
   /**
@@ -185,21 +263,41 @@ export class ListManagementImage {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListManagementImageAddImageFileInputResponse>
    */
-  addImageFileInput(listId: string, imageStream: msRest.HttpRequestBody, options?: Models.ListManagementImageAddImageFileInputOptionalParams): Promise<Models.ListManagementImageAddImageFileInputResponse>;
+  addImageFileInput(
+    listId: string,
+    imageStream: msRest.HttpRequestBody,
+    options?: Models.ListManagementImageAddImageFileInputOptionalParams
+  ): Promise<Models.ListManagementImageAddImageFileInputResponse>;
   /**
    * @param listId List Id of the image list.
    * @param imageStream The image file.
    * @param callback The callback
    */
-  addImageFileInput(listId: string, imageStream: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.Image>): void;
+  addImageFileInput(
+    listId: string,
+    imageStream: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.Image>
+  ): void;
   /**
    * @param listId List Id of the image list.
    * @param imageStream The image file.
    * @param options The optional parameters
    * @param callback The callback
    */
-  addImageFileInput(listId: string, imageStream: msRest.HttpRequestBody, options: Models.ListManagementImageAddImageFileInputOptionalParams, callback: msRest.ServiceCallback<Models.Image>): void;
-  addImageFileInput(listId: string, imageStream: msRest.HttpRequestBody, options?: Models.ListManagementImageAddImageFileInputOptionalParams | msRest.ServiceCallback<Models.Image>, callback?: msRest.ServiceCallback<Models.Image>): Promise<Models.ListManagementImageAddImageFileInputResponse> {
+  addImageFileInput(
+    listId: string,
+    imageStream: msRest.HttpRequestBody,
+    options: Models.ListManagementImageAddImageFileInputOptionalParams,
+    callback: msRest.ServiceCallback<Models.Image>
+  ): void;
+  addImageFileInput(
+    listId: string,
+    imageStream: msRest.HttpRequestBody,
+    options?:
+      | Models.ListManagementImageAddImageFileInputOptionalParams
+      | msRest.ServiceCallback<Models.Image>,
+    callback?: msRest.ServiceCallback<Models.Image>
+  ): Promise<Models.ListManagementImageAddImageFileInputResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -207,7 +305,8 @@ export class ListManagementImage {
         options
       },
       addImageFileInputOperationSpec,
-      callback) as Promise<Models.ListManagementImageAddImageFileInputResponse>;
+      callback
+    ) as Promise<Models.ListManagementImageAddImageFileInputResponse>;
   }
 }
 
@@ -216,14 +315,8 @@ const serializer = new msRest.Serializer(Mappers);
 const addImageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "contentmoderator/lists/v1.0/imagelists/{listId}/images",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.listId1
-  ],
-  queryParameters: [
-    Parameters.tag,
-    Parameters.label
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.listId1],
+  queryParameters: [Parameters.tag, Parameters.label],
   responses: {
     200: {
       bodyMapper: Mappers.Image
@@ -238,10 +331,7 @@ const addImageOperationSpec: msRest.OperationSpec = {
 const deleteAllImagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "contentmoderator/lists/v1.0/imagelists/{listId}/images",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.listId1
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.listId1],
   responses: {
     200: {
       bodyMapper: {
@@ -261,10 +351,7 @@ const deleteAllImagesOperationSpec: msRest.OperationSpec = {
 const getAllImageIdsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "contentmoderator/lists/v1.0/imagelists/{listId}/images",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.listId1
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.listId1],
   responses: {
     200: {
       bodyMapper: Mappers.ImageIds
@@ -279,11 +366,7 @@ const getAllImageIdsOperationSpec: msRest.OperationSpec = {
 const deleteImageOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "contentmoderator/lists/v1.0/imagelists/{listId}/images/{ImageId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.listId1,
-    Parameters.imageId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.listId1, Parameters.imageId],
   responses: {
     200: {
       bodyMapper: {
@@ -303,17 +386,9 @@ const deleteImageOperationSpec: msRest.OperationSpec = {
 const addImageUrlInputOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "contentmoderator/lists/v1.0/imagelists/{listId}/images",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.listId1
-  ],
-  queryParameters: [
-    Parameters.tag,
-    Parameters.label
-  ],
-  headerParameters: [
-    Parameters.contentType0
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.listId1],
+  queryParameters: [Parameters.tag, Parameters.label],
+  headerParameters: [Parameters.contentType0],
   requestBody: {
     parameterPath: "imageUrl",
     mapper: {
@@ -335,14 +410,8 @@ const addImageUrlInputOperationSpec: msRest.OperationSpec = {
 const addImageFileInputOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "contentmoderator/lists/v1.0/imagelists/{listId}/images",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.listId1
-  ],
-  queryParameters: [
-    Parameters.tag,
-    Parameters.label
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.listId1],
+  queryParameters: [Parameters.tag, Parameters.label],
   requestBody: {
     parameterPath: "imageStream",
     mapper: {

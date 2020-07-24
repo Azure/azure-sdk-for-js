@@ -7,7 +7,8 @@ import { v4 as uuid } from "uuid";
 
 export const command = "send-receive";
 
-export const describe = "Sends a message to an event hub partition and receives the message " +
+export const describe =
+  "Sends a message to an event hub partition and receives the message " +
   "from that eventhub partition, thus verifying that the sent message was received successfully.";
 
 export const builder: CommandBuilder = {
@@ -25,13 +26,13 @@ export const builder: CommandBuilder = {
   },
   w: {
     alias: "maxwait",
-    describe: "Max time in seconds to wait before sending the next message. " +
+    describe:
+      "Max time in seconds to wait before sending the next message. " +
       "A random number between 5 and the provided number",
     default: 2000,
     number: true
-  },
+  }
 };
-
 
 function validateArgs(argv: any) {
   if (!argv) {
@@ -39,7 +40,9 @@ function validateArgs(argv: any) {
   }
 
   if (!argv.connStr && (!argv.key || !argv.keyName || !argv.address)) {
-    throw new Error(`Either provide --conn-str OR (--address "sb://{yournamespace}.servicebus.windows.net" --key-name "<shared-access-key-name>" --key "<shared-access-key-value>")`);
+    throw new Error(
+      `Either provide --conn-str OR (--address "sb://{yournamespace}.servicebus.windows.net" --key-name "<shared-access-key-name>" --key "<shared-access-key-value>")`
+    );
   }
 }
 
@@ -68,7 +71,9 @@ export async function handler(argv: any): Promise<void> {
     }
     client1 = EventHubClient.createFromConnectionString(connectionString, argv.hub);
     client2 = EventHubClient.createFromConnectionString(connectionString, argv.hub);
-    log(`Created Receiver: for partition: "${partitionId}" in consumer group: "${consumerGroup}" in event hub "${argv.hub}".`);
+    log(
+      `Created Receiver: for partition: "${partitionId}" in consumer group: "${consumerGroup}" in event hub "${argv.hub}".`
+    );
     log(`Created Sender: for partition: "${partitionId}" in event hub "${argv.hub}".`);
     const onMessage = (m: EventData) => {
       const mid = m.properties!.message_id as string;
@@ -85,7 +90,10 @@ export async function handler(argv: any): Promise<void> {
       log("^^^^^^^^^^ An error occured with the receiver: %o", err);
     };
     const now = Date.now();
-    client1.receive(partitionId, onMessage, onError, { consumerGroup: consumerGroup, eventPosition: EventPosition.fromEnqueuedTime(now) });
+    client1.receive(partitionId, onMessage, onError, {
+      consumerGroup: consumerGroup,
+      eventPosition: EventPosition.fromEnqueuedTime(now)
+    });
     log("Started receiving messages from enqueued time : '%s'.", new Date(now).toString());
     await delay(3000);
     while (true) {
@@ -104,13 +112,20 @@ export async function handler(argv: any): Promise<void> {
       cache[messageId] = m;
       try {
         const delivery = await client2.send(m, partitionId);
-        log("Sent message with id '%s'. Delivery id '%d', tag '%s'.",
-          messageId, delivery.id, delivery.tag.toString());
+        log(
+          "Sent message with id '%s'. Delivery id '%d', tag '%s'.",
+          messageId,
+          delivery.id,
+          delivery.tag.toString()
+        );
       } catch (err) {
         log("An error occurred while sending the message with id '%s', %o", messageId, err);
       }
-      log("Sleeping for %d seconds. Next message will be sent around %s",
-        waitTime / 1000, new Date(nextIterationAt).toString());
+      log(
+        "Sleeping for %d seconds. Next message will be sent around %s",
+        waitTime / 1000,
+        new Date(nextIterationAt).toString()
+      );
       try {
         await delay(waitTime);
       } catch (err) {

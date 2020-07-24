@@ -58,7 +58,10 @@ export class Translator {
    * @param [options] The optional parameters
    * @returns Promise<Models.TranslatorBreakSentenceResponse>
    */
-  breakSentence(text: Models.BreakSentenceTextInput[], options?: Models.TranslatorBreakSentenceOptionalParams): Promise<Models.TranslatorBreakSentenceResponse>;
+  breakSentence(
+    text: Models.BreakSentenceTextInput[],
+    options?: Models.TranslatorBreakSentenceOptionalParams
+  ): Promise<Models.TranslatorBreakSentenceResponse>;
   /**
    * @param text # Request Body
    * The body of the request is a JSON array. Each array element is a JSON object with a string
@@ -89,7 +92,10 @@ export class Translator {
    * troubleshooting purposes.
    * @param callback The callback
    */
-  breakSentence(text: Models.BreakSentenceTextInput[], callback: msRest.ServiceCallback<Models.BreakSentenceResultItem[]>): void;
+  breakSentence(
+    text: Models.BreakSentenceTextInput[],
+    callback: msRest.ServiceCallback<Models.BreakSentenceResultItem[]>
+  ): void;
   /**
    * @param text # Request Body
    * The body of the request is a JSON array. Each array element is a JSON object with a string
@@ -121,15 +127,26 @@ export class Translator {
    * @param options The optional parameters
    * @param callback The callback
    */
-  breakSentence(text: Models.BreakSentenceTextInput[], options: Models.TranslatorBreakSentenceOptionalParams, callback: msRest.ServiceCallback<Models.BreakSentenceResultItem[]>): void;
-  breakSentence(text: Models.BreakSentenceTextInput[], options?: Models.TranslatorBreakSentenceOptionalParams | msRest.ServiceCallback<Models.BreakSentenceResultItem[]>, callback?: msRest.ServiceCallback<Models.BreakSentenceResultItem[]>): Promise<Models.TranslatorBreakSentenceResponse> {
+  breakSentence(
+    text: Models.BreakSentenceTextInput[],
+    options: Models.TranslatorBreakSentenceOptionalParams,
+    callback: msRest.ServiceCallback<Models.BreakSentenceResultItem[]>
+  ): void;
+  breakSentence(
+    text: Models.BreakSentenceTextInput[],
+    options?:
+      | Models.TranslatorBreakSentenceOptionalParams
+      | msRest.ServiceCallback<Models.BreakSentenceResultItem[]>,
+    callback?: msRest.ServiceCallback<Models.BreakSentenceResultItem[]>
+  ): Promise<Models.TranslatorBreakSentenceResponse> {
     return this.client.sendOperationRequest(
       {
         text,
         options
       },
       breakSentenceOperationSpec,
-      callback) as Promise<Models.TranslatorBreakSentenceResponse>;
+      callback
+    ) as Promise<Models.TranslatorBreakSentenceResponse>;
   }
 
   /**
@@ -162,7 +179,10 @@ export class Translator {
    * @param [options] The optional parameters
    * @returns Promise<Models.TranslatorDetectResponse>
    */
-  detect(text: Models.DetectTextInput[], options?: Models.TranslatorDetectOptionalParams): Promise<Models.TranslatorDetectResponse>;
+  detect(
+    text: Models.DetectTextInput[],
+    options?: Models.TranslatorDetectOptionalParams
+  ): Promise<Models.TranslatorDetectResponse>;
   /**
    * @param text # Request Body
    * The body of the request is a JSON array. Each array element is a JSON object with a string
@@ -191,7 +211,10 @@ export class Translator {
    * troubleshooting purposes.
    * @param callback The callback
    */
-  detect(text: Models.DetectTextInput[], callback: msRest.ServiceCallback<Models.DetectResultItem[]>): void;
+  detect(
+    text: Models.DetectTextInput[],
+    callback: msRest.ServiceCallback<Models.DetectResultItem[]>
+  ): void;
   /**
    * @param text # Request Body
    * The body of the request is a JSON array. Each array element is a JSON object with a string
@@ -221,15 +244,26 @@ export class Translator {
    * @param options The optional parameters
    * @param callback The callback
    */
-  detect(text: Models.DetectTextInput[], options: Models.TranslatorDetectOptionalParams, callback: msRest.ServiceCallback<Models.DetectResultItem[]>): void;
-  detect(text: Models.DetectTextInput[], options?: Models.TranslatorDetectOptionalParams | msRest.ServiceCallback<Models.DetectResultItem[]>, callback?: msRest.ServiceCallback<Models.DetectResultItem[]>): Promise<Models.TranslatorDetectResponse> {
+  detect(
+    text: Models.DetectTextInput[],
+    options: Models.TranslatorDetectOptionalParams,
+    callback: msRest.ServiceCallback<Models.DetectResultItem[]>
+  ): void;
+  detect(
+    text: Models.DetectTextInput[],
+    options?:
+      | Models.TranslatorDetectOptionalParams
+      | msRest.ServiceCallback<Models.DetectResultItem[]>,
+    callback?: msRest.ServiceCallback<Models.DetectResultItem[]>
+  ): Promise<Models.TranslatorDetectResponse> {
     return this.client.sendOperationRequest(
       {
         text,
         options
       },
       detectOperationSpec,
-      callback) as Promise<Models.TranslatorDetectResponse>;
+      callback
+    ) as Promise<Models.TranslatorDetectResponse>;
   }
 
   /**
@@ -322,7 +356,12 @@ export class Translator {
    * @param [options] The optional parameters
    * @returns Promise<Models.TranslatorDictionaryLookupResponse>
    */
-  dictionaryLookup(from: string, to: string, text: Models.DictionaryLookupTextInput[], options?: Models.TranslatorDictionaryLookupOptionalParams): Promise<Models.TranslatorDictionaryLookupResponse>;
+  dictionaryLookup(
+    from: string,
+    to: string,
+    text: Models.DictionaryLookupTextInput[],
+    options?: Models.TranslatorDictionaryLookupOptionalParams
+  ): Promise<Models.TranslatorDictionaryLookupResponse>;
   /**
    * @param from Specifies the language of the input text. The source language must be one of the
    * supported languages included in the `dictionary` scope.
@@ -408,7 +447,12 @@ export class Translator {
    * troubleshooting purposes.
    * @param callback The callback
    */
-  dictionaryLookup(from: string, to: string, text: Models.DictionaryLookupTextInput[], callback: msRest.ServiceCallback<Models.DictionaryLookupResultItem[]>): void;
+  dictionaryLookup(
+    from: string,
+    to: string,
+    text: Models.DictionaryLookupTextInput[],
+    callback: msRest.ServiceCallback<Models.DictionaryLookupResultItem[]>
+  ): void;
   /**
    * @param from Specifies the language of the input text. The source language must be one of the
    * supported languages included in the `dictionary` scope.
@@ -495,8 +539,22 @@ export class Translator {
    * @param options The optional parameters
    * @param callback The callback
    */
-  dictionaryLookup(from: string, to: string, text: Models.DictionaryLookupTextInput[], options: Models.TranslatorDictionaryLookupOptionalParams, callback: msRest.ServiceCallback<Models.DictionaryLookupResultItem[]>): void;
-  dictionaryLookup(from: string, to: string, text: Models.DictionaryLookupTextInput[], options?: Models.TranslatorDictionaryLookupOptionalParams | msRest.ServiceCallback<Models.DictionaryLookupResultItem[]>, callback?: msRest.ServiceCallback<Models.DictionaryLookupResultItem[]>): Promise<Models.TranslatorDictionaryLookupResponse> {
+  dictionaryLookup(
+    from: string,
+    to: string,
+    text: Models.DictionaryLookupTextInput[],
+    options: Models.TranslatorDictionaryLookupOptionalParams,
+    callback: msRest.ServiceCallback<Models.DictionaryLookupResultItem[]>
+  ): void;
+  dictionaryLookup(
+    from: string,
+    to: string,
+    text: Models.DictionaryLookupTextInput[],
+    options?:
+      | Models.TranslatorDictionaryLookupOptionalParams
+      | msRest.ServiceCallback<Models.DictionaryLookupResultItem[]>,
+    callback?: msRest.ServiceCallback<Models.DictionaryLookupResultItem[]>
+  ): Promise<Models.TranslatorDictionaryLookupResponse> {
     return this.client.sendOperationRequest(
       {
         from,
@@ -505,7 +563,8 @@ export class Translator {
         options
       },
       dictionaryLookupOperationSpec,
-      callback) as Promise<Models.TranslatorDictionaryLookupResponse>;
+      callback
+    ) as Promise<Models.TranslatorDictionaryLookupResponse>;
   }
 
   /**
@@ -562,7 +621,12 @@ export class Translator {
    * @param [options] The optional parameters
    * @returns Promise<Models.TranslatorDictionaryExamplesResponse>
    */
-  dictionaryExamples(from: string, to: string, text: Models.DictionaryExampleTextInput[], options?: Models.TranslatorDictionaryExamplesOptionalParams): Promise<Models.TranslatorDictionaryExamplesResponse>;
+  dictionaryExamples(
+    from: string,
+    to: string,
+    text: Models.DictionaryExampleTextInput[],
+    options?: Models.TranslatorDictionaryExamplesOptionalParams
+  ): Promise<Models.TranslatorDictionaryExamplesResponse>;
   /**
    * @param from Specifies the language of the input text. The source language must be one of the
    * supported languages included in the `dictionary` scope.
@@ -614,7 +678,12 @@ export class Translator {
    * list is an empty list.
    * @param callback The callback
    */
-  dictionaryExamples(from: string, to: string, text: Models.DictionaryExampleTextInput[], callback: msRest.ServiceCallback<Models.DictionaryExampleResultItem[]>): void;
+  dictionaryExamples(
+    from: string,
+    to: string,
+    text: Models.DictionaryExampleTextInput[],
+    callback: msRest.ServiceCallback<Models.DictionaryExampleResultItem[]>
+  ): void;
   /**
    * @param from Specifies the language of the input text. The source language must be one of the
    * supported languages included in the `dictionary` scope.
@@ -667,8 +736,22 @@ export class Translator {
    * @param options The optional parameters
    * @param callback The callback
    */
-  dictionaryExamples(from: string, to: string, text: Models.DictionaryExampleTextInput[], options: Models.TranslatorDictionaryExamplesOptionalParams, callback: msRest.ServiceCallback<Models.DictionaryExampleResultItem[]>): void;
-  dictionaryExamples(from: string, to: string, text: Models.DictionaryExampleTextInput[], options?: Models.TranslatorDictionaryExamplesOptionalParams | msRest.ServiceCallback<Models.DictionaryExampleResultItem[]>, callback?: msRest.ServiceCallback<Models.DictionaryExampleResultItem[]>): Promise<Models.TranslatorDictionaryExamplesResponse> {
+  dictionaryExamples(
+    from: string,
+    to: string,
+    text: Models.DictionaryExampleTextInput[],
+    options: Models.TranslatorDictionaryExamplesOptionalParams,
+    callback: msRest.ServiceCallback<Models.DictionaryExampleResultItem[]>
+  ): void;
+  dictionaryExamples(
+    from: string,
+    to: string,
+    text: Models.DictionaryExampleTextInput[],
+    options?:
+      | Models.TranslatorDictionaryExamplesOptionalParams
+      | msRest.ServiceCallback<Models.DictionaryExampleResultItem[]>,
+    callback?: msRest.ServiceCallback<Models.DictionaryExampleResultItem[]>
+  ): Promise<Models.TranslatorDictionaryExamplesResponse> {
     return this.client.sendOperationRequest(
       {
         from,
@@ -677,7 +760,8 @@ export class Translator {
         options
       },
       dictionaryExamplesOperationSpec,
-      callback) as Promise<Models.TranslatorDictionaryExamplesResponse>;
+      callback
+    ) as Promise<Models.TranslatorDictionaryExamplesResponse>;
   }
 
   /**
@@ -843,7 +927,9 @@ export class Translator {
    * @param [options] The optional parameters
    * @returns Promise<Models.TranslatorLanguagesResponse>
    */
-  languages(options?: Models.TranslatorLanguagesOptionalParams): Promise<Models.TranslatorLanguagesResponse>;
+  languages(
+    options?: Models.TranslatorLanguagesOptionalParams
+  ): Promise<Models.TranslatorLanguagesResponse>;
   /**
    * @param callback The callback
    */
@@ -852,14 +938,23 @@ export class Translator {
    * @param options The optional parameters
    * @param callback The callback
    */
-  languages(options: Models.TranslatorLanguagesOptionalParams, callback: msRest.ServiceCallback<Models.LanguagesResult>): void;
-  languages(options?: Models.TranslatorLanguagesOptionalParams | msRest.ServiceCallback<Models.LanguagesResult>, callback?: msRest.ServiceCallback<Models.LanguagesResult>): Promise<Models.TranslatorLanguagesResponse> {
+  languages(
+    options: Models.TranslatorLanguagesOptionalParams,
+    callback: msRest.ServiceCallback<Models.LanguagesResult>
+  ): void;
+  languages(
+    options?:
+      | Models.TranslatorLanguagesOptionalParams
+      | msRest.ServiceCallback<Models.LanguagesResult>,
+    callback?: msRest.ServiceCallback<Models.LanguagesResult>
+  ): Promise<Models.TranslatorLanguagesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       languagesOperationSpec,
-      callback) as Promise<Models.TranslatorLanguagesResponse>;
+      callback
+    ) as Promise<Models.TranslatorLanguagesResponse>;
   }
 
   /**
@@ -922,7 +1017,11 @@ export class Translator {
    * @param [options] The optional parameters
    * @returns Promise<Models.TranslatorTranslateResponse>
    */
-  translate(to: string[], text: Models.TranslateTextInput[], options?: Models.TranslatorTranslateOptionalParams): Promise<Models.TranslatorTranslateResponse>;
+  translate(
+    to: string[],
+    text: Models.TranslateTextInput[],
+    options?: Models.TranslatorTranslateOptionalParams
+  ): Promise<Models.TranslatorTranslateResponse>;
   /**
    * @param to Specifies the language of the output text. Find which languages are available to
    * translate to by using the languages method. For example, use `to=de` to translate to German.
@@ -981,7 +1080,11 @@ export class Translator {
    *
    * @param callback The callback
    */
-  translate(to: string[], text: Models.TranslateTextInput[], callback: msRest.ServiceCallback<Models.TranslateResultAllItem[]>): void;
+  translate(
+    to: string[],
+    text: Models.TranslateTextInput[],
+    callback: msRest.ServiceCallback<Models.TranslateResultAllItem[]>
+  ): void;
   /**
    * @param to Specifies the language of the output text. Find which languages are available to
    * translate to by using the languages method. For example, use `to=de` to translate to German.
@@ -1041,8 +1144,20 @@ export class Translator {
    * @param options The optional parameters
    * @param callback The callback
    */
-  translate(to: string[], text: Models.TranslateTextInput[], options: Models.TranslatorTranslateOptionalParams, callback: msRest.ServiceCallback<Models.TranslateResultAllItem[]>): void;
-  translate(to: string[], text: Models.TranslateTextInput[], options?: Models.TranslatorTranslateOptionalParams | msRest.ServiceCallback<Models.TranslateResultAllItem[]>, callback?: msRest.ServiceCallback<Models.TranslateResultAllItem[]>): Promise<Models.TranslatorTranslateResponse> {
+  translate(
+    to: string[],
+    text: Models.TranslateTextInput[],
+    options: Models.TranslatorTranslateOptionalParams,
+    callback: msRest.ServiceCallback<Models.TranslateResultAllItem[]>
+  ): void;
+  translate(
+    to: string[],
+    text: Models.TranslateTextInput[],
+    options?:
+      | Models.TranslatorTranslateOptionalParams
+      | msRest.ServiceCallback<Models.TranslateResultAllItem[]>,
+    callback?: msRest.ServiceCallback<Models.TranslateResultAllItem[]>
+  ): Promise<Models.TranslatorTranslateResponse> {
     return this.client.sendOperationRequest(
       {
         to,
@@ -1050,7 +1165,8 @@ export class Translator {
         options
       },
       translateOperationSpec,
-      callback) as Promise<Models.TranslatorTranslateResponse>;
+      callback
+    ) as Promise<Models.TranslatorTranslateResponse>;
   }
 
   /**
@@ -1082,7 +1198,13 @@ export class Translator {
    * @param [options] The optional parameters
    * @returns Promise<Models.TranslatorTransliterateResponse>
    */
-  transliterate(language: string, fromScript: string, toScript: string, texts: Models.TransliterateTextInput[], options?: Models.TranslatorTransliterateOptionalParams): Promise<Models.TranslatorTransliterateResponse>;
+  transliterate(
+    language: string,
+    fromScript: string,
+    toScript: string,
+    texts: Models.TransliterateTextInput[],
+    options?: Models.TranslatorTransliterateOptionalParams
+  ): Promise<Models.TranslatorTransliterateResponse>;
   /**
    * @param language Specifies the language of the text to convert from one script to another.
    * Possible languages are listed in the `transliteration` scope obtained by querying the service
@@ -1108,7 +1230,13 @@ export class Translator {
    *
    * @param callback The callback
    */
-  transliterate(language: string, fromScript: string, toScript: string, texts: Models.TransliterateTextInput[], callback: msRest.ServiceCallback<Models.TransliterateResultItem[]>): void;
+  transliterate(
+    language: string,
+    fromScript: string,
+    toScript: string,
+    texts: Models.TransliterateTextInput[],
+    callback: msRest.ServiceCallback<Models.TransliterateResultItem[]>
+  ): void;
   /**
    * @param language Specifies the language of the text to convert from one script to another.
    * Possible languages are listed in the `transliteration` scope obtained by querying the service
@@ -1135,8 +1263,24 @@ export class Translator {
    * @param options The optional parameters
    * @param callback The callback
    */
-  transliterate(language: string, fromScript: string, toScript: string, texts: Models.TransliterateTextInput[], options: Models.TranslatorTransliterateOptionalParams, callback: msRest.ServiceCallback<Models.TransliterateResultItem[]>): void;
-  transliterate(language: string, fromScript: string, toScript: string, texts: Models.TransliterateTextInput[], options?: Models.TranslatorTransliterateOptionalParams | msRest.ServiceCallback<Models.TransliterateResultItem[]>, callback?: msRest.ServiceCallback<Models.TransliterateResultItem[]>): Promise<Models.TranslatorTransliterateResponse> {
+  transliterate(
+    language: string,
+    fromScript: string,
+    toScript: string,
+    texts: Models.TransliterateTextInput[],
+    options: Models.TranslatorTransliterateOptionalParams,
+    callback: msRest.ServiceCallback<Models.TransliterateResultItem[]>
+  ): void;
+  transliterate(
+    language: string,
+    fromScript: string,
+    toScript: string,
+    texts: Models.TransliterateTextInput[],
+    options?:
+      | Models.TranslatorTransliterateOptionalParams
+      | msRest.ServiceCallback<Models.TransliterateResultItem[]>,
+    callback?: msRest.ServiceCallback<Models.TransliterateResultItem[]>
+  ): Promise<Models.TranslatorTransliterateResponse> {
     return this.client.sendOperationRequest(
       {
         language,
@@ -1146,7 +1290,8 @@ export class Translator {
         options
       },
       transliterateOperationSpec,
-      callback) as Promise<Models.TranslatorTransliterateResponse>;
+      callback
+    ) as Promise<Models.TranslatorTransliterateResponse>;
   }
 }
 
@@ -1155,17 +1300,9 @@ const serializer = new msRest.Serializer(Mappers);
 const breakSentenceOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "BreakSentence",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.language0,
-    Parameters.script
-  ],
-  headerParameters: [
-    Parameters.xClientTraceId
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.apiVersion, Parameters.language0, Parameters.script],
+  headerParameters: [Parameters.xClientTraceId],
   requestBody: {
     parameterPath: "text",
     mapper: {
@@ -1207,15 +1344,9 @@ const breakSentenceOperationSpec: msRest.OperationSpec = {
 const detectOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Detect",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.xClientTraceId
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.xClientTraceId],
   requestBody: {
     parameterPath: "text",
     mapper: {
@@ -1257,17 +1388,9 @@ const detectOperationSpec: msRest.OperationSpec = {
 const dictionaryLookupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Dictionary/Lookup",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.from0,
-    Parameters.to0
-  ],
-  headerParameters: [
-    Parameters.xClientTraceId
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.apiVersion, Parameters.from0, Parameters.to0],
+  headerParameters: [Parameters.xClientTraceId],
   requestBody: {
     parameterPath: "text",
     mapper: {
@@ -1309,17 +1432,9 @@ const dictionaryLookupOperationSpec: msRest.OperationSpec = {
 const dictionaryExamplesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Dictionary/Examples",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.from0,
-    Parameters.to0
-  ],
-  headerParameters: [
-    Parameters.xClientTraceId
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.apiVersion, Parameters.from0, Parameters.to0],
+  headerParameters: [Parameters.xClientTraceId],
   requestBody: {
     parameterPath: "text",
     mapper: {
@@ -1361,17 +1476,9 @@ const dictionaryExamplesOperationSpec: msRest.OperationSpec = {
 const languagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Languages",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.scope
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.xClientTraceId
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.apiVersion, Parameters.scope],
+  headerParameters: [Parameters.acceptLanguage, Parameters.xClientTraceId],
   responses: {
     200: {
       bodyMapper: Mappers.LanguagesResult
@@ -1386,9 +1493,7 @@ const languagesOperationSpec: msRest.OperationSpec = {
 const translateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "translate",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.from1,
@@ -1403,9 +1508,7 @@ const translateOperationSpec: msRest.OperationSpec = {
     Parameters.fromScript0,
     Parameters.toScript0
   ],
-  headerParameters: [
-    Parameters.xClientTraceId
-  ],
+  headerParameters: [Parameters.xClientTraceId],
   requestBody: {
     parameterPath: "text",
     mapper: {
@@ -1447,18 +1550,14 @@ const translateOperationSpec: msRest.OperationSpec = {
 const transliterateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "transliterate",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.language1,
     Parameters.fromScript1,
     Parameters.toScript1
   ],
-  headerParameters: [
-    Parameters.xClientTraceId
-  ],
+  headerParameters: [Parameters.xClientTraceId],
   requestBody: {
     parameterPath: "texts",
     mapper: {

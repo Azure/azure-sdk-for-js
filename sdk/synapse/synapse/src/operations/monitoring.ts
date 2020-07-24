@@ -32,7 +32,14 @@ export class Monitoring {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitoringGetHistoryServerDataResponse>
    */
-  getHistoryServerData(workspaceName: string, poolName: string, livyId: string, appId: string, attemptId: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitoringGetHistoryServerDataResponse>;
+  getHistoryServerData(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    appId: string,
+    attemptId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MonitoringGetHistoryServerDataResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param poolName The spark pool name.
@@ -41,7 +48,14 @@ export class Monitoring {
    * @param attemptId The attempt id.
    * @param callback The callback
    */
-  getHistoryServerData(workspaceName: string, poolName: string, livyId: string, appId: string, attemptId: string, callback: msRest.ServiceCallback<Models.HistoryServerDataResponse>): void;
+  getHistoryServerData(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    appId: string,
+    attemptId: string,
+    callback: msRest.ServiceCallback<Models.HistoryServerDataResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param poolName The spark pool name.
@@ -51,8 +65,24 @@ export class Monitoring {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHistoryServerData(workspaceName: string, poolName: string, livyId: string, appId: string, attemptId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HistoryServerDataResponse>): void;
-  getHistoryServerData(workspaceName: string, poolName: string, livyId: string, appId: string, attemptId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HistoryServerDataResponse>, callback?: msRest.ServiceCallback<Models.HistoryServerDataResponse>): Promise<Models.MonitoringGetHistoryServerDataResponse> {
+  getHistoryServerData(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    appId: string,
+    attemptId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HistoryServerDataResponse>
+  ): void;
+  getHistoryServerData(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    appId: string,
+    attemptId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HistoryServerDataResponse>,
+    callback?: msRest.ServiceCallback<Models.HistoryServerDataResponse>
+  ): Promise<Models.MonitoringGetHistoryServerDataResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -63,7 +93,8 @@ export class Monitoring {
         options
       },
       getHistoryServerDataOperationSpec,
-      callback) as Promise<Models.MonitoringGetHistoryServerDataResponse>;
+      callback
+    ) as Promise<Models.MonitoringGetHistoryServerDataResponse>;
   }
 
   /**
@@ -72,26 +103,41 @@ export class Monitoring {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitoringGetSparkJobListResponse>
    */
-  getSparkJobList(workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitoringGetSparkJobListResponse>;
+  getSparkJobList(
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MonitoringGetSparkJobListResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param callback The callback
    */
-  getSparkJobList(workspaceName: string, callback: msRest.ServiceCallback<Models.SparkJobListViewResponse>): void;
+  getSparkJobList(
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.SparkJobListViewResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSparkJobList(workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SparkJobListViewResponse>): void;
-  getSparkJobList(workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SparkJobListViewResponse>, callback?: msRest.ServiceCallback<Models.SparkJobListViewResponse>): Promise<Models.MonitoringGetSparkJobListResponse> {
+  getSparkJobList(
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SparkJobListViewResponse>
+  ): void;
+  getSparkJobList(
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SparkJobListViewResponse>,
+    callback?: msRest.ServiceCallback<Models.SparkJobListViewResponse>
+  ): Promise<Models.MonitoringGetSparkJobListResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
         options
       },
       getSparkJobListOperationSpec,
-      callback) as Promise<Models.MonitoringGetSparkJobListResponse>;
+      callback
+    ) as Promise<Models.MonitoringGetSparkJobListResponse>;
   }
 
   /**
@@ -102,14 +148,24 @@ export class Monitoring {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitoringGetApplicationDetailsResponse>
    */
-  getApplicationDetails(workspaceName: string, poolName: string, livyId: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitoringGetApplicationDetailsResponse>;
+  getApplicationDetails(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MonitoringGetApplicationDetailsResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param poolName The spark pool name.
    * @param livyId The livy id.
    * @param callback The callback
    */
-  getApplicationDetails(workspaceName: string, poolName: string, livyId: string, callback: msRest.ServiceCallback<Models.SparkJobListViewResponse>): void;
+  getApplicationDetails(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    callback: msRest.ServiceCallback<Models.SparkJobListViewResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param poolName The spark pool name.
@@ -117,8 +173,20 @@ export class Monitoring {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getApplicationDetails(workspaceName: string, poolName: string, livyId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SparkJobListViewResponse>): void;
-  getApplicationDetails(workspaceName: string, poolName: string, livyId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SparkJobListViewResponse>, callback?: msRest.ServiceCallback<Models.SparkJobListViewResponse>): Promise<Models.MonitoringGetApplicationDetailsResponse> {
+  getApplicationDetails(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SparkJobListViewResponse>
+  ): void;
+  getApplicationDetails(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SparkJobListViewResponse>,
+    callback?: msRest.ServiceCallback<Models.SparkJobListViewResponse>
+  ): Promise<Models.MonitoringGetApplicationDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -127,7 +195,8 @@ export class Monitoring {
         options
       },
       getApplicationDetailsOperationSpec,
-      callback) as Promise<Models.MonitoringGetApplicationDetailsResponse>;
+      callback
+    ) as Promise<Models.MonitoringGetApplicationDetailsResponse>;
   }
 
   /**
@@ -136,26 +205,43 @@ export class Monitoring {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitoringGetHistoryServerPropertiesResponse>
    */
-  getHistoryServerProperties(workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitoringGetHistoryServerPropertiesResponse>;
+  getHistoryServerProperties(
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MonitoringGetHistoryServerPropertiesResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param callback The callback
    */
-  getHistoryServerProperties(workspaceName: string, callback: msRest.ServiceCallback<Models.HistoryServerPropertiesResponse>): void;
+  getHistoryServerProperties(
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.HistoryServerPropertiesResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHistoryServerProperties(workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HistoryServerPropertiesResponse>): void;
-  getHistoryServerProperties(workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HistoryServerPropertiesResponse>, callback?: msRest.ServiceCallback<Models.HistoryServerPropertiesResponse>): Promise<Models.MonitoringGetHistoryServerPropertiesResponse> {
+  getHistoryServerProperties(
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HistoryServerPropertiesResponse>
+  ): void;
+  getHistoryServerProperties(
+    workspaceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.HistoryServerPropertiesResponse>,
+    callback?: msRest.ServiceCallback<Models.HistoryServerPropertiesResponse>
+  ): Promise<Models.MonitoringGetHistoryServerPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
         options
       },
       getHistoryServerPropertiesOperationSpec,
-      callback) as Promise<Models.MonitoringGetHistoryServerPropertiesResponse>;
+      callback
+    ) as Promise<Models.MonitoringGetHistoryServerPropertiesResponse>;
   }
 
   /**
@@ -168,7 +254,14 @@ export class Monitoring {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitoringGetHistoryServerDiagnosticResponse>
    */
-  getHistoryServerDiagnostic(workspaceName: string, poolName: string, livyId: string, appId: string, attemptId: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitoringGetHistoryServerDiagnosticResponse>;
+  getHistoryServerDiagnostic(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    appId: string,
+    attemptId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MonitoringGetHistoryServerDiagnosticResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param poolName The spark pool name.
@@ -177,7 +270,14 @@ export class Monitoring {
    * @param attemptId The attempt id.
    * @param callback The callback
    */
-  getHistoryServerDiagnostic(workspaceName: string, poolName: string, livyId: string, appId: string, attemptId: string, callback: msRest.ServiceCallback<Models.HistoryServerDiagnosticResponse>): void;
+  getHistoryServerDiagnostic(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    appId: string,
+    attemptId: string,
+    callback: msRest.ServiceCallback<Models.HistoryServerDiagnosticResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param poolName The spark pool name.
@@ -187,8 +287,26 @@ export class Monitoring {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHistoryServerDiagnostic(workspaceName: string, poolName: string, livyId: string, appId: string, attemptId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HistoryServerDiagnosticResponse>): void;
-  getHistoryServerDiagnostic(workspaceName: string, poolName: string, livyId: string, appId: string, attemptId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HistoryServerDiagnosticResponse>, callback?: msRest.ServiceCallback<Models.HistoryServerDiagnosticResponse>): Promise<Models.MonitoringGetHistoryServerDiagnosticResponse> {
+  getHistoryServerDiagnostic(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    appId: string,
+    attemptId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HistoryServerDiagnosticResponse>
+  ): void;
+  getHistoryServerDiagnostic(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    appId: string,
+    attemptId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.HistoryServerDiagnosticResponse>,
+    callback?: msRest.ServiceCallback<Models.HistoryServerDiagnosticResponse>
+  ): Promise<Models.MonitoringGetHistoryServerDiagnosticResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -199,7 +317,8 @@ export class Monitoring {
         options
       },
       getHistoryServerDiagnosticOperationSpec,
-      callback) as Promise<Models.MonitoringGetHistoryServerDiagnosticResponse>;
+      callback
+    ) as Promise<Models.MonitoringGetHistoryServerDiagnosticResponse>;
   }
 
   /**
@@ -212,7 +331,14 @@ export class Monitoring {
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitoringGetHistoryServerGraphResponse>
    */
-  getHistoryServerGraph(workspaceName: string, poolName: string, livyId: string, appId: string, attemptId: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitoringGetHistoryServerGraphResponse>;
+  getHistoryServerGraph(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    appId: string,
+    attemptId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MonitoringGetHistoryServerGraphResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param poolName The spark pool name.
@@ -221,7 +347,14 @@ export class Monitoring {
    * @param attemptId The attempt id.
    * @param callback The callback
    */
-  getHistoryServerGraph(workspaceName: string, poolName: string, livyId: string, appId: string, attemptId: string, callback: msRest.ServiceCallback<Models.HistoryServerGraphResponse>): void;
+  getHistoryServerGraph(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    appId: string,
+    attemptId: string,
+    callback: msRest.ServiceCallback<Models.HistoryServerGraphResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param poolName The spark pool name.
@@ -231,8 +364,24 @@ export class Monitoring {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getHistoryServerGraph(workspaceName: string, poolName: string, livyId: string, appId: string, attemptId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HistoryServerGraphResponse>): void;
-  getHistoryServerGraph(workspaceName: string, poolName: string, livyId: string, appId: string, attemptId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HistoryServerGraphResponse>, callback?: msRest.ServiceCallback<Models.HistoryServerGraphResponse>): Promise<Models.MonitoringGetHistoryServerGraphResponse> {
+  getHistoryServerGraph(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    appId: string,
+    attemptId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HistoryServerGraphResponse>
+  ): void;
+  getHistoryServerGraph(
+    workspaceName: string,
+    poolName: string,
+    livyId: string,
+    appId: string,
+    attemptId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HistoryServerGraphResponse>,
+    callback?: msRest.ServiceCallback<Models.HistoryServerGraphResponse>
+  ): Promise<Models.MonitoringGetHistoryServerGraphResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -243,7 +392,8 @@ export class Monitoring {
         options
       },
       getHistoryServerGraphOperationSpec,
-      callback) as Promise<Models.MonitoringGetHistoryServerGraphResponse>;
+      callback
+    ) as Promise<Models.MonitoringGetHistoryServerGraphResponse>;
   }
 }
 
@@ -251,7 +401,8 @@ export class Monitoring {
 const serializer = new msRest.Serializer(Mappers);
 const getHistoryServerDataOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "monitoring/workloadTypes/spark/pools/{poolName}/livyIds/{livyId}/applications/{appId}/attemptIds/{attemptId}/historyServerData",
+  path:
+    "monitoring/workloadTypes/spark/pools/{poolName}/livyIds/{livyId}/applications/{appId}/attemptIds/{attemptId}/historyServerData",
   urlParameters: [
     Parameters.workspaceName,
     Parameters.synapseDnsSuffix,
@@ -260,12 +411,8 @@ const getHistoryServerDataOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.attemptId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HistoryServerDataResponse
@@ -281,16 +428,9 @@ const getHistoryServerDataOperationSpec: msRest.OperationSpec = {
 const getSparkJobListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "monitoring/workloadTypes/spark/Applications",
-  urlParameters: [
-    Parameters.workspaceName,
-    Parameters.synapseDnsSuffix
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.workspaceName, Parameters.synapseDnsSuffix],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SparkJobListViewResponse
@@ -312,12 +452,8 @@ const getApplicationDetailsOperationSpec: msRest.OperationSpec = {
     Parameters.poolName,
     Parameters.livyId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SparkJobListViewResponse
@@ -333,16 +469,9 @@ const getApplicationDetailsOperationSpec: msRest.OperationSpec = {
 const getHistoryServerPropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "monitoring/workloadTypes/spark/historyServerProperties",
-  urlParameters: [
-    Parameters.workspaceName,
-    Parameters.synapseDnsSuffix
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.workspaceName, Parameters.synapseDnsSuffix],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HistoryServerPropertiesResponse
@@ -357,7 +486,8 @@ const getHistoryServerPropertiesOperationSpec: msRest.OperationSpec = {
 
 const getHistoryServerDiagnosticOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "monitoring/workloadTypes/spark/pools/{poolName}/livyIds/{livyId}/applications/{appId}/attemptIds/{attemptId}/historyServerDiagnostic",
+  path:
+    "monitoring/workloadTypes/spark/pools/{poolName}/livyIds/{livyId}/applications/{appId}/attemptIds/{attemptId}/historyServerDiagnostic",
   urlParameters: [
     Parameters.workspaceName,
     Parameters.synapseDnsSuffix,
@@ -366,12 +496,8 @@ const getHistoryServerDiagnosticOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.attemptId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HistoryServerDiagnosticResponse
@@ -386,7 +512,8 @@ const getHistoryServerDiagnosticOperationSpec: msRest.OperationSpec = {
 
 const getHistoryServerGraphOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "monitoring/workloadTypes/spark/pools/{poolName}/livyIds/{livyId}/applications/{appId}/attemptIds/{attemptId}/historyServerGraph",
+  path:
+    "monitoring/workloadTypes/spark/pools/{poolName}/livyIds/{livyId}/applications/{appId}/attemptIds/{attemptId}/historyServerGraph",
   urlParameters: [
     Parameters.workspaceName,
     Parameters.synapseDnsSuffix,
@@ -395,12 +522,8 @@ const getHistoryServerGraphOperationSpec: msRest.OperationSpec = {
     Parameters.appId,
     Parameters.attemptId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HistoryServerGraphResponse

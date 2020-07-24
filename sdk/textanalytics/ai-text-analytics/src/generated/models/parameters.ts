@@ -15,7 +15,7 @@ export const endpoint: coreHttp.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -23,10 +23,7 @@ export const endpoint: coreHttp.OperationURLParameter = {
   skipEncoding: true
 };
 export const includeStatistics: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeStatistics"
-  ],
+  parameterPath: ["options", "includeStatistics"],
   mapper: {
     serializedName: "showStats",
     type: {
@@ -35,10 +32,7 @@ export const includeStatistics: coreHttp.OperationQueryParameter = {
   }
 };
 export const modelVersion: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "modelVersion"
-  ],
+  parameterPath: ["options", "modelVersion"],
   mapper: {
     serializedName: "model-version",
     type: {

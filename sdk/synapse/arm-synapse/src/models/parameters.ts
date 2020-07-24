@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -40,10 +40,7 @@ export const baselineName: msRest.OperationURLParameter = {
     serializedName: "baselineName",
     type: {
       name: "Enum",
-      allowedValues: [
-        "master",
-        "default"
-      ]
+      allowedValues: ["master", "default"]
     }
   }
 };
@@ -63,7 +60,7 @@ export const blobAuditingPolicyName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "blobAuditingPolicyName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
@@ -85,7 +82,7 @@ export const connectionPolicyName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "connectionPolicyName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
@@ -97,17 +94,14 @@ export const dataWarehouseUserActivityName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "dataWarehouseUserActivityName",
-    defaultValue: 'current',
+    defaultValue: "current",
     type: {
       name: "String"
     }
   }
 };
 export const filter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -116,10 +110,7 @@ export const filter: msRest.OperationQueryParameter = {
   }
 };
 export const force: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "force"
-  ],
+  parameterPath: ["options", "force"],
   mapper: {
     serializedName: "force",
     defaultValue: false,
@@ -134,17 +125,14 @@ export const geoBackupPolicyName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "geoBackupPolicyName",
-    defaultValue: 'Default',
+    defaultValue: "Default",
     type: {
       name: "String"
     }
   }
 };
 export const ifMatch: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifMatch"
-  ],
+  parameterPath: ["options", "ifMatch"],
   mapper: {
     serializedName: "If-Match",
     type: {
@@ -153,10 +141,7 @@ export const ifMatch: msRest.OperationParameter = {
   }
 };
 export const ifNoneMatch: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifNoneMatch"
-  ],
+  parameterPath: ["options", "ifNoneMatch"],
   mapper: {
     serializedName: "If-None-Match",
     type: {
@@ -165,10 +150,7 @@ export const ifNoneMatch: msRest.OperationParameter = {
   }
 };
 export const includeDisabledRecommendations: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeDisabledRecommendations"
-  ],
+  parameterPath: ["options", "includeDisabledRecommendations"],
   mapper: {
     serializedName: "includeDisabledRecommendations",
     type: {
@@ -308,7 +290,7 @@ export const securityAlertPolicyName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "securityAlertPolicyName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
@@ -320,7 +302,7 @@ export const sensitivityLabelSource0: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "sensitivityLabelSource",
-    defaultValue: 'current',
+    defaultValue: "current",
     type: {
       name: "String"
     }
@@ -332,17 +314,14 @@ export const sensitivityLabelSource1: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "sensitivityLabelSource",
-    defaultValue: 'recommended',
+    defaultValue: "recommended",
     type: {
       name: "String"
     }
   }
 };
 export const skipToken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skipToken"
-  ],
+  parameterPath: ["options", "skipToken"],
   mapper: {
     serializedName: "$skipToken",
     type: {
@@ -389,7 +368,7 @@ export const transparentDataEncryptionName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "transparentDataEncryptionName",
-    defaultValue: 'current',
+    defaultValue: "current",
     type: {
       name: "String"
     }
@@ -401,7 +380,7 @@ export const vulnerabilityAssessmentName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "vulnerabilityAssessmentName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }

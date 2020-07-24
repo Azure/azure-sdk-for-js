@@ -34,9 +34,14 @@ export class VirtualMachineScaleSetRollingUpgrades {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetRollingUpgradesCancelResponse>
    */
-  cancel(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetRollingUpgradesCancelResponse> {
-    return this.beginCancel(resourceGroupName,vmScaleSetName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachineScaleSetRollingUpgradesCancelResponse>;
+  cancel(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineScaleSetRollingUpgradesCancelResponse> {
+    return this.beginCancel(resourceGroupName, vmScaleSetName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.VirtualMachineScaleSetRollingUpgradesCancelResponse>;
   }
 
   /**
@@ -48,9 +53,14 @@ export class VirtualMachineScaleSetRollingUpgrades {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse>
    */
-  startOSUpgrade(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse> {
-    return this.beginStartOSUpgrade(resourceGroupName,vmScaleSetName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse>;
+  startOSUpgrade(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse> {
+    return this.beginStartOSUpgrade(resourceGroupName, vmScaleSetName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse>;
   }
 
   /**
@@ -60,21 +70,39 @@ export class VirtualMachineScaleSetRollingUpgrades {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineScaleSetRollingUpgradesGetLatestResponse>
    */
-  getLatest(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineScaleSetRollingUpgradesGetLatestResponse>;
+  getLatest(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineScaleSetRollingUpgradesGetLatestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param callback The callback
    */
-  getLatest(resourceGroupName: string, vmScaleSetName: string, callback: msRest.ServiceCallback<Models.RollingUpgradeStatusInfo>): void;
+  getLatest(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    callback: msRest.ServiceCallback<Models.RollingUpgradeStatusInfo>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getLatest(resourceGroupName: string, vmScaleSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RollingUpgradeStatusInfo>): void;
-  getLatest(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RollingUpgradeStatusInfo>, callback?: msRest.ServiceCallback<Models.RollingUpgradeStatusInfo>): Promise<Models.VirtualMachineScaleSetRollingUpgradesGetLatestResponse> {
+  getLatest(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RollingUpgradeStatusInfo>
+  ): void;
+  getLatest(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RollingUpgradeStatusInfo>,
+    callback?: msRest.ServiceCallback<Models.RollingUpgradeStatusInfo>
+  ): Promise<Models.VirtualMachineScaleSetRollingUpgradesGetLatestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,7 +110,8 @@ export class VirtualMachineScaleSetRollingUpgrades {
         options
       },
       getLatestOperationSpec,
-      callback) as Promise<Models.VirtualMachineScaleSetRollingUpgradesGetLatestResponse>;
+      callback
+    ) as Promise<Models.VirtualMachineScaleSetRollingUpgradesGetLatestResponse>;
   }
 
   /**
@@ -92,7 +121,11 @@ export class VirtualMachineScaleSetRollingUpgrades {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCancel(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCancel(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -100,7 +133,8 @@ export class VirtualMachineScaleSetRollingUpgrades {
         options
       },
       beginCancelOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -112,7 +146,11 @@ export class VirtualMachineScaleSetRollingUpgrades {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStartOSUpgrade(resourceGroupName: string, vmScaleSetName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStartOSUpgrade(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -120,7 +158,8 @@ export class VirtualMachineScaleSetRollingUpgrades {
         options
       },
       beginStartOSUpgradeOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -128,18 +167,15 @@ export class VirtualMachineScaleSetRollingUpgrades {
 const serializer = new msRest.Serializer(Mappers);
 const getLatestOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/latest",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/latest",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RollingUpgradeStatusInfo
@@ -153,18 +189,15 @@ const getLatestOperationSpec: msRest.OperationSpec = {
 
 const beginCancelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/cancel",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatusResponse
@@ -179,18 +212,15 @@ const beginCancelOperationSpec: msRest.OperationSpec = {
 
 const beginStartOSUpgradeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatusResponse

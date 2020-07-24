@@ -3113,8 +3113,7 @@ export interface RequestRateByIntervalInput extends LogAnalyticsInputBase {
 /**
  * Api request input for LogAnalytics getThrottledRequests Api.
  */
-export interface ThrottledRequestsInput extends LogAnalyticsInputBase {
-}
+export interface ThrottledRequestsInput extends LogAnalyticsInputBase {}
 
 /**
  * LogAnalytics output properties
@@ -3428,7 +3427,8 @@ export interface SnapshotUpdate extends ResourceUpdate {
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineExtensionImagesListVersionsOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineExtensionImagesListVersionsOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The filter to apply on the operation.
    */
@@ -3542,7 +3542,8 @@ export interface VirtualMachineScaleSetsRedeployOptionalParams extends msRest.Re
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -3572,7 +3573,8 @@ export interface VirtualMachineScaleSetsReimageAllOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginDeallocateOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginDeallocateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -3582,7 +3584,8 @@ export interface VirtualMachineScaleSetsBeginDeallocateOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginPowerOffOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginPowerOffOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -3592,7 +3595,8 @@ export interface VirtualMachineScaleSetsBeginPowerOffOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginRestartOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginRestartOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -3612,7 +3616,8 @@ export interface VirtualMachineScaleSetsBeginStartOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginRedeployOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginRedeployOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -3622,7 +3627,8 @@ export interface VirtualMachineScaleSetsBeginRedeployOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginPerformMaintenanceOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginPerformMaintenanceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -3632,7 +3638,8 @@ export interface VirtualMachineScaleSetsBeginPerformMaintenanceOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginReimageOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginReimageOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -3642,7 +3649,8 @@ export interface VirtualMachineScaleSetsBeginReimageOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetsBeginReimageAllOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetsBeginReimageAllOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A list of virtual machine instance IDs from the VM scale set.
    */
@@ -3652,7 +3660,8 @@ export interface VirtualMachineScaleSetsBeginReimageAllOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface VirtualMachineScaleSetExtensionsGetOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualMachineScaleSetExtensionsGetOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The expand expression to apply on the operation.
    */
@@ -3689,8 +3698,7 @@ export interface ComputeManagementClientOptions extends AzureServiceClientOption
  * The List Compute Operation operation response.
  * @extends Array<ComputeOperationValue>
  */
-export interface ComputeOperationListResult extends Array<ComputeOperationValue> {
-}
+export interface ComputeOperationListResult extends Array<ComputeOperationValue> {}
 
 /**
  * @interface
@@ -3710,8 +3718,7 @@ export interface AvailabilitySetListResult extends Array<AvailabilitySet> {
  * The List Virtual Machine operation response.
  * @extends Array<VirtualMachineSize>
  */
-export interface VirtualMachineSizeListResult extends Array<VirtualMachineSize> {
-}
+export interface VirtualMachineSizeListResult extends Array<VirtualMachineSize> {}
 
 /**
  * @interface
@@ -3796,7 +3803,8 @@ export interface VirtualMachineScaleSetListSkusResult extends Array<VirtualMachi
  * List of Virtual Machine Scale Set OS Upgrade History operation response.
  * @extends Array<UpgradeOperationHistoricalStatusInfo>
  */
-export interface VirtualMachineScaleSetListOSUpgradeHistory extends Array<UpgradeOperationHistoricalStatusInfo> {
+export interface VirtualMachineScaleSetListOSUpgradeHistory
+  extends Array<UpgradeOperationHistoricalStatusInfo> {
   /**
    * The uri to fetch the next page of OS Upgrade History. Call ListNext() with this to fetch the
    * next page of history of upgrades.
@@ -3809,7 +3817,8 @@ export interface VirtualMachineScaleSetListOSUpgradeHistory extends Array<Upgrad
  * The List VM scale set extension operation response.
  * @extends Array<VirtualMachineScaleSetExtension>
  */
-export interface VirtualMachineScaleSetExtensionListResult extends Array<VirtualMachineScaleSetExtension> {
+export interface VirtualMachineScaleSetExtensionListResult
+  extends Array<VirtualMachineScaleSetExtension> {
   /**
    * The uri to fetch the next page of VM scale set extensions. Call ListNext() with this to fetch
    * the next page of VM scale set extensions.
@@ -3862,7 +3871,7 @@ export interface SnapshotList extends Array<Snapshot> {
  * @readonly
  * @enum {string}
  */
-export type StatusLevelTypes = 'Info' | 'Warning' | 'Error';
+export type StatusLevelTypes = "Info" | "Warning" | "Error";
 
 /**
  * Defines values for OperatingSystemTypes.
@@ -3870,7 +3879,7 @@ export type StatusLevelTypes = 'Info' | 'Warning' | 'Error';
  * @readonly
  * @enum {string}
  */
-export type OperatingSystemTypes = 'Windows' | 'Linux';
+export type OperatingSystemTypes = "Windows" | "Linux";
 
 /**
  * Defines values for VirtualMachineSizeTypes.
@@ -3911,7 +3920,173 @@ export type OperatingSystemTypes = 'Windows' | 'Linux';
  * @readonly
  * @enum {string}
  */
-export type VirtualMachineSizeTypes = 'Basic_A0' | 'Basic_A1' | 'Basic_A2' | 'Basic_A3' | 'Basic_A4' | 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A9' | 'Standard_A10' | 'Standard_A11' | 'Standard_A1_v2' | 'Standard_A2_v2' | 'Standard_A4_v2' | 'Standard_A8_v2' | 'Standard_A2m_v2' | 'Standard_A4m_v2' | 'Standard_A8m_v2' | 'Standard_B1s' | 'Standard_B1ms' | 'Standard_B2s' | 'Standard_B2ms' | 'Standard_B4ms' | 'Standard_B8ms' | 'Standard_D1' | 'Standard_D2' | 'Standard_D3' | 'Standard_D4' | 'Standard_D11' | 'Standard_D12' | 'Standard_D13' | 'Standard_D14' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D2_v3' | 'Standard_D4_v3' | 'Standard_D8_v3' | 'Standard_D16_v3' | 'Standard_D32_v3' | 'Standard_D64_v3' | 'Standard_D2s_v3' | 'Standard_D4s_v3' | 'Standard_D8s_v3' | 'Standard_D16s_v3' | 'Standard_D32s_v3' | 'Standard_D64s_v3' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_D15_v2' | 'Standard_DS1' | 'Standard_DS2' | 'Standard_DS3' | 'Standard_DS4' | 'Standard_DS11' | 'Standard_DS12' | 'Standard_DS13' | 'Standard_DS14' | 'Standard_DS1_v2' | 'Standard_DS2_v2' | 'Standard_DS3_v2' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_DS11_v2' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_DS13-4_v2' | 'Standard_DS13-2_v2' | 'Standard_DS14-8_v2' | 'Standard_DS14-4_v2' | 'Standard_E2_v3' | 'Standard_E4_v3' | 'Standard_E8_v3' | 'Standard_E16_v3' | 'Standard_E32_v3' | 'Standard_E64_v3' | 'Standard_E2s_v3' | 'Standard_E4s_v3' | 'Standard_E8s_v3' | 'Standard_E16s_v3' | 'Standard_E32s_v3' | 'Standard_E64s_v3' | 'Standard_E32-16_v3' | 'Standard_E32-8s_v3' | 'Standard_E64-32s_v3' | 'Standard_E64-16s_v3' | 'Standard_F1' | 'Standard_F2' | 'Standard_F4' | 'Standard_F8' | 'Standard_F16' | 'Standard_F1s' | 'Standard_F2s' | 'Standard_F4s' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_F2s_v2' | 'Standard_F4s_v2' | 'Standard_F8s_v2' | 'Standard_F16s_v2' | 'Standard_F32s_v2' | 'Standard_F64s_v2' | 'Standard_F72s_v2' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_GS4-8' | 'Standard_GS4-4' | 'Standard_GS5-16' | 'Standard_GS5-8' | 'Standard_H8' | 'Standard_H16' | 'Standard_H8m' | 'Standard_H16m' | 'Standard_H16r' | 'Standard_H16mr' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s' | 'Standard_M64s' | 'Standard_M64ms' | 'Standard_M128s' | 'Standard_M128ms' | 'Standard_M64-32ms' | 'Standard_M64-16ms' | 'Standard_M128-64ms' | 'Standard_M128-32ms' | 'Standard_NC6' | 'Standard_NC12' | 'Standard_NC24' | 'Standard_NC24r' | 'Standard_NC6s_v2' | 'Standard_NC12s_v2' | 'Standard_NC24s_v2' | 'Standard_NC24rs_v2' | 'Standard_NC6s_v3' | 'Standard_NC12s_v3' | 'Standard_NC24s_v3' | 'Standard_NC24rs_v3' | 'Standard_ND6s' | 'Standard_ND12s' | 'Standard_ND24s' | 'Standard_ND24rs' | 'Standard_NV6' | 'Standard_NV12' | 'Standard_NV24';
+export type VirtualMachineSizeTypes =
+  | "Basic_A0"
+  | "Basic_A1"
+  | "Basic_A2"
+  | "Basic_A3"
+  | "Basic_A4"
+  | "Standard_A0"
+  | "Standard_A1"
+  | "Standard_A2"
+  | "Standard_A3"
+  | "Standard_A4"
+  | "Standard_A5"
+  | "Standard_A6"
+  | "Standard_A7"
+  | "Standard_A8"
+  | "Standard_A9"
+  | "Standard_A10"
+  | "Standard_A11"
+  | "Standard_A1_v2"
+  | "Standard_A2_v2"
+  | "Standard_A4_v2"
+  | "Standard_A8_v2"
+  | "Standard_A2m_v2"
+  | "Standard_A4m_v2"
+  | "Standard_A8m_v2"
+  | "Standard_B1s"
+  | "Standard_B1ms"
+  | "Standard_B2s"
+  | "Standard_B2ms"
+  | "Standard_B4ms"
+  | "Standard_B8ms"
+  | "Standard_D1"
+  | "Standard_D2"
+  | "Standard_D3"
+  | "Standard_D4"
+  | "Standard_D11"
+  | "Standard_D12"
+  | "Standard_D13"
+  | "Standard_D14"
+  | "Standard_D1_v2"
+  | "Standard_D2_v2"
+  | "Standard_D3_v2"
+  | "Standard_D4_v2"
+  | "Standard_D5_v2"
+  | "Standard_D2_v3"
+  | "Standard_D4_v3"
+  | "Standard_D8_v3"
+  | "Standard_D16_v3"
+  | "Standard_D32_v3"
+  | "Standard_D64_v3"
+  | "Standard_D2s_v3"
+  | "Standard_D4s_v3"
+  | "Standard_D8s_v3"
+  | "Standard_D16s_v3"
+  | "Standard_D32s_v3"
+  | "Standard_D64s_v3"
+  | "Standard_D11_v2"
+  | "Standard_D12_v2"
+  | "Standard_D13_v2"
+  | "Standard_D14_v2"
+  | "Standard_D15_v2"
+  | "Standard_DS1"
+  | "Standard_DS2"
+  | "Standard_DS3"
+  | "Standard_DS4"
+  | "Standard_DS11"
+  | "Standard_DS12"
+  | "Standard_DS13"
+  | "Standard_DS14"
+  | "Standard_DS1_v2"
+  | "Standard_DS2_v2"
+  | "Standard_DS3_v2"
+  | "Standard_DS4_v2"
+  | "Standard_DS5_v2"
+  | "Standard_DS11_v2"
+  | "Standard_DS12_v2"
+  | "Standard_DS13_v2"
+  | "Standard_DS14_v2"
+  | "Standard_DS15_v2"
+  | "Standard_DS13-4_v2"
+  | "Standard_DS13-2_v2"
+  | "Standard_DS14-8_v2"
+  | "Standard_DS14-4_v2"
+  | "Standard_E2_v3"
+  | "Standard_E4_v3"
+  | "Standard_E8_v3"
+  | "Standard_E16_v3"
+  | "Standard_E32_v3"
+  | "Standard_E64_v3"
+  | "Standard_E2s_v3"
+  | "Standard_E4s_v3"
+  | "Standard_E8s_v3"
+  | "Standard_E16s_v3"
+  | "Standard_E32s_v3"
+  | "Standard_E64s_v3"
+  | "Standard_E32-16_v3"
+  | "Standard_E32-8s_v3"
+  | "Standard_E64-32s_v3"
+  | "Standard_E64-16s_v3"
+  | "Standard_F1"
+  | "Standard_F2"
+  | "Standard_F4"
+  | "Standard_F8"
+  | "Standard_F16"
+  | "Standard_F1s"
+  | "Standard_F2s"
+  | "Standard_F4s"
+  | "Standard_F8s"
+  | "Standard_F16s"
+  | "Standard_F2s_v2"
+  | "Standard_F4s_v2"
+  | "Standard_F8s_v2"
+  | "Standard_F16s_v2"
+  | "Standard_F32s_v2"
+  | "Standard_F64s_v2"
+  | "Standard_F72s_v2"
+  | "Standard_G1"
+  | "Standard_G2"
+  | "Standard_G3"
+  | "Standard_G4"
+  | "Standard_G5"
+  | "Standard_GS1"
+  | "Standard_GS2"
+  | "Standard_GS3"
+  | "Standard_GS4"
+  | "Standard_GS5"
+  | "Standard_GS4-8"
+  | "Standard_GS4-4"
+  | "Standard_GS5-16"
+  | "Standard_GS5-8"
+  | "Standard_H8"
+  | "Standard_H16"
+  | "Standard_H8m"
+  | "Standard_H16m"
+  | "Standard_H16r"
+  | "Standard_H16mr"
+  | "Standard_L4s"
+  | "Standard_L8s"
+  | "Standard_L16s"
+  | "Standard_L32s"
+  | "Standard_M64s"
+  | "Standard_M64ms"
+  | "Standard_M128s"
+  | "Standard_M128ms"
+  | "Standard_M64-32ms"
+  | "Standard_M64-16ms"
+  | "Standard_M128-64ms"
+  | "Standard_M128-32ms"
+  | "Standard_NC6"
+  | "Standard_NC12"
+  | "Standard_NC24"
+  | "Standard_NC24r"
+  | "Standard_NC6s_v2"
+  | "Standard_NC12s_v2"
+  | "Standard_NC24s_v2"
+  | "Standard_NC24rs_v2"
+  | "Standard_NC6s_v3"
+  | "Standard_NC12s_v3"
+  | "Standard_NC24s_v3"
+  | "Standard_NC24rs_v3"
+  | "Standard_ND6s"
+  | "Standard_ND12s"
+  | "Standard_ND24s"
+  | "Standard_ND24rs"
+  | "Standard_NV6"
+  | "Standard_NV12"
+  | "Standard_NV24";
 
 /**
  * Defines values for CachingTypes.
@@ -3919,7 +4094,7 @@ export type VirtualMachineSizeTypes = 'Basic_A0' | 'Basic_A1' | 'Basic_A2' | 'Ba
  * @readonly
  * @enum {string}
  */
-export type CachingTypes = 'None' | 'ReadOnly' | 'ReadWrite';
+export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
 
 /**
  * Defines values for DiskCreateOptionTypes.
@@ -3927,7 +4102,7 @@ export type CachingTypes = 'None' | 'ReadOnly' | 'ReadWrite';
  * @readonly
  * @enum {string}
  */
-export type DiskCreateOptionTypes = 'FromImage' | 'Empty' | 'Attach';
+export type DiskCreateOptionTypes = "FromImage" | "Empty" | "Attach";
 
 /**
  * Defines values for StorageAccountTypes.
@@ -3935,7 +4110,7 @@ export type DiskCreateOptionTypes = 'FromImage' | 'Empty' | 'Attach';
  * @readonly
  * @enum {string}
  */
-export type StorageAccountTypes = 'Standard_LRS' | 'Premium_LRS';
+export type StorageAccountTypes = "Standard_LRS" | "Premium_LRS";
 
 /**
  * Defines values for PassNames.
@@ -3943,7 +4118,7 @@ export type StorageAccountTypes = 'Standard_LRS' | 'Premium_LRS';
  * @readonly
  * @enum {string}
  */
-export type PassNames = 'OobeSystem';
+export type PassNames = "OobeSystem";
 
 /**
  * Defines values for ComponentNames.
@@ -3951,7 +4126,7 @@ export type PassNames = 'OobeSystem';
  * @readonly
  * @enum {string}
  */
-export type ComponentNames = 'Microsoft-Windows-Shell-Setup';
+export type ComponentNames = "Microsoft-Windows-Shell-Setup";
 
 /**
  * Defines values for SettingNames.
@@ -3959,7 +4134,7 @@ export type ComponentNames = 'Microsoft-Windows-Shell-Setup';
  * @readonly
  * @enum {string}
  */
-export type SettingNames = 'AutoLogon' | 'FirstLogonCommands';
+export type SettingNames = "AutoLogon" | "FirstLogonCommands";
 
 /**
  * Defines values for ProtocolTypes.
@@ -3967,7 +4142,7 @@ export type SettingNames = 'AutoLogon' | 'FirstLogonCommands';
  * @readonly
  * @enum {string}
  */
-export type ProtocolTypes = 'Http' | 'Https';
+export type ProtocolTypes = "Http" | "Https";
 
 /**
  * Defines values for ResourceIdentityType.
@@ -3976,7 +4151,11 @@ export type ProtocolTypes = 'Http' | 'Https';
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 
 /**
  * Defines values for MaintenanceOperationResultCodeTypes.
@@ -3984,7 +4163,11 @@ export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAs
  * @readonly
  * @enum {string}
  */
-export type MaintenanceOperationResultCodeTypes = 'None' | 'RetryLater' | 'MaintenanceAborted' | 'MaintenanceCompleted';
+export type MaintenanceOperationResultCodeTypes =
+  | "None"
+  | "RetryLater"
+  | "MaintenanceAborted"
+  | "MaintenanceCompleted";
 
 /**
  * Defines values for UpgradeMode.
@@ -3992,7 +4175,7 @@ export type MaintenanceOperationResultCodeTypes = 'None' | 'RetryLater' | 'Maint
  * @readonly
  * @enum {string}
  */
-export type UpgradeMode = 'Automatic' | 'Manual' | 'Rolling';
+export type UpgradeMode = "Automatic" | "Manual" | "Rolling";
 
 /**
  * Defines values for OperatingSystemStateTypes.
@@ -4000,7 +4183,7 @@ export type UpgradeMode = 'Automatic' | 'Manual' | 'Rolling';
  * @readonly
  * @enum {string}
  */
-export type OperatingSystemStateTypes = 'Generalized' | 'Specialized';
+export type OperatingSystemStateTypes = "Generalized" | "Specialized";
 
 /**
  * Defines values for IPVersion.
@@ -4008,7 +4191,7 @@ export type OperatingSystemStateTypes = 'Generalized' | 'Specialized';
  * @readonly
  * @enum {string}
  */
-export type IPVersion = 'IPv4' | 'IPv6';
+export type IPVersion = "IPv4" | "IPv6";
 
 /**
  * Defines values for VirtualMachinePriorityTypes.
@@ -4016,7 +4199,7 @@ export type IPVersion = 'IPv4' | 'IPv6';
  * @readonly
  * @enum {string}
  */
-export type VirtualMachinePriorityTypes = 'Regular' | 'Low';
+export type VirtualMachinePriorityTypes = "Regular" | "Low";
 
 /**
  * Defines values for VirtualMachineEvictionPolicyTypes.
@@ -4024,7 +4207,7 @@ export type VirtualMachinePriorityTypes = 'Regular' | 'Low';
  * @readonly
  * @enum {string}
  */
-export type VirtualMachineEvictionPolicyTypes = 'Deallocate' | 'Delete';
+export type VirtualMachineEvictionPolicyTypes = "Deallocate" | "Delete";
 
 /**
  * Defines values for VirtualMachineScaleSetSkuScaleType.
@@ -4032,7 +4215,7 @@ export type VirtualMachineEvictionPolicyTypes = 'Deallocate' | 'Delete';
  * @readonly
  * @enum {string}
  */
-export type VirtualMachineScaleSetSkuScaleType = 'Automatic' | 'None';
+export type VirtualMachineScaleSetSkuScaleType = "Automatic" | "None";
 
 /**
  * Defines values for UpgradeState.
@@ -4040,7 +4223,7 @@ export type VirtualMachineScaleSetSkuScaleType = 'Automatic' | 'None';
  * @readonly
  * @enum {string}
  */
-export type UpgradeState = 'RollingForward' | 'Cancelled' | 'Completed' | 'Faulted';
+export type UpgradeState = "RollingForward" | "Cancelled" | "Completed" | "Faulted";
 
 /**
  * Defines values for UpgradeOperationInvoker.
@@ -4048,7 +4231,7 @@ export type UpgradeState = 'RollingForward' | 'Cancelled' | 'Completed' | 'Fault
  * @readonly
  * @enum {string}
  */
-export type UpgradeOperationInvoker = 'Unknown' | 'User' | 'Platform';
+export type UpgradeOperationInvoker = "Unknown" | "User" | "Platform";
 
 /**
  * Defines values for RollingUpgradeStatusCode.
@@ -4056,7 +4239,7 @@ export type UpgradeOperationInvoker = 'Unknown' | 'User' | 'Platform';
  * @readonly
  * @enum {string}
  */
-export type RollingUpgradeStatusCode = 'RollingForward' | 'Cancelled' | 'Completed' | 'Faulted';
+export type RollingUpgradeStatusCode = "RollingForward" | "Cancelled" | "Completed" | "Faulted";
 
 /**
  * Defines values for RollingUpgradeActionType.
@@ -4064,7 +4247,7 @@ export type RollingUpgradeStatusCode = 'RollingForward' | 'Cancelled' | 'Complet
  * @readonly
  * @enum {string}
  */
-export type RollingUpgradeActionType = 'Start' | 'Cancel';
+export type RollingUpgradeActionType = "Start" | "Cancel";
 
 /**
  * Defines values for IntervalInMins.
@@ -4072,7 +4255,7 @@ export type RollingUpgradeActionType = 'Start' | 'Cancel';
  * @readonly
  * @enum {string}
  */
-export type IntervalInMins = 'ThreeMins' | 'FiveMins' | 'ThirtyMins' | 'SixtyMins';
+export type IntervalInMins = "ThreeMins" | "FiveMins" | "ThirtyMins" | "SixtyMins";
 
 /**
  * Defines values for DiskCreateOption.
@@ -4080,7 +4263,7 @@ export type IntervalInMins = 'ThreeMins' | 'FiveMins' | 'ThirtyMins' | 'SixtyMin
  * @readonly
  * @enum {string}
  */
-export type DiskCreateOption = 'Empty' | 'Attach' | 'FromImage' | 'Import' | 'Copy';
+export type DiskCreateOption = "Empty" | "Attach" | "FromImage" | "Import" | "Copy";
 
 /**
  * Defines values for AccessLevel.
@@ -4088,7 +4271,7 @@ export type DiskCreateOption = 'Empty' | 'Attach' | 'FromImage' | 'Import' | 'Co
  * @readonly
  * @enum {string}
  */
-export type AccessLevel = 'None' | 'Read';
+export type AccessLevel = "None" | "Read";
 
 /**
  * Defines values for InstanceViewTypes.
@@ -4096,7 +4279,7 @@ export type AccessLevel = 'None' | 'Read';
  * @readonly
  * @enum {string}
  */
-export type InstanceViewTypes = 'instanceView';
+export type InstanceViewTypes = "instanceView";
 
 /**
  * Contains response data for the list operation.
@@ -4106,16 +4289,16 @@ export type OperationsListResponse = ComputeOperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputeOperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComputeOperationListResult;
+  };
 };
 
 /**
@@ -4126,16 +4309,16 @@ export type AvailabilitySetsCreateOrUpdateResponse = AvailabilitySet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySet;
+  };
 };
 
 /**
@@ -4146,16 +4329,16 @@ export type AvailabilitySetsUpdateResponse = AvailabilitySet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySet;
+  };
 };
 
 /**
@@ -4166,16 +4349,16 @@ export type AvailabilitySetsDeleteMethodResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4186,16 +4369,16 @@ export type AvailabilitySetsGetResponse = AvailabilitySet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySet;
+  };
 };
 
 /**
@@ -4206,16 +4389,16 @@ export type AvailabilitySetsListBySubscriptionResponse = AvailabilitySetListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySetListResult;
+  };
 };
 
 /**
@@ -4226,16 +4409,16 @@ export type AvailabilitySetsListResponse = AvailabilitySetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySetListResult;
+  };
 };
 
 /**
@@ -4246,16 +4429,16 @@ export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineSizeListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineSizeListResult;
+  };
 };
 
 /**
@@ -4266,16 +4449,16 @@ export type AvailabilitySetsListBySubscriptionNextResponse = AvailabilitySetList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySetListResult;
+  };
 };
 
 /**
@@ -4286,16 +4469,16 @@ export type AvailabilitySetsListNextResponse = AvailabilitySetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilitySetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilitySetListResult;
+  };
 };
 
 /**
@@ -4306,16 +4489,16 @@ export type VirtualMachineExtensionImagesGetResponse = VirtualMachineExtensionIm
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtensionImage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtensionImage;
+  };
 };
 
 /**
@@ -4326,36 +4509,38 @@ export type VirtualMachineExtensionImagesListTypesResponse = Array<VirtualMachin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtensionImage[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtensionImage[];
+  };
 };
 
 /**
  * Contains response data for the listVersions operation.
  */
-export type VirtualMachineExtensionImagesListVersionsResponse = Array<VirtualMachineExtensionImage> & {
+export type VirtualMachineExtensionImagesListVersionsResponse = Array<
+  VirtualMachineExtensionImage
+> & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtensionImage[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtensionImage[];
+  };
 };
 
 /**
@@ -4366,16 +4551,16 @@ export type VirtualMachineExtensionsCreateOrUpdateResponse = VirtualMachineExten
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtension;
+  };
 };
 
 /**
@@ -4386,16 +4571,16 @@ export type VirtualMachineExtensionsUpdateResponse = VirtualMachineExtension & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtension;
+  };
 };
 
 /**
@@ -4406,16 +4591,16 @@ export type VirtualMachineExtensionsDeleteMethodResponse = OperationStatusRespon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4426,16 +4611,16 @@ export type VirtualMachineExtensionsGetResponse = VirtualMachineExtension & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtension;
+  };
 };
 
 /**
@@ -4446,16 +4631,16 @@ export type VirtualMachineExtensionsBeginCreateOrUpdateResponse = VirtualMachine
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtension;
+  };
 };
 
 /**
@@ -4466,16 +4651,16 @@ export type VirtualMachineExtensionsBeginUpdateResponse = VirtualMachineExtensio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtension;
+  };
 };
 
 /**
@@ -4486,16 +4671,16 @@ export type VirtualMachineExtensionsBeginDeleteMethodResponse = OperationStatusR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4506,16 +4691,16 @@ export type VirtualMachinesGetExtensionsResponse = VirtualMachineExtensionsListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineExtensionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineExtensionsListResult;
+  };
 };
 
 /**
@@ -4526,16 +4711,16 @@ export type VirtualMachinesListByLocationResponse = VirtualMachineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineListResult;
+  };
 };
 
 /**
@@ -4546,16 +4731,16 @@ export type VirtualMachinesCaptureResponse = VirtualMachineCaptureResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineCaptureResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineCaptureResult;
+  };
 };
 
 /**
@@ -4566,16 +4751,16 @@ export type VirtualMachinesCreateOrUpdateResponse = VirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachine;
+  };
 };
 
 /**
@@ -4586,16 +4771,16 @@ export type VirtualMachinesUpdateResponse = VirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachine;
+  };
 };
 
 /**
@@ -4606,16 +4791,16 @@ export type VirtualMachinesDeleteMethodResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4626,16 +4811,16 @@ export type VirtualMachinesGetResponse = VirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachine;
+  };
 };
 
 /**
@@ -4646,16 +4831,16 @@ export type VirtualMachinesInstanceViewResponse = VirtualMachineInstanceView & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineInstanceView;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineInstanceView;
+  };
 };
 
 /**
@@ -4666,16 +4851,16 @@ export type VirtualMachinesConvertToManagedDisksResponse = OperationStatusRespon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4686,16 +4871,16 @@ export type VirtualMachinesDeallocateResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4706,16 +4891,16 @@ export type VirtualMachinesGeneralizeResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4726,16 +4911,16 @@ export type VirtualMachinesListResponse = VirtualMachineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineListResult;
+  };
 };
 
 /**
@@ -4746,16 +4931,16 @@ export type VirtualMachinesListAllResponse = VirtualMachineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineListResult;
+  };
 };
 
 /**
@@ -4766,16 +4951,16 @@ export type VirtualMachinesListAvailableSizesResponse = VirtualMachineSizeListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineSizeListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineSizeListResult;
+  };
 };
 
 /**
@@ -4786,16 +4971,16 @@ export type VirtualMachinesPowerOffResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4806,16 +4991,16 @@ export type VirtualMachinesRestartResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4826,16 +5011,16 @@ export type VirtualMachinesStartResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4846,16 +5031,16 @@ export type VirtualMachinesRedeployResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4866,16 +5051,16 @@ export type VirtualMachinesPerformMaintenanceResponse = OperationStatusResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4886,16 +5071,16 @@ export type VirtualMachinesBeginCaptureResponse = VirtualMachineCaptureResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineCaptureResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineCaptureResult;
+  };
 };
 
 /**
@@ -4906,16 +5091,16 @@ export type VirtualMachinesBeginCreateOrUpdateResponse = VirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachine;
+  };
 };
 
 /**
@@ -4926,16 +5111,16 @@ export type VirtualMachinesBeginUpdateResponse = VirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachine;
+  };
 };
 
 /**
@@ -4946,16 +5131,16 @@ export type VirtualMachinesBeginDeleteMethodResponse = OperationStatusResponse &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4966,16 +5151,16 @@ export type VirtualMachinesBeginConvertToManagedDisksResponse = OperationStatusR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -4986,16 +5171,16 @@ export type VirtualMachinesBeginDeallocateResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5006,16 +5191,16 @@ export type VirtualMachinesBeginPowerOffResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5026,16 +5211,16 @@ export type VirtualMachinesBeginRestartResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5046,16 +5231,16 @@ export type VirtualMachinesBeginStartResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5066,16 +5251,16 @@ export type VirtualMachinesBeginRedeployResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5086,16 +5271,16 @@ export type VirtualMachinesBeginPerformMaintenanceResponse = OperationStatusResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5106,16 +5291,16 @@ export type VirtualMachinesListByLocationNextResponse = VirtualMachineListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineListResult;
+  };
 };
 
 /**
@@ -5126,16 +5311,16 @@ export type VirtualMachinesListNextResponse = VirtualMachineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineListResult;
+  };
 };
 
 /**
@@ -5146,16 +5331,16 @@ export type VirtualMachinesListAllNextResponse = VirtualMachineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineListResult;
+  };
 };
 
 /**
@@ -5166,16 +5351,16 @@ export type VirtualMachineImagesGetResponse = VirtualMachineImage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImage;
+  };
 };
 
 /**
@@ -5186,16 +5371,16 @@ export type VirtualMachineImagesListResponse = Array<VirtualMachineImageResource
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImageResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImageResource[];
+  };
 };
 
 /**
@@ -5206,16 +5391,16 @@ export type VirtualMachineImagesListOffersResponse = Array<VirtualMachineImageRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImageResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImageResource[];
+  };
 };
 
 /**
@@ -5226,16 +5411,16 @@ export type VirtualMachineImagesListPublishersResponse = Array<VirtualMachineIma
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImageResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImageResource[];
+  };
 };
 
 /**
@@ -5246,16 +5431,16 @@ export type VirtualMachineImagesListSkusResponse = Array<VirtualMachineImageReso
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineImageResource[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineImageResource[];
+  };
 };
 
 /**
@@ -5266,16 +5451,16 @@ export type UsageListResponse = ListUsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListUsagesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListUsagesResult;
+  };
 };
 
 /**
@@ -5286,16 +5471,16 @@ export type UsageListNextResponse = ListUsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListUsagesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListUsagesResult;
+  };
 };
 
 /**
@@ -5306,16 +5491,16 @@ export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineSizeListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineSizeListResult;
+  };
 };
 
 /**
@@ -5326,16 +5511,16 @@ export type ImagesCreateOrUpdateResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -5346,16 +5531,16 @@ export type ImagesUpdateResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -5366,16 +5551,16 @@ export type ImagesDeleteMethodResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5386,16 +5571,16 @@ export type ImagesGetResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -5406,16 +5591,16 @@ export type ImagesListByResourceGroupResponse = ImageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageListResult;
+  };
 };
 
 /**
@@ -5426,16 +5611,16 @@ export type ImagesListResponse = ImageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageListResult;
+  };
 };
 
 /**
@@ -5446,16 +5631,16 @@ export type ImagesBeginCreateOrUpdateResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -5466,16 +5651,16 @@ export type ImagesBeginUpdateResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -5486,16 +5671,16 @@ export type ImagesBeginDeleteMethodResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5506,16 +5691,16 @@ export type ImagesListByResourceGroupNextResponse = ImageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageListResult;
+  };
 };
 
 /**
@@ -5526,16 +5711,16 @@ export type ImagesListNextResponse = ImageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageListResult;
+  };
 };
 
 /**
@@ -5546,16 +5731,16 @@ export type VirtualMachineScaleSetsCreateOrUpdateResponse = VirtualMachineScaleS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSet;
+  };
 };
 
 /**
@@ -5566,16 +5751,16 @@ export type VirtualMachineScaleSetsUpdateResponse = VirtualMachineScaleSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSet;
+  };
 };
 
 /**
@@ -5586,16 +5771,16 @@ export type VirtualMachineScaleSetsDeleteMethodResponse = OperationStatusRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5606,16 +5791,16 @@ export type VirtualMachineScaleSetsGetResponse = VirtualMachineScaleSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSet;
+  };
 };
 
 /**
@@ -5626,16 +5811,16 @@ export type VirtualMachineScaleSetsDeallocateResponse = OperationStatusResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5646,16 +5831,16 @@ export type VirtualMachineScaleSetsDeleteInstancesResponse = OperationStatusResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5666,16 +5851,16 @@ export type VirtualMachineScaleSetsGetInstanceViewResponse = VirtualMachineScale
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetInstanceView;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetInstanceView;
+  };
 };
 
 /**
@@ -5686,16 +5871,16 @@ export type VirtualMachineScaleSetsListResponse = VirtualMachineScaleSetListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListResult;
+  };
 };
 
 /**
@@ -5706,16 +5891,16 @@ export type VirtualMachineScaleSetsListAllResponse = VirtualMachineScaleSetListW
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListWithLinkResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListWithLinkResult;
+  };
 };
 
 /**
@@ -5726,16 +5911,16 @@ export type VirtualMachineScaleSetsListSkusResponse = VirtualMachineScaleSetList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListSkusResult;
+  };
 };
 
 /**
@@ -5746,16 +5931,16 @@ export type VirtualMachineScaleSetsGetOSUpgradeHistoryResponse = VirtualMachineS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListOSUpgradeHistory;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListOSUpgradeHistory;
+  };
 };
 
 /**
@@ -5766,16 +5951,16 @@ export type VirtualMachineScaleSetsPowerOffResponse = OperationStatusResponse & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5786,16 +5971,16 @@ export type VirtualMachineScaleSetsRestartResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5806,16 +5991,16 @@ export type VirtualMachineScaleSetsStartResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5826,16 +6011,16 @@ export type VirtualMachineScaleSetsRedeployResponse = OperationStatusResponse & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5846,16 +6031,16 @@ export type VirtualMachineScaleSetsPerformMaintenanceResponse = OperationStatusR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5866,16 +6051,16 @@ export type VirtualMachineScaleSetsUpdateInstancesResponse = OperationStatusResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5886,16 +6071,16 @@ export type VirtualMachineScaleSetsReimageResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5906,16 +6091,16 @@ export type VirtualMachineScaleSetsReimageAllResponse = OperationStatusResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -5926,16 +6111,16 @@ export type VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomai
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoveryWalkResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecoveryWalkResponse;
+  };
 };
 
 /**
@@ -5946,16 +6131,16 @@ export type VirtualMachineScaleSetsBeginCreateOrUpdateResponse = VirtualMachineS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSet;
+  };
 };
 
 /**
@@ -5966,16 +6151,16 @@ export type VirtualMachineScaleSetsBeginUpdateResponse = VirtualMachineScaleSet 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSet;
+  };
 };
 
 /**
@@ -5986,16 +6171,16 @@ export type VirtualMachineScaleSetsBeginDeleteMethodResponse = OperationStatusRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6006,16 +6191,16 @@ export type VirtualMachineScaleSetsBeginDeallocateResponse = OperationStatusResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6026,16 +6211,16 @@ export type VirtualMachineScaleSetsBeginDeleteInstancesResponse = OperationStatu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6046,16 +6231,16 @@ export type VirtualMachineScaleSetsBeginPowerOffResponse = OperationStatusRespon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6066,16 +6251,16 @@ export type VirtualMachineScaleSetsBeginRestartResponse = OperationStatusRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6086,16 +6271,16 @@ export type VirtualMachineScaleSetsBeginStartResponse = OperationStatusResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6106,16 +6291,16 @@ export type VirtualMachineScaleSetsBeginRedeployResponse = OperationStatusRespon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6126,16 +6311,16 @@ export type VirtualMachineScaleSetsBeginPerformMaintenanceResponse = OperationSt
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6146,16 +6331,16 @@ export type VirtualMachineScaleSetsBeginUpdateInstancesResponse = OperationStatu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6166,16 +6351,16 @@ export type VirtualMachineScaleSetsBeginReimageResponse = OperationStatusRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6186,16 +6371,16 @@ export type VirtualMachineScaleSetsBeginReimageAllResponse = OperationStatusResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6206,16 +6391,16 @@ export type VirtualMachineScaleSetsListNextResponse = VirtualMachineScaleSetList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListResult;
+  };
 };
 
 /**
@@ -6226,16 +6411,16 @@ export type VirtualMachineScaleSetsListAllNextResponse = VirtualMachineScaleSetL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListWithLinkResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListWithLinkResult;
+  };
 };
 
 /**
@@ -6246,16 +6431,16 @@ export type VirtualMachineScaleSetsListSkusNextResponse = VirtualMachineScaleSet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListSkusResult;
+  };
 };
 
 /**
@@ -6266,16 +6451,16 @@ export type VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse = VirtualMach
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetListOSUpgradeHistory;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetListOSUpgradeHistory;
+  };
 };
 
 /**
@@ -6286,16 +6471,16 @@ export type VirtualMachineScaleSetExtensionsCreateOrUpdateResponse = VirtualMach
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetExtension;
+  };
 };
 
 /**
@@ -6306,16 +6491,16 @@ export type VirtualMachineScaleSetExtensionsDeleteMethodResponse = OperationStat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6326,16 +6511,16 @@ export type VirtualMachineScaleSetExtensionsGetResponse = VirtualMachineScaleSet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetExtension;
+  };
 };
 
 /**
@@ -6346,16 +6531,16 @@ export type VirtualMachineScaleSetExtensionsListResponse = VirtualMachineScaleSe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetExtensionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetExtensionListResult;
+  };
 };
 
 /**
@@ -6366,16 +6551,16 @@ export type VirtualMachineScaleSetExtensionsBeginCreateOrUpdateResponse = Virtua
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetExtension;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetExtension;
+  };
 };
 
 /**
@@ -6386,16 +6571,16 @@ export type VirtualMachineScaleSetExtensionsBeginDeleteMethodResponse = Operatio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6406,16 +6591,16 @@ export type VirtualMachineScaleSetExtensionsListNextResponse = VirtualMachineSca
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetExtensionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetExtensionListResult;
+  };
 };
 
 /**
@@ -6426,16 +6611,16 @@ export type VirtualMachineScaleSetRollingUpgradesCancelResponse = OperationStatu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6446,16 +6631,16 @@ export type VirtualMachineScaleSetRollingUpgradesStartOSUpgradeResponse = Operat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6466,16 +6651,16 @@ export type VirtualMachineScaleSetRollingUpgradesGetLatestResponse = RollingUpgr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RollingUpgradeStatusInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RollingUpgradeStatusInfo;
+  };
 };
 
 /**
@@ -6486,16 +6671,16 @@ export type VirtualMachineScaleSetRollingUpgradesBeginCancelResponse = Operation
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6506,16 +6691,16 @@ export type VirtualMachineScaleSetRollingUpgradesBeginStartOSUpgradeResponse = O
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6526,16 +6711,16 @@ export type VirtualMachineScaleSetVMsReimageResponse = OperationStatusResponse &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6546,16 +6731,16 @@ export type VirtualMachineScaleSetVMsReimageAllResponse = OperationStatusRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6566,16 +6751,16 @@ export type VirtualMachineScaleSetVMsDeallocateResponse = OperationStatusRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6586,16 +6771,16 @@ export type VirtualMachineScaleSetVMsUpdateResponse = VirtualMachineScaleSetVM &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVM;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVM;
+  };
 };
 
 /**
@@ -6606,16 +6791,16 @@ export type VirtualMachineScaleSetVMsDeleteMethodResponse = OperationStatusRespo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6626,16 +6811,16 @@ export type VirtualMachineScaleSetVMsGetResponse = VirtualMachineScaleSetVM & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVM;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVM;
+  };
 };
 
 /**
@@ -6646,16 +6831,16 @@ export type VirtualMachineScaleSetVMsGetInstanceViewResponse = VirtualMachineSca
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVMInstanceView;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVMInstanceView;
+  };
 };
 
 /**
@@ -6666,16 +6851,16 @@ export type VirtualMachineScaleSetVMsListResponse = VirtualMachineScaleSetVMList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVMListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVMListResult;
+  };
 };
 
 /**
@@ -6686,16 +6871,16 @@ export type VirtualMachineScaleSetVMsPowerOffResponse = OperationStatusResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6706,16 +6891,16 @@ export type VirtualMachineScaleSetVMsRestartResponse = OperationStatusResponse &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6726,16 +6911,16 @@ export type VirtualMachineScaleSetVMsStartResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6746,16 +6931,16 @@ export type VirtualMachineScaleSetVMsRedeployResponse = OperationStatusResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6766,16 +6951,16 @@ export type VirtualMachineScaleSetVMsPerformMaintenanceResponse = OperationStatu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6786,16 +6971,16 @@ export type VirtualMachineScaleSetVMsBeginReimageResponse = OperationStatusRespo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6806,16 +6991,16 @@ export type VirtualMachineScaleSetVMsBeginReimageAllResponse = OperationStatusRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6826,16 +7011,16 @@ export type VirtualMachineScaleSetVMsBeginDeallocateResponse = OperationStatusRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6846,16 +7031,16 @@ export type VirtualMachineScaleSetVMsBeginUpdateResponse = VirtualMachineScaleSe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVM;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVM;
+  };
 };
 
 /**
@@ -6866,16 +7051,16 @@ export type VirtualMachineScaleSetVMsBeginDeleteMethodResponse = OperationStatus
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6886,16 +7071,16 @@ export type VirtualMachineScaleSetVMsBeginPowerOffResponse = OperationStatusResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6906,16 +7091,16 @@ export type VirtualMachineScaleSetVMsBeginRestartResponse = OperationStatusRespo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6926,16 +7111,16 @@ export type VirtualMachineScaleSetVMsBeginStartResponse = OperationStatusRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6946,16 +7131,16 @@ export type VirtualMachineScaleSetVMsBeginRedeployResponse = OperationStatusResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6966,16 +7151,16 @@ export type VirtualMachineScaleSetVMsBeginPerformMaintenanceResponse = Operation
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -6986,16 +7171,16 @@ export type VirtualMachineScaleSetVMsListNextResponse = VirtualMachineScaleSetVM
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineScaleSetVMListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineScaleSetVMListResult;
+  };
 };
 
 /**
@@ -7006,16 +7191,16 @@ export type LogAnalyticsExportRequestRateByIntervalResponse = LogAnalyticsOperat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogAnalyticsOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LogAnalyticsOperationResult;
+  };
 };
 
 /**
@@ -7026,16 +7211,16 @@ export type LogAnalyticsExportThrottledRequestsResponse = LogAnalyticsOperationR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogAnalyticsOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LogAnalyticsOperationResult;
+  };
 };
 
 /**
@@ -7046,16 +7231,16 @@ export type LogAnalyticsBeginExportRequestRateByIntervalResponse = LogAnalyticsO
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogAnalyticsOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LogAnalyticsOperationResult;
+  };
 };
 
 /**
@@ -7066,16 +7251,16 @@ export type LogAnalyticsBeginExportThrottledRequestsResponse = LogAnalyticsOpera
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogAnalyticsOperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LogAnalyticsOperationResult;
+  };
 };
 
 /**
@@ -7086,16 +7271,16 @@ export type DisksCreateOrUpdateResponse = Disk & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Disk;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Disk;
+  };
 };
 
 /**
@@ -7106,16 +7291,16 @@ export type DisksUpdateResponse = Disk & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Disk;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Disk;
+  };
 };
 
 /**
@@ -7126,16 +7311,16 @@ export type DisksGetResponse = Disk & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Disk;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Disk;
+  };
 };
 
 /**
@@ -7146,16 +7331,16 @@ export type DisksDeleteMethodResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -7166,16 +7351,16 @@ export type DisksListByResourceGroupResponse = DiskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskList;
+  };
 };
 
 /**
@@ -7186,16 +7371,16 @@ export type DisksListResponse = DiskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskList;
+  };
 };
 
 /**
@@ -7206,16 +7391,16 @@ export type DisksGrantAccessResponse = AccessUri & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessUri;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessUri;
+  };
 };
 
 /**
@@ -7226,16 +7411,16 @@ export type DisksRevokeAccessResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -7246,16 +7431,16 @@ export type DisksBeginCreateOrUpdateResponse = Disk & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Disk;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Disk;
+  };
 };
 
 /**
@@ -7266,16 +7451,16 @@ export type DisksBeginUpdateResponse = Disk & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Disk;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Disk;
+  };
 };
 
 /**
@@ -7286,16 +7471,16 @@ export type DisksBeginDeleteMethodResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -7306,16 +7491,16 @@ export type DisksBeginGrantAccessResponse = AccessUri & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessUri;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessUri;
+  };
 };
 
 /**
@@ -7326,16 +7511,16 @@ export type DisksBeginRevokeAccessResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -7346,16 +7531,16 @@ export type DisksListByResourceGroupNextResponse = DiskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskList;
+  };
 };
 
 /**
@@ -7366,16 +7551,16 @@ export type DisksListNextResponse = DiskList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiskList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiskList;
+  };
 };
 
 /**
@@ -7386,16 +7571,16 @@ export type SnapshotsCreateOrUpdateResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -7406,16 +7591,16 @@ export type SnapshotsUpdateResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -7426,16 +7611,16 @@ export type SnapshotsGetResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -7446,16 +7631,16 @@ export type SnapshotsDeleteMethodResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -7466,16 +7651,16 @@ export type SnapshotsListByResourceGroupResponse = SnapshotList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SnapshotList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SnapshotList;
+  };
 };
 
 /**
@@ -7486,16 +7671,16 @@ export type SnapshotsListResponse = SnapshotList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SnapshotList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SnapshotList;
+  };
 };
 
 /**
@@ -7506,16 +7691,16 @@ export type SnapshotsGrantAccessResponse = AccessUri & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessUri;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessUri;
+  };
 };
 
 /**
@@ -7526,16 +7711,16 @@ export type SnapshotsRevokeAccessResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -7546,16 +7731,16 @@ export type SnapshotsBeginCreateOrUpdateResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -7566,16 +7751,16 @@ export type SnapshotsBeginUpdateResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -7586,16 +7771,16 @@ export type SnapshotsBeginDeleteMethodResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -7606,16 +7791,16 @@ export type SnapshotsBeginGrantAccessResponse = AccessUri & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessUri;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessUri;
+  };
 };
 
 /**
@@ -7626,16 +7811,16 @@ export type SnapshotsBeginRevokeAccessResponse = OperationStatusResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatusResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatusResponse;
+  };
 };
 
 /**
@@ -7646,16 +7831,16 @@ export type SnapshotsListByResourceGroupNextResponse = SnapshotList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SnapshotList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SnapshotList;
+  };
 };
 
 /**
@@ -7666,14 +7851,14 @@ export type SnapshotsListNextResponse = SnapshotList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SnapshotList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SnapshotList;
+  };
 };

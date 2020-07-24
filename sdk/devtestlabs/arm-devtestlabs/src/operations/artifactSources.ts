@@ -33,21 +33,41 @@ export class ArtifactSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ArtifactSourcesListResponse>
    */
-  list(resourceGroupName: string, labName: string, options?: Models.ArtifactSourcesListOptionalParams): Promise<Models.ArtifactSourcesListResponse>;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options?: Models.ArtifactSourcesListOptionalParams
+  ): Promise<Models.ArtifactSourcesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.ArtifactSourceList>): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    callback: msRest.ServiceCallback<Models.ArtifactSourceList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.ArtifactSourcesListOptionalParams, callback: msRest.ServiceCallback<Models.ArtifactSourceList>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.ArtifactSourcesListOptionalParams | msRest.ServiceCallback<Models.ArtifactSourceList>, callback?: msRest.ServiceCallback<Models.ArtifactSourceList>): Promise<Models.ArtifactSourcesListResponse> {
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options: Models.ArtifactSourcesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ArtifactSourceList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options?:
+      | Models.ArtifactSourcesListOptionalParams
+      | msRest.ServiceCallback<Models.ArtifactSourceList>,
+    callback?: msRest.ServiceCallback<Models.ArtifactSourceList>
+  ): Promise<Models.ArtifactSourcesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class ArtifactSources {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ArtifactSourcesListResponse>;
+      callback
+    ) as Promise<Models.ArtifactSourcesListResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class ArtifactSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ArtifactSourcesGetResponse>
    */
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.ArtifactSourcesGetOptionalParams): Promise<Models.ArtifactSourcesGetResponse>;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: Models.ArtifactSourcesGetOptionalParams
+  ): Promise<Models.ArtifactSourcesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the artifact source.
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, name: string, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.ArtifactSource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -81,8 +112,22 @@ export class ArtifactSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, name: string, options: Models.ArtifactSourcesGetOptionalParams, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.ArtifactSourcesGetOptionalParams | msRest.ServiceCallback<Models.ArtifactSource>, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesGetResponse> {
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options: Models.ArtifactSourcesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.ArtifactSource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?:
+      | Models.ArtifactSourcesGetOptionalParams
+      | msRest.ServiceCallback<Models.ArtifactSource>,
+    callback?: msRest.ServiceCallback<Models.ArtifactSource>
+  ): Promise<Models.ArtifactSourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +136,8 @@ export class ArtifactSources {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ArtifactSourcesGetResponse>;
+      callback
+    ) as Promise<Models.ArtifactSourcesGetResponse>;
   }
 
   /**
@@ -103,7 +149,13 @@ export class ArtifactSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ArtifactSourcesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSource, options?: msRest.RequestOptionsBase): Promise<Models.ArtifactSourcesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    artifactSource: Models.ArtifactSource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ArtifactSourcesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -111,7 +163,13 @@ export class ArtifactSources {
    * @param artifactSource Properties of an artifact source.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSource, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    artifactSource: Models.ArtifactSource,
+    callback: msRest.ServiceCallback<Models.ArtifactSource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -120,8 +178,22 @@ export class ArtifactSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSource>, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    artifactSource: Models.ArtifactSource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ArtifactSource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    artifactSource: Models.ArtifactSource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSource>,
+    callback?: msRest.ServiceCallback<Models.ArtifactSource>
+  ): Promise<Models.ArtifactSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +203,8 @@ export class ArtifactSources {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ArtifactSourcesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ArtifactSourcesCreateOrUpdateResponse>;
   }
 
   /**
@@ -142,14 +215,24 @@ export class ArtifactSources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the artifact source.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, labName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -157,8 +240,20 @@ export class ArtifactSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +262,8 @@ export class ArtifactSources {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -179,7 +275,13 @@ export class ArtifactSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ArtifactSourcesUpdateResponse>
    */
-  update(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSourceFragment, options?: msRest.RequestOptionsBase): Promise<Models.ArtifactSourcesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    artifactSource: Models.ArtifactSourceFragment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ArtifactSourcesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -187,7 +289,13 @@ export class ArtifactSources {
    * @param artifactSource Properties of an artifact source.
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSourceFragment, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    artifactSource: Models.ArtifactSourceFragment,
+    callback: msRest.ServiceCallback<Models.ArtifactSource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -196,8 +304,22 @@ export class ArtifactSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSourceFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
-  update(resourceGroupName: string, labName: string, name: string, artifactSource: Models.ArtifactSourceFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSource>, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    artifactSource: Models.ArtifactSourceFragment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ArtifactSource>
+  ): void;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    artifactSource: Models.ArtifactSourceFragment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSource>,
+    callback?: msRest.ServiceCallback<Models.ArtifactSource>
+  ): Promise<Models.ArtifactSourcesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +329,8 @@ export class ArtifactSources {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ArtifactSourcesUpdateResponse>;
+      callback
+    ) as Promise<Models.ArtifactSourcesUpdateResponse>;
   }
 
   /**
@@ -216,7 +339,10 @@ export class ArtifactSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ArtifactSourcesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ArtifactSourcesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ArtifactSourcesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -227,15 +353,24 @@ export class ArtifactSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactSourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSourceList>, callback?: msRest.ServiceCallback<Models.ArtifactSourceList>): Promise<Models.ArtifactSourcesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ArtifactSourceList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSourceList>,
+    callback?: msRest.ServiceCallback<Models.ArtifactSourceList>
+  ): Promise<Models.ArtifactSourcesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ArtifactSourcesListNextResponse>;
+      callback
+    ) as Promise<Models.ArtifactSourcesListNextResponse>;
   }
 }
 
@@ -243,12 +378,9 @@ export class ArtifactSources {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.labName
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.labName],
   queryParameters: [
     Parameters.expand,
     Parameters.filter,
@@ -256,9 +388,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ArtifactSourceList
@@ -272,20 +402,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ArtifactSource
@@ -299,19 +425,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "artifactSource",
     mapper: {
@@ -335,19 +458,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -360,19 +480,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "artifactSource",
     mapper: {
@@ -395,12 +512,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ArtifactSourceList

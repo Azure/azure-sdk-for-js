@@ -36,9 +36,22 @@ export class LinkedServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedServicesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, linkedServiceName: string, parameters: Models.LinkedService, options?: msRest.RequestOptionsBase): Promise<Models.LinkedServicesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,workspaceName,linkedServiceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LinkedServicesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    linkedServiceName: string,
+    parameters: Models.LinkedService,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LinkedServicesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      workspaceName,
+      linkedServiceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.LinkedServicesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -49,9 +62,20 @@ export class LinkedServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedServicesDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.LinkedServicesDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,workspaceName,linkedServiceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LinkedServicesDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    linkedServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LinkedServicesDeleteMethodResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      workspaceName,
+      linkedServiceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.LinkedServicesDeleteMethodResponse
+    >;
   }
 
   /**
@@ -62,14 +86,24 @@ export class LinkedServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedServicesGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.LinkedServicesGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    linkedServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LinkedServicesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param linkedServiceName Name of the linked service.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, linkedServiceName: string, callback: msRest.ServiceCallback<Models.LinkedService>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    linkedServiceName: string,
+    callback: msRest.ServiceCallback<Models.LinkedService>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -77,8 +111,20 @@ export class LinkedServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedService>): void;
-  get(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedService>, callback?: msRest.ServiceCallback<Models.LinkedService>): Promise<Models.LinkedServicesGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    linkedServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LinkedService>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    linkedServiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedService>,
+    callback?: msRest.ServiceCallback<Models.LinkedService>
+  ): Promise<Models.LinkedServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -87,7 +133,8 @@ export class LinkedServices {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.LinkedServicesGetResponse>;
+      callback
+    ) as Promise<Models.LinkedServicesGetResponse>;
   }
 
   /**
@@ -97,21 +144,39 @@ export class LinkedServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedServicesListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.LinkedServicesListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LinkedServicesListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.LinkedServiceListResult>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.LinkedServiceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LinkedServiceListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedServiceListResult>, callback?: msRest.ServiceCallback<Models.LinkedServiceListResult>): Promise<Models.LinkedServicesListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LinkedServiceListResult>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LinkedServiceListResult>,
+    callback?: msRest.ServiceCallback<Models.LinkedServiceListResult>
+  ): Promise<Models.LinkedServicesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +184,8 @@ export class LinkedServices {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.LinkedServicesListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.LinkedServicesListByWorkspaceResponse>;
   }
 
   /**
@@ -131,7 +197,13 @@ export class LinkedServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, linkedServiceName: string, parameters: Models.LinkedService, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    linkedServiceName: string,
+    parameters: Models.LinkedService,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -141,7 +213,8 @@ export class LinkedServices {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +225,12 @@ export class LinkedServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, workspaceName: string, linkedServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    linkedServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +239,8 @@ export class LinkedServices {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -169,19 +248,16 @@ export class LinkedServices {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.linkedServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LinkedService
@@ -195,18 +271,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LinkedServiceListResult
@@ -220,19 +293,16 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.linkedServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -256,19 +326,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/linkedServices/{linkedServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.linkedServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LinkedService

@@ -35,9 +35,18 @@ export class RunbookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunbookPublishResponse>
    */
-  publish(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase): Promise<Models.RunbookPublishResponse> {
-    return this.beginPublish(resourceGroupName,automationAccountName,runbookName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RunbookPublishResponse>;
+  publish(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunbookPublishResponse> {
+    return this.beginPublish(
+      resourceGroupName,
+      automationAccountName,
+      runbookName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.RunbookPublishResponse>;
   }
 
   /**
@@ -48,14 +57,24 @@ export class RunbookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunbookGetContentResponse>
    */
-  getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase): Promise<Models.RunbookGetContentResponse>;
+  getContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunbookGetContentResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
    * @param callback The callback
    */
-  getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, callback: msRest.ServiceCallback<void>): void;
+  getContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -63,8 +82,20 @@ export class RunbookOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.RunbookGetContentResponse> {
+  getContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.RunbookGetContentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,7 +104,8 @@ export class RunbookOperations {
         options
       },
       getContentOperationSpec,
-      callback) as Promise<Models.RunbookGetContentResponse>;
+      callback
+    ) as Promise<Models.RunbookGetContentResponse>;
   }
 
   /**
@@ -84,14 +116,24 @@ export class RunbookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunbookGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase): Promise<Models.RunbookGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunbookGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, callback: msRest.ServiceCallback<Models.Runbook>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    callback: msRest.ServiceCallback<Models.Runbook>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -99,8 +141,20 @@ export class RunbookOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Runbook>): void;
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Runbook>, callback?: msRest.ServiceCallback<Models.Runbook>): Promise<Models.RunbookGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Runbook>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Runbook>,
+    callback?: msRest.ServiceCallback<Models.Runbook>
+  ): Promise<Models.RunbookGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -109,7 +163,8 @@ export class RunbookOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RunbookGetResponse>;
+      callback
+    ) as Promise<Models.RunbookGetResponse>;
   }
 
   /**
@@ -122,7 +177,13 @@ export class RunbookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunbookCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.RunbookCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    parameters: Models.RunbookCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunbookCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -131,7 +192,13 @@ export class RunbookOperations {
    * published runbook or draft, not both.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.Runbook>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    parameters: Models.RunbookCreateOrUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Runbook>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -141,8 +208,22 @@ export class RunbookOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Runbook>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Runbook>, callback?: msRest.ServiceCallback<Models.Runbook>): Promise<Models.RunbookCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    parameters: Models.RunbookCreateOrUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Runbook>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    parameters: Models.RunbookCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Runbook>,
+    callback?: msRest.ServiceCallback<Models.Runbook>
+  ): Promise<Models.RunbookCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -152,7 +233,8 @@ export class RunbookOperations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.RunbookCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.RunbookCreateOrUpdateResponse>;
   }
 
   /**
@@ -164,7 +246,13 @@ export class RunbookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunbookUpdateResponse>
    */
-  update(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.RunbookUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    parameters: Models.RunbookUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunbookUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -172,7 +260,13 @@ export class RunbookOperations {
    * @param parameters The update parameters for runbook.
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookUpdateParameters, callback: msRest.ServiceCallback<Models.Runbook>): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    parameters: Models.RunbookUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Runbook>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -181,8 +275,22 @@ export class RunbookOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Runbook>): void;
-  update(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.RunbookUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Runbook>, callback?: msRest.ServiceCallback<Models.Runbook>): Promise<Models.RunbookUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    parameters: Models.RunbookUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Runbook>
+  ): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    parameters: Models.RunbookUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Runbook>,
+    callback?: msRest.ServiceCallback<Models.Runbook>
+  ): Promise<Models.RunbookUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +300,8 @@ export class RunbookOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.RunbookUpdateResponse>;
+      callback
+    ) as Promise<Models.RunbookUpdateResponse>;
   }
 
   /**
@@ -203,14 +312,24 @@ export class RunbookOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, runbookName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -218,8 +337,20 @@ export class RunbookOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -228,7 +359,8 @@ export class RunbookOperations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -238,21 +370,39 @@ export class RunbookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunbookListByAutomationAccountResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.RunbookListByAutomationAccountResponse>;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunbookListByAutomationAccountResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.RunbookListResult>): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.RunbookListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunbookListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunbookListResult>, callback?: msRest.ServiceCallback<Models.RunbookListResult>): Promise<Models.RunbookListByAutomationAccountResponse> {
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RunbookListResult>
+  ): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunbookListResult>,
+    callback?: msRest.ServiceCallback<Models.RunbookListResult>
+  ): Promise<Models.RunbookListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -260,7 +410,8 @@ export class RunbookOperations {
         options
       },
       listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.RunbookListByAutomationAccountResponse>;
+      callback
+    ) as Promise<Models.RunbookListByAutomationAccountResponse>;
   }
 
   /**
@@ -271,7 +422,12 @@ export class RunbookOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPublish(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPublish(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -280,7 +436,8 @@ export class RunbookOperations {
         options
       },
       beginPublishOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -289,26 +446,41 @@ export class RunbookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunbookListByAutomationAccountNextResponse>
    */
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RunbookListByAutomationAccountNextResponse>;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunbookListByAutomationAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RunbookListResult>): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RunbookListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunbookListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunbookListResult>, callback?: msRest.ServiceCallback<Models.RunbookListResult>): Promise<Models.RunbookListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RunbookListResult>
+  ): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunbookListResult>,
+    callback?: msRest.ServiceCallback<Models.RunbookListResult>
+  ): Promise<Models.RunbookListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAutomationAccountNextOperationSpec,
-      callback) as Promise<Models.RunbookListByAutomationAccountNextResponse>;
+      callback
+    ) as Promise<Models.RunbookListByAutomationAccountNextResponse>;
   }
 }
 
@@ -316,19 +488,16 @@ export class RunbookOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getContentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/content",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/content",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -347,19 +516,16 @@ const getContentOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Runbook
@@ -373,19 +539,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -409,19 +572,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -442,19 +602,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -467,18 +624,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RunbookListResult
@@ -492,19 +646,16 @@ const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
 
 const beginPublishOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/publish",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/publish",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {
       headersMapper: Mappers.RunbookPublishHeaders
@@ -520,12 +671,8 @@ const listByAutomationAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RunbookListResult

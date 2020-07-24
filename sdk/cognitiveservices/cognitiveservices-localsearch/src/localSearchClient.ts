@@ -23,7 +23,10 @@ class LocalSearchClient extends LocalSearchClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.LocalSearchClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.LocalSearchClientOptions
+  ) {
     super(credentials, options);
     this.local = new operations.Local(this);
   }

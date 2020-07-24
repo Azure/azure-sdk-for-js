@@ -34,21 +34,41 @@ export class StorageAccountCredentials {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountCredentialsListByManagerResponse>
    */
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountCredentialsListByManagerResponse>;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageAccountCredentialsListByManagerResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.StorageAccountCredentialList>): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.StorageAccountCredentialList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountCredentialList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountCredentialList>, callback?: msRest.ServiceCallback<Models.StorageAccountCredentialList>): Promise<Models.StorageAccountCredentialsListByManagerResponse> {
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageAccountCredentialList>
+  ): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageAccountCredentialList>,
+    callback?: msRest.ServiceCallback<Models.StorageAccountCredentialList>
+  ): Promise<Models.StorageAccountCredentialsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class StorageAccountCredentials {
         options
       },
       listByManagerOperationSpec,
-      callback) as Promise<Models.StorageAccountCredentialsListByManagerResponse>;
+      callback
+    ) as Promise<Models.StorageAccountCredentialsListByManagerResponse>;
   }
 
   /**
@@ -67,14 +88,24 @@ export class StorageAccountCredentials {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountCredentialsGetResponse>
    */
-  get(credentialName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountCredentialsGetResponse>;
+  get(
+    credentialName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageAccountCredentialsGetResponse>;
   /**
    * @param credentialName The name of storage account credential to be fetched.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(credentialName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.StorageAccountCredential>): void;
+  get(
+    credentialName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.StorageAccountCredential>
+  ): void;
   /**
    * @param credentialName The name of storage account credential to be fetched.
    * @param resourceGroupName The resource group name
@@ -82,8 +113,20 @@ export class StorageAccountCredentials {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(credentialName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountCredential>): void;
-  get(credentialName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountCredential>, callback?: msRest.ServiceCallback<Models.StorageAccountCredential>): Promise<Models.StorageAccountCredentialsGetResponse> {
+  get(
+    credentialName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageAccountCredential>
+  ): void;
+  get(
+    credentialName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountCredential>,
+    callback?: msRest.ServiceCallback<Models.StorageAccountCredential>
+  ): Promise<Models.StorageAccountCredentialsGetResponse> {
     return this.client.sendOperationRequest(
       {
         credentialName,
@@ -92,7 +135,8 @@ export class StorageAccountCredentials {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.StorageAccountCredentialsGetResponse>;
+      callback
+    ) as Promise<Models.StorageAccountCredentialsGetResponse>;
   }
 
   /**
@@ -104,9 +148,22 @@ export class StorageAccountCredentials {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountCredentialsCreateOrUpdateResponse>
    */
-  createOrUpdate(credentialName: string, storageAccount: Models.StorageAccountCredential, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountCredentialsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(credentialName,storageAccount,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StorageAccountCredentialsCreateOrUpdateResponse>;
+  createOrUpdate(
+    credentialName: string,
+    storageAccount: Models.StorageAccountCredential,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageAccountCredentialsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      credentialName,
+      storageAccount,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.StorageAccountCredentialsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -117,9 +174,18 @@ export class StorageAccountCredentials {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(credentialName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(credentialName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    credentialName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      credentialName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -131,7 +197,13 @@ export class StorageAccountCredentials {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(credentialName: string, storageAccount: Models.StorageAccountCredential, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    credentialName: string,
+    storageAccount: Models.StorageAccountCredential,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         credentialName,
@@ -141,7 +213,8 @@ export class StorageAccountCredentials {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +225,12 @@ export class StorageAccountCredentials {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(credentialName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    credentialName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         credentialName,
@@ -161,7 +239,8 @@ export class StorageAccountCredentials {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -169,18 +248,11 @@ export class StorageAccountCredentials {
 const serializer = new msRest.Serializer(Mappers);
 const listByManagerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageAccountCredentials",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageAccountCredentials",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageAccountCredentialList
@@ -194,19 +266,16 @@ const listByManagerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageAccountCredentials/{credentialName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageAccountCredentials/{credentialName}",
   urlParameters: [
     Parameters.credentialName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageAccountCredential
@@ -220,19 +289,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageAccountCredentials/{credentialName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageAccountCredentials/{credentialName}",
   urlParameters: [
     Parameters.credentialName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "storageAccount",
     mapper: {
@@ -254,19 +320,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageAccountCredentials/{credentialName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageAccountCredentials/{credentialName}",
   urlParameters: [
     Parameters.credentialName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},

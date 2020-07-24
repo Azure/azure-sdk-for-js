@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -525,7 +524,8 @@ export interface LanguageResult {
 /**
  * Optional Parameters.
  */
-export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams extends coreHttp.RequestOptionsBase {
+export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * (Optional) This value indicates which model will be used for scoring. If a model-version is
    * not specified, the API should default to the latest, non-preview version.
@@ -604,7 +604,11 @@ export interface GeneratedClientSentimentOptionalParams extends coreHttp.Request
  * @readonly
  * @enum {string}
  */
-export type ErrorCodeValue = 'InvalidRequest' | 'InvalidArgument' | 'InternalServerError' | 'ServiceUnavailable';
+export type ErrorCodeValue =
+  | "InvalidRequest"
+  | "InvalidArgument"
+  | "InternalServerError"
+  | "ServiceUnavailable";
 
 /**
  * Defines values for InnerErrorCodeValue.
@@ -614,7 +618,16 @@ export type ErrorCodeValue = 'InvalidRequest' | 'InvalidArgument' | 'InternalSer
  * @readonly
  * @enum {string}
  */
-export type InnerErrorCodeValue = 'InvalidParameterValue' | 'InvalidRequestBodyFormat' | 'EmptyRequest' | 'MissingInputRecords' | 'InvalidDocument' | 'ModelVersionIncorrect' | 'InvalidDocumentBatch' | 'UnsupportedLanguageCode' | 'InvalidCountryHint';
+export type InnerErrorCodeValue =
+  | "InvalidParameterValue"
+  | "InvalidRequestBodyFormat"
+  | "EmptyRequest"
+  | "MissingInputRecords"
+  | "InvalidDocument"
+  | "ModelVersionIncorrect"
+  | "InvalidDocumentBatch"
+  | "UnsupportedLanguageCode"
+  | "InvalidCountryHint";
 
 /**
  * Defines values for WarningCode.
@@ -622,7 +635,7 @@ export type InnerErrorCodeValue = 'InvalidParameterValue' | 'InvalidRequestBodyF
  * @readonly
  * @enum {string}
  */
-export type WarningCode = 'LongWordsInDocument' | 'DocumentTruncated';
+export type WarningCode = "LongWordsInDocument" | "DocumentTruncated";
 
 /**
  * Defines values for DocumentSentimentLabel.
@@ -630,7 +643,7 @@ export type WarningCode = 'LongWordsInDocument' | 'DocumentTruncated';
  * @readonly
  * @enum {string}
  */
-export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixed';
+export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
 
 /**
  * Defines values for SentenceSentimentLabel.
@@ -638,7 +651,7 @@ export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixe
  * @readonly
  * @enum {string}
  */
-export type SentenceSentimentLabel = 'positive' | 'neutral' | 'negative';
+export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 
 /**
  * Contains response data for the entitiesRecognitionGeneral operation.
@@ -648,16 +661,16 @@ export type EntitiesRecognitionGeneralResponse = EntitiesResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntitiesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntitiesResult;
+  };
 };
 
 /**
@@ -668,16 +681,16 @@ export type EntitiesLinkingResponse = EntityLinkingResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityLinkingResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityLinkingResult;
+  };
 };
 
 /**
@@ -688,16 +701,16 @@ export type KeyPhrasesResponse = KeyPhraseResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyPhraseResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyPhraseResult;
+  };
 };
 
 /**
@@ -708,16 +721,16 @@ export type LanguagesResponse = LanguageResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LanguageResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LanguageResult;
+  };
 };
 
 /**
@@ -728,14 +741,14 @@ export type SentimentResponse2 = SentimentResponse & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SentimentResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SentimentResponse;
+  };
 };

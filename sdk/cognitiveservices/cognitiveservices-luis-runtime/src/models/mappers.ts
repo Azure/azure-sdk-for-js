@@ -9,7 +9,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const Intent: msRest.CompositeMapper = {
   serializedName: "Intent",
   type: {

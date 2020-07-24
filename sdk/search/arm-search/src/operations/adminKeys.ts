@@ -35,7 +35,11 @@ export class AdminKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.AdminKeysGetResponse>
    */
-  get(resourceGroupName: string, searchServiceName: string, options?: Models.AdminKeysGetOptionalParams): Promise<Models.AdminKeysGetResponse>;
+  get(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: Models.AdminKeysGetOptionalParams
+  ): Promise<Models.AdminKeysGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -43,7 +47,11 @@ export class AdminKeys {
    * resource group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, searchServiceName: string, callback: msRest.ServiceCallback<Models.AdminKeyResult>): void;
+  get(
+    resourceGroupName: string,
+    searchServiceName: string,
+    callback: msRest.ServiceCallback<Models.AdminKeyResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -52,8 +60,18 @@ export class AdminKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, searchServiceName: string, options: Models.AdminKeysGetOptionalParams, callback: msRest.ServiceCallback<Models.AdminKeyResult>): void;
-  get(resourceGroupName: string, searchServiceName: string, options?: Models.AdminKeysGetOptionalParams | msRest.ServiceCallback<Models.AdminKeyResult>, callback?: msRest.ServiceCallback<Models.AdminKeyResult>): Promise<Models.AdminKeysGetResponse> {
+  get(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options: Models.AdminKeysGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.AdminKeyResult>
+  ): void;
+  get(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: Models.AdminKeysGetOptionalParams | msRest.ServiceCallback<Models.AdminKeyResult>,
+    callback?: msRest.ServiceCallback<Models.AdminKeyResult>
+  ): Promise<Models.AdminKeysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -61,7 +79,8 @@ export class AdminKeys {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AdminKeysGetResponse>;
+      callback
+    ) as Promise<Models.AdminKeysGetResponse>;
   }
 
   /**
@@ -76,7 +95,12 @@ export class AdminKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.AdminKeysRegenerateResponse>
    */
-  regenerate(resourceGroupName: string, searchServiceName: string, keyKind: Models.AdminKeyKind, options?: Models.AdminKeysRegenerateOptionalParams): Promise<Models.AdminKeysRegenerateResponse>;
+  regenerate(
+    resourceGroupName: string,
+    searchServiceName: string,
+    keyKind: Models.AdminKeyKind,
+    options?: Models.AdminKeysRegenerateOptionalParams
+  ): Promise<Models.AdminKeysRegenerateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -86,7 +110,12 @@ export class AdminKeys {
    * 'secondary'. Possible values include: 'primary', 'secondary'
    * @param callback The callback
    */
-  regenerate(resourceGroupName: string, searchServiceName: string, keyKind: Models.AdminKeyKind, callback: msRest.ServiceCallback<Models.AdminKeyResult>): void;
+  regenerate(
+    resourceGroupName: string,
+    searchServiceName: string,
+    keyKind: Models.AdminKeyKind,
+    callback: msRest.ServiceCallback<Models.AdminKeyResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -97,8 +126,22 @@ export class AdminKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerate(resourceGroupName: string, searchServiceName: string, keyKind: Models.AdminKeyKind, options: Models.AdminKeysRegenerateOptionalParams, callback: msRest.ServiceCallback<Models.AdminKeyResult>): void;
-  regenerate(resourceGroupName: string, searchServiceName: string, keyKind: Models.AdminKeyKind, options?: Models.AdminKeysRegenerateOptionalParams | msRest.ServiceCallback<Models.AdminKeyResult>, callback?: msRest.ServiceCallback<Models.AdminKeyResult>): Promise<Models.AdminKeysRegenerateResponse> {
+  regenerate(
+    resourceGroupName: string,
+    searchServiceName: string,
+    keyKind: Models.AdminKeyKind,
+    options: Models.AdminKeysRegenerateOptionalParams,
+    callback: msRest.ServiceCallback<Models.AdminKeyResult>
+  ): void;
+  regenerate(
+    resourceGroupName: string,
+    searchServiceName: string,
+    keyKind: Models.AdminKeyKind,
+    options?:
+      | Models.AdminKeysRegenerateOptionalParams
+      | msRest.ServiceCallback<Models.AdminKeyResult>,
+    callback?: msRest.ServiceCallback<Models.AdminKeyResult>
+  ): Promise<Models.AdminKeysRegenerateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +150,8 @@ export class AdminKeys {
         options
       },
       regenerateOperationSpec,
-      callback) as Promise<Models.AdminKeysRegenerateResponse>;
+      callback
+    ) as Promise<Models.AdminKeysRegenerateResponse>;
   }
 }
 
@@ -115,19 +159,15 @@ export class AdminKeys {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listAdminKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listAdminKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage, Parameters.clientRequestId],
   responses: {
     200: {
       bodyMapper: Mappers.AdminKeyResult
@@ -141,20 +181,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const regenerateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/regenerateAdminKey/{keyKind}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/regenerateAdminKey/{keyKind}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.keyKind,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage, Parameters.clientRequestId],
   responses: {
     200: {
       bodyMapper: Mappers.AdminKeyResult

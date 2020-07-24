@@ -34,9 +34,16 @@ export class SecurityPartnerProviders {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, securityPartnerProviderName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,securityPartnerProviderName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    securityPartnerProviderName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      securityPartnerProviderName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -46,21 +53,39 @@ export class SecurityPartnerProviders {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityPartnerProvidersGetResponse>
    */
-  get(resourceGroupName: string, securityPartnerProviderName: string, options?: msRest.RequestOptionsBase): Promise<Models.SecurityPartnerProvidersGetResponse>;
+  get(
+    resourceGroupName: string,
+    securityPartnerProviderName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityPartnerProvidersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param securityPartnerProviderName The name of the Security Partner Provider.
    * @param callback The callback
    */
-  get(resourceGroupName: string, securityPartnerProviderName: string, callback: msRest.ServiceCallback<Models.SecurityPartnerProvider>): void;
+  get(
+    resourceGroupName: string,
+    securityPartnerProviderName: string,
+    callback: msRest.ServiceCallback<Models.SecurityPartnerProvider>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param securityPartnerProviderName The name of the Security Partner Provider.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, securityPartnerProviderName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityPartnerProvider>): void;
-  get(resourceGroupName: string, securityPartnerProviderName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityPartnerProvider>, callback?: msRest.ServiceCallback<Models.SecurityPartnerProvider>): Promise<Models.SecurityPartnerProvidersGetResponse> {
+  get(
+    resourceGroupName: string,
+    securityPartnerProviderName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityPartnerProvider>
+  ): void;
+  get(
+    resourceGroupName: string,
+    securityPartnerProviderName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityPartnerProvider>,
+    callback?: msRest.ServiceCallback<Models.SecurityPartnerProvider>
+  ): Promise<Models.SecurityPartnerProvidersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +93,8 @@ export class SecurityPartnerProviders {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SecurityPartnerProvidersGetResponse>;
+      callback
+    ) as Promise<Models.SecurityPartnerProvidersGetResponse>;
   }
 
   /**
@@ -80,9 +106,20 @@ export class SecurityPartnerProviders {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityPartnerProvidersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, securityPartnerProviderName: string, parameters: Models.SecurityPartnerProvider, options?: msRest.RequestOptionsBase): Promise<Models.SecurityPartnerProvidersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,securityPartnerProviderName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SecurityPartnerProvidersCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    securityPartnerProviderName: string,
+    parameters: Models.SecurityPartnerProvider,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityPartnerProvidersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      securityPartnerProviderName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SecurityPartnerProvidersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -93,14 +130,24 @@ export class SecurityPartnerProviders {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityPartnerProvidersUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, securityPartnerProviderName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.SecurityPartnerProvidersUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    securityPartnerProviderName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityPartnerProvidersUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param securityPartnerProviderName The name of the Security Partner Provider.
    * @param parameters Parameters supplied to update Security Partner Provider tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, securityPartnerProviderName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.SecurityPartnerProvider>): void;
+  updateTags(
+    resourceGroupName: string,
+    securityPartnerProviderName: string,
+    parameters: Models.TagsObject,
+    callback: msRest.ServiceCallback<Models.SecurityPartnerProvider>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param securityPartnerProviderName The name of the Security Partner Provider.
@@ -108,8 +155,20 @@ export class SecurityPartnerProviders {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, securityPartnerProviderName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityPartnerProvider>): void;
-  updateTags(resourceGroupName: string, securityPartnerProviderName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityPartnerProvider>, callback?: msRest.ServiceCallback<Models.SecurityPartnerProvider>): Promise<Models.SecurityPartnerProvidersUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    securityPartnerProviderName: string,
+    parameters: Models.TagsObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityPartnerProvider>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    securityPartnerProviderName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityPartnerProvider>,
+    callback?: msRest.ServiceCallback<Models.SecurityPartnerProvider>
+  ): Promise<Models.SecurityPartnerProvidersUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +177,8 @@ export class SecurityPartnerProviders {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.SecurityPartnerProvidersUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.SecurityPartnerProvidersUpdateTagsResponse>;
   }
 
   /**
@@ -127,26 +187,43 @@ export class SecurityPartnerProviders {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityPartnerProvidersListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SecurityPartnerProvidersListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityPartnerProvidersListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>, callback?: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>): Promise<Models.SecurityPartnerProvidersListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>,
+    callback?: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>
+  ): Promise<Models.SecurityPartnerProvidersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.SecurityPartnerProvidersListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.SecurityPartnerProvidersListByResourceGroupResponse>;
   }
 
   /**
@@ -163,14 +240,23 @@ export class SecurityPartnerProviders {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>, callback?: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>): Promise<Models.SecurityPartnerProvidersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>,
+    callback?: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>
+  ): Promise<Models.SecurityPartnerProvidersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SecurityPartnerProvidersListResponse>;
+      callback
+    ) as Promise<Models.SecurityPartnerProvidersListResponse>;
   }
 
   /**
@@ -180,7 +266,11 @@ export class SecurityPartnerProviders {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, securityPartnerProviderName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    securityPartnerProviderName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -188,7 +278,8 @@ export class SecurityPartnerProviders {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -200,7 +291,12 @@ export class SecurityPartnerProviders {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, securityPartnerProviderName: string, parameters: Models.SecurityPartnerProvider, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    securityPartnerProviderName: string,
+    parameters: Models.SecurityPartnerProvider,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -209,7 +305,8 @@ export class SecurityPartnerProviders {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -218,26 +315,43 @@ export class SecurityPartnerProviders {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityPartnerProvidersListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SecurityPartnerProvidersListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityPartnerProvidersListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>, callback?: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>): Promise<Models.SecurityPartnerProvidersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>,
+    callback?: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>
+  ): Promise<Models.SecurityPartnerProvidersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.SecurityPartnerProvidersListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.SecurityPartnerProvidersListByResourceGroupNextResponse>;
   }
 
   /**
@@ -246,26 +360,43 @@ export class SecurityPartnerProviders {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityPartnerProvidersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SecurityPartnerProvidersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityPartnerProvidersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>, callback?: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>): Promise<Models.SecurityPartnerProvidersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>,
+    callback?: msRest.ServiceCallback<Models.SecurityPartnerProviderListResult>
+  ): Promise<Models.SecurityPartnerProvidersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SecurityPartnerProvidersListNextResponse>;
+      callback
+    ) as Promise<Models.SecurityPartnerProvidersListNextResponse>;
   }
 }
 
@@ -273,18 +404,15 @@ export class SecurityPartnerProviders {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.securityPartnerProviderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityPartnerProvider
@@ -298,18 +426,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.securityPartnerProviderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -330,17 +455,11 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityPartnerProviderListResult
@@ -355,15 +474,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/securityPartnerProviders",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityPartnerProviderListResult
@@ -377,18 +490,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.securityPartnerProviderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -402,18 +512,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.securityPartnerProviderName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -439,12 +546,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityPartnerProviderListResult
@@ -460,12 +563,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityPartnerProviderListResult

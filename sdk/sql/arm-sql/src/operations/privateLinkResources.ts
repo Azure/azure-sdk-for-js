@@ -34,14 +34,22 @@ export class PrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesListByServerResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesListByServerResponse>;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesListByServerResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -49,8 +57,20 @@ export class PrivateLinkResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.PrivateLinkResourcesListByServerResponse> {
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): Promise<Models.PrivateLinkResourcesListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +78,8 @@ export class PrivateLinkResources {
         options
       },
       listByServerOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesListByServerResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesListByServerResponse>;
   }
 
   /**
@@ -70,7 +91,12 @@ export class PrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, groupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    groupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -78,7 +104,12 @@ export class PrivateLinkResources {
    * @param groupName The name of the private link resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, groupName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    groupName: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -87,8 +118,20 @@ export class PrivateLinkResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, groupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
-  get(resourceGroupName: string, serverName: string, groupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResource>, callback?: msRest.ServiceCallback<Models.PrivateLinkResource>): Promise<Models.PrivateLinkResourcesGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    groupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    groupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResource>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): Promise<Models.PrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +140,8 @@ export class PrivateLinkResources {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesGetResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesGetResponse>;
   }
 
   /**
@@ -106,26 +150,43 @@ export class PrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesListByServerNextResponse>
    */
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesListByServerNextResponse>;
+  listByServerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesListByServerNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServerNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  listByServerNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
-  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.PrivateLinkResourcesListByServerNextResponse> {
+  listByServerNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): void;
+  listByServerNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): Promise<Models.PrivateLinkResourcesListByServerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServerNextOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesListByServerNextResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesListByServerNextResponse>;
   }
 }
 
@@ -133,18 +194,11 @@ export class PrivateLinkResources {
 const serializer = new msRest.Serializer(Mappers);
 const listByServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/privateLinkResources",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/privateLinkResources",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResourceListResult
@@ -158,19 +212,16 @@ const listByServerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/privateLinkResources/{groupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/privateLinkResources/{groupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.groupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResource
@@ -186,12 +237,8 @@ const listByServerNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResourceListResult

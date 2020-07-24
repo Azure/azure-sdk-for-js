@@ -36,14 +36,24 @@ export class BigDataPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.BigDataPoolsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.BigDataPoolsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    bigDataPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BigDataPoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param bigDataPoolName Big Data pool name
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    bigDataPoolName: string,
+    callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -51,8 +61,20 @@ export class BigDataPools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>): void;
-  get(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BigDataPoolResourceInfo>, callback?: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>): Promise<Models.BigDataPoolsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    bigDataPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    bigDataPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BigDataPoolResourceInfo>,
+    callback?: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>
+  ): Promise<Models.BigDataPoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -61,7 +83,8 @@ export class BigDataPools {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BigDataPoolsGetResponse>;
+      callback
+    ) as Promise<Models.BigDataPoolsGetResponse>;
   }
 
   /**
@@ -74,7 +97,13 @@ export class BigDataPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.BigDataPoolsUpdateResponse>
    */
-  update(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, bigDataPoolPatchInfo: Models.BigDataPoolPatchInfo, options?: msRest.RequestOptionsBase): Promise<Models.BigDataPoolsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    bigDataPoolName: string,
+    bigDataPoolPatchInfo: Models.BigDataPoolPatchInfo,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BigDataPoolsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -82,7 +111,13 @@ export class BigDataPools {
    * @param bigDataPoolPatchInfo The updated Big Data pool properties
    * @param callback The callback
    */
-  update(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, bigDataPoolPatchInfo: Models.BigDataPoolPatchInfo, callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>): void;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    bigDataPoolName: string,
+    bigDataPoolPatchInfo: Models.BigDataPoolPatchInfo,
+    callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -91,8 +126,22 @@ export class BigDataPools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, bigDataPoolPatchInfo: Models.BigDataPoolPatchInfo, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>): void;
-  update(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, bigDataPoolPatchInfo: Models.BigDataPoolPatchInfo, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BigDataPoolResourceInfo>, callback?: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>): Promise<Models.BigDataPoolsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    bigDataPoolName: string,
+    bigDataPoolPatchInfo: Models.BigDataPoolPatchInfo,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>
+  ): void;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    bigDataPoolName: string,
+    bigDataPoolPatchInfo: Models.BigDataPoolPatchInfo,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BigDataPoolResourceInfo>,
+    callback?: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>
+  ): Promise<Models.BigDataPoolsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -102,7 +151,8 @@ export class BigDataPools {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.BigDataPoolsUpdateResponse>;
+      callback
+    ) as Promise<Models.BigDataPoolsUpdateResponse>;
   }
 
   /**
@@ -115,9 +165,22 @@ export class BigDataPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.BigDataPoolsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, bigDataPoolInfo: Models.BigDataPoolResourceInfo, options?: Models.BigDataPoolsCreateOrUpdateOptionalParams): Promise<Models.BigDataPoolsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,workspaceName,bigDataPoolName,bigDataPoolInfo,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BigDataPoolsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    bigDataPoolName: string,
+    bigDataPoolInfo: Models.BigDataPoolResourceInfo,
+    options?: Models.BigDataPoolsCreateOrUpdateOptionalParams
+  ): Promise<Models.BigDataPoolsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      workspaceName,
+      bigDataPoolName,
+      bigDataPoolInfo,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.BigDataPoolsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -129,9 +192,20 @@ export class BigDataPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.BigDataPoolsDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.BigDataPoolsDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,workspaceName,bigDataPoolName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BigDataPoolsDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    bigDataPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BigDataPoolsDeleteMethodResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      workspaceName,
+      bigDataPoolName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.BigDataPoolsDeleteMethodResponse
+    >;
   }
 
   /**
@@ -142,21 +216,41 @@ export class BigDataPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.BigDataPoolsListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.BigDataPoolsListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BigDataPoolsListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>, callback?: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>): Promise<Models.BigDataPoolsListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>,
+    callback?: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>
+  ): Promise<Models.BigDataPoolsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -164,7 +258,8 @@ export class BigDataPools {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.BigDataPoolsListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.BigDataPoolsListByWorkspaceResponse>;
   }
 
   /**
@@ -177,7 +272,13 @@ export class BigDataPools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, bigDataPoolInfo: Models.BigDataPoolResourceInfo, options?: Models.BigDataPoolsBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    bigDataPoolName: string,
+    bigDataPoolInfo: Models.BigDataPoolResourceInfo,
+    options?: Models.BigDataPoolsBeginCreateOrUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -187,7 +288,8 @@ export class BigDataPools {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -199,7 +301,12 @@ export class BigDataPools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    bigDataPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -208,7 +315,8 @@ export class BigDataPools {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -218,26 +326,43 @@ export class BigDataPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.BigDataPoolsListByWorkspaceNextResponse>
    */
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BigDataPoolsListByWorkspaceNextResponse>;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BigDataPoolsListByWorkspaceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>, callback?: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>): Promise<Models.BigDataPoolsListByWorkspaceNextResponse> {
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>
+  ): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>,
+    callback?: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>
+  ): Promise<Models.BigDataPoolsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByWorkspaceNextOperationSpec,
-      callback) as Promise<Models.BigDataPoolsListByWorkspaceNextResponse>;
+      callback
+    ) as Promise<Models.BigDataPoolsListByWorkspaceNextResponse>;
   }
 }
 
@@ -245,19 +370,16 @@ export class BigDataPools {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.bigDataPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BigDataPoolResourceInfo
@@ -271,19 +393,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.bigDataPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "bigDataPoolPatchInfo",
     mapper: {
@@ -304,18 +423,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BigDataPoolResourceInfoListResult
@@ -329,20 +445,16 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.bigDataPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.force
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.force],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "bigDataPoolInfo",
     mapper: {
@@ -366,19 +478,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.bigDataPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -408,12 +517,8 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BigDataPoolResourceInfoListResult

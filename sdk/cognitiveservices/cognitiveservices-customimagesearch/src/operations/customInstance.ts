@@ -40,7 +40,11 @@ export class CustomInstance {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomInstanceImageSearchResponse>
    */
-  imageSearch(customConfig: string, query: string, options?: Models.CustomInstanceImageSearchOptionalParams): Promise<Models.CustomInstanceImageSearchResponse>;
+  imageSearch(
+    customConfig: string,
+    query: string,
+    options?: Models.CustomInstanceImageSearchOptionalParams
+  ): Promise<Models.CustomInstanceImageSearchResponse>;
   /**
    * @param customConfig The identifier for the custom search configuration
    * @param query The user's search query term. The term cannot be empty. The term may contain [Bing
@@ -52,7 +56,11 @@ export class CustomInstance {
    * API.Do not specify this parameter when calling the Trending Images API.
    * @param callback The callback
    */
-  imageSearch(customConfig: string, query: string, callback: msRest.ServiceCallback<Models.Images>): void;
+  imageSearch(
+    customConfig: string,
+    query: string,
+    callback: msRest.ServiceCallback<Models.Images>
+  ): void;
   /**
    * @param customConfig The identifier for the custom search configuration
    * @param query The user's search query term. The term cannot be empty. The term may contain [Bing
@@ -65,8 +73,20 @@ export class CustomInstance {
    * @param options The optional parameters
    * @param callback The callback
    */
-  imageSearch(customConfig: string, query: string, options: Models.CustomInstanceImageSearchOptionalParams, callback: msRest.ServiceCallback<Models.Images>): void;
-  imageSearch(customConfig: string, query: string, options?: Models.CustomInstanceImageSearchOptionalParams | msRest.ServiceCallback<Models.Images>, callback?: msRest.ServiceCallback<Models.Images>): Promise<Models.CustomInstanceImageSearchResponse> {
+  imageSearch(
+    customConfig: string,
+    query: string,
+    options: Models.CustomInstanceImageSearchOptionalParams,
+    callback: msRest.ServiceCallback<Models.Images>
+  ): void;
+  imageSearch(
+    customConfig: string,
+    query: string,
+    options?:
+      | Models.CustomInstanceImageSearchOptionalParams
+      | msRest.ServiceCallback<Models.Images>,
+    callback?: msRest.ServiceCallback<Models.Images>
+  ): Promise<Models.CustomInstanceImageSearchResponse> {
     return this.client.sendOperationRequest(
       {
         customConfig,
@@ -74,7 +94,8 @@ export class CustomInstance {
         options
       },
       imageSearchOperationSpec,
-      callback) as Promise<Models.CustomInstanceImageSearchResponse>;
+      callback
+    ) as Promise<Models.CustomInstanceImageSearchResponse>;
   }
 }
 
@@ -83,9 +104,7 @@ const serializer = new msRest.Serializer(Mappers);
 const imageSearchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "images/search",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.customConfig,
     Parameters.aspect,

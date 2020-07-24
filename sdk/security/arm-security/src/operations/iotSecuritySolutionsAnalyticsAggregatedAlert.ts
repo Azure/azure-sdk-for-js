@@ -34,14 +34,22 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListResponse>
    */
-  list(resourceGroupName: string, solutionName: string, options?: Models.IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams): Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListResponse>;
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    options?: Models.IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams
+  ): Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param solutionName The name of the IoT Security solution.
    * @param callback The callback
    */
-  list(resourceGroupName: string, solutionName: string, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>): void;
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -49,8 +57,20 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, solutionName: string, options: Models.IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>): void;
-  list(resourceGroupName: string, solutionName: string, options?: Models.IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams | msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>, callback?: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>): Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListResponse> {
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    options: Models.IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams,
+    callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    solutionName: string,
+    options?:
+      | Models.IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams
+      | msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>,
+    callback?: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>
+  ): Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +78,8 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListResponse>;
+      callback
+    ) as Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListResponse>;
   }
 
   /**
@@ -71,7 +92,12 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse>
    */
-  get(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, options?: msRest.RequestOptionsBase): Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse>;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    aggregatedAlertName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -79,7 +105,12 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
    * @param aggregatedAlertName Identifier of the aggregated alert.
    * @param callback The callback
    */
-  get(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>): void;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    aggregatedAlertName: string,
+    callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -88,8 +119,20 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>): void;
-  get(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>, callback?: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>): Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse> {
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    aggregatedAlertName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>
+  ): void;
+  get(
+    resourceGroupName: string,
+    solutionName: string,
+    aggregatedAlertName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>,
+    callback?: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlert>
+  ): Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,7 +141,8 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse>;
+      callback
+    ) as Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse>;
   }
 
   /**
@@ -110,7 +154,12 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  dismiss(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  dismiss(
+    resourceGroupName: string,
+    solutionName: string,
+    aggregatedAlertName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -118,7 +167,12 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
    * @param aggregatedAlertName Identifier of the aggregated alert.
    * @param callback The callback
    */
-  dismiss(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, callback: msRest.ServiceCallback<void>): void;
+  dismiss(
+    resourceGroupName: string,
+    solutionName: string,
+    aggregatedAlertName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -127,8 +181,20 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
    * @param options The optional parameters
    * @param callback The callback
    */
-  dismiss(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  dismiss(resourceGroupName: string, solutionName: string, aggregatedAlertName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  dismiss(
+    resourceGroupName: string,
+    solutionName: string,
+    aggregatedAlertName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  dismiss(
+    resourceGroupName: string,
+    solutionName: string,
+    aggregatedAlertName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +203,8 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
         options
       },
       dismissOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -146,26 +213,43 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>, callback?: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>): Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>,
+    callback?: msRest.ServiceCallback<Models.IoTSecurityAggregatedAlertList>
+  ): Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse>;
+      callback
+    ) as Promise<Models.IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse>;
   }
 }
 
@@ -173,19 +257,11 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlert {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedAlerts",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.solutionName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedAlerts",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.solutionName],
+  queryParameters: [Parameters.apiVersion3, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IoTSecurityAggregatedAlertList
@@ -199,19 +275,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedAlerts/{aggregatedAlertName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedAlerts/{aggregatedAlertName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.solutionName,
     Parameters.aggregatedAlertName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IoTSecurityAggregatedAlert
@@ -225,19 +298,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const dismissOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedAlerts/{aggregatedAlertName}/dismiss",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/iotSecuritySolutions/{solutionName}/analyticsModels/default/aggregatedAlerts/{aggregatedAlertName}/dismiss",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.solutionName,
     Parameters.aggregatedAlertName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -251,12 +321,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IoTSecurityAggregatedAlertList

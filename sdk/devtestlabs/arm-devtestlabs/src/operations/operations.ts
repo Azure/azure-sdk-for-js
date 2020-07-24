@@ -33,21 +33,39 @@ export class Operations {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsGetResponse>
    */
-  get(locationName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsGetResponse>;
+  get(
+    locationName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationsGetResponse>;
   /**
    * @param locationName The name of the location.
    * @param name The name of the operation.
    * @param callback The callback
    */
-  get(locationName: string, name: string, callback: msRest.ServiceCallback<Models.OperationResult>): void;
+  get(
+    locationName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.OperationResult>
+  ): void;
   /**
    * @param locationName The name of the location.
    * @param name The name of the operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(locationName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationResult>): void;
-  get(locationName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationResult>, callback?: msRest.ServiceCallback<Models.OperationResult>): Promise<Models.OperationsGetResponse> {
+  get(
+    locationName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationResult>
+  ): void;
+  get(
+    locationName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationResult>,
+    callback?: msRest.ServiceCallback<Models.OperationResult>
+  ): Promise<Models.OperationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -55,7 +73,8 @@ export class Operations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.OperationsGetResponse>;
+      callback
+    ) as Promise<Models.OperationsGetResponse>;
   }
 }
 
@@ -63,18 +82,11 @@ export class Operations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DevTestLab/locations/{locationName}/operations/{name}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.locationName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.DevTestLab/locations/{locationName}/operations/{name}",
+  urlParameters: [Parameters.subscriptionId, Parameters.locationName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationResult

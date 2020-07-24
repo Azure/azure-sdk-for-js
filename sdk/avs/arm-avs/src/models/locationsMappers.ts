@@ -6,9 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  ApiError,
-  ApiErrorBase,
-  Quota,
-  Trial
-} from "../models/mappers";
+export { ApiError, ApiErrorBase, Quota, Trial } from "../models/mappers";

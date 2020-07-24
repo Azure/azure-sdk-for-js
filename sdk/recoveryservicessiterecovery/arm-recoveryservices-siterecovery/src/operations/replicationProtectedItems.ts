@@ -35,21 +35,41 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersResponse>
    */
-  listByReplicationProtectionContainers(fabricName: string, protectionContainerName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersResponse>;
+  listByReplicationProtectionContainers(
+    fabricName: string,
+    protectionContainerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersResponse>;
   /**
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param callback The callback
    */
-  listByReplicationProtectionContainers(fabricName: string, protectionContainerName: string, callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): void;
+  listByReplicationProtectionContainers(
+    fabricName: string,
+    protectionContainerName: string,
+    callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>
+  ): void;
   /**
    * @param fabricName Fabric name.
    * @param protectionContainerName Protection container name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReplicationProtectionContainers(fabricName: string, protectionContainerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): void;
-  listByReplicationProtectionContainers(fabricName: string, protectionContainerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersResponse> {
+  listByReplicationProtectionContainers(
+    fabricName: string,
+    protectionContainerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>
+  ): void;
+  listByReplicationProtectionContainers(
+    fabricName: string,
+    protectionContainerName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>,
+    callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>
+  ): Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -57,7 +77,8 @@ export class ReplicationProtectedItems {
         options
       },
       listByReplicationProtectionContainersOperationSpec,
-      callback) as Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersResponse>;
+      callback
+    ) as Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersResponse>;
   }
 
   /**
@@ -69,14 +90,24 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsGetResponse>
    */
-  get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsGetResponse>;
+  get(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsGetResponse>;
   /**
    * @param fabricName Fabric unique name.
    * @param protectionContainerName Protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
    * @param callback The callback
    */
-  get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, callback: msRest.ServiceCallback<Models.ReplicationProtectedItem>): void;
+  get(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    callback: msRest.ServiceCallback<Models.ReplicationProtectedItem>
+  ): void;
   /**
    * @param fabricName Fabric unique name.
    * @param protectionContainerName Protection container name.
@@ -84,8 +115,20 @@ export class ReplicationProtectedItems {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationProtectedItem>): void;
-  get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationProtectedItem>, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItem>): Promise<Models.ReplicationProtectedItemsGetResponse> {
+  get(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReplicationProtectedItem>
+  ): void;
+  get(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationProtectedItem>,
+    callback?: msRest.ServiceCallback<Models.ReplicationProtectedItem>
+  ): Promise<Models.ReplicationProtectedItemsGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -94,7 +137,8 @@ export class ReplicationProtectedItems {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReplicationProtectedItemsGetResponse>;
+      callback
+    ) as Promise<Models.ReplicationProtectedItemsGetResponse>;
   }
 
   /**
@@ -107,9 +151,22 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsCreateResponse>
    */
-  create(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, input: Models.EnableProtectionInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsCreateResponse> {
-    return this.beginCreate(fabricName,protectionContainerName,replicatedProtectedItemName,input,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsCreateResponse>;
+  create(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    input: Models.EnableProtectionInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsCreateResponse> {
+    return this.beginCreate(
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      input,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationProtectedItemsCreateResponse
+    >;
   }
 
   /**
@@ -123,9 +180,18 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  purge(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginPurge(fabricName,protectionContainerName,replicatedProtectedItemName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  purge(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginPurge(
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -138,9 +204,22 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsUpdateResponse>
    */
-  update(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateProtectionInput: Models.UpdateReplicationProtectedItemInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsUpdateResponse> {
-    return this.beginUpdate(fabricName,protectionContainerName,replicatedProtectedItemName,updateProtectionInput,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsUpdateResponse>;
+  update(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    updateProtectionInput: Models.UpdateReplicationProtectedItemInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsUpdateResponse> {
+    return this.beginUpdate(
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      updateProtectionInput,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationProtectedItemsUpdateResponse
+    >;
   }
 
   /**
@@ -153,9 +232,22 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsApplyRecoveryPointResponse>
    */
-  applyRecoveryPoint(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, applyRecoveryPointInput: Models.ApplyRecoveryPointInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsApplyRecoveryPointResponse> {
-    return this.beginApplyRecoveryPoint(fabricName,protectionContainerName,replicatedProtectedItemName,applyRecoveryPointInput,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsApplyRecoveryPointResponse>;
+  applyRecoveryPoint(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    applyRecoveryPointInput: Models.ApplyRecoveryPointInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsApplyRecoveryPointResponse> {
+    return this.beginApplyRecoveryPoint(
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      applyRecoveryPointInput,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationProtectedItemsApplyRecoveryPointResponse
+    >;
   }
 
   /**
@@ -167,9 +259,20 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsFailoverCommitResponse>
    */
-  failoverCommit(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsFailoverCommitResponse> {
-    return this.beginFailoverCommit(fabricName,protectionContainerName,replicatedProtectedItemName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsFailoverCommitResponse>;
+  failoverCommit(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsFailoverCommitResponse> {
+    return this.beginFailoverCommit(
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationProtectedItemsFailoverCommitResponse
+    >;
   }
 
   /**
@@ -182,9 +285,22 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsPlannedFailoverResponse>
    */
-  plannedFailover(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: Models.PlannedFailoverInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsPlannedFailoverResponse> {
-    return this.beginPlannedFailover(fabricName,protectionContainerName,replicatedProtectedItemName,failoverInput,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsPlannedFailoverResponse>;
+  plannedFailover(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    failoverInput: Models.PlannedFailoverInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsPlannedFailoverResponse> {
+    return this.beginPlannedFailover(
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      failoverInput,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationProtectedItemsPlannedFailoverResponse
+    >;
   }
 
   /**
@@ -198,9 +314,20 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, disableProtectionInput: Models.DisableProtectionInput, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(fabricName,protectionContainerName,replicatedProtectedItemName,disableProtectionInput,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    disableProtectionInput: Models.DisableProtectionInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      disableProtectionInput,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -213,9 +340,20 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsRepairReplicationResponse>
    */
-  repairReplication(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsRepairReplicationResponse> {
-    return this.beginRepairReplication(fabricName,protectionContainerName,replicatedProtectedItemName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsRepairReplicationResponse>;
+  repairReplication(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsRepairReplicationResponse> {
+    return this.beginRepairReplication(
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationProtectedItemsRepairReplicationResponse
+    >;
   }
 
   /**
@@ -228,9 +366,22 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsReprotectResponse>
    */
-  reprotect(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, rrInput: Models.ReverseReplicationInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsReprotectResponse> {
-    return this.beginReprotect(fabricName,protectionContainerName,replicatedProtectedItemName,rrInput,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsReprotectResponse>;
+  reprotect(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    rrInput: Models.ReverseReplicationInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsReprotectResponse> {
+    return this.beginReprotect(
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      rrInput,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationProtectedItemsReprotectResponse
+    >;
   }
 
   /**
@@ -243,9 +394,22 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsTestFailoverResponse>
    */
-  testFailover(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: Models.TestFailoverInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsTestFailoverResponse> {
-    return this.beginTestFailover(fabricName,protectionContainerName,replicatedProtectedItemName,failoverInput,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsTestFailoverResponse>;
+  testFailover(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    failoverInput: Models.TestFailoverInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsTestFailoverResponse> {
+    return this.beginTestFailover(
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      failoverInput,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationProtectedItemsTestFailoverResponse
+    >;
   }
 
   /**
@@ -258,9 +422,22 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsTestFailoverCleanupResponse>
    */
-  testFailoverCleanup(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, cleanupInput: Models.TestFailoverCleanupInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsTestFailoverCleanupResponse> {
-    return this.beginTestFailoverCleanup(fabricName,protectionContainerName,replicatedProtectedItemName,cleanupInput,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsTestFailoverCleanupResponse>;
+  testFailoverCleanup(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    cleanupInput: Models.TestFailoverCleanupInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsTestFailoverCleanupResponse> {
+    return this.beginTestFailoverCleanup(
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      cleanupInput,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationProtectedItemsTestFailoverCleanupResponse
+    >;
   }
 
   /**
@@ -273,9 +450,22 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsUnplannedFailoverResponse>
    */
-  unplannedFailover(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: Models.UnplannedFailoverInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsUnplannedFailoverResponse> {
-    return this.beginUnplannedFailover(fabricName,protectionContainerName,replicatedProtectedItemName,failoverInput,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsUnplannedFailoverResponse>;
+  unplannedFailover(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    failoverInput: Models.UnplannedFailoverInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsUnplannedFailoverResponse> {
+    return this.beginUnplannedFailover(
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      failoverInput,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationProtectedItemsUnplannedFailoverResponse
+    >;
   }
 
   /**
@@ -291,9 +481,22 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsUpdateMobilityServiceResponse>
    */
-  updateMobilityService(fabricName: string, protectionContainerName: string, replicationProtectedItemName: string, updateMobilityServiceRequest: Models.UpdateMobilityServiceRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsUpdateMobilityServiceResponse> {
-    return this.beginUpdateMobilityService(fabricName,protectionContainerName,replicationProtectedItemName,updateMobilityServiceRequest,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationProtectedItemsUpdateMobilityServiceResponse>;
+  updateMobilityService(
+    fabricName: string,
+    protectionContainerName: string,
+    replicationProtectedItemName: string,
+    updateMobilityServiceRequest: Models.UpdateMobilityServiceRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsUpdateMobilityServiceResponse> {
+    return this.beginUpdateMobilityService(
+      fabricName,
+      protectionContainerName,
+      replicationProtectedItemName,
+      updateMobilityServiceRequest,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationProtectedItemsUpdateMobilityServiceResponse
+    >;
   }
 
   /**
@@ -302,7 +505,9 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsListResponse>
    */
-  list(options?: Models.ReplicationProtectedItemsListOptionalParams): Promise<Models.ReplicationProtectedItemsListResponse>;
+  list(
+    options?: Models.ReplicationProtectedItemsListOptionalParams
+  ): Promise<Models.ReplicationProtectedItemsListResponse>;
   /**
    * @param callback The callback
    */
@@ -311,14 +516,23 @@ export class ReplicationProtectedItems {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ReplicationProtectedItemsListOptionalParams, callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): void;
-  list(options?: Models.ReplicationProtectedItemsListOptionalParams | msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): Promise<Models.ReplicationProtectedItemsListResponse> {
+  list(
+    options: Models.ReplicationProtectedItemsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>
+  ): void;
+  list(
+    options?:
+      | Models.ReplicationProtectedItemsListOptionalParams
+      | msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>,
+    callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>
+  ): Promise<Models.ReplicationProtectedItemsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ReplicationProtectedItemsListResponse>;
+      callback
+    ) as Promise<Models.ReplicationProtectedItemsListResponse>;
   }
 
   /**
@@ -331,7 +545,13 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, input: Models.EnableProtectionInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    input: Models.EnableProtectionInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -341,7 +561,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -355,7 +576,12 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPurge(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPurge(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -364,7 +590,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginPurgeOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -377,7 +604,13 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, updateProtectionInput: Models.UpdateReplicationProtectedItemInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    updateProtectionInput: Models.UpdateReplicationProtectedItemInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -387,7 +620,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -400,7 +634,13 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginApplyRecoveryPoint(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, applyRecoveryPointInput: Models.ApplyRecoveryPointInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginApplyRecoveryPoint(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    applyRecoveryPointInput: Models.ApplyRecoveryPointInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -410,7 +650,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginApplyRecoveryPointOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -422,7 +663,12 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginFailoverCommit(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginFailoverCommit(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -431,7 +677,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginFailoverCommitOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -444,7 +691,13 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPlannedFailover(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: Models.PlannedFailoverInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPlannedFailover(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    failoverInput: Models.PlannedFailoverInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -454,7 +707,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginPlannedFailoverOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -468,7 +722,13 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, disableProtectionInput: Models.DisableProtectionInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    disableProtectionInput: Models.DisableProtectionInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -478,7 +738,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -491,7 +752,12 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRepairReplication(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRepairReplication(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -500,7 +766,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginRepairReplicationOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -513,7 +780,13 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginReprotect(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, rrInput: Models.ReverseReplicationInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginReprotect(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    rrInput: Models.ReverseReplicationInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -523,7 +796,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginReprotectOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -536,7 +810,13 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginTestFailover(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: Models.TestFailoverInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginTestFailover(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    failoverInput: Models.TestFailoverInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -546,7 +826,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginTestFailoverOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -559,7 +840,13 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginTestFailoverCleanup(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, cleanupInput: Models.TestFailoverCleanupInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginTestFailoverCleanup(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    cleanupInput: Models.TestFailoverCleanupInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -569,7 +856,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginTestFailoverCleanupOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -582,7 +870,13 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUnplannedFailover(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, failoverInput: Models.UnplannedFailoverInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUnplannedFailover(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    failoverInput: Models.UnplannedFailoverInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -592,7 +886,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginUnplannedFailoverOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -608,7 +903,13 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateMobilityService(fabricName: string, protectionContainerName: string, replicationProtectedItemName: string, updateMobilityServiceRequest: Models.UpdateMobilityServiceRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateMobilityService(
+    fabricName: string,
+    protectionContainerName: string,
+    replicationProtectedItemName: string,
+    updateMobilityServiceRequest: Models.UpdateMobilityServiceRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -618,7 +919,8 @@ export class ReplicationProtectedItems {
         options
       },
       beginUpdateMobilityServiceOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -629,26 +931,43 @@ export class ReplicationProtectedItems {
    * @returns
    * Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse>
    */
-  listByReplicationProtectionContainersNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse>;
+  listByReplicationProtectionContainersNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByReplicationProtectionContainersNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): void;
+  listByReplicationProtectionContainersNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReplicationProtectionContainersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): void;
-  listByReplicationProtectionContainersNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse> {
+  listByReplicationProtectionContainersNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>
+  ): void;
+  listByReplicationProtectionContainersNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>,
+    callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>
+  ): Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByReplicationProtectionContainersNextOperationSpec,
-      callback) as Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse>;
   }
 
   /**
@@ -658,26 +977,43 @@ export class ReplicationProtectedItems {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationProtectedItemsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationProtectedItemsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationProtectedItemsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>, callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>): Promise<Models.ReplicationProtectedItemsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>,
+    callback?: msRest.ServiceCallback<Models.ReplicationProtectedItemCollection>
+  ): Promise<Models.ReplicationProtectedItemsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ReplicationProtectedItemsListNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationProtectedItemsListNextResponse>;
   }
 }
 
@@ -685,7 +1021,8 @@ export class ReplicationProtectedItems {
 const serializer = new msRest.Serializer(Mappers);
 const listByReplicationProtectionContainersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -693,12 +1030,8 @@ const listByReplicationProtectionContainersOperationSpec: msRest.OperationSpec =
     Parameters.fabricName,
     Parameters.protectionContainerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationProtectedItemCollection
@@ -712,7 +1045,8 @@ const listByReplicationProtectionContainersOperationSpec: msRest.OperationSpec =
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -721,12 +1055,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationProtectedItem
@@ -740,20 +1070,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectedItems",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectedItems",
+  urlParameters: [Parameters.resourceName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationProtectedItemCollection
@@ -767,7 +1088,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -776,12 +1098,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -803,7 +1121,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginPurgeOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -812,12 +1131,8 @@ const beginPurgeOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -830,7 +1145,8 @@ const beginPurgeOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -839,12 +1155,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "updateProtectionInput",
     mapper: {
@@ -866,7 +1178,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginApplyRecoveryPointOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/applyRecoveryPoint",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/applyRecoveryPoint",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -875,12 +1188,8 @@ const beginApplyRecoveryPointOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "applyRecoveryPointInput",
     mapper: {
@@ -902,7 +1211,8 @@ const beginApplyRecoveryPointOperationSpec: msRest.OperationSpec = {
 
 const beginFailoverCommitOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/failoverCommit",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/failoverCommit",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -911,12 +1221,8 @@ const beginFailoverCommitOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationProtectedItem
@@ -931,7 +1237,8 @@ const beginFailoverCommitOperationSpec: msRest.OperationSpec = {
 
 const beginPlannedFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/plannedFailover",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/plannedFailover",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -940,12 +1247,8 @@ const beginPlannedFailoverOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "failoverInput",
     mapper: {
@@ -967,7 +1270,8 @@ const beginPlannedFailoverOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/remove",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/remove",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -976,12 +1280,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "disableProtectionInput",
     mapper: {
@@ -1001,7 +1301,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginRepairReplicationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/repairReplication",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/repairReplication",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -1010,12 +1311,8 @@ const beginRepairReplicationOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationProtectedItem
@@ -1030,7 +1327,8 @@ const beginRepairReplicationOperationSpec: msRest.OperationSpec = {
 
 const beginReprotectOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/reProtect",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/reProtect",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -1039,12 +1337,8 @@ const beginReprotectOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "rrInput",
     mapper: {
@@ -1066,7 +1360,8 @@ const beginReprotectOperationSpec: msRest.OperationSpec = {
 
 const beginTestFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/testFailover",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/testFailover",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -1075,12 +1370,8 @@ const beginTestFailoverOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "failoverInput",
     mapper: {
@@ -1102,7 +1393,8 @@ const beginTestFailoverOperationSpec: msRest.OperationSpec = {
 
 const beginTestFailoverCleanupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/testFailoverCleanup",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/testFailoverCleanup",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -1111,12 +1403,8 @@ const beginTestFailoverCleanupOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "cleanupInput",
     mapper: {
@@ -1138,7 +1426,8 @@ const beginTestFailoverCleanupOperationSpec: msRest.OperationSpec = {
 
 const beginUnplannedFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/unplannedFailover",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/unplannedFailover",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -1147,12 +1436,8 @@ const beginUnplannedFailoverOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "failoverInput",
     mapper: {
@@ -1174,7 +1459,8 @@ const beginUnplannedFailoverOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateMobilityServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicationProtectedItemName}/updateMobilityService",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicationProtectedItemName}/updateMobilityService",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -1183,12 +1469,8 @@ const beginUpdateMobilityServiceOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicationProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "updateMobilityServiceRequest",
     mapper: {
@@ -1212,12 +1494,8 @@ const listByReplicationProtectionContainersNextOperationSpec: msRest.OperationSp
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationProtectedItemCollection
@@ -1233,12 +1511,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationProtectedItemCollection

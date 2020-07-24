@@ -31,7 +31,9 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListBySubscriptionResponse>
    */
-  listBySubscription(options?: Models.JobsListBySubscriptionOptionalParams): Promise<Models.JobsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: Models.JobsListBySubscriptionOptionalParams
+  ): Promise<Models.JobsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,23 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: Models.JobsListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.ListJobsResponse>): void;
-  listBySubscription(options?: Models.JobsListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.ListJobsResponse>, callback?: msRest.ServiceCallback<Models.ListJobsResponse>): Promise<Models.JobsListBySubscriptionResponse> {
+  listBySubscription(
+    options: Models.JobsListBySubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.ListJobsResponse>
+  ): void;
+  listBySubscription(
+    options?:
+      | Models.JobsListBySubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.ListJobsResponse>,
+    callback?: msRest.ServiceCallback<Models.ListJobsResponse>
+  ): Promise<Models.JobsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.JobsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.JobsListBySubscriptionResponse>;
   }
 
   /**
@@ -57,28 +68,45 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.JobsListByResourceGroupOptionalParams): Promise<Models.JobsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.JobsListByResourceGroupOptionalParams
+  ): Promise<Models.JobsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The resource group name uniquely identifies the resource group within
    * the user subscription.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ListJobsResponse>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ListJobsResponse>
+  ): void;
   /**
    * @param resourceGroupName The resource group name uniquely identifies the resource group within
    * the user subscription.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.JobsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.ListJobsResponse>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.JobsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.ListJobsResponse>, callback?: msRest.ServiceCallback<Models.ListJobsResponse>): Promise<Models.JobsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.JobsListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.ListJobsResponse>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.JobsListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.ListJobsResponse>,
+    callback?: msRest.ServiceCallback<Models.ListJobsResponse>
+  ): Promise<Models.JobsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.JobsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.JobsListByResourceGroupResponse>;
   }
 
   /**
@@ -89,14 +117,22 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsGetResponse>
    */
-  get(jobName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsGetResponse>;
+  get(
+    jobName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsGetResponse>;
   /**
    * @param jobName The name of the import/export job.
    * @param resourceGroupName The resource group name uniquely identifies the resource group within
    * the user subscription.
    * @param callback The callback
    */
-  get(jobName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.JobResponse>): void;
+  get(
+    jobName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.JobResponse>
+  ): void;
   /**
    * @param jobName The name of the import/export job.
    * @param resourceGroupName The resource group name uniquely identifies the resource group within
@@ -104,8 +140,18 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(jobName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResponse>): void;
-  get(jobName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResponse>, callback?: msRest.ServiceCallback<Models.JobResponse>): Promise<Models.JobsGetResponse> {
+  get(
+    jobName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobResponse>
+  ): void;
+  get(
+    jobName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResponse>,
+    callback?: msRest.ServiceCallback<Models.JobResponse>
+  ): Promise<Models.JobsGetResponse> {
     return this.client.sendOperationRequest(
       {
         jobName,
@@ -113,7 +159,8 @@ export class Jobs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.JobsGetResponse>;
+      callback
+    ) as Promise<Models.JobsGetResponse>;
   }
 
   /**
@@ -127,7 +174,12 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsUpdateResponse>
    */
-  update(jobName: string, resourceGroupName: string, body: Models.UpdateJobParameters, options?: msRest.RequestOptionsBase): Promise<Models.JobsUpdateResponse>;
+  update(
+    jobName: string,
+    resourceGroupName: string,
+    body: Models.UpdateJobParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsUpdateResponse>;
   /**
    * @param jobName The name of the import/export job.
    * @param resourceGroupName The resource group name uniquely identifies the resource group within
@@ -135,7 +187,12 @@ export class Jobs {
    * @param body The parameters to update in the job
    * @param callback The callback
    */
-  update(jobName: string, resourceGroupName: string, body: Models.UpdateJobParameters, callback: msRest.ServiceCallback<Models.JobResponse>): void;
+  update(
+    jobName: string,
+    resourceGroupName: string,
+    body: Models.UpdateJobParameters,
+    callback: msRest.ServiceCallback<Models.JobResponse>
+  ): void;
   /**
    * @param jobName The name of the import/export job.
    * @param resourceGroupName The resource group name uniquely identifies the resource group within
@@ -144,8 +201,20 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(jobName: string, resourceGroupName: string, body: Models.UpdateJobParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobResponse>): void;
-  update(jobName: string, resourceGroupName: string, body: Models.UpdateJobParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResponse>, callback?: msRest.ServiceCallback<Models.JobResponse>): Promise<Models.JobsUpdateResponse> {
+  update(
+    jobName: string,
+    resourceGroupName: string,
+    body: Models.UpdateJobParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobResponse>
+  ): void;
+  update(
+    jobName: string,
+    resourceGroupName: string,
+    body: Models.UpdateJobParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobResponse>,
+    callback?: msRest.ServiceCallback<Models.JobResponse>
+  ): Promise<Models.JobsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         jobName,
@@ -154,7 +223,8 @@ export class Jobs {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.JobsUpdateResponse>;
+      callback
+    ) as Promise<Models.JobsUpdateResponse>;
   }
 
   /**
@@ -166,7 +236,12 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsCreateResponse>
    */
-  create(jobName: string, resourceGroupName: string, body: Models.PutJobParameters, options?: Models.JobsCreateOptionalParams): Promise<Models.JobsCreateResponse>;
+  create(
+    jobName: string,
+    resourceGroupName: string,
+    body: Models.PutJobParameters,
+    options?: Models.JobsCreateOptionalParams
+  ): Promise<Models.JobsCreateResponse>;
   /**
    * @param jobName The name of the import/export job.
    * @param resourceGroupName The resource group name uniquely identifies the resource group within
@@ -174,7 +249,12 @@ export class Jobs {
    * @param body The parameters used for creating the job
    * @param callback The callback
    */
-  create(jobName: string, resourceGroupName: string, body: Models.PutJobParameters, callback: msRest.ServiceCallback<Models.JobResponse>): void;
+  create(
+    jobName: string,
+    resourceGroupName: string,
+    body: Models.PutJobParameters,
+    callback: msRest.ServiceCallback<Models.JobResponse>
+  ): void;
   /**
    * @param jobName The name of the import/export job.
    * @param resourceGroupName The resource group name uniquely identifies the resource group within
@@ -183,8 +263,20 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(jobName: string, resourceGroupName: string, body: Models.PutJobParameters, options: Models.JobsCreateOptionalParams, callback: msRest.ServiceCallback<Models.JobResponse>): void;
-  create(jobName: string, resourceGroupName: string, body: Models.PutJobParameters, options?: Models.JobsCreateOptionalParams | msRest.ServiceCallback<Models.JobResponse>, callback?: msRest.ServiceCallback<Models.JobResponse>): Promise<Models.JobsCreateResponse> {
+  create(
+    jobName: string,
+    resourceGroupName: string,
+    body: Models.PutJobParameters,
+    options: Models.JobsCreateOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobResponse>
+  ): void;
+  create(
+    jobName: string,
+    resourceGroupName: string,
+    body: Models.PutJobParameters,
+    options?: Models.JobsCreateOptionalParams | msRest.ServiceCallback<Models.JobResponse>,
+    callback?: msRest.ServiceCallback<Models.JobResponse>
+  ): Promise<Models.JobsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         jobName,
@@ -193,7 +285,8 @@ export class Jobs {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.JobsCreateResponse>;
+      callback
+    ) as Promise<Models.JobsCreateResponse>;
   }
 
   /**
@@ -204,14 +297,22 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(jobName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    jobName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param jobName The name of the import/export job.
    * @param resourceGroupName The resource group name uniquely identifies the resource group within
    * the user subscription.
    * @param callback The callback
    */
-  deleteMethod(jobName: string, resourceGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    jobName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param jobName The name of the import/export job.
    * @param resourceGroupName The resource group name uniquely identifies the resource group within
@@ -219,8 +320,18 @@ export class Jobs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(jobName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(jobName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    jobName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    jobName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         jobName,
@@ -228,7 +339,8 @@ export class Jobs {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -237,26 +349,41 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListJobsResponse>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ListJobsResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListJobsResponse>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListJobsResponse>, callback?: msRest.ServiceCallback<Models.ListJobsResponse>): Promise<Models.JobsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListJobsResponse>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListJobsResponse>,
+    callback?: msRest.ServiceCallback<Models.ListJobsResponse>
+  ): Promise<Models.JobsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.JobsListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.JobsListBySubscriptionNextResponse>;
   }
 
   /**
@@ -265,26 +392,41 @@ export class Jobs {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListJobsResponse>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ListJobsResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListJobsResponse>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListJobsResponse>, callback?: msRest.ServiceCallback<Models.ListJobsResponse>): Promise<Models.JobsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListJobsResponse>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListJobsResponse>,
+    callback?: msRest.ServiceCallback<Models.ListJobsResponse>
+  ): Promise<Models.JobsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.JobsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.JobsListByResourceGroupNextResponse>;
   }
 }
 
@@ -293,17 +435,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ImportExport/jobs",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListJobsResponse
@@ -317,19 +451,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListJobsResponse
@@ -343,18 +469,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}",
-  urlParameters: [
-    Parameters.jobName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}",
+  urlParameters: [Parameters.jobName, Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobResponse
@@ -368,18 +487,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}",
-  urlParameters: [
-    Parameters.jobName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}",
+  urlParameters: [Parameters.jobName, Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -400,19 +512,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}",
-  urlParameters: [
-    Parameters.jobName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientTenantId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}",
+  urlParameters: [Parameters.jobName, Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage, Parameters.clientTenantId],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -436,18 +540,11 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}",
-  urlParameters: [
-    Parameters.jobName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}",
+  urlParameters: [Parameters.jobName, Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -461,12 +558,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListJobsResponse
@@ -482,12 +575,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListJobsResponse

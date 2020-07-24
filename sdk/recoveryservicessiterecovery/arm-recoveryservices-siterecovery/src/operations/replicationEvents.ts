@@ -32,7 +32,9 @@ export class ReplicationEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationEventsListResponse>
    */
-  list(options?: Models.ReplicationEventsListOptionalParams): Promise<Models.ReplicationEventsListResponse>;
+  list(
+    options?: Models.ReplicationEventsListOptionalParams
+  ): Promise<Models.ReplicationEventsListResponse>;
   /**
    * @param callback The callback
    */
@@ -41,14 +43,23 @@ export class ReplicationEvents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ReplicationEventsListOptionalParams, callback: msRest.ServiceCallback<Models.EventCollection>): void;
-  list(options?: Models.ReplicationEventsListOptionalParams | msRest.ServiceCallback<Models.EventCollection>, callback?: msRest.ServiceCallback<Models.EventCollection>): Promise<Models.ReplicationEventsListResponse> {
+  list(
+    options: Models.ReplicationEventsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.EventCollection>
+  ): void;
+  list(
+    options?:
+      | Models.ReplicationEventsListOptionalParams
+      | msRest.ServiceCallback<Models.EventCollection>,
+    callback?: msRest.ServiceCallback<Models.EventCollection>
+  ): Promise<Models.ReplicationEventsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ReplicationEventsListResponse>;
+      callback
+    ) as Promise<Models.ReplicationEventsListResponse>;
   }
 
   /**
@@ -58,7 +69,10 @@ export class ReplicationEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationEventsGetResponse>
    */
-  get(eventName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationEventsGetResponse>;
+  get(
+    eventName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationEventsGetResponse>;
   /**
    * @param eventName The name of the Azure Site Recovery event.
    * @param callback The callback
@@ -69,15 +83,24 @@ export class ReplicationEvents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(eventName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Event>): void;
-  get(eventName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Event>, callback?: msRest.ServiceCallback<Models.Event>): Promise<Models.ReplicationEventsGetResponse> {
+  get(
+    eventName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Event>
+  ): void;
+  get(
+    eventName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Event>,
+    callback?: msRest.ServiceCallback<Models.Event>
+  ): Promise<Models.ReplicationEventsGetResponse> {
     return this.client.sendOperationRequest(
       {
         eventName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReplicationEventsGetResponse>;
+      callback
+    ) as Promise<Models.ReplicationEventsGetResponse>;
   }
 
   /**
@@ -87,7 +110,10 @@ export class ReplicationEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationEventsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationEventsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationEventsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -98,15 +124,24 @@ export class ReplicationEvents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventCollection>, callback?: msRest.ServiceCallback<Models.EventCollection>): Promise<Models.ReplicationEventsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventCollection>,
+    callback?: msRest.ServiceCallback<Models.EventCollection>
+  ): Promise<Models.ReplicationEventsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ReplicationEventsListNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationEventsListNextResponse>;
   }
 }
 
@@ -114,19 +149,11 @@ export class ReplicationEvents {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents",
+  urlParameters: [Parameters.resourceName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventCollection
@@ -140,19 +167,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents/{eventName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents/{eventName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.eventName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Event
@@ -168,12 +192,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventCollection

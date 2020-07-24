@@ -11,10 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 export const allowIndexDowntime: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "allowIndexDowntime"
-  ],
+  parameterPath: ["options", "allowIndexDowntime"],
   mapper: {
     serializedName: "allowIndexDowntime",
     type: {
@@ -47,7 +44,7 @@ export const endpoint: coreHttp.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -55,10 +52,7 @@ export const endpoint: coreHttp.OperationURLParameter = {
   skipEncoding: true
 };
 export const ifMatch: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifMatch"
-  ],
+  parameterPath: ["options", "ifMatch"],
   mapper: {
     serializedName: "If-Match",
     type: {
@@ -67,10 +61,7 @@ export const ifMatch: coreHttp.OperationParameter = {
   }
 };
 export const ifNoneMatch: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifNoneMatch"
-  ],
+  parameterPath: ["options", "ifNoneMatch"],
   mapper: {
     serializedName: "If-None-Match",
     type: {
@@ -104,17 +95,14 @@ export const prefer: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "Prefer",
-    defaultValue: 'return=representation',
+    defaultValue: "return=representation",
     type: {
       name: "String"
     }
   }
 };
 export const select: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "select"
-  ],
+  parameterPath: ["options", "select"],
   mapper: {
     serializedName: "$select",
     type: {

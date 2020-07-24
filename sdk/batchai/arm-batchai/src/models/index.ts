@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing UsageName.
@@ -2420,7 +2419,6 @@ export interface BatchAIManagementClientOptions extends AzureServiceClientOption
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the OperationListResult.
@@ -2575,7 +2573,7 @@ export interface ClusterListResult extends Array<Cluster> {
  * @readonly
  * @enum {string}
  */
-export type UsageUnit = 'Count';
+export type UsageUnit = "Count";
 
 /**
  * Defines values for CachingType.
@@ -2583,7 +2581,7 @@ export type UsageUnit = 'Count';
  * @readonly
  * @enum {string}
  */
-export type CachingType = 'none' | 'readonly' | 'readwrite';
+export type CachingType = "none" | "readonly" | "readwrite";
 
 /**
  * Defines values for StorageAccountType.
@@ -2591,7 +2589,7 @@ export type CachingType = 'none' | 'readonly' | 'readwrite';
  * @readonly
  * @enum {string}
  */
-export type StorageAccountType = 'Standard_LRS' | 'Premium_LRS';
+export type StorageAccountType = "Standard_LRS" | "Premium_LRS";
 
 /**
  * Defines values for FileServerProvisioningState.
@@ -2599,7 +2597,12 @@ export type StorageAccountType = 'Standard_LRS' | 'Premium_LRS';
  * @readonly
  * @enum {string}
  */
-export type FileServerProvisioningState = 'creating' | 'updating' | 'deleting' | 'succeeded' | 'failed';
+export type FileServerProvisioningState =
+  | "creating"
+  | "updating"
+  | "deleting"
+  | "succeeded"
+  | "failed";
 
 /**
  * Defines values for VmPriority.
@@ -2607,7 +2610,7 @@ export type FileServerProvisioningState = 'creating' | 'updating' | 'deleting' |
  * @readonly
  * @enum {string}
  */
-export type VmPriority = 'dedicated' | 'lowpriority';
+export type VmPriority = "dedicated" | "lowpriority";
 
 /**
  * Defines values for DeallocationOption.
@@ -2615,7 +2618,7 @@ export type VmPriority = 'dedicated' | 'lowpriority';
  * @readonly
  * @enum {string}
  */
-export type DeallocationOption = 'requeue' | 'terminate' | 'waitforjobcompletion';
+export type DeallocationOption = "requeue" | "terminate" | "waitforjobcompletion";
 
 /**
  * Defines values for ProvisioningState.
@@ -2623,7 +2626,7 @@ export type DeallocationOption = 'requeue' | 'terminate' | 'waitforjobcompletion
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'creating' | 'succeeded' | 'failed' | 'deleting';
+export type ProvisioningState = "creating" | "succeeded" | "failed" | "deleting";
 
 /**
  * Defines values for AllocationState.
@@ -2631,7 +2634,7 @@ export type ProvisioningState = 'creating' | 'succeeded' | 'failed' | 'deleting'
  * @readonly
  * @enum {string}
  */
-export type AllocationState = 'steady' | 'resizing';
+export type AllocationState = "steady" | "resizing";
 
 /**
  * Defines values for JobPriority.
@@ -2639,7 +2642,7 @@ export type AllocationState = 'steady' | 'resizing';
  * @readonly
  * @enum {string}
  */
-export type JobPriority = 'low' | 'normal' | 'high';
+export type JobPriority = "low" | "normal" | "high";
 
 /**
  * Defines values for ToolType.
@@ -2648,7 +2651,15 @@ export type JobPriority = 'low' | 'normal' | 'high';
  * @readonly
  * @enum {string}
  */
-export type ToolType = 'cntk' | 'tensorflow' | 'caffe' | 'caffe2' | 'chainer' | 'horovod' | 'custommpi' | 'custom';
+export type ToolType =
+  | "cntk"
+  | "tensorflow"
+  | "caffe"
+  | "caffe2"
+  | "chainer"
+  | "horovod"
+  | "custommpi"
+  | "custom";
 
 /**
  * Defines values for ExecutionState.
@@ -2656,7 +2667,7 @@ export type ToolType = 'cntk' | 'tensorflow' | 'caffe' | 'caffe2' | 'chainer' | 
  * @readonly
  * @enum {string}
  */
-export type ExecutionState = 'queued' | 'running' | 'terminating' | 'succeeded' | 'failed';
+export type ExecutionState = "queued" | "running" | "terminating" | "succeeded" | "failed";
 
 /**
  * Defines values for FileType.
@@ -2664,7 +2675,7 @@ export type ExecutionState = 'queued' | 'running' | 'terminating' | 'succeeded' 
  * @readonly
  * @enum {string}
  */
-export type FileType = 'file' | 'directory';
+export type FileType = "file" | "directory";
 
 /**
  * Contains response data for the list operation.
@@ -2674,15 +2685,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2693,15 +2704,15 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2712,15 +2723,15 @@ export type UsagesListResponse = ListUsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListUsagesResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListUsagesResult;
+  };
 };
 
 /**
@@ -2731,15 +2742,15 @@ export type UsagesListNextResponse = ListUsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListUsagesResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListUsagesResult;
+  };
 };
 
 /**
@@ -2750,15 +2761,15 @@ export type WorkspacesListResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -2769,15 +2780,15 @@ export type WorkspacesListByResourceGroupResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -2788,15 +2799,15 @@ export type WorkspacesCreateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -2807,15 +2818,15 @@ export type WorkspacesUpdateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -2826,15 +2837,15 @@ export type WorkspacesGetResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -2845,15 +2856,15 @@ export type WorkspacesBeginCreateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -2864,15 +2875,15 @@ export type WorkspacesListNextResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -2883,15 +2894,15 @@ export type WorkspacesListByResourceGroupNextResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -2902,15 +2913,15 @@ export type ExperimentsListByWorkspaceResponse = ExperimentListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExperimentListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExperimentListResult;
+  };
 };
 
 /**
@@ -2921,15 +2932,15 @@ export type ExperimentsCreateResponse = Experiment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Experiment;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Experiment;
+  };
 };
 
 /**
@@ -2940,15 +2951,15 @@ export type ExperimentsGetResponse = Experiment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Experiment;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Experiment;
+  };
 };
 
 /**
@@ -2959,15 +2970,15 @@ export type ExperimentsBeginCreateResponse = Experiment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Experiment;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Experiment;
+  };
 };
 
 /**
@@ -2978,15 +2989,15 @@ export type ExperimentsListByWorkspaceNextResponse = ExperimentListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExperimentListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExperimentListResult;
+  };
 };
 
 /**
@@ -2997,15 +3008,15 @@ export type JobsListByExperimentResponse = JobListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobListResult;
+  };
 };
 
 /**
@@ -3016,15 +3027,15 @@ export type JobsCreateResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -3035,15 +3046,15 @@ export type JobsGetResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -3054,15 +3065,15 @@ export type JobsListOutputFilesResponse = FileListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FileListResult;
+  };
 };
 
 /**
@@ -3073,15 +3084,15 @@ export type JobsListRemoteLoginInformationResponse = RemoteLoginInformationListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemoteLoginInformationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemoteLoginInformationListResult;
+  };
 };
 
 /**
@@ -3092,15 +3103,15 @@ export type JobsBeginCreateResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -3111,15 +3122,15 @@ export type JobsListByExperimentNextResponse = JobListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobListResult;
+  };
 };
 
 /**
@@ -3130,15 +3141,15 @@ export type JobsListOutputFilesNextResponse = FileListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FileListResult;
+  };
 };
 
 /**
@@ -3149,15 +3160,15 @@ export type JobsListRemoteLoginInformationNextResponse = RemoteLoginInformationL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemoteLoginInformationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemoteLoginInformationListResult;
+  };
 };
 
 /**
@@ -3168,15 +3179,15 @@ export type FileServersCreateResponse = FileServer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileServer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FileServer;
+  };
 };
 
 /**
@@ -3187,15 +3198,15 @@ export type FileServersGetResponse = FileServer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileServer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FileServer;
+  };
 };
 
 /**
@@ -3206,15 +3217,15 @@ export type FileServersListByWorkspaceResponse = FileServerListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileServerListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FileServerListResult;
+  };
 };
 
 /**
@@ -3225,15 +3236,15 @@ export type FileServersBeginCreateResponse = FileServer & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileServer;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FileServer;
+  };
 };
 
 /**
@@ -3244,15 +3255,15 @@ export type FileServersListByWorkspaceNextResponse = FileServerListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FileServerListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FileServerListResult;
+  };
 };
 
 /**
@@ -3263,15 +3274,15 @@ export type ClustersCreateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -3282,15 +3293,15 @@ export type ClustersUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -3301,15 +3312,15 @@ export type ClustersGetResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -3320,15 +3331,15 @@ export type ClustersListRemoteLoginInformationResponse = RemoteLoginInformationL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemoteLoginInformationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemoteLoginInformationListResult;
+  };
 };
 
 /**
@@ -3339,15 +3350,15 @@ export type ClustersListByWorkspaceResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterListResult;
+  };
 };
 
 /**
@@ -3358,15 +3369,15 @@ export type ClustersBeginCreateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -3377,15 +3388,15 @@ export type ClustersListRemoteLoginInformationNextResponse = RemoteLoginInformat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RemoteLoginInformationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RemoteLoginInformationListResult;
+  };
 };
 
 /**
@@ -3396,13 +3407,13 @@ export type ClustersListByWorkspaceNextResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterListResult;
+  };
 };

@@ -351,10 +351,7 @@ export const IpFilterRule: msRest.CompositeMapper = {
         serializedName: "action",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Accept",
-            "Reject"
-          ]
+          allowedValues: ["Accept", "Reject"]
         }
       },
       ipMask: {
@@ -741,7 +738,7 @@ export const FallbackRouteProperties: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "source",
-        defaultValue: 'DeviceMessages',
+        defaultValue: "DeviceMessages",
         type: {
           name: "String"
         }
@@ -1162,11 +1159,7 @@ export const IotHubSkuInfo: msRest.CompositeMapper = {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Free",
-            "Standard",
-            "Basic"
-          ]
+          allowedValues: ["Free", "Standard", "Basic"]
         }
       },
       capacity: {
@@ -1486,14 +1479,7 @@ export const JobResponse: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "unknown",
-            "enqueued",
-            "running",
-            "completed",
-            "failed",
-            "cancelled"
-          ]
+          allowedValues: ["unknown", "enqueued", "running", "completed", "failed", "cancelled"]
         }
       },
       failureReason: {
@@ -1557,11 +1543,7 @@ export const IotHubCapacity: msRest.CompositeMapper = {
         serializedName: "scaleType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Automatic",
-            "Manual",
-            "None"
-          ]
+          allowedValues: ["Automatic", "Manual", "None"]
         }
       }
     }
@@ -1706,10 +1688,7 @@ export const IotHubNameAvailabilityInfo: msRest.CompositeMapper = {
         serializedName: "reason",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "AlreadyExists"
-          ]
+          allowedValues: ["Invalid", "AlreadyExists"]
         }
       },
       message: {

@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing Project.
@@ -1661,7 +1660,6 @@ export interface AssessedMachinesGetHeaders {
   xMsRequestId: string;
 }
 
-
 /**
  * @interface
  * An interface representing the ProjectResultList.
@@ -1669,8 +1667,7 @@ export interface AssessedMachinesGetHeaders {
  *
  * @extends Array<Project>
  */
-export interface ProjectResultList extends Array<Project> {
-}
+export interface ProjectResultList extends Array<Project> {}
 
 /**
  * @interface
@@ -1679,8 +1676,7 @@ export interface ProjectResultList extends Array<Project> {
  *
  * @extends Array<Machine>
  */
-export interface MachineResultList extends Array<Machine> {
-}
+export interface MachineResultList extends Array<Machine> {}
 
 /**
  * @interface
@@ -1689,8 +1685,7 @@ export interface MachineResultList extends Array<Machine> {
  *
  * @extends Array<Group>
  */
-export interface GroupResultList extends Array<Group> {
-}
+export interface GroupResultList extends Array<Group> {}
 
 /**
  * @interface
@@ -1699,8 +1694,7 @@ export interface GroupResultList extends Array<Group> {
  *
  * @extends Array<Assessment>
  */
-export interface AssessmentResultList extends Array<Assessment> {
-}
+export interface AssessmentResultList extends Array<Assessment> {}
 
 /**
  * @interface
@@ -1709,8 +1703,7 @@ export interface AssessmentResultList extends Array<Assessment> {
  *
  * @extends Array<AssessedMachine>
  */
-export interface AssessedMachineResultList extends Array<AssessedMachine> {
-}
+export interface AssessedMachineResultList extends Array<AssessedMachine> {}
 
 /**
  * @interface
@@ -1719,8 +1712,7 @@ export interface AssessedMachineResultList extends Array<AssessedMachine> {
  *
  * @extends Array<Operation>
  */
-export interface OperationResultList extends Array<Operation> {
-}
+export interface OperationResultList extends Array<Operation> {}
 
 /**
  * Defines values for DiscoveryStatus.
@@ -1728,7 +1720,7 @@ export interface OperationResultList extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type DiscoveryStatus = 'Unknown' | 'NotStarted' | 'InProgress' | 'Completed';
+export type DiscoveryStatus = "Unknown" | "NotStarted" | "InProgress" | "Completed";
 
 /**
  * Defines values for ProvisioningState.
@@ -1736,7 +1728,13 @@ export type DiscoveryStatus = 'Unknown' | 'NotStarted' | 'InProgress' | 'Complet
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Accepted' | 'Creating' | 'Deleting' | 'Failed' | 'Moving' | 'Succeeded';
+export type ProvisioningState =
+  | "Accepted"
+  | "Creating"
+  | "Deleting"
+  | "Failed"
+  | "Moving"
+  | "Succeeded";
 
 /**
  * Defines values for AzureLocation.
@@ -1749,7 +1747,38 @@ export type ProvisioningState = 'Accepted' | 'Creating' | 'Deleting' | 'Failed' 
  * @readonly
  * @enum {string}
  */
-export type AzureLocation = 'Unknown' | 'EastAsia' | 'SoutheastAsia' | 'AustraliaEast' | 'AustraliaSoutheast' | 'BrazilSouth' | 'CanadaCentral' | 'CanadaEast' | 'WestEurope' | 'NorthEurope' | 'CentralIndia' | 'SouthIndia' | 'WestIndia' | 'JapanEast' | 'JapanWest' | 'KoreaCentral' | 'KoreaSouth' | 'UkWest' | 'UkSouth' | 'NorthCentralUs' | 'EastUs' | 'WestUs2' | 'SouthCentralUs' | 'CentralUs' | 'EastUs2' | 'WestUs' | 'WestCentralUs' | 'GermanyCentral' | 'GermanyNortheast' | 'ChinaNorth' | 'ChinaEast';
+export type AzureLocation =
+  | "Unknown"
+  | "EastAsia"
+  | "SoutheastAsia"
+  | "AustraliaEast"
+  | "AustraliaSoutheast"
+  | "BrazilSouth"
+  | "CanadaCentral"
+  | "CanadaEast"
+  | "WestEurope"
+  | "NorthEurope"
+  | "CentralIndia"
+  | "SouthIndia"
+  | "WestIndia"
+  | "JapanEast"
+  | "JapanWest"
+  | "KoreaCentral"
+  | "KoreaSouth"
+  | "UkWest"
+  | "UkSouth"
+  | "NorthCentralUs"
+  | "EastUs"
+  | "WestUs2"
+  | "SouthCentralUs"
+  | "CentralUs"
+  | "EastUs2"
+  | "WestUs"
+  | "WestCentralUs"
+  | "GermanyCentral"
+  | "GermanyNortheast"
+  | "ChinaNorth"
+  | "ChinaEast";
 
 /**
  * Defines values for AzureOfferCode.
@@ -1763,7 +1792,45 @@ export type AzureLocation = 'Unknown' | 'EastAsia' | 'SoutheastAsia' | 'Australi
  * @readonly
  * @enum {string}
  */
-export type AzureOfferCode = 'Unknown' | 'MSAZR0003P' | 'MSAZR0044P' | 'MSAZR0059P' | 'MSAZR0060P' | 'MSAZR0062P' | 'MSAZR0063P' | 'MSAZR0064P' | 'MSAZR0029P' | 'MSAZR0022P' | 'MSAZR0023P' | 'MSAZR0148P' | 'MSAZR0025P' | 'MSAZR0036P' | 'MSAZR0120P' | 'MSAZR0121P' | 'MSAZR0122P' | 'MSAZR0123P' | 'MSAZR0124P' | 'MSAZR0125P' | 'MSAZR0126P' | 'MSAZR0127P' | 'MSAZR0128P' | 'MSAZR0129P' | 'MSAZR0130P' | 'MSAZR0111P' | 'MSAZR0144P' | 'MSAZR0149P' | 'MSMCAZR0044P' | 'MSMCAZR0059P' | 'MSMCAZR0060P' | 'MSMCAZR0063P' | 'MSMCAZR0120P' | 'MSMCAZR0121P' | 'MSMCAZR0125P' | 'MSMCAZR0128P' | 'MSAZRDE0003P' | 'MSAZRDE0044P';
+export type AzureOfferCode =
+  | "Unknown"
+  | "MSAZR0003P"
+  | "MSAZR0044P"
+  | "MSAZR0059P"
+  | "MSAZR0060P"
+  | "MSAZR0062P"
+  | "MSAZR0063P"
+  | "MSAZR0064P"
+  | "MSAZR0029P"
+  | "MSAZR0022P"
+  | "MSAZR0023P"
+  | "MSAZR0148P"
+  | "MSAZR0025P"
+  | "MSAZR0036P"
+  | "MSAZR0120P"
+  | "MSAZR0121P"
+  | "MSAZR0122P"
+  | "MSAZR0123P"
+  | "MSAZR0124P"
+  | "MSAZR0125P"
+  | "MSAZR0126P"
+  | "MSAZR0127P"
+  | "MSAZR0128P"
+  | "MSAZR0129P"
+  | "MSAZR0130P"
+  | "MSAZR0111P"
+  | "MSAZR0144P"
+  | "MSAZR0149P"
+  | "MSMCAZR0044P"
+  | "MSMCAZR0059P"
+  | "MSMCAZR0060P"
+  | "MSMCAZR0063P"
+  | "MSMCAZR0120P"
+  | "MSMCAZR0121P"
+  | "MSMCAZR0125P"
+  | "MSMCAZR0128P"
+  | "MSAZRDE0003P"
+  | "MSAZRDE0044P";
 
 /**
  * Defines values for AzurePricingTier.
@@ -1771,7 +1838,7 @@ export type AzureOfferCode = 'Unknown' | 'MSAZR0003P' | 'MSAZR0044P' | 'MSAZR005
  * @readonly
  * @enum {string}
  */
-export type AzurePricingTier = 'Standard' | 'Basic';
+export type AzurePricingTier = "Standard" | "Basic";
 
 /**
  * Defines values for AzureStorageRedundancy.
@@ -1780,7 +1847,12 @@ export type AzurePricingTier = 'Standard' | 'Basic';
  * @readonly
  * @enum {string}
  */
-export type AzureStorageRedundancy = 'Unknown' | 'LocallyRedundant' | 'ZoneRedundant' | 'GeoRedundant' | 'ReadAccessGeoRedundant';
+export type AzureStorageRedundancy =
+  | "Unknown"
+  | "LocallyRedundant"
+  | "ZoneRedundant"
+  | "GeoRedundant"
+  | "ReadAccessGeoRedundant";
 
 /**
  * Defines values for Percentile.
@@ -1788,7 +1860,7 @@ export type AzureStorageRedundancy = 'Unknown' | 'LocallyRedundant' | 'ZoneRedun
  * @readonly
  * @enum {string}
  */
-export type Percentile = 'Percentile50' | 'Percentile90' | 'Percentile95' | 'Percentile99';
+export type Percentile = "Percentile50" | "Percentile90" | "Percentile95" | "Percentile99";
 
 /**
  * Defines values for TimeRange.
@@ -1796,7 +1868,7 @@ export type Percentile = 'Percentile50' | 'Percentile90' | 'Percentile95' | 'Per
  * @readonly
  * @enum {string}
  */
-export type TimeRange = 'Day' | 'Week' | 'Month';
+export type TimeRange = "Day" | "Week" | "Month";
 
 /**
  * Defines values for AssessmentStage.
@@ -1804,7 +1876,7 @@ export type TimeRange = 'Day' | 'Week' | 'Month';
  * @readonly
  * @enum {string}
  */
-export type AssessmentStage = 'InProgress' | 'UnderReview' | 'Approved';
+export type AssessmentStage = "InProgress" | "UnderReview" | "Approved";
 
 /**
  * Defines values for Currency.
@@ -1814,7 +1886,33 @@ export type AssessmentStage = 'InProgress' | 'UnderReview' | 'Approved';
  * @readonly
  * @enum {string}
  */
-export type Currency = 'Unknown' | 'USD' | 'DKK' | 'CAD' | 'IDR' | 'JPY' | 'KRW' | 'NZD' | 'NOK' | 'RUB' | 'SAR' | 'ZAR' | 'SEK' | 'TRY' | 'GBP' | 'MXN' | 'MYR' | 'INR' | 'HKD' | 'BRL' | 'TWD' | 'EUR' | 'CHF' | 'ARS' | 'AUD' | 'CNY';
+export type Currency =
+  | "Unknown"
+  | "USD"
+  | "DKK"
+  | "CAD"
+  | "IDR"
+  | "JPY"
+  | "KRW"
+  | "NZD"
+  | "NOK"
+  | "RUB"
+  | "SAR"
+  | "ZAR"
+  | "SEK"
+  | "TRY"
+  | "GBP"
+  | "MXN"
+  | "MYR"
+  | "INR"
+  | "HKD"
+  | "BRL"
+  | "TWD"
+  | "EUR"
+  | "CHF"
+  | "ARS"
+  | "AUD"
+  | "CNY";
 
 /**
  * Defines values for AzureHybridUseBenefit.
@@ -1822,7 +1920,7 @@ export type Currency = 'Unknown' | 'USD' | 'DKK' | 'CAD' | 'IDR' | 'JPY' | 'KRW'
  * @readonly
  * @enum {string}
  */
-export type AzureHybridUseBenefit = 'Unknown' | 'Yes' | 'No';
+export type AzureHybridUseBenefit = "Unknown" | "Yes" | "No";
 
 /**
  * Defines values for AssessmentSizingCriterion.
@@ -1830,7 +1928,7 @@ export type AzureHybridUseBenefit = 'Unknown' | 'Yes' | 'No';
  * @readonly
  * @enum {string}
  */
-export type AssessmentSizingCriterion = 'PerformanceBased' | 'AsOnPremises';
+export type AssessmentSizingCriterion = "PerformanceBased" | "AsOnPremises";
 
 /**
  * Defines values for AssessmentStatus.
@@ -1838,7 +1936,7 @@ export type AssessmentSizingCriterion = 'PerformanceBased' | 'AsOnPremises';
  * @readonly
  * @enum {string}
  */
-export type AssessmentStatus = 'Created' | 'Updated' | 'Running' | 'Completed' | 'Invalid';
+export type AssessmentStatus = "Created" | "Updated" | "Running" | "Completed" | "Invalid";
 
 /**
  * Defines values for MachineBootType.
@@ -1846,7 +1944,7 @@ export type AssessmentStatus = 'Created' | 'Updated' | 'Running' | 'Completed' |
  * @readonly
  * @enum {string}
  */
-export type MachineBootType = 'Unknown' | 'EFI' | 'BIOS';
+export type MachineBootType = "Unknown" | "EFI" | "BIOS";
 
 /**
  * Defines values for AzureDiskType.
@@ -1854,7 +1952,7 @@ export type MachineBootType = 'Unknown' | 'EFI' | 'BIOS';
  * @readonly
  * @enum {string}
  */
-export type AzureDiskType = 'Unknown' | 'Standard' | 'Premium';
+export type AzureDiskType = "Unknown" | "Standard" | "Premium";
 
 /**
  * Defines values for AzureDiskSize.
@@ -1864,7 +1962,22 @@ export type AzureDiskType = 'Unknown' | 'Standard' | 'Premium';
  * @readonly
  * @enum {string}
  */
-export type AzureDiskSize = 'Unknown' | 'Standard_S4' | 'Standard_S6' | 'Standard_S10' | 'Standard_S20' | 'Standard_S30' | 'Standard_S40' | 'Standard_S50' | 'Premium_P4' | 'Premium_P6' | 'Premium_P10' | 'Premium_P20' | 'Premium_P30' | 'Premium_P40' | 'Premium_P50';
+export type AzureDiskSize =
+  | "Unknown"
+  | "Standard_S4"
+  | "Standard_S6"
+  | "Standard_S10"
+  | "Standard_S20"
+  | "Standard_S30"
+  | "Standard_S40"
+  | "Standard_S50"
+  | "Premium_P4"
+  | "Premium_P6"
+  | "Premium_P10"
+  | "Premium_P20"
+  | "Premium_P30"
+  | "Premium_P40"
+  | "Premium_P50";
 
 /**
  * Defines values for CloudSuitability.
@@ -1873,7 +1986,12 @@ export type AzureDiskSize = 'Unknown' | 'Standard_S4' | 'Standard_S6' | 'Standar
  * @readonly
  * @enum {string}
  */
-export type CloudSuitability = 'Unknown' | 'NotSuitable' | 'Suitable' | 'ConditionallySuitable' | 'ReadinessUnknown';
+export type CloudSuitability =
+  | "Unknown"
+  | "NotSuitable"
+  | "Suitable"
+  | "ConditionallySuitable"
+  | "ReadinessUnknown";
 
 /**
  * Defines values for AzureDiskSuitabilityExplanation.
@@ -1884,7 +2002,15 @@ export type CloudSuitability = 'Unknown' | 'NotSuitable' | 'Suitable' | 'Conditi
  * @readonly
  * @enum {string}
  */
-export type AzureDiskSuitabilityExplanation = 'Unknown' | 'NotApplicable' | 'DiskSizeGreaterThanSupported' | 'NoSuitableDiskSizeForIops' | 'NoSuitableDiskSizeForThroughput' | 'NoDiskSizeFoundInSelectedLocation' | 'NoDiskSizeFoundForSelectedRedundancy' | 'InternalErrorOccurredForDiskEvaluation';
+export type AzureDiskSuitabilityExplanation =
+  | "Unknown"
+  | "NotApplicable"
+  | "DiskSizeGreaterThanSupported"
+  | "NoSuitableDiskSizeForIops"
+  | "NoSuitableDiskSizeForThroughput"
+  | "NoDiskSizeFoundInSelectedLocation"
+  | "NoDiskSizeFoundForSelectedRedundancy"
+  | "InternalErrorOccurredForDiskEvaluation";
 
 /**
  * Defines values for AzureNetworkAdapterSuitabilityExplanation.
@@ -1892,7 +2018,10 @@ export type AzureDiskSuitabilityExplanation = 'Unknown' | 'NotApplicable' | 'Dis
  * @readonly
  * @enum {string}
  */
-export type AzureNetworkAdapterSuitabilityExplanation = 'Unknown' | 'NotApplicable' | 'InternalErrorOccured';
+export type AzureNetworkAdapterSuitabilityExplanation =
+  | "Unknown"
+  | "NotApplicable"
+  | "InternalErrorOccured";
 
 /**
  * Defines values for AzureVmSize.
@@ -1916,7 +2045,98 @@ export type AzureNetworkAdapterSuitabilityExplanation = 'Unknown' | 'NotApplicab
  * @readonly
  * @enum {string}
  */
-export type AzureVmSize = 'Unknown' | 'Basic_A0' | 'Basic_A1' | 'Basic_A2' | 'Basic_A3' | 'Basic_A4' | 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A9' | 'Standard_A10' | 'Standard_A11' | 'Standard_A1_v2' | 'Standard_A2_v2' | 'Standard_A4_v2' | 'Standard_A8_v2' | 'Standard_A2m_v2' | 'Standard_A4m_v2' | 'Standard_A8m_v2' | 'Standard_D1' | 'Standard_D2' | 'Standard_D3' | 'Standard_D4' | 'Standard_D11' | 'Standard_D12' | 'Standard_D13' | 'Standard_D14' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_D15_v2' | 'Standard_DS1' | 'Standard_DS2' | 'Standard_DS3' | 'Standard_DS4' | 'Standard_DS11' | 'Standard_DS12' | 'Standard_DS13' | 'Standard_DS14' | 'Standard_DS1_v2' | 'Standard_DS2_v2' | 'Standard_DS3_v2' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_DS11_v2' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_F1' | 'Standard_F2' | 'Standard_F4' | 'Standard_F8' | 'Standard_F16' | 'Standard_F1s' | 'Standard_F2s' | 'Standard_F4s' | 'Standard_F8s' | 'Standard_F16s' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5' | 'Standard_H8' | 'Standard_H16' | 'Standard_H8m' | 'Standard_H16m' | 'Standard_H16r' | 'Standard_H16mr' | 'Standard_L4s' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L32s';
+export type AzureVmSize =
+  | "Unknown"
+  | "Basic_A0"
+  | "Basic_A1"
+  | "Basic_A2"
+  | "Basic_A3"
+  | "Basic_A4"
+  | "Standard_A0"
+  | "Standard_A1"
+  | "Standard_A2"
+  | "Standard_A3"
+  | "Standard_A4"
+  | "Standard_A5"
+  | "Standard_A6"
+  | "Standard_A7"
+  | "Standard_A8"
+  | "Standard_A9"
+  | "Standard_A10"
+  | "Standard_A11"
+  | "Standard_A1_v2"
+  | "Standard_A2_v2"
+  | "Standard_A4_v2"
+  | "Standard_A8_v2"
+  | "Standard_A2m_v2"
+  | "Standard_A4m_v2"
+  | "Standard_A8m_v2"
+  | "Standard_D1"
+  | "Standard_D2"
+  | "Standard_D3"
+  | "Standard_D4"
+  | "Standard_D11"
+  | "Standard_D12"
+  | "Standard_D13"
+  | "Standard_D14"
+  | "Standard_D1_v2"
+  | "Standard_D2_v2"
+  | "Standard_D3_v2"
+  | "Standard_D4_v2"
+  | "Standard_D5_v2"
+  | "Standard_D11_v2"
+  | "Standard_D12_v2"
+  | "Standard_D13_v2"
+  | "Standard_D14_v2"
+  | "Standard_D15_v2"
+  | "Standard_DS1"
+  | "Standard_DS2"
+  | "Standard_DS3"
+  | "Standard_DS4"
+  | "Standard_DS11"
+  | "Standard_DS12"
+  | "Standard_DS13"
+  | "Standard_DS14"
+  | "Standard_DS1_v2"
+  | "Standard_DS2_v2"
+  | "Standard_DS3_v2"
+  | "Standard_DS4_v2"
+  | "Standard_DS5_v2"
+  | "Standard_DS11_v2"
+  | "Standard_DS12_v2"
+  | "Standard_DS13_v2"
+  | "Standard_DS14_v2"
+  | "Standard_DS15_v2"
+  | "Standard_F1"
+  | "Standard_F2"
+  | "Standard_F4"
+  | "Standard_F8"
+  | "Standard_F16"
+  | "Standard_F1s"
+  | "Standard_F2s"
+  | "Standard_F4s"
+  | "Standard_F8s"
+  | "Standard_F16s"
+  | "Standard_G1"
+  | "Standard_G2"
+  | "Standard_G3"
+  | "Standard_G4"
+  | "Standard_G5"
+  | "Standard_GS1"
+  | "Standard_GS2"
+  | "Standard_GS3"
+  | "Standard_GS4"
+  | "Standard_GS5"
+  | "Standard_H8"
+  | "Standard_H16"
+  | "Standard_H8m"
+  | "Standard_H16m"
+  | "Standard_H16r"
+  | "Standard_H16mr"
+  | "Standard_L4s"
+  | "Standard_L8s"
+  | "Standard_L16s"
+  | "Standard_L32s";
 
 /**
  * Defines values for AzureVmSuitabilityExplanation.
@@ -1938,7 +2158,43 @@ export type AzureVmSize = 'Unknown' | 'Basic_A0' | 'Basic_A1' | 'Basic_A2' | 'Ba
  * @readonly
  * @enum {string}
  */
-export type AzureVmSuitabilityExplanation = 'Unknown' | 'NotApplicable' | 'GuestOperatingSystemArchitectureNotSupported' | 'GuestOperatingSystemNotSupported' | 'BootTypeNotSupported' | 'MoreDisksThanSupported' | 'NoSuitableVmSizeFound' | 'OneOrMoreDisksNotSuitable' | 'OneOrMoreAdaptersNotSuitable' | 'InternalErrorOccuredDuringComputeEvaluation' | 'InternalErrorOccuredDuringStorageEvaluation' | 'InternalErrorOccuredDuringNetworkEvaluation' | 'NoVmSizeSupportsStoragePerformance' | 'NoVmSizeSupportsNetworkPerformance' | 'NoVmSizeForSelectedPricingTier' | 'NoVmSizeForSelectedAzureLocation' | 'CheckRedHatLinuxVersion' | 'CheckOpenSuseLinuxVersion' | 'CheckWindowsServer2008R2Version' | 'CheckCentOsVersion' | 'CheckDebianLinuxVersion' | 'CheckSuseLinuxVersion' | 'CheckOracleLinuxVersion' | 'CheckUbuntuLinuxVersion' | 'CheckCoreOsLinuxVersion' | 'WindowsServerVersionConditionallySupported' | 'NoGuestOperatingSystemConditionallySupported' | 'WindowsClientVersionsConditionallySupported' | 'BootTypeUnknown' | 'GuestOperatingSystemUnknown' | 'WindowsServerVersionsSupportedWithCaveat' | 'WindowsOSNoLongerUnderMSSupport' | 'EndorsedWithConditionsLinuxDistributions' | 'UnendorsedLinuxDistributions' | 'NoVmSizeForStandardPricingTier' | 'NoVmSizeForBasicPricingTier';
+export type AzureVmSuitabilityExplanation =
+  | "Unknown"
+  | "NotApplicable"
+  | "GuestOperatingSystemArchitectureNotSupported"
+  | "GuestOperatingSystemNotSupported"
+  | "BootTypeNotSupported"
+  | "MoreDisksThanSupported"
+  | "NoSuitableVmSizeFound"
+  | "OneOrMoreDisksNotSuitable"
+  | "OneOrMoreAdaptersNotSuitable"
+  | "InternalErrorOccuredDuringComputeEvaluation"
+  | "InternalErrorOccuredDuringStorageEvaluation"
+  | "InternalErrorOccuredDuringNetworkEvaluation"
+  | "NoVmSizeSupportsStoragePerformance"
+  | "NoVmSizeSupportsNetworkPerformance"
+  | "NoVmSizeForSelectedPricingTier"
+  | "NoVmSizeForSelectedAzureLocation"
+  | "CheckRedHatLinuxVersion"
+  | "CheckOpenSuseLinuxVersion"
+  | "CheckWindowsServer2008R2Version"
+  | "CheckCentOsVersion"
+  | "CheckDebianLinuxVersion"
+  | "CheckSuseLinuxVersion"
+  | "CheckOracleLinuxVersion"
+  | "CheckUbuntuLinuxVersion"
+  | "CheckCoreOsLinuxVersion"
+  | "WindowsServerVersionConditionallySupported"
+  | "NoGuestOperatingSystemConditionallySupported"
+  | "WindowsClientVersionsConditionallySupported"
+  | "BootTypeUnknown"
+  | "GuestOperatingSystemUnknown"
+  | "WindowsServerVersionsSupportedWithCaveat"
+  | "WindowsOSNoLongerUnderMSSupport"
+  | "EndorsedWithConditionsLinuxDistributions"
+  | "UnendorsedLinuxDistributions"
+  | "NoVmSizeForStandardPricingTier"
+  | "NoVmSizeForBasicPricingTier";
 
 /**
  * Defines values for NameAvailabilityReason.
@@ -1946,7 +2202,7 @@ export type AzureVmSuitabilityExplanation = 'Unknown' | 'NotApplicable' | 'Guest
  * @readonly
  * @enum {string}
  */
-export type NameAvailabilityReason = 'Available' | 'Invalid' | 'AlreadyExists';
+export type NameAvailabilityReason = "Available" | "Invalid" | "AlreadyExists";
 
 /**
  * Contains response data for the checkNameAvailability operation.
@@ -1956,15 +2212,15 @@ export type LocationCheckNameAvailabilityResponse = CheckNameAvailabilityResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResult;
+  };
 };
 
 /**
@@ -1975,25 +2231,26 @@ export type AssessmentOptionsGetResponse = AssessmentOptionsResultList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssessmentOptionsResultList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AssessmentOptionsResultList;
+  };
 };
 
 /**
  * Contains response data for the listBySubscription operation.
  */
-export type ProjectsListBySubscriptionResponse = ProjectResultList & ProjectsListBySubscriptionHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ProjectsListBySubscriptionResponse = ProjectResultList &
+  ProjectsListBySubscriptionHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2007,16 +2264,17 @@ export type ProjectsListBySubscriptionResponse = ProjectResultList & ProjectsLis
        */
       parsedBody: ProjectResultList;
     };
-};
+  };
 
 /**
  * Contains response data for the listByResourceGroup operation.
  */
-export type ProjectsListByResourceGroupResponse = ProjectResultList & ProjectsListByResourceGroupHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ProjectsListByResourceGroupResponse = ProjectResultList &
+  ProjectsListByResourceGroupHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2030,16 +2288,17 @@ export type ProjectsListByResourceGroupResponse = ProjectResultList & ProjectsLi
        */
       parsedBody: ProjectResultList;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type ProjectsGetResponse = Project & ProjectsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ProjectsGetResponse = Project &
+  ProjectsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2053,16 +2312,17 @@ export type ProjectsGetResponse = Project & ProjectsGetHeaders & {
        */
       parsedBody: Project;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
  */
-export type ProjectsCreateResponse = Project & ProjectsCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ProjectsCreateResponse = Project &
+  ProjectsCreateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2076,16 +2336,17 @@ export type ProjectsCreateResponse = Project & ProjectsCreateHeaders & {
        */
       parsedBody: Project;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
  */
-export type ProjectsUpdateResponse = Project & ProjectsUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ProjectsUpdateResponse = Project &
+  ProjectsUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2099,7 +2360,7 @@ export type ProjectsUpdateResponse = Project & ProjectsUpdateHeaders & {
        */
       parsedBody: Project;
     };
-};
+  };
 
 /**
  * Contains response data for the deleteMethod operation.
@@ -2109,21 +2370,22 @@ export type ProjectsDeleteResponse = ProjectsDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ProjectsDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ProjectsDeleteHeaders;
+  };
 };
 
 /**
  * Contains response data for the getKeys operation.
  */
-export type ProjectsGetKeysResponse = ProjectKey & ProjectsGetKeysHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type ProjectsGetKeysResponse = ProjectKey &
+  ProjectsGetKeysHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2137,16 +2399,17 @@ export type ProjectsGetKeysResponse = ProjectKey & ProjectsGetKeysHeaders & {
        */
       parsedBody: ProjectKey;
     };
-};
+  };
 
 /**
  * Contains response data for the listByProject operation.
  */
-export type MachinesListByProjectResponse = MachineResultList & MachinesListByProjectHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type MachinesListByProjectResponse = MachineResultList &
+  MachinesListByProjectHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2160,16 +2423,17 @@ export type MachinesListByProjectResponse = MachineResultList & MachinesListByPr
        */
       parsedBody: MachineResultList;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type MachinesGetResponse = Machine & MachinesGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type MachinesGetResponse = Machine &
+  MachinesGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2183,16 +2447,17 @@ export type MachinesGetResponse = Machine & MachinesGetHeaders & {
        */
       parsedBody: Machine;
     };
-};
+  };
 
 /**
  * Contains response data for the listByProject operation.
  */
-export type GroupsListByProjectResponse = GroupResultList & GroupsListByProjectHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type GroupsListByProjectResponse = GroupResultList &
+  GroupsListByProjectHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2206,16 +2471,17 @@ export type GroupsListByProjectResponse = GroupResultList & GroupsListByProjectH
        */
       parsedBody: GroupResultList;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type GroupsGetResponse = Group & GroupsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type GroupsGetResponse = Group &
+  GroupsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2229,16 +2495,17 @@ export type GroupsGetResponse = Group & GroupsGetHeaders & {
        */
       parsedBody: Group;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
  */
-export type GroupsCreateResponse = Group & GroupsCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type GroupsCreateResponse = Group &
+  GroupsCreateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2252,7 +2519,7 @@ export type GroupsCreateResponse = Group & GroupsCreateHeaders & {
        */
       parsedBody: Group;
     };
-};
+  };
 
 /**
  * Contains response data for the deleteMethod operation.
@@ -2262,21 +2529,22 @@ export type GroupsDeleteResponse = GroupsDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: GroupsDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GroupsDeleteHeaders;
+  };
 };
 
 /**
  * Contains response data for the listByGroup operation.
  */
-export type AssessmentsListByGroupResponse = AssessmentResultList & AssessmentsListByGroupHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type AssessmentsListByGroupResponse = AssessmentResultList &
+  AssessmentsListByGroupHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2290,16 +2558,17 @@ export type AssessmentsListByGroupResponse = AssessmentResultList & AssessmentsL
        */
       parsedBody: AssessmentResultList;
     };
-};
+  };
 
 /**
  * Contains response data for the listByProject operation.
  */
-export type AssessmentsListByProjectResponse = AssessmentResultList & AssessmentsListByProjectHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type AssessmentsListByProjectResponse = AssessmentResultList &
+  AssessmentsListByProjectHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2313,16 +2582,17 @@ export type AssessmentsListByProjectResponse = AssessmentResultList & Assessment
        */
       parsedBody: AssessmentResultList;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type AssessmentsGetResponse = Assessment & AssessmentsGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type AssessmentsGetResponse = Assessment &
+  AssessmentsGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2336,16 +2606,17 @@ export type AssessmentsGetResponse = Assessment & AssessmentsGetHeaders & {
        */
       parsedBody: Assessment;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
  */
-export type AssessmentsCreateResponse = Assessment & AssessmentsCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type AssessmentsCreateResponse = Assessment &
+  AssessmentsCreateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2359,7 +2630,7 @@ export type AssessmentsCreateResponse = Assessment & AssessmentsCreateHeaders & 
        */
       parsedBody: Assessment;
     };
-};
+  };
 
 /**
  * Contains response data for the deleteMethod operation.
@@ -2369,21 +2640,22 @@ export type AssessmentsDeleteResponse = AssessmentsDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: AssessmentsDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: AssessmentsDeleteHeaders;
+  };
 };
 
 /**
  * Contains response data for the getReportDownloadUrl operation.
  */
-export type AssessmentsGetReportDownloadUrlResponse = DownloadUrl & AssessmentsGetReportDownloadUrlHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type AssessmentsGetReportDownloadUrlResponse = DownloadUrl &
+  AssessmentsGetReportDownloadUrlHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2397,16 +2669,17 @@ export type AssessmentsGetReportDownloadUrlResponse = DownloadUrl & AssessmentsG
        */
       parsedBody: DownloadUrl;
     };
-};
+  };
 
 /**
  * Contains response data for the listByAssessment operation.
  */
-export type AssessedMachinesListByAssessmentResponse = AssessedMachineResultList & AssessedMachinesListByAssessmentHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type AssessedMachinesListByAssessmentResponse = AssessedMachineResultList &
+  AssessedMachinesListByAssessmentHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2420,16 +2693,17 @@ export type AssessedMachinesListByAssessmentResponse = AssessedMachineResultList
        */
       parsedBody: AssessedMachineResultList;
     };
-};
+  };
 
 /**
  * Contains response data for the get operation.
  */
-export type AssessedMachinesGetResponse = AssessedMachine & AssessedMachinesGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type AssessedMachinesGetResponse = AssessedMachine &
+  AssessedMachinesGetHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -2443,7 +2717,7 @@ export type AssessedMachinesGetResponse = AssessedMachine & AssessedMachinesGetH
        */
       parsedBody: AssessedMachine;
     };
-};
+  };
 
 /**
  * Contains response data for the list operation.
@@ -2453,13 +2727,13 @@ export type OperationsListResponse = OperationResultList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResultList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationResultList;
+  };
 };

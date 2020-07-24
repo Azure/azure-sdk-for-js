@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ContainerRegistryManagementClientContext } from "./containerRegistryManagementClientContext";
 
-
 class ContainerRegistryManagementClient extends ContainerRegistryManagementClientContext {
   // Operation groups
   exportPipelines: operations.ExportPipelines;
@@ -38,7 +37,11 @@ class ContainerRegistryManagementClient extends ContainerRegistryManagementClien
    * @param subscriptionId The Microsoft Azure subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ContainerRegistryManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ContainerRegistryManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.exportPipelines = new operations.ExportPipelines(this);
     this.registries = new operations.Registries(this);

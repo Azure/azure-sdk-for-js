@@ -46,14 +46,21 @@ export class Services {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServicesListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServicesListResult>, callback?: msRest.ServiceCallback<Models.ServicesListResult>): Promise<Models.ServicesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServicesListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServicesListResult>,
+    callback?: msRest.ServiceCallback<Models.ServicesListResult>
+  ): Promise<Models.ServicesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ServicesListResponse>;
+      callback
+    ) as Promise<Models.ServicesListResponse>;
   }
 
   /**
@@ -62,7 +69,10 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesGetResponse>
    */
-  get(serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServicesGetResponse>;
+  get(
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesGetResponse>;
   /**
    * @param serviceName Name of the Azure service.
    * @param callback The callback
@@ -73,15 +83,24 @@ export class Services {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Service>): void;
-  get(serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Service>, callback?: msRest.ServiceCallback<Models.Service>): Promise<Models.ServicesGetResponse> {
+  get(
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Service>
+  ): void;
+  get(
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Service>,
+    callback?: msRest.ServiceCallback<Models.Service>
+  ): Promise<Models.ServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         serviceName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServicesGetResponse>;
+      callback
+    ) as Promise<Models.ServicesGetResponse>;
   }
 }
 
@@ -90,12 +109,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Support/services",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServicesListResult
@@ -110,15 +125,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Support/services/{serviceName}",
-  urlParameters: [
-    Parameters.serviceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.serviceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Service

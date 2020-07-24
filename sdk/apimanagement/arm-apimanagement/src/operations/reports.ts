@@ -34,14 +34,24 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByApiResponse>
    */
-  listByApi(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByApiOptionalParams): Promise<Models.ReportsListByApiResponse>;
+  listByApi(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: Models.ReportsListByApiOptionalParams
+  ): Promise<Models.ReportsListByApiResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param filter The filter to apply on the operation.
    * @param callback The callback
    */
-  listByApi(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByApi(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -49,8 +59,22 @@ export class Reports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByApi(resourceGroupName: string, serviceName: string, filter: string, options: Models.ReportsListByApiOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByApi(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByApiOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByApiResponse> {
+  listByApi(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options: Models.ReportsListByApiOptionalParams,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listByApi(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?:
+      | Models.ReportsListByApiOptionalParams
+      | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListByApiResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +83,8 @@ export class Reports {
         options
       },
       listByApiOperationSpec,
-      callback) as Promise<Models.ReportsListByApiResponse>;
+      callback
+    ) as Promise<Models.ReportsListByApiResponse>;
   }
 
   /**
@@ -82,7 +107,12 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByUserResponse>
    */
-  listByUser(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByUserOptionalParams): Promise<Models.ReportsListByUserResponse>;
+  listByUser(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: Models.ReportsListByUserOptionalParams
+  ): Promise<Models.ReportsListByUserResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -101,7 +131,12 @@ export class Reports {
    * | </br>| serviceTimeMax | select |     |     | </br>
    * @param callback The callback
    */
-  listByUser(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByUser(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -121,8 +156,22 @@ export class Reports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByUser(resourceGroupName: string, serviceName: string, filter: string, options: Models.ReportsListByUserOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByUser(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByUserOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByUserResponse> {
+  listByUser(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options: Models.ReportsListByUserOptionalParams,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listByUser(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?:
+      | Models.ReportsListByUserOptionalParams
+      | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListByUserResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +180,8 @@ export class Reports {
         options
       },
       listByUserOperationSpec,
-      callback) as Promise<Models.ReportsListByUserResponse>;
+      callback
+    ) as Promise<Models.ReportsListByUserResponse>;
   }
 
   /**
@@ -154,7 +204,12 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByOperationResponse>
    */
-  listByOperation(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByOperationOptionalParams): Promise<Models.ReportsListByOperationResponse>;
+  listByOperation(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: Models.ReportsListByOperationOptionalParams
+  ): Promise<Models.ReportsListByOperationResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -173,7 +228,12 @@ export class Reports {
    * serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param callback The callback
    */
-  listByOperation(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByOperation(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -193,8 +253,22 @@ export class Reports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByOperation(resourceGroupName: string, serviceName: string, filter: string, options: Models.ReportsListByOperationOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByOperation(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByOperationOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByOperationResponse> {
+  listByOperation(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options: Models.ReportsListByOperationOptionalParams,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listByOperation(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?:
+      | Models.ReportsListByOperationOptionalParams
+      | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListByOperationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +277,8 @@ export class Reports {
         options
       },
       listByOperationOperationSpec,
-      callback) as Promise<Models.ReportsListByOperationResponse>;
+      callback
+    ) as Promise<Models.ReportsListByOperationResponse>;
   }
 
   /**
@@ -225,7 +300,12 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByProductResponse>
    */
-  listByProduct(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByProductOptionalParams): Promise<Models.ReportsListByProductResponse>;
+  listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: Models.ReportsListByProductOptionalParams
+  ): Promise<Models.ReportsListByProductResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -243,7 +323,12 @@ export class Reports {
    * serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param callback The callback
    */
-  listByProduct(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -262,8 +347,22 @@ export class Reports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByProduct(resourceGroupName: string, serviceName: string, filter: string, options: Models.ReportsListByProductOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByProduct(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByProductOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByProductResponse> {
+  listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options: Models.ReportsListByProductOptionalParams,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?:
+      | Models.ReportsListByProductOptionalParams
+      | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListByProductResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -272,7 +371,8 @@ export class Reports {
         options
       },
       listByProductOperationSpec,
-      callback) as Promise<Models.ReportsListByProductResponse>;
+      callback
+    ) as Promise<Models.ReportsListByProductResponse>;
   }
 
   /**
@@ -295,7 +395,12 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByGeoResponse>
    */
-  listByGeo(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByGeoOptionalParams): Promise<Models.ReportsListByGeoResponse>;
+  listByGeo(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: Models.ReportsListByGeoOptionalParams
+  ): Promise<Models.ReportsListByGeoResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -314,7 +419,12 @@ export class Reports {
    * | </br>
    * @param callback The callback
    */
-  listByGeo(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByGeo(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -334,8 +444,22 @@ export class Reports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByGeo(resourceGroupName: string, serviceName: string, filter: string, options: Models.ReportsListByGeoOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByGeo(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByGeoOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByGeoResponse> {
+  listByGeo(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options: Models.ReportsListByGeoOptionalParams,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listByGeo(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?:
+      | Models.ReportsListByGeoOptionalParams
+      | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListByGeoResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -344,7 +468,8 @@ export class Reports {
         options
       },
       listByGeoOperationSpec,
-      callback) as Promise<Models.ReportsListByGeoResponse>;
+      callback
+    ) as Promise<Models.ReportsListByGeoResponse>;
   }
 
   /**
@@ -366,7 +491,12 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListBySubscriptionResponse>
    */
-  listBySubscription(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListBySubscriptionOptionalParams): Promise<Models.ReportsListBySubscriptionResponse>;
+  listBySubscription(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: Models.ReportsListBySubscriptionOptionalParams
+  ): Promise<Models.ReportsListBySubscriptionResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -384,7 +514,12 @@ export class Reports {
    * serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param callback The callback
    */
-  listBySubscription(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listBySubscription(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -403,8 +538,22 @@ export class Reports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(resourceGroupName: string, serviceName: string, filter: string, options: Models.ReportsListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listBySubscription(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListBySubscriptionResponse> {
+  listBySubscription(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options: Models.ReportsListBySubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listBySubscription(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?:
+      | Models.ReportsListBySubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -413,7 +562,8 @@ export class Reports {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.ReportsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.ReportsListBySubscriptionResponse>;
   }
 
   /**
@@ -439,7 +589,13 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByTimeResponse>
    */
-  listByTime(resourceGroupName: string, serviceName: string, filter: string, interval: string, options?: Models.ReportsListByTimeOptionalParams): Promise<Models.ReportsListByTimeResponse>;
+  listByTime(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    interval: string,
+    options?: Models.ReportsListByTimeOptionalParams
+  ): Promise<Models.ReportsListByTimeResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -461,7 +617,13 @@ export class Reports {
    * TimeSpan(hours, minutes, seconds)).
    * @param callback The callback
    */
-  listByTime(resourceGroupName: string, serviceName: string, filter: string, interval: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByTime(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    interval: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -484,8 +646,24 @@ export class Reports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTime(resourceGroupName: string, serviceName: string, filter: string, interval: string, options: Models.ReportsListByTimeOptionalParams, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByTime(resourceGroupName: string, serviceName: string, filter: string, interval: string, options?: Models.ReportsListByTimeOptionalParams | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByTimeResponse> {
+  listByTime(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    interval: string,
+    options: Models.ReportsListByTimeOptionalParams,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listByTime(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    interval: string,
+    options?:
+      | Models.ReportsListByTimeOptionalParams
+      | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListByTimeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -495,7 +673,8 @@ export class Reports {
         options
       },
       listByTimeOperationSpec,
-      callback) as Promise<Models.ReportsListByTimeResponse>;
+      callback
+    ) as Promise<Models.ReportsListByTimeResponse>;
   }
 
   /**
@@ -510,7 +689,12 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByRequestResponse>
    */
-  listByRequest(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByRequestOptionalParams): Promise<Models.ReportsListByRequestResponse>;
+  listByRequest(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?: Models.ReportsListByRequestOptionalParams
+  ): Promise<Models.ReportsListByRequestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -521,7 +705,12 @@ export class Reports {
    * filter | eq |     | </br>| subscriptionId | filter | eq |     | </br>
    * @param callback The callback
    */
-  listByRequest(resourceGroupName: string, serviceName: string, filter: string, callback: msRest.ServiceCallback<Models.RequestReportCollection>): void;
+  listByRequest(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.RequestReportCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -533,8 +722,22 @@ export class Reports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByRequest(resourceGroupName: string, serviceName: string, filter: string, options: Models.ReportsListByRequestOptionalParams, callback: msRest.ServiceCallback<Models.RequestReportCollection>): void;
-  listByRequest(resourceGroupName: string, serviceName: string, filter: string, options?: Models.ReportsListByRequestOptionalParams | msRest.ServiceCallback<Models.RequestReportCollection>, callback?: msRest.ServiceCallback<Models.RequestReportCollection>): Promise<Models.ReportsListByRequestResponse> {
+  listByRequest(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options: Models.ReportsListByRequestOptionalParams,
+    callback: msRest.ServiceCallback<Models.RequestReportCollection>
+  ): void;
+  listByRequest(
+    resourceGroupName: string,
+    serviceName: string,
+    filter: string,
+    options?:
+      | Models.ReportsListByRequestOptionalParams
+      | msRest.ServiceCallback<Models.RequestReportCollection>,
+    callback?: msRest.ServiceCallback<Models.RequestReportCollection>
+  ): Promise<Models.ReportsListByRequestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -543,7 +746,8 @@ export class Reports {
         options
       },
       listByRequestOperationSpec,
-      callback) as Promise<Models.ReportsListByRequestResponse>;
+      callback
+    ) as Promise<Models.ReportsListByRequestResponse>;
   }
 
   /**
@@ -552,26 +756,41 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByApiNextResponse>
    */
-  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReportsListByApiNextResponse>;
+  listByApiNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReportsListByApiNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByApiNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByApiNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByApiNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByApiNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByApiNextResponse> {
+  listByApiNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listByApiNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListByApiNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByApiNextOperationSpec,
-      callback) as Promise<Models.ReportsListByApiNextResponse>;
+      callback
+    ) as Promise<Models.ReportsListByApiNextResponse>;
   }
 
   /**
@@ -580,26 +799,41 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByUserNextResponse>
    */
-  listByUserNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReportsListByUserNextResponse>;
+  listByUserNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReportsListByUserNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByUserNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByUserNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByUserNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByUserNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByUserNextResponse> {
+  listByUserNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listByUserNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListByUserNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByUserNextOperationSpec,
-      callback) as Promise<Models.ReportsListByUserNextResponse>;
+      callback
+    ) as Promise<Models.ReportsListByUserNextResponse>;
   }
 
   /**
@@ -608,26 +842,41 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByOperationNextResponse>
    */
-  listByOperationNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReportsListByOperationNextResponse>;
+  listByOperationNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReportsListByOperationNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByOperationNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByOperationNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByOperationNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByOperationNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByOperationNextResponse> {
+  listByOperationNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listByOperationNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListByOperationNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByOperationNextOperationSpec,
-      callback) as Promise<Models.ReportsListByOperationNextResponse>;
+      callback
+    ) as Promise<Models.ReportsListByOperationNextResponse>;
   }
 
   /**
@@ -636,26 +885,41 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByProductNextResponse>
    */
-  listByProductNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReportsListByProductNextResponse>;
+  listByProductNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReportsListByProductNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByProductNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByProductNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByProductNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByProductNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByProductNextResponse> {
+  listByProductNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listByProductNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListByProductNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByProductNextOperationSpec,
-      callback) as Promise<Models.ReportsListByProductNextResponse>;
+      callback
+    ) as Promise<Models.ReportsListByProductNextResponse>;
   }
 
   /**
@@ -664,26 +928,41 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByGeoNextResponse>
    */
-  listByGeoNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReportsListByGeoNextResponse>;
+  listByGeoNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReportsListByGeoNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByGeoNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByGeoNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByGeoNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByGeoNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByGeoNextResponse> {
+  listByGeoNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listByGeoNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListByGeoNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByGeoNextOperationSpec,
-      callback) as Promise<Models.ReportsListByGeoNextResponse>;
+      callback
+    ) as Promise<Models.ReportsListByGeoNextResponse>;
   }
 
   /**
@@ -692,26 +971,41 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReportsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReportsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.ReportsListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.ReportsListBySubscriptionNextResponse>;
   }
 
   /**
@@ -720,26 +1014,41 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsListByTimeNextResponse>
    */
-  listByTimeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReportsListByTimeNextResponse>;
+  listByTimeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReportsListByTimeNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByTimeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
+  listByTimeNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTimeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReportCollection>): void;
-  listByTimeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>, callback?: msRest.ServiceCallback<Models.ReportCollection>): Promise<Models.ReportsListByTimeNextResponse> {
+  listByTimeNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReportCollection>
+  ): void;
+  listByTimeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReportCollection>,
+    callback?: msRest.ServiceCallback<Models.ReportCollection>
+  ): Promise<Models.ReportsListByTimeNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByTimeNextOperationSpec,
-      callback) as Promise<Models.ReportsListByTimeNextResponse>;
+      callback
+    ) as Promise<Models.ReportsListByTimeNextResponse>;
   }
 }
 
@@ -747,12 +1056,9 @@ export class Reports {
 const serializer = new msRest.Serializer(Mappers);
 const listByApiOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byApi",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byApi",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
   queryParameters: [
     Parameters.filter1,
     Parameters.top,
@@ -760,9 +1066,7 @@ const listByApiOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -776,12 +1080,9 @@ const listByApiOperationSpec: msRest.OperationSpec = {
 
 const listByUserOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byUser",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byUser",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
   queryParameters: [
     Parameters.filter1,
     Parameters.top,
@@ -789,9 +1090,7 @@ const listByUserOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -805,12 +1104,9 @@ const listByUserOperationSpec: msRest.OperationSpec = {
 
 const listByOperationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byOperation",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byOperation",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
   queryParameters: [
     Parameters.filter1,
     Parameters.top,
@@ -818,9 +1114,7 @@ const listByOperationOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -834,12 +1128,9 @@ const listByOperationOperationSpec: msRest.OperationSpec = {
 
 const listByProductOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byProduct",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byProduct",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
   queryParameters: [
     Parameters.filter1,
     Parameters.top,
@@ -847,9 +1138,7 @@ const listByProductOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -863,21 +1152,11 @@ const listByProductOperationSpec: msRest.OperationSpec = {
 
 const listByGeoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byGeo",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter1,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byGeo",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.filter1, Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -891,12 +1170,9 @@ const listByGeoOperationSpec: msRest.OperationSpec = {
 
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/bySubscription",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/bySubscription",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
   queryParameters: [
     Parameters.filter1,
     Parameters.top,
@@ -904,9 +1180,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -920,12 +1194,9 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByTimeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byTime",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byTime",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
   queryParameters: [
     Parameters.filter1,
     Parameters.top,
@@ -934,9 +1205,7 @@ const listByTimeOperationSpec: msRest.OperationSpec = {
     Parameters.interval,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -950,21 +1219,11 @@ const listByTimeOperationSpec: msRest.OperationSpec = {
 
 const listByRequestOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byRequest",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter1,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/reports/byRequest",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.filter1, Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RequestReportCollection
@@ -980,12 +1239,8 @@ const listByApiNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -1001,12 +1256,8 @@ const listByUserNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -1022,12 +1273,8 @@ const listByOperationNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -1043,12 +1290,8 @@ const listByProductNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -1064,12 +1307,8 @@ const listByGeoNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -1085,12 +1324,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection
@@ -1106,12 +1341,8 @@ const listByTimeNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReportCollection

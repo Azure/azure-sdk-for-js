@@ -33,21 +33,39 @@ export class DelegationSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.DelegationSettingsGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DelegationSettingsGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DelegationSettingsGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.DelegationSettingsGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.DelegationSettingsGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class DelegationSettings {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.DelegationSettingsGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.DelegationSettingsGetEntityTagResponse>;
   }
 
   /**
@@ -65,21 +84,39 @@ export class DelegationSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.DelegationSettingsGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DelegationSettingsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DelegationSettingsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.PortalDelegationSettings>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.PortalDelegationSettings>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalDelegationSettings>): void;
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalDelegationSettings>, callback?: msRest.ServiceCallback<Models.PortalDelegationSettings>): Promise<Models.DelegationSettingsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PortalDelegationSettings>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalDelegationSettings>,
+    callback?: msRest.ServiceCallback<Models.PortalDelegationSettings>
+  ): Promise<Models.DelegationSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -87,7 +124,8 @@ export class DelegationSettings {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DelegationSettingsGetResponse>;
+      callback
+    ) as Promise<Models.DelegationSettingsGetResponse>;
   }
 
   /**
@@ -100,7 +138,13 @@ export class DelegationSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalDelegationSettings,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -109,7 +153,13 @@ export class DelegationSettings {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalDelegationSettings,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -119,8 +169,22 @@ export class DelegationSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalDelegationSettings,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalDelegationSettings,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,7 +194,8 @@ export class DelegationSettings {
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -141,14 +206,24 @@ export class DelegationSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.DelegationSettingsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, options?: Models.DelegationSettingsCreateOrUpdateOptionalParams): Promise<Models.DelegationSettingsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalDelegationSettings,
+    options?: Models.DelegationSettingsCreateOrUpdateOptionalParams
+  ): Promise<Models.DelegationSettingsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param parameters Create or update parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, callback: msRest.ServiceCallback<Models.PortalDelegationSettings>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalDelegationSettings,
+    callback: msRest.ServiceCallback<Models.PortalDelegationSettings>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -156,8 +231,22 @@ export class DelegationSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, options: Models.DelegationSettingsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PortalDelegationSettings>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, parameters: Models.PortalDelegationSettings, options?: Models.DelegationSettingsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PortalDelegationSettings>, callback?: msRest.ServiceCallback<Models.PortalDelegationSettings>): Promise<Models.DelegationSettingsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalDelegationSettings,
+    options: Models.DelegationSettingsCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.PortalDelegationSettings>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.PortalDelegationSettings,
+    options?:
+      | Models.DelegationSettingsCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.PortalDelegationSettings>,
+    callback?: msRest.ServiceCallback<Models.PortalDelegationSettings>
+  ): Promise<Models.DelegationSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +255,8 @@ export class DelegationSettings {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DelegationSettingsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.DelegationSettingsCreateOrUpdateResponse>;
   }
 
   /**
@@ -176,21 +266,41 @@ export class DelegationSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.DelegationSettingsListSecretsResponse>
    */
-  listSecrets(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DelegationSettingsListSecretsResponse>;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DelegationSettingsListSecretsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listSecrets(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.PortalSettingValidationKeyContract>): void;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.PortalSettingValidationKeyContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSecrets(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalSettingValidationKeyContract>): void;
-  listSecrets(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalSettingValidationKeyContract>, callback?: msRest.ServiceCallback<Models.PortalSettingValidationKeyContract>): Promise<Models.DelegationSettingsListSecretsResponse> {
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PortalSettingValidationKeyContract>
+  ): void;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PortalSettingValidationKeyContract>,
+    callback?: msRest.ServiceCallback<Models.PortalSettingValidationKeyContract>
+  ): Promise<Models.DelegationSettingsListSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -198,7 +308,8 @@ export class DelegationSettings {
         options
       },
       listSecretsOperationSpec,
-      callback) as Promise<Models.DelegationSettingsListSecretsResponse>;
+      callback
+    ) as Promise<Models.DelegationSettingsListSecretsResponse>;
   }
 }
 
@@ -206,18 +317,11 @@ export class DelegationSettings {
 const serializer = new msRest.Serializer(Mappers);
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.DelegationSettingsGetEntityTagHeaders
@@ -231,18 +335,11 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PortalDelegationSettings,
@@ -257,19 +354,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -288,19 +377,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -321,18 +402,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const listSecretsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation/listSecrets",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation/listSecrets",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PortalSettingValidationKeyContract

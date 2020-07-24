@@ -35,14 +35,24 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsGetResponse>
    */
-  get(resourceGroupName: string, registryName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsGetResponse>;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentPoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param agentPoolName The name of the agent pool.
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, agentPoolName: string, callback: msRest.ServiceCallback<Models.AgentPool>): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    callback: msRest.ServiceCallback<Models.AgentPool>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -50,8 +60,20 @@ export class AgentPools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, agentPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPool>): void;
-  get(resourceGroupName: string, registryName: string, agentPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPool>, callback?: msRest.ServiceCallback<Models.AgentPool>): Promise<Models.AgentPoolsGetResponse> {
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgentPool>
+  ): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPool>,
+    callback?: msRest.ServiceCallback<Models.AgentPool>
+  ): Promise<Models.AgentPoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class AgentPools {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AgentPoolsGetResponse>;
+      callback
+    ) as Promise<Models.AgentPoolsGetResponse>;
   }
 
   /**
@@ -72,9 +95,22 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsCreateResponse>
    */
-  create(resourceGroupName: string, registryName: string, agentPoolName: string, agentPool: Models.AgentPool, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsCreateResponse> {
-    return this.beginCreate(resourceGroupName,registryName,agentPoolName,agentPool,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AgentPoolsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    agentPool: Models.AgentPool,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentPoolsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      registryName,
+      agentPoolName,
+      agentPool,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.AgentPoolsCreateResponse
+    >;
   }
 
   /**
@@ -85,9 +121,18 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, registryName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,registryName,agentPoolName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      registryName,
+      agentPoolName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -99,9 +144,22 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsUpdateResponse>
    */
-  update(resourceGroupName: string, registryName: string, agentPoolName: string, updateParameters: Models.AgentPoolUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,registryName,agentPoolName,updateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AgentPoolsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    updateParameters: Models.AgentPoolUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentPoolsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      registryName,
+      agentPoolName,
+      updateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.AgentPoolsUpdateResponse
+    >;
   }
 
   /**
@@ -111,21 +169,39 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsListResponse>
    */
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsListResponse>;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentPoolsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    callback: msRest.ServiceCallback<Models.AgentPoolListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolListResult>, callback?: msRest.ServiceCallback<Models.AgentPoolListResult>): Promise<Models.AgentPoolsListResponse> {
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgentPoolListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolListResult>,
+    callback?: msRest.ServiceCallback<Models.AgentPoolListResult>
+  ): Promise<Models.AgentPoolsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +209,8 @@ export class AgentPools {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AgentPoolsListResponse>;
+      callback
+    ) as Promise<Models.AgentPoolsListResponse>;
   }
 
   /**
@@ -144,14 +221,24 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsGetQueueStatusResponse>
    */
-  getQueueStatus(resourceGroupName: string, registryName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsGetQueueStatusResponse>;
+  getQueueStatus(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentPoolsGetQueueStatusResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param agentPoolName The name of the agent pool.
    * @param callback The callback
    */
-  getQueueStatus(resourceGroupName: string, registryName: string, agentPoolName: string, callback: msRest.ServiceCallback<Models.AgentPoolQueueStatus>): void;
+  getQueueStatus(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    callback: msRest.ServiceCallback<Models.AgentPoolQueueStatus>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -159,8 +246,20 @@ export class AgentPools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getQueueStatus(resourceGroupName: string, registryName: string, agentPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolQueueStatus>): void;
-  getQueueStatus(resourceGroupName: string, registryName: string, agentPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolQueueStatus>, callback?: msRest.ServiceCallback<Models.AgentPoolQueueStatus>): Promise<Models.AgentPoolsGetQueueStatusResponse> {
+  getQueueStatus(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgentPoolQueueStatus>
+  ): void;
+  getQueueStatus(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolQueueStatus>,
+    callback?: msRest.ServiceCallback<Models.AgentPoolQueueStatus>
+  ): Promise<Models.AgentPoolsGetQueueStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +268,8 @@ export class AgentPools {
         options
       },
       getQueueStatusOperationSpec,
-      callback) as Promise<Models.AgentPoolsGetQueueStatusResponse>;
+      callback
+    ) as Promise<Models.AgentPoolsGetQueueStatusResponse>;
   }
 
   /**
@@ -181,7 +281,13 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, registryName: string, agentPoolName: string, agentPool: Models.AgentPool, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    agentPool: Models.AgentPool,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -191,7 +297,8 @@ export class AgentPools {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -202,7 +309,12 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, registryName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -211,7 +323,8 @@ export class AgentPools {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -223,7 +336,13 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, registryName: string, agentPoolName: string, updateParameters: Models.AgentPoolUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    registryName: string,
+    agentPoolName: string,
+    updateParameters: Models.AgentPoolUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -233,7 +352,8 @@ export class AgentPools {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -242,26 +362,41 @@ export class AgentPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentPoolsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AgentPoolListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolListResult>, callback?: msRest.ServiceCallback<Models.AgentPoolListResult>): Promise<Models.AgentPoolsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgentPoolListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolListResult>,
+    callback?: msRest.ServiceCallback<Models.AgentPoolListResult>
+  ): Promise<Models.AgentPoolsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AgentPoolsListNextResponse>;
+      callback
+    ) as Promise<Models.AgentPoolsListNextResponse>;
   }
 }
 
@@ -269,19 +404,16 @@ export class AgentPools {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.agentPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgentPool
@@ -295,18 +427,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.registryName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgentPoolListResult
@@ -320,19 +445,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getQueueStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}/listQueueStatus",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}/listQueueStatus",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.agentPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgentPoolQueueStatus
@@ -346,19 +468,16 @@ const getQueueStatusOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.agentPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "agentPool",
     mapper: {
@@ -382,19 +501,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.agentPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -408,19 +524,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/agentPools/{agentPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.agentPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "updateParameters",
     mapper: {
@@ -446,12 +559,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgentPoolListResult

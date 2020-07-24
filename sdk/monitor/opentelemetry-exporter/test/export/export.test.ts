@@ -9,7 +9,7 @@ import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
   failedBreezeResponse,
   partialBreezeResponse,
-  successfulBreezeResponse,
+  successfulBreezeResponse
 } from "../breezeTestUtils";
 import { FileSystemPersist } from "../../src/platform";
 import nock = require("nock");
@@ -22,7 +22,7 @@ describe("#AzureMonitorBaseExporter", () => {
   class TestExporter extends AzureMonitorBaseExporter {
     constructor() {
       super({
-        instrumentationKey: "foo",
+        instrumentationKey: "foo"
       });
     }
 

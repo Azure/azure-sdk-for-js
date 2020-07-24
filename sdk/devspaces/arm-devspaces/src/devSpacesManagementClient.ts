@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { DevSpacesManagementClientContext } from "./devSpacesManagementClientContext";
 
-
 class DevSpacesManagementClient extends DevSpacesManagementClientContext {
   // Operation groups
   containerHostMappings: operations.ContainerHostMappings;
@@ -27,7 +26,11 @@ class DevSpacesManagementClient extends DevSpacesManagementClientContext {
    * @param subscriptionId Azure subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DevSpacesManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.DevSpacesManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.containerHostMappings = new operations.ContainerHostMappings(this);
     this.controllers = new operations.Controllers(this);

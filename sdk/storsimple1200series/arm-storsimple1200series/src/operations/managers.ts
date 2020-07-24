@@ -40,14 +40,21 @@ export class Managers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagerList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerList>, callback?: msRest.ServiceCallback<Models.ManagerList>): Promise<Models.ManagersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagerList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerList>,
+    callback?: msRest.ServiceCallback<Models.ManagerList>
+  ): Promise<Models.ManagersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ManagersListResponse>;
+      callback
+    ) as Promise<Models.ManagersListResponse>;
   }
 
   /**
@@ -56,26 +63,41 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagersListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagersListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagersListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ManagerList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ManagerList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagerList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerList>, callback?: msRest.ServiceCallback<Models.ManagerList>): Promise<Models.ManagersListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagerList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerList>,
+    callback?: msRest.ServiceCallback<Models.ManagerList>
+  ): Promise<Models.ManagersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ManagersListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ManagersListByResourceGroupResponse>;
   }
 
   /**
@@ -85,21 +107,39 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagersGetResponse>
    */
-  get(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagersGetResponse>;
+  get(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagersGetResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.Manager>): void;
+  get(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.Manager>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Manager>): void;
-  get(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Manager>, callback?: msRest.ServiceCallback<Models.Manager>): Promise<Models.ManagersGetResponse> {
+  get(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Manager>
+  ): void;
+  get(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Manager>,
+    callback?: msRest.ServiceCallback<Models.Manager>
+  ): Promise<Models.ManagersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +147,8 @@ export class Managers {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagersGetResponse>;
+      callback
+    ) as Promise<Models.ManagersGetResponse>;
   }
 
   /**
@@ -118,14 +159,24 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagersCreateOrUpdateResponse>
    */
-  createOrUpdate(manager: Models.Manager, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagersCreateOrUpdateResponse>;
+  createOrUpdate(
+    manager: Models.Manager,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagersCreateOrUpdateResponse>;
   /**
    * @param manager The manager.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  createOrUpdate(manager: Models.Manager, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.Manager>): void;
+  createOrUpdate(
+    manager: Models.Manager,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.Manager>
+  ): void;
   /**
    * @param manager The manager.
    * @param resourceGroupName The resource group name
@@ -133,8 +184,20 @@ export class Managers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(manager: Models.Manager, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Manager>): void;
-  createOrUpdate(manager: Models.Manager, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Manager>, callback?: msRest.ServiceCallback<Models.Manager>): Promise<Models.ManagersCreateOrUpdateResponse> {
+  createOrUpdate(
+    manager: Models.Manager,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Manager>
+  ): void;
+  createOrUpdate(
+    manager: Models.Manager,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Manager>,
+    callback?: msRest.ServiceCallback<Models.Manager>
+  ): Promise<Models.ManagersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         manager,
@@ -143,7 +206,8 @@ export class Managers {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ManagersCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ManagersCreateOrUpdateResponse>;
   }
 
   /**
@@ -153,21 +217,39 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,7 +257,8 @@ export class Managers {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -186,14 +269,24 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagersUpdateResponse>
    */
-  update(parameters: Models.ManagerPatch, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagersUpdateResponse>;
+  update(
+    parameters: Models.ManagerPatch,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagersUpdateResponse>;
   /**
    * @param parameters The manager update parameters.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  update(parameters: Models.ManagerPatch, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.Manager>): void;
+  update(
+    parameters: Models.ManagerPatch,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.Manager>
+  ): void;
   /**
    * @param parameters The manager update parameters.
    * @param resourceGroupName The resource group name
@@ -201,8 +294,20 @@ export class Managers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(parameters: Models.ManagerPatch, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Manager>): void;
-  update(parameters: Models.ManagerPatch, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Manager>, callback?: msRest.ServiceCallback<Models.Manager>): Promise<Models.ManagersUpdateResponse> {
+  update(
+    parameters: Models.ManagerPatch,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Manager>
+  ): void;
+  update(
+    parameters: Models.ManagerPatch,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Manager>,
+    callback?: msRest.ServiceCallback<Models.Manager>
+  ): Promise<Models.ManagersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -211,7 +316,8 @@ export class Managers {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ManagersUpdateResponse>;
+      callback
+    ) as Promise<Models.ManagersUpdateResponse>;
   }
 
   /**
@@ -224,7 +330,13 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagersUploadRegistrationCertificateResponse>
    */
-  uploadRegistrationCertificate(certificateName: string, uploadCertificateRequestrequest: Models.UploadCertificateRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagersUploadRegistrationCertificateResponse>;
+  uploadRegistrationCertificate(
+    certificateName: string,
+    uploadCertificateRequestrequest: Models.UploadCertificateRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagersUploadRegistrationCertificateResponse>;
   /**
    * @param certificateName Certificate Name
    * @param uploadCertificateRequestrequest UploadCertificateRequest Request
@@ -232,7 +344,13 @@ export class Managers {
    * @param managerName The manager name
    * @param callback The callback
    */
-  uploadRegistrationCertificate(certificateName: string, uploadCertificateRequestrequest: Models.UploadCertificateRequest, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.UploadCertificateResponse>): void;
+  uploadRegistrationCertificate(
+    certificateName: string,
+    uploadCertificateRequestrequest: Models.UploadCertificateRequest,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.UploadCertificateResponse>
+  ): void;
   /**
    * @param certificateName Certificate Name
    * @param uploadCertificateRequestrequest UploadCertificateRequest Request
@@ -241,8 +359,22 @@ export class Managers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  uploadRegistrationCertificate(certificateName: string, uploadCertificateRequestrequest: Models.UploadCertificateRequest, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UploadCertificateResponse>): void;
-  uploadRegistrationCertificate(certificateName: string, uploadCertificateRequestrequest: Models.UploadCertificateRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UploadCertificateResponse>, callback?: msRest.ServiceCallback<Models.UploadCertificateResponse>): Promise<Models.ManagersUploadRegistrationCertificateResponse> {
+  uploadRegistrationCertificate(
+    certificateName: string,
+    uploadCertificateRequestrequest: Models.UploadCertificateRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UploadCertificateResponse>
+  ): void;
+  uploadRegistrationCertificate(
+    certificateName: string,
+    uploadCertificateRequestrequest: Models.UploadCertificateRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UploadCertificateResponse>,
+    callback?: msRest.ServiceCallback<Models.UploadCertificateResponse>
+  ): Promise<Models.ManagersUploadRegistrationCertificateResponse> {
     return this.client.sendOperationRequest(
       {
         certificateName,
@@ -252,7 +384,8 @@ export class Managers {
         options
       },
       uploadRegistrationCertificateOperationSpec,
-      callback) as Promise<Models.ManagersUploadRegistrationCertificateResponse>;
+      callback
+    ) as Promise<Models.ManagersUploadRegistrationCertificateResponse>;
   }
 
   /**
@@ -262,21 +395,39 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagersGetEncryptionSettingsResponse>
    */
-  getEncryptionSettings(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagersGetEncryptionSettingsResponse>;
+  getEncryptionSettings(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagersGetEncryptionSettingsResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  getEncryptionSettings(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.EncryptionSettings>): void;
+  getEncryptionSettings(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.EncryptionSettings>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEncryptionSettings(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EncryptionSettings>): void;
-  getEncryptionSettings(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionSettings>, callback?: msRest.ServiceCallback<Models.EncryptionSettings>): Promise<Models.ManagersGetEncryptionSettingsResponse> {
+  getEncryptionSettings(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EncryptionSettings>
+  ): void;
+  getEncryptionSettings(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionSettings>,
+    callback?: msRest.ServiceCallback<Models.EncryptionSettings>
+  ): Promise<Models.ManagersGetEncryptionSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -284,7 +435,8 @@ export class Managers {
         options
       },
       getEncryptionSettingsOperationSpec,
-      callback) as Promise<Models.ManagersGetEncryptionSettingsResponse>;
+      callback
+    ) as Promise<Models.ManagersGetEncryptionSettingsResponse>;
   }
 
   /**
@@ -294,21 +446,39 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagersGetExtendedInfoResponse>
    */
-  getExtendedInfo(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagersGetExtendedInfoResponse>;
+  getExtendedInfo(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagersGetExtendedInfoResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  getExtendedInfo(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>): void;
+  getExtendedInfo(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  getExtendedInfo(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>): void;
-  getExtendedInfo(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerExtendedInfo>, callback?: msRest.ServiceCallback<Models.ManagerExtendedInfo>): Promise<Models.ManagersGetExtendedInfoResponse> {
+  getExtendedInfo(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>
+  ): void;
+  getExtendedInfo(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerExtendedInfo>,
+    callback?: msRest.ServiceCallback<Models.ManagerExtendedInfo>
+  ): Promise<Models.ManagersGetExtendedInfoResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -316,7 +486,8 @@ export class Managers {
         options
       },
       getExtendedInfoOperationSpec,
-      callback) as Promise<Models.ManagersGetExtendedInfoResponse>;
+      callback
+    ) as Promise<Models.ManagersGetExtendedInfoResponse>;
   }
 
   /**
@@ -327,14 +498,24 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagersCreateExtendedInfoResponse>
    */
-  createExtendedInfo(managerExtendedInfo: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagersCreateExtendedInfoResponse>;
+  createExtendedInfo(
+    managerExtendedInfo: Models.ManagerExtendedInfo,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagersCreateExtendedInfoResponse>;
   /**
    * @param managerExtendedInfo The manager extended information.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  createExtendedInfo(managerExtendedInfo: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>): void;
+  createExtendedInfo(
+    managerExtendedInfo: Models.ManagerExtendedInfo,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>
+  ): void;
   /**
    * @param managerExtendedInfo The manager extended information.
    * @param resourceGroupName The resource group name
@@ -342,8 +523,20 @@ export class Managers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createExtendedInfo(managerExtendedInfo: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>): void;
-  createExtendedInfo(managerExtendedInfo: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerExtendedInfo>, callback?: msRest.ServiceCallback<Models.ManagerExtendedInfo>): Promise<Models.ManagersCreateExtendedInfoResponse> {
+  createExtendedInfo(
+    managerExtendedInfo: Models.ManagerExtendedInfo,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>
+  ): void;
+  createExtendedInfo(
+    managerExtendedInfo: Models.ManagerExtendedInfo,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerExtendedInfo>,
+    callback?: msRest.ServiceCallback<Models.ManagerExtendedInfo>
+  ): Promise<Models.ManagersCreateExtendedInfoResponse> {
     return this.client.sendOperationRequest(
       {
         managerExtendedInfo,
@@ -352,7 +545,8 @@ export class Managers {
         options
       },
       createExtendedInfoOperationSpec,
-      callback) as Promise<Models.ManagersCreateExtendedInfoResponse>;
+      callback
+    ) as Promise<Models.ManagersCreateExtendedInfoResponse>;
   }
 
   /**
@@ -362,21 +556,39 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteExtendedInfo(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteExtendedInfo(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  deleteExtendedInfo(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteExtendedInfo(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteExtendedInfo(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteExtendedInfo(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteExtendedInfo(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteExtendedInfo(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -384,7 +596,8 @@ export class Managers {
         options
       },
       deleteExtendedInfoOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -396,7 +609,13 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagersUpdateExtendedInfoResponse>
    */
-  updateExtendedInfo(managerExtendedInfo: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagersUpdateExtendedInfoResponse>;
+  updateExtendedInfo(
+    managerExtendedInfo: Models.ManagerExtendedInfo,
+    resourceGroupName: string,
+    managerName: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagersUpdateExtendedInfoResponse>;
   /**
    * @param managerExtendedInfo The manager extended information.
    * @param resourceGroupName The resource group name
@@ -404,7 +623,13 @@ export class Managers {
    * @param ifMatch Pass the ETag of ExtendedInfo fetched from GET call
    * @param callback The callback
    */
-  updateExtendedInfo(managerExtendedInfo: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, ifMatch: string, callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>): void;
+  updateExtendedInfo(
+    managerExtendedInfo: Models.ManagerExtendedInfo,
+    resourceGroupName: string,
+    managerName: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>
+  ): void;
   /**
    * @param managerExtendedInfo The manager extended information.
    * @param resourceGroupName The resource group name
@@ -413,8 +638,22 @@ export class Managers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateExtendedInfo(managerExtendedInfo: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>): void;
-  updateExtendedInfo(managerExtendedInfo: Models.ManagerExtendedInfo, resourceGroupName: string, managerName: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerExtendedInfo>, callback?: msRest.ServiceCallback<Models.ManagerExtendedInfo>): Promise<Models.ManagersUpdateExtendedInfoResponse> {
+  updateExtendedInfo(
+    managerExtendedInfo: Models.ManagerExtendedInfo,
+    resourceGroupName: string,
+    managerName: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagerExtendedInfo>
+  ): void;
+  updateExtendedInfo(
+    managerExtendedInfo: Models.ManagerExtendedInfo,
+    resourceGroupName: string,
+    managerName: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagerExtendedInfo>,
+    callback?: msRest.ServiceCallback<Models.ManagerExtendedInfo>
+  ): Promise<Models.ManagersUpdateExtendedInfoResponse> {
     return this.client.sendOperationRequest(
       {
         managerExtendedInfo,
@@ -424,7 +663,8 @@ export class Managers {
         options
       },
       updateExtendedInfoOperationSpec,
-      callback) as Promise<Models.ManagersUpdateExtendedInfoResponse>;
+      callback
+    ) as Promise<Models.ManagersUpdateExtendedInfoResponse>;
   }
 
   /**
@@ -434,21 +674,39 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagersGetEncryptionKeyResponse>
    */
-  getEncryptionKey(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagersGetEncryptionKeyResponse>;
+  getEncryptionKey(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagersGetEncryptionKeyResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  getEncryptionKey(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.SymmetricEncryptedSecret>): void;
+  getEncryptionKey(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.SymmetricEncryptedSecret>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEncryptionKey(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SymmetricEncryptedSecret>): void;
-  getEncryptionKey(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SymmetricEncryptedSecret>, callback?: msRest.ServiceCallback<Models.SymmetricEncryptedSecret>): Promise<Models.ManagersGetEncryptionKeyResponse> {
+  getEncryptionKey(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SymmetricEncryptedSecret>
+  ): void;
+  getEncryptionKey(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SymmetricEncryptedSecret>,
+    callback?: msRest.ServiceCallback<Models.SymmetricEncryptedSecret>
+  ): Promise<Models.ManagersGetEncryptionKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -456,7 +714,8 @@ export class Managers {
         options
       },
       getEncryptionKeyOperationSpec,
-      callback) as Promise<Models.ManagersGetEncryptionKeyResponse>;
+      callback
+    ) as Promise<Models.ManagersGetEncryptionKeyResponse>;
   }
 
   /**
@@ -466,21 +725,39 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagersListMetricsResponse>
    */
-  listMetrics(resourceGroupName: string, managerName: string, options?: Models.ManagersListMetricsOptionalParams): Promise<Models.ManagersListMetricsResponse>;
+  listMetrics(
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.ManagersListMetricsOptionalParams
+  ): Promise<Models.ManagersListMetricsResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricList>): void;
+  listMetrics(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, managerName: string, options: Models.ManagersListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(resourceGroupName: string, managerName: string, options?: Models.ManagersListMetricsOptionalParams | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.ManagersListMetricsResponse> {
+  listMetrics(
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.ManagersListMetricsOptionalParams,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
+  listMetrics(
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.ManagersListMetricsOptionalParams | msRest.ServiceCallback<Models.MetricList>,
+    callback?: msRest.ServiceCallback<Models.MetricList>
+  ): Promise<Models.ManagersListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -488,7 +765,8 @@ export class Managers {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.ManagersListMetricsResponse>;
+      callback
+    ) as Promise<Models.ManagersListMetricsResponse>;
   }
 
   /**
@@ -498,21 +776,39 @@ export class Managers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagersListMetricDefinitionResponse>
    */
-  listMetricDefinition(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagersListMetricDefinitionResponse>;
+  listMetricDefinition(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagersListMetricDefinitionResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listMetricDefinition(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
+  listMetricDefinition(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetricDefinition(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.ManagersListMetricDefinitionResponse> {
+  listMetricDefinition(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
+  listMetricDefinition(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): Promise<Models.ManagersListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -520,7 +816,8 @@ export class Managers {
         options
       },
       listMetricDefinitionOperationSpec,
-      callback) as Promise<Models.ManagersListMetricDefinitionResponse>;
+      callback
+    ) as Promise<Models.ManagersListMetricDefinitionResponse>;
   }
 }
 
@@ -529,15 +826,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.StorSimple/managers",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagerList
@@ -551,17 +842,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagerList
@@ -575,18 +860,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Manager
@@ -600,18 +878,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "manager",
     mapper: {
@@ -635,18 +906,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -659,18 +923,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -691,19 +948,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const uploadRegistrationCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.certificateName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "uploadCertificateRequestrequest",
     mapper: {
@@ -724,18 +978,11 @@ const uploadRegistrationCertificateOperationSpec: msRest.OperationSpec = {
 
 const getEncryptionSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/encryptionSettings/default",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/encryptionSettings/default",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EncryptionSettings
@@ -749,18 +996,11 @@ const getEncryptionSettingsOperationSpec: msRest.OperationSpec = {
 
 const getExtendedInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/extendedInformation/vaultExtendedInfo",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/extendedInformation/vaultExtendedInfo",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagerExtendedInfo
@@ -774,18 +1014,11 @@ const getExtendedInfoOperationSpec: msRest.OperationSpec = {
 
 const createExtendedInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/extendedInformation/vaultExtendedInfo",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/extendedInformation/vaultExtendedInfo",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "managerExtendedInfo",
     mapper: {
@@ -806,18 +1039,11 @@ const createExtendedInfoOperationSpec: msRest.OperationSpec = {
 
 const deleteExtendedInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/extendedInformation/vaultExtendedInfo",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/extendedInformation/vaultExtendedInfo",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -829,19 +1055,11 @@ const deleteExtendedInfoOperationSpec: msRest.OperationSpec = {
 
 const updateExtendedInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/extendedInformation/vaultExtendedInfo",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/extendedInformation/vaultExtendedInfo",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "managerExtendedInfo",
     mapper: {
@@ -862,18 +1080,11 @@ const updateExtendedInfoOperationSpec: msRest.OperationSpec = {
 
 const getEncryptionKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/getEncryptionKey",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/getEncryptionKey",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SymmetricEncryptedSecret
@@ -887,19 +1098,11 @@ const getEncryptionKeyOperationSpec: msRest.OperationSpec = {
 
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/metrics",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/metrics",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricList
@@ -913,18 +1116,11 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
 
 const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/metricsDefinitions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/metricsDefinitions",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricDefinitionList

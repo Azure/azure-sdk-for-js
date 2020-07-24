@@ -10,7 +10,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const MetricsPostBodySchemaParameters: msRest.CompositeMapper = {
   serializedName: "metricsPostBodySchema_parameters",
   type: {
@@ -1753,15 +1752,15 @@ export const ErrorResponse: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'eventsResultData' : EventsResultData,
-  'EventsResultData.trace' : EventsTraceResult,
-  'EventsResultData.customEvent' : EventsCustomEventResult,
-  'EventsResultData.pageView' : EventsPageViewResult,
-  'EventsResultData.browserTiming' : EventsBrowserTimingResult,
-  'EventsResultData.request' : EventsRequestResult,
-  'EventsResultData.dependency' : EventsDependencyResult,
-  'EventsResultData.exception' : EventsExceptionResult,
-  'EventsResultData.availabilityResult' : EventsAvailabilityResultResult,
-  'EventsResultData.performanceCounter' : EventsPerformanceCounterResult,
-  'EventsResultData.customMetric' : EventsCustomMetricResult
+  eventsResultData: EventsResultData,
+  "EventsResultData.trace": EventsTraceResult,
+  "EventsResultData.customEvent": EventsCustomEventResult,
+  "EventsResultData.pageView": EventsPageViewResult,
+  "EventsResultData.browserTiming": EventsBrowserTimingResult,
+  "EventsResultData.request": EventsRequestResult,
+  "EventsResultData.dependency": EventsDependencyResult,
+  "EventsResultData.exception": EventsExceptionResult,
+  "EventsResultData.availabilityResult": EventsAvailabilityResultResult,
+  "EventsResultData.performanceCounter": EventsPerformanceCounterResult,
+  "EventsResultData.customMetric": EventsCustomMetricResult
 };

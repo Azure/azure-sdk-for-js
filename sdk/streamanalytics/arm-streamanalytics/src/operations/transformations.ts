@@ -38,7 +38,13 @@ export class Transformations {
    * @param [options] The optional parameters
    * @returns Promise<Models.TransformationsCreateOrReplaceResponse>
    */
-  createOrReplace(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, options?: Models.TransformationsCreateOrReplaceOptionalParams): Promise<Models.TransformationsCreateOrReplaceResponse>;
+  createOrReplace(
+    transformation: Models.Transformation,
+    resourceGroupName: string,
+    jobName: string,
+    transformationName: string,
+    options?: Models.TransformationsCreateOrReplaceOptionalParams
+  ): Promise<Models.TransformationsCreateOrReplaceResponse>;
   /**
    * @param transformation The definition of the transformation that will be used to create a new
    * transformation or replace the existing one under the streaming job.
@@ -48,7 +54,13 @@ export class Transformations {
    * @param transformationName The name of the transformation.
    * @param callback The callback
    */
-  createOrReplace(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, callback: msRest.ServiceCallback<Models.Transformation>): void;
+  createOrReplace(
+    transformation: Models.Transformation,
+    resourceGroupName: string,
+    jobName: string,
+    transformationName: string,
+    callback: msRest.ServiceCallback<Models.Transformation>
+  ): void;
   /**
    * @param transformation The definition of the transformation that will be used to create a new
    * transformation or replace the existing one under the streaming job.
@@ -59,8 +71,24 @@ export class Transformations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrReplace(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, options: Models.TransformationsCreateOrReplaceOptionalParams, callback: msRest.ServiceCallback<Models.Transformation>): void;
-  createOrReplace(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, options?: Models.TransformationsCreateOrReplaceOptionalParams | msRest.ServiceCallback<Models.Transformation>, callback?: msRest.ServiceCallback<Models.Transformation>): Promise<Models.TransformationsCreateOrReplaceResponse> {
+  createOrReplace(
+    transformation: Models.Transformation,
+    resourceGroupName: string,
+    jobName: string,
+    transformationName: string,
+    options: Models.TransformationsCreateOrReplaceOptionalParams,
+    callback: msRest.ServiceCallback<Models.Transformation>
+  ): void;
+  createOrReplace(
+    transformation: Models.Transformation,
+    resourceGroupName: string,
+    jobName: string,
+    transformationName: string,
+    options?:
+      | Models.TransformationsCreateOrReplaceOptionalParams
+      | msRest.ServiceCallback<Models.Transformation>,
+    callback?: msRest.ServiceCallback<Models.Transformation>
+  ): Promise<Models.TransformationsCreateOrReplaceResponse> {
     return this.client.sendOperationRequest(
       {
         transformation,
@@ -70,7 +98,8 @@ export class Transformations {
         options
       },
       createOrReplaceOperationSpec,
-      callback) as Promise<Models.TransformationsCreateOrReplaceResponse>;
+      callback
+    ) as Promise<Models.TransformationsCreateOrReplaceResponse>;
   }
 
   /**
@@ -88,7 +117,13 @@ export class Transformations {
    * @param [options] The optional parameters
    * @returns Promise<Models.TransformationsUpdateResponse>
    */
-  update(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, options?: Models.TransformationsUpdateOptionalParams): Promise<Models.TransformationsUpdateResponse>;
+  update(
+    transformation: Models.Transformation,
+    resourceGroupName: string,
+    jobName: string,
+    transformationName: string,
+    options?: Models.TransformationsUpdateOptionalParams
+  ): Promise<Models.TransformationsUpdateResponse>;
   /**
    * @param transformation A Transformation object. The properties specified here will overwrite the
    * corresponding properties in the existing transformation (ie. Those properties will be updated).
@@ -100,7 +135,13 @@ export class Transformations {
    * @param transformationName The name of the transformation.
    * @param callback The callback
    */
-  update(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, callback: msRest.ServiceCallback<Models.Transformation>): void;
+  update(
+    transformation: Models.Transformation,
+    resourceGroupName: string,
+    jobName: string,
+    transformationName: string,
+    callback: msRest.ServiceCallback<Models.Transformation>
+  ): void;
   /**
    * @param transformation A Transformation object. The properties specified here will overwrite the
    * corresponding properties in the existing transformation (ie. Those properties will be updated).
@@ -113,8 +154,24 @@ export class Transformations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, options: Models.TransformationsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Transformation>): void;
-  update(transformation: Models.Transformation, resourceGroupName: string, jobName: string, transformationName: string, options?: Models.TransformationsUpdateOptionalParams | msRest.ServiceCallback<Models.Transformation>, callback?: msRest.ServiceCallback<Models.Transformation>): Promise<Models.TransformationsUpdateResponse> {
+  update(
+    transformation: Models.Transformation,
+    resourceGroupName: string,
+    jobName: string,
+    transformationName: string,
+    options: Models.TransformationsUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.Transformation>
+  ): void;
+  update(
+    transformation: Models.Transformation,
+    resourceGroupName: string,
+    jobName: string,
+    transformationName: string,
+    options?:
+      | Models.TransformationsUpdateOptionalParams
+      | msRest.ServiceCallback<Models.Transformation>,
+    callback?: msRest.ServiceCallback<Models.Transformation>
+  ): Promise<Models.TransformationsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         transformation,
@@ -124,7 +181,8 @@ export class Transformations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.TransformationsUpdateResponse>;
+      callback
+    ) as Promise<Models.TransformationsUpdateResponse>;
   }
 
   /**
@@ -136,7 +194,12 @@ export class Transformations {
    * @param [options] The optional parameters
    * @returns Promise<Models.TransformationsGetResponse>
    */
-  get(resourceGroupName: string, jobName: string, transformationName: string, options?: msRest.RequestOptionsBase): Promise<Models.TransformationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    transformationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TransformationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -144,7 +207,12 @@ export class Transformations {
    * @param transformationName The name of the transformation.
    * @param callback The callback
    */
-  get(resourceGroupName: string, jobName: string, transformationName: string, callback: msRest.ServiceCallback<Models.Transformation>): void;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    transformationName: string,
+    callback: msRest.ServiceCallback<Models.Transformation>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -153,8 +221,20 @@ export class Transformations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, jobName: string, transformationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Transformation>): void;
-  get(resourceGroupName: string, jobName: string, transformationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Transformation>, callback?: msRest.ServiceCallback<Models.Transformation>): Promise<Models.TransformationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    transformationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Transformation>
+  ): void;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    transformationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Transformation>,
+    callback?: msRest.ServiceCallback<Models.Transformation>
+  ): Promise<Models.TransformationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -163,7 +243,8 @@ export class Transformations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TransformationsGetResponse>;
+      callback
+    ) as Promise<Models.TransformationsGetResponse>;
   }
 }
 
@@ -171,21 +252,16 @@ export class Transformations {
 const serializer = new msRest.Serializer(Mappers);
 const createOrReplaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.transformationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.ifNoneMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "transformation",
     mapper: {
@@ -211,20 +287,16 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.transformationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "transformation",
     mapper: {
@@ -246,19 +318,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.transformationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Transformation,

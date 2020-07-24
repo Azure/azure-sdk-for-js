@@ -314,8 +314,7 @@ export interface ZoneDeleteResult {
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * The resource model definition for a Azure Resource Manager resource with an etag.
@@ -493,7 +492,7 @@ export interface ZoneListResult extends Array<Zone> {
  * @readonly
  * @enum {string}
  */
-export type OperationStatus = 'InProgress' | 'Succeeded' | 'Failed';
+export type OperationStatus = "InProgress" | "Succeeded" | "Failed";
 
 /**
  * Defines values for HttpStatusCode.
@@ -510,7 +509,54 @@ export type OperationStatus = 'InProgress' | 'Succeeded' | 'Failed';
  * @readonly
  * @enum {string}
  */
-export type HttpStatusCode = 'Continue' | 'SwitchingProtocols' | 'OK' | 'Created' | 'Accepted' | 'NonAuthoritativeInformation' | 'NoContent' | 'ResetContent' | 'PartialContent' | 'MultipleChoices' | 'Ambiguous' | 'MovedPermanently' | 'Moved' | 'Found' | 'Redirect' | 'SeeOther' | 'RedirectMethod' | 'NotModified' | 'UseProxy' | 'Unused' | 'TemporaryRedirect' | 'RedirectKeepVerb' | 'BadRequest' | 'Unauthorized' | 'PaymentRequired' | 'Forbidden' | 'NotFound' | 'MethodNotAllowed' | 'NotAcceptable' | 'ProxyAuthenticationRequired' | 'RequestTimeout' | 'Conflict' | 'Gone' | 'LengthRequired' | 'PreconditionFailed' | 'RequestEntityTooLarge' | 'RequestUriTooLong' | 'UnsupportedMediaType' | 'RequestedRangeNotSatisfiable' | 'ExpectationFailed' | 'UpgradeRequired' | 'InternalServerError' | 'NotImplemented' | 'BadGateway' | 'ServiceUnavailable' | 'GatewayTimeout' | 'HttpVersionNotSupported';
+export type HttpStatusCode =
+  | "Continue"
+  | "SwitchingProtocols"
+  | "OK"
+  | "Created"
+  | "Accepted"
+  | "NonAuthoritativeInformation"
+  | "NoContent"
+  | "ResetContent"
+  | "PartialContent"
+  | "MultipleChoices"
+  | "Ambiguous"
+  | "MovedPermanently"
+  | "Moved"
+  | "Found"
+  | "Redirect"
+  | "SeeOther"
+  | "RedirectMethod"
+  | "NotModified"
+  | "UseProxy"
+  | "Unused"
+  | "TemporaryRedirect"
+  | "RedirectKeepVerb"
+  | "BadRequest"
+  | "Unauthorized"
+  | "PaymentRequired"
+  | "Forbidden"
+  | "NotFound"
+  | "MethodNotAllowed"
+  | "NotAcceptable"
+  | "ProxyAuthenticationRequired"
+  | "RequestTimeout"
+  | "Conflict"
+  | "Gone"
+  | "LengthRequired"
+  | "PreconditionFailed"
+  | "RequestEntityTooLarge"
+  | "RequestUriTooLong"
+  | "UnsupportedMediaType"
+  | "RequestedRangeNotSatisfiable"
+  | "ExpectationFailed"
+  | "UpgradeRequired"
+  | "InternalServerError"
+  | "NotImplemented"
+  | "BadGateway"
+  | "ServiceUnavailable"
+  | "GatewayTimeout"
+  | "HttpVersionNotSupported";
 
 /**
  * Defines values for RecordType.
@@ -518,7 +564,7 @@ export type HttpStatusCode = 'Continue' | 'SwitchingProtocols' | 'OK' | 'Created
  * @readonly
  * @enum {string}
  */
-export type RecordType = 'A' | 'AAAA' | 'CNAME' | 'MX' | 'NS' | 'PTR' | 'SOA' | 'SRV' | 'TXT';
+export type RecordType = "A" | "AAAA" | "CNAME" | "MX" | "NS" | "PTR" | "SOA" | "SRV" | "TXT";
 
 /**
  * Contains response data for the update operation.
@@ -528,16 +574,16 @@ export type RecordSetsUpdateResponse = RecordSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSet;
+  };
 };
 
 /**
@@ -548,16 +594,16 @@ export type RecordSetsCreateOrUpdateResponse = RecordSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSet;
+  };
 };
 
 /**
@@ -568,16 +614,16 @@ export type RecordSetsGetResponse = RecordSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSet;
+  };
 };
 
 /**
@@ -588,16 +634,16 @@ export type RecordSetsListByTypeResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -608,16 +654,16 @@ export type RecordSetsListByDnsZoneResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -628,16 +674,16 @@ export type RecordSetsListByTypeNextResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -648,16 +694,16 @@ export type RecordSetsListByDnsZoneNextResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -668,16 +714,16 @@ export type ZonesCreateOrUpdateResponse = Zone & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Zone;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Zone;
+  };
 };
 
 /**
@@ -688,16 +734,16 @@ export type ZonesDeleteMethodResponse = ZoneDeleteResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ZoneDeleteResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ZoneDeleteResult;
+  };
 };
 
 /**
@@ -708,16 +754,16 @@ export type ZonesGetResponse = Zone & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Zone;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Zone;
+  };
 };
 
 /**
@@ -728,16 +774,16 @@ export type ZonesListByResourceGroupResponse = ZoneListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ZoneListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ZoneListResult;
+  };
 };
 
 /**
@@ -748,16 +794,16 @@ export type ZonesListResponse = ZoneListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ZoneListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ZoneListResult;
+  };
 };
 
 /**
@@ -768,16 +814,16 @@ export type ZonesBeginDeleteMethodResponse = ZoneDeleteResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ZoneDeleteResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ZoneDeleteResult;
+  };
 };
 
 /**
@@ -788,16 +834,16 @@ export type ZonesListByResourceGroupNextResponse = ZoneListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ZoneListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ZoneListResult;
+  };
 };
 
 /**
@@ -808,14 +854,14 @@ export type ZonesListNextResponse = ZoneListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ZoneListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ZoneListResult;
+  };
 };

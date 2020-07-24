@@ -539,7 +539,16 @@ export interface Answer {
 /**
  * Contains the possible cases for SearchResultsAnswer.
  */
-export type SearchResultsAnswerUnion = SearchResultsAnswer | WebWebAnswer | Images | News | RelatedSearchesRelatedSearchAnswer | SpellSuggestions | TimeZone | Videos | Places;
+export type SearchResultsAnswerUnion =
+  | SearchResultsAnswer
+  | WebWebAnswer
+  | Images
+  | News
+  | RelatedSearchesRelatedSearchAnswer
+  | SpellSuggestions
+  | TimeZone
+  | Videos
+  | Places;
 
 /**
  * An interface representing SearchResultsAnswer.
@@ -1864,7 +1873,15 @@ export interface WebSearchOptionalParams extends msRest.RequestOptionsBase {
  * @readonly
  * @enum {string}
  */
-export type AnswerType = 'WebPages' | 'Images' | 'SpellSuggestions' | 'News' | 'RelatedSearches' | 'Videos' | 'Computation' | 'TimeZone';
+export type AnswerType =
+  | "WebPages"
+  | "Images"
+  | "SpellSuggestions"
+  | "News"
+  | "RelatedSearches"
+  | "Videos"
+  | "Computation"
+  | "TimeZone";
 
 /**
  * Defines values for ErrorCode.
@@ -1873,7 +1890,13 @@ export type AnswerType = 'WebPages' | 'Images' | 'SpellSuggestions' | 'News' | '
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export type ErrorCode =
+  | "None"
+  | "ServerError"
+  | "InvalidRequest"
+  | "RateLimitExceeded"
+  | "InvalidAuthorization"
+  | "InsufficientAuthorization";
 
 /**
  * Defines values for ErrorSubCode.
@@ -1884,7 +1907,18 @@ export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitEx
  * @readonly
  * @enum {string}
  */
-export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
+export type ErrorSubCode =
+  | "UnexpectedError"
+  | "ResourceError"
+  | "NotImplemented"
+  | "ParameterMissing"
+  | "ParameterInvalidValue"
+  | "HttpNotAllowed"
+  | "Blocked"
+  | "AuthorizationMissing"
+  | "AuthorizationRedundancy"
+  | "AuthorizationDisabled"
+  | "AuthorizationExpired";
 
 /**
  * Defines values for Freshness.
@@ -1892,7 +1926,7 @@ export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented
  * @readonly
  * @enum {string}
  */
-export type Freshness = 'Day' | 'Week' | 'Month';
+export type Freshness = "Day" | "Week" | "Month";
 
 /**
  * Defines values for SafeSearch.
@@ -1900,7 +1934,7 @@ export type Freshness = 'Day' | 'Week' | 'Month';
  * @readonly
  * @enum {string}
  */
-export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
+export type SafeSearch = "Off" | "Moderate" | "Strict";
 
 /**
  * Defines values for TextFormat.
@@ -1908,7 +1942,7 @@ export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
  * @readonly
  * @enum {string}
  */
-export type TextFormat = 'Raw' | 'Html';
+export type TextFormat = "Raw" | "Html";
 
 /**
  * Contains response data for the search operation.
@@ -1918,14 +1952,14 @@ export type WebSearchResponse = SearchResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SearchResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchResponse;
+  };
 };

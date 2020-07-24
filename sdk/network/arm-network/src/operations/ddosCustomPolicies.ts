@@ -34,9 +34,16 @@ export class DdosCustomPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, ddosCustomPolicyName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,ddosCustomPolicyName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    ddosCustomPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      ddosCustomPolicyName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -46,21 +53,39 @@ export class DdosCustomPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.DdosCustomPoliciesGetResponse>
    */
-  get(resourceGroupName: string, ddosCustomPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.DdosCustomPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    ddosCustomPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DdosCustomPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ddosCustomPolicyName The name of the DDoS custom policy.
    * @param callback The callback
    */
-  get(resourceGroupName: string, ddosCustomPolicyName: string, callback: msRest.ServiceCallback<Models.DdosCustomPolicy>): void;
+  get(
+    resourceGroupName: string,
+    ddosCustomPolicyName: string,
+    callback: msRest.ServiceCallback<Models.DdosCustomPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ddosCustomPolicyName The name of the DDoS custom policy.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, ddosCustomPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosCustomPolicy>): void;
-  get(resourceGroupName: string, ddosCustomPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosCustomPolicy>, callback?: msRest.ServiceCallback<Models.DdosCustomPolicy>): Promise<Models.DdosCustomPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    ddosCustomPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DdosCustomPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    ddosCustomPolicyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosCustomPolicy>,
+    callback?: msRest.ServiceCallback<Models.DdosCustomPolicy>
+  ): Promise<Models.DdosCustomPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +93,8 @@ export class DdosCustomPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DdosCustomPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.DdosCustomPoliciesGetResponse>;
   }
 
   /**
@@ -79,9 +105,20 @@ export class DdosCustomPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.DdosCustomPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, ddosCustomPolicyName: string, parameters: Models.DdosCustomPolicy, options?: msRest.RequestOptionsBase): Promise<Models.DdosCustomPoliciesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,ddosCustomPolicyName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DdosCustomPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    ddosCustomPolicyName: string,
+    parameters: Models.DdosCustomPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DdosCustomPoliciesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      ddosCustomPolicyName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DdosCustomPoliciesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -92,14 +129,24 @@ export class DdosCustomPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.DdosCustomPoliciesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, ddosCustomPolicyName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.DdosCustomPoliciesUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    ddosCustomPolicyName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DdosCustomPoliciesUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ddosCustomPolicyName The name of the DDoS custom policy.
    * @param parameters Parameters supplied to update DDoS custom policy resource tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, ddosCustomPolicyName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.DdosCustomPolicy>): void;
+  updateTags(
+    resourceGroupName: string,
+    ddosCustomPolicyName: string,
+    parameters: Models.TagsObject,
+    callback: msRest.ServiceCallback<Models.DdosCustomPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ddosCustomPolicyName The name of the DDoS custom policy.
@@ -107,8 +154,20 @@ export class DdosCustomPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, ddosCustomPolicyName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DdosCustomPolicy>): void;
-  updateTags(resourceGroupName: string, ddosCustomPolicyName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosCustomPolicy>, callback?: msRest.ServiceCallback<Models.DdosCustomPolicy>): Promise<Models.DdosCustomPoliciesUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    ddosCustomPolicyName: string,
+    parameters: Models.TagsObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DdosCustomPolicy>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    ddosCustomPolicyName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DdosCustomPolicy>,
+    callback?: msRest.ServiceCallback<Models.DdosCustomPolicy>
+  ): Promise<Models.DdosCustomPoliciesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +176,8 @@ export class DdosCustomPolicies {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.DdosCustomPoliciesUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.DdosCustomPoliciesUpdateTagsResponse>;
   }
 
   /**
@@ -127,7 +187,11 @@ export class DdosCustomPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, ddosCustomPolicyName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    ddosCustomPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -135,7 +199,8 @@ export class DdosCustomPolicies {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -146,7 +211,12 @@ export class DdosCustomPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, ddosCustomPolicyName: string, parameters: Models.DdosCustomPolicy, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    ddosCustomPolicyName: string,
+    parameters: Models.DdosCustomPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -155,7 +225,8 @@ export class DdosCustomPolicies {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -163,18 +234,15 @@ export class DdosCustomPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.ddosCustomPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DdosCustomPolicy
@@ -188,18 +256,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.ddosCustomPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -220,18 +285,15 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.ddosCustomPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -245,18 +307,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.ddosCustomPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

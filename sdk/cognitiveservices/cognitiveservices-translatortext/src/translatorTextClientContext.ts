@@ -25,7 +25,11 @@ export class TranslatorTextClientContext extends msRest.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: Models.TranslatorTextClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    endpoint: string,
+    options?: Models.TranslatorTextClientOptions
+  ) {
     if (endpoint == undefined) {
       throw new Error("'endpoint' cannot be null.");
     }
@@ -44,7 +48,7 @@ export class TranslatorTextClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.apiVersion = '3.0';
+    this.apiVersion = "3.0";
     this.baseUri = "{Endpoint}";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;

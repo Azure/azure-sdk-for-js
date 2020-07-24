@@ -15,14 +15,16 @@ import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
 import { EventGridClientContext } from "./eventGridClientContext";
 
-
 class EventGridClient extends EventGridClientContext {
   /**
    * Initializes a new instance of the EventGridClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: msRestAzure.AzureServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: msRestAzure.AzureServiceClientOptions
+  ) {
     super(credentials, options);
   }
 
@@ -33,21 +35,39 @@ class EventGridClient extends EventGridClientContext {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  publishEvents(topicHostname: string, events: Models.EventGridEvent[], options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  publishEvents(
+    topicHostname: string,
+    events: Models.EventGridEvent[],
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param topicHostname The host name of the topic, e.g. topic1.westus2-1.eventgrid.azure.net
    * @param events An array of events to be published to Event Grid.
    * @param callback The callback
    */
-  publishEvents(topicHostname: string, events: Models.EventGridEvent[], callback: msRest.ServiceCallback<void>): void;
+  publishEvents(
+    topicHostname: string,
+    events: Models.EventGridEvent[],
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param topicHostname The host name of the topic, e.g. topic1.westus2-1.eventgrid.azure.net
    * @param events An array of events to be published to Event Grid.
    * @param options The optional parameters
    * @param callback The callback
    */
-  publishEvents(topicHostname: string, events: Models.EventGridEvent[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  publishEvents(topicHostname: string, events: Models.EventGridEvent[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  publishEvents(
+    topicHostname: string,
+    events: Models.EventGridEvent[],
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  publishEvents(
+    topicHostname: string,
+    events: Models.EventGridEvent[],
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         topicHostname,
@@ -55,7 +75,8 @@ class EventGridClient extends EventGridClientContext {
         options
       },
       publishEventsOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -64,15 +85,9 @@ const serializer = new msRest.Serializer(Mappers);
 const publishEventsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "api/events",
-  urlParameters: [
-    Parameters.topicHostname
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.topicHostname],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "events",
     mapper: {

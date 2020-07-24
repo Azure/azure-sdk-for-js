@@ -23,7 +23,10 @@ class CustomImageSearchClient extends CustomImageSearchClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.CustomImageSearchClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.CustomImageSearchClientOptions
+  ) {
     super(credentials, options);
     this.customInstance = new operations.CustomInstance(this);
   }

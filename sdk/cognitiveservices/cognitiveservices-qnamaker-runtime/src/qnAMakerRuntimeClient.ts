@@ -25,7 +25,11 @@ class QnAMakerRuntimeClient extends QnAMakerRuntimeClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, runtimeEndpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    runtimeEndpoint: string,
+    options?: msRest.ServiceClientOptions
+  ) {
     super(credentials, runtimeEndpoint, options);
     this.runtime = new operations.Runtime(this);
   }

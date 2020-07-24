@@ -8,9 +8,4 @@
  * regenerated.
  */
 
-export {
-  KeyListResult,
-  Key,
-  ErrorResponse
-} from "../models/mappers";
-
+export { KeyListResult, Key, ErrorResponse } from "../models/mappers";

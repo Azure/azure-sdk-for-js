@@ -37,4 +37,3 @@ export {
   NamespaceResource,
   SubResource
 } from "../models/mappers";
-

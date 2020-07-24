@@ -32,26 +32,41 @@ export class DnsResourceReferenceOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DnsResourceReferenceGetByTargetResourcesResponse>
    */
-  getByTargetResources(parameters: Models.DnsResourceReferenceRequest, options?: msRest.RequestOptionsBase): Promise<Models.DnsResourceReferenceGetByTargetResourcesResponse>;
+  getByTargetResources(
+    parameters: Models.DnsResourceReferenceRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DnsResourceReferenceGetByTargetResourcesResponse>;
   /**
    * @param parameters Properties for dns resource reference request.
    * @param callback The callback
    */
-  getByTargetResources(parameters: Models.DnsResourceReferenceRequest, callback: msRest.ServiceCallback<Models.DnsResourceReferenceResult>): void;
+  getByTargetResources(
+    parameters: Models.DnsResourceReferenceRequest,
+    callback: msRest.ServiceCallback<Models.DnsResourceReferenceResult>
+  ): void;
   /**
    * @param parameters Properties for dns resource reference request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getByTargetResources(parameters: Models.DnsResourceReferenceRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DnsResourceReferenceResult>): void;
-  getByTargetResources(parameters: Models.DnsResourceReferenceRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DnsResourceReferenceResult>, callback?: msRest.ServiceCallback<Models.DnsResourceReferenceResult>): Promise<Models.DnsResourceReferenceGetByTargetResourcesResponse> {
+  getByTargetResources(
+    parameters: Models.DnsResourceReferenceRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DnsResourceReferenceResult>
+  ): void;
+  getByTargetResources(
+    parameters: Models.DnsResourceReferenceRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DnsResourceReferenceResult>,
+    callback?: msRest.ServiceCallback<Models.DnsResourceReferenceResult>
+  ): Promise<Models.DnsResourceReferenceGetByTargetResourcesResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
         options
       },
       getByTargetResourcesOperationSpec,
-      callback) as Promise<Models.DnsResourceReferenceGetByTargetResourcesResponse>;
+      callback
+    ) as Promise<Models.DnsResourceReferenceGetByTargetResourcesResponse>;
   }
 }
 
@@ -60,15 +75,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getByTargetResourcesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/getDnsResourceReference",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

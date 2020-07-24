@@ -35,7 +35,13 @@ export interface Resource extends BaseResource {
 /**
  * Contains the possible cases for ResourceReference.
  */
-export type ResourceReferenceUnion = ResourceReference | MachineReference | ProcessReference | PortReference | MachineReferenceWithHints | ClientGroupReference;
+export type ResourceReferenceUnion =
+  | ResourceReference
+  | MachineReference
+  | ProcessReference
+  | PortReference
+  | MachineReferenceWithHints
+  | ClientGroupReference;
 
 /**
  * Represents a reference to another resource.
@@ -214,7 +220,13 @@ export interface ClientGroupReference {
 /**
  * Contains the possible cases for CoreResource.
  */
-export type CoreResourceUnion = CoreResource | Machine | Process | Port | ClientGroup | MachineGroup;
+export type CoreResourceUnion =
+  | CoreResource
+  | Machine
+  | Process
+  | Port
+  | ClientGroup
+  | MachineGroup;
 
 /**
  * Marker resource for the core Service Map resources
@@ -626,7 +638,9 @@ export interface ProcessUser {
 /**
  * Contains the possible cases for ProcessHostingConfiguration.
  */
-export type ProcessHostingConfigurationUnion = ProcessHostingConfiguration | AzureProcessHostingConfiguration;
+export type ProcessHostingConfigurationUnion =
+  | ProcessHostingConfiguration
+  | AzureProcessHostingConfiguration;
 
 /**
  * Describes the hosting configuration of a process.
@@ -892,8 +906,7 @@ export interface MachineGroup {
 /**
  * Base for all resource summaries.
  */
-export interface Summary extends Resource {
-}
+export interface Summary extends Resource {}
 
 /**
  * Machines by operating system.
@@ -1326,7 +1339,10 @@ export interface Liveness {
 /**
  * Contains the possible cases for MapRequest.
  */
-export type MapRequestUnion = MapRequest | SingleMachineDependencyMapRequest | MultipleMachinesMapRequestUnion;
+export type MapRequestUnion =
+  | MapRequest
+  | SingleMachineDependencyMapRequest
+  | MultipleMachinesMapRequestUnion;
 
 /**
  * Specifies the contents of request to generate a map.
@@ -1372,7 +1388,10 @@ export interface SingleMachineDependencyMapRequest {
 /**
  * Contains the possible cases for MultipleMachinesMapRequest.
  */
-export type MultipleMachinesMapRequestUnion = MultipleMachinesMapRequest | MachineListMapRequest | MachineGroupMapRequest;
+export type MultipleMachinesMapRequestUnion =
+  | MultipleMachinesMapRequest
+  | MachineListMapRequest
+  | MachineGroupMapRequest;
 
 /**
  * Provides a base class for describing map requests for a collection of machines
@@ -1650,7 +1669,8 @@ export interface MachinesListPortsOptionalParams extends msRest.RequestOptionsBa
 /**
  * Optional Parameters.
  */
-export interface MachinesListMachineGroupMembershipOptionalParams extends msRest.RequestOptionsBase {
+export interface MachinesListMachineGroupMembershipOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * UTC date and time specifying the start time of an interval. When not specified the service
    * uses DateTime.UtcNow - 10m
@@ -1971,7 +1991,7 @@ export interface ClientGroupMembersCollection extends Array<ClientGroupMember> {
  * @readonly
  * @enum {string}
  */
-export type OperatingSystemFamily = 'unknown' | 'windows' | 'linux' | 'solaris' | 'aix';
+export type OperatingSystemFamily = "unknown" | "windows" | "linux" | "solaris" | "aix";
 
 /**
  * Defines values for MonitoringState.
@@ -1979,7 +1999,7 @@ export type OperatingSystemFamily = 'unknown' | 'windows' | 'linux' | 'solaris' 
  * @readonly
  * @enum {string}
  */
-export type MonitoringState = 'monitored' | 'discovered';
+export type MonitoringState = "monitored" | "discovered";
 
 /**
  * Defines values for VirtualizationState.
@@ -1987,7 +2007,7 @@ export type MonitoringState = 'monitored' | 'discovered';
  * @readonly
  * @enum {string}
  */
-export type VirtualizationState = 'unknown' | 'physical' | 'virtual' | 'hypervisor';
+export type VirtualizationState = "unknown" | "physical" | "virtual" | "hypervisor";
 
 /**
  * Defines values for MachineRebootStatus.
@@ -1995,7 +2015,7 @@ export type VirtualizationState = 'unknown' | 'physical' | 'virtual' | 'hypervis
  * @readonly
  * @enum {string}
  */
-export type MachineRebootStatus = 'unknown' | 'rebooted' | 'notRebooted';
+export type MachineRebootStatus = "unknown" | "rebooted" | "notRebooted";
 
 /**
  * Defines values for Accuracy.
@@ -2003,7 +2023,7 @@ export type MachineRebootStatus = 'unknown' | 'rebooted' | 'notRebooted';
  * @readonly
  * @enum {string}
  */
-export type Accuracy = 'actual' | 'estimated';
+export type Accuracy = "actual" | "estimated";
 
 /**
  * Defines values for Bitness.
@@ -2011,7 +2031,7 @@ export type Accuracy = 'actual' | 'estimated';
  * @readonly
  * @enum {string}
  */
-export type Bitness = '32bit' | '64bit';
+export type Bitness = "32bit" | "64bit";
 
 /**
  * Defines values for VirtualMachineType.
@@ -2019,7 +2039,14 @@ export type Bitness = '32bit' | '64bit';
  * @readonly
  * @enum {string}
  */
-export type VirtualMachineType = 'unknown' | 'hyperv' | 'ldom' | 'lpar' | 'vmware' | 'virtualPc' | 'xen';
+export type VirtualMachineType =
+  | "unknown"
+  | "hyperv"
+  | "ldom"
+  | "lpar"
+  | "vmware"
+  | "virtualPc"
+  | "xen";
 
 /**
  * Defines values for HypervisorType.
@@ -2027,7 +2054,7 @@ export type VirtualMachineType = 'unknown' | 'hyperv' | 'ldom' | 'lpar' | 'vmwar
  * @readonly
  * @enum {string}
  */
-export type HypervisorType = 'unknown' | 'hyperv';
+export type HypervisorType = "unknown" | "hyperv";
 
 /**
  * Defines values for ProcessRole.
@@ -2035,7 +2062,7 @@ export type HypervisorType = 'unknown' | 'hyperv';
  * @readonly
  * @enum {string}
  */
-export type ProcessRole = 'webServer' | 'appServer' | 'databaseServer' | 'ldapServer' | 'smbServer';
+export type ProcessRole = "webServer" | "appServer" | "databaseServer" | "ldapServer" | "smbServer";
 
 /**
  * Defines values for MachineGroupType.
@@ -2043,7 +2070,7 @@ export type ProcessRole = 'webServer' | 'appServer' | 'databaseServer' | 'ldapSe
  * @readonly
  * @enum {string}
  */
-export type MachineGroupType = 'unknown' | 'azure-cs' | 'azure-sf' | 'azure-vmss' | 'user-static';
+export type MachineGroupType = "unknown" | "azure-cs" | "azure-sf" | "azure-vmss" | "user-static";
 
 /**
  * Defines values for ConnectionFailureState.
@@ -2051,7 +2078,7 @@ export type MachineGroupType = 'unknown' | 'azure-cs' | 'azure-sf' | 'azure-vmss
  * @readonly
  * @enum {string}
  */
-export type ConnectionFailureState = 'ok' | 'failed' | 'mixed';
+export type ConnectionFailureState = "ok" | "failed" | "mixed";
 
 /**
  * Defines values for AzureCloudServiceRoleType.
@@ -2059,7 +2086,7 @@ export type ConnectionFailureState = 'ok' | 'failed' | 'mixed';
  * @readonly
  * @enum {string}
  */
-export type AzureCloudServiceRoleType = 'unknown' | 'worker' | 'web';
+export type AzureCloudServiceRoleType = "unknown" | "worker" | "web";
 
 /**
  * Defines values for Provider.
@@ -2067,7 +2094,7 @@ export type AzureCloudServiceRoleType = 'unknown' | 'worker' | 'web';
  * @readonly
  * @enum {string}
  */
-export type Provider = 'azure';
+export type Provider = "azure";
 
 /**
  * Defines values for Provider1.
@@ -2075,7 +2102,7 @@ export type Provider = 'azure';
  * @readonly
  * @enum {string}
  */
-export type Provider1 = 'azure';
+export type Provider1 = "azure";
 
 /**
  * Contains response data for the listByWorkspace operation.
@@ -2085,16 +2112,16 @@ export type MachinesListByWorkspaceResponse = MachineCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MachineCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MachineCollection;
+  };
 };
 
 /**
@@ -2105,16 +2132,16 @@ export type MachinesGetResponse = Machine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Machine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Machine;
+  };
 };
 
 /**
@@ -2125,16 +2152,16 @@ export type MachinesGetLivenessResponse = Liveness & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Liveness;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Liveness;
+  };
 };
 
 /**
@@ -2145,16 +2172,16 @@ export type MachinesListConnectionsResponse = ConnectionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionCollection;
+  };
 };
 
 /**
@@ -2165,16 +2192,16 @@ export type MachinesListProcessesResponse = ProcessCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProcessCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProcessCollection;
+  };
 };
 
 /**
@@ -2185,16 +2212,16 @@ export type MachinesListPortsResponse = PortCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PortCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PortCollection;
+  };
 };
 
 /**
@@ -2205,16 +2232,16 @@ export type MachinesListMachineGroupMembershipResponse = MachineGroupCollection 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MachineGroupCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MachineGroupCollection;
+  };
 };
 
 /**
@@ -2225,16 +2252,16 @@ export type MachinesListByWorkspaceNextResponse = MachineCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MachineCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MachineCollection;
+  };
 };
 
 /**
@@ -2245,16 +2272,16 @@ export type MachinesListConnectionsNextResponse = ConnectionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionCollection;
+  };
 };
 
 /**
@@ -2265,16 +2292,16 @@ export type MachinesListProcessesNextResponse = ProcessCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProcessCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProcessCollection;
+  };
 };
 
 /**
@@ -2285,16 +2312,16 @@ export type MachinesListPortsNextResponse = PortCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PortCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PortCollection;
+  };
 };
 
 /**
@@ -2305,16 +2332,16 @@ export type MachinesListMachineGroupMembershipNextResponse = MachineGroupCollect
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MachineGroupCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MachineGroupCollection;
+  };
 };
 
 /**
@@ -2325,16 +2352,16 @@ export type ProcessesGetResponse = Process & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Process;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Process;
+  };
 };
 
 /**
@@ -2345,16 +2372,16 @@ export type ProcessesGetLivenessResponse = Liveness & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Liveness;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Liveness;
+  };
 };
 
 /**
@@ -2365,16 +2392,16 @@ export type ProcessesListAcceptingPortsResponse = PortCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PortCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PortCollection;
+  };
 };
 
 /**
@@ -2385,16 +2412,16 @@ export type ProcessesListConnectionsResponse = ConnectionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionCollection;
+  };
 };
 
 /**
@@ -2405,16 +2432,16 @@ export type ProcessesListAcceptingPortsNextResponse = PortCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PortCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PortCollection;
+  };
 };
 
 /**
@@ -2425,16 +2452,16 @@ export type ProcessesListConnectionsNextResponse = ConnectionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionCollection;
+  };
 };
 
 /**
@@ -2445,16 +2472,16 @@ export type PortsGetResponse = Port & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Port;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Port;
+  };
 };
 
 /**
@@ -2465,16 +2492,16 @@ export type PortsGetLivenessResponse = Liveness & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Liveness;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Liveness;
+  };
 };
 
 /**
@@ -2485,16 +2512,16 @@ export type PortsListAcceptingProcessesResponse = ProcessCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProcessCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProcessCollection;
+  };
 };
 
 /**
@@ -2505,16 +2532,16 @@ export type PortsListConnectionsResponse = ConnectionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionCollection;
+  };
 };
 
 /**
@@ -2525,16 +2552,16 @@ export type PortsListAcceptingProcessesNextResponse = ProcessCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProcessCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProcessCollection;
+  };
 };
 
 /**
@@ -2545,16 +2572,16 @@ export type PortsListConnectionsNextResponse = ConnectionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConnectionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConnectionCollection;
+  };
 };
 
 /**
@@ -2565,16 +2592,16 @@ export type ClientGroupsGetResponse = ClientGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClientGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClientGroup;
+  };
 };
 
 /**
@@ -2585,16 +2612,16 @@ export type ClientGroupsGetMembersCountResponse = ClientGroupMembersCount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClientGroupMembersCount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClientGroupMembersCount;
+  };
 };
 
 /**
@@ -2605,16 +2632,16 @@ export type ClientGroupsListMembersResponse = ClientGroupMembersCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClientGroupMembersCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClientGroupMembersCollection;
+  };
 };
 
 /**
@@ -2625,16 +2652,16 @@ export type ClientGroupsListMembersNextResponse = ClientGroupMembersCollection &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClientGroupMembersCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClientGroupMembersCollection;
+  };
 };
 
 /**
@@ -2645,16 +2672,16 @@ export type MapsGenerateResponse = MapResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MapResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MapResponse;
+  };
 };
 
 /**
@@ -2665,16 +2692,16 @@ export type SummariesGetMachinesResponse = MachinesSummary & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MachinesSummary;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MachinesSummary;
+  };
 };
 
 /**
@@ -2685,16 +2712,16 @@ export type MachineGroupsListByWorkspaceResponse = MachineGroupCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MachineGroupCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MachineGroupCollection;
+  };
 };
 
 /**
@@ -2705,16 +2732,16 @@ export type MachineGroupsCreateResponse = MachineGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MachineGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MachineGroup;
+  };
 };
 
 /**
@@ -2725,16 +2752,16 @@ export type MachineGroupsGetResponse = MachineGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MachineGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MachineGroup;
+  };
 };
 
 /**
@@ -2745,16 +2772,16 @@ export type MachineGroupsUpdateResponse = MachineGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MachineGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MachineGroup;
+  };
 };
 
 /**
@@ -2765,14 +2792,14 @@ export type MachineGroupsListByWorkspaceNextResponse = MachineGroupCollection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MachineGroupCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MachineGroupCollection;
+  };
 };

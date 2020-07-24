@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -34,10 +34,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
   }
 };
 export const ifMatch: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifMatch"
-  ],
+  parameterPath: ["options", "ifMatch"],
   mapper: {
     serializedName: "If-Match",
     type: {
@@ -46,10 +43,7 @@ export const ifMatch: msRest.OperationParameter = {
   }
 };
 export const ifNoneMatch: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifNoneMatch"
-  ],
+  parameterPath: ["options", "ifNoneMatch"],
   mapper: {
     serializedName: "If-None-Match",
     type: {
@@ -69,10 +63,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const recordsetnamesuffix: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "recordsetnamesuffix"
-  ],
+  parameterPath: ["options", "recordsetnamesuffix"],
   mapper: {
     serializedName: "$recordsetnamesuffix",
     type: {
@@ -87,17 +78,7 @@ export const recordType: msRest.OperationURLParameter = {
     serializedName: "recordType",
     type: {
       name: "Enum",
-      allowedValues: [
-        "A",
-        "AAAA",
-        "CNAME",
-        "MX",
-        "NS",
-        "PTR",
-        "SOA",
-        "SRV",
-        "TXT"
-      ]
+      allowedValues: ["A", "AAAA", "CNAME", "MX", "NS", "PTR", "SOA", "SRV", "TXT"]
     }
   }
 };
@@ -141,10 +122,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "$top",
     type: {

@@ -35,21 +35,41 @@ export class Communications {
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationsCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(supportTicketName: string, checkNameAvailabilityInput: Models.CheckNameAvailabilityInput, options?: msRest.RequestOptionsBase): Promise<Models.CommunicationsCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    supportTicketName: string,
+    checkNameAvailabilityInput: Models.CheckNameAvailabilityInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CommunicationsCheckNameAvailabilityResponse>;
   /**
    * @param supportTicketName Support ticket name.
    * @param checkNameAvailabilityInput Input to check.
    * @param callback The callback
    */
-  checkNameAvailability(supportTicketName: string, checkNameAvailabilityInput: Models.CheckNameAvailabilityInput, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
+  checkNameAvailability(
+    supportTicketName: string,
+    checkNameAvailabilityInput: Models.CheckNameAvailabilityInput,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): void;
   /**
    * @param supportTicketName Support ticket name.
    * @param checkNameAvailabilityInput Input to check.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(supportTicketName: string, checkNameAvailabilityInput: Models.CheckNameAvailabilityInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
-  checkNameAvailability(supportTicketName: string, checkNameAvailabilityInput: Models.CheckNameAvailabilityInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): Promise<Models.CommunicationsCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    supportTicketName: string,
+    checkNameAvailabilityInput: Models.CheckNameAvailabilityInput,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): void;
+  checkNameAvailability(
+    supportTicketName: string,
+    checkNameAvailabilityInput: Models.CheckNameAvailabilityInput,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): Promise<Models.CommunicationsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         supportTicketName,
@@ -57,7 +77,8 @@ export class Communications {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.CommunicationsCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.CommunicationsCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -71,26 +92,43 @@ export class Communications {
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationsListResponse>
    */
-  list(supportTicketName: string, options?: Models.CommunicationsListOptionalParams): Promise<Models.CommunicationsListResponse>;
+  list(
+    supportTicketName: string,
+    options?: Models.CommunicationsListOptionalParams
+  ): Promise<Models.CommunicationsListResponse>;
   /**
    * @param supportTicketName Support ticket name.
    * @param callback The callback
    */
-  list(supportTicketName: string, callback: msRest.ServiceCallback<Models.CommunicationsListResult>): void;
+  list(
+    supportTicketName: string,
+    callback: msRest.ServiceCallback<Models.CommunicationsListResult>
+  ): void;
   /**
    * @param supportTicketName Support ticket name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(supportTicketName: string, options: Models.CommunicationsListOptionalParams, callback: msRest.ServiceCallback<Models.CommunicationsListResult>): void;
-  list(supportTicketName: string, options?: Models.CommunicationsListOptionalParams | msRest.ServiceCallback<Models.CommunicationsListResult>, callback?: msRest.ServiceCallback<Models.CommunicationsListResult>): Promise<Models.CommunicationsListResponse> {
+  list(
+    supportTicketName: string,
+    options: Models.CommunicationsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.CommunicationsListResult>
+  ): void;
+  list(
+    supportTicketName: string,
+    options?:
+      | Models.CommunicationsListOptionalParams
+      | msRest.ServiceCallback<Models.CommunicationsListResult>,
+    callback?: msRest.ServiceCallback<Models.CommunicationsListResult>
+  ): Promise<Models.CommunicationsListResponse> {
     return this.client.sendOperationRequest(
       {
         supportTicketName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.CommunicationsListResponse>;
+      callback
+    ) as Promise<Models.CommunicationsListResponse>;
   }
 
   /**
@@ -100,21 +138,39 @@ export class Communications {
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationsGetResponse>
    */
-  get(supportTicketName: string, communicationName: string, options?: msRest.RequestOptionsBase): Promise<Models.CommunicationsGetResponse>;
+  get(
+    supportTicketName: string,
+    communicationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CommunicationsGetResponse>;
   /**
    * @param supportTicketName Support ticket name.
    * @param communicationName Communication name.
    * @param callback The callback
    */
-  get(supportTicketName: string, communicationName: string, callback: msRest.ServiceCallback<Models.CommunicationDetails>): void;
+  get(
+    supportTicketName: string,
+    communicationName: string,
+    callback: msRest.ServiceCallback<Models.CommunicationDetails>
+  ): void;
   /**
    * @param supportTicketName Support ticket name.
    * @param communicationName Communication name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(supportTicketName: string, communicationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CommunicationDetails>): void;
-  get(supportTicketName: string, communicationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommunicationDetails>, callback?: msRest.ServiceCallback<Models.CommunicationDetails>): Promise<Models.CommunicationsGetResponse> {
+  get(
+    supportTicketName: string,
+    communicationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CommunicationDetails>
+  ): void;
+  get(
+    supportTicketName: string,
+    communicationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommunicationDetails>,
+    callback?: msRest.ServiceCallback<Models.CommunicationDetails>
+  ): Promise<Models.CommunicationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         supportTicketName,
@@ -122,7 +178,8 @@ export class Communications {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CommunicationsGetResponse>;
+      callback
+    ) as Promise<Models.CommunicationsGetResponse>;
   }
 
   /**
@@ -133,9 +190,20 @@ export class Communications {
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationsCreateResponse>
    */
-  create(supportTicketName: string, communicationName: string, createCommunicationParameters: Models.CommunicationDetails, options?: msRest.RequestOptionsBase): Promise<Models.CommunicationsCreateResponse> {
-    return this.beginCreate(supportTicketName,communicationName,createCommunicationParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CommunicationsCreateResponse>;
+  create(
+    supportTicketName: string,
+    communicationName: string,
+    createCommunicationParameters: Models.CommunicationDetails,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CommunicationsCreateResponse> {
+    return this.beginCreate(
+      supportTicketName,
+      communicationName,
+      createCommunicationParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CommunicationsCreateResponse
+    >;
   }
 
   /**
@@ -146,7 +214,12 @@ export class Communications {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(supportTicketName: string, communicationName: string, createCommunicationParameters: Models.CommunicationDetails, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    supportTicketName: string,
+    communicationName: string,
+    createCommunicationParameters: Models.CommunicationDetails,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         supportTicketName,
@@ -155,7 +228,8 @@ export class Communications {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -169,26 +243,41 @@ export class Communications {
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CommunicationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CommunicationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CommunicationsListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CommunicationsListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CommunicationsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommunicationsListResult>, callback?: msRest.ServiceCallback<Models.CommunicationsListResult>): Promise<Models.CommunicationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CommunicationsListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommunicationsListResult>,
+    callback?: msRest.ServiceCallback<Models.CommunicationsListResult>
+  ): Promise<Models.CommunicationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.CommunicationsListNextResponse>;
+      callback
+    ) as Promise<Models.CommunicationsListNextResponse>;
   }
 }
 
@@ -196,17 +285,11 @@ export class Communications {
 const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/checkNameAvailability",
-  urlParameters: [
-    Parameters.supportTicketName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/checkNameAvailability",
+  urlParameters: [Parameters.supportTicketName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "checkNameAvailabilityInput",
     mapper: {
@@ -227,19 +310,11 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications",
-  urlParameters: [
-    Parameters.supportTicketName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications",
+  urlParameters: [Parameters.supportTicketName, Parameters.subscriptionId],
+  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CommunicationsListResult
@@ -253,18 +328,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications/{communicationName}",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications/{communicationName}",
   urlParameters: [
     Parameters.supportTicketName,
     Parameters.communicationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CommunicationDetails
@@ -278,18 +350,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications/{communicationName}",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications/{communicationName}",
   urlParameters: [
     Parameters.supportTicketName,
     Parameters.communicationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "createCommunicationParameters",
     mapper: {
@@ -313,12 +382,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CommunicationsListResult

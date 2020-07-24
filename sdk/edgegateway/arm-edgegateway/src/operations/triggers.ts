@@ -34,21 +34,41 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersListByDataBoxEdgeDeviceResponse>
    */
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: Models.TriggersListByDataBoxEdgeDeviceOptionalParams): Promise<Models.TriggersListByDataBoxEdgeDeviceResponse>;
+  listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: Models.TriggersListByDataBoxEdgeDeviceOptionalParams
+  ): Promise<Models.TriggersListByDataBoxEdgeDeviceResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param callback The callback
    */
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.TriggerList>): void;
+  listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.TriggerList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options: Models.TriggersListByDataBoxEdgeDeviceOptionalParams, callback: msRest.ServiceCallback<Models.TriggerList>): void;
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: Models.TriggersListByDataBoxEdgeDeviceOptionalParams | msRest.ServiceCallback<Models.TriggerList>, callback?: msRest.ServiceCallback<Models.TriggerList>): Promise<Models.TriggersListByDataBoxEdgeDeviceResponse> {
+  listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    options: Models.TriggersListByDataBoxEdgeDeviceOptionalParams,
+    callback: msRest.ServiceCallback<Models.TriggerList>
+  ): void;
+  listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    options?:
+      | Models.TriggersListByDataBoxEdgeDeviceOptionalParams
+      | msRest.ServiceCallback<Models.TriggerList>,
+    callback?: msRest.ServiceCallback<Models.TriggerList>
+  ): Promise<Models.TriggersListByDataBoxEdgeDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -56,7 +76,8 @@ export class Triggers {
         options
       },
       listByDataBoxEdgeDeviceOperationSpec,
-      callback) as Promise<Models.TriggersListByDataBoxEdgeDeviceResponse>;
+      callback
+    ) as Promise<Models.TriggersListByDataBoxEdgeDeviceResponse>;
   }
 
   /**
@@ -67,14 +88,24 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersGetResponse>
    */
-  get(deviceName: string, name: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.TriggersGetResponse>;
+  get(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TriggersGetResponse>;
   /**
    * @param deviceName The device name.
    * @param name The trigger name.
    * @param resourceGroupName The resource group name.
    * @param callback The callback
    */
-  get(deviceName: string, name: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.TriggerUnion>): void;
+  get(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.TriggerUnion>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param name The trigger name.
@@ -82,8 +113,20 @@ export class Triggers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(deviceName: string, name: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerUnion>): void;
-  get(deviceName: string, name: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerUnion>, callback?: msRest.ServiceCallback<Models.TriggerUnion>): Promise<Models.TriggersGetResponse> {
+  get(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TriggerUnion>
+  ): void;
+  get(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerUnion>,
+    callback?: msRest.ServiceCallback<Models.TriggerUnion>
+  ): Promise<Models.TriggersGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -92,7 +135,8 @@ export class Triggers {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TriggersGetResponse>;
+      callback
+    ) as Promise<Models.TriggersGetResponse>;
   }
 
   /**
@@ -104,9 +148,22 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersCreateOrUpdateResponse>
    */
-  createOrUpdate(deviceName: string, name: string, trigger: Models.TriggerUnion, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.TriggersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(deviceName,name,trigger,resourceGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TriggersCreateOrUpdateResponse>;
+  createOrUpdate(
+    deviceName: string,
+    name: string,
+    trigger: Models.TriggerUnion,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TriggersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      deviceName,
+      name,
+      trigger,
+      resourceGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.TriggersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -117,9 +174,15 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(deviceName: string, name: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(deviceName,name,resourceGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(deviceName, name, resourceGroupName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -131,7 +194,13 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(deviceName: string, name: string, trigger: Models.TriggerUnion, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    deviceName: string,
+    name: string,
+    trigger: Models.TriggerUnion,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -141,7 +210,8 @@ export class Triggers {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +222,12 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(deviceName: string, name: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -161,7 +236,8 @@ export class Triggers {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,26 +246,41 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersListByDataBoxEdgeDeviceNextResponse>
    */
-  listByDataBoxEdgeDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TriggersListByDataBoxEdgeDeviceNextResponse>;
+  listByDataBoxEdgeDeviceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TriggersListByDataBoxEdgeDeviceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByDataBoxEdgeDeviceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TriggerList>): void;
+  listByDataBoxEdgeDeviceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.TriggerList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDataBoxEdgeDeviceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerList>): void;
-  listByDataBoxEdgeDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerList>, callback?: msRest.ServiceCallback<Models.TriggerList>): Promise<Models.TriggersListByDataBoxEdgeDeviceNextResponse> {
+  listByDataBoxEdgeDeviceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TriggerList>
+  ): void;
+  listByDataBoxEdgeDeviceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerList>,
+    callback?: msRest.ServiceCallback<Models.TriggerList>
+  ): Promise<Models.TriggersListByDataBoxEdgeDeviceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByDataBoxEdgeDeviceNextOperationSpec,
-      callback) as Promise<Models.TriggersListByDataBoxEdgeDeviceNextResponse>;
+      callback
+    ) as Promise<Models.TriggersListByDataBoxEdgeDeviceNextResponse>;
   }
 }
 
@@ -197,19 +288,11 @@ export class Triggers {
 const serializer = new msRest.Serializer(Mappers);
 const listByDataBoxEdgeDeviceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers",
-  urlParameters: [
-    Parameters.deviceName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers",
+  urlParameters: [Parameters.deviceName, Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TriggerList
@@ -223,19 +306,16 @@ const listByDataBoxEdgeDeviceOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers/{name}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.name,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Trigger
@@ -249,19 +329,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers/{name}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.name,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "trigger",
     mapper: {
@@ -283,19 +360,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers/{name}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.name,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -311,12 +385,8 @@ const listByDataBoxEdgeDeviceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TriggerList

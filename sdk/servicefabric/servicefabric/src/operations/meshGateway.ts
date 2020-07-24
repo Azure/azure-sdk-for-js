@@ -36,21 +36,39 @@ export class MeshGateway {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshGatewayCreateOrUpdateResponse>
    */
-  createOrUpdate(gatewayResourceName: string, gatewayResourceDescription: Models.GatewayResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.MeshGatewayCreateOrUpdateResponse>;
+  createOrUpdate(
+    gatewayResourceName: string,
+    gatewayResourceDescription: Models.GatewayResourceDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshGatewayCreateOrUpdateResponse>;
   /**
    * @param gatewayResourceName The identity of the gateway.
    * @param gatewayResourceDescription Description for creating a Gateway resource.
    * @param callback The callback
    */
-  createOrUpdate(gatewayResourceName: string, gatewayResourceDescription: Models.GatewayResourceDescription, callback: msRest.ServiceCallback<Models.GatewayResourceDescription>): void;
+  createOrUpdate(
+    gatewayResourceName: string,
+    gatewayResourceDescription: Models.GatewayResourceDescription,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescription>
+  ): void;
   /**
    * @param gatewayResourceName The identity of the gateway.
    * @param gatewayResourceDescription Description for creating a Gateway resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(gatewayResourceName: string, gatewayResourceDescription: Models.GatewayResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayResourceDescription>): void;
-  createOrUpdate(gatewayResourceName: string, gatewayResourceDescription: Models.GatewayResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayResourceDescription>, callback?: msRest.ServiceCallback<Models.GatewayResourceDescription>): Promise<Models.MeshGatewayCreateOrUpdateResponse> {
+  createOrUpdate(
+    gatewayResourceName: string,
+    gatewayResourceDescription: Models.GatewayResourceDescription,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescription>
+  ): void;
+  createOrUpdate(
+    gatewayResourceName: string,
+    gatewayResourceDescription: Models.GatewayResourceDescription,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.GatewayResourceDescription>
+  ): Promise<Models.MeshGatewayCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         gatewayResourceName,
@@ -58,7 +76,8 @@ export class MeshGateway {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.MeshGatewayCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.MeshGatewayCreateOrUpdateResponse>;
   }
 
   /**
@@ -69,26 +88,41 @@ export class MeshGateway {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshGatewayGetResponse>
    */
-  get(gatewayResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshGatewayGetResponse>;
+  get(
+    gatewayResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshGatewayGetResponse>;
   /**
    * @param gatewayResourceName The identity of the gateway.
    * @param callback The callback
    */
-  get(gatewayResourceName: string, callback: msRest.ServiceCallback<Models.GatewayResourceDescription>): void;
+  get(
+    gatewayResourceName: string,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescription>
+  ): void;
   /**
    * @param gatewayResourceName The identity of the gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(gatewayResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayResourceDescription>): void;
-  get(gatewayResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayResourceDescription>, callback?: msRest.ServiceCallback<Models.GatewayResourceDescription>): Promise<Models.MeshGatewayGetResponse> {
+  get(
+    gatewayResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescription>
+  ): void;
+  get(
+    gatewayResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.GatewayResourceDescription>
+  ): Promise<Models.MeshGatewayGetResponse> {
     return this.client.sendOperationRequest(
       {
         gatewayResourceName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MeshGatewayGetResponse>;
+      callback
+    ) as Promise<Models.MeshGatewayGetResponse>;
   }
 
   /**
@@ -98,7 +132,10 @@ export class MeshGateway {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(gatewayResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    gatewayResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param gatewayResourceName The identity of the gateway.
    * @param callback The callback
@@ -109,15 +146,24 @@ export class MeshGateway {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(gatewayResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(gatewayResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    gatewayResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    gatewayResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         gatewayResourceName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -136,14 +182,23 @@ export class MeshGateway {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PagedGatewayResourceDescriptionList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PagedGatewayResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.PagedGatewayResourceDescriptionList>): Promise<Models.MeshGatewayListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PagedGatewayResourceDescriptionList>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PagedGatewayResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.PagedGatewayResourceDescriptionList>
+  ): Promise<Models.MeshGatewayListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MeshGatewayListResponse>;
+      callback
+    ) as Promise<Models.MeshGatewayListResponse>;
   }
 }
 
@@ -152,12 +207,8 @@ const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "Resources/Gateways/{gatewayResourceName}",
-  urlParameters: [
-    Parameters.gatewayResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.gatewayResourceName],
+  queryParameters: [Parameters.apiVersion8],
   requestBody: {
     parameterPath: "gatewayResourceDescription",
     mapper: {
@@ -183,12 +234,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Gateways/{gatewayResourceName}",
-  urlParameters: [
-    Parameters.gatewayResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.gatewayResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.GatewayResourceDescription
@@ -203,12 +250,8 @@ const getOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "Resources/Gateways/{gatewayResourceName}",
-  urlParameters: [
-    Parameters.gatewayResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.gatewayResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {},
     202: {},
@@ -223,9 +266,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Gateways",
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.PagedGatewayResourceDescriptionList

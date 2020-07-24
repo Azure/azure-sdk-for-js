@@ -36,9 +36,18 @@ export class ManagedInstanceTdeCertificates {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  create(resourceGroupName: string, managedInstanceName: string, parameters: Models.TdeCertificate, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginCreate(resourceGroupName,managedInstanceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  create(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    parameters: Models.TdeCertificate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      managedInstanceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -50,7 +59,12 @@ export class ManagedInstanceTdeCertificates {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, managedInstanceName: string, parameters: Models.TdeCertificate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    parameters: Models.TdeCertificate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -59,7 +73,8 @@ export class ManagedInstanceTdeCertificates {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -67,18 +82,15 @@ export class ManagedInstanceTdeCertificates {
 const serializer = new msRest.Serializer(Mappers);
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/tdeCertificates",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

@@ -40,13 +40,17 @@ export class GlobalAdministrator {
    * @param callback The callback
    */
   elevateAccess(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  elevateAccess(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  elevateAccess(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       elevateAccessOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -55,12 +59,8 @@ const serializer = new msRest.Serializer(Mappers);
 const elevateAccessOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Authorization/elevateAccess",
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {

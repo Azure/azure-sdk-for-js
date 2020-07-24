@@ -11,10 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 export const allImages: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "allImages"
-  ],
+  parameterPath: ["options", "allImages"],
   mapper: {
     serializedName: "allImages",
     type: {
@@ -23,10 +20,7 @@ export const allImages: msRest.OperationQueryParameter = {
   }
 };
 export const allIterations: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "allIterations"
-  ],
+  parameterPath: ["options", "allIterations"],
   mapper: {
     serializedName: "allIterations",
     type: {
@@ -35,10 +29,7 @@ export const allIterations: msRest.OperationQueryParameter = {
   }
 };
 export const classificationType: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "classificationType"
-  ],
+  parameterPath: ["options", "classificationType"],
   mapper: {
     serializedName: "classificationType",
     type: {
@@ -47,10 +38,7 @@ export const classificationType: msRest.OperationQueryParameter = {
   }
 };
 export const description: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "description"
-  ],
+  parameterPath: ["options", "description"],
   mapper: {
     serializedName: "description",
     type: {
@@ -69,10 +57,7 @@ export const domainId0: msRest.OperationURLParameter = {
   }
 };
 export const domainId1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "domainId"
-  ],
+  parameterPath: ["options", "domainId"],
   mapper: {
     serializedName: "domainId",
     type: {
@@ -85,7 +70,7 @@ export const endpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -93,10 +78,7 @@ export const endpoint: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const filter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -105,10 +87,7 @@ export const filter: msRest.OperationQueryParameter = {
   }
 };
 export const flavor: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "flavor"
-  ],
+  parameterPath: ["options", "flavor"],
   mapper: {
     serializedName: "flavor",
     type: {
@@ -117,10 +96,7 @@ export const flavor: msRest.OperationQueryParameter = {
   }
 };
 export const forceTrain: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "forceTrain"
-  ],
+  parameterPath: ["options", "forceTrain"],
   mapper: {
     serializedName: "forceTrain",
     defaultValue: false,
@@ -170,10 +146,7 @@ export const imageId: msRest.OperationURLParameter = {
   }
 };
 export const imageIds0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "imageIds"
-  ],
+  parameterPath: ["options", "imageIds"],
   mapper: {
     serializedName: "imageIds",
     constraints: {
@@ -232,10 +205,7 @@ export const imageIds2: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const iterationId0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "iterationId"
-  ],
+  parameterPath: ["options", "iterationId"],
   mapper: {
     serializedName: "iterationId",
     type: {
@@ -264,10 +234,7 @@ export const name0: msRest.OperationQueryParameter = {
   }
 };
 export const name1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "name"
-  ],
+  parameterPath: ["options", "name"],
   mapper: {
     serializedName: "name",
     type: {
@@ -276,10 +243,7 @@ export const name1: msRest.OperationQueryParameter = {
   }
 };
 export const notificationEmailAddress: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "notificationEmailAddress"
-  ],
+  parameterPath: ["options", "notificationEmailAddress"],
   mapper: {
     serializedName: "notificationEmailAddress",
     type: {
@@ -288,10 +252,7 @@ export const notificationEmailAddress: msRest.OperationQueryParameter = {
   }
 };
 export const orderBy: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "orderBy"
-  ],
+  parameterPath: ["options", "orderBy"],
   mapper: {
     serializedName: "orderBy",
     type: {
@@ -300,10 +261,7 @@ export const orderBy: msRest.OperationQueryParameter = {
   }
 };
 export const overlapThreshold: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "overlapThreshold"
-  ],
+  parameterPath: ["options", "overlapThreshold"],
   mapper: {
     serializedName: "overlapThreshold",
     type: {
@@ -312,10 +270,7 @@ export const overlapThreshold: msRest.OperationQueryParameter = {
   }
 };
 export const overwrite: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "overwrite"
-  ],
+  parameterPath: ["options", "overwrite"],
   mapper: {
     serializedName: "overwrite",
     type: {
@@ -394,10 +349,7 @@ export const regionIds: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const reservedBudgetInHours: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "reservedBudgetInHours"
-  ],
+  parameterPath: ["options", "reservedBudgetInHours"],
   mapper: {
     serializedName: "reservedBudgetInHours",
     defaultValue: 0,
@@ -407,10 +359,7 @@ export const reservedBudgetInHours: msRest.OperationQueryParameter = {
   }
 };
 export const skip: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skip"
-  ],
+  parameterPath: ["options", "skip"],
   mapper: {
     serializedName: "skip",
     defaultValue: 0,
@@ -420,10 +369,7 @@ export const skip: msRest.OperationQueryParameter = {
   }
 };
 export const store: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "store"
-  ],
+  parameterPath: ["options", "store"],
   mapper: {
     serializedName: "store",
     defaultValue: true,
@@ -433,10 +379,7 @@ export const store: msRest.OperationQueryParameter = {
   }
 };
 export const taggingStatus: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "taggingStatus"
-  ],
+  parameterPath: ["options", "taggingStatus"],
   mapper: {
     serializedName: "taggingStatus",
     type: {
@@ -455,10 +398,7 @@ export const tagId: msRest.OperationURLParameter = {
   }
 };
 export const tagIds0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "tagIds"
-  ],
+  parameterPath: ["options", "tagIds"],
   mapper: {
     serializedName: "tagIds",
     constraints: {
@@ -477,10 +417,7 @@ export const tagIds0: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const tagIds1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "tagIds"
-  ],
+  parameterPath: ["options", "tagIds"],
   mapper: {
     serializedName: "tagIds",
     type: {
@@ -515,10 +452,7 @@ export const tagIds2: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const take: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "take"
-  ],
+  parameterPath: ["options", "take"],
   mapper: {
     serializedName: "take",
     defaultValue: 50,
@@ -532,10 +466,7 @@ export const take: msRest.OperationQueryParameter = {
   }
 };
 export const targetExportPlatforms: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "targetExportPlatforms"
-  ],
+  parameterPath: ["options", "targetExportPlatforms"],
   mapper: {
     serializedName: "targetExportPlatforms",
     type: {
@@ -550,10 +481,7 @@ export const targetExportPlatforms: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const threshold: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "threshold"
-  ],
+  parameterPath: ["options", "threshold"],
   mapper: {
     serializedName: "threshold",
     type: {
@@ -572,10 +500,7 @@ export const token: msRest.OperationQueryParameter = {
   }
 };
 export const trainingType: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "trainingType"
-  ],
+  parameterPath: ["options", "trainingType"],
   mapper: {
     serializedName: "trainingType",
     type: {
@@ -584,10 +509,7 @@ export const trainingType: msRest.OperationQueryParameter = {
   }
 };
 export const type: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "type"
-  ],
+  parameterPath: ["options", "type"],
   mapper: {
     serializedName: "type",
     type: {

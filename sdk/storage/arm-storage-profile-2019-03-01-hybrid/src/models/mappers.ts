@@ -207,7 +207,7 @@ export const StorageAccountCheckNameAvailabilityParameters: msRest.CompositeMapp
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.Storage/storageAccounts',
+        defaultValue: "Microsoft.Storage/storageAccounts",
         type: {
           name: "String"
         }
@@ -300,10 +300,7 @@ export const Sku: msRest.CompositeMapper = {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Standard",
-            "Premium"
-          ]
+          allowedValues: ["Standard", "Premium"]
         }
       },
       resourceType: {
@@ -318,11 +315,7 @@ export const Sku: msRest.CompositeMapper = {
         serializedName: "kind",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Storage",
-            "StorageV2",
-            "BlobStorage"
-          ]
+          allowedValues: ["Storage", "StorageV2", "BlobStorage"]
         }
       },
       locations: {
@@ -384,10 +377,7 @@ export const CheckNameAvailabilityResult: msRest.CompositeMapper = {
         serializedName: "reason",
         type: {
           name: "Enum",
-          allowedValues: [
-            "AccountNameInvalid",
-            "AlreadyExists"
-          ]
+          allowedValues: ["AccountNameInvalid", "AlreadyExists"]
         }
       },
       message: {
@@ -531,7 +521,7 @@ export const Encryption: msRest.CompositeMapper = {
       keySource: {
         required: true,
         serializedName: "keySource",
-        defaultValue: 'Microsoft.Storage',
+        defaultValue: "Microsoft.Storage",
         type: {
           name: "String"
         }
@@ -562,12 +552,10 @@ export const VirtualNetworkRule: msRest.CompositeMapper = {
       },
       action: {
         serializedName: "action",
-        defaultValue: 'Allow',
+        defaultValue: "Allow",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Allow"
-          ]
+          allowedValues: ["Allow"]
         }
       },
       state: {
@@ -602,12 +590,10 @@ export const IPRule: msRest.CompositeMapper = {
       },
       action: {
         serializedName: "action",
-        defaultValue: 'Allow',
+        defaultValue: "Allow",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Allow"
-          ]
+          allowedValues: ["Allow"]
         }
       }
     }
@@ -622,7 +608,7 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
     modelProperties: {
       bypass: {
         serializedName: "bypass",
-        defaultValue: 'AzureServices',
+        defaultValue: "AzureServices",
         type: {
           name: "String"
         }
@@ -654,13 +640,10 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
       defaultAction: {
         required: true,
         serializedName: "defaultAction",
-        defaultValue: 'Allow',
+        defaultValue: "Allow",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Allow",
-            "Deny"
-          ]
+          allowedValues: ["Allow", "Deny"]
         }
       }
     }
@@ -691,7 +674,7 @@ export const Identity: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'SystemAssigned',
+        defaultValue: "SystemAssigned",
         type: {
           name: "String"
         }
@@ -719,11 +702,7 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
         serializedName: "kind",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Storage",
-            "StorageV2",
-            "BlobStorage"
-          ]
+          allowedValues: ["Storage", "StorageV2", "BlobStorage"]
         }
       },
       location: {
@@ -776,10 +755,7 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
         serializedName: "properties.accessTier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Hot",
-            "Cool"
-          ]
+          allowedValues: ["Hot", "Cool"]
         }
       },
       enableHttpsTrafficOnly: {
@@ -899,11 +875,7 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "kind",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Storage",
-            "StorageV2",
-            "BlobStorage"
-          ]
+          allowedValues: ["Storage", "StorageV2", "BlobStorage"]
         }
       },
       identity: {
@@ -918,11 +890,7 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Creating",
-            "ResolvingDNS",
-            "Succeeded"
-          ]
+          allowedValues: ["Creating", "ResolvingDNS", "Succeeded"]
         }
       },
       primaryEndpoints: {
@@ -945,10 +913,7 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.statusOfPrimary",
         type: {
           name: "Enum",
-          allowedValues: [
-            "available",
-            "unavailable"
-          ]
+          allowedValues: ["available", "unavailable"]
         }
       },
       lastGeoFailoverTime: {
@@ -970,10 +935,7 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.statusOfSecondary",
         type: {
           name: "Enum",
-          allowedValues: [
-            "available",
-            "unavailable"
-          ]
+          allowedValues: ["available", "unavailable"]
         }
       },
       creationTime: {
@@ -1012,10 +974,7 @@ export const StorageAccount: msRest.CompositeMapper = {
         serializedName: "properties.accessTier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Hot",
-            "Cool"
-          ]
+          allowedValues: ["Hot", "Cool"]
         }
       },
       enableHttpsTrafficOnly: {
@@ -1062,10 +1021,7 @@ export const StorageAccountKey: msRest.CompositeMapper = {
         serializedName: "permissions",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Read",
-            "Full"
-          ]
+          allowedValues: ["Read", "Full"]
         }
       }
     }
@@ -1161,10 +1117,7 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.accessTier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Hot",
-            "Cool"
-          ]
+          allowedValues: ["Hot", "Cool"]
         }
       },
       enableHttpsTrafficOnly: {
@@ -1185,11 +1138,7 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "kind",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Storage",
-            "StorageV2",
-            "BlobStorage"
-          ]
+          allowedValues: ["Storage", "StorageV2", "BlobStorage"]
         }
       }
     }
@@ -1304,10 +1253,7 @@ export const AccountSasParameters: msRest.CompositeMapper = {
         serializedName: "signedProtocol",
         type: {
           name: "Enum",
-          allowedValues: [
-            "https,http",
-            "https"
-          ]
+          allowedValues: ["https,http", "https"]
         }
       },
       sharedAccessStartTime: {
@@ -1386,10 +1332,7 @@ export const ServiceSasParameters: msRest.CompositeMapper = {
         serializedName: "signedProtocol",
         type: {
           name: "Enum",
-          allowedValues: [
-            "https,http",
-            "https"
-          ]
+          allowedValues: ["https,http", "https"]
         }
       },
       sharedAccessStartTime: {

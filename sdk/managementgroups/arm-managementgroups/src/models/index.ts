@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing ErrorDetails.
@@ -844,7 +843,8 @@ export interface ManagementGroupsDeleteMethodOptionalParams extends msRest.Reque
  *
  * @extends RequestOptionsBase
  */
-export interface ManagementGroupsBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ManagementGroupsBeginCreateOrUpdateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [cacheControl] Indicates that the request shouldn't
    * utilize any caches. Default value: 'no-cache' .
@@ -889,7 +889,8 @@ export interface ManagementGroupsListNextOptionalParams extends msRest.RequestOp
  *
  * @extends RequestOptionsBase
  */
-export interface ManagementGroupSubscriptionsCreateOptionalParams extends msRest.RequestOptionsBase {
+export interface ManagementGroupSubscriptionsCreateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [cacheControl] Indicates that the request shouldn't
    * utilize any caches. Default value: 'no-cache' .
@@ -904,7 +905,8 @@ export interface ManagementGroupSubscriptionsCreateOptionalParams extends msRest
  *
  * @extends RequestOptionsBase
  */
-export interface ManagementGroupSubscriptionsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface ManagementGroupSubscriptionsDeleteMethodOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [cacheControl] Indicates that the request shouldn't
    * utilize any caches. Default value: 'no-cache' .
@@ -1016,7 +1018,6 @@ export interface ManagementGroupsAPIOptions extends AzureServiceClientOptions {
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the ManagementGroupListResult.
@@ -1080,7 +1081,7 @@ export interface EntityListResult extends Array<EntityInfo> {
  * @readonly
  * @enum {string}
  */
-export type Reason = 'Invalid' | 'AlreadyExists';
+export type Reason = "Invalid" | "AlreadyExists";
 
 /**
  * Defines values for Status.
@@ -1089,7 +1090,13 @@ export type Reason = 'Invalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type Status = 'NotStarted' | 'NotStartedButGroupsExist' | 'Started' | 'Failed' | 'Cancelled' | 'Completed';
+export type Status =
+  | "NotStarted"
+  | "NotStartedButGroupsExist"
+  | "Started"
+  | "Failed"
+  | "Cancelled"
+  | "Completed";
 
 /**
  * Defines values for Type.
@@ -1097,7 +1104,7 @@ export type Status = 'NotStarted' | 'NotStartedButGroupsExist' | 'Started' | 'Fa
  * @readonly
  * @enum {string}
  */
-export type Type = '/providers/Microsoft.Management/managementGroups';
+export type Type = "/providers/Microsoft.Management/managementGroups";
 
 /**
  * Defines values for Type1.
@@ -1105,7 +1112,7 @@ export type Type = '/providers/Microsoft.Management/managementGroups';
  * @readonly
  * @enum {string}
  */
-export type Type1 = '/providers/Microsoft.Management/managementGroups' | '/subscriptions';
+export type Type1 = "/providers/Microsoft.Management/managementGroups" | "/subscriptions";
 
 /**
  * Defines values for ProvisioningState.
@@ -1113,7 +1120,7 @@ export type Type1 = '/providers/Microsoft.Management/managementGroups' | '/subsc
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Updating';
+export type ProvisioningState = "Updating";
 
 /**
  * Defines values for Permissions.
@@ -1121,7 +1128,7 @@ export type ProvisioningState = 'Updating';
  * @readonly
  * @enum {string}
  */
-export type Permissions = 'noaccess' | 'view' | 'edit' | 'delete';
+export type Permissions = "noaccess" | "view" | "edit" | "delete";
 
 /**
  * Defines values for InheritedPermissions.
@@ -1129,7 +1136,7 @@ export type Permissions = 'noaccess' | 'view' | 'edit' | 'delete';
  * @readonly
  * @enum {string}
  */
-export type InheritedPermissions = 'noaccess' | 'view' | 'edit' | 'delete';
+export type InheritedPermissions = "noaccess" | "view" | "edit" | "delete";
 
 /**
  * Defines values for Permissions1.
@@ -1137,7 +1144,7 @@ export type InheritedPermissions = 'noaccess' | 'view' | 'edit' | 'delete';
  * @readonly
  * @enum {string}
  */
-export type Permissions1 = 'noaccess' | 'view' | 'edit' | 'delete';
+export type Permissions1 = "noaccess" | "view" | "edit" | "delete";
 
 /**
  * Defines values for Type2.
@@ -1145,7 +1152,7 @@ export type Permissions1 = 'noaccess' | 'view' | 'edit' | 'delete';
  * @readonly
  * @enum {string}
  */
-export type Type2 = '/providers/Microsoft.Management/managementGroups' | '/subscriptions';
+export type Type2 = "/providers/Microsoft.Management/managementGroups" | "/subscriptions";
 
 /**
  * Defines values for Expand.
@@ -1153,7 +1160,7 @@ export type Type2 = '/providers/Microsoft.Management/managementGroups' | '/subsc
  * @readonly
  * @enum {string}
  */
-export type Expand = 'children';
+export type Expand = "children";
 
 /**
  * Defines values for Search.
@@ -1162,7 +1169,12 @@ export type Expand = 'children';
  * @readonly
  * @enum {string}
  */
-export type Search = 'AllowedParents' | 'AllowedChildren' | 'ParentAndFirstLevelChildren' | 'ParentOnly' | 'ChildrenOnly';
+export type Search =
+  | "AllowedParents"
+  | "AllowedChildren"
+  | "ParentAndFirstLevelChildren"
+  | "ParentOnly"
+  | "ChildrenOnly";
 
 /**
  * Defines values for View.
@@ -1170,7 +1182,7 @@ export type Search = 'AllowedParents' | 'AllowedChildren' | 'ParentAndFirstLevel
  * @readonly
  * @enum {string}
  */
-export type View = 'FullHierarchy' | 'GroupsOnly' | 'SubscriptionsOnly' | 'Audit';
+export type View = "FullHierarchy" | "GroupsOnly" | "SubscriptionsOnly" | "Audit";
 
 /**
  * Contains response data for the list operation.
@@ -1180,15 +1192,15 @@ export type ManagementGroupsListResponse = ManagementGroupListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementGroupListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementGroupListResult;
+  };
 };
 
 /**
@@ -1199,15 +1211,15 @@ export type ManagementGroupsGetResponse = ManagementGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementGroup;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementGroup;
+  };
 };
 
 /**
@@ -1222,15 +1234,15 @@ export type ManagementGroupsCreateOrUpdateResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1241,15 +1253,15 @@ export type ManagementGroupsUpdateResponse = ManagementGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementGroup;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementGroup;
+  };
 };
 
 /**
@@ -1260,15 +1272,15 @@ export type ManagementGroupsDeleteMethodResponse = OperationResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResults;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationResults;
+  };
 };
 
 /**
@@ -1283,15 +1295,15 @@ export type ManagementGroupsBeginCreateOrUpdateResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1302,15 +1314,15 @@ export type ManagementGroupsBeginDeleteMethodResponse = OperationResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResults;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationResults;
+  };
 };
 
 /**
@@ -1321,15 +1333,15 @@ export type ManagementGroupsListNextResponse = ManagementGroupListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementGroupListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementGroupListResult;
+  };
 };
 
 /**
@@ -1340,15 +1352,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1359,15 +1371,15 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1378,15 +1390,15 @@ export type CheckNameAvailabilityResponse = CheckNameAvailabilityResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResult;
+  };
 };
 
 /**
@@ -1397,15 +1409,15 @@ export type StartTenantBackfillResponse = TenantBackfillStatusResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TenantBackfillStatusResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TenantBackfillStatusResult;
+  };
 };
 
 /**
@@ -1416,15 +1428,15 @@ export type TenantBackfillStatusResponse = TenantBackfillStatusResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TenantBackfillStatusResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TenantBackfillStatusResult;
+  };
 };
 
 /**
@@ -1435,15 +1447,15 @@ export type EntitiesListResponse = EntityListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityListResult;
+  };
 };
 
 /**
@@ -1454,13 +1466,13 @@ export type EntitiesListNextResponse = EntityListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityListResult;
+  };
 };

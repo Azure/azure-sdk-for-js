@@ -127,10 +127,7 @@ export const ServerPropertiesForCreate: msRest.CompositeMapper = {
         serializedName: "sslEnforcement",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       storageProfile: {
@@ -318,10 +315,7 @@ export const Server: msRest.CompositeMapper = {
         serializedName: "properties.sslEnforcement",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       userVisibleState: {
@@ -453,10 +447,7 @@ export const ServerUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.sslEnforcement",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       replicationRole: {
@@ -913,10 +904,7 @@ export const ServerSecurityAlertPolicy: msRest.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       disabledAlerts: {
@@ -1132,10 +1120,9 @@ export const PerformanceTierListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ServerPropertiesForCreate' : ServerPropertiesForCreate,
-  'ServerPropertiesForCreate.Default' : ServerPropertiesForDefaultCreate,
-  'ServerPropertiesForCreate.PointInTimeRestore' : ServerPropertiesForRestore,
-  'ServerPropertiesForCreate.GeoRestore' : ServerPropertiesForGeoRestore,
-  'ServerPropertiesForCreate.Replica' : ServerPropertiesForReplica
-
+  ServerPropertiesForCreate: ServerPropertiesForCreate,
+  "ServerPropertiesForCreate.Default": ServerPropertiesForDefaultCreate,
+  "ServerPropertiesForCreate.PointInTimeRestore": ServerPropertiesForRestore,
+  "ServerPropertiesForCreate.GeoRestore": ServerPropertiesForGeoRestore,
+  "ServerPropertiesForCreate.Replica": ServerPropertiesForReplica
 };

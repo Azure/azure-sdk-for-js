@@ -36,7 +36,12 @@ export class BackupLongTermRetentionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupLongTermRetentionPoliciesGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupLongTermRetentionPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupLongTermRetentionPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -44,7 +49,12 @@ export class BackupLongTermRetentionPolicies {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -53,8 +63,22 @@ export class BackupLongTermRetentionPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>, callback?: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>): Promise<Models.BackupLongTermRetentionPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>,
+    callback?: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>
+  ): Promise<Models.BackupLongTermRetentionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +87,8 @@ export class BackupLongTermRetentionPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BackupLongTermRetentionPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.BackupLongTermRetentionPoliciesGetResponse>;
   }
 
   /**
@@ -76,9 +101,22 @@ export class BackupLongTermRetentionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupLongTermRetentionPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.BackupLongTermRetentionPolicy, options?: msRest.RequestOptionsBase): Promise<Models.BackupLongTermRetentionPoliciesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serverName,databaseName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BackupLongTermRetentionPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.BackupLongTermRetentionPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupLongTermRetentionPoliciesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.BackupLongTermRetentionPoliciesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -90,7 +128,12 @@ export class BackupLongTermRetentionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupLongTermRetentionPoliciesListByDatabaseResponse>
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupLongTermRetentionPoliciesListByDatabaseResponse>;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupLongTermRetentionPoliciesListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -98,7 +141,12 @@ export class BackupLongTermRetentionPolicies {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -107,8 +155,22 @@ export class BackupLongTermRetentionPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>, callback?: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>): Promise<Models.BackupLongTermRetentionPoliciesListByDatabaseResponse> {
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>
+  ): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>,
+    callback?: msRest.ServiceCallback<Models.BackupLongTermRetentionPolicy>
+  ): Promise<Models.BackupLongTermRetentionPoliciesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +179,8 @@ export class BackupLongTermRetentionPolicies {
         options
       },
       listByDatabaseOperationSpec,
-      callback) as Promise<Models.BackupLongTermRetentionPoliciesListByDatabaseResponse>;
+      callback
+    ) as Promise<Models.BackupLongTermRetentionPoliciesListByDatabaseResponse>;
   }
 
   /**
@@ -130,7 +193,13 @@ export class BackupLongTermRetentionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.BackupLongTermRetentionPolicy, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.BackupLongTermRetentionPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -140,7 +209,8 @@ export class BackupLongTermRetentionPolicies {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -148,7 +218,8 @@ export class BackupLongTermRetentionPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{policyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{policyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -156,12 +227,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.policyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupLongTermRetentionPolicy
@@ -175,19 +242,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupLongTermRetentionPolicy
@@ -201,7 +265,8 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{policyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupLongTermRetentionPolicies/{policyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -209,12 +274,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.policyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

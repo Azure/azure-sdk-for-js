@@ -33,21 +33,41 @@ export class IntegrationAccountBatchConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountBatchConfigurationsListResponse>
    */
-  list(resourceGroupName: string, integrationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountBatchConfigurationsListResponse>;
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountBatchConfigurationsListResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, integrationAccountName: string, callback: msRest.ServiceCallback<Models.BatchConfigurationCollection>): void;
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    callback: msRest.ServiceCallback<Models.BatchConfigurationCollection>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, integrationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchConfigurationCollection>): void;
-  list(resourceGroupName: string, integrationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchConfigurationCollection>, callback?: msRest.ServiceCallback<Models.BatchConfigurationCollection>): Promise<Models.IntegrationAccountBatchConfigurationsListResponse> {
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BatchConfigurationCollection>
+  ): void;
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.BatchConfigurationCollection>,
+    callback?: msRest.ServiceCallback<Models.BatchConfigurationCollection>
+  ): Promise<Models.IntegrationAccountBatchConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class IntegrationAccountBatchConfigurations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IntegrationAccountBatchConfigurationsListResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountBatchConfigurationsListResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class IntegrationAccountBatchConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountBatchConfigurationsGetResponse>
    */
-  get(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountBatchConfigurationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    batchConfigurationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountBatchConfigurationsGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param batchConfigurationName The batch configuration name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, callback: msRest.ServiceCallback<Models.BatchConfiguration>): void;
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    batchConfigurationName: string,
+    callback: msRest.ServiceCallback<Models.BatchConfiguration>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -81,8 +112,20 @@ export class IntegrationAccountBatchConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchConfiguration>): void;
-  get(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchConfiguration>, callback?: msRest.ServiceCallback<Models.BatchConfiguration>): Promise<Models.IntegrationAccountBatchConfigurationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    batchConfigurationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BatchConfiguration>
+  ): void;
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    batchConfigurationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchConfiguration>,
+    callback?: msRest.ServiceCallback<Models.BatchConfiguration>
+  ): Promise<Models.IntegrationAccountBatchConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +134,8 @@ export class IntegrationAccountBatchConfigurations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IntegrationAccountBatchConfigurationsGetResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountBatchConfigurationsGetResponse>;
   }
 
   /**
@@ -103,7 +147,13 @@ export class IntegrationAccountBatchConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountBatchConfigurationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, batchConfiguration: Models.BatchConfiguration, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountBatchConfigurationsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    batchConfigurationName: string,
+    batchConfiguration: Models.BatchConfiguration,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountBatchConfigurationsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -111,7 +161,13 @@ export class IntegrationAccountBatchConfigurations {
    * @param batchConfiguration The batch configuration.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, batchConfiguration: Models.BatchConfiguration, callback: msRest.ServiceCallback<Models.BatchConfiguration>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    batchConfigurationName: string,
+    batchConfiguration: Models.BatchConfiguration,
+    callback: msRest.ServiceCallback<Models.BatchConfiguration>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -120,8 +176,22 @@ export class IntegrationAccountBatchConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, batchConfiguration: Models.BatchConfiguration, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BatchConfiguration>): void;
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, batchConfiguration: Models.BatchConfiguration, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchConfiguration>, callback?: msRest.ServiceCallback<Models.BatchConfiguration>): Promise<Models.IntegrationAccountBatchConfigurationsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    batchConfigurationName: string,
+    batchConfiguration: Models.BatchConfiguration,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BatchConfiguration>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    batchConfigurationName: string,
+    batchConfiguration: Models.BatchConfiguration,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BatchConfiguration>,
+    callback?: msRest.ServiceCallback<Models.BatchConfiguration>
+  ): Promise<Models.IntegrationAccountBatchConfigurationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +201,8 @@ export class IntegrationAccountBatchConfigurations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.IntegrationAccountBatchConfigurationsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountBatchConfigurationsCreateOrUpdateResponse>;
   }
 
   /**
@@ -142,14 +213,24 @@ export class IntegrationAccountBatchConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    batchConfigurationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param batchConfigurationName The batch configuration name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    batchConfigurationName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -157,8 +238,20 @@ export class IntegrationAccountBatchConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, batchConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    batchConfigurationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    batchConfigurationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +260,8 @@ export class IntegrationAccountBatchConfigurations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -175,18 +269,15 @@ export class IntegrationAccountBatchConfigurations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BatchConfigurationCollection
@@ -200,19 +291,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.batchConfigurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BatchConfiguration
@@ -226,19 +314,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.batchConfigurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "batchConfiguration",
     mapper: {
@@ -262,19 +347,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/batchConfigurations/{batchConfigurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.batchConfigurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},

@@ -11,10 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 export const acceptLanguage: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "acceptLanguage"
-  ],
+  parameterPath: ["options", "acceptLanguage"],
   mapper: {
     serializedName: "Accept-Language",
     type: {
@@ -23,10 +20,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   }
 };
 export const clientId: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "clientId"
-  ],
+  parameterPath: ["options", "clientId"],
   mapper: {
     serializedName: "X-MSEdge-ClientID",
     type: {
@@ -35,10 +29,7 @@ export const clientId: msRest.OperationParameter = {
   }
 };
 export const clientIp: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "clientIp"
-  ],
+  parameterPath: ["options", "clientIp"],
   mapper: {
     serializedName: "X-MSEdge-ClientIP",
     type: {
@@ -47,10 +38,7 @@ export const clientIp: msRest.OperationParameter = {
   }
 };
 export const contentType: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "contentType"
-  ],
+  parameterPath: ["options", "contentType"],
   mapper: {
     serializedName: "Content-Type",
     type: {
@@ -63,7 +51,7 @@ export const endpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: 'https://api.cognitive.microsoft.com',
+    defaultValue: "https://api.cognitive.microsoft.com",
     type: {
       name: "String"
     }
@@ -71,10 +59,7 @@ export const endpoint: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const image: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "image"
-  ],
+  parameterPath: ["options", "image"],
   mapper: {
     serializedName: "image",
     type: {
@@ -83,10 +68,7 @@ export const image: msRest.OperationParameter = {
   }
 };
 export const knowledgeRequest: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "knowledgeRequest"
-  ],
+  parameterPath: ["options", "knowledgeRequest"],
   mapper: {
     serializedName: "knowledgeRequest",
     type: {
@@ -95,10 +77,7 @@ export const knowledgeRequest: msRest.OperationParameter = {
   }
 };
 export const location: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "location"
-  ],
+  parameterPath: ["options", "location"],
   mapper: {
     serializedName: "X-Search-Location",
     type: {
@@ -107,10 +86,7 @@ export const location: msRest.OperationParameter = {
   }
 };
 export const market: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "market"
-  ],
+  parameterPath: ["options", "market"],
   mapper: {
     serializedName: "mkt",
     type: {
@@ -119,10 +95,7 @@ export const market: msRest.OperationQueryParameter = {
   }
 };
 export const safeSearch: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "safeSearch"
-  ],
+  parameterPath: ["options", "safeSearch"],
   mapper: {
     serializedName: "safeSearch",
     type: {
@@ -131,10 +104,7 @@ export const safeSearch: msRest.OperationQueryParameter = {
   }
 };
 export const setLang: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "setLang"
-  ],
+  parameterPath: ["options", "setLang"],
   mapper: {
     serializedName: "setLang",
     type: {
@@ -143,10 +113,7 @@ export const setLang: msRest.OperationQueryParameter = {
   }
 };
 export const userAgent: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "userAgent"
-  ],
+  parameterPath: ["options", "userAgent"],
   mapper: {
     serializedName: "User-Agent",
     type: {
@@ -160,7 +127,7 @@ export const xBingApisSDK: msRest.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "X-BingApis-SDK",
-    defaultValue: 'true',
+    defaultValue: "true",
     type: {
       name: "String"
     }

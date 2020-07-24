@@ -36,7 +36,12 @@ export class AvailabilityGroupListeners {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilityGroupListenersGetResponse>
    */
-  get(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilityGroupListenersGetResponse>;
+  get(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    availabilityGroupListenerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailabilityGroupListenersGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain
    * this value from the Azure Resource Manager API or the portal.
@@ -44,7 +49,12 @@ export class AvailabilityGroupListeners {
    * @param availabilityGroupListenerName Name of the availability group listener.
    * @param callback The callback
    */
-  get(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, callback: msRest.ServiceCallback<Models.AvailabilityGroupListener>): void;
+  get(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    availabilityGroupListenerName: string,
+    callback: msRest.ServiceCallback<Models.AvailabilityGroupListener>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain
    * this value from the Azure Resource Manager API or the portal.
@@ -53,8 +63,20 @@ export class AvailabilityGroupListeners {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilityGroupListener>): void;
-  get(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilityGroupListener>, callback?: msRest.ServiceCallback<Models.AvailabilityGroupListener>): Promise<Models.AvailabilityGroupListenersGetResponse> {
+  get(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    availabilityGroupListenerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailabilityGroupListener>
+  ): void;
+  get(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    availabilityGroupListenerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilityGroupListener>,
+    callback?: msRest.ServiceCallback<Models.AvailabilityGroupListener>
+  ): Promise<Models.AvailabilityGroupListenersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +85,8 @@ export class AvailabilityGroupListeners {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AvailabilityGroupListenersGetResponse>;
+      callback
+    ) as Promise<Models.AvailabilityGroupListenersGetResponse>;
   }
 
   /**
@@ -76,9 +99,22 @@ export class AvailabilityGroupListeners {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilityGroupListenersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, parameters: Models.AvailabilityGroupListener, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilityGroupListenersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,sqlVirtualMachineGroupName,availabilityGroupListenerName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AvailabilityGroupListenersCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    availabilityGroupListenerName: string,
+    parameters: Models.AvailabilityGroupListener,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailabilityGroupListenersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      sqlVirtualMachineGroupName,
+      availabilityGroupListenerName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.AvailabilityGroupListenersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -90,9 +126,18 @@ export class AvailabilityGroupListeners {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,sqlVirtualMachineGroupName,availabilityGroupListenerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    availabilityGroupListenerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      sqlVirtualMachineGroupName,
+      availabilityGroupListenerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -103,14 +148,22 @@ export class AvailabilityGroupListeners {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilityGroupListenersListByGroupResponse>
    */
-  listByGroup(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilityGroupListenersListByGroupResponse>;
+  listByGroup(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailabilityGroupListenersListByGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain
    * this value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineGroupName Name of the SQL virtual machine group.
    * @param callback The callback
    */
-  listByGroup(resourceGroupName: string, sqlVirtualMachineGroupName: string, callback: msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>): void;
+  listByGroup(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    callback: msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain
    * this value from the Azure Resource Manager API or the portal.
@@ -118,8 +171,20 @@ export class AvailabilityGroupListeners {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByGroup(resourceGroupName: string, sqlVirtualMachineGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>): void;
-  listByGroup(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>): Promise<Models.AvailabilityGroupListenersListByGroupResponse> {
+  listByGroup(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>
+  ): void;
+  listByGroup(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>,
+    callback?: msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>
+  ): Promise<Models.AvailabilityGroupListenersListByGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +192,8 @@ export class AvailabilityGroupListeners {
         options
       },
       listByGroupOperationSpec,
-      callback) as Promise<Models.AvailabilityGroupListenersListByGroupResponse>;
+      callback
+    ) as Promise<Models.AvailabilityGroupListenersListByGroupResponse>;
   }
 
   /**
@@ -140,7 +206,13 @@ export class AvailabilityGroupListeners {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, parameters: Models.AvailabilityGroupListener, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    availabilityGroupListenerName: string,
+    parameters: Models.AvailabilityGroupListener,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -150,7 +222,8 @@ export class AvailabilityGroupListeners {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -162,7 +235,12 @@ export class AvailabilityGroupListeners {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, sqlVirtualMachineGroupName: string, availabilityGroupListenerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    availabilityGroupListenerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -171,7 +249,8 @@ export class AvailabilityGroupListeners {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -180,26 +259,43 @@ export class AvailabilityGroupListeners {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailabilityGroupListenersListByGroupNextResponse>
    */
-  listByGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailabilityGroupListenersListByGroupNextResponse>;
+  listByGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailabilityGroupListenersListByGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>): void;
+  listByGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>): void;
-  listByGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>, callback?: msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>): Promise<Models.AvailabilityGroupListenersListByGroupNextResponse> {
+  listByGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>
+  ): void;
+  listByGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>,
+    callback?: msRest.ServiceCallback<Models.AvailabilityGroupListenerListResult>
+  ): Promise<Models.AvailabilityGroupListenersListByGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByGroupNextOperationSpec,
-      callback) as Promise<Models.AvailabilityGroupListenersListByGroupNextResponse>;
+      callback
+    ) as Promise<Models.AvailabilityGroupListenersListByGroupNextResponse>;
   }
 }
 
@@ -207,19 +303,16 @@ export class AvailabilityGroupListeners {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}/availabilityGroupListeners/{availabilityGroupListenerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}/availabilityGroupListeners/{availabilityGroupListenerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.sqlVirtualMachineGroupName,
     Parameters.availabilityGroupListenerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailabilityGroupListener
@@ -233,18 +326,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}/availabilityGroupListeners",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}/availabilityGroupListeners",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.sqlVirtualMachineGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailabilityGroupListenerListResult
@@ -258,19 +348,16 @@ const listByGroupOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}/availabilityGroupListeners/{availabilityGroupListenerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}/availabilityGroupListeners/{availabilityGroupListenerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.sqlVirtualMachineGroupName,
     Parameters.availabilityGroupListenerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -294,19 +381,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}/availabilityGroupListeners/{availabilityGroupListenerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}/availabilityGroupListeners/{availabilityGroupListenerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.sqlVirtualMachineGroupName,
     Parameters.availabilityGroupListenerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -322,12 +406,8 @@ const listByGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailabilityGroupListenerListResult

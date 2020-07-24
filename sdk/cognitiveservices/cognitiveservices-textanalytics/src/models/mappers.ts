@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const MultiLanguageInput: msRest.CompositeMapper = {
   serializedName: "MultiLanguageInput",
   type: {

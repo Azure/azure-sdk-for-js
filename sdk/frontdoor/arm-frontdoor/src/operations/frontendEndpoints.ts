@@ -34,21 +34,41 @@ export class FrontendEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.FrontendEndpointsListByFrontDoorResponse>
    */
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase): Promise<Models.FrontendEndpointsListByFrontDoorResponse>;
+  listByFrontDoor(
+    resourceGroupName: string,
+    frontDoorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FrontendEndpointsListByFrontDoorResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
    * @param callback The callback
    */
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, callback: msRest.ServiceCallback<Models.FrontendEndpointsListResult>): void;
+  listByFrontDoor(
+    resourceGroupName: string,
+    frontDoorName: string,
+    callback: msRest.ServiceCallback<Models.FrontendEndpointsListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontendEndpointsListResult>): void;
-  listByFrontDoor(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontendEndpointsListResult>, callback?: msRest.ServiceCallback<Models.FrontendEndpointsListResult>): Promise<Models.FrontendEndpointsListByFrontDoorResponse> {
+  listByFrontDoor(
+    resourceGroupName: string,
+    frontDoorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FrontendEndpointsListResult>
+  ): void;
+  listByFrontDoor(
+    resourceGroupName: string,
+    frontDoorName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.FrontendEndpointsListResult>,
+    callback?: msRest.ServiceCallback<Models.FrontendEndpointsListResult>
+  ): Promise<Models.FrontendEndpointsListByFrontDoorResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class FrontendEndpoints {
         options
       },
       listByFrontDoorOperationSpec,
-      callback) as Promise<Models.FrontendEndpointsListByFrontDoorResponse>;
+      callback
+    ) as Promise<Models.FrontendEndpointsListByFrontDoorResponse>;
   }
 
   /**
@@ -67,14 +88,24 @@ export class FrontendEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.FrontendEndpointsGetResponse>
    */
-  get(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: msRest.RequestOptionsBase): Promise<Models.FrontendEndpointsGetResponse>;
+  get(
+    resourceGroupName: string,
+    frontDoorName: string,
+    frontendEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FrontendEndpointsGetResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
    * @param frontendEndpointName Name of the Frontend endpoint which is unique within the Front Door.
    * @param callback The callback
    */
-  get(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, callback: msRest.ServiceCallback<Models.FrontendEndpoint>): void;
+  get(
+    resourceGroupName: string,
+    frontDoorName: string,
+    frontendEndpointName: string,
+    callback: msRest.ServiceCallback<Models.FrontendEndpoint>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
@@ -82,8 +113,20 @@ export class FrontendEndpoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontendEndpoint>): void;
-  get(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontendEndpoint>, callback?: msRest.ServiceCallback<Models.FrontendEndpoint>): Promise<Models.FrontendEndpointsGetResponse> {
+  get(
+    resourceGroupName: string,
+    frontDoorName: string,
+    frontendEndpointName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FrontendEndpoint>
+  ): void;
+  get(
+    resourceGroupName: string,
+    frontDoorName: string,
+    frontendEndpointName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontendEndpoint>,
+    callback?: msRest.ServiceCallback<Models.FrontendEndpoint>
+  ): Promise<Models.FrontendEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +135,8 @@ export class FrontendEndpoints {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.FrontendEndpointsGetResponse>;
+      callback
+    ) as Promise<Models.FrontendEndpointsGetResponse>;
   }
 
   /**
@@ -104,9 +148,20 @@ export class FrontendEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  enableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: Models.CustomHttpsConfiguration, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginEnableHttps(resourceGroupName,frontDoorName,frontendEndpointName,customHttpsConfiguration,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  enableHttps(
+    resourceGroupName: string,
+    frontDoorName: string,
+    frontendEndpointName: string,
+    customHttpsConfiguration: Models.CustomHttpsConfiguration,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginEnableHttps(
+      resourceGroupName,
+      frontDoorName,
+      frontendEndpointName,
+      customHttpsConfiguration,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -117,9 +172,18 @@ export class FrontendEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  disableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDisableHttps(resourceGroupName,frontDoorName,frontendEndpointName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  disableHttps(
+    resourceGroupName: string,
+    frontDoorName: string,
+    frontendEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDisableHttps(
+      resourceGroupName,
+      frontDoorName,
+      frontendEndpointName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -131,7 +195,13 @@ export class FrontendEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginEnableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, customHttpsConfiguration: Models.CustomHttpsConfiguration, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginEnableHttps(
+    resourceGroupName: string,
+    frontDoorName: string,
+    frontendEndpointName: string,
+    customHttpsConfiguration: Models.CustomHttpsConfiguration,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -141,7 +211,8 @@ export class FrontendEndpoints {
         options
       },
       beginEnableHttpsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +223,12 @@ export class FrontendEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDisableHttps(resourceGroupName: string, frontDoorName: string, frontendEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDisableHttps(
+    resourceGroupName: string,
+    frontDoorName: string,
+    frontendEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +237,8 @@ export class FrontendEndpoints {
         options
       },
       beginDisableHttpsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,26 +247,43 @@ export class FrontendEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.FrontendEndpointsListByFrontDoorNextResponse>
    */
-  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FrontendEndpointsListByFrontDoorNextResponse>;
+  listByFrontDoorNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FrontendEndpointsListByFrontDoorNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByFrontDoorNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FrontendEndpointsListResult>): void;
+  listByFrontDoorNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.FrontendEndpointsListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFrontDoorNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontendEndpointsListResult>): void;
-  listByFrontDoorNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontendEndpointsListResult>, callback?: msRest.ServiceCallback<Models.FrontendEndpointsListResult>): Promise<Models.FrontendEndpointsListByFrontDoorNextResponse> {
+  listByFrontDoorNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FrontendEndpointsListResult>
+  ): void;
+  listByFrontDoorNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.FrontendEndpointsListResult>,
+    callback?: msRest.ServiceCallback<Models.FrontendEndpointsListResult>
+  ): Promise<Models.FrontendEndpointsListByFrontDoorNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByFrontDoorNextOperationSpec,
-      callback) as Promise<Models.FrontendEndpointsListByFrontDoorNextResponse>;
+      callback
+    ) as Promise<Models.FrontendEndpointsListByFrontDoorNextResponse>;
   }
 }
 
@@ -197,18 +291,15 @@ export class FrontendEndpoints {
 const serializer = new msRest.Serializer(Mappers);
 const listByFrontDoorOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FrontendEndpointsListResult
@@ -222,19 +313,16 @@ const listByFrontDoorOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.frontendEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FrontendEndpoint
@@ -248,19 +336,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginEnableHttpsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/enableHttps",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/enableHttps",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.frontendEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "customHttpsConfiguration",
     mapper: {
@@ -280,19 +365,16 @@ const beginEnableHttpsOperationSpec: msRest.OperationSpec = {
 
 const beginDisableHttpsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/disableHttps",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/disableHttps",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName,
     Parameters.frontendEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -307,12 +389,8 @@ const listByFrontDoorNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FrontendEndpointsListResult

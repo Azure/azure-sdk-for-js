@@ -35,7 +35,13 @@ export class WorkflowRunActionRequestHistories {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowRunActionRequestHistoriesListResponse>
    */
-  list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowRunActionRequestHistoriesListResponse>;
+  list(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    actionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowRunActionRequestHistoriesListResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -43,7 +49,13 @@ export class WorkflowRunActionRequestHistories {
    * @param actionName The workflow action name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, callback: msRest.ServiceCallback<Models.RequestHistoryListResult>): void;
+  list(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    actionName: string,
+    callback: msRest.ServiceCallback<Models.RequestHistoryListResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -52,8 +64,22 @@ export class WorkflowRunActionRequestHistories {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RequestHistoryListResult>): void;
-  list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RequestHistoryListResult>, callback?: msRest.ServiceCallback<Models.RequestHistoryListResult>): Promise<Models.WorkflowRunActionRequestHistoriesListResponse> {
+  list(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    actionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RequestHistoryListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    actionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RequestHistoryListResult>,
+    callback?: msRest.ServiceCallback<Models.RequestHistoryListResult>
+  ): Promise<Models.WorkflowRunActionRequestHistoriesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class WorkflowRunActionRequestHistories {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.WorkflowRunActionRequestHistoriesListResponse>;
+      callback
+    ) as Promise<Models.WorkflowRunActionRequestHistoriesListResponse>;
   }
 
   /**
@@ -76,7 +103,14 @@ export class WorkflowRunActionRequestHistories {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowRunActionRequestHistoriesGetResponse>
    */
-  get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, requestHistoryName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowRunActionRequestHistoriesGetResponse>;
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    actionName: string,
+    requestHistoryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowRunActionRequestHistoriesGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -85,7 +119,14 @@ export class WorkflowRunActionRequestHistories {
    * @param requestHistoryName The request history name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, requestHistoryName: string, callback: msRest.ServiceCallback<Models.RequestHistory>): void;
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    actionName: string,
+    requestHistoryName: string,
+    callback: msRest.ServiceCallback<Models.RequestHistory>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -95,8 +136,24 @@ export class WorkflowRunActionRequestHistories {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, requestHistoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RequestHistory>): void;
-  get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, requestHistoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RequestHistory>, callback?: msRest.ServiceCallback<Models.RequestHistory>): Promise<Models.WorkflowRunActionRequestHistoriesGetResponse> {
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    actionName: string,
+    requestHistoryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RequestHistory>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    runName: string,
+    actionName: string,
+    requestHistoryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RequestHistory>,
+    callback?: msRest.ServiceCallback<Models.RequestHistory>
+  ): Promise<Models.WorkflowRunActionRequestHistoriesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +164,8 @@ export class WorkflowRunActionRequestHistories {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WorkflowRunActionRequestHistoriesGetResponse>;
+      callback
+    ) as Promise<Models.WorkflowRunActionRequestHistoriesGetResponse>;
   }
 
   /**
@@ -116,26 +174,41 @@ export class WorkflowRunActionRequestHistories {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowRunActionRequestHistoriesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowRunActionRequestHistoriesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowRunActionRequestHistoriesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RequestHistoryListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RequestHistoryListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RequestHistoryListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RequestHistoryListResult>, callback?: msRest.ServiceCallback<Models.RequestHistoryListResult>): Promise<Models.WorkflowRunActionRequestHistoriesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RequestHistoryListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RequestHistoryListResult>,
+    callback?: msRest.ServiceCallback<Models.RequestHistoryListResult>
+  ): Promise<Models.WorkflowRunActionRequestHistoriesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.WorkflowRunActionRequestHistoriesListNextResponse>;
+      callback
+    ) as Promise<Models.WorkflowRunActionRequestHistoriesListNextResponse>;
   }
 }
 
@@ -143,7 +216,8 @@ export class WorkflowRunActionRequestHistories {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/requestHistories",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/requestHistories",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -151,12 +225,8 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.runName,
     Parameters.actionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RequestHistoryListResult
@@ -170,7 +240,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/requestHistories/{requestHistoryName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/runs/{runName}/actions/{actionName}/requestHistories/{requestHistoryName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -179,12 +250,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.actionName,
     Parameters.requestHistoryName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RequestHistory
@@ -200,12 +267,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RequestHistoryListResult

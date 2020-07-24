@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as msRest from "@azure/ms-rest-js";
 
 /**
@@ -1313,7 +1312,8 @@ export interface ListManagementImageAddImageOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
-export interface ListManagementImageAddImageUrlInputOptionalParams extends msRest.RequestOptionsBase {
+export interface ListManagementImageAddImageUrlInputOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Tag for the image.
    */
@@ -1327,7 +1327,8 @@ export interface ListManagementImageAddImageUrlInputOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface ListManagementImageAddImageFileInputOptionalParams extends msRest.RequestOptionsBase {
+export interface ListManagementImageAddImageFileInputOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Tag for the image.
    */
@@ -1436,7 +1437,7 @@ export interface ReviewsAddVideoFrameStreamOptionalParams extends msRest.Request
  * @readonly
  * @enum {string}
  */
-export type Type = 'Image' | 'Text';
+export type Type = "Image" | "Text";
 
 /**
  * Defines values for StatusEnum.
@@ -1444,7 +1445,7 @@ export type Type = 'Image' | 'Text';
  * @readonly
  * @enum {string}
  */
-export type StatusEnum = 'Complete' | 'Unpublished' | 'Pending';
+export type StatusEnum = "Complete" | "Unpublished" | "Pending";
 
 /**
  * Defines values for TextContentType.
@@ -1452,7 +1453,7 @@ export type StatusEnum = 'Complete' | 'Unpublished' | 'Pending';
  * @readonly
  * @enum {string}
  */
-export type TextContentType = 'text/plain' | 'text/html' | 'text/xml' | 'text/markdown';
+export type TextContentType = "text/plain" | "text/html" | "text/xml" | "text/markdown";
 
 /**
  * Defines values for TextContentType1.
@@ -1460,7 +1461,7 @@ export type TextContentType = 'text/plain' | 'text/html' | 'text/xml' | 'text/ma
  * @readonly
  * @enum {string}
  */
-export type TextContentType1 = 'text/plain' | 'text/html' | 'text/xml' | 'text/markdown';
+export type TextContentType1 = "text/plain" | "text/html" | "text/xml" | "text/markdown";
 
 /**
  * Defines values for ContentType.
@@ -1468,7 +1469,7 @@ export type TextContentType1 = 'text/plain' | 'text/html' | 'text/xml' | 'text/m
  * @readonly
  * @enum {string}
  */
-export type ContentType = 'Image' | 'Text' | 'Video';
+export type ContentType = "Image" | "Text" | "Video";
 
 /**
  * Defines values for JobContentType.
@@ -1476,7 +1477,7 @@ export type ContentType = 'Image' | 'Text' | 'Video';
  * @readonly
  * @enum {string}
  */
-export type JobContentType = 'application/json' | 'image/jpeg';
+export type JobContentType = "application/json" | "image/jpeg";
 
 /**
  * Contains response data for the findFaces operation.
@@ -1486,16 +1487,16 @@ export type ImageModerationFindFacesResponse = FoundFaces & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FoundFaces;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FoundFaces;
+  };
 };
 
 /**
@@ -1506,16 +1507,16 @@ export type ImageModerationOCRMethodResponse = OCR & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OCR;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OCR;
+  };
 };
 
 /**
@@ -1526,16 +1527,16 @@ export type ImageModerationEvaluateMethodResponse = Evaluate & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Evaluate;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Evaluate;
+  };
 };
 
 /**
@@ -1546,16 +1547,16 @@ export type ImageModerationMatchMethodResponse = MatchResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MatchResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MatchResponse;
+  };
 };
 
 /**
@@ -1566,16 +1567,16 @@ export type ImageModerationFindFacesFileInputResponse = FoundFaces & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FoundFaces;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FoundFaces;
+  };
 };
 
 /**
@@ -1586,16 +1587,16 @@ export type ImageModerationFindFacesUrlInputResponse = FoundFaces & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FoundFaces;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FoundFaces;
+  };
 };
 
 /**
@@ -1606,16 +1607,16 @@ export type ImageModerationOCRUrlInputResponse = OCR & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OCR;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OCR;
+  };
 };
 
 /**
@@ -1626,16 +1627,16 @@ export type ImageModerationOCRFileInputResponse = OCR & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OCR;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OCR;
+  };
 };
 
 /**
@@ -1646,16 +1647,16 @@ export type ImageModerationEvaluateFileInputResponse = Evaluate & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Evaluate;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Evaluate;
+  };
 };
 
 /**
@@ -1666,16 +1667,16 @@ export type ImageModerationEvaluateUrlInputResponse = Evaluate & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Evaluate;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Evaluate;
+  };
 };
 
 /**
@@ -1686,16 +1687,16 @@ export type ImageModerationMatchUrlInputResponse = MatchResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MatchResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MatchResponse;
+  };
 };
 
 /**
@@ -1706,16 +1707,16 @@ export type ImageModerationMatchFileInputResponse = MatchResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MatchResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MatchResponse;
+  };
 };
 
 /**
@@ -1726,16 +1727,16 @@ export type TextModerationScreenTextResponse = Screen & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Screen;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Screen;
+  };
 };
 
 /**
@@ -1746,16 +1747,16 @@ export type TextModerationDetectLanguageResponse = DetectedLanguage & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DetectedLanguage;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DetectedLanguage;
+  };
 };
 
 /**
@@ -1766,16 +1767,16 @@ export type ListManagementImageListsGetDetailsResponse = ImageList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageList;
+  };
 };
 
 /**
@@ -1791,16 +1792,16 @@ export type ListManagementImageListsDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -1811,16 +1812,16 @@ export type ListManagementImageListsUpdateResponse = ImageList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageList;
+  };
 };
 
 /**
@@ -1831,16 +1832,16 @@ export type ListManagementImageListsCreateResponse = ImageList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageList;
+  };
 };
 
 /**
@@ -1851,16 +1852,16 @@ export type ListManagementImageListsGetAllImageListsResponse = Array<ImageList> 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageList[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageList[];
+  };
 };
 
 /**
@@ -1871,16 +1872,16 @@ export type ListManagementImageListsRefreshIndexMethodResponse = RefreshIndex & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RefreshIndex;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RefreshIndex;
+  };
 };
 
 /**
@@ -1891,16 +1892,16 @@ export type ListManagementTermListsGetDetailsResponse = TermList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TermList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TermList;
+  };
 };
 
 /**
@@ -1916,16 +1917,16 @@ export type ListManagementTermListsDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -1936,16 +1937,16 @@ export type ListManagementTermListsUpdateResponse = TermList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TermList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TermList;
+  };
 };
 
 /**
@@ -1956,16 +1957,16 @@ export type ListManagementTermListsCreateResponse = TermList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TermList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TermList;
+  };
 };
 
 /**
@@ -1976,16 +1977,16 @@ export type ListManagementTermListsGetAllTermListsResponse = Array<TermList> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TermList[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TermList[];
+  };
 };
 
 /**
@@ -1996,16 +1997,16 @@ export type ListManagementTermListsRefreshIndexMethodResponse = RefreshIndex & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RefreshIndex;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RefreshIndex;
+  };
 };
 
 /**
@@ -2016,16 +2017,16 @@ export type ListManagementImageAddImageResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -2041,16 +2042,16 @@ export type ListManagementImageDeleteAllImagesResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -2061,16 +2062,16 @@ export type ListManagementImageGetAllImageIdsResponse = ImageIds & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageIds;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageIds;
+  };
 };
 
 /**
@@ -2086,16 +2087,16 @@ export type ListManagementImageDeleteImageResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -2106,16 +2107,16 @@ export type ListManagementImageAddImageUrlInputResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -2126,16 +2127,16 @@ export type ListManagementImageAddImageFileInputResponse = Image & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Image;
+  };
 };
 
 /**
@@ -2151,16 +2152,16 @@ export type ListManagementTermDeleteTermResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -2171,16 +2172,16 @@ export type ListManagementTermGetAllTermsResponse = Terms & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Terms;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Terms;
+  };
 };
 
 /**
@@ -2196,16 +2197,16 @@ export type ListManagementTermDeleteAllTermsResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -2216,16 +2217,16 @@ export type ReviewsGetReviewResponse = Review & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Review;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Review;
+  };
 };
 
 /**
@@ -2236,16 +2237,16 @@ export type ReviewsGetJobDetailsResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -2256,16 +2257,16 @@ export type ReviewsCreateReviewsResponse = Array<string> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string[];
+  };
 };
 
 /**
@@ -2276,16 +2277,16 @@ export type ReviewsCreateJobResponse = JobId & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobId;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobId;
+  };
 };
 
 /**
@@ -2296,16 +2297,16 @@ export type ReviewsGetVideoFramesResponse = Frames & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Frames;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Frames;
+  };
 };
 
 /**
@@ -2316,14 +2317,14 @@ export type ReviewsCreateVideoReviewsResponse = Array<string> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string[];
+  };
 };

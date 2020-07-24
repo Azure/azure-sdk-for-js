@@ -35,14 +35,24 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhooksGetResponse>
    */
-  get(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebhooksGetResponse>;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhooksGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, webhookName: string, callback: msRest.ServiceCallback<Models.Webhook>): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    callback: msRest.ServiceCallback<Models.Webhook>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -50,8 +60,20 @@ export class Webhooks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, webhookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Webhook>): void;
-  get(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Webhook>, callback?: msRest.ServiceCallback<Models.Webhook>): Promise<Models.WebhooksGetResponse> {
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Webhook>
+  ): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Webhook>,
+    callback?: msRest.ServiceCallback<Models.Webhook>
+  ): Promise<Models.WebhooksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class Webhooks {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WebhooksGetResponse>;
+      callback
+    ) as Promise<Models.WebhooksGetResponse>;
   }
 
   /**
@@ -72,9 +95,20 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhooksCreateResponse>
    */
-  create(resourceGroupName: string, registryName: string, webhookName: string, webhookCreateParameters: Models.WebhookCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.WebhooksCreateResponse> {
-    return this.beginCreate(resourceGroupName,registryName,webhookName,webhookCreateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebhooksCreateResponse>;
+  create(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    webhookCreateParameters: Models.WebhookCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhooksCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      registryName,
+      webhookName,
+      webhookCreateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.WebhooksCreateResponse>;
   }
 
   /**
@@ -85,9 +119,18 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,registryName,webhookName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      registryName,
+      webhookName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -99,9 +142,20 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhooksUpdateResponse>
    */
-  update(resourceGroupName: string, registryName: string, webhookName: string, webhookUpdateParameters: Models.WebhookUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.WebhooksUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,registryName,webhookName,webhookUpdateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebhooksUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    webhookUpdateParameters: Models.WebhookUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhooksUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      registryName,
+      webhookName,
+      webhookUpdateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.WebhooksUpdateResponse>;
   }
 
   /**
@@ -111,21 +165,39 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhooksListResponse>
    */
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebhooksListResponse>;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhooksListResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, callback: msRest.ServiceCallback<Models.WebhookListResult>): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    callback: msRest.ServiceCallback<Models.WebhookListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebhookListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebhookListResult>, callback?: msRest.ServiceCallback<Models.WebhookListResult>): Promise<Models.WebhooksListResponse> {
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebhookListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebhookListResult>,
+    callback?: msRest.ServiceCallback<Models.WebhookListResult>
+  ): Promise<Models.WebhooksListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +205,8 @@ export class Webhooks {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.WebhooksListResponse>;
+      callback
+    ) as Promise<Models.WebhooksListResponse>;
   }
 
   /**
@@ -144,14 +217,24 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhooksPingResponse>
    */
-  ping(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebhooksPingResponse>;
+  ping(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhooksPingResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param callback The callback
    */
-  ping(resourceGroupName: string, registryName: string, webhookName: string, callback: msRest.ServiceCallback<Models.EventInfo>): void;
+  ping(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    callback: msRest.ServiceCallback<Models.EventInfo>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -159,8 +242,20 @@ export class Webhooks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  ping(resourceGroupName: string, registryName: string, webhookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventInfo>): void;
-  ping(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventInfo>, callback?: msRest.ServiceCallback<Models.EventInfo>): Promise<Models.WebhooksPingResponse> {
+  ping(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventInfo>
+  ): void;
+  ping(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventInfo>,
+    callback?: msRest.ServiceCallback<Models.EventInfo>
+  ): Promise<Models.WebhooksPingResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +264,8 @@ export class Webhooks {
         options
       },
       pingOperationSpec,
-      callback) as Promise<Models.WebhooksPingResponse>;
+      callback
+    ) as Promise<Models.WebhooksPingResponse>;
   }
 
   /**
@@ -180,14 +276,24 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhooksGetCallbackConfigResponse>
    */
-  getCallbackConfig(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebhooksGetCallbackConfigResponse>;
+  getCallbackConfig(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhooksGetCallbackConfigResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param callback The callback
    */
-  getCallbackConfig(resourceGroupName: string, registryName: string, webhookName: string, callback: msRest.ServiceCallback<Models.CallbackConfig>): void;
+  getCallbackConfig(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    callback: msRest.ServiceCallback<Models.CallbackConfig>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -195,8 +301,20 @@ export class Webhooks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCallbackConfig(resourceGroupName: string, registryName: string, webhookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CallbackConfig>): void;
-  getCallbackConfig(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CallbackConfig>, callback?: msRest.ServiceCallback<Models.CallbackConfig>): Promise<Models.WebhooksGetCallbackConfigResponse> {
+  getCallbackConfig(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CallbackConfig>
+  ): void;
+  getCallbackConfig(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CallbackConfig>,
+    callback?: msRest.ServiceCallback<Models.CallbackConfig>
+  ): Promise<Models.WebhooksGetCallbackConfigResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -205,7 +323,8 @@ export class Webhooks {
         options
       },
       getCallbackConfigOperationSpec,
-      callback) as Promise<Models.WebhooksGetCallbackConfigResponse>;
+      callback
+    ) as Promise<Models.WebhooksGetCallbackConfigResponse>;
   }
 
   /**
@@ -216,14 +335,24 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhooksListEventsResponse>
    */
-  listEvents(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebhooksListEventsResponse>;
+  listEvents(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhooksListEventsResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param webhookName The name of the webhook.
    * @param callback The callback
    */
-  listEvents(resourceGroupName: string, registryName: string, webhookName: string, callback: msRest.ServiceCallback<Models.EventListResult>): void;
+  listEvents(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    callback: msRest.ServiceCallback<Models.EventListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -231,8 +360,20 @@ export class Webhooks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listEvents(resourceGroupName: string, registryName: string, webhookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventListResult>): void;
-  listEvents(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventListResult>, callback?: msRest.ServiceCallback<Models.EventListResult>): Promise<Models.WebhooksListEventsResponse> {
+  listEvents(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventListResult>
+  ): void;
+  listEvents(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventListResult>,
+    callback?: msRest.ServiceCallback<Models.EventListResult>
+  ): Promise<Models.WebhooksListEventsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -241,7 +382,8 @@ export class Webhooks {
         options
       },
       listEventsOperationSpec,
-      callback) as Promise<Models.WebhooksListEventsResponse>;
+      callback
+    ) as Promise<Models.WebhooksListEventsResponse>;
   }
 
   /**
@@ -253,7 +395,13 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, registryName: string, webhookName: string, webhookCreateParameters: Models.WebhookCreateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    webhookCreateParameters: Models.WebhookCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -263,7 +411,8 @@ export class Webhooks {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -274,7 +423,12 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, registryName: string, webhookName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -283,7 +437,8 @@ export class Webhooks {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -295,7 +450,13 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, registryName: string, webhookName: string, webhookUpdateParameters: Models.WebhookUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    registryName: string,
+    webhookName: string,
+    webhookUpdateParameters: Models.WebhookUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -305,7 +466,8 @@ export class Webhooks {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -314,7 +476,10 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhooksListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebhooksListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhooksListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -325,15 +490,24 @@ export class Webhooks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebhookListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebhookListResult>, callback?: msRest.ServiceCallback<Models.WebhookListResult>): Promise<Models.WebhooksListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebhookListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebhookListResult>,
+    callback?: msRest.ServiceCallback<Models.WebhookListResult>
+  ): Promise<Models.WebhooksListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.WebhooksListNextResponse>;
+      callback
+    ) as Promise<Models.WebhooksListNextResponse>;
   }
 
   /**
@@ -342,26 +516,41 @@ export class Webhooks {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhooksListEventsNextResponse>
    */
-  listEventsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebhooksListEventsNextResponse>;
+  listEventsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhooksListEventsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listEventsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventListResult>): void;
+  listEventsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.EventListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listEventsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventListResult>): void;
-  listEventsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventListResult>, callback?: msRest.ServiceCallback<Models.EventListResult>): Promise<Models.WebhooksListEventsNextResponse> {
+  listEventsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventListResult>
+  ): void;
+  listEventsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventListResult>,
+    callback?: msRest.ServiceCallback<Models.EventListResult>
+  ): Promise<Models.WebhooksListEventsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listEventsNextOperationSpec,
-      callback) as Promise<Models.WebhooksListEventsNextResponse>;
+      callback
+    ) as Promise<Models.WebhooksListEventsNextResponse>;
   }
 }
 
@@ -369,19 +558,16 @@ export class Webhooks {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.webhookName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Webhook
@@ -395,18 +581,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.registryName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebhookListResult
@@ -420,19 +599,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const pingOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/ping",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/ping",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.webhookName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventInfo
@@ -446,19 +622,16 @@ const pingOperationSpec: msRest.OperationSpec = {
 
 const getCallbackConfigOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/getCallbackConfig",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/getCallbackConfig",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.webhookName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CallbackConfig
@@ -472,19 +645,16 @@ const getCallbackConfigOperationSpec: msRest.OperationSpec = {
 
 const listEventsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/listEvents",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}/listEvents",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.webhookName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventListResult
@@ -498,19 +668,16 @@ const listEventsOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.webhookName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "webhookCreateParameters",
     mapper: {
@@ -534,19 +701,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.webhookName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -560,19 +724,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/webhooks/{webhookName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.webhookName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "webhookUpdateParameters",
     mapper: {
@@ -598,12 +759,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebhookListResult
@@ -619,12 +776,8 @@ const listEventsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventListResult

@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -26,7 +26,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-07-01-preview',
+    defaultValue: "2018-07-01-preview",
     type: {
       name: "String"
     }
@@ -38,7 +38,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-07-01',
+    defaultValue: "2019-07-01",
     type: {
       name: "String"
     }
@@ -50,7 +50,7 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-04-04',
+    defaultValue: "2018-04-04",
     type: {
       name: "String"
     }
@@ -62,18 +62,14 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-10-01',
+    defaultValue: "2019-10-01",
     type: {
       name: "String"
     }
   }
 };
 export const apply: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "queryOptions",
-    "apply"
-  ],
+  parameterPath: ["options", "queryOptions", "apply"],
   mapper: {
     serializedName: "$apply",
     type: {
@@ -87,18 +83,14 @@ export const authorizationNamespace: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "authorizationNamespace",
-    defaultValue: 'Microsoft.Authorization',
+    defaultValue: "Microsoft.Authorization",
     type: {
       name: "String"
     }
   }
 };
 export const expand: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "queryOptions",
-    "expand"
-  ],
+  parameterPath: ["options", "queryOptions", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
@@ -107,11 +99,7 @@ export const expand: msRest.OperationQueryParameter = {
   }
 };
 export const filter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "queryOptions",
-    "filter"
-  ],
+  parameterPath: ["options", "queryOptions", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -120,11 +108,7 @@ export const filter: msRest.OperationQueryParameter = {
   }
 };
 export const from: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "queryOptions",
-    "from"
-  ],
+  parameterPath: ["options", "queryOptions", "from"],
   mapper: {
     serializedName: "$from",
     type: {
@@ -158,7 +142,7 @@ export const managementGroupsNamespace: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "managementGroupsNamespace",
-    defaultValue: 'Microsoft.Management',
+    defaultValue: "Microsoft.Management",
     type: {
       name: "String"
     }
@@ -176,11 +160,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const orderBy: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "queryOptions",
-    "orderBy"
-  ],
+  parameterPath: ["options", "queryOptions", "orderBy"],
   mapper: {
     serializedName: "$orderby",
     type: {
@@ -214,7 +194,7 @@ export const policyEventsResource: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "policyEventsResource",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
@@ -246,7 +226,7 @@ export const policyStatesSummaryResource: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "policyStatesSummaryResource",
-    defaultValue: 'latest',
+    defaultValue: "latest",
     type: {
       name: "String"
     }
@@ -258,7 +238,7 @@ export const policyTrackedResourcesResource: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "policyTrackedResourcesResource",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
@@ -318,11 +298,7 @@ export const scope: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const select: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "queryOptions",
-    "select"
-  ],
+  parameterPath: ["options", "queryOptions", "select"],
   mapper: {
     serializedName: "$select",
     type: {
@@ -341,11 +317,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const to: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "queryOptions",
-    "to"
-  ],
+  parameterPath: ["options", "queryOptions", "to"],
   mapper: {
     serializedName: "$to",
     type: {
@@ -354,11 +326,7 @@ export const to: msRest.OperationQueryParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "queryOptions",
-    "top"
-  ],
+  parameterPath: ["options", "queryOptions", "top"],
   mapper: {
     serializedName: "$top",
     constraints: {

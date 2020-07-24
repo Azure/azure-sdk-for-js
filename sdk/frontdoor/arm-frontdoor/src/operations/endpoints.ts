@@ -37,9 +37,18 @@ export class Endpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  purgeContent(resourceGroupName: string, frontDoorName: string, contentFilePaths: Models.PurgeParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginPurgeContent(resourceGroupName,frontDoorName,contentFilePaths,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  purgeContent(
+    resourceGroupName: string,
+    frontDoorName: string,
+    contentFilePaths: Models.PurgeParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginPurgeContent(
+      resourceGroupName,
+      frontDoorName,
+      contentFilePaths,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -52,7 +61,12 @@ export class Endpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPurgeContent(resourceGroupName: string, frontDoorName: string, contentFilePaths: Models.PurgeParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPurgeContent(
+    resourceGroupName: string,
+    frontDoorName: string,
+    contentFilePaths: Models.PurgeParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -61,7 +75,8 @@ export class Endpoints {
         options
       },
       beginPurgeContentOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -69,18 +84,15 @@ export class Endpoints {
 const serializer = new msRest.Serializer(Mappers);
 const beginPurgeContentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/purge",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/purge",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "contentFilePaths",
     mapper: {

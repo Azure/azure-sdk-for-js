@@ -33,21 +33,41 @@ export class Subscription {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionListResponse>
    */
-  list(resourceGroupName: string, serviceName: string, options?: Models.SubscriptionListOptionalParams): Promise<Models.SubscriptionListResponse>;
+  list(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: Models.SubscriptionListOptionalParams
+  ): Promise<Models.SubscriptionListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
+  list(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.SubscriptionCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, serviceName: string, options: Models.SubscriptionListOptionalParams, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
-  list(resourceGroupName: string, serviceName: string, options?: Models.SubscriptionListOptionalParams | msRest.ServiceCallback<Models.SubscriptionCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.SubscriptionListResponse> {
+  list(
+    resourceGroupName: string,
+    serviceName: string,
+    options: Models.SubscriptionListOptionalParams,
+    callback: msRest.ServiceCallback<Models.SubscriptionCollection>
+  ): void;
+  list(
+    resourceGroupName: string,
+    serviceName: string,
+    options?:
+      | Models.SubscriptionListOptionalParams
+      | msRest.ServiceCallback<Models.SubscriptionCollection>,
+    callback?: msRest.ServiceCallback<Models.SubscriptionCollection>
+  ): Promise<Models.SubscriptionListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class Subscription {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SubscriptionListResponse>;
+      callback
+    ) as Promise<Models.SubscriptionListResponse>;
   }
 
   /**
@@ -68,7 +89,12 @@ export class Subscription {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubscriptionGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -76,7 +102,12 @@ export class Subscription {
    * and a product in API Management.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, sid: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -85,8 +116,20 @@ export class Subscription {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, sid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.SubscriptionGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.SubscriptionGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +138,8 @@ export class Subscription {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.SubscriptionGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.SubscriptionGetEntityTagResponse>;
   }
 
   /**
@@ -107,7 +151,12 @@ export class Subscription {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubscriptionGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -115,7 +164,12 @@ export class Subscription {
    * and a product in API Management.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, sid: string, callback: msRest.ServiceCallback<Models.SubscriptionContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    callback: msRest.ServiceCallback<Models.SubscriptionContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -124,8 +178,20 @@ export class Subscription {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, sid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionContract>): void;
-  get(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionContract>, callback?: msRest.ServiceCallback<Models.SubscriptionContract>): Promise<Models.SubscriptionGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SubscriptionContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionContract>,
+    callback?: msRest.ServiceCallback<Models.SubscriptionContract>
+  ): Promise<Models.SubscriptionGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +200,8 @@ export class Subscription {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SubscriptionGetResponse>;
+      callback
+    ) as Promise<Models.SubscriptionGetResponse>;
   }
 
   /**
@@ -147,7 +214,13 @@ export class Subscription {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionCreateParameters, options?: Models.SubscriptionCreateOrUpdateOptionalParams): Promise<Models.SubscriptionCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    parameters: Models.SubscriptionCreateParameters,
+    options?: Models.SubscriptionCreateOrUpdateOptionalParams
+  ): Promise<Models.SubscriptionCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -156,7 +229,13 @@ export class Subscription {
    * @param parameters Create parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionCreateParameters, callback: msRest.ServiceCallback<Models.SubscriptionContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    parameters: Models.SubscriptionCreateParameters,
+    callback: msRest.ServiceCallback<Models.SubscriptionContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -166,8 +245,24 @@ export class Subscription {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionCreateParameters, options: Models.SubscriptionCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.SubscriptionContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionCreateParameters, options?: Models.SubscriptionCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.SubscriptionContract>, callback?: msRest.ServiceCallback<Models.SubscriptionContract>): Promise<Models.SubscriptionCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    parameters: Models.SubscriptionCreateParameters,
+    options: Models.SubscriptionCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.SubscriptionContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    parameters: Models.SubscriptionCreateParameters,
+    options?:
+      | Models.SubscriptionCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.SubscriptionContract>,
+    callback?: msRest.ServiceCallback<Models.SubscriptionContract>
+  ): Promise<Models.SubscriptionCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,7 +272,8 @@ export class Subscription {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.SubscriptionCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.SubscriptionCreateOrUpdateResponse>;
   }
 
   /**
@@ -192,7 +288,14 @@ export class Subscription {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, options?: Models.SubscriptionUpdateOptionalParams): Promise<msRest.RestResponse>;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    parameters: Models.SubscriptionUpdateParameters,
+    ifMatch: string,
+    options?: Models.SubscriptionUpdateOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -203,7 +306,14 @@ export class Subscription {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    parameters: Models.SubscriptionUpdateParameters,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -215,8 +325,24 @@ export class Subscription {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, options: Models.SubscriptionUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, sid: string, parameters: Models.SubscriptionUpdateParameters, ifMatch: string, options?: Models.SubscriptionUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    parameters: Models.SubscriptionUpdateParameters,
+    ifMatch: string,
+    options: Models.SubscriptionUpdateOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    parameters: Models.SubscriptionUpdateParameters,
+    ifMatch: string,
+    options?: Models.SubscriptionUpdateOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -227,7 +353,8 @@ export class Subscription {
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -241,7 +368,13 @@ export class Subscription {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, sid: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -251,7 +384,13 @@ export class Subscription {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, sid: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -262,8 +401,22 @@ export class Subscription {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, sid: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, sid: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -273,7 +426,8 @@ export class Subscription {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -285,7 +439,12 @@ export class Subscription {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -293,7 +452,12 @@ export class Subscription {
    * and a product in API Management.
    * @param callback The callback
    */
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, sid: string, callback: msRest.ServiceCallback<void>): void;
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -302,8 +466,20 @@ export class Subscription {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, sid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -312,7 +488,8 @@ export class Subscription {
         options
       },
       regeneratePrimaryKeyOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -324,7 +501,12 @@ export class Subscription {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -332,7 +514,12 @@ export class Subscription {
    * and a product in API Management.
    * @param callback The callback
    */
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, sid: string, callback: msRest.ServiceCallback<void>): void;
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -341,8 +528,20 @@ export class Subscription {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, sid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -351,7 +550,8 @@ export class Subscription {
         options
       },
       regenerateSecondaryKeyOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -363,7 +563,12 @@ export class Subscription {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionListSecretsResponse>
    */
-  listSecrets(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionListSecretsResponse>;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubscriptionListSecretsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -371,7 +576,12 @@ export class Subscription {
    * and a product in API Management.
    * @param callback The callback
    */
-  listSecrets(resourceGroupName: string, serviceName: string, sid: string, callback: msRest.ServiceCallback<Models.SubscriptionKeysContract>): void;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    callback: msRest.ServiceCallback<Models.SubscriptionKeysContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -380,8 +590,20 @@ export class Subscription {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSecrets(resourceGroupName: string, serviceName: string, sid: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionKeysContract>): void;
-  listSecrets(resourceGroupName: string, serviceName: string, sid: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionKeysContract>, callback?: msRest.ServiceCallback<Models.SubscriptionKeysContract>): Promise<Models.SubscriptionListSecretsResponse> {
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SubscriptionKeysContract>
+  ): void;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    sid: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionKeysContract>,
+    callback?: msRest.ServiceCallback<Models.SubscriptionKeysContract>
+  ): Promise<Models.SubscriptionListSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -390,7 +612,8 @@ export class Subscription {
         options
       },
       listSecretsOperationSpec,
-      callback) as Promise<Models.SubscriptionListSecretsResponse>;
+      callback
+    ) as Promise<Models.SubscriptionListSecretsResponse>;
   }
 
   /**
@@ -399,26 +622,41 @@ export class Subscription {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubscriptionListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SubscriptionCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionCollection>, callback?: msRest.ServiceCallback<Models.SubscriptionCollection>): Promise<Models.SubscriptionListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SubscriptionCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubscriptionCollection>,
+    callback?: msRest.ServiceCallback<Models.SubscriptionCollection>
+  ): Promise<Models.SubscriptionListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SubscriptionListNextResponse>;
+      callback
+    ) as Promise<Models.SubscriptionListNextResponse>;
   }
 }
 
@@ -426,21 +664,11 @@ export class Subscription {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.filter0, Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SubscriptionCollection
@@ -454,19 +682,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.sid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.SubscriptionGetEntityTagHeaders
@@ -480,19 +705,16 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.sid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SubscriptionContract,
@@ -507,21 +729,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.sid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.notify,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.notify, Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -547,21 +764,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.sid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.notify,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.notify, Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -580,20 +792,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.sid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -606,19 +814,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const regeneratePrimaryKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/regeneratePrimaryKey",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/regeneratePrimaryKey",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.sid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -630,19 +835,16 @@ const regeneratePrimaryKeyOperationSpec: msRest.OperationSpec = {
 
 const regenerateSecondaryKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/regenerateSecondaryKey",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/regenerateSecondaryKey",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.sid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -654,19 +856,16 @@ const regenerateSecondaryKeyOperationSpec: msRest.OperationSpec = {
 
 const listSecretsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/listSecrets",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}/listSecrets",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.sid,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SubscriptionKeysContract
@@ -682,12 +881,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SubscriptionCollection

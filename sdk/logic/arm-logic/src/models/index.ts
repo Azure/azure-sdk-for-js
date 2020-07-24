@@ -2832,8 +2832,7 @@ export interface Operation {
 /**
  * The key vault reference.
  */
-export interface KeyVaultReference extends ResourceReference {
-}
+export interface KeyVaultReference extends ResourceReference {}
 
 /**
  * The list key vault keys definition.
@@ -3392,7 +3391,8 @@ export interface WorkflowTriggersListOptionalParams extends msRest.RequestOption
 /**
  * Optional Parameters.
  */
-export interface WorkflowVersionTriggersListCallbackUrlOptionalParams extends msRest.RequestOptionsBase {
+export interface WorkflowVersionTriggersListCallbackUrlOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The callback URL parameters.
    */
@@ -3446,7 +3446,8 @@ export interface WorkflowRunActionsListOptionalParams extends msRest.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface IntegrationAccountsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+export interface IntegrationAccountsListBySubscriptionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The number of items to be included in the result.
    */
@@ -3456,7 +3457,8 @@ export interface IntegrationAccountsListBySubscriptionOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface IntegrationAccountsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface IntegrationAccountsListByResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The number of items to be included in the result.
    */
@@ -3522,7 +3524,8 @@ export interface IntegrationAccountAgreementsListOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface IntegrationAccountCertificatesListOptionalParams extends msRest.RequestOptionsBase {
+export interface IntegrationAccountCertificatesListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The number of items to be included in the result.
    */
@@ -3636,8 +3639,8 @@ export interface ExpressionTraces extends Array<ExpressionRoot> {
  * A collection of workflow run action repetitions.
  * @extends Array<WorkflowRunActionRepetitionDefinition>
  */
-export interface WorkflowRunActionRepetitionDefinitionCollection extends Array<WorkflowRunActionRepetitionDefinition> {
-}
+export interface WorkflowRunActionRepetitionDefinitionCollection
+  extends Array<WorkflowRunActionRepetitionDefinition> {}
 
 /**
  * @interface
@@ -3680,16 +3683,14 @@ export interface KeyVaultKeyCollection extends Array<KeyVaultKey> {
  * A collection of assembly definitions.
  * @extends Array<AssemblyDefinition>
  */
-export interface AssemblyCollection extends Array<AssemblyDefinition> {
-}
+export interface AssemblyCollection extends Array<AssemblyDefinition> {}
 
 /**
  * @interface
  * A collection of batch configurations.
  * @extends Array<BatchConfiguration>
  */
-export interface BatchConfigurationCollection extends Array<BatchConfiguration> {
-}
+export interface BatchConfigurationCollection extends Array<BatchConfiguration> {}
 
 /**
  * @interface
@@ -3744,7 +3745,8 @@ export interface IntegrationAccountAgreementListResult extends Array<Integration
  * The list of integration account certificates.
  * @extends Array<IntegrationAccountCertificate>
  */
-export interface IntegrationAccountCertificateListResult extends Array<IntegrationAccountCertificate> {
+export interface IntegrationAccountCertificateListResult
+  extends Array<IntegrationAccountCertificate> {
   /**
    * The URL to get the next set of results.
    */
@@ -3784,7 +3786,25 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type WorkflowProvisioningState = 'NotSpecified' | 'Accepted' | 'Running' | 'Ready' | 'Creating' | 'Created' | 'Deleting' | 'Deleted' | 'Canceled' | 'Failed' | 'Succeeded' | 'Moving' | 'Updating' | 'Registering' | 'Registered' | 'Unregistering' | 'Unregistered' | 'Completed';
+export type WorkflowProvisioningState =
+  | "NotSpecified"
+  | "Accepted"
+  | "Running"
+  | "Ready"
+  | "Creating"
+  | "Created"
+  | "Deleting"
+  | "Deleted"
+  | "Canceled"
+  | "Failed"
+  | "Succeeded"
+  | "Moving"
+  | "Updating"
+  | "Registering"
+  | "Registered"
+  | "Unregistering"
+  | "Unregistered"
+  | "Completed";
 
 /**
  * Defines values for WorkflowState.
@@ -3793,7 +3813,13 @@ export type WorkflowProvisioningState = 'NotSpecified' | 'Accepted' | 'Running' 
  * @readonly
  * @enum {string}
  */
-export type WorkflowState = 'NotSpecified' | 'Completed' | 'Enabled' | 'Disabled' | 'Deleted' | 'Suspended';
+export type WorkflowState =
+  | "NotSpecified"
+  | "Completed"
+  | "Enabled"
+  | "Disabled"
+  | "Deleted"
+  | "Suspended";
 
 /**
  * Defines values for SkuName.
@@ -3801,7 +3827,7 @@ export type WorkflowState = 'NotSpecified' | 'Completed' | 'Enabled' | 'Disabled
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'NotSpecified' | 'Free' | 'Shared' | 'Basic' | 'Standard' | 'Premium';
+export type SkuName = "NotSpecified" | "Free" | "Shared" | "Basic" | "Standard" | "Premium";
 
 /**
  * Defines values for ParameterType.
@@ -3810,7 +3836,16 @@ export type SkuName = 'NotSpecified' | 'Free' | 'Shared' | 'Basic' | 'Standard' 
  * @readonly
  * @enum {string}
  */
-export type ParameterType = 'NotSpecified' | 'String' | 'SecureString' | 'Int' | 'Float' | 'Bool' | 'Array' | 'Object' | 'SecureObject';
+export type ParameterType =
+  | "NotSpecified"
+  | "String"
+  | "SecureString"
+  | "Int"
+  | "Float"
+  | "Bool"
+  | "Array"
+  | "Object"
+  | "SecureObject";
 
 /**
  * Defines values for WorkflowTriggerProvisioningState.
@@ -3820,7 +3855,25 @@ export type ParameterType = 'NotSpecified' | 'String' | 'SecureString' | 'Int' |
  * @readonly
  * @enum {string}
  */
-export type WorkflowTriggerProvisioningState = 'NotSpecified' | 'Accepted' | 'Running' | 'Ready' | 'Creating' | 'Created' | 'Deleting' | 'Deleted' | 'Canceled' | 'Failed' | 'Succeeded' | 'Moving' | 'Updating' | 'Registering' | 'Registered' | 'Unregistering' | 'Unregistered' | 'Completed';
+export type WorkflowTriggerProvisioningState =
+  | "NotSpecified"
+  | "Accepted"
+  | "Running"
+  | "Ready"
+  | "Creating"
+  | "Created"
+  | "Deleting"
+  | "Deleted"
+  | "Canceled"
+  | "Failed"
+  | "Succeeded"
+  | "Moving"
+  | "Updating"
+  | "Registering"
+  | "Registered"
+  | "Unregistering"
+  | "Unregistered"
+  | "Completed";
 
 /**
  * Defines values for WorkflowStatus.
@@ -3829,7 +3882,20 @@ export type WorkflowTriggerProvisioningState = 'NotSpecified' | 'Accepted' | 'Ru
  * @readonly
  * @enum {string}
  */
-export type WorkflowStatus = 'NotSpecified' | 'Paused' | 'Running' | 'Waiting' | 'Succeeded' | 'Skipped' | 'Suspended' | 'Cancelled' | 'Failed' | 'Faulted' | 'TimedOut' | 'Aborted' | 'Ignored';
+export type WorkflowStatus =
+  | "NotSpecified"
+  | "Paused"
+  | "Running"
+  | "Waiting"
+  | "Succeeded"
+  | "Skipped"
+  | "Suspended"
+  | "Cancelled"
+  | "Failed"
+  | "Faulted"
+  | "TimedOut"
+  | "Aborted"
+  | "Ignored";
 
 /**
  * Defines values for RecurrenceFrequency.
@@ -3838,7 +3904,15 @@ export type WorkflowStatus = 'NotSpecified' | 'Paused' | 'Running' | 'Waiting' |
  * @readonly
  * @enum {string}
  */
-export type RecurrenceFrequency = 'NotSpecified' | 'Second' | 'Minute' | 'Hour' | 'Day' | 'Week' | 'Month' | 'Year';
+export type RecurrenceFrequency =
+  | "NotSpecified"
+  | "Second"
+  | "Minute"
+  | "Hour"
+  | "Day"
+  | "Week"
+  | "Month"
+  | "Year";
 
 /**
  * Defines values for DaysOfWeek.
@@ -3847,7 +3921,14 @@ export type RecurrenceFrequency = 'NotSpecified' | 'Second' | 'Minute' | 'Hour' 
  * @readonly
  * @enum {string}
  */
-export type DaysOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+export type DaysOfWeek =
+  | "Sunday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday";
 
 /**
  * Defines values for DayOfWeek.
@@ -3856,7 +3937,14 @@ export type DaysOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursd
  * @readonly
  * @enum {string}
  */
-export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+export type DayOfWeek =
+  | "Sunday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday";
 
 /**
  * Defines values for KeyType.
@@ -3864,7 +3952,7 @@ export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursda
  * @readonly
  * @enum {string}
  */
-export type KeyType = 'NotSpecified' | 'Primary' | 'Secondary';
+export type KeyType = "NotSpecified" | "Primary" | "Secondary";
 
 /**
  * Defines values for IntegrationAccountSkuName.
@@ -3872,7 +3960,7 @@ export type KeyType = 'NotSpecified' | 'Primary' | 'Secondary';
  * @readonly
  * @enum {string}
  */
-export type IntegrationAccountSkuName = 'NotSpecified' | 'Free' | 'Basic' | 'Standard';
+export type IntegrationAccountSkuName = "NotSpecified" | "Free" | "Basic" | "Standard";
 
 /**
  * Defines values for SchemaType.
@@ -3880,7 +3968,7 @@ export type IntegrationAccountSkuName = 'NotSpecified' | 'Free' | 'Basic' | 'Sta
  * @readonly
  * @enum {string}
  */
-export type SchemaType = 'NotSpecified' | 'Xml';
+export type SchemaType = "NotSpecified" | "Xml";
 
 /**
  * Defines values for MapType.
@@ -3888,7 +3976,7 @@ export type SchemaType = 'NotSpecified' | 'Xml';
  * @readonly
  * @enum {string}
  */
-export type MapType = 'NotSpecified' | 'Xslt' | 'Xslt20' | 'Xslt30' | 'Liquid';
+export type MapType = "NotSpecified" | "Xslt" | "Xslt20" | "Xslt30" | "Liquid";
 
 /**
  * Defines values for PartnerType.
@@ -3896,7 +3984,7 @@ export type MapType = 'NotSpecified' | 'Xslt' | 'Xslt20' | 'Xslt30' | 'Liquid';
  * @readonly
  * @enum {string}
  */
-export type PartnerType = 'NotSpecified' | 'B2B';
+export type PartnerType = "NotSpecified" | "B2B";
 
 /**
  * Defines values for AgreementType.
@@ -3904,7 +3992,7 @@ export type PartnerType = 'NotSpecified' | 'B2B';
  * @readonly
  * @enum {string}
  */
-export type AgreementType = 'NotSpecified' | 'AS2' | 'X12' | 'Edifact';
+export type AgreementType = "NotSpecified" | "AS2" | "X12" | "Edifact";
 
 /**
  * Defines values for HashingAlgorithm.
@@ -3912,7 +4000,14 @@ export type AgreementType = 'NotSpecified' | 'AS2' | 'X12' | 'Edifact';
  * @readonly
  * @enum {string}
  */
-export type HashingAlgorithm = 'NotSpecified' | 'None' | 'MD5' | 'SHA1' | 'SHA2256' | 'SHA2384' | 'SHA2512';
+export type HashingAlgorithm =
+  | "NotSpecified"
+  | "None"
+  | "MD5"
+  | "SHA1"
+  | "SHA2256"
+  | "SHA2384"
+  | "SHA2512";
 
 /**
  * Defines values for EncryptionAlgorithm.
@@ -3920,7 +4015,14 @@ export type HashingAlgorithm = 'NotSpecified' | 'None' | 'MD5' | 'SHA1' | 'SHA22
  * @readonly
  * @enum {string}
  */
-export type EncryptionAlgorithm = 'NotSpecified' | 'None' | 'DES3' | 'RC2' | 'AES128' | 'AES192' | 'AES256';
+export type EncryptionAlgorithm =
+  | "NotSpecified"
+  | "None"
+  | "DES3"
+  | "RC2"
+  | "AES128"
+  | "AES192"
+  | "AES256";
 
 /**
  * Defines values for SigningAlgorithm.
@@ -3928,7 +4030,13 @@ export type EncryptionAlgorithm = 'NotSpecified' | 'None' | 'DES3' | 'RC2' | 'AE
  * @readonly
  * @enum {string}
  */
-export type SigningAlgorithm = 'NotSpecified' | 'Default' | 'SHA1' | 'SHA2256' | 'SHA2384' | 'SHA2512';
+export type SigningAlgorithm =
+  | "NotSpecified"
+  | "Default"
+  | "SHA1"
+  | "SHA2256"
+  | "SHA2384"
+  | "SHA2512";
 
 /**
  * Defines values for TrailingSeparatorPolicy.
@@ -3936,7 +4044,7 @@ export type SigningAlgorithm = 'NotSpecified' | 'Default' | 'SHA1' | 'SHA2256' |
  * @readonly
  * @enum {string}
  */
-export type TrailingSeparatorPolicy = 'NotSpecified' | 'NotAllowed' | 'Optional' | 'Mandatory';
+export type TrailingSeparatorPolicy = "NotSpecified" | "NotAllowed" | "Optional" | "Mandatory";
 
 /**
  * Defines values for X12CharacterSet.
@@ -3944,7 +4052,7 @@ export type TrailingSeparatorPolicy = 'NotSpecified' | 'NotAllowed' | 'Optional'
  * @readonly
  * @enum {string}
  */
-export type X12CharacterSet = 'NotSpecified' | 'Basic' | 'Extended' | 'UTF8';
+export type X12CharacterSet = "NotSpecified" | "Basic" | "Extended" | "UTF8";
 
 /**
  * Defines values for SegmentTerminatorSuffix.
@@ -3952,7 +4060,7 @@ export type X12CharacterSet = 'NotSpecified' | 'Basic' | 'Extended' | 'UTF8';
  * @readonly
  * @enum {string}
  */
-export type SegmentTerminatorSuffix = 'NotSpecified' | 'None' | 'CR' | 'LF' | 'CRLF';
+export type SegmentTerminatorSuffix = "NotSpecified" | "None" | "CR" | "LF" | "CRLF";
 
 /**
  * Defines values for X12DateFormat.
@@ -3960,7 +4068,7 @@ export type SegmentTerminatorSuffix = 'NotSpecified' | 'None' | 'CR' | 'LF' | 'C
  * @readonly
  * @enum {string}
  */
-export type X12DateFormat = 'NotSpecified' | 'CCYYMMDD' | 'YYMMDD';
+export type X12DateFormat = "NotSpecified" | "CCYYMMDD" | "YYMMDD";
 
 /**
  * Defines values for X12TimeFormat.
@@ -3968,7 +4076,7 @@ export type X12DateFormat = 'NotSpecified' | 'CCYYMMDD' | 'YYMMDD';
  * @readonly
  * @enum {string}
  */
-export type X12TimeFormat = 'NotSpecified' | 'HHMM' | 'HHMMSS' | 'HHMMSSdd' | 'HHMMSSd';
+export type X12TimeFormat = "NotSpecified" | "HHMM" | "HHMMSS" | "HHMMSSdd" | "HHMMSSd";
 
 /**
  * Defines values for UsageIndicator.
@@ -3976,7 +4084,7 @@ export type X12TimeFormat = 'NotSpecified' | 'HHMM' | 'HHMMSS' | 'HHMMSSdd' | 'H
  * @readonly
  * @enum {string}
  */
-export type UsageIndicator = 'NotSpecified' | 'Test' | 'Information' | 'Production';
+export type UsageIndicator = "NotSpecified" | "Test" | "Information" | "Production";
 
 /**
  * Defines values for MessageFilterType.
@@ -3984,7 +4092,7 @@ export type UsageIndicator = 'NotSpecified' | 'Test' | 'Information' | 'Producti
  * @readonly
  * @enum {string}
  */
-export type MessageFilterType = 'NotSpecified' | 'Include' | 'Exclude';
+export type MessageFilterType = "NotSpecified" | "Include" | "Exclude";
 
 /**
  * Defines values for EdifactCharacterSet.
@@ -3993,7 +4101,22 @@ export type MessageFilterType = 'NotSpecified' | 'Include' | 'Exclude';
  * @readonly
  * @enum {string}
  */
-export type EdifactCharacterSet = 'NotSpecified' | 'UNOB' | 'UNOA' | 'UNOC' | 'UNOD' | 'UNOE' | 'UNOF' | 'UNOG' | 'UNOH' | 'UNOI' | 'UNOJ' | 'UNOK' | 'UNOX' | 'UNOY' | 'KECA';
+export type EdifactCharacterSet =
+  | "NotSpecified"
+  | "UNOB"
+  | "UNOA"
+  | "UNOC"
+  | "UNOD"
+  | "UNOE"
+  | "UNOF"
+  | "UNOG"
+  | "UNOH"
+  | "UNOI"
+  | "UNOJ"
+  | "UNOK"
+  | "UNOX"
+  | "UNOY"
+  | "KECA";
 
 /**
  * Defines values for EdifactDecimalIndicator.
@@ -4001,7 +4124,7 @@ export type EdifactCharacterSet = 'NotSpecified' | 'UNOB' | 'UNOA' | 'UNOC' | 'U
  * @readonly
  * @enum {string}
  */
-export type EdifactDecimalIndicator = 'NotSpecified' | 'Comma' | 'Decimal';
+export type EdifactDecimalIndicator = "NotSpecified" | "Comma" | "Decimal";
 
 /**
  * Defines values for TrackEventsOperationOptions.
@@ -4009,7 +4132,7 @@ export type EdifactDecimalIndicator = 'NotSpecified' | 'Comma' | 'Decimal';
  * @readonly
  * @enum {string}
  */
-export type TrackEventsOperationOptions = 'None' | 'DisableSourceInfoEnrich';
+export type TrackEventsOperationOptions = "None" | "DisableSourceInfoEnrich";
 
 /**
  * Defines values for EventLevel.
@@ -4017,7 +4140,13 @@ export type TrackEventsOperationOptions = 'None' | 'DisableSourceInfoEnrich';
  * @readonly
  * @enum {string}
  */
-export type EventLevel = 'LogAlways' | 'Critical' | 'Error' | 'Warning' | 'Informational' | 'Verbose';
+export type EventLevel =
+  | "LogAlways"
+  | "Critical"
+  | "Error"
+  | "Warning"
+  | "Informational"
+  | "Verbose";
 
 /**
  * Defines values for TrackingRecordType.
@@ -4029,7 +4158,23 @@ export type EventLevel = 'LogAlways' | 'Critical' | 'Error' | 'Warning' | 'Infor
  * @readonly
  * @enum {string}
  */
-export type TrackingRecordType = 'NotSpecified' | 'Custom' | 'AS2Message' | 'AS2MDN' | 'X12Interchange' | 'X12FunctionalGroup' | 'X12TransactionSet' | 'X12InterchangeAcknowledgment' | 'X12FunctionalGroupAcknowledgment' | 'X12TransactionSetAcknowledgment' | 'EdifactInterchange' | 'EdifactFunctionalGroup' | 'EdifactTransactionSet' | 'EdifactInterchangeAcknowledgment' | 'EdifactFunctionalGroupAcknowledgment' | 'EdifactTransactionSetAcknowledgment';
+export type TrackingRecordType =
+  | "NotSpecified"
+  | "Custom"
+  | "AS2Message"
+  | "AS2MDN"
+  | "X12Interchange"
+  | "X12FunctionalGroup"
+  | "X12TransactionSet"
+  | "X12InterchangeAcknowledgment"
+  | "X12FunctionalGroupAcknowledgment"
+  | "X12TransactionSetAcknowledgment"
+  | "EdifactInterchange"
+  | "EdifactFunctionalGroup"
+  | "EdifactTransactionSet"
+  | "EdifactInterchangeAcknowledgment"
+  | "EdifactFunctionalGroupAcknowledgment"
+  | "EdifactTransactionSetAcknowledgment";
 
 /**
  * Contains response data for the listBySubscription operation.
@@ -4039,16 +4184,16 @@ export type WorkflowsListBySubscriptionResponse = WorkflowListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowListResult;
+  };
 };
 
 /**
@@ -4059,16 +4204,16 @@ export type WorkflowsListByResourceGroupResponse = WorkflowListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowListResult;
+  };
 };
 
 /**
@@ -4079,16 +4224,16 @@ export type WorkflowsGetResponse = Workflow & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workflow;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workflow;
+  };
 };
 
 /**
@@ -4099,16 +4244,16 @@ export type WorkflowsCreateOrUpdateResponse = Workflow & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workflow;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workflow;
+  };
 };
 
 /**
@@ -4119,16 +4264,16 @@ export type WorkflowsUpdateResponse = Workflow & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workflow;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workflow;
+  };
 };
 
 /**
@@ -4144,16 +4289,16 @@ export type WorkflowsGenerateUpgradedDefinitionResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4164,16 +4309,16 @@ export type WorkflowsListCallbackUrlResponse = WorkflowTriggerCallbackUrl & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerCallbackUrl;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerCallbackUrl;
+  };
 };
 
 /**
@@ -4189,16 +4334,16 @@ export type WorkflowsListSwaggerResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4209,16 +4354,16 @@ export type WorkflowsListBySubscriptionNextResponse = WorkflowListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowListResult;
+  };
 };
 
 /**
@@ -4229,16 +4374,16 @@ export type WorkflowsListByResourceGroupNextResponse = WorkflowListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowListResult;
+  };
 };
 
 /**
@@ -4249,16 +4394,16 @@ export type WorkflowVersionsListResponse = WorkflowVersionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowVersionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowVersionListResult;
+  };
 };
 
 /**
@@ -4269,16 +4414,16 @@ export type WorkflowVersionsGetResponse = WorkflowVersion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowVersion;
+  };
 };
 
 /**
@@ -4289,16 +4434,16 @@ export type WorkflowVersionsListNextResponse = WorkflowVersionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowVersionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowVersionListResult;
+  };
 };
 
 /**
@@ -4309,16 +4454,16 @@ export type WorkflowTriggersListResponse = WorkflowTriggerListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerListResult;
+  };
 };
 
 /**
@@ -4329,16 +4474,16 @@ export type WorkflowTriggersGetResponse = WorkflowTrigger & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTrigger;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTrigger;
+  };
 };
 
 /**
@@ -4354,16 +4499,16 @@ export type WorkflowTriggersRunResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -4374,16 +4519,16 @@ export type WorkflowTriggersGetSchemaJsonResponse = JsonSchema & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JsonSchema;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JsonSchema;
+  };
 };
 
 /**
@@ -4394,16 +4539,16 @@ export type WorkflowTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerCallbackUrl;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerCallbackUrl;
+  };
 };
 
 /**
@@ -4414,16 +4559,16 @@ export type WorkflowTriggersListNextResponse = WorkflowTriggerListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerListResult;
+  };
 };
 
 /**
@@ -4434,16 +4579,16 @@ export type WorkflowVersionTriggersListCallbackUrlResponse = WorkflowTriggerCall
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerCallbackUrl;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerCallbackUrl;
+  };
 };
 
 /**
@@ -4454,16 +4599,16 @@ export type WorkflowTriggerHistoriesListResponse = WorkflowTriggerHistoryListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerHistoryListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerHistoryListResult;
+  };
 };
 
 /**
@@ -4474,16 +4619,16 @@ export type WorkflowTriggerHistoriesGetResponse = WorkflowTriggerHistory & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerHistory;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerHistory;
+  };
 };
 
 /**
@@ -4494,16 +4639,16 @@ export type WorkflowTriggerHistoriesListNextResponse = WorkflowTriggerHistoryLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerHistoryListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerHistoryListResult;
+  };
 };
 
 /**
@@ -4514,16 +4659,16 @@ export type WorkflowRunsListResponse = WorkflowRunListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowRunListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowRunListResult;
+  };
 };
 
 /**
@@ -4534,16 +4679,16 @@ export type WorkflowRunsGetResponse = WorkflowRun & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowRun;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowRun;
+  };
 };
 
 /**
@@ -4554,16 +4699,16 @@ export type WorkflowRunsListNextResponse = WorkflowRunListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowRunListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowRunListResult;
+  };
 };
 
 /**
@@ -4574,16 +4719,16 @@ export type WorkflowRunActionsListResponse = WorkflowRunActionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowRunActionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowRunActionListResult;
+  };
 };
 
 /**
@@ -4594,16 +4739,16 @@ export type WorkflowRunActionsGetResponse = WorkflowRunAction & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowRunAction;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowRunAction;
+  };
 };
 
 /**
@@ -4614,16 +4759,16 @@ export type WorkflowRunActionsListExpressionTracesResponse = ExpressionTraces & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressionTraces;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExpressionTraces;
+  };
 };
 
 /**
@@ -4634,16 +4779,16 @@ export type WorkflowRunActionsListNextResponse = WorkflowRunActionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowRunActionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowRunActionListResult;
+  };
 };
 
 /**
@@ -4654,16 +4799,16 @@ export type WorkflowRunActionRepetitionsListResponse = WorkflowRunActionRepetiti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowRunActionRepetitionDefinitionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowRunActionRepetitionDefinitionCollection;
+  };
 };
 
 /**
@@ -4674,16 +4819,16 @@ export type WorkflowRunActionRepetitionsGetResponse = WorkflowRunActionRepetitio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowRunActionRepetitionDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowRunActionRepetitionDefinition;
+  };
 };
 
 /**
@@ -4694,16 +4839,16 @@ export type WorkflowRunActionRepetitionsListExpressionTracesResponse = Expressio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExpressionTraces;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExpressionTraces;
+  };
 };
 
 /**
@@ -4714,16 +4859,16 @@ export type WorkflowRunActionRepetitionsRequestHistoriesListResponse = RequestHi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RequestHistoryListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RequestHistoryListResult;
+  };
 };
 
 /**
@@ -4734,16 +4879,16 @@ export type WorkflowRunActionRepetitionsRequestHistoriesGetResponse = RequestHis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RequestHistory;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RequestHistory;
+  };
 };
 
 /**
@@ -4754,16 +4899,16 @@ export type WorkflowRunActionRepetitionsRequestHistoriesListNextResponse = Reque
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RequestHistoryListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RequestHistoryListResult;
+  };
 };
 
 /**
@@ -4774,16 +4919,16 @@ export type WorkflowRunActionRequestHistoriesListResponse = RequestHistoryListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RequestHistoryListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RequestHistoryListResult;
+  };
 };
 
 /**
@@ -4794,16 +4939,16 @@ export type WorkflowRunActionRequestHistoriesGetResponse = RequestHistory & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RequestHistory;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RequestHistory;
+  };
 };
 
 /**
@@ -4814,16 +4959,16 @@ export type WorkflowRunActionRequestHistoriesListNextResponse = RequestHistoryLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RequestHistoryListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RequestHistoryListResult;
+  };
 };
 
 /**
@@ -4834,16 +4979,16 @@ export type WorkflowRunActionScopeRepetitionsListResponse = WorkflowRunActionRep
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowRunActionRepetitionDefinitionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowRunActionRepetitionDefinitionCollection;
+  };
 };
 
 /**
@@ -4854,16 +4999,16 @@ export type WorkflowRunActionScopeRepetitionsGetResponse = WorkflowRunActionRepe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowRunActionRepetitionDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowRunActionRepetitionDefinition;
+  };
 };
 
 /**
@@ -4874,16 +5019,16 @@ export type WorkflowRunOperationsGetResponse = WorkflowRun & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowRun;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowRun;
+  };
 };
 
 /**
@@ -4894,16 +5039,16 @@ export type IntegrationAccountsListBySubscriptionResponse = IntegrationAccountLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountListResult;
+  };
 };
 
 /**
@@ -4914,16 +5059,16 @@ export type IntegrationAccountsListByResourceGroupResponse = IntegrationAccountL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountListResult;
+  };
 };
 
 /**
@@ -4934,16 +5079,16 @@ export type IntegrationAccountsGetResponse = IntegrationAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccount;
+  };
 };
 
 /**
@@ -4954,16 +5099,16 @@ export type IntegrationAccountsCreateOrUpdateResponse = IntegrationAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccount;
+  };
 };
 
 /**
@@ -4974,16 +5119,16 @@ export type IntegrationAccountsUpdateResponse = IntegrationAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccount;
+  };
 };
 
 /**
@@ -4994,16 +5139,16 @@ export type IntegrationAccountsListCallbackUrlResponse = CallbackUrl & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CallbackUrl;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CallbackUrl;
+  };
 };
 
 /**
@@ -5014,16 +5159,16 @@ export type IntegrationAccountsListKeyVaultKeysResponse = KeyVaultKeyCollection 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyVaultKeyCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyVaultKeyCollection;
+  };
 };
 
 /**
@@ -5034,16 +5179,16 @@ export type IntegrationAccountsRegenerateAccessKeyResponse = IntegrationAccount 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccount;
+  };
 };
 
 /**
@@ -5054,16 +5199,16 @@ export type IntegrationAccountsListBySubscriptionNextResponse = IntegrationAccou
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountListResult;
+  };
 };
 
 /**
@@ -5074,16 +5219,16 @@ export type IntegrationAccountsListByResourceGroupNextResponse = IntegrationAcco
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountListResult;
+  };
 };
 
 /**
@@ -5094,16 +5239,16 @@ export type IntegrationAccountAssembliesListResponse = AssemblyCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssemblyCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AssemblyCollection;
+  };
 };
 
 /**
@@ -5114,16 +5259,16 @@ export type IntegrationAccountAssembliesGetResponse = AssemblyDefinition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssemblyDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AssemblyDefinition;
+  };
 };
 
 /**
@@ -5134,16 +5279,16 @@ export type IntegrationAccountAssembliesCreateOrUpdateResponse = AssemblyDefinit
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssemblyDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AssemblyDefinition;
+  };
 };
 
 /**
@@ -5154,16 +5299,16 @@ export type IntegrationAccountAssembliesListContentCallbackUrlResponse = Workflo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerCallbackUrl;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerCallbackUrl;
+  };
 };
 
 /**
@@ -5174,16 +5319,16 @@ export type IntegrationAccountBatchConfigurationsListResponse = BatchConfigurati
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchConfigurationCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchConfigurationCollection;
+  };
 };
 
 /**
@@ -5194,16 +5339,16 @@ export type IntegrationAccountBatchConfigurationsGetResponse = BatchConfiguratio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchConfiguration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchConfiguration;
+  };
 };
 
 /**
@@ -5214,16 +5359,16 @@ export type IntegrationAccountBatchConfigurationsCreateOrUpdateResponse = BatchC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BatchConfiguration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BatchConfiguration;
+  };
 };
 
 /**
@@ -5234,16 +5379,16 @@ export type IntegrationAccountSchemasListResponse = IntegrationAccountSchemaList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountSchemaListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountSchemaListResult;
+  };
 };
 
 /**
@@ -5254,16 +5399,16 @@ export type IntegrationAccountSchemasGetResponse = IntegrationAccountSchema & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountSchema;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountSchema;
+  };
 };
 
 /**
@@ -5274,16 +5419,16 @@ export type IntegrationAccountSchemasCreateOrUpdateResponse = IntegrationAccount
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountSchema;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountSchema;
+  };
 };
 
 /**
@@ -5294,16 +5439,16 @@ export type IntegrationAccountSchemasListContentCallbackUrlResponse = WorkflowTr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerCallbackUrl;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerCallbackUrl;
+  };
 };
 
 /**
@@ -5314,16 +5459,16 @@ export type IntegrationAccountSchemasListNextResponse = IntegrationAccountSchema
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountSchemaListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountSchemaListResult;
+  };
 };
 
 /**
@@ -5334,16 +5479,16 @@ export type IntegrationAccountMapsListResponse = IntegrationAccountMapListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountMapListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountMapListResult;
+  };
 };
 
 /**
@@ -5354,16 +5499,16 @@ export type IntegrationAccountMapsGetResponse = IntegrationAccountMap & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountMap;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountMap;
+  };
 };
 
 /**
@@ -5374,16 +5519,16 @@ export type IntegrationAccountMapsCreateOrUpdateResponse = IntegrationAccountMap
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountMap;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountMap;
+  };
 };
 
 /**
@@ -5394,16 +5539,16 @@ export type IntegrationAccountMapsListContentCallbackUrlResponse = WorkflowTrigg
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerCallbackUrl;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerCallbackUrl;
+  };
 };
 
 /**
@@ -5414,16 +5559,16 @@ export type IntegrationAccountMapsListNextResponse = IntegrationAccountMapListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountMapListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountMapListResult;
+  };
 };
 
 /**
@@ -5434,16 +5579,16 @@ export type IntegrationAccountPartnersListResponse = IntegrationAccountPartnerLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountPartnerListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountPartnerListResult;
+  };
 };
 
 /**
@@ -5454,16 +5599,16 @@ export type IntegrationAccountPartnersGetResponse = IntegrationAccountPartner & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountPartner;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountPartner;
+  };
 };
 
 /**
@@ -5474,16 +5619,16 @@ export type IntegrationAccountPartnersCreateOrUpdateResponse = IntegrationAccoun
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountPartner;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountPartner;
+  };
 };
 
 /**
@@ -5494,16 +5639,16 @@ export type IntegrationAccountPartnersListContentCallbackUrlResponse = WorkflowT
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerCallbackUrl;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerCallbackUrl;
+  };
 };
 
 /**
@@ -5514,16 +5659,16 @@ export type IntegrationAccountPartnersListNextResponse = IntegrationAccountPartn
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountPartnerListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountPartnerListResult;
+  };
 };
 
 /**
@@ -5534,16 +5679,16 @@ export type IntegrationAccountAgreementsListResponse = IntegrationAccountAgreeme
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountAgreementListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountAgreementListResult;
+  };
 };
 
 /**
@@ -5554,16 +5699,16 @@ export type IntegrationAccountAgreementsGetResponse = IntegrationAccountAgreemen
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountAgreement;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountAgreement;
+  };
 };
 
 /**
@@ -5574,16 +5719,16 @@ export type IntegrationAccountAgreementsCreateOrUpdateResponse = IntegrationAcco
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountAgreement;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountAgreement;
+  };
 };
 
 /**
@@ -5594,16 +5739,16 @@ export type IntegrationAccountAgreementsListContentCallbackUrlResponse = Workflo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkflowTriggerCallbackUrl;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkflowTriggerCallbackUrl;
+  };
 };
 
 /**
@@ -5614,16 +5759,16 @@ export type IntegrationAccountAgreementsListNextResponse = IntegrationAccountAgr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountAgreementListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountAgreementListResult;
+  };
 };
 
 /**
@@ -5634,16 +5779,16 @@ export type IntegrationAccountCertificatesListResponse = IntegrationAccountCerti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountCertificateListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountCertificateListResult;
+  };
 };
 
 /**
@@ -5654,16 +5799,16 @@ export type IntegrationAccountCertificatesGetResponse = IntegrationAccountCertif
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountCertificate;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountCertificate;
+  };
 };
 
 /**
@@ -5674,16 +5819,16 @@ export type IntegrationAccountCertificatesCreateOrUpdateResponse = IntegrationAc
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountCertificate;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountCertificate;
+  };
 };
 
 /**
@@ -5694,16 +5839,16 @@ export type IntegrationAccountCertificatesListNextResponse = IntegrationAccountC
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountCertificateListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountCertificateListResult;
+  };
 };
 
 /**
@@ -5714,16 +5859,16 @@ export type IntegrationAccountSessionsListResponse = IntegrationAccountSessionLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountSessionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountSessionListResult;
+  };
 };
 
 /**
@@ -5734,16 +5879,16 @@ export type IntegrationAccountSessionsGetResponse = IntegrationAccountSession & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountSession;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountSession;
+  };
 };
 
 /**
@@ -5754,16 +5899,16 @@ export type IntegrationAccountSessionsCreateOrUpdateResponse = IntegrationAccoun
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountSession;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountSession;
+  };
 };
 
 /**
@@ -5774,16 +5919,16 @@ export type IntegrationAccountSessionsListNextResponse = IntegrationAccountSessi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationAccountSessionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IntegrationAccountSessionListResult;
+  };
 };
 
 /**
@@ -5794,16 +5939,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -5814,14 +5959,14 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

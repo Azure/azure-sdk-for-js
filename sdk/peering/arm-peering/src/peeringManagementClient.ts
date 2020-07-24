@@ -15,7 +15,6 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { PeeringManagementClientContext } from "./peeringManagementClientContext";
 
-
 class PeeringManagementClient extends PeeringManagementClientContext {
   // Operation groups
   legacyPeerings: operations.LegacyPeerings;
@@ -35,7 +34,11 @@ class PeeringManagementClient extends PeeringManagementClientContext {
    * @param subscriptionId The Azure subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PeeringManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.PeeringManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.legacyPeerings = new operations.LegacyPeerings(this);
     this.operations = new operations.Operations(this);
@@ -54,23 +57,36 @@ class PeeringManagementClient extends PeeringManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckServiceProviderAvailabilityResponse>
    */
-  checkServiceProviderAvailability(options?: Models.PeeringManagementClientCheckServiceProviderAvailabilityOptionalParams): Promise<Models.CheckServiceProviderAvailabilityResponse>;
+  checkServiceProviderAvailability(
+    options?: Models.PeeringManagementClientCheckServiceProviderAvailabilityOptionalParams
+  ): Promise<Models.CheckServiceProviderAvailabilityResponse>;
   /**
    * @param callback The callback
    */
-  checkServiceProviderAvailability(callback: msRest.ServiceCallback<Models.CheckServiceProviderAvailabilityOKResponse>): void;
+  checkServiceProviderAvailability(
+    callback: msRest.ServiceCallback<Models.CheckServiceProviderAvailabilityOKResponse>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkServiceProviderAvailability(options: Models.PeeringManagementClientCheckServiceProviderAvailabilityOptionalParams, callback: msRest.ServiceCallback<Models.CheckServiceProviderAvailabilityOKResponse>): void;
-  checkServiceProviderAvailability(options?: Models.PeeringManagementClientCheckServiceProviderAvailabilityOptionalParams | msRest.ServiceCallback<Models.CheckServiceProviderAvailabilityOKResponse>, callback?: msRest.ServiceCallback<Models.CheckServiceProviderAvailabilityOKResponse>): Promise<Models.CheckServiceProviderAvailabilityResponse> {
+  checkServiceProviderAvailability(
+    options: Models.PeeringManagementClientCheckServiceProviderAvailabilityOptionalParams,
+    callback: msRest.ServiceCallback<Models.CheckServiceProviderAvailabilityOKResponse>
+  ): void;
+  checkServiceProviderAvailability(
+    options?:
+      | Models.PeeringManagementClientCheckServiceProviderAvailabilityOptionalParams
+      | msRest.ServiceCallback<Models.CheckServiceProviderAvailabilityOKResponse>,
+    callback?: msRest.ServiceCallback<Models.CheckServiceProviderAvailabilityOKResponse>
+  ): Promise<Models.CheckServiceProviderAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       checkServiceProviderAvailabilityOperationSpec,
-      callback) as Promise<Models.CheckServiceProviderAvailabilityResponse>;
+      callback
+    ) as Promise<Models.CheckServiceProviderAvailabilityResponse>;
   }
 }
 
@@ -78,26 +94,15 @@ class PeeringManagementClient extends PeeringManagementClientContext {
 const serializer = new msRest.Serializer(Mappers);
 const checkServiceProviderAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/CheckServiceProviderAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Peering/CheckServiceProviderAvailability",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      peeringServiceLocation: [
-        "options",
-        "peeringServiceLocation"
-      ],
-      peeringServiceProvider: [
-        "options",
-        "peeringServiceProvider"
-      ]
+      peeringServiceLocation: ["options", "peeringServiceLocation"],
+      peeringServiceProvider: ["options", "peeringServiceProvider"]
     },
     mapper: {
       ...Mappers.CheckServiceProviderAvailabilityInput,

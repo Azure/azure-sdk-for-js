@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { DomainservicesManagementClientContext } from "./domainservicesManagementClientContext";
 
-
 class DomainservicesManagementClient extends DomainservicesManagementClientContext {
   // Operation groups
   domainServiceOperations: operations.DomainServiceOperations;
@@ -27,7 +26,11 @@ class DomainservicesManagementClient extends DomainservicesManagementClientConte
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DomainservicesManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.DomainservicesManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.domainServiceOperations = new operations.DomainServiceOperations(this);
     this.domainServices = new operations.DomainServices(this);

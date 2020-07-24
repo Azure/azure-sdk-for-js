@@ -34,21 +34,41 @@ export class NamedValue {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamedValueListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.NamedValueListByServiceOptionalParams): Promise<Models.NamedValueListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: Models.NamedValueListByServiceOptionalParams
+  ): Promise<Models.NamedValueListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.NamedValueCollection>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.NamedValueCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.NamedValueListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.NamedValueCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.NamedValueListByServiceOptionalParams | msRest.ServiceCallback<Models.NamedValueCollection>, callback?: msRest.ServiceCallback<Models.NamedValueCollection>): Promise<Models.NamedValueListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options: Models.NamedValueListByServiceOptionalParams,
+    callback: msRest.ServiceCallback<Models.NamedValueCollection>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    options?:
+      | Models.NamedValueListByServiceOptionalParams
+      | msRest.ServiceCallback<Models.NamedValueCollection>,
+    callback?: msRest.ServiceCallback<Models.NamedValueCollection>
+  ): Promise<Models.NamedValueListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class NamedValue {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.NamedValueListByServiceResponse>;
+      callback
+    ) as Promise<Models.NamedValueListByServiceResponse>;
   }
 
   /**
@@ -67,14 +88,24 @@ export class NamedValue {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamedValueGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, namedValueId: string, options?: msRest.RequestOptionsBase): Promise<Models.NamedValueGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamedValueGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, namedValueId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -82,8 +113,20 @@ export class NamedValue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, namedValueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, namedValueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.NamedValueGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.NamedValueGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +135,8 @@ export class NamedValue {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.NamedValueGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.NamedValueGetEntityTagResponse>;
   }
 
   /**
@@ -103,14 +147,24 @@ export class NamedValue {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamedValueGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, namedValueId: string, options?: msRest.RequestOptionsBase): Promise<Models.NamedValueGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamedValueGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, namedValueId: string, callback: msRest.ServiceCallback<Models.NamedValueContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    callback: msRest.ServiceCallback<Models.NamedValueContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -118,8 +172,20 @@ export class NamedValue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, namedValueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NamedValueContract>): void;
-  get(resourceGroupName: string, serviceName: string, namedValueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NamedValueContract>, callback?: msRest.ServiceCallback<Models.NamedValueContract>): Promise<Models.NamedValueGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NamedValueContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NamedValueContract>,
+    callback?: msRest.ServiceCallback<Models.NamedValueContract>
+  ): Promise<Models.NamedValueGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -128,7 +194,8 @@ export class NamedValue {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.NamedValueGetResponse>;
+      callback
+    ) as Promise<Models.NamedValueGetResponse>;
   }
 
   /**
@@ -140,9 +207,22 @@ export class NamedValue {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamedValueCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, namedValueId: string, parameters: Models.NamedValueCreateContract, options?: Models.NamedValueCreateOrUpdateOptionalParams): Promise<Models.NamedValueCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serviceName,namedValueId,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NamedValueCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    parameters: Models.NamedValueCreateContract,
+    options?: Models.NamedValueCreateOrUpdateOptionalParams
+  ): Promise<Models.NamedValueCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serviceName,
+      namedValueId,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.NamedValueCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -156,9 +236,24 @@ export class NamedValue {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamedValueUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, namedValueId: string, parameters: Models.NamedValueUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.NamedValueUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,serviceName,namedValueId,parameters,ifMatch,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NamedValueUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    parameters: Models.NamedValueUpdateParameters,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamedValueUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      serviceName,
+      namedValueId,
+      parameters,
+      ifMatch,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.NamedValueUpdateResponse
+    >;
   }
 
   /**
@@ -171,7 +266,13 @@ export class NamedValue {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, namedValueId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -180,7 +281,13 @@ export class NamedValue {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, namedValueId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -190,8 +297,22 @@ export class NamedValue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, namedValueId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, namedValueId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -201,7 +322,8 @@ export class NamedValue {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -212,14 +334,24 @@ export class NamedValue {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamedValueListValueResponse>
    */
-  listValue(resourceGroupName: string, serviceName: string, namedValueId: string, options?: msRest.RequestOptionsBase): Promise<Models.NamedValueListValueResponse>;
+  listValue(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamedValueListValueResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param callback The callback
    */
-  listValue(resourceGroupName: string, serviceName: string, namedValueId: string, callback: msRest.ServiceCallback<Models.PropertyValueContract>): void;
+  listValue(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    callback: msRest.ServiceCallback<Models.PropertyValueContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -227,8 +359,20 @@ export class NamedValue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listValue(resourceGroupName: string, serviceName: string, namedValueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PropertyValueContract>): void;
-  listValue(resourceGroupName: string, serviceName: string, namedValueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PropertyValueContract>, callback?: msRest.ServiceCallback<Models.PropertyValueContract>): Promise<Models.NamedValueListValueResponse> {
+  listValue(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PropertyValueContract>
+  ): void;
+  listValue(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PropertyValueContract>,
+    callback?: msRest.ServiceCallback<Models.PropertyValueContract>
+  ): Promise<Models.NamedValueListValueResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -237,7 +381,8 @@ export class NamedValue {
         options
       },
       listValueOperationSpec,
-      callback) as Promise<Models.NamedValueListValueResponse>;
+      callback
+    ) as Promise<Models.NamedValueListValueResponse>;
   }
 
   /**
@@ -249,7 +394,13 @@ export class NamedValue {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serviceName: string, namedValueId: string, parameters: Models.NamedValueCreateContract, options?: Models.NamedValueBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    parameters: Models.NamedValueCreateContract,
+    options?: Models.NamedValueBeginCreateOrUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -259,7 +410,8 @@ export class NamedValue {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -273,7 +425,14 @@ export class NamedValue {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, serviceName: string, namedValueId: string, parameters: Models.NamedValueUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    namedValueId: string,
+    parameters: Models.NamedValueUpdateParameters,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -284,7 +443,8 @@ export class NamedValue {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -293,26 +453,41 @@ export class NamedValue {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamedValueListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NamedValueListByServiceNextResponse>;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamedValueListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NamedValueCollection>): void;
+  listByServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.NamedValueCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NamedValueCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NamedValueCollection>, callback?: msRest.ServiceCallback<Models.NamedValueCollection>): Promise<Models.NamedValueListByServiceNextResponse> {
+  listByServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NamedValueCollection>
+  ): void;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NamedValueCollection>,
+    callback?: msRest.ServiceCallback<Models.NamedValueCollection>
+  ): Promise<Models.NamedValueListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.NamedValueListByServiceNextResponse>;
+      callback
+    ) as Promise<Models.NamedValueListByServiceNextResponse>;
   }
 }
 
@@ -320,21 +495,11 @@ export class NamedValue {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serviceName, Parameters.subscriptionId],
+  queryParameters: [Parameters.filter0, Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NamedValueCollection
@@ -348,19 +513,16 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.namedValueId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.NamedValueGetEntityTagHeaders
@@ -374,19 +536,16 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.namedValueId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NamedValueContract,
@@ -401,20 +560,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.namedValueId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -427,19 +582,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listValueOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}/listValue",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}/listValue",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.namedValueId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PropertyValueContract
@@ -453,20 +605,16 @@ const listValueOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.namedValueId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -495,20 +643,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.namedValueId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -538,12 +682,8 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NamedValueCollection

@@ -36,7 +36,14 @@ export class ConsumerGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConsumerGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, parameters: Models.ConsumerGroup, options?: msRest.RequestOptionsBase): Promise<Models.ConsumerGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    consumerGroupName: string,
+    parameters: Models.ConsumerGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConsumerGroupsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -45,7 +52,14 @@ export class ConsumerGroups {
    * @param parameters Parameters supplied to create or update a consumer group resource.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, parameters: Models.ConsumerGroup, callback: msRest.ServiceCallback<Models.ConsumerGroup>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    consumerGroupName: string,
+    parameters: Models.ConsumerGroup,
+    callback: msRest.ServiceCallback<Models.ConsumerGroup>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -55,8 +69,24 @@ export class ConsumerGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, parameters: Models.ConsumerGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConsumerGroup>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, parameters: Models.ConsumerGroup, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConsumerGroup>, callback?: msRest.ServiceCallback<Models.ConsumerGroup>): Promise<Models.ConsumerGroupsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    consumerGroupName: string,
+    parameters: Models.ConsumerGroup,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConsumerGroup>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    consumerGroupName: string,
+    parameters: Models.ConsumerGroup,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConsumerGroup>,
+    callback?: msRest.ServiceCallback<Models.ConsumerGroup>
+  ): Promise<Models.ConsumerGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +97,8 @@ export class ConsumerGroups {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ConsumerGroupsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ConsumerGroupsCreateOrUpdateResponse>;
   }
 
   /**
@@ -79,7 +110,13 @@ export class ConsumerGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    consumerGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -87,7 +124,13 @@ export class ConsumerGroups {
    * @param consumerGroupName The consumer group name
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    consumerGroupName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -96,8 +139,22 @@ export class ConsumerGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    consumerGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    consumerGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +164,8 @@ export class ConsumerGroups {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -119,7 +177,13 @@ export class ConsumerGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConsumerGroupsGetResponse>
    */
-  get(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConsumerGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    consumerGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConsumerGroupsGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -127,7 +191,13 @@ export class ConsumerGroups {
    * @param consumerGroupName The consumer group name
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, callback: msRest.ServiceCallback<Models.ConsumerGroup>): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    consumerGroupName: string,
+    callback: msRest.ServiceCallback<Models.ConsumerGroup>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -136,8 +206,22 @@ export class ConsumerGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConsumerGroup>): void;
-  get(resourceGroupName: string, namespaceName: string, eventHubName: string, consumerGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConsumerGroup>, callback?: msRest.ServiceCallback<Models.ConsumerGroup>): Promise<Models.ConsumerGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    consumerGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConsumerGroup>
+  ): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    consumerGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConsumerGroup>,
+    callback?: msRest.ServiceCallback<Models.ConsumerGroup>
+  ): Promise<Models.ConsumerGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -147,7 +231,8 @@ export class ConsumerGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ConsumerGroupsGetResponse>;
+      callback
+    ) as Promise<Models.ConsumerGroupsGetResponse>;
   }
 
   /**
@@ -159,14 +244,24 @@ export class ConsumerGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConsumerGroupsListByEventHubResponse>
    */
-  listByEventHub(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: Models.ConsumerGroupsListByEventHubOptionalParams): Promise<Models.ConsumerGroupsListByEventHubResponse>;
+  listByEventHub(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    options?: Models.ConsumerGroupsListByEventHubOptionalParams
+  ): Promise<Models.ConsumerGroupsListByEventHubResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param eventHubName The Event Hub name
    * @param callback The callback
    */
-  listByEventHub(resourceGroupName: string, namespaceName: string, eventHubName: string, callback: msRest.ServiceCallback<Models.ConsumerGroupListResult>): void;
+  listByEventHub(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    callback: msRest.ServiceCallback<Models.ConsumerGroupListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -174,8 +269,22 @@ export class ConsumerGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByEventHub(resourceGroupName: string, namespaceName: string, eventHubName: string, options: Models.ConsumerGroupsListByEventHubOptionalParams, callback: msRest.ServiceCallback<Models.ConsumerGroupListResult>): void;
-  listByEventHub(resourceGroupName: string, namespaceName: string, eventHubName: string, options?: Models.ConsumerGroupsListByEventHubOptionalParams | msRest.ServiceCallback<Models.ConsumerGroupListResult>, callback?: msRest.ServiceCallback<Models.ConsumerGroupListResult>): Promise<Models.ConsumerGroupsListByEventHubResponse> {
+  listByEventHub(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    options: Models.ConsumerGroupsListByEventHubOptionalParams,
+    callback: msRest.ServiceCallback<Models.ConsumerGroupListResult>
+  ): void;
+  listByEventHub(
+    resourceGroupName: string,
+    namespaceName: string,
+    eventHubName: string,
+    options?:
+      | Models.ConsumerGroupsListByEventHubOptionalParams
+      | msRest.ServiceCallback<Models.ConsumerGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ConsumerGroupListResult>
+  ): Promise<Models.ConsumerGroupsListByEventHubResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +293,8 @@ export class ConsumerGroups {
         options
       },
       listByEventHubOperationSpec,
-      callback) as Promise<Models.ConsumerGroupsListByEventHubResponse>;
+      callback
+    ) as Promise<Models.ConsumerGroupsListByEventHubResponse>;
   }
 
   /**
@@ -194,26 +304,41 @@ export class ConsumerGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConsumerGroupsListByEventHubNextResponse>
    */
-  listByEventHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ConsumerGroupsListByEventHubNextResponse>;
+  listByEventHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConsumerGroupsListByEventHubNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByEventHubNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ConsumerGroupListResult>): void;
+  listByEventHubNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ConsumerGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByEventHubNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConsumerGroupListResult>): void;
-  listByEventHubNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConsumerGroupListResult>, callback?: msRest.ServiceCallback<Models.ConsumerGroupListResult>): Promise<Models.ConsumerGroupsListByEventHubNextResponse> {
+  listByEventHubNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConsumerGroupListResult>
+  ): void;
+  listByEventHubNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConsumerGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ConsumerGroupListResult>
+  ): Promise<Models.ConsumerGroupsListByEventHubNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByEventHubNextOperationSpec,
-      callback) as Promise<Models.ConsumerGroupsListByEventHubNextResponse>;
+      callback
+    ) as Promise<Models.ConsumerGroupsListByEventHubNextResponse>;
   }
 }
 
@@ -221,7 +346,8 @@ export class ConsumerGroups {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -229,12 +355,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.consumerGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -255,7 +377,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -263,12 +386,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.consumerGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -281,7 +400,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
@@ -289,12 +409,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.consumerGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConsumerGroup
@@ -308,21 +424,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByEventHubOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.eventHubName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConsumerGroupListResult
@@ -338,12 +449,8 @@ const listByEventHubNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConsumerGroupListResult

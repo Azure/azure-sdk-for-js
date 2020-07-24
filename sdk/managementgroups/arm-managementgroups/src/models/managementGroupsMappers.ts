@@ -26,4 +26,3 @@ export {
   PatchManagementGroupRequest,
   EntityHierarchyItem
 } from "../models/mappers";
-

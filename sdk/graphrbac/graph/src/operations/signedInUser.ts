@@ -41,13 +41,17 @@ export class SignedInUser {
    * @param callback The callback
    */
   get(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.User>): void;
-  get(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.SignedInUserGetResponse> {
+  get(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>,
+    callback?: msRest.ServiceCallback<Models.User>
+  ): Promise<Models.SignedInUserGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SignedInUserGetResponse>;
+      callback
+    ) as Promise<Models.SignedInUserGetResponse>;
   }
 
   /**
@@ -55,7 +59,9 @@ export class SignedInUser {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignedInUserListOwnedObjectsResponse>
    */
-  listOwnedObjects(options?: msRest.RequestOptionsBase): Promise<Models.SignedInUserListOwnedObjectsResponse>;
+  listOwnedObjects(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignedInUserListOwnedObjectsResponse>;
   /**
    * @param callback The callback
    */
@@ -64,14 +70,21 @@ export class SignedInUser {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOwnedObjects(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  listOwnedObjects(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.SignedInUserListOwnedObjectsResponse> {
+  listOwnedObjects(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
+  listOwnedObjects(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>,
+    callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): Promise<Models.SignedInUserListOwnedObjectsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOwnedObjectsOperationSpec,
-      callback) as Promise<Models.SignedInUserListOwnedObjectsResponse>;
+      callback
+    ) as Promise<Models.SignedInUserListOwnedObjectsResponse>;
   }
 
   /**
@@ -80,26 +93,41 @@ export class SignedInUser {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignedInUserListOwnedObjectsNextResponse>
    */
-  listOwnedObjectsNext(nextLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SignedInUserListOwnedObjectsNextResponse>;
+  listOwnedObjectsNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignedInUserListOwnedObjectsNextResponse>;
   /**
    * @param nextLink Next link for the list operation.
    * @param callback The callback
    */
-  listOwnedObjectsNext(nextLink: string, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
+  listOwnedObjectsNext(
+    nextLink: string,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
   /**
    * @param nextLink Next link for the list operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOwnedObjectsNext(nextLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  listOwnedObjectsNext(nextLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.SignedInUserListOwnedObjectsNextResponse> {
+  listOwnedObjectsNext(
+    nextLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
+  listOwnedObjectsNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>,
+    callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): Promise<Models.SignedInUserListOwnedObjectsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextLink,
         options
       },
       listOwnedObjectsNextOperationSpec,
-      callback) as Promise<Models.SignedInUserListOwnedObjectsNextResponse>;
+      callback
+    ) as Promise<Models.SignedInUserListOwnedObjectsNextResponse>;
   }
 }
 
@@ -108,15 +136,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/me",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.User
@@ -131,15 +153,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listOwnedObjectsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/me/ownedObjects",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DirectoryObjectListResult
@@ -154,16 +170,9 @@ const listOwnedObjectsOperationSpec: msRest.OperationSpec = {
 const listOwnedObjectsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/{nextLink}",
-  urlParameters: [
-    Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextLink, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DirectoryObjectListResult

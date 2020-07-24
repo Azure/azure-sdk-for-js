@@ -37,7 +37,14 @@ export class Endpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.EndpointsUpdateResponse>
    */
-  update(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, options?: msRest.RequestOptionsBase): Promise<Models.EndpointsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    parameters: Models.Endpoint,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EndpointsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint
    * to be updated.
@@ -47,7 +54,14 @@ export class Endpoints {
    * @param parameters The Traffic Manager endpoint parameters supplied to the Update operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, callback: msRest.ServiceCallback<Models.Endpoint>): void;
+  update(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    parameters: Models.Endpoint,
+    callback: msRest.ServiceCallback<Models.Endpoint>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint
    * to be updated.
@@ -58,8 +72,24 @@ export class Endpoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Endpoint>): void;
-  update(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Endpoint>, callback?: msRest.ServiceCallback<Models.Endpoint>): Promise<Models.EndpointsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    parameters: Models.Endpoint,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Endpoint>
+  ): void;
+  update(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    parameters: Models.Endpoint,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Endpoint>,
+    callback?: msRest.ServiceCallback<Models.Endpoint>
+  ): Promise<Models.EndpointsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -70,7 +100,8 @@ export class Endpoints {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.EndpointsUpdateResponse>;
+      callback
+    ) as Promise<Models.EndpointsUpdateResponse>;
   }
 
   /**
@@ -82,7 +113,13 @@ export class Endpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.EndpointsGetResponse>
    */
-  get(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, options?: msRest.RequestOptionsBase): Promise<Models.EndpointsGetResponse>;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EndpointsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint.
    * @param profileName The name of the Traffic Manager profile.
@@ -90,7 +127,13 @@ export class Endpoints {
    * @param endpointName The name of the Traffic Manager endpoint.
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, callback: msRest.ServiceCallback<Models.Endpoint>): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    callback: msRest.ServiceCallback<Models.Endpoint>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint.
    * @param profileName The name of the Traffic Manager profile.
@@ -99,8 +142,22 @@ export class Endpoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Endpoint>): void;
-  get(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Endpoint>, callback?: msRest.ServiceCallback<Models.Endpoint>): Promise<Models.EndpointsGetResponse> {
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Endpoint>
+  ): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Endpoint>,
+    callback?: msRest.ServiceCallback<Models.Endpoint>
+  ): Promise<Models.EndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -110,7 +167,8 @@ export class Endpoints {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.EndpointsGetResponse>;
+      callback
+    ) as Promise<Models.EndpointsGetResponse>;
   }
 
   /**
@@ -125,7 +183,14 @@ export class Endpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.EndpointsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, options?: msRest.RequestOptionsBase): Promise<Models.EndpointsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    parameters: Models.Endpoint,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EndpointsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint
    * to be created or updated.
@@ -136,7 +201,14 @@ export class Endpoints {
    * operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, callback: msRest.ServiceCallback<Models.Endpoint>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    parameters: Models.Endpoint,
+    callback: msRest.ServiceCallback<Models.Endpoint>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint
    * to be created or updated.
@@ -148,8 +220,24 @@ export class Endpoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Endpoint>): void;
-  createOrUpdate(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, parameters: Models.Endpoint, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Endpoint>, callback?: msRest.ServiceCallback<Models.Endpoint>): Promise<Models.EndpointsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    parameters: Models.Endpoint,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Endpoint>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    parameters: Models.Endpoint,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Endpoint>,
+    callback?: msRest.ServiceCallback<Models.Endpoint>
+  ): Promise<Models.EndpointsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -160,7 +248,8 @@ export class Endpoints {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.EndpointsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.EndpointsCreateOrUpdateResponse>;
   }
 
   /**
@@ -173,7 +262,13 @@ export class Endpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.EndpointsDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, options?: msRest.RequestOptionsBase): Promise<Models.EndpointsDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EndpointsDeleteMethodResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint
    * to be deleted.
@@ -182,7 +277,13 @@ export class Endpoints {
    * @param endpointName The name of the Traffic Manager endpoint to be deleted.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, callback: msRest.ServiceCallback<Models.DeleteOperationResult>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    callback: msRest.ServiceCallback<Models.DeleteOperationResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager endpoint
    * to be deleted.
@@ -192,8 +293,22 @@ export class Endpoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeleteOperationResult>): void;
-  deleteMethod(resourceGroupName: string, profileName: string, endpointType: string, endpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeleteOperationResult>, callback?: msRest.ServiceCallback<Models.DeleteOperationResult>): Promise<Models.EndpointsDeleteMethodResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeleteOperationResult>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    endpointType: string,
+    endpointName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeleteOperationResult>,
+    callback?: msRest.ServiceCallback<Models.DeleteOperationResult>
+  ): Promise<Models.EndpointsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +318,8 @@ export class Endpoints {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.EndpointsDeleteMethodResponse>;
+      callback
+    ) as Promise<Models.EndpointsDeleteMethodResponse>;
   }
 }
 
@@ -211,7 +327,8 @@ export class Endpoints {
 const serializer = new msRest.Serializer(Mappers);
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
@@ -219,12 +336,8 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.endpointName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -245,7 +358,8 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
@@ -253,12 +367,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.endpointName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Endpoint
@@ -272,7 +382,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
@@ -280,12 +391,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.endpointName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -309,7 +416,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/{endpointType}/{endpointName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.profileName,
@@ -317,12 +425,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.endpointName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeleteOperationResult

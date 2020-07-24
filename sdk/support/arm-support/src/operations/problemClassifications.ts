@@ -35,28 +35,45 @@ export class ProblemClassifications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProblemClassificationsListResponse>
    */
-  list(serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProblemClassificationsListResponse>;
+  list(
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProblemClassificationsListResponse>;
   /**
    * @param serviceName Name of the Azure service for which the problem classifications need to be
    * retrieved.
    * @param callback The callback
    */
-  list(serviceName: string, callback: msRest.ServiceCallback<Models.ProblemClassificationsListResult>): void;
+  list(
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.ProblemClassificationsListResult>
+  ): void;
   /**
    * @param serviceName Name of the Azure service for which the problem classifications need to be
    * retrieved.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProblemClassificationsListResult>): void;
-  list(serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProblemClassificationsListResult>, callback?: msRest.ServiceCallback<Models.ProblemClassificationsListResult>): Promise<Models.ProblemClassificationsListResponse> {
+  list(
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProblemClassificationsListResult>
+  ): void;
+  list(
+    serviceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ProblemClassificationsListResult>,
+    callback?: msRest.ServiceCallback<Models.ProblemClassificationsListResult>
+  ): Promise<Models.ProblemClassificationsListResponse> {
     return this.client.sendOperationRequest(
       {
         serviceName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ProblemClassificationsListResponse>;
+      callback
+    ) as Promise<Models.ProblemClassificationsListResponse>;
   }
 
   /**
@@ -66,21 +83,39 @@ export class ProblemClassifications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProblemClassificationsGetResponse>
    */
-  get(serviceName: string, problemClassificationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProblemClassificationsGetResponse>;
+  get(
+    serviceName: string,
+    problemClassificationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProblemClassificationsGetResponse>;
   /**
    * @param serviceName Name of the Azure service available for support.
    * @param problemClassificationName Name of problem classification.
    * @param callback The callback
    */
-  get(serviceName: string, problemClassificationName: string, callback: msRest.ServiceCallback<Models.ProblemClassification>): void;
+  get(
+    serviceName: string,
+    problemClassificationName: string,
+    callback: msRest.ServiceCallback<Models.ProblemClassification>
+  ): void;
   /**
    * @param serviceName Name of the Azure service available for support.
    * @param problemClassificationName Name of problem classification.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(serviceName: string, problemClassificationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProblemClassification>): void;
-  get(serviceName: string, problemClassificationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProblemClassification>, callback?: msRest.ServiceCallback<Models.ProblemClassification>): Promise<Models.ProblemClassificationsGetResponse> {
+  get(
+    serviceName: string,
+    problemClassificationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProblemClassification>
+  ): void;
+  get(
+    serviceName: string,
+    problemClassificationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProblemClassification>,
+    callback?: msRest.ServiceCallback<Models.ProblemClassification>
+  ): Promise<Models.ProblemClassificationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         serviceName,
@@ -88,7 +123,8 @@ export class ProblemClassifications {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ProblemClassificationsGetResponse>;
+      callback
+    ) as Promise<Models.ProblemClassificationsGetResponse>;
   }
 }
 
@@ -97,15 +133,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Support/services/{serviceName}/problemClassifications",
-  urlParameters: [
-    Parameters.serviceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.serviceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProblemClassificationsListResult
@@ -119,17 +149,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Support/services/{serviceName}/problemClassifications/{problemClassificationName}",
-  urlParameters: [
-    Parameters.serviceName,
-    Parameters.problemClassificationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "providers/Microsoft.Support/services/{serviceName}/problemClassifications/{problemClassificationName}",
+  urlParameters: [Parameters.serviceName, Parameters.problemClassificationName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProblemClassification

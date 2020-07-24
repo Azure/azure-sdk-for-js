@@ -632,11 +632,12 @@ export interface CheckRevisionsHeaders {
 /**
  * Contains response data for the getKeys operation.
  */
-export type GetKeysResponse = KeyListResult & GetKeysHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type GetKeysResponse = KeyListResult &
+  GetKeysHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -652,7 +653,7 @@ export type GetKeysResponse = KeyListResult & GetKeysHeaders & {
        */
       parsedBody: KeyListResult;
     };
-};
+  };
 
 /**
  * Contains response data for the checkKeys operation.
@@ -662,21 +663,22 @@ export type CheckKeysResponse = CheckKeysHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CheckKeysHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CheckKeysHeaders;
+  };
 };
 
 /**
  * Contains response data for the getKeyValues operation.
  */
-export type GetKeyValuesResponse = KeyValueListResult & GetKeyValuesHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type GetKeyValuesResponse = KeyValueListResult &
+  GetKeyValuesHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -692,7 +694,7 @@ export type GetKeyValuesResponse = KeyValueListResult & GetKeyValuesHeaders & {
        */
       parsedBody: KeyValueListResult;
     };
-};
+  };
 
 /**
  * Contains response data for the checkKeyValues operation.
@@ -702,21 +704,22 @@ export type CheckKeyValuesResponse = CheckKeyValuesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CheckKeyValuesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CheckKeyValuesHeaders;
+  };
 };
 
 /**
  * Contains response data for the getKeyValue operation.
  */
-export type GetKeyValueResponse = KeyValue & GetKeyValueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type GetKeyValueResponse = KeyValue &
+  GetKeyValueHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -732,16 +735,17 @@ export type GetKeyValueResponse = KeyValue & GetKeyValueHeaders & {
        */
       parsedBody: KeyValue;
     };
-};
+  };
 
 /**
  * Contains response data for the putKeyValue operation.
  */
-export type PutKeyValueResponse = KeyValue & PutKeyValueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type PutKeyValueResponse = KeyValue &
+  PutKeyValueHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -757,16 +761,17 @@ export type PutKeyValueResponse = KeyValue & PutKeyValueHeaders & {
        */
       parsedBody: KeyValue;
     };
-};
+  };
 
 /**
  * Contains response data for the deleteKeyValue operation.
  */
-export type DeleteKeyValueResponse = KeyValue & DeleteKeyValueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type DeleteKeyValueResponse = KeyValue &
+  DeleteKeyValueHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -782,7 +787,7 @@ export type DeleteKeyValueResponse = KeyValue & DeleteKeyValueHeaders & {
        */
       parsedBody: KeyValue;
     };
-};
+  };
 
 /**
  * Contains response data for the checkKeyValue operation.
@@ -792,21 +797,22 @@ export type CheckKeyValueResponse = CheckKeyValueHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CheckKeyValueHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CheckKeyValueHeaders;
+  };
 };
 
 /**
  * Contains response data for the getLabels operation.
  */
-export type GetLabelsResponse = LabelListResult & GetLabelsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type GetLabelsResponse = LabelListResult &
+  GetLabelsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -822,7 +828,7 @@ export type GetLabelsResponse = LabelListResult & GetLabelsHeaders & {
        */
       parsedBody: LabelListResult;
     };
-};
+  };
 
 /**
  * Contains response data for the checkLabels operation.
@@ -832,21 +838,22 @@ export type CheckLabelsResponse = CheckLabelsHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CheckLabelsHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CheckLabelsHeaders;
+  };
 };
 
 /**
  * Contains response data for the putLock operation.
  */
-export type PutLockResponse = KeyValue & PutLockHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type PutLockResponse = KeyValue &
+  PutLockHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -862,16 +869,17 @@ export type PutLockResponse = KeyValue & PutLockHeaders & {
        */
       parsedBody: KeyValue;
     };
-};
+  };
 
 /**
  * Contains response data for the deleteLock operation.
  */
-export type DeleteLockResponse = KeyValue & DeleteLockHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type DeleteLockResponse = KeyValue &
+  DeleteLockHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -887,16 +895,17 @@ export type DeleteLockResponse = KeyValue & DeleteLockHeaders & {
        */
       parsedBody: KeyValue;
     };
-};
+  };
 
 /**
  * Contains response data for the getRevisions operation.
  */
-export type GetRevisionsResponse = KeyValueListResult & GetRevisionsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type GetRevisionsResponse = KeyValueListResult &
+  GetRevisionsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -912,7 +921,7 @@ export type GetRevisionsResponse = KeyValueListResult & GetRevisionsHeaders & {
        */
       parsedBody: KeyValueListResult;
     };
-};
+  };
 
 /**
  * Contains response data for the checkRevisions operation.
@@ -922,9 +931,9 @@ export type CheckRevisionsResponse = CheckRevisionsHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CheckRevisionsHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CheckRevisionsHeaders;
+  };
 };

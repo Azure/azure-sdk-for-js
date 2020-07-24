@@ -632,10 +632,7 @@ export const RedisRegenerateKeyParameters: msRest.CompositeMapper = {
         serializedName: "keyType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Primary",
-            "Secondary"
-          ]
+          allowedValues: ["Primary", "Secondary"]
         }
       }
     }
@@ -863,10 +860,7 @@ export const RedisLinkedServerCreateProperties: msRest.CompositeMapper = {
         serializedName: "serverRole",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Primary",
-            "Secondary"
-          ]
+          allowedValues: ["Primary", "Secondary"]
         }
       }
     }
@@ -917,10 +911,7 @@ export const RedisLinkedServerWithProperties: msRest.CompositeMapper = {
         serializedName: "properties.serverRole",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Primary",
-            "Secondary"
-          ]
+          allowedValues: ["Primary", "Secondary"]
         }
       },
       provisioningState: {
@@ -959,10 +950,7 @@ export const RedisLinkedServerCreateParameters: msRest.CompositeMapper = {
         serializedName: "properties.serverRole",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Primary",
-            "Secondary"
-          ]
+          allowedValues: ["Primary", "Secondary"]
         }
       }
     }

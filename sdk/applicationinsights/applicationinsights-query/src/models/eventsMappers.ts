@@ -48,4 +48,3 @@ export {
   EventsCustomMetricResult,
   EventsCustomMetricInfo
 } from "../models/mappers";
-

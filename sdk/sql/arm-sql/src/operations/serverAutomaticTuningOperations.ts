@@ -34,14 +34,22 @@ export class ServerAutomaticTuningOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerAutomaticTuningGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerAutomaticTuningGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerAutomaticTuningGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ServerAutomaticTuning>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.ServerAutomaticTuning>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -49,8 +57,18 @@ export class ServerAutomaticTuningOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerAutomaticTuning>): void;
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerAutomaticTuning>, callback?: msRest.ServiceCallback<Models.ServerAutomaticTuning>): Promise<Models.ServerAutomaticTuningGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServerAutomaticTuning>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerAutomaticTuning>,
+    callback?: msRest.ServiceCallback<Models.ServerAutomaticTuning>
+  ): Promise<Models.ServerAutomaticTuningGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +76,8 @@ export class ServerAutomaticTuningOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServerAutomaticTuningGetResponse>;
+      callback
+    ) as Promise<Models.ServerAutomaticTuningGetResponse>;
   }
 
   /**
@@ -70,7 +89,12 @@ export class ServerAutomaticTuningOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerAutomaticTuningUpdateResponse>
    */
-  update(resourceGroupName: string, serverName: string, parameters: Models.ServerAutomaticTuning, options?: msRest.RequestOptionsBase): Promise<Models.ServerAutomaticTuningUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: Models.ServerAutomaticTuning,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServerAutomaticTuningUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -78,7 +102,12 @@ export class ServerAutomaticTuningOperations {
    * @param parameters The requested automatic tuning resource state.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serverName: string, parameters: Models.ServerAutomaticTuning, callback: msRest.ServiceCallback<Models.ServerAutomaticTuning>): void;
+  update(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: Models.ServerAutomaticTuning,
+    callback: msRest.ServiceCallback<Models.ServerAutomaticTuning>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -87,8 +116,20 @@ export class ServerAutomaticTuningOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serverName: string, parameters: Models.ServerAutomaticTuning, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerAutomaticTuning>): void;
-  update(resourceGroupName: string, serverName: string, parameters: Models.ServerAutomaticTuning, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerAutomaticTuning>, callback?: msRest.ServiceCallback<Models.ServerAutomaticTuning>): Promise<Models.ServerAutomaticTuningUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: Models.ServerAutomaticTuning,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServerAutomaticTuning>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: Models.ServerAutomaticTuning,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerAutomaticTuning>,
+    callback?: msRest.ServiceCallback<Models.ServerAutomaticTuning>
+  ): Promise<Models.ServerAutomaticTuningUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +138,8 @@ export class ServerAutomaticTuningOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ServerAutomaticTuningUpdateResponse>;
+      callback
+    ) as Promise<Models.ServerAutomaticTuningUpdateResponse>;
   }
 }
 
@@ -105,18 +147,11 @@ export class ServerAutomaticTuningOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServerAutomaticTuning
@@ -130,18 +165,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/automaticTuning/current",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

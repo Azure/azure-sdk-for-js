@@ -8,8 +8,4 @@
  * regenerated.
  */
 
-export {
-  ErrorResponse,
-  ErrorDetails
-} from "../models/mappers";
-
+export { ErrorResponse, ErrorDetails } from "../models/mappers";

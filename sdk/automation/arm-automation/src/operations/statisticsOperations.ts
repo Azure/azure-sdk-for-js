@@ -33,21 +33,41 @@ export class StatisticsOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.StatisticsListByAutomationAccountResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.StatisticsListByAutomationAccountOptionalParams): Promise<Models.StatisticsListByAutomationAccountResponse>;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: Models.StatisticsListByAutomationAccountOptionalParams
+  ): Promise<Models.StatisticsListByAutomationAccountResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.StatisticsListResult>): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.StatisticsListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.StatisticsListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.StatisticsListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.StatisticsListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.StatisticsListResult>, callback?: msRest.ServiceCallback<Models.StatisticsListResult>): Promise<Models.StatisticsListByAutomationAccountResponse> {
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: Models.StatisticsListByAutomationAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.StatisticsListResult>
+  ): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?:
+      | Models.StatisticsListByAutomationAccountOptionalParams
+      | msRest.ServiceCallback<Models.StatisticsListResult>,
+    callback?: msRest.ServiceCallback<Models.StatisticsListResult>
+  ): Promise<Models.StatisticsListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class StatisticsOperations {
         options
       },
       listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.StatisticsListByAutomationAccountResponse>;
+      callback
+    ) as Promise<Models.StatisticsListByAutomationAccountResponse>;
   }
 }
 
@@ -63,19 +84,15 @@ export class StatisticsOperations {
 const serializer = new msRest.Serializer(Mappers);
 const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/statistics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/statistics",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter, Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StatisticsListResult

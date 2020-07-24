@@ -34,21 +34,39 @@ export class Backups {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupsListByManagerResponse>
    */
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.BackupsListByManagerOptionalParams): Promise<Models.BackupsListByManagerResponse>;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.BackupsListByManagerOptionalParams
+  ): Promise<Models.BackupsListByManagerResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.BackupList>): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.BackupList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, options: Models.BackupsListByManagerOptionalParams, callback: msRest.ServiceCallback<Models.BackupList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.BackupsListByManagerOptionalParams | msRest.ServiceCallback<Models.BackupList>, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByManagerResponse> {
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.BackupsListByManagerOptionalParams,
+    callback: msRest.ServiceCallback<Models.BackupList>
+  ): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.BackupsListByManagerOptionalParams | msRest.ServiceCallback<Models.BackupList>,
+    callback?: msRest.ServiceCallback<Models.BackupList>
+  ): Promise<Models.BackupsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class Backups {
         options
       },
       listByManagerOperationSpec,
-      callback) as Promise<Models.BackupsListByManagerResponse>;
+      callback
+    ) as Promise<Models.BackupsListByManagerResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class Backups {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupsListByDeviceResponse>
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.BackupsListByDeviceOptionalParams): Promise<Models.BackupsListByDeviceResponse>;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.BackupsListByDeviceOptionalParams
+  ): Promise<Models.BackupsListByDeviceResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.BackupList>): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.BackupList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
@@ -82,8 +111,20 @@ export class Backups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: Models.BackupsListByDeviceOptionalParams, callback: msRest.ServiceCallback<Models.BackupList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.BackupsListByDeviceOptionalParams | msRest.ServiceCallback<Models.BackupList>, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceResponse> {
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.BackupsListByDeviceOptionalParams,
+    callback: msRest.ServiceCallback<Models.BackupList>
+  ): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.BackupsListByDeviceOptionalParams | msRest.ServiceCallback<Models.BackupList>,
+    callback?: msRest.ServiceCallback<Models.BackupList>
+  ): Promise<Models.BackupsListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -92,7 +133,8 @@ export class Backups {
         options
       },
       listByDeviceOperationSpec,
-      callback) as Promise<Models.BackupsListByDeviceResponse>;
+      callback
+    ) as Promise<Models.BackupsListByDeviceResponse>;
   }
 
   /**
@@ -104,9 +146,20 @@ export class Backups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(deviceName: string, backupName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(deviceName,backupName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    deviceName: string,
+    backupName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      deviceName,
+      backupName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -120,9 +173,24 @@ export class Backups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  clone(deviceName: string, backupName: string, elementName: string, cloneRequest: Models.CloneRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginClone(deviceName,backupName,elementName,cloneRequest,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  clone(
+    deviceName: string,
+    backupName: string,
+    elementName: string,
+    cloneRequest: Models.CloneRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginClone(
+      deviceName,
+      backupName,
+      elementName,
+      cloneRequest,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -134,7 +202,13 @@ export class Backups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(deviceName: string, backupName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    deviceName: string,
+    backupName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -144,7 +218,8 @@ export class Backups {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -158,7 +233,15 @@ export class Backups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginClone(deviceName: string, backupName: string, elementName: string, cloneRequest: Models.CloneRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginClone(
+    deviceName: string,
+    backupName: string,
+    elementName: string,
+    cloneRequest: Models.CloneRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -170,7 +253,8 @@ export class Backups {
         options
       },
       beginCloneOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -179,26 +263,41 @@ export class Backups {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupsListByManagerNextResponse>
    */
-  listByManagerNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupsListByManagerNextResponse>;
+  listByManagerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupsListByManagerNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByManagerNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BackupList>): void;
+  listByManagerNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.BackupList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManagerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupList>): void;
-  listByManagerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupList>, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByManagerNextResponse> {
+  listByManagerNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackupList>
+  ): void;
+  listByManagerNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupList>,
+    callback?: msRest.ServiceCallback<Models.BackupList>
+  ): Promise<Models.BackupsListByManagerNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByManagerNextOperationSpec,
-      callback) as Promise<Models.BackupsListByManagerNextResponse>;
+      callback
+    ) as Promise<Models.BackupsListByManagerNextResponse>;
   }
 
   /**
@@ -207,7 +306,10 @@ export class Backups {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupsListByDeviceNextResponse>
    */
-  listByDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupsListByDeviceNextResponse>;
+  listByDeviceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BackupsListByDeviceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -218,15 +320,24 @@ export class Backups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDeviceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupList>): void;
-  listByDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupList>, callback?: msRest.ServiceCallback<Models.BackupList>): Promise<Models.BackupsListByDeviceNextResponse> {
+  listByDeviceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackupList>
+  ): void;
+  listByDeviceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupList>,
+    callback?: msRest.ServiceCallback<Models.BackupList>
+  ): Promise<Models.BackupsListByDeviceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByDeviceNextOperationSpec,
-      callback) as Promise<Models.BackupsListByDeviceNextResponse>;
+      callback
+    ) as Promise<Models.BackupsListByDeviceNextResponse>;
   }
 }
 
@@ -234,19 +345,11 @@ export class Backups {
 const serializer = new msRest.Serializer(Mappers);
 const listByManagerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/backups",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/backups",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupList
@@ -260,21 +363,16 @@ const listByManagerOperationSpec: msRest.OperationSpec = {
 
 const listByDeviceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backups",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backups",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.forFailover,
-    Parameters.apiVersion,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.forFailover, Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupList
@@ -288,7 +386,8 @@ const listByDeviceOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backups/{backupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backups/{backupName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.backupName,
@@ -296,12 +395,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -314,7 +409,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCloneOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backups/{backupName}/elements/{elementName}/clone",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/backups/{backupName}/elements/{elementName}/clone",
   urlParameters: [
     Parameters.deviceName,
     Parameters.backupName,
@@ -323,12 +419,8 @@ const beginCloneOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "cloneRequest",
     mapper: {
@@ -350,12 +442,8 @@ const listByManagerNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupList
@@ -371,12 +459,8 @@ const listByDeviceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupList

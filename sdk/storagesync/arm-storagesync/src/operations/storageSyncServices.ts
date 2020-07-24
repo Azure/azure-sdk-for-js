@@ -33,21 +33,41 @@ export class StorageSyncServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageSyncServicesCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase): Promise<Models.StorageSyncServicesCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    locationName: string,
+    parameters: Models.CheckNameAvailabilityParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageSyncServicesCheckNameAvailabilityResponse>;
   /**
    * @param locationName The desired region for the name check.
    * @param parameters Parameters to check availability of the given namespace name
    * @param callback The callback
    */
-  checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityParameters, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
+  checkNameAvailability(
+    locationName: string,
+    parameters: Models.CheckNameAvailabilityParameters,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
   /**
    * @param locationName The desired region for the name check.
    * @param parameters Parameters to check availability of the given namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(locationName: string, parameters: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.StorageSyncServicesCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    locationName: string,
+    parameters: Models.CheckNameAvailabilityParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
+  checkNameAvailability(
+    locationName: string,
+    parameters: Models.CheckNameAvailabilityParameters,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): Promise<Models.StorageSyncServicesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
@@ -55,7 +75,8 @@ export class StorageSyncServices {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.StorageSyncServicesCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.StorageSyncServicesCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class StorageSyncServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageSyncServicesCreateResponse>
    */
-  create(resourceGroupName: string, storageSyncServiceName: string, parameters: Models.StorageSyncServiceCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.StorageSyncServicesCreateResponse>;
+  create(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    parameters: Models.StorageSyncServiceCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageSyncServicesCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param parameters Storage Sync Service resource name.
    * @param callback The callback
    */
-  create(resourceGroupName: string, storageSyncServiceName: string, parameters: Models.StorageSyncServiceCreateParameters, callback: msRest.ServiceCallback<Models.StorageSyncService>): void;
+  create(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    parameters: Models.StorageSyncServiceCreateParameters,
+    callback: msRest.ServiceCallback<Models.StorageSyncService>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
@@ -81,8 +112,20 @@ export class StorageSyncServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, storageSyncServiceName: string, parameters: Models.StorageSyncServiceCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageSyncService>): void;
-  create(resourceGroupName: string, storageSyncServiceName: string, parameters: Models.StorageSyncServiceCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageSyncService>, callback?: msRest.ServiceCallback<Models.StorageSyncService>): Promise<Models.StorageSyncServicesCreateResponse> {
+  create(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    parameters: Models.StorageSyncServiceCreateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageSyncService>
+  ): void;
+  create(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    parameters: Models.StorageSyncServiceCreateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageSyncService>,
+    callback?: msRest.ServiceCallback<Models.StorageSyncService>
+  ): Promise<Models.StorageSyncServicesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +134,8 @@ export class StorageSyncServices {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.StorageSyncServicesCreateResponse>;
+      callback
+    ) as Promise<Models.StorageSyncServicesCreateResponse>;
   }
 
   /**
@@ -101,21 +145,39 @@ export class StorageSyncServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageSyncServicesGetResponse>
    */
-  get(resourceGroupName: string, storageSyncServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageSyncServicesGetResponse>;
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageSyncServicesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, storageSyncServiceName: string, callback: msRest.ServiceCallback<Models.StorageSyncService>): void;
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    callback: msRest.ServiceCallback<Models.StorageSyncService>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, storageSyncServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageSyncService>): void;
-  get(resourceGroupName: string, storageSyncServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageSyncService>, callback?: msRest.ServiceCallback<Models.StorageSyncService>): Promise<Models.StorageSyncServicesGetResponse> {
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageSyncService>
+  ): void;
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageSyncService>,
+    callback?: msRest.ServiceCallback<Models.StorageSyncService>
+  ): Promise<Models.StorageSyncServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -123,7 +185,8 @@ export class StorageSyncServices {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.StorageSyncServicesGetResponse>;
+      callback
+    ) as Promise<Models.StorageSyncServicesGetResponse>;
   }
 
   /**
@@ -133,21 +196,41 @@ export class StorageSyncServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageSyncServicesUpdateResponse>
    */
-  update(resourceGroupName: string, storageSyncServiceName: string, options?: Models.StorageSyncServicesUpdateOptionalParams): Promise<Models.StorageSyncServicesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options?: Models.StorageSyncServicesUpdateOptionalParams
+  ): Promise<Models.StorageSyncServicesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param callback The callback
    */
-  update(resourceGroupName: string, storageSyncServiceName: string, callback: msRest.ServiceCallback<Models.StorageSyncService>): void;
+  update(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    callback: msRest.ServiceCallback<Models.StorageSyncService>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, storageSyncServiceName: string, options: Models.StorageSyncServicesUpdateOptionalParams, callback: msRest.ServiceCallback<Models.StorageSyncService>): void;
-  update(resourceGroupName: string, storageSyncServiceName: string, options?: Models.StorageSyncServicesUpdateOptionalParams | msRest.ServiceCallback<Models.StorageSyncService>, callback?: msRest.ServiceCallback<Models.StorageSyncService>): Promise<Models.StorageSyncServicesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options: Models.StorageSyncServicesUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.StorageSyncService>
+  ): void;
+  update(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options?:
+      | Models.StorageSyncServicesUpdateOptionalParams
+      | msRest.ServiceCallback<Models.StorageSyncService>,
+    callback?: msRest.ServiceCallback<Models.StorageSyncService>
+  ): Promise<Models.StorageSyncServicesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +238,8 @@ export class StorageSyncServices {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.StorageSyncServicesUpdateResponse>;
+      callback
+    ) as Promise<Models.StorageSyncServicesUpdateResponse>;
   }
 
   /**
@@ -165,21 +249,39 @@ export class StorageSyncServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageSyncServicesDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, storageSyncServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageSyncServicesDeleteResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageSyncServicesDeleteResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, storageSyncServiceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, storageSyncServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, storageSyncServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.StorageSyncServicesDeleteResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.StorageSyncServicesDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -187,7 +289,8 @@ export class StorageSyncServices {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.StorageSyncServicesDeleteResponse>;
+      callback
+    ) as Promise<Models.StorageSyncServicesDeleteResponse>;
   }
 
   /**
@@ -196,26 +299,41 @@ export class StorageSyncServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageSyncServicesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageSyncServicesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageSyncServicesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.StorageSyncServiceArray>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.StorageSyncServiceArray>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageSyncServiceArray>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageSyncServiceArray>, callback?: msRest.ServiceCallback<Models.StorageSyncServiceArray>): Promise<Models.StorageSyncServicesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageSyncServiceArray>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageSyncServiceArray>,
+    callback?: msRest.ServiceCallback<Models.StorageSyncServiceArray>
+  ): Promise<Models.StorageSyncServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.StorageSyncServicesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.StorageSyncServicesListByResourceGroupResponse>;
   }
 
   /**
@@ -223,7 +341,9 @@ export class StorageSyncServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageSyncServicesListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.StorageSyncServicesListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageSyncServicesListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -232,14 +352,21 @@ export class StorageSyncServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageSyncServiceArray>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageSyncServiceArray>, callback?: msRest.ServiceCallback<Models.StorageSyncServiceArray>): Promise<Models.StorageSyncServicesListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageSyncServiceArray>
+  ): void;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageSyncServiceArray>,
+    callback?: msRest.ServiceCallback<Models.StorageSyncServiceArray>
+  ): Promise<Models.StorageSyncServicesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.StorageSyncServicesListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.StorageSyncServicesListBySubscriptionResponse>;
   }
 }
 
@@ -247,17 +374,11 @@ export class StorageSyncServices {
 const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.StorageSync/locations/{locationName}/checkNameAvailability",
-  urlParameters: [
-    Parameters.locationName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.StorageSync/locations/{locationName}/checkNameAvailability",
+  urlParameters: [Parameters.locationName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -278,18 +399,15 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -310,18 +428,15 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageSyncService,
@@ -336,23 +451,17 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: Mappers.StorageSyncServiceUpdateParameters
   },
   responses: {
@@ -369,18 +478,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.StorageSyncServicesDeleteHeaders
@@ -397,17 +503,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageSyncServiceArray,
@@ -423,15 +523,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.StorageSync/storageSyncServices",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageSyncServiceArray,

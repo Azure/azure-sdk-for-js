@@ -34,21 +34,39 @@ export class ApplianceDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplianceDefinitionsGetResponse>
    */
-  get(resourceGroupName: string, applianceDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplianceDefinitionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    applianceDefinitionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplianceDefinitionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applianceDefinitionName The name of the appliance definition.
    * @param callback The callback
    */
-  get(resourceGroupName: string, applianceDefinitionName: string, callback: msRest.ServiceCallback<Models.ApplianceDefinition>): void;
+  get(
+    resourceGroupName: string,
+    applianceDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.ApplianceDefinition>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applianceDefinitionName The name of the appliance definition.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, applianceDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceDefinition>): void;
-  get(resourceGroupName: string, applianceDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceDefinition>, callback?: msRest.ServiceCallback<Models.ApplianceDefinition>): Promise<Models.ApplianceDefinitionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    applianceDefinitionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplianceDefinition>
+  ): void;
+  get(
+    resourceGroupName: string,
+    applianceDefinitionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceDefinition>,
+    callback?: msRest.ServiceCallback<Models.ApplianceDefinition>
+  ): Promise<Models.ApplianceDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class ApplianceDefinitions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ApplianceDefinitionsGetResponse>;
+      callback
+    ) as Promise<Models.ApplianceDefinitionsGetResponse>;
   }
 
   /**
@@ -66,9 +85,16 @@ export class ApplianceDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, applianceDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,applianceDefinitionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    applianceDefinitionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      applianceDefinitionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -79,9 +105,20 @@ export class ApplianceDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplianceDefinitionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, applianceDefinitionName: string, parameters: Models.ApplianceDefinition, options?: msRest.RequestOptionsBase): Promise<Models.ApplianceDefinitionsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,applianceDefinitionName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApplianceDefinitionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    applianceDefinitionName: string,
+    parameters: Models.ApplianceDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplianceDefinitionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      applianceDefinitionName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ApplianceDefinitionsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -90,26 +127,43 @@ export class ApplianceDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplianceDefinitionsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplianceDefinitionsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplianceDefinitionsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ApplianceDefinitionListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ApplianceDefinitionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceDefinitionListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceDefinitionListResult>, callback?: msRest.ServiceCallback<Models.ApplianceDefinitionListResult>): Promise<Models.ApplianceDefinitionsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplianceDefinitionListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplianceDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplianceDefinitionListResult>
+  ): Promise<Models.ApplianceDefinitionsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ApplianceDefinitionsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ApplianceDefinitionsListByResourceGroupResponse>;
   }
 
   /**
@@ -120,14 +174,20 @@ export class ApplianceDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplianceDefinitionsGetByIdResponse>
    */
-  getById(applianceDefinitionId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplianceDefinitionsGetByIdResponse>;
+  getById(
+    applianceDefinitionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplianceDefinitionsGetByIdResponse>;
   /**
    * @param applianceDefinitionId The fully qualified ID of the appliance definition, including the
    * appliance name and the appliance definition resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applianceDefinitions/{applianceDefinition-name}
    * @param callback The callback
    */
-  getById(applianceDefinitionId: string, callback: msRest.ServiceCallback<Models.ApplianceDefinition>): void;
+  getById(
+    applianceDefinitionId: string,
+    callback: msRest.ServiceCallback<Models.ApplianceDefinition>
+  ): void;
   /**
    * @param applianceDefinitionId The fully qualified ID of the appliance definition, including the
    * appliance name and the appliance definition resource type. Use the format,
@@ -135,15 +195,24 @@ export class ApplianceDefinitions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getById(applianceDefinitionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceDefinition>): void;
-  getById(applianceDefinitionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceDefinition>, callback?: msRest.ServiceCallback<Models.ApplianceDefinition>): Promise<Models.ApplianceDefinitionsGetByIdResponse> {
+  getById(
+    applianceDefinitionId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplianceDefinition>
+  ): void;
+  getById(
+    applianceDefinitionId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceDefinition>,
+    callback?: msRest.ServiceCallback<Models.ApplianceDefinition>
+  ): Promise<Models.ApplianceDefinitionsGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         applianceDefinitionId,
         options
       },
       getByIdOperationSpec,
-      callback) as Promise<Models.ApplianceDefinitionsGetByIdResponse>;
+      callback
+    ) as Promise<Models.ApplianceDefinitionsGetByIdResponse>;
   }
 
   /**
@@ -154,9 +223,13 @@ export class ApplianceDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteById(applianceDefinitionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteById(applianceDefinitionId,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteById(
+    applianceDefinitionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteById(applianceDefinitionId, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -168,9 +241,18 @@ export class ApplianceDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplianceDefinitionsCreateOrUpdateByIdResponse>
    */
-  createOrUpdateById(applianceDefinitionId: string, parameters: Models.ApplianceDefinition, options?: msRest.RequestOptionsBase): Promise<Models.ApplianceDefinitionsCreateOrUpdateByIdResponse> {
-    return this.beginCreateOrUpdateById(applianceDefinitionId,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApplianceDefinitionsCreateOrUpdateByIdResponse>;
+  createOrUpdateById(
+    applianceDefinitionId: string,
+    parameters: Models.ApplianceDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplianceDefinitionsCreateOrUpdateByIdResponse> {
+    return this.beginCreateOrUpdateById(
+      applianceDefinitionId,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ApplianceDefinitionsCreateOrUpdateByIdResponse
+    >;
   }
 
   /**
@@ -180,7 +262,11 @@ export class ApplianceDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, applianceDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    applianceDefinitionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -188,7 +274,8 @@ export class ApplianceDefinitions {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -199,7 +286,12 @@ export class ApplianceDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, applianceDefinitionName: string, parameters: Models.ApplianceDefinition, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    applianceDefinitionName: string,
+    parameters: Models.ApplianceDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -208,7 +300,8 @@ export class ApplianceDefinitions {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -219,14 +312,18 @@ export class ApplianceDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteById(applianceDefinitionId: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteById(
+    applianceDefinitionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         applianceDefinitionId,
         options
       },
       beginDeleteByIdOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -238,7 +335,11 @@ export class ApplianceDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdateById(applianceDefinitionId: string, parameters: Models.ApplianceDefinition, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdateById(
+    applianceDefinitionId: string,
+    parameters: Models.ApplianceDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         applianceDefinitionId,
@@ -246,7 +347,8 @@ export class ApplianceDefinitions {
         options
       },
       beginCreateOrUpdateByIdOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -255,26 +357,43 @@ export class ApplianceDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplianceDefinitionsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplianceDefinitionsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplianceDefinitionsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplianceDefinitionListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplianceDefinitionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceDefinitionListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplianceDefinitionListResult>, callback?: msRest.ServiceCallback<Models.ApplianceDefinitionListResult>): Promise<Models.ApplianceDefinitionsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplianceDefinitionListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplianceDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplianceDefinitionListResult>
+  ): Promise<Models.ApplianceDefinitionsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ApplianceDefinitionsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ApplianceDefinitionsListByResourceGroupNextResponse>;
   }
 }
 
@@ -282,18 +401,15 @@ export class ApplianceDefinitions {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applianceDefinitions/{applianceDefinitionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applianceDefinitions/{applianceDefinitionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.applianceDefinitionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplianceDefinition
@@ -308,17 +424,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applianceDefinitions",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applianceDefinitions",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplianceDefinitionListResult
@@ -333,15 +443,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const getByIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{applianceDefinitionId}",
-  urlParameters: [
-    Parameters.applianceDefinitionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applianceDefinitionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplianceDefinition
@@ -356,18 +460,15 @@ const getByIdOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applianceDefinitions/{applianceDefinitionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applianceDefinitions/{applianceDefinitionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.applianceDefinitionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -381,18 +482,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applianceDefinitions/{applianceDefinitionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applianceDefinitions/{applianceDefinitionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.applianceDefinitionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -417,15 +515,9 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 const beginDeleteByIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{applianceDefinitionId}",
-  urlParameters: [
-    Parameters.applianceDefinitionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applianceDefinitionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -440,15 +532,9 @@ const beginDeleteByIdOperationSpec: msRest.OperationSpec = {
 const beginCreateOrUpdateByIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{applianceDefinitionId}",
-  urlParameters: [
-    Parameters.applianceDefinitionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applianceDefinitionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -474,12 +560,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplianceDefinitionListResult

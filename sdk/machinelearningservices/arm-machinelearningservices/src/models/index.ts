@@ -393,7 +393,15 @@ export interface MachineLearningServiceError {
 /**
  * Contains the possible cases for Compute.
  */
-export type ComputeUnion = Compute | AKS | AmlCompute | VirtualMachine | HDInsight | DataFactory | Databricks | DataLakeAnalytics;
+export type ComputeUnion =
+  | Compute
+  | AKS
+  | AmlCompute
+  | VirtualMachine
+  | HDInsight
+  | DataFactory
+  | Databricks
+  | DataLakeAnalytics;
 
 /**
  * Machine Learning compute object.
@@ -1225,7 +1233,11 @@ export interface AmlComputeNodesInformation {
 /**
  * Contains the possible cases for ComputeSecrets.
  */
-export type ComputeSecretsUnion = ComputeSecrets | AksComputeSecrets | VirtualMachineSecrets | DatabricksComputeSecrets;
+export type ComputeSecretsUnion =
+  | ComputeSecrets
+  | AksComputeSecrets
+  | VirtualMachineSecrets
+  | DatabricksComputeSecrets;
 
 /**
  * Secrets related to a Machine Learning compute. Might differ for every type of compute.
@@ -1310,7 +1322,8 @@ export interface WorkspacesListBySubscriptionOptionalParams extends msRest.Reque
 /**
  * Optional Parameters.
  */
-export interface MachineLearningComputeListByWorkspaceOptionalParams extends msRest.RequestOptionsBase {
+export interface MachineLearningComputeListByWorkspaceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Continuation token for pagination.
    */
@@ -1353,8 +1366,7 @@ export interface MachineLearningComputeDeleteHeaders {
  * An array of operations supported by the resource provider.
  * @extends Array<Operation>
  */
-export interface OperationListResult extends Array<Operation> {
-}
+export interface OperationListResult extends Array<Operation> {}
 
 /**
  * @interface
@@ -1401,7 +1413,14 @@ export interface PaginatedComputeResourcesList extends Array<ComputeResource> {
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Unknown' | 'Updating' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export type ProvisioningState =
+  | "Unknown"
+  | "Updating"
+  | "Creating"
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled";
 
 /**
  * Defines values for UsageUnit.
@@ -1409,7 +1428,7 @@ export type ProvisioningState = 'Unknown' | 'Updating' | 'Creating' | 'Deleting'
  * @readonly
  * @enum {string}
  */
-export type UsageUnit = 'Count';
+export type UsageUnit = "Count";
 
 /**
  * Defines values for ResourceIdentityType.
@@ -1417,7 +1436,7 @@ export type UsageUnit = 'Count';
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned';
+export type ResourceIdentityType = "SystemAssigned";
 
 /**
  * Defines values for VmPriority.
@@ -1425,7 +1444,7 @@ export type ResourceIdentityType = 'SystemAssigned';
  * @readonly
  * @enum {string}
  */
-export type VmPriority = 'Dedicated' | 'LowPriority';
+export type VmPriority = "Dedicated" | "LowPriority";
 
 /**
  * Defines values for AllocationState.
@@ -1433,7 +1452,7 @@ export type VmPriority = 'Dedicated' | 'LowPriority';
  * @readonly
  * @enum {string}
  */
-export type AllocationState = 'Steady' | 'Resizing';
+export type AllocationState = "Steady" | "Resizing";
 
 /**
  * Defines values for ComputeType.
@@ -1442,7 +1461,14 @@ export type AllocationState = 'Steady' | 'Resizing';
  * @readonly
  * @enum {string}
  */
-export type ComputeType = 'AKS' | 'AmlCompute' | 'DataFactory' | 'VirtualMachine' | 'HDInsight' | 'Databricks' | 'DataLakeAnalytics';
+export type ComputeType =
+  | "AKS"
+  | "AmlCompute"
+  | "DataFactory"
+  | "VirtualMachine"
+  | "HDInsight"
+  | "Databricks"
+  | "DataLakeAnalytics";
 
 /**
  * Defines values for UnderlyingResourceAction.
@@ -1450,7 +1476,7 @@ export type ComputeType = 'AKS' | 'AmlCompute' | 'DataFactory' | 'VirtualMachine
  * @readonly
  * @enum {string}
  */
-export type UnderlyingResourceAction = 'Delete' | 'Detach';
+export type UnderlyingResourceAction = "Delete" | "Detach";
 
 /**
  * Defines values for Status.
@@ -1458,7 +1484,7 @@ export type UnderlyingResourceAction = 'Delete' | 'Detach';
  * @readonly
  * @enum {string}
  */
-export type Status = 'Disabled' | 'Enabled';
+export type Status = "Disabled" | "Enabled";
 
 /**
  * Contains response data for the list operation.
@@ -1468,16 +1494,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1488,16 +1514,16 @@ export type WorkspacesGetResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -1508,16 +1534,16 @@ export type WorkspacesCreateOrUpdateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -1528,16 +1554,16 @@ export type WorkspacesUpdateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -1548,16 +1574,16 @@ export type WorkspacesListByResourceGroupResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -1568,16 +1594,16 @@ export type WorkspacesListKeysResponse = ListWorkspaceKeysResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListWorkspaceKeysResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListWorkspaceKeysResult;
+  };
 };
 
 /**
@@ -1588,16 +1614,16 @@ export type WorkspacesListBySubscriptionResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -1608,16 +1634,16 @@ export type WorkspacesListByResourceGroupNextResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -1628,16 +1654,16 @@ export type WorkspacesListBySubscriptionNextResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -1648,16 +1674,16 @@ export type UsagesListResponse = ListUsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListUsagesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListUsagesResult;
+  };
 };
 
 /**
@@ -1668,16 +1694,16 @@ export type UsagesListNextResponse = ListUsagesResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListUsagesResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListUsagesResult;
+  };
 };
 
 /**
@@ -1688,16 +1714,16 @@ export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineSizeListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualMachineSizeListResult;
+  };
 };
 
 /**
@@ -1708,16 +1734,16 @@ export type MachineLearningComputeListByWorkspaceResponse = PaginatedComputeReso
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedComputeResourcesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PaginatedComputeResourcesList;
+  };
 };
 
 /**
@@ -1728,26 +1754,27 @@ export type MachineLearningComputeGetResponse = ComputeResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputeResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComputeResource;
+  };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type MachineLearningComputeCreateOrUpdateResponse = ComputeResource & MachineLearningComputeCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type MachineLearningComputeCreateOrUpdateResponse = ComputeResource &
+  MachineLearningComputeCreateOrUpdateHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1763,7 +1790,7 @@ export type MachineLearningComputeCreateOrUpdateResponse = ComputeResource & Mac
        */
       parsedBody: ComputeResource;
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
@@ -1773,16 +1800,16 @@ export type MachineLearningComputeUpdateResponse = ComputeResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputeResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComputeResource;
+  };
 };
 
 /**
@@ -1793,11 +1820,11 @@ export type MachineLearningComputeDeleteResponse = MachineLearningComputeDeleteH
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MachineLearningComputeDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: MachineLearningComputeDeleteHeaders;
+  };
 };
 
 /**
@@ -1808,16 +1835,16 @@ export type MachineLearningComputeListNodesResponse = AmlComputeNodesInformation
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AmlComputeNodesInformation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AmlComputeNodesInformation;
+  };
 };
 
 /**
@@ -1828,16 +1855,16 @@ export type MachineLearningComputeListKeysResponse = ComputeSecretsUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputeSecretsUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComputeSecretsUnion;
+  };
 };
 
 /**
@@ -1848,16 +1875,16 @@ export type MachineLearningComputeBeginUpdateResponse = ComputeResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputeResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComputeResource;
+  };
 };
 
 /**
@@ -1868,14 +1895,14 @@ export type MachineLearningComputeListByWorkspaceNextResponse = PaginatedCompute
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedComputeResourcesList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PaginatedComputeResourcesList;
+  };
 };

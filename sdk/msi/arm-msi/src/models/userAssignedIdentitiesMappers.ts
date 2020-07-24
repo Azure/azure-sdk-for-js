@@ -14,4 +14,3 @@ export {
   BaseResource,
   CloudError
 } from "../models/mappers";
-

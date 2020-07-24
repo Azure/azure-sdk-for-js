@@ -556,4 +556,3 @@ export function getUserAgentPrefix(userSuppliedUserAgent: string | undefined): s
 
   return `${userSuppliedUserAgent} ${appConfigDefaultUserAgent}`;
 }
-

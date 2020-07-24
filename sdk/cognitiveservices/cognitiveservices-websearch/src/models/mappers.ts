@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const QueryContext: msRest.CompositeMapper = {
   serializedName: "QueryContext",
   type: {
@@ -933,7 +932,7 @@ export const RankingRankingItem: msRest.CompositeMapper = {
       answerType: {
         required: true,
         serializedName: "answerType",
-        defaultValue: 'WebPages',
+        defaultValue: "WebPages",
         type: {
           name: "String"
         }
@@ -1163,7 +1162,7 @@ export const ErrorModel: msRest.CompositeMapper = {
       code: {
         required: true,
         serializedName: "code",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -1295,32 +1294,31 @@ export const StructuredValue: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ResponseBase.ImageObject' : ImageObject,
-  'ResponseBase.WebPage' : WebPage,
-  'ResponseBase.Web/WebAnswer' : WebWebAnswer,
-  'ResponseBase.Images' : Images,
-  'ResponseBase.NewsArticle' : NewsArticle,
-  'ResponseBase.News' : News,
-  'ResponseBase.RelatedSearches/RelatedSearchAnswer' : RelatedSearchesRelatedSearchAnswer,
-  'ResponseBase.SpellSuggestions' : SpellSuggestions,
-  'ResponseBase.TimeZone' : TimeZone,
-  'ResponseBase.VideoObject' : VideoObject,
-  'ResponseBase.Videos' : Videos,
-  'ResponseBase.Computation' : Computation,
-  'ResponseBase.Identifiable' : Identifiable,
-  'ResponseBase.SearchResponse' : SearchResponse,
-  'ResponseBase.Response' : Response,
-  'ResponseBase.Thing' : Thing,
-  'ResponseBase.Places' : Places,
-  'ResponseBase.SearchResultsAnswer' : SearchResultsAnswer,
-  'ResponseBase.Answer' : Answer,
-  'ResponseBase.ErrorResponse' : ErrorResponse,
-  'Web/WebGrouping' : WebWebGrouping,
-  'ResponseBase' : ResponseBase,
-  'ResponseBase.CreativeWork' : CreativeWork,
-  'ResponseBase.Intangible' : Intangible,
-  'ResponseBase.MediaObject' : MediaObject,
-  'ResponseBase.Article' : Article,
-  'ResponseBase.StructuredValue' : StructuredValue
-
+  "ResponseBase.ImageObject": ImageObject,
+  "ResponseBase.WebPage": WebPage,
+  "ResponseBase.Web/WebAnswer": WebWebAnswer,
+  "ResponseBase.Images": Images,
+  "ResponseBase.NewsArticle": NewsArticle,
+  "ResponseBase.News": News,
+  "ResponseBase.RelatedSearches/RelatedSearchAnswer": RelatedSearchesRelatedSearchAnswer,
+  "ResponseBase.SpellSuggestions": SpellSuggestions,
+  "ResponseBase.TimeZone": TimeZone,
+  "ResponseBase.VideoObject": VideoObject,
+  "ResponseBase.Videos": Videos,
+  "ResponseBase.Computation": Computation,
+  "ResponseBase.Identifiable": Identifiable,
+  "ResponseBase.SearchResponse": SearchResponse,
+  "ResponseBase.Response": Response,
+  "ResponseBase.Thing": Thing,
+  "ResponseBase.Places": Places,
+  "ResponseBase.SearchResultsAnswer": SearchResultsAnswer,
+  "ResponseBase.Answer": Answer,
+  "ResponseBase.ErrorResponse": ErrorResponse,
+  "Web/WebGrouping": WebWebGrouping,
+  ResponseBase: ResponseBase,
+  "ResponseBase.CreativeWork": CreativeWork,
+  "ResponseBase.Intangible": Intangible,
+  "ResponseBase.MediaObject": MediaObject,
+  "ResponseBase.Article": Article,
+  "ResponseBase.StructuredValue": StructuredValue
 };

@@ -1,4 +1,4 @@
-﻿﻿// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { finish, handleError, logSampleHeader } from "./Shared/handleError";
 import { CosmosClient } from "../dist";
@@ -142,7 +142,11 @@ async function run() {
     );
 
     const { result: fromNowResults2 } = await fromNowIterator.fetchNext();
-    logResult("after insert, from now scenario", [4], fromNowResults2.map((v) => parseInt(v.id)));
+    logResult(
+      "after insert, from now scenario",
+      [4],
+      fromNowResults2.map((v) => parseInt(v.id))
+    );
   } catch (err) {
     handleError(err);
   } finally {

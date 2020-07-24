@@ -23,7 +23,10 @@ class VideoSearchClient extends VideoSearchClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.VideoSearchClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.VideoSearchClientOptions
+  ) {
     super(credentials, options);
     this.videos = new operations.VideosOperations(this);
   }

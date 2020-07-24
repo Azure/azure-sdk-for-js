@@ -33,21 +33,41 @@ export class Summaries {
    * @param [options] The optional parameters
    * @returns Promise<Models.SummariesGetMachinesResponse>
    */
-  getMachines(resourceGroupName: string, workspaceName: string, options?: Models.SummariesGetMachinesOptionalParams): Promise<Models.SummariesGetMachinesResponse>;
+  getMachines(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: Models.SummariesGetMachinesOptionalParams
+  ): Promise<Models.SummariesGetMachinesResponse>;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
    * @param callback The callback
    */
-  getMachines(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.MachinesSummary>): void;
+  getMachines(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.MachinesSummary>
+  ): void;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMachines(resourceGroupName: string, workspaceName: string, options: Models.SummariesGetMachinesOptionalParams, callback: msRest.ServiceCallback<Models.MachinesSummary>): void;
-  getMachines(resourceGroupName: string, workspaceName: string, options?: Models.SummariesGetMachinesOptionalParams | msRest.ServiceCallback<Models.MachinesSummary>, callback?: msRest.ServiceCallback<Models.MachinesSummary>): Promise<Models.SummariesGetMachinesResponse> {
+  getMachines(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: Models.SummariesGetMachinesOptionalParams,
+    callback: msRest.ServiceCallback<Models.MachinesSummary>
+  ): void;
+  getMachines(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?:
+      | Models.SummariesGetMachinesOptionalParams
+      | msRest.ServiceCallback<Models.MachinesSummary>,
+    callback?: msRest.ServiceCallback<Models.MachinesSummary>
+  ): Promise<Models.SummariesGetMachinesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class Summaries {
         options
       },
       getMachinesOperationSpec,
-      callback) as Promise<Models.SummariesGetMachinesResponse>;
+      callback
+    ) as Promise<Models.SummariesGetMachinesResponse>;
   }
 }
 
@@ -63,20 +84,15 @@ export class Summaries {
 const serializer = new msRest.Serializer(Mappers);
 const getMachinesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/summaries/machines",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/summaries/machines",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.startTime, Parameters.endTime],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MachinesSummary

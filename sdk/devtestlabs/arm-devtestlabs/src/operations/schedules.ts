@@ -34,21 +34,39 @@ export class Schedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.SchedulesListResponse>
    */
-  list(resourceGroupName: string, labName: string, options?: Models.SchedulesListOptionalParams): Promise<Models.SchedulesListResponse>;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options?: Models.SchedulesListOptionalParams
+  ): Promise<Models.SchedulesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.SchedulesListOptionalParams, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.SchedulesListOptionalParams | msRest.ServiceCallback<Models.ScheduleList>, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.SchedulesListResponse> {
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options: Models.SchedulesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options?: Models.SchedulesListOptionalParams | msRest.ServiceCallback<Models.ScheduleList>,
+    callback?: msRest.ServiceCallback<Models.ScheduleList>
+  ): Promise<Models.SchedulesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class Schedules {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SchedulesListResponse>;
+      callback
+    ) as Promise<Models.SchedulesListResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class Schedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.SchedulesGetResponse>
    */
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.SchedulesGetOptionalParams): Promise<Models.SchedulesGetResponse>;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: Models.SchedulesGetOptionalParams
+  ): Promise<Models.SchedulesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the schedule.
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, name: string, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -82,8 +111,20 @@ export class Schedules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, name: string, options: Models.SchedulesGetOptionalParams, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.SchedulesGetOptionalParams | msRest.ServiceCallback<Models.Schedule>, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.SchedulesGetResponse> {
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options: Models.SchedulesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: Models.SchedulesGetOptionalParams | msRest.ServiceCallback<Models.Schedule>,
+    callback?: msRest.ServiceCallback<Models.Schedule>
+  ): Promise<Models.SchedulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +133,8 @@ export class Schedules {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SchedulesGetResponse>;
+      callback
+    ) as Promise<Models.SchedulesGetResponse>;
   }
 
   /**
@@ -104,7 +146,13 @@ export class Schedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.SchedulesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, schedule: Models.Schedule, options?: msRest.RequestOptionsBase): Promise<Models.SchedulesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    schedule: Models.Schedule,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SchedulesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -112,7 +160,13 @@ export class Schedules {
    * @param schedule A schedule.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, schedule: Models.Schedule, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    schedule: Models.Schedule,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -121,8 +175,22 @@ export class Schedules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, schedule: Models.Schedule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, schedule: Models.Schedule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.SchedulesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    schedule: Models.Schedule,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    schedule: Models.Schedule,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>,
+    callback?: msRest.ServiceCallback<Models.Schedule>
+  ): Promise<Models.SchedulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -132,7 +200,8 @@ export class Schedules {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.SchedulesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.SchedulesCreateOrUpdateResponse>;
   }
 
   /**
@@ -143,14 +212,24 @@ export class Schedules {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the schedule.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, labName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -158,8 +237,20 @@ export class Schedules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -168,7 +259,8 @@ export class Schedules {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -180,7 +272,13 @@ export class Schedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.SchedulesUpdateResponse>
    */
-  update(resourceGroupName: string, labName: string, name: string, schedule: Models.ScheduleFragment, options?: msRest.RequestOptionsBase): Promise<Models.SchedulesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    schedule: Models.ScheduleFragment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SchedulesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -188,7 +286,13 @@ export class Schedules {
    * @param schedule A schedule.
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, name: string, schedule: Models.ScheduleFragment, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    schedule: Models.ScheduleFragment,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -197,8 +301,22 @@ export class Schedules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, name: string, schedule: Models.ScheduleFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  update(resourceGroupName: string, labName: string, name: string, schedule: Models.ScheduleFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.SchedulesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    schedule: Models.ScheduleFragment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    schedule: Models.ScheduleFragment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>,
+    callback?: msRest.ServiceCallback<Models.Schedule>
+  ): Promise<Models.SchedulesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -208,7 +326,8 @@ export class Schedules {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.SchedulesUpdateResponse>;
+      callback
+    ) as Promise<Models.SchedulesUpdateResponse>;
   }
 
   /**
@@ -219,9 +338,15 @@ export class Schedules {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  execute(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginExecute(resourceGroupName,labName,name,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  execute(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginExecute(resourceGroupName, labName, name, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -232,14 +357,24 @@ export class Schedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.SchedulesListApplicableResponse>
    */
-  listApplicable(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.SchedulesListApplicableResponse>;
+  listApplicable(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SchedulesListApplicableResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the schedule.
    * @param callback The callback
    */
-  listApplicable(resourceGroupName: string, labName: string, name: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  listApplicable(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -247,8 +382,20 @@ export class Schedules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listApplicable(resourceGroupName: string, labName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listApplicable(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleList>, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.SchedulesListApplicableResponse> {
+  listApplicable(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
+  listApplicable(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleList>,
+    callback?: msRest.ServiceCallback<Models.ScheduleList>
+  ): Promise<Models.SchedulesListApplicableResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -257,7 +404,8 @@ export class Schedules {
         options
       },
       listApplicableOperationSpec,
-      callback) as Promise<Models.SchedulesListApplicableResponse>;
+      callback
+    ) as Promise<Models.SchedulesListApplicableResponse>;
   }
 
   /**
@@ -268,7 +416,12 @@ export class Schedules {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginExecute(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginExecute(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -277,7 +430,8 @@ export class Schedules {
         options
       },
       beginExecuteOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -286,7 +440,10 @@ export class Schedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.SchedulesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SchedulesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SchedulesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -297,15 +454,24 @@ export class Schedules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleList>, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.SchedulesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleList>,
+    callback?: msRest.ServiceCallback<Models.ScheduleList>
+  ): Promise<Models.SchedulesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SchedulesListNextResponse>;
+      callback
+    ) as Promise<Models.SchedulesListNextResponse>;
   }
 
   /**
@@ -314,26 +480,41 @@ export class Schedules {
    * @param [options] The optional parameters
    * @returns Promise<Models.SchedulesListApplicableNextResponse>
    */
-  listApplicableNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SchedulesListApplicableNextResponse>;
+  listApplicableNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SchedulesListApplicableNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listApplicableNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
+  listApplicableNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listApplicableNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduleList>): void;
-  listApplicableNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleList>, callback?: msRest.ServiceCallback<Models.ScheduleList>): Promise<Models.SchedulesListApplicableNextResponse> {
+  listApplicableNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ScheduleList>
+  ): void;
+  listApplicableNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleList>,
+    callback?: msRest.ServiceCallback<Models.ScheduleList>
+  ): Promise<Models.SchedulesListApplicableNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listApplicableNextOperationSpec,
-      callback) as Promise<Models.SchedulesListApplicableNextResponse>;
+      callback
+    ) as Promise<Models.SchedulesListApplicableNextResponse>;
   }
 }
 
@@ -341,12 +522,9 @@ export class Schedules {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.labName
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.labName],
   queryParameters: [
     Parameters.expand,
     Parameters.filter,
@@ -354,9 +532,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScheduleList
@@ -370,20 +546,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Schedule
@@ -397,19 +569,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "schedule",
     mapper: {
@@ -433,19 +602,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -458,19 +624,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "schedule",
     mapper: {
@@ -491,19 +654,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listApplicableOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}/listApplicable",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}/listApplicable",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScheduleList
@@ -517,19 +677,16 @@ const listApplicableOperationSpec: msRest.OperationSpec = {
 
 const beginExecuteOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}/execute",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}/execute",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -544,12 +701,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScheduleList
@@ -565,12 +718,8 @@ const listApplicableNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScheduleList

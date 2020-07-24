@@ -8,10 +8,4 @@
  * regenerated.
  */
 
-export {
-  PartnerResponse,
-  BaseResource,
-  ErrorModel,
-  ExtendedErrorInfo
-} from "../models/mappers";
-
+export { PartnerResponse, BaseResource, ErrorModel, ExtendedErrorInfo } from "../models/mappers";

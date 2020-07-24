@@ -76,8 +76,7 @@ export interface Resource extends BaseResource {
 /**
  * ARM proxy resource.
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * A SQL Server availability group listener.
@@ -634,7 +633,7 @@ export interface SqlVirtualMachineListResult extends Array<SqlVirtualMachine> {
  * @readonly
  * @enum {string}
  */
-export type OperationOrigin = 'user' | 'system';
+export type OperationOrigin = "user" | "system";
 
 /**
  * Defines values for SqlVmGroupImageSku.
@@ -642,7 +641,7 @@ export type OperationOrigin = 'user' | 'system';
  * @readonly
  * @enum {string}
  */
-export type SqlVmGroupImageSku = 'Developer' | 'Enterprise';
+export type SqlVmGroupImageSku = "Developer" | "Enterprise";
 
 /**
  * Defines values for ScaleType.
@@ -650,7 +649,7 @@ export type SqlVmGroupImageSku = 'Developer' | 'Enterprise';
  * @readonly
  * @enum {string}
  */
-export type ScaleType = 'HA';
+export type ScaleType = "HA";
 
 /**
  * Defines values for ClusterManagerType.
@@ -658,7 +657,7 @@ export type ScaleType = 'HA';
  * @readonly
  * @enum {string}
  */
-export type ClusterManagerType = 'WSFC';
+export type ClusterManagerType = "WSFC";
 
 /**
  * Defines values for ClusterConfiguration.
@@ -666,7 +665,7 @@ export type ClusterManagerType = 'WSFC';
  * @readonly
  * @enum {string}
  */
-export type ClusterConfiguration = 'Domainful';
+export type ClusterConfiguration = "Domainful";
 
 /**
  * Defines values for IdentityType.
@@ -674,7 +673,7 @@ export type ClusterConfiguration = 'Domainful';
  * @readonly
  * @enum {string}
  */
-export type IdentityType = 'SystemAssigned';
+export type IdentityType = "SystemAssigned";
 
 /**
  * Defines values for SqlServerLicenseType.
@@ -682,7 +681,7 @@ export type IdentityType = 'SystemAssigned';
  * @readonly
  * @enum {string}
  */
-export type SqlServerLicenseType = 'PAYG' | 'AHUB';
+export type SqlServerLicenseType = "PAYG" | "AHUB";
 
 /**
  * Defines values for SqlManagementMode.
@@ -690,7 +689,7 @@ export type SqlServerLicenseType = 'PAYG' | 'AHUB';
  * @readonly
  * @enum {string}
  */
-export type SqlManagementMode = 'Full' | 'LightWeight' | 'NoAgent';
+export type SqlManagementMode = "Full" | "LightWeight" | "NoAgent";
 
 /**
  * Defines values for SqlImageSku.
@@ -698,7 +697,7 @@ export type SqlManagementMode = 'Full' | 'LightWeight' | 'NoAgent';
  * @readonly
  * @enum {string}
  */
-export type SqlImageSku = 'Developer' | 'Express' | 'Standard' | 'Enterprise' | 'Web';
+export type SqlImageSku = "Developer" | "Express" | "Standard" | "Enterprise" | "Web";
 
 /**
  * Defines values for DayOfWeek.
@@ -707,7 +706,14 @@ export type SqlImageSku = 'Developer' | 'Express' | 'Standard' | 'Enterprise' | 
  * @readonly
  * @enum {string}
  */
-export type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+export type DayOfWeek =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
 
 /**
  * Defines values for BackupScheduleType.
@@ -715,7 +721,7 @@ export type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Frida
  * @readonly
  * @enum {string}
  */
-export type BackupScheduleType = 'Manual' | 'Automated';
+export type BackupScheduleType = "Manual" | "Automated";
 
 /**
  * Defines values for FullBackupFrequencyType.
@@ -723,7 +729,7 @@ export type BackupScheduleType = 'Manual' | 'Automated';
  * @readonly
  * @enum {string}
  */
-export type FullBackupFrequencyType = 'Daily' | 'Weekly';
+export type FullBackupFrequencyType = "Daily" | "Weekly";
 
 /**
  * Defines values for ConnectivityType.
@@ -731,7 +737,7 @@ export type FullBackupFrequencyType = 'Daily' | 'Weekly';
  * @readonly
  * @enum {string}
  */
-export type ConnectivityType = 'LOCAL' | 'PRIVATE' | 'PUBLIC';
+export type ConnectivityType = "LOCAL" | "PRIVATE" | "PUBLIC";
 
 /**
  * Defines values for SqlWorkloadType.
@@ -739,7 +745,7 @@ export type ConnectivityType = 'LOCAL' | 'PRIVATE' | 'PUBLIC';
  * @readonly
  * @enum {string}
  */
-export type SqlWorkloadType = 'GENERAL' | 'OLTP' | 'DW';
+export type SqlWorkloadType = "GENERAL" | "OLTP" | "DW";
 
 /**
  * Defines values for DiskConfigurationType.
@@ -747,7 +753,7 @@ export type SqlWorkloadType = 'GENERAL' | 'OLTP' | 'DW';
  * @readonly
  * @enum {string}
  */
-export type DiskConfigurationType = 'NEW' | 'EXTEND' | 'ADD';
+export type DiskConfigurationType = "NEW" | "EXTEND" | "ADD";
 
 /**
  * Contains response data for the get operation.
@@ -757,16 +763,16 @@ export type AvailabilityGroupListenersGetResponse = AvailabilityGroupListener & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilityGroupListener;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilityGroupListener;
+  };
 };
 
 /**
@@ -777,16 +783,16 @@ export type AvailabilityGroupListenersCreateOrUpdateResponse = AvailabilityGroup
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilityGroupListener;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilityGroupListener;
+  };
 };
 
 /**
@@ -797,16 +803,16 @@ export type AvailabilityGroupListenersListByGroupResponse = AvailabilityGroupLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilityGroupListenerListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilityGroupListenerListResult;
+  };
 };
 
 /**
@@ -817,16 +823,16 @@ export type AvailabilityGroupListenersBeginCreateOrUpdateResponse = Availability
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilityGroupListener;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilityGroupListener;
+  };
 };
 
 /**
@@ -837,16 +843,16 @@ export type AvailabilityGroupListenersListByGroupNextResponse = AvailabilityGrou
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilityGroupListenerListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilityGroupListenerListResult;
+  };
 };
 
 /**
@@ -857,16 +863,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -877,16 +883,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -897,16 +903,16 @@ export type SqlVirtualMachineGroupsGetResponse = SqlVirtualMachineGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineGroup;
+  };
 };
 
 /**
@@ -917,16 +923,16 @@ export type SqlVirtualMachineGroupsCreateOrUpdateResponse = SqlVirtualMachineGro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineGroup;
+  };
 };
 
 /**
@@ -937,16 +943,16 @@ export type SqlVirtualMachineGroupsUpdateResponse = SqlVirtualMachineGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineGroup;
+  };
 };
 
 /**
@@ -957,16 +963,16 @@ export type SqlVirtualMachineGroupsListByResourceGroupResponse = SqlVirtualMachi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineGroupListResult;
+  };
 };
 
 /**
@@ -977,16 +983,16 @@ export type SqlVirtualMachineGroupsListResponse = SqlVirtualMachineGroupListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineGroupListResult;
+  };
 };
 
 /**
@@ -997,16 +1003,16 @@ export type SqlVirtualMachineGroupsBeginCreateOrUpdateResponse = SqlVirtualMachi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineGroup;
+  };
 };
 
 /**
@@ -1017,16 +1023,16 @@ export type SqlVirtualMachineGroupsBeginUpdateResponse = SqlVirtualMachineGroup 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineGroup;
+  };
 };
 
 /**
@@ -1037,16 +1043,16 @@ export type SqlVirtualMachineGroupsListByResourceGroupNextResponse = SqlVirtualM
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineGroupListResult;
+  };
 };
 
 /**
@@ -1057,16 +1063,16 @@ export type SqlVirtualMachineGroupsListNextResponse = SqlVirtualMachineGroupList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineGroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineGroupListResult;
+  };
 };
 
 /**
@@ -1077,16 +1083,16 @@ export type SqlVirtualMachinesListResponse = SqlVirtualMachineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineListResult;
+  };
 };
 
 /**
@@ -1097,16 +1103,16 @@ export type SqlVirtualMachinesGetResponse = SqlVirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachine;
+  };
 };
 
 /**
@@ -1117,16 +1123,16 @@ export type SqlVirtualMachinesCreateOrUpdateResponse = SqlVirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachine;
+  };
 };
 
 /**
@@ -1137,16 +1143,16 @@ export type SqlVirtualMachinesUpdateResponse = SqlVirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachine;
+  };
 };
 
 /**
@@ -1157,16 +1163,16 @@ export type SqlVirtualMachinesListByResourceGroupResponse = SqlVirtualMachineLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineListResult;
+  };
 };
 
 /**
@@ -1177,16 +1183,16 @@ export type SqlVirtualMachinesBeginCreateOrUpdateResponse = SqlVirtualMachine & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachine;
+  };
 };
 
 /**
@@ -1197,16 +1203,16 @@ export type SqlVirtualMachinesBeginUpdateResponse = SqlVirtualMachine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachine;
+  };
 };
 
 /**
@@ -1217,16 +1223,16 @@ export type SqlVirtualMachinesListNextResponse = SqlVirtualMachineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineListResult;
+  };
 };
 
 /**
@@ -1237,14 +1243,14 @@ export type SqlVirtualMachinesListByResourceGroupNextResponse = SqlVirtualMachin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SqlVirtualMachineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SqlVirtualMachineListResult;
+  };
 };

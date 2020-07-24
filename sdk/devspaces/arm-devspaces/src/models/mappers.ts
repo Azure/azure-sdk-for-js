@@ -47,7 +47,7 @@ export const Sku: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "name",
-        defaultValue: 'S1',
+        defaultValue: "S1",
         type: {
           name: "String"
         }
@@ -462,6 +462,6 @@ export const ResourceProviderOperationList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'OrchestratorSpecificConnectionDetails' : OrchestratorSpecificConnectionDetails,
-  'OrchestratorSpecificConnectionDetails.Kubernetes' : KubernetesConnectionDetails
+  OrchestratorSpecificConnectionDetails: OrchestratorSpecificConnectionDetails,
+  "OrchestratorSpecificConnectionDetails.Kubernetes": KubernetesConnectionDetails
 };

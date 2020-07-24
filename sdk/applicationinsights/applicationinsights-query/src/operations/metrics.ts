@@ -47,7 +47,11 @@ export class Metrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricsGetResponse>
    */
-  get(appId: string, metricId: Models.MetricId, options?: Models.MetricsGetOptionalParams): Promise<Models.MetricsGetResponse>;
+  get(
+    appId: string,
+    metricId: Models.MetricId,
+    options?: Models.MetricsGetOptionalParams
+  ): Promise<Models.MetricsGetResponse>;
   /**
    * @param appId ID of the application. This is Application ID from the API Access settings blade in
    * the Azure portal.
@@ -66,7 +70,11 @@ export class Metrics {
    * 'billing/telemetryCount', 'customEvents/count'
    * @param callback The callback
    */
-  get(appId: string, metricId: Models.MetricId, callback: msRest.ServiceCallback<Models.MetricsResult>): void;
+  get(
+    appId: string,
+    metricId: Models.MetricId,
+    callback: msRest.ServiceCallback<Models.MetricsResult>
+  ): void;
   /**
    * @param appId ID of the application. This is Application ID from the API Access settings blade in
    * the Azure portal.
@@ -86,8 +94,18 @@ export class Metrics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(appId: string, metricId: Models.MetricId, options: Models.MetricsGetOptionalParams, callback: msRest.ServiceCallback<Models.MetricsResult>): void;
-  get(appId: string, metricId: Models.MetricId, options?: Models.MetricsGetOptionalParams | msRest.ServiceCallback<Models.MetricsResult>, callback?: msRest.ServiceCallback<Models.MetricsResult>): Promise<Models.MetricsGetResponse> {
+  get(
+    appId: string,
+    metricId: Models.MetricId,
+    options: Models.MetricsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.MetricsResult>
+  ): void;
+  get(
+    appId: string,
+    metricId: Models.MetricId,
+    options?: Models.MetricsGetOptionalParams | msRest.ServiceCallback<Models.MetricsResult>,
+    callback?: msRest.ServiceCallback<Models.MetricsResult>
+  ): Promise<Models.MetricsGetResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -95,7 +113,8 @@ export class Metrics {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MetricsGetResponse>;
+      callback
+    ) as Promise<Models.MetricsGetResponse>;
   }
 
   /**
@@ -107,14 +126,22 @@ export class Metrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricsGetMultipleResponse>
    */
-  getMultiple(appId: string, body: Models.MetricsPostBodySchema[], options?: msRest.RequestOptionsBase): Promise<Models.MetricsGetMultipleResponse>;
+  getMultiple(
+    appId: string,
+    body: Models.MetricsPostBodySchema[],
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MetricsGetMultipleResponse>;
   /**
    * @param appId ID of the application. This is Application ID from the API Access settings blade in
    * the Azure portal.
    * @param body The batched metrics query.
    * @param callback The callback
    */
-  getMultiple(appId: string, body: Models.MetricsPostBodySchema[], callback: msRest.ServiceCallback<Models.MetricsResultsItem[]>): void;
+  getMultiple(
+    appId: string,
+    body: Models.MetricsPostBodySchema[],
+    callback: msRest.ServiceCallback<Models.MetricsResultsItem[]>
+  ): void;
   /**
    * @param appId ID of the application. This is Application ID from the API Access settings blade in
    * the Azure portal.
@@ -122,8 +149,18 @@ export class Metrics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMultiple(appId: string, body: Models.MetricsPostBodySchema[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricsResultsItem[]>): void;
-  getMultiple(appId: string, body: Models.MetricsPostBodySchema[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricsResultsItem[]>, callback?: msRest.ServiceCallback<Models.MetricsResultsItem[]>): Promise<Models.MetricsGetMultipleResponse> {
+  getMultiple(
+    appId: string,
+    body: Models.MetricsPostBodySchema[],
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricsResultsItem[]>
+  ): void;
+  getMultiple(
+    appId: string,
+    body: Models.MetricsPostBodySchema[],
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricsResultsItem[]>,
+    callback?: msRest.ServiceCallback<Models.MetricsResultsItem[]>
+  ): Promise<Models.MetricsGetMultipleResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -131,7 +168,8 @@ export class Metrics {
         options
       },
       getMultipleOperationSpec,
-      callback) as Promise<Models.MetricsGetMultipleResponse>;
+      callback
+    ) as Promise<Models.MetricsGetMultipleResponse>;
   }
 
   /**
@@ -142,7 +180,10 @@ export class Metrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricsGetMetadataResponse>
    */
-  getMetadata(appId: string, options?: msRest.RequestOptionsBase): Promise<Models.MetricsGetMetadataResponse>;
+  getMetadata(
+    appId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MetricsGetMetadataResponse>;
   /**
    * @param appId ID of the application. This is Application ID from the API Access settings blade in
    * the Azure portal.
@@ -155,15 +196,24 @@ export class Metrics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMetadata(appId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getMetadata(appId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.MetricsGetMetadataResponse> {
+  getMetadata(
+    appId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<any>
+  ): void;
+  getMetadata(
+    appId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>,
+    callback?: msRest.ServiceCallback<any>
+  ): Promise<Models.MetricsGetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
         options
       },
       getMetadataOperationSpec,
-      callback) as Promise<Models.MetricsGetMetadataResponse>;
+      callback
+    ) as Promise<Models.MetricsGetMetadataResponse>;
   }
 }
 
@@ -172,10 +222,7 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "v1/apps/{appId}/metrics/{metricId}",
-  urlParameters: [
-    Parameters.appId,
-    Parameters.metricId
-  ],
+  urlParameters: [Parameters.appId, Parameters.metricId],
   queryParameters: [
     Parameters.timespan,
     Parameters.interval,
@@ -199,9 +246,7 @@ const getOperationSpec: msRest.OperationSpec = {
 const getMultipleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "v1/apps/{appId}/metrics",
-  urlParameters: [
-    Parameters.appId
-  ],
+  urlParameters: [Parameters.appId],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -243,9 +288,7 @@ const getMultipleOperationSpec: msRest.OperationSpec = {
 const getMetadataOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "v1/apps/{appId}/metrics/metadata",
-  urlParameters: [
-    Parameters.appId
-  ],
+  urlParameters: [Parameters.appId],
   responses: {
     200: {
       bodyMapper: {

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { PolicyClientContext } from "./policyClientContext";
 
-
 class PolicyClient extends PolicyClientContext {
   // Operation groups
   policyAssignments: operations.PolicyAssignments;
@@ -27,7 +26,11 @@ class PolicyClient extends PolicyClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PolicyClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.PolicyClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.policyAssignments = new operations.PolicyAssignments(this);
     this.policyDefinitions = new operations.PolicyDefinitions(this);
@@ -37,10 +40,5 @@ class PolicyClient extends PolicyClientContext {
 
 // Operation Specifications
 
-export {
-  PolicyClient,
-  PolicyClientContext,
-  Models as PolicyModels,
-  Mappers as PolicyMappers
-};
+export { PolicyClient, PolicyClientContext, Models as PolicyModels, Mappers as PolicyMappers };
 export * from "./operations";

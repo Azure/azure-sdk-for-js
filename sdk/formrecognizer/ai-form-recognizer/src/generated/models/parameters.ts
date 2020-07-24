@@ -66,12 +66,7 @@ export const contentType1: coreHttp.OperationParameter = {
     required: true,
     type: {
       name: "Enum",
-      allowedValues: [
-        "application/pdf",
-        "image/jpeg",
-        "image/png",
-        "image/tiff"
-      ]
+      allowedValues: ["application/pdf", "image/jpeg", "image/png", "image/tiff"]
     }
   }
 };

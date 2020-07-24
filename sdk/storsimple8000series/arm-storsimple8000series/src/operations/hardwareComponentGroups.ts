@@ -35,14 +35,24 @@ export class HardwareComponentGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.HardwareComponentGroupsListByDeviceResponse>
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.HardwareComponentGroupsListByDeviceResponse>;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HardwareComponentGroupsListByDeviceResponse>;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.HardwareComponentGroupList>): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.HardwareComponentGroupList>
+  ): void;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
@@ -50,8 +60,20 @@ export class HardwareComponentGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HardwareComponentGroupList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HardwareComponentGroupList>, callback?: msRest.ServiceCallback<Models.HardwareComponentGroupList>): Promise<Models.HardwareComponentGroupsListByDeviceResponse> {
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HardwareComponentGroupList>
+  ): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HardwareComponentGroupList>,
+    callback?: msRest.ServiceCallback<Models.HardwareComponentGroupList>
+  ): Promise<Models.HardwareComponentGroupsListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -60,7 +82,8 @@ export class HardwareComponentGroups {
         options
       },
       listByDeviceOperationSpec,
-      callback) as Promise<Models.HardwareComponentGroupsListByDeviceResponse>;
+      callback
+    ) as Promise<Models.HardwareComponentGroupsListByDeviceResponse>;
   }
 
   /**
@@ -73,9 +96,22 @@ export class HardwareComponentGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  changeControllerPowerState(deviceName: string, hardwareComponentGroupName: string, parameters: Models.ControllerPowerStateChangeRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginChangeControllerPowerState(deviceName,hardwareComponentGroupName,parameters,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  changeControllerPowerState(
+    deviceName: string,
+    hardwareComponentGroupName: string,
+    parameters: Models.ControllerPowerStateChangeRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginChangeControllerPowerState(
+      deviceName,
+      hardwareComponentGroupName,
+      parameters,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -88,7 +124,14 @@ export class HardwareComponentGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginChangeControllerPowerState(deviceName: string, hardwareComponentGroupName: string, parameters: Models.ControllerPowerStateChangeRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginChangeControllerPowerState(
+    deviceName: string,
+    hardwareComponentGroupName: string,
+    parameters: Models.ControllerPowerStateChangeRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -99,7 +142,8 @@ export class HardwareComponentGroups {
         options
       },
       beginChangeControllerPowerStateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -107,19 +151,16 @@ export class HardwareComponentGroups {
 const serializer = new msRest.Serializer(Mappers);
 const listByDeviceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/hardwareComponentGroups",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/hardwareComponentGroups",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HardwareComponentGroupList
@@ -133,7 +174,8 @@ const listByDeviceOperationSpec: msRest.OperationSpec = {
 
 const beginChangeControllerPowerStateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/hardwareComponentGroups/{hardwareComponentGroupName}/changeControllerPowerState",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/hardwareComponentGroups/{hardwareComponentGroupName}/changeControllerPowerState",
   urlParameters: [
     Parameters.deviceName,
     Parameters.hardwareComponentGroupName,
@@ -141,12 +183,8 @@ const beginChangeControllerPowerStateOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

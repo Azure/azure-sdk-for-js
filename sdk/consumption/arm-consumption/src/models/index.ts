@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing MeterDetails.
@@ -1645,7 +1644,8 @@ export interface UsageDetailsListByBillingAccountOptionalParams extends msRest.R
  *
  * @extends RequestOptionsBase
  */
-export interface UsageDetailsListForBillingPeriodByBillingAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface UsageDetailsListForBillingPeriodByBillingAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [expand] May be used to expand the
    * properties/additionalProperties or properties/meterDetails within a list
@@ -1734,7 +1734,8 @@ export interface UsageDetailsListByDepartmentOptionalParams extends msRest.Reque
  *
  * @extends RequestOptionsBase
  */
-export interface UsageDetailsListForBillingPeriodByDepartmentOptionalParams extends msRest.RequestOptionsBase {
+export interface UsageDetailsListForBillingPeriodByDepartmentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [expand] May be used to expand the
    * properties/additionalProperties or properties/meterDetails within a list
@@ -1779,7 +1780,8 @@ export interface UsageDetailsListForBillingPeriodByDepartmentOptionalParams exte
  *
  * @extends RequestOptionsBase
  */
-export interface UsageDetailsListByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface UsageDetailsListByEnrollmentAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [expand] May be used to expand the
    * properties/additionalProperties or properties/meterDetails within a list
@@ -1823,7 +1825,8 @@ export interface UsageDetailsListByEnrollmentAccountOptionalParams extends msRes
  *
  * @extends RequestOptionsBase
  */
-export interface UsageDetailsListForBillingPeriodByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface UsageDetailsListForBillingPeriodByEnrollmentAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [expand] May be used to expand the
    * properties/additionalProperties or properties/meterDetails within a list
@@ -1912,7 +1915,8 @@ export interface UsageDetailsListByManagementGroupOptionalParams extends msRest.
  *
  * @extends RequestOptionsBase
  */
-export interface UsageDetailsListForBillingPeriodByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface UsageDetailsListForBillingPeriodByManagementGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [expand] May be used to expand the
    * properties/additionalProperties or properties/meterDetails within a list
@@ -2050,7 +2054,8 @@ export interface MarketplacesListByBillingAccountOptionalParams extends msRest.R
  *
  * @extends RequestOptionsBase
  */
-export interface MarketplacesListForBillingPeriodByBillingAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface MarketplacesListForBillingPeriodByBillingAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] May be used to filter marketplaces by
    * properties/usageEnd (Utc time), properties/usageStart (Utc time),
@@ -2112,7 +2117,8 @@ export interface MarketplacesListByDepartmentOptionalParams extends msRest.Reque
  *
  * @extends RequestOptionsBase
  */
-export interface MarketplacesListForBillingPeriodByDepartmentOptionalParams extends msRest.RequestOptionsBase {
+export interface MarketplacesListForBillingPeriodByDepartmentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] May be used to filter marketplaces by
    * properties/usageEnd (Utc time), properties/usageStart (Utc time),
@@ -2143,7 +2149,8 @@ export interface MarketplacesListForBillingPeriodByDepartmentOptionalParams exte
  *
  * @extends RequestOptionsBase
  */
-export interface MarketplacesListByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface MarketplacesListByEnrollmentAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] May be used to filter marketplaces by
    * properties/usageEnd (Utc time), properties/usageStart (Utc time),
@@ -2174,7 +2181,8 @@ export interface MarketplacesListByEnrollmentAccountOptionalParams extends msRes
  *
  * @extends RequestOptionsBase
  */
-export interface MarketplacesListForBillingPeriodByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface MarketplacesListForBillingPeriodByEnrollmentAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] May be used to filter marketplaces by
    * properties/usageEnd (Utc time), properties/usageStart (Utc time),
@@ -2236,7 +2244,8 @@ export interface MarketplacesListByManagementGroupOptionalParams extends msRest.
  *
  * @extends RequestOptionsBase
  */
-export interface MarketplacesListForBillingPeriodByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface MarketplacesListForBillingPeriodByManagementGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] May be used to filter marketplaces by
    * properties/usageEnd (Utc time), properties/usageStart (Utc time),
@@ -2267,7 +2276,8 @@ export interface MarketplacesListForBillingPeriodByManagementGroupOptionalParams
  *
  * @extends RequestOptionsBase
  */
-export interface ReservationsSummariesListByReservationOrderOptionalParams extends msRest.RequestOptionsBase {
+export interface ReservationsSummariesListByReservationOrderOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] Required only for daily grain. The
    * properties/UsageDate for start date and end date. The filter supports 'le'
@@ -2283,7 +2293,8 @@ export interface ReservationsSummariesListByReservationOrderOptionalParams exten
  *
  * @extends RequestOptionsBase
  */
-export interface ReservationsSummariesListByReservationOrderAndReservationOptionalParams extends msRest.RequestOptionsBase {
+export interface ReservationsSummariesListByReservationOrderAndReservationOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] Required only for daily grain. The
    * properties/UsageDate for start date and end date. The filter supports 'le'
@@ -2389,7 +2400,8 @@ export interface ForecastsListOptionalParams extends msRest.RequestOptionsBase {
  *
  * @extends RequestOptionsBase
  */
-export interface AggregatedCostGetByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface AggregatedCostGetByManagementGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] May be used to filter aggregated cost by
    * properties/usageStart (Utc time), properties/usageEnd (Utc time). The
@@ -2425,7 +2437,8 @@ export interface ChargesListByEnrollmentAccountOptionalParams extends msRest.Req
  *
  * @extends RequestOptionsBase
  */
-export interface ChargesListForBillingPeriodByEnrollmentAccountOptionalParams extends msRest.RequestOptionsBase {
+export interface ChargesListForBillingPeriodByEnrollmentAccountOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] May be used to filter charges by
    * properties/usageEnd (Utc time), properties/usageStart (Utc time). The
@@ -2461,7 +2474,8 @@ export interface ChargesListByDepartmentOptionalParams extends msRest.RequestOpt
  *
  * @extends RequestOptionsBase
  */
-export interface ChargesListForBillingPeriodByDepartmentOptionalParams extends msRest.RequestOptionsBase {
+export interface ChargesListForBillingPeriodByDepartmentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] May be used to filter charges by
    * properties/usageEnd (Utc time), properties/usageStart (Utc time). The
@@ -2483,7 +2497,6 @@ export interface ConsumptionManagementClientOptions extends AzureServiceClientOp
    */
   baseUri?: string;
 }
-
 
 /**
  * @interface
@@ -2591,8 +2604,7 @@ export interface BudgetsListResult extends Array<Budget> {
  *
  * @extends Array<Forecast>
  */
-export interface ForecastsListResult extends Array<Forecast> {
-}
+export interface ForecastsListResult extends Array<Forecast> {}
 
 /**
  * @interface
@@ -2618,7 +2630,7 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type BillingFrequency = 'Month' | 'Quarter' | 'Year';
+export type BillingFrequency = "Month" | "Quarter" | "Year";
 
 /**
  * Defines values for CategoryType.
@@ -2626,7 +2638,7 @@ export type BillingFrequency = 'Month' | 'Quarter' | 'Year';
  * @readonly
  * @enum {string}
  */
-export type CategoryType = 'Cost' | 'Usage';
+export type CategoryType = "Cost" | "Usage";
 
 /**
  * Defines values for TimeGrainType.
@@ -2634,7 +2646,7 @@ export type CategoryType = 'Cost' | 'Usage';
  * @readonly
  * @enum {string}
  */
-export type TimeGrainType = 'Monthly' | 'Quarterly' | 'Annually';
+export type TimeGrainType = "Monthly" | "Quarterly" | "Annually";
 
 /**
  * Defines values for OperatorType.
@@ -2642,7 +2654,7 @@ export type TimeGrainType = 'Monthly' | 'Quarterly' | 'Annually';
  * @readonly
  * @enum {string}
  */
-export type OperatorType = 'EqualTo' | 'GreaterThan' | 'GreaterThanOrEqualTo';
+export type OperatorType = "EqualTo" | "GreaterThan" | "GreaterThanOrEqualTo";
 
 /**
  * Defines values for Grain.
@@ -2650,7 +2662,7 @@ export type OperatorType = 'EqualTo' | 'GreaterThan' | 'GreaterThanOrEqualTo';
  * @readonly
  * @enum {string}
  */
-export type Grain = 'Daily' | 'Monthly' | 'Yearly';
+export type Grain = "Daily" | "Monthly" | "Yearly";
 
 /**
  * Defines values for ChargeType.
@@ -2658,7 +2670,7 @@ export type Grain = 'Daily' | 'Monthly' | 'Yearly';
  * @readonly
  * @enum {string}
  */
-export type ChargeType = 'Actual' | 'Forecast';
+export type ChargeType = "Actual" | "Forecast";
 
 /**
  * Defines values for Bound.
@@ -2666,7 +2678,7 @@ export type ChargeType = 'Actual' | 'Forecast';
  * @readonly
  * @enum {string}
  */
-export type Bound = 'Upper' | 'Lower';
+export type Bound = "Upper" | "Lower";
 
 /**
  * Defines values for Datagrain.
@@ -2674,7 +2686,7 @@ export type Bound = 'Upper' | 'Lower';
  * @readonly
  * @enum {string}
  */
-export type Datagrain = 'daily' | 'monthly';
+export type Datagrain = "daily" | "monthly";
 
 /**
  * Contains response data for the list operation.
@@ -2684,15 +2696,15 @@ export type UsageDetailsListResponse = UsageDetailsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2703,15 +2715,15 @@ export type UsageDetailsListByBillingPeriodResponse = UsageDetailsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2722,15 +2734,15 @@ export type UsageDetailsListByBillingAccountResponse = UsageDetailsListResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2741,15 +2753,15 @@ export type UsageDetailsListForBillingPeriodByBillingAccountResponse = UsageDeta
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2760,15 +2772,15 @@ export type UsageDetailsListByDepartmentResponse = UsageDetailsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2779,15 +2791,15 @@ export type UsageDetailsListForBillingPeriodByDepartmentResponse = UsageDetailsL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2798,15 +2810,15 @@ export type UsageDetailsListByEnrollmentAccountResponse = UsageDetailsListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2817,15 +2829,15 @@ export type UsageDetailsListForBillingPeriodByEnrollmentAccountResponse = UsageD
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2836,15 +2848,15 @@ export type UsageDetailsListByManagementGroupResponse = UsageDetailsListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2855,15 +2867,15 @@ export type UsageDetailsListForBillingPeriodByManagementGroupResponse = UsageDet
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2874,15 +2886,15 @@ export type UsageDetailsListNextResponse = UsageDetailsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2893,15 +2905,15 @@ export type UsageDetailsListByBillingPeriodNextResponse = UsageDetailsListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2912,15 +2924,15 @@ export type UsageDetailsListByBillingAccountNextResponse = UsageDetailsListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2931,15 +2943,15 @@ export type UsageDetailsListForBillingPeriodByBillingAccountNextResponse = Usage
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2950,15 +2962,15 @@ export type UsageDetailsListByDepartmentNextResponse = UsageDetailsListResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2969,15 +2981,15 @@ export type UsageDetailsListForBillingPeriodByDepartmentNextResponse = UsageDeta
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -2988,15 +3000,15 @@ export type UsageDetailsListByEnrollmentAccountNextResponse = UsageDetailsListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -3007,15 +3019,15 @@ export type UsageDetailsListForBillingPeriodByEnrollmentAccountNextResponse = Us
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -3026,15 +3038,15 @@ export type UsageDetailsListByManagementGroupNextResponse = UsageDetailsListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -3045,15 +3057,15 @@ export type UsageDetailsListForBillingPeriodByManagementGroupNextResponse = Usag
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageDetailsListResult;
+  };
 };
 
 /**
@@ -3064,15 +3076,15 @@ export type MarketplacesListResponse = MarketplacesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3083,15 +3095,15 @@ export type MarketplacesListByBillingPeriodResponse = MarketplacesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3102,15 +3114,15 @@ export type MarketplacesListByBillingAccountResponse = MarketplacesListResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3121,15 +3133,15 @@ export type MarketplacesListForBillingPeriodByBillingAccountResponse = Marketpla
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3140,15 +3152,15 @@ export type MarketplacesListByDepartmentResponse = MarketplacesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3159,15 +3171,15 @@ export type MarketplacesListForBillingPeriodByDepartmentResponse = MarketplacesL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3178,15 +3190,15 @@ export type MarketplacesListByEnrollmentAccountResponse = MarketplacesListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3197,15 +3209,15 @@ export type MarketplacesListForBillingPeriodByEnrollmentAccountResponse = Market
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3216,15 +3228,15 @@ export type MarketplacesListByManagementGroupResponse = MarketplacesListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3235,15 +3247,15 @@ export type MarketplacesListForBillingPeriodByManagementGroupResponse = Marketpl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3254,15 +3266,15 @@ export type MarketplacesListNextResponse = MarketplacesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3273,15 +3285,15 @@ export type MarketplacesListByBillingPeriodNextResponse = MarketplacesListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3292,15 +3304,15 @@ export type MarketplacesListByBillingAccountNextResponse = MarketplacesListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3311,15 +3323,15 @@ export type MarketplacesListForBillingPeriodByBillingAccountNextResponse = Marke
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3330,15 +3342,15 @@ export type MarketplacesListByDepartmentNextResponse = MarketplacesListResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3349,15 +3361,15 @@ export type MarketplacesListForBillingPeriodByDepartmentNextResponse = Marketpla
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3368,15 +3380,15 @@ export type MarketplacesListByEnrollmentAccountNextResponse = MarketplacesListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3387,15 +3399,15 @@ export type MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse = Ma
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3406,15 +3418,15 @@ export type MarketplacesListByManagementGroupNextResponse = MarketplacesListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3425,15 +3437,15 @@ export type MarketplacesListForBillingPeriodByManagementGroupNextResponse = Mark
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MarketplacesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MarketplacesListResult;
+  };
 };
 
 /**
@@ -3444,15 +3456,15 @@ export type BalancesGetByBillingAccountResponse = Balance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Balance;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Balance;
+  };
 };
 
 /**
@@ -3463,15 +3475,15 @@ export type BalancesGetForBillingPeriodByBillingAccountResponse = Balance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Balance;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Balance;
+  };
 };
 
 /**
@@ -3482,15 +3494,15 @@ export type ReservationsSummariesListByReservationOrderResponse = ReservationSum
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationSummariesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationSummariesListResult;
+  };
 };
 
 /**
@@ -3501,15 +3513,15 @@ export type ReservationsSummariesListByReservationOrderAndReservationResponse = 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationSummariesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationSummariesListResult;
+  };
 };
 
 /**
@@ -3520,15 +3532,15 @@ export type ReservationsSummariesListByReservationOrderNextResponse = Reservatio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationSummariesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationSummariesListResult;
+  };
 };
 
 /**
@@ -3539,15 +3551,15 @@ export type ReservationsSummariesListByReservationOrderAndReservationNextRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationSummariesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationSummariesListResult;
+  };
 };
 
 /**
@@ -3558,15 +3570,15 @@ export type ReservationsDetailsListByReservationOrderResponse = ReservationDetai
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationDetailsListResult;
+  };
 };
 
 /**
@@ -3577,15 +3589,15 @@ export type ReservationsDetailsListByReservationOrderAndReservationResponse = Re
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationDetailsListResult;
+  };
 };
 
 /**
@@ -3596,15 +3608,15 @@ export type ReservationsDetailsListByReservationOrderNextResponse = ReservationD
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationDetailsListResult;
+  };
 };
 
 /**
@@ -3615,15 +3627,15 @@ export type ReservationsDetailsListByReservationOrderAndReservationNextResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationDetailsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationDetailsListResult;
+  };
 };
 
 /**
@@ -3634,15 +3646,15 @@ export type ReservationRecommendationsListResponse = ReservationRecommendationsL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationRecommendationsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationRecommendationsListResult;
+  };
 };
 
 /**
@@ -3653,15 +3665,15 @@ export type ReservationRecommendationsListNextResponse = ReservationRecommendati
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationRecommendationsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationRecommendationsListResult;
+  };
 };
 
 /**
@@ -3672,15 +3684,15 @@ export type BudgetsListResponse = BudgetsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BudgetsListResult;
+  };
 };
 
 /**
@@ -3691,15 +3703,15 @@ export type BudgetsListByResourceGroupNameResponse = BudgetsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BudgetsListResult;
+  };
 };
 
 /**
@@ -3710,15 +3722,15 @@ export type BudgetsGetResponse = Budget & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Budget;
+  };
 };
 
 /**
@@ -3729,15 +3741,15 @@ export type BudgetsCreateOrUpdateResponse = Budget & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Budget;
+  };
 };
 
 /**
@@ -3748,15 +3760,15 @@ export type BudgetsGetByResourceGroupNameResponse = Budget & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Budget;
+  };
 };
 
 /**
@@ -3767,15 +3779,15 @@ export type BudgetsCreateOrUpdateByResourceGroupNameResponse = Budget & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Budget;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Budget;
+  };
 };
 
 /**
@@ -3786,15 +3798,15 @@ export type BudgetsListNextResponse = BudgetsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BudgetsListResult;
+  };
 };
 
 /**
@@ -3805,15 +3817,15 @@ export type BudgetsListByResourceGroupNameNextResponse = BudgetsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BudgetsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BudgetsListResult;
+  };
 };
 
 /**
@@ -3824,15 +3836,15 @@ export type PriceSheetGetResponse = PriceSheetResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PriceSheetResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PriceSheetResult;
+  };
 };
 
 /**
@@ -3843,15 +3855,15 @@ export type PriceSheetGetByBillingPeriodResponse = PriceSheetResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PriceSheetResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PriceSheetResult;
+  };
 };
 
 /**
@@ -3862,15 +3874,15 @@ export type TagsGetResponse = TagsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TagsResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TagsResult;
+  };
 };
 
 /**
@@ -3881,15 +3893,15 @@ export type ForecastsListResponse = ForecastsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ForecastsListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ForecastsListResult;
+  };
 };
 
 /**
@@ -3900,15 +3912,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -3919,15 +3931,15 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -3938,15 +3950,15 @@ export type AggregatedCostGetByManagementGroupResponse = ManagementGroupAggregat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementGroupAggregatedCostResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementGroupAggregatedCostResult;
+  };
 };
 
 /**
@@ -3957,15 +3969,15 @@ export type AggregatedCostGetForBillingPeriodByManagementGroupResponse = Managem
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagementGroupAggregatedCostResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagementGroupAggregatedCostResult;
+  };
 };
 
 /**
@@ -3976,15 +3988,15 @@ export type ChargesListByEnrollmentAccountResponse = ChargesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChargesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ChargesListResult;
+  };
 };
 
 /**
@@ -3995,15 +4007,15 @@ export type ChargesListForBillingPeriodByEnrollmentAccountResponse = ChargeSumma
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChargeSummary;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ChargeSummary;
+  };
 };
 
 /**
@@ -4014,15 +4026,15 @@ export type ChargesListByDepartmentResponse = ChargesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChargesListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ChargesListResult;
+  };
 };
 
 /**
@@ -4033,13 +4045,13 @@ export type ChargesListForBillingPeriodByDepartmentResponse = ChargeSummary & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChargeSummary;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ChargeSummary;
+  };
 };

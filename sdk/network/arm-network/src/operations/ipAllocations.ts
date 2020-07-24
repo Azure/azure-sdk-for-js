@@ -34,9 +34,14 @@ export class IpAllocations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, ipAllocationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,ipAllocationName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    ipAllocationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, ipAllocationName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -46,21 +51,39 @@ export class IpAllocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpAllocationsGetResponse>
    */
-  get(resourceGroupName: string, ipAllocationName: string, options?: Models.IpAllocationsGetOptionalParams): Promise<Models.IpAllocationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    ipAllocationName: string,
+    options?: Models.IpAllocationsGetOptionalParams
+  ): Promise<Models.IpAllocationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ipAllocationName The name of the IpAllocation.
    * @param callback The callback
    */
-  get(resourceGroupName: string, ipAllocationName: string, callback: msRest.ServiceCallback<Models.IpAllocation>): void;
+  get(
+    resourceGroupName: string,
+    ipAllocationName: string,
+    callback: msRest.ServiceCallback<Models.IpAllocation>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ipAllocationName The name of the IpAllocation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, ipAllocationName: string, options: Models.IpAllocationsGetOptionalParams, callback: msRest.ServiceCallback<Models.IpAllocation>): void;
-  get(resourceGroupName: string, ipAllocationName: string, options?: Models.IpAllocationsGetOptionalParams | msRest.ServiceCallback<Models.IpAllocation>, callback?: msRest.ServiceCallback<Models.IpAllocation>): Promise<Models.IpAllocationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    ipAllocationName: string,
+    options: Models.IpAllocationsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.IpAllocation>
+  ): void;
+  get(
+    resourceGroupName: string,
+    ipAllocationName: string,
+    options?: Models.IpAllocationsGetOptionalParams | msRest.ServiceCallback<Models.IpAllocation>,
+    callback?: msRest.ServiceCallback<Models.IpAllocation>
+  ): Promise<Models.IpAllocationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +91,8 @@ export class IpAllocations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IpAllocationsGetResponse>;
+      callback
+    ) as Promise<Models.IpAllocationsGetResponse>;
   }
 
   /**
@@ -79,9 +103,20 @@ export class IpAllocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpAllocationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, ipAllocationName: string, parameters: Models.IpAllocation, options?: msRest.RequestOptionsBase): Promise<Models.IpAllocationsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,ipAllocationName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IpAllocationsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    ipAllocationName: string,
+    parameters: Models.IpAllocation,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpAllocationsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      ipAllocationName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.IpAllocationsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -92,14 +127,24 @@ export class IpAllocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpAllocationsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, ipAllocationName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.IpAllocationsUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    ipAllocationName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpAllocationsUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ipAllocationName The name of the IpAllocation.
    * @param parameters Parameters supplied to update IpAllocation tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, ipAllocationName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.IpAllocation>): void;
+  updateTags(
+    resourceGroupName: string,
+    ipAllocationName: string,
+    parameters: Models.TagsObject,
+    callback: msRest.ServiceCallback<Models.IpAllocation>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ipAllocationName The name of the IpAllocation.
@@ -107,8 +152,20 @@ export class IpAllocations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, ipAllocationName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpAllocation>): void;
-  updateTags(resourceGroupName: string, ipAllocationName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpAllocation>, callback?: msRest.ServiceCallback<Models.IpAllocation>): Promise<Models.IpAllocationsUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    ipAllocationName: string,
+    parameters: Models.TagsObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpAllocation>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    ipAllocationName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpAllocation>,
+    callback?: msRest.ServiceCallback<Models.IpAllocation>
+  ): Promise<Models.IpAllocationsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +174,8 @@ export class IpAllocations {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.IpAllocationsUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.IpAllocationsUpdateTagsResponse>;
   }
 
   /**
@@ -134,14 +192,21 @@ export class IpAllocations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpAllocationListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpAllocationListResult>, callback?: msRest.ServiceCallback<Models.IpAllocationListResult>): Promise<Models.IpAllocationsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpAllocationListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpAllocationListResult>,
+    callback?: msRest.ServiceCallback<Models.IpAllocationListResult>
+  ): Promise<Models.IpAllocationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IpAllocationsListResponse>;
+      callback
+    ) as Promise<Models.IpAllocationsListResponse>;
   }
 
   /**
@@ -150,26 +215,41 @@ export class IpAllocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpAllocationsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.IpAllocationsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpAllocationsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.IpAllocationListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.IpAllocationListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpAllocationListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpAllocationListResult>, callback?: msRest.ServiceCallback<Models.IpAllocationListResult>): Promise<Models.IpAllocationsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpAllocationListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpAllocationListResult>,
+    callback?: msRest.ServiceCallback<Models.IpAllocationListResult>
+  ): Promise<Models.IpAllocationsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.IpAllocationsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.IpAllocationsListByResourceGroupResponse>;
   }
 
   /**
@@ -179,7 +259,11 @@ export class IpAllocations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, ipAllocationName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    ipAllocationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -187,7 +271,8 @@ export class IpAllocations {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -198,7 +283,12 @@ export class IpAllocations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, ipAllocationName: string, parameters: Models.IpAllocation, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    ipAllocationName: string,
+    parameters: Models.IpAllocation,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -207,7 +297,8 @@ export class IpAllocations {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -216,26 +307,41 @@ export class IpAllocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpAllocationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IpAllocationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpAllocationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IpAllocationListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IpAllocationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpAllocationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpAllocationListResult>, callback?: msRest.ServiceCallback<Models.IpAllocationListResult>): Promise<Models.IpAllocationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpAllocationListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpAllocationListResult>,
+    callback?: msRest.ServiceCallback<Models.IpAllocationListResult>
+  ): Promise<Models.IpAllocationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.IpAllocationsListNextResponse>;
+      callback
+    ) as Promise<Models.IpAllocationsListNextResponse>;
   }
 
   /**
@@ -244,26 +350,41 @@ export class IpAllocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.IpAllocationsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IpAllocationsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IpAllocationsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IpAllocationListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IpAllocationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpAllocationListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpAllocationListResult>, callback?: msRest.ServiceCallback<Models.IpAllocationListResult>): Promise<Models.IpAllocationsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IpAllocationListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpAllocationListResult>,
+    callback?: msRest.ServiceCallback<Models.IpAllocationListResult>
+  ): Promise<Models.IpAllocationsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.IpAllocationsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.IpAllocationsListByResourceGroupNextResponse>;
   }
 }
 
@@ -271,19 +392,15 @@ export class IpAllocations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.ipAllocationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpAllocation
@@ -297,18 +414,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.ipAllocationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -330,15 +444,9 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/IpAllocations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpAllocationListResult
@@ -352,17 +460,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpAllocationListResult
@@ -376,18 +478,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.ipAllocationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -401,18 +500,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.ipAllocationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -438,12 +534,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpAllocationListResult
@@ -459,12 +551,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IpAllocationListResult

@@ -196,7 +196,7 @@ export const SourceControlConfiguration: msRest.CompositeMapper = {
       },
       operatorNamespace: {
         serializedName: "properties.operatorNamespace",
-        defaultValue: 'default',
+        defaultValue: "default",
         type: {
           name: "String"
         }
@@ -221,7 +221,7 @@ export const SourceControlConfiguration: msRest.CompositeMapper = {
       },
       operatorScope: {
         serializedName: "properties.operatorScope",
-        defaultValue: 'cluster',
+        defaultValue: "cluster",
         type: {
           name: "String"
         }

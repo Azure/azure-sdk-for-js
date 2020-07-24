@@ -33,21 +33,39 @@ export class Datasets {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatasetsListByFactoryResponse>
    */
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatasetsListByFactoryResponse>;
+  listByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatasetsListByFactoryResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param callback The callback
    */
-  listByFactory(resourceGroupName: string, factoryName: string, callback: msRest.ServiceCallback<Models.DatasetListResponse>): void;
+  listByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    callback: msRest.ServiceCallback<Models.DatasetListResponse>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFactory(resourceGroupName: string, factoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatasetListResponse>): void;
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatasetListResponse>, callback?: msRest.ServiceCallback<Models.DatasetListResponse>): Promise<Models.DatasetsListByFactoryResponse> {
+  listByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatasetListResponse>
+  ): void;
+  listByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatasetListResponse>,
+    callback?: msRest.ServiceCallback<Models.DatasetListResponse>
+  ): Promise<Models.DatasetsListByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class Datasets {
         options
       },
       listByFactoryOperationSpec,
-      callback) as Promise<Models.DatasetsListByFactoryResponse>;
+      callback
+    ) as Promise<Models.DatasetsListByFactoryResponse>;
   }
 
   /**
@@ -67,7 +86,13 @@ export class Datasets {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatasetsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, datasetName: string, dataset: Models.DatasetResource, options?: Models.DatasetsCreateOrUpdateOptionalParams): Promise<Models.DatasetsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    datasetName: string,
+    dataset: Models.DatasetResource,
+    options?: Models.DatasetsCreateOrUpdateOptionalParams
+  ): Promise<Models.DatasetsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -75,7 +100,13 @@ export class Datasets {
    * @param dataset Dataset resource definition.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, datasetName: string, dataset: Models.DatasetResource, callback: msRest.ServiceCallback<Models.DatasetResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    datasetName: string,
+    dataset: Models.DatasetResource,
+    callback: msRest.ServiceCallback<Models.DatasetResource>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -84,8 +115,24 @@ export class Datasets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, datasetName: string, dataset: Models.DatasetResource, options: Models.DatasetsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.DatasetResource>): void;
-  createOrUpdate(resourceGroupName: string, factoryName: string, datasetName: string, dataset: Models.DatasetResource, options?: Models.DatasetsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.DatasetResource>, callback?: msRest.ServiceCallback<Models.DatasetResource>): Promise<Models.DatasetsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    datasetName: string,
+    dataset: Models.DatasetResource,
+    options: Models.DatasetsCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.DatasetResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    datasetName: string,
+    dataset: Models.DatasetResource,
+    options?:
+      | Models.DatasetsCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.DatasetResource>,
+    callback?: msRest.ServiceCallback<Models.DatasetResource>
+  ): Promise<Models.DatasetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +142,8 @@ export class Datasets {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DatasetsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.DatasetsCreateOrUpdateResponse>;
   }
 
   /**
@@ -106,14 +154,24 @@ export class Datasets {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatasetsGetResponse>
    */
-  get(resourceGroupName: string, factoryName: string, datasetName: string, options?: Models.DatasetsGetOptionalParams): Promise<Models.DatasetsGetResponse>;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    datasetName: string,
+    options?: Models.DatasetsGetOptionalParams
+  ): Promise<Models.DatasetsGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param datasetName The dataset name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, datasetName: string, callback: msRest.ServiceCallback<Models.DatasetResource>): void;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    datasetName: string,
+    callback: msRest.ServiceCallback<Models.DatasetResource>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -121,8 +179,20 @@ export class Datasets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, datasetName: string, options: Models.DatasetsGetOptionalParams, callback: msRest.ServiceCallback<Models.DatasetResource>): void;
-  get(resourceGroupName: string, factoryName: string, datasetName: string, options?: Models.DatasetsGetOptionalParams | msRest.ServiceCallback<Models.DatasetResource>, callback?: msRest.ServiceCallback<Models.DatasetResource>): Promise<Models.DatasetsGetResponse> {
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    datasetName: string,
+    options: Models.DatasetsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.DatasetResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    datasetName: string,
+    options?: Models.DatasetsGetOptionalParams | msRest.ServiceCallback<Models.DatasetResource>,
+    callback?: msRest.ServiceCallback<Models.DatasetResource>
+  ): Promise<Models.DatasetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +201,8 @@ export class Datasets {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DatasetsGetResponse>;
+      callback
+    ) as Promise<Models.DatasetsGetResponse>;
   }
 
   /**
@@ -142,14 +213,24 @@ export class Datasets {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, datasetName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    datasetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param datasetName The dataset name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, datasetName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    datasetName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -157,8 +238,20 @@ export class Datasets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, datasetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, factoryName: string, datasetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    datasetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    datasetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +260,8 @@ export class Datasets {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -176,26 +270,41 @@ export class Datasets {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatasetsListByFactoryNextResponse>
    */
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DatasetsListByFactoryNextResponse>;
+  listByFactoryNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatasetsListByFactoryNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByFactoryNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DatasetListResponse>): void;
+  listByFactoryNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DatasetListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFactoryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatasetListResponse>): void;
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatasetListResponse>, callback?: msRest.ServiceCallback<Models.DatasetListResponse>): Promise<Models.DatasetsListByFactoryNextResponse> {
+  listByFactoryNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatasetListResponse>
+  ): void;
+  listByFactoryNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatasetListResponse>,
+    callback?: msRest.ServiceCallback<Models.DatasetListResponse>
+  ): Promise<Models.DatasetsListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByFactoryNextOperationSpec,
-      callback) as Promise<Models.DatasetsListByFactoryNextResponse>;
+      callback
+    ) as Promise<Models.DatasetsListByFactoryNextResponse>;
   }
 }
 
@@ -203,18 +312,11 @@ export class Datasets {
 const serializer = new msRest.Serializer(Mappers);
 const listByFactoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.factoryName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatasetListResponse
@@ -228,20 +330,16 @@ const listByFactoryOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets/{datasetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets/{datasetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.datasetName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "dataset",
     mapper: {
@@ -262,20 +360,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets/{datasetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets/{datasetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.datasetName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifNoneMatch, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatasetResource
@@ -290,19 +384,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets/{datasetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/datasets/{datasetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.datasetName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -317,12 +408,8 @@ const listByFactoryNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatasetListResponse

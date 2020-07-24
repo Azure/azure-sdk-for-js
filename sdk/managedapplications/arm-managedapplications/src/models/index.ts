@@ -432,7 +432,18 @@ export interface ApplianceDefinitionListResult extends Array<ApplianceDefinition
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Accepted' | 'Running' | 'Ready' | 'Creating' | 'Created' | 'Deleting' | 'Deleted' | 'Canceled' | 'Failed' | 'Succeeded' | 'Updating';
+export type ProvisioningState =
+  | "Accepted"
+  | "Running"
+  | "Ready"
+  | "Creating"
+  | "Created"
+  | "Deleting"
+  | "Deleted"
+  | "Canceled"
+  | "Failed"
+  | "Succeeded"
+  | "Updating";
 
 /**
  * Defines values for ApplianceLockLevel.
@@ -440,7 +451,7 @@ export type ProvisioningState = 'Accepted' | 'Running' | 'Ready' | 'Creating' | 
  * @readonly
  * @enum {string}
  */
-export type ApplianceLockLevel = 'CanNotDelete' | 'ReadOnly' | 'None';
+export type ApplianceLockLevel = "CanNotDelete" | "ReadOnly" | "None";
 
 /**
  * Defines values for ApplianceArtifactType.
@@ -448,7 +459,7 @@ export type ApplianceLockLevel = 'CanNotDelete' | 'ReadOnly' | 'None';
  * @readonly
  * @enum {string}
  */
-export type ApplianceArtifactType = 'Template' | 'Custom';
+export type ApplianceArtifactType = "Template" | "Custom";
 
 /**
  * Defines values for ResourceIdentityType.
@@ -456,7 +467,7 @@ export type ApplianceArtifactType = 'Template' | 'Custom';
  * @readonly
  * @enum {string}
  */
-export type ResourceIdentityType = 'SystemAssigned';
+export type ResourceIdentityType = "SystemAssigned";
 
 /**
  * Contains response data for the listOperations operation.
@@ -466,16 +477,16 @@ export type ListOperationsResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -486,16 +497,16 @@ export type ListOperationsNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -506,16 +517,16 @@ export type AppliancesGetResponse = Appliance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Appliance;
+  };
 };
 
 /**
@@ -526,16 +537,16 @@ export type AppliancesCreateOrUpdateResponse = Appliance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Appliance;
+  };
 };
 
 /**
@@ -546,16 +557,16 @@ export type AppliancesUpdateResponse = Appliance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Appliance;
+  };
 };
 
 /**
@@ -566,16 +577,16 @@ export type AppliancesListByResourceGroupResponse = ApplianceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplianceListResult;
+  };
 };
 
 /**
@@ -586,16 +597,16 @@ export type AppliancesListBySubscriptionResponse = ApplianceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplianceListResult;
+  };
 };
 
 /**
@@ -606,16 +617,16 @@ export type AppliancesGetByIdResponse = Appliance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Appliance;
+  };
 };
 
 /**
@@ -626,16 +637,16 @@ export type AppliancesCreateOrUpdateByIdResponse = Appliance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Appliance;
+  };
 };
 
 /**
@@ -646,16 +657,16 @@ export type AppliancesUpdateByIdResponse = Appliance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Appliance;
+  };
 };
 
 /**
@@ -666,16 +677,16 @@ export type AppliancesBeginCreateOrUpdateResponse = Appliance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Appliance;
+  };
 };
 
 /**
@@ -686,16 +697,16 @@ export type AppliancesBeginCreateOrUpdateByIdResponse = Appliance & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Appliance;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Appliance;
+  };
 };
 
 /**
@@ -706,16 +717,16 @@ export type AppliancesListByResourceGroupNextResponse = ApplianceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplianceListResult;
+  };
 };
 
 /**
@@ -726,16 +737,16 @@ export type AppliancesListBySubscriptionNextResponse = ApplianceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplianceListResult;
+  };
 };
 
 /**
@@ -746,16 +757,16 @@ export type ApplianceDefinitionsGetResponse = ApplianceDefinition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplianceDefinition;
+  };
 };
 
 /**
@@ -766,16 +777,16 @@ export type ApplianceDefinitionsCreateOrUpdateResponse = ApplianceDefinition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplianceDefinition;
+  };
 };
 
 /**
@@ -786,16 +797,16 @@ export type ApplianceDefinitionsListByResourceGroupResponse = ApplianceDefinitio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplianceDefinitionListResult;
+  };
 };
 
 /**
@@ -806,16 +817,16 @@ export type ApplianceDefinitionsGetByIdResponse = ApplianceDefinition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplianceDefinition;
+  };
 };
 
 /**
@@ -826,16 +837,16 @@ export type ApplianceDefinitionsCreateOrUpdateByIdResponse = ApplianceDefinition
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplianceDefinition;
+  };
 };
 
 /**
@@ -846,16 +857,16 @@ export type ApplianceDefinitionsBeginCreateOrUpdateResponse = ApplianceDefinitio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplianceDefinition;
+  };
 };
 
 /**
@@ -866,16 +877,16 @@ export type ApplianceDefinitionsBeginCreateOrUpdateByIdResponse = ApplianceDefin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplianceDefinition;
+  };
 };
 
 /**
@@ -886,14 +897,14 @@ export type ApplianceDefinitionsListByResourceGroupNextResponse = ApplianceDefin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplianceDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplianceDefinitionListResult;
+  };
 };

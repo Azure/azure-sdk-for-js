@@ -598,24 +598,21 @@ export interface MicrosoftSupportOptions extends AzureServiceClientOptions {
  * The list of operations supported by Microsoft Support resource provider.
  * @extends Array<Operation>
  */
-export interface OperationsListResult extends Array<Operation> {
-}
+export interface OperationsListResult extends Array<Operation> {}
 
 /**
  * @interface
  * Collection of Service resources.
  * @extends Array<Service>
  */
-export interface ServicesListResult extends Array<Service> {
-}
+export interface ServicesListResult extends Array<Service> {}
 
 /**
  * @interface
  * Collection of ProblemClassification resources.
  * @extends Array<ProblemClassification>
  */
-export interface ProblemClassificationsListResult extends Array<ProblemClassification> {
-}
+export interface ProblemClassificationsListResult extends Array<ProblemClassification> {}
 
 /**
  * @interface
@@ -647,7 +644,7 @@ export interface CommunicationsListResult extends Array<CommunicationDetails> {
  * @readonly
  * @enum {string}
  */
-export type Type = 'Microsoft.Support/supportTickets' | 'Microsoft.Support/communications';
+export type Type = "Microsoft.Support/supportTickets" | "Microsoft.Support/communications";
 
 /**
  * Defines values for SeverityLevel.
@@ -655,7 +652,7 @@ export type Type = 'Microsoft.Support/supportTickets' | 'Microsoft.Support/commu
  * @readonly
  * @enum {string}
  */
-export type SeverityLevel = 'minimal' | 'moderate' | 'critical' | 'highestcriticalimpact';
+export type SeverityLevel = "minimal" | "moderate" | "critical" | "highestcriticalimpact";
 
 /**
  * Defines values for PreferredContactMethod.
@@ -663,7 +660,7 @@ export type SeverityLevel = 'minimal' | 'moderate' | 'critical' | 'highestcritic
  * @readonly
  * @enum {string}
  */
-export type PreferredContactMethod = 'email' | 'phone';
+export type PreferredContactMethod = "email" | "phone";
 
 /**
  * Defines values for CommunicationType.
@@ -671,7 +668,7 @@ export type PreferredContactMethod = 'email' | 'phone';
  * @readonly
  * @enum {string}
  */
-export type CommunicationType = 'web' | 'phone';
+export type CommunicationType = "web" | "phone";
 
 /**
  * Defines values for CommunicationDirection.
@@ -679,7 +676,7 @@ export type CommunicationType = 'web' | 'phone';
  * @readonly
  * @enum {string}
  */
-export type CommunicationDirection = 'inbound' | 'outbound';
+export type CommunicationDirection = "inbound" | "outbound";
 
 /**
  * Defines values for Status.
@@ -687,7 +684,7 @@ export type CommunicationDirection = 'inbound' | 'outbound';
  * @readonly
  * @enum {string}
  */
-export type Status = 'open' | 'closed';
+export type Status = "open" | "closed";
 
 /**
  * Contains response data for the list operation.
@@ -697,16 +694,16 @@ export type OperationsListResponse = OperationsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationsListResult;
+  };
 };
 
 /**
@@ -717,16 +714,16 @@ export type ServicesListResponse = ServicesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServicesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServicesListResult;
+  };
 };
 
 /**
@@ -737,16 +734,16 @@ export type ServicesGetResponse = Service & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Service;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Service;
+  };
 };
 
 /**
@@ -757,16 +754,16 @@ export type ProblemClassificationsListResponse = ProblemClassificationsListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProblemClassificationsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProblemClassificationsListResult;
+  };
 };
 
 /**
@@ -777,16 +774,16 @@ export type ProblemClassificationsGetResponse = ProblemClassification & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProblemClassification;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProblemClassification;
+  };
 };
 
 /**
@@ -797,16 +794,16 @@ export type SupportTicketsCheckNameAvailabilityResponse = CheckNameAvailabilityO
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityOutput;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityOutput;
+  };
 };
 
 /**
@@ -817,16 +814,16 @@ export type SupportTicketsListResponse = SupportTicketsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SupportTicketsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SupportTicketsListResult;
+  };
 };
 
 /**
@@ -837,16 +834,16 @@ export type SupportTicketsGetResponse = SupportTicketDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SupportTicketDetails;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SupportTicketDetails;
+  };
 };
 
 /**
@@ -857,16 +854,16 @@ export type SupportTicketsUpdateResponse = SupportTicketDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SupportTicketDetails;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SupportTicketDetails;
+  };
 };
 
 /**
@@ -877,16 +874,16 @@ export type SupportTicketsCreateResponse = SupportTicketDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SupportTicketDetails;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SupportTicketDetails;
+  };
 };
 
 /**
@@ -897,16 +894,16 @@ export type SupportTicketsBeginCreateResponse = SupportTicketDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SupportTicketDetails;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SupportTicketDetails;
+  };
 };
 
 /**
@@ -917,16 +914,16 @@ export type SupportTicketsListNextResponse = SupportTicketsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SupportTicketsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SupportTicketsListResult;
+  };
 };
 
 /**
@@ -937,16 +934,16 @@ export type CommunicationsCheckNameAvailabilityResponse = CheckNameAvailabilityO
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityOutput;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityOutput;
+  };
 };
 
 /**
@@ -957,16 +954,16 @@ export type CommunicationsListResponse = CommunicationsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommunicationsListResult;
+  };
 };
 
 /**
@@ -977,16 +974,16 @@ export type CommunicationsGetResponse = CommunicationDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationDetails;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommunicationDetails;
+  };
 };
 
 /**
@@ -997,16 +994,16 @@ export type CommunicationsCreateResponse = CommunicationDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationDetails;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommunicationDetails;
+  };
 };
 
 /**
@@ -1017,16 +1014,16 @@ export type CommunicationsBeginCreateResponse = CommunicationDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationDetails;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommunicationDetails;
+  };
 };
 
 /**
@@ -1037,14 +1034,14 @@ export type CommunicationsListNextResponse = CommunicationsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommunicationsListResult;
+  };
 };

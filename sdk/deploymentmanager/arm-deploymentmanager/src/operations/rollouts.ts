@@ -36,9 +36,14 @@ export class Rollouts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RolloutsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, rolloutName: string, options?: Models.RolloutsCreateOrUpdateOptionalParams): Promise<Models.RolloutsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,rolloutName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RolloutsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    rolloutName: string,
+    options?: Models.RolloutsCreateOrUpdateOptionalParams
+  ): Promise<Models.RolloutsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName, rolloutName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.RolloutsCreateOrUpdateResponse>;
   }
 
   /**
@@ -48,21 +53,39 @@ export class Rollouts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RolloutsGetResponse>
    */
-  get(resourceGroupName: string, rolloutName: string, options?: Models.RolloutsGetOptionalParams): Promise<Models.RolloutsGetResponse>;
+  get(
+    resourceGroupName: string,
+    rolloutName: string,
+    options?: Models.RolloutsGetOptionalParams
+  ): Promise<Models.RolloutsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rolloutName The rollout name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, rolloutName: string, callback: msRest.ServiceCallback<Models.Rollout>): void;
+  get(
+    resourceGroupName: string,
+    rolloutName: string,
+    callback: msRest.ServiceCallback<Models.Rollout>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rolloutName The rollout name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, rolloutName: string, options: Models.RolloutsGetOptionalParams, callback: msRest.ServiceCallback<Models.Rollout>): void;
-  get(resourceGroupName: string, rolloutName: string, options?: Models.RolloutsGetOptionalParams | msRest.ServiceCallback<Models.Rollout>, callback?: msRest.ServiceCallback<Models.Rollout>): Promise<Models.RolloutsGetResponse> {
+  get(
+    resourceGroupName: string,
+    rolloutName: string,
+    options: Models.RolloutsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.Rollout>
+  ): void;
+  get(
+    resourceGroupName: string,
+    rolloutName: string,
+    options?: Models.RolloutsGetOptionalParams | msRest.ServiceCallback<Models.Rollout>,
+    callback?: msRest.ServiceCallback<Models.Rollout>
+  ): Promise<Models.RolloutsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -70,7 +93,8 @@ export class Rollouts {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RolloutsGetResponse>;
+      callback
+    ) as Promise<Models.RolloutsGetResponse>;
   }
 
   /**
@@ -81,21 +105,39 @@ export class Rollouts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, rolloutName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    rolloutName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rolloutName The rollout name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, rolloutName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    rolloutName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rolloutName The rollout name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, rolloutName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, rolloutName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    rolloutName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    rolloutName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +145,8 @@ export class Rollouts {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -114,21 +157,39 @@ export class Rollouts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RolloutsCancelResponse>
    */
-  cancel(resourceGroupName: string, rolloutName: string, options?: msRest.RequestOptionsBase): Promise<Models.RolloutsCancelResponse>;
+  cancel(
+    resourceGroupName: string,
+    rolloutName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RolloutsCancelResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rolloutName The rollout name.
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, rolloutName: string, callback: msRest.ServiceCallback<Models.Rollout>): void;
+  cancel(
+    resourceGroupName: string,
+    rolloutName: string,
+    callback: msRest.ServiceCallback<Models.Rollout>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rolloutName The rollout name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, rolloutName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Rollout>): void;
-  cancel(resourceGroupName: string, rolloutName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Rollout>, callback?: msRest.ServiceCallback<Models.Rollout>): Promise<Models.RolloutsCancelResponse> {
+  cancel(
+    resourceGroupName: string,
+    rolloutName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Rollout>
+  ): void;
+  cancel(
+    resourceGroupName: string,
+    rolloutName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Rollout>,
+    callback?: msRest.ServiceCallback<Models.Rollout>
+  ): Promise<Models.RolloutsCancelResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +197,8 @@ export class Rollouts {
         options
       },
       cancelOperationSpec,
-      callback) as Promise<Models.RolloutsCancelResponse>;
+      callback
+    ) as Promise<Models.RolloutsCancelResponse>;
   }
 
   /**
@@ -147,21 +209,39 @@ export class Rollouts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RolloutsRestartResponse>
    */
-  restart(resourceGroupName: string, rolloutName: string, options?: Models.RolloutsRestartOptionalParams): Promise<Models.RolloutsRestartResponse>;
+  restart(
+    resourceGroupName: string,
+    rolloutName: string,
+    options?: Models.RolloutsRestartOptionalParams
+  ): Promise<Models.RolloutsRestartResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rolloutName The rollout name.
    * @param callback The callback
    */
-  restart(resourceGroupName: string, rolloutName: string, callback: msRest.ServiceCallback<Models.Rollout>): void;
+  restart(
+    resourceGroupName: string,
+    rolloutName: string,
+    callback: msRest.ServiceCallback<Models.Rollout>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param rolloutName The rollout name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  restart(resourceGroupName: string, rolloutName: string, options: Models.RolloutsRestartOptionalParams, callback: msRest.ServiceCallback<Models.Rollout>): void;
-  restart(resourceGroupName: string, rolloutName: string, options?: Models.RolloutsRestartOptionalParams | msRest.ServiceCallback<Models.Rollout>, callback?: msRest.ServiceCallback<Models.Rollout>): Promise<Models.RolloutsRestartResponse> {
+  restart(
+    resourceGroupName: string,
+    rolloutName: string,
+    options: Models.RolloutsRestartOptionalParams,
+    callback: msRest.ServiceCallback<Models.Rollout>
+  ): void;
+  restart(
+    resourceGroupName: string,
+    rolloutName: string,
+    options?: Models.RolloutsRestartOptionalParams | msRest.ServiceCallback<Models.Rollout>,
+    callback?: msRest.ServiceCallback<Models.Rollout>
+  ): Promise<Models.RolloutsRestartResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +249,8 @@ export class Rollouts {
         options
       },
       restartOperationSpec,
-      callback) as Promise<Models.RolloutsRestartResponse>;
+      callback
+    ) as Promise<Models.RolloutsRestartResponse>;
   }
 
   /**
@@ -178,7 +259,10 @@ export class Rollouts {
    * @param [options] The optional parameters
    * @returns Promise<Models.RolloutsListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.RolloutsListResponse>;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RolloutsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
@@ -189,15 +273,24 @@ export class Rollouts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Rollout[]>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Rollout[]>, callback?: msRest.ServiceCallback<Models.Rollout[]>): Promise<Models.RolloutsListResponse> {
+  list(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Rollout[]>
+  ): void;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Rollout[]>,
+    callback?: msRest.ServiceCallback<Models.Rollout[]>
+  ): Promise<Models.RolloutsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.RolloutsListResponse>;
+      callback
+    ) as Promise<Models.RolloutsListResponse>;
   }
 
   /**
@@ -209,7 +302,11 @@ export class Rollouts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, rolloutName: string, options?: Models.RolloutsBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    rolloutName: string,
+    options?: Models.RolloutsBeginCreateOrUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -217,7 +314,8 @@ export class Rollouts {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -225,19 +323,11 @@ export class Rollouts {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.rolloutName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.retryAttempt
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.rolloutName],
+  queryParameters: [Parameters.apiVersion, Parameters.retryAttempt],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Rollout
@@ -251,18 +341,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.rolloutName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.rolloutName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -275,18 +358,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const cancelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}/cancel",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.rolloutName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}/cancel",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.rolloutName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Rollout
@@ -300,19 +376,11 @@ const cancelOperationSpec: msRest.OperationSpec = {
 
 const restartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}/restart",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.rolloutName
-  ],
-  queryParameters: [
-    Parameters.skipSucceeded,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}/restart",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.rolloutName],
+  queryParameters: [Parameters.skipSucceeded, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Rollout
@@ -326,17 +394,11 @@ const restartOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -361,23 +423,13 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.rolloutName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/rollouts/{rolloutName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.rolloutName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "rolloutRequest"
-    ],
+    parameterPath: ["options", "rolloutRequest"],
     mapper: Mappers.RolloutRequest
   },
   responses: {

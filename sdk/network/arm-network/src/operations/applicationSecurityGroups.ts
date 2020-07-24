@@ -34,9 +34,16 @@ export class ApplicationSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, applicationSecurityGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,applicationSecurityGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    applicationSecurityGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      applicationSecurityGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -46,21 +53,39 @@ export class ApplicationSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationSecurityGroupsGetResponse>
    */
-  get(resourceGroupName: string, applicationSecurityGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationSecurityGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    applicationSecurityGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationSecurityGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param applicationSecurityGroupName The name of the application security group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, applicationSecurityGroupName: string, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroup>): void;
+  get(
+    resourceGroupName: string,
+    applicationSecurityGroupName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationSecurityGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param applicationSecurityGroupName The name of the application security group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, applicationSecurityGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroup>): void;
-  get(resourceGroupName: string, applicationSecurityGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroup>, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroup>): Promise<Models.ApplicationSecurityGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    applicationSecurityGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationSecurityGroup>
+  ): void;
+  get(
+    resourceGroupName: string,
+    applicationSecurityGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroup>,
+    callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroup>
+  ): Promise<Models.ApplicationSecurityGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +93,8 @@ export class ApplicationSecurityGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ApplicationSecurityGroupsGetResponse>;
+      callback
+    ) as Promise<Models.ApplicationSecurityGroupsGetResponse>;
   }
 
   /**
@@ -80,9 +106,20 @@ export class ApplicationSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationSecurityGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, applicationSecurityGroupName: string, parameters: Models.ApplicationSecurityGroup, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationSecurityGroupsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,applicationSecurityGroupName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApplicationSecurityGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    applicationSecurityGroupName: string,
+    parameters: Models.ApplicationSecurityGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationSecurityGroupsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      applicationSecurityGroupName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ApplicationSecurityGroupsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -93,14 +130,24 @@ export class ApplicationSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, applicationSecurityGroupName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    applicationSecurityGroupName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param applicationSecurityGroupName The name of the application security group.
    * @param parameters Parameters supplied to update application security group tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, applicationSecurityGroupName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroup>): void;
+  updateTags(
+    resourceGroupName: string,
+    applicationSecurityGroupName: string,
+    parameters: Models.TagsObject,
+    callback: msRest.ServiceCallback<Models.ApplicationSecurityGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param applicationSecurityGroupName The name of the application security group.
@@ -108,8 +155,20 @@ export class ApplicationSecurityGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, applicationSecurityGroupName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroup>): void;
-  updateTags(resourceGroupName: string, applicationSecurityGroupName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroup>, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroup>): Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    applicationSecurityGroupName: string,
+    parameters: Models.TagsObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationSecurityGroup>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    applicationSecurityGroupName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroup>,
+    callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroup>
+  ): Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -118,7 +177,8 @@ export class ApplicationSecurityGroups {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.ApplicationSecurityGroupsUpdateTagsResponse>;
   }
 
   /**
@@ -126,7 +186,9 @@ export class ApplicationSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationSecurityGroupsListAllResponse>
    */
-  listAll(options?: msRest.RequestOptionsBase): Promise<Models.ApplicationSecurityGroupsListAllResponse>;
+  listAll(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationSecurityGroupsListAllResponse>;
   /**
    * @param callback The callback
    */
@@ -135,14 +197,23 @@ export class ApplicationSecurityGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): Promise<Models.ApplicationSecurityGroupsListAllResponse> {
+  listAll(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>
+  ): void;
+  listAll(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>
+  ): Promise<Models.ApplicationSecurityGroupsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAllOperationSpec,
-      callback) as Promise<Models.ApplicationSecurityGroupsListAllResponse>;
+      callback
+    ) as Promise<Models.ApplicationSecurityGroupsListAllResponse>;
   }
 
   /**
@@ -151,26 +222,43 @@ export class ApplicationSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationSecurityGroupsListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationSecurityGroupsListResponse>;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationSecurityGroupsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): void;
+  list(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): Promise<Models.ApplicationSecurityGroupsListResponse> {
+  list(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>
+  ): Promise<Models.ApplicationSecurityGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ApplicationSecurityGroupsListResponse>;
+      callback
+    ) as Promise<Models.ApplicationSecurityGroupsListResponse>;
   }
 
   /**
@@ -180,7 +268,11 @@ export class ApplicationSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, applicationSecurityGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    applicationSecurityGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -188,7 +280,8 @@ export class ApplicationSecurityGroups {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -200,7 +293,12 @@ export class ApplicationSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, applicationSecurityGroupName: string, parameters: Models.ApplicationSecurityGroup, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    applicationSecurityGroupName: string,
+    parameters: Models.ApplicationSecurityGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -209,7 +307,8 @@ export class ApplicationSecurityGroups {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -218,26 +317,43 @@ export class ApplicationSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationSecurityGroupsListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationSecurityGroupsListAllNextResponse>;
+  listAllNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationSecurityGroupsListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): void;
+  listAllNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): Promise<Models.ApplicationSecurityGroupsListAllNextResponse> {
+  listAllNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>
+  ): void;
+  listAllNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>
+  ): Promise<Models.ApplicationSecurityGroupsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAllNextOperationSpec,
-      callback) as Promise<Models.ApplicationSecurityGroupsListAllNextResponse>;
+      callback
+    ) as Promise<Models.ApplicationSecurityGroupsListAllNextResponse>;
   }
 
   /**
@@ -246,26 +362,43 @@ export class ApplicationSecurityGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationSecurityGroupsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationSecurityGroupsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationSecurityGroupsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>, callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>): Promise<Models.ApplicationSecurityGroupsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationSecurityGroupListResult>
+  ): Promise<Models.ApplicationSecurityGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ApplicationSecurityGroupsListNextResponse>;
+      callback
+    ) as Promise<Models.ApplicationSecurityGroupsListNextResponse>;
   }
 }
 
@@ -273,18 +406,15 @@ export class ApplicationSecurityGroups {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.applicationSecurityGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationSecurityGroup
@@ -298,18 +428,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.applicationSecurityGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -331,15 +458,9 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 const listAllOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationSecurityGroups",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationSecurityGroupListResult
@@ -353,17 +474,11 @@ const listAllOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationSecurityGroupListResult
@@ -377,18 +492,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.applicationSecurityGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -402,18 +514,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.applicationSecurityGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -439,12 +548,8 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationSecurityGroupListResult
@@ -460,12 +565,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationSecurityGroupListResult

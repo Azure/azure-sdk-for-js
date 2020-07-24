@@ -24,4 +24,3 @@ export {
   UpdateJobParameters,
   PutJobParameters
 } from "../models/mappers";
-

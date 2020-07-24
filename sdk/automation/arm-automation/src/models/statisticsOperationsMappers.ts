@@ -8,9 +8,4 @@
  * regenerated.
  */
 
-export {
-  StatisticsListResult,
-  Statistics,
-  ErrorResponse
-} from "../models/mappers";
-
+export { StatisticsListResult, Statistics, ErrorResponse } from "../models/mappers";

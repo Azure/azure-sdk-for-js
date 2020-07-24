@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { VisualStudioResourceProviderClientContext } from "./visualStudioResourceProviderClientContext";
 
-
 class VisualStudioResourceProviderClient extends VisualStudioResourceProviderClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -28,7 +27,11 @@ class VisualStudioResourceProviderClient extends VisualStudioResourceProviderCli
    * @param subscriptionId The Azure subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.VisualStudioResourceProviderClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.VisualStudioResourceProviderClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.accounts = new operations.Accounts(this);

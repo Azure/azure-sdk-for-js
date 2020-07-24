@@ -152,7 +152,8 @@ export interface PartitionKeyProperty {
 /**
  * Parameters supplied to the CreateOrUpdate Environment operation.
  */
-export interface EnvironmentCreateOrUpdateParameters extends CreateOrUpdateTrackedResourceProperties {
+export interface EnvironmentCreateOrUpdateParameters
+  extends CreateOrUpdateTrackedResourceProperties {
   /**
    * The sku determines the capacity of the environment, the SLA (in queries-per-minute and total
    * capacity), and the billing rate.
@@ -319,7 +320,10 @@ export interface EnvironmentListResponse {
 /**
  * Contains the possible cases for EventSourceCreateOrUpdateParameters.
  */
-export type EventSourceCreateOrUpdateParametersUnion = EventSourceCreateOrUpdateParameters | EventHubEventSourceCreateOrUpdateParameters | IoTHubEventSourceCreateOrUpdateParameters;
+export type EventSourceCreateOrUpdateParametersUnion =
+  | EventSourceCreateOrUpdateParameters
+  | EventHubEventSourceCreateOrUpdateParameters
+  | IoTHubEventSourceCreateOrUpdateParameters;
 
 /**
  * Parameters supplied to the Create or Update Event Source operation.
@@ -519,7 +523,10 @@ export interface IoTHubEventSourceUpdateParameters extends EventSourceUpdatePara
 /**
  * Contains the possible cases for EventSourceResource.
  */
-export type EventSourceResourceUnion = EventSourceResource | EventHubEventSourceResource | IoTHubEventSourceResource;
+export type EventSourceResourceUnion =
+  | EventSourceResource
+  | EventHubEventSourceResource
+  | IoTHubEventSourceResource;
 
 /**
  * An environment receives data from one or more event sources. Each event source has associated
@@ -843,7 +850,8 @@ export interface ReferenceDataSetKeyProperty {
 /**
  * An interface representing ReferenceDataSetCreateOrUpdateParameters.
  */
-export interface ReferenceDataSetCreateOrUpdateParameters extends CreateOrUpdateTrackedResourceProperties {
+export interface ReferenceDataSetCreateOrUpdateParameters
+  extends CreateOrUpdateTrackedResourceProperties {
   /**
    * The list of key properties for the reference data set.
    */
@@ -1009,7 +1017,13 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Accepted' | 'Creating' | 'Updating' | 'Succeeded' | 'Failed' | 'Deleting';
+export type ProvisioningState =
+  | "Accepted"
+  | "Creating"
+  | "Updating"
+  | "Succeeded"
+  | "Failed"
+  | "Deleting";
 
 /**
  * Defines values for SkuName.
@@ -1017,7 +1031,7 @@ export type ProvisioningState = 'Accepted' | 'Creating' | 'Updating' | 'Succeede
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'S1' | 'S2';
+export type SkuName = "S1" | "S2";
 
 /**
  * Defines values for StorageLimitExceededBehavior.
@@ -1025,7 +1039,7 @@ export type SkuName = 'S1' | 'S2';
  * @readonly
  * @enum {string}
  */
-export type StorageLimitExceededBehavior = 'PurgeOldData' | 'PauseIngress';
+export type StorageLimitExceededBehavior = "PurgeOldData" | "PauseIngress";
 
 /**
  * Defines values for PropertyType.
@@ -1033,7 +1047,7 @@ export type StorageLimitExceededBehavior = 'PurgeOldData' | 'PauseIngress';
  * @readonly
  * @enum {string}
  */
-export type PropertyType = 'String';
+export type PropertyType = "String";
 
 /**
  * Defines values for IngressState.
@@ -1041,7 +1055,7 @@ export type PropertyType = 'String';
  * @readonly
  * @enum {string}
  */
-export type IngressState = 'Disabled' | 'Ready' | 'Running' | 'Paused' | 'Unknown';
+export type IngressState = "Disabled" | "Ready" | "Running" | "Paused" | "Unknown";
 
 /**
  * Defines values for LocalTimestampFormat.
@@ -1049,7 +1063,7 @@ export type IngressState = 'Disabled' | 'Ready' | 'Running' | 'Paused' | 'Unknow
  * @readonly
  * @enum {string}
  */
-export type LocalTimestampFormat = 'Embedded' | 'Iana' | 'TimeSpan';
+export type LocalTimestampFormat = "Embedded" | "Iana" | "TimeSpan";
 
 /**
  * Defines values for ReferenceDataKeyPropertyType.
@@ -1057,7 +1071,7 @@ export type LocalTimestampFormat = 'Embedded' | 'Iana' | 'TimeSpan';
  * @readonly
  * @enum {string}
  */
-export type ReferenceDataKeyPropertyType = 'String' | 'Double' | 'Bool' | 'DateTime';
+export type ReferenceDataKeyPropertyType = "String" | "Double" | "Bool" | "DateTime";
 
 /**
  * Defines values for DataStringComparisonBehavior.
@@ -1065,7 +1079,7 @@ export type ReferenceDataKeyPropertyType = 'String' | 'Double' | 'Bool' | 'DateT
  * @readonly
  * @enum {string}
  */
-export type DataStringComparisonBehavior = 'Ordinal' | 'OrdinalIgnoreCase';
+export type DataStringComparisonBehavior = "Ordinal" | "OrdinalIgnoreCase";
 
 /**
  * Defines values for AccessPolicyRole.
@@ -1073,7 +1087,7 @@ export type DataStringComparisonBehavior = 'Ordinal' | 'OrdinalIgnoreCase';
  * @readonly
  * @enum {string}
  */
-export type AccessPolicyRole = 'Reader' | 'Contributor';
+export type AccessPolicyRole = "Reader" | "Contributor";
 
 /**
  * Contains response data for the list operation.
@@ -1083,16 +1097,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1103,16 +1117,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1123,16 +1137,16 @@ export type EnvironmentsCreateOrUpdateResponse = EnvironmentResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnvironmentResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnvironmentResource;
+  };
 };
 
 /**
@@ -1143,16 +1157,16 @@ export type EnvironmentsGetResponse = EnvironmentResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnvironmentResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnvironmentResource;
+  };
 };
 
 /**
@@ -1163,16 +1177,16 @@ export type EnvironmentsUpdateResponse = EnvironmentResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnvironmentResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnvironmentResource;
+  };
 };
 
 /**
@@ -1183,16 +1197,16 @@ export type EnvironmentsListByResourceGroupResponse = EnvironmentListResponse & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnvironmentListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnvironmentListResponse;
+  };
 };
 
 /**
@@ -1203,16 +1217,16 @@ export type EnvironmentsListBySubscriptionResponse = EnvironmentListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnvironmentListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnvironmentListResponse;
+  };
 };
 
 /**
@@ -1223,16 +1237,16 @@ export type EnvironmentsBeginCreateOrUpdateResponse = EnvironmentResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnvironmentResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnvironmentResource;
+  };
 };
 
 /**
@@ -1243,16 +1257,16 @@ export type EnvironmentsBeginUpdateResponse = EnvironmentResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnvironmentResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnvironmentResource;
+  };
 };
 
 /**
@@ -1263,16 +1277,16 @@ export type EventSourcesCreateOrUpdateResponse = EventSourceResourceUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSourceResourceUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSourceResourceUnion;
+  };
 };
 
 /**
@@ -1283,16 +1297,16 @@ export type EventSourcesGetResponse = EventSourceResourceUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSourceResourceUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSourceResourceUnion;
+  };
 };
 
 /**
@@ -1303,16 +1317,16 @@ export type EventSourcesUpdateResponse = EventSourceResourceUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSourceResourceUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSourceResourceUnion;
+  };
 };
 
 /**
@@ -1323,16 +1337,16 @@ export type EventSourcesListByEnvironmentResponse = EventSourceListResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSourceListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSourceListResponse;
+  };
 };
 
 /**
@@ -1343,16 +1357,16 @@ export type ReferenceDataSetsCreateOrUpdateResponse = ReferenceDataSetResource &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReferenceDataSetResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReferenceDataSetResource;
+  };
 };
 
 /**
@@ -1363,16 +1377,16 @@ export type ReferenceDataSetsGetResponse = ReferenceDataSetResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReferenceDataSetResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReferenceDataSetResource;
+  };
 };
 
 /**
@@ -1383,16 +1397,16 @@ export type ReferenceDataSetsUpdateResponse = ReferenceDataSetResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReferenceDataSetResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReferenceDataSetResource;
+  };
 };
 
 /**
@@ -1403,16 +1417,16 @@ export type ReferenceDataSetsListByEnvironmentResponse = ReferenceDataSetListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReferenceDataSetListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReferenceDataSetListResponse;
+  };
 };
 
 /**
@@ -1423,16 +1437,16 @@ export type AccessPoliciesCreateOrUpdateResponse = AccessPolicyResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessPolicyResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessPolicyResource;
+  };
 };
 
 /**
@@ -1443,16 +1457,16 @@ export type AccessPoliciesGetResponse = AccessPolicyResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessPolicyResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessPolicyResource;
+  };
 };
 
 /**
@@ -1463,16 +1477,16 @@ export type AccessPoliciesUpdateResponse = AccessPolicyResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessPolicyResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessPolicyResource;
+  };
 };
 
 /**
@@ -1483,14 +1497,14 @@ export type AccessPoliciesListByEnvironmentResponse = AccessPolicyListResponse &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessPolicyListResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessPolicyListResponse;
+  };
 };

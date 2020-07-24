@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { DnsManagementClientContext } from "./dnsManagementClientContext";
 
-
 class DnsManagementClient extends DnsManagementClientContext {
   // Operation groups
   recordSets: operations.RecordSets;
@@ -28,7 +27,11 @@ class DnsManagementClient extends DnsManagementClientContext {
    * Microsoft Azure subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DnsManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.DnsManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.recordSets = new operations.RecordSets(this);
     this.zones = new operations.Zones(this);

@@ -8,9 +8,4 @@
  * regenerated.
  */
 
-export {
-  discriminators,
-  ContainerHostMapping,
-  CloudError
-} from "../models/mappers";
-
+export { discriminators, ContainerHostMapping, CloudError } from "../models/mappers";

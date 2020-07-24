@@ -42,13 +42,17 @@ export class Share {
    * @param callback The callback
    */
   create(options: Models.ShareCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  create(options?: Models.ShareCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareCreateResponse> {
+  create(
+    options?: Models.ShareCreateOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.ShareCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.ShareCreateResponse>;
+      callback
+    ) as Promise<Models.ShareCreateResponse>;
   }
 
   /**
@@ -57,7 +61,9 @@ export class Share {
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareGetPropertiesResponse>
    */
-  getProperties(options?: Models.ShareGetPropertiesOptionalParams): Promise<Models.ShareGetPropertiesResponse>;
+  getProperties(
+    options?: Models.ShareGetPropertiesOptionalParams
+  ): Promise<Models.ShareGetPropertiesResponse>;
   /**
    * @param callback The callback
    */
@@ -66,14 +72,21 @@ export class Share {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.ShareGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  getProperties(options?: Models.ShareGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareGetPropertiesResponse> {
+  getProperties(
+    options: Models.ShareGetPropertiesOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  getProperties(
+    options?: Models.ShareGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.ShareGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getPropertiesOperationSpec,
-      callback) as Promise<Models.ShareGetPropertiesResponse>;
+      callback
+    ) as Promise<Models.ShareGetPropertiesResponse>;
   }
 
   /**
@@ -82,7 +95,9 @@ export class Share {
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareDeleteResponse>
    */
-  deleteMethod(options?: Models.ShareDeleteMethodOptionalParams): Promise<Models.ShareDeleteResponse>;
+  deleteMethod(
+    options?: Models.ShareDeleteMethodOptionalParams
+  ): Promise<Models.ShareDeleteResponse>;
   /**
    * @param callback The callback
    */
@@ -91,14 +106,21 @@ export class Share {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(options: Models.ShareDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.ShareDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareDeleteResponse> {
+  deleteMethod(
+    options: Models.ShareDeleteMethodOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    options?: Models.ShareDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.ShareDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.ShareDeleteResponse>;
+      callback
+    ) as Promise<Models.ShareDeleteResponse>;
   }
 
   /**
@@ -106,7 +128,9 @@ export class Share {
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareCreateSnapshotResponse>
    */
-  createSnapshot(options?: Models.ShareCreateSnapshotOptionalParams): Promise<Models.ShareCreateSnapshotResponse>;
+  createSnapshot(
+    options?: Models.ShareCreateSnapshotOptionalParams
+  ): Promise<Models.ShareCreateSnapshotResponse>;
   /**
    * @param callback The callback
    */
@@ -115,14 +139,21 @@ export class Share {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createSnapshot(options: Models.ShareCreateSnapshotOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  createSnapshot(options?: Models.ShareCreateSnapshotOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareCreateSnapshotResponse> {
+  createSnapshot(
+    options: Models.ShareCreateSnapshotOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  createSnapshot(
+    options?: Models.ShareCreateSnapshotOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.ShareCreateSnapshotResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       createSnapshotOperationSpec,
-      callback) as Promise<Models.ShareCreateSnapshotResponse>;
+      callback
+    ) as Promise<Models.ShareCreateSnapshotResponse>;
   }
 
   /**
@@ -131,26 +162,41 @@ export class Share {
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareCreatePermissionResponse>
    */
-  createPermission(sharePermission: Models.SharePermission, options?: Models.ShareCreatePermissionOptionalParams): Promise<Models.ShareCreatePermissionResponse>;
+  createPermission(
+    sharePermission: Models.SharePermission,
+    options?: Models.ShareCreatePermissionOptionalParams
+  ): Promise<Models.ShareCreatePermissionResponse>;
   /**
    * @param sharePermission A permission (a security descriptor) at the share level.
    * @param callback The callback
    */
-  createPermission(sharePermission: Models.SharePermission, callback: coreHttp.ServiceCallback<void>): void;
+  createPermission(
+    sharePermission: Models.SharePermission,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param sharePermission A permission (a security descriptor) at the share level.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createPermission(sharePermission: Models.SharePermission, options: Models.ShareCreatePermissionOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  createPermission(sharePermission: Models.SharePermission, options?: Models.ShareCreatePermissionOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareCreatePermissionResponse> {
+  createPermission(
+    sharePermission: Models.SharePermission,
+    options: Models.ShareCreatePermissionOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  createPermission(
+    sharePermission: Models.SharePermission,
+    options?: Models.ShareCreatePermissionOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.ShareCreatePermissionResponse> {
     return this.client.sendOperationRequest(
       {
         sharePermission,
         options
       },
       createPermissionOperationSpec,
-      callback) as Promise<Models.ShareCreatePermissionResponse>;
+      callback
+    ) as Promise<Models.ShareCreatePermissionResponse>;
   }
 
   /**
@@ -159,26 +205,43 @@ export class Share {
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareGetPermissionResponse>
    */
-  getPermission(filePermissionKey: string, options?: Models.ShareGetPermissionOptionalParams): Promise<Models.ShareGetPermissionResponse>;
+  getPermission(
+    filePermissionKey: string,
+    options?: Models.ShareGetPermissionOptionalParams
+  ): Promise<Models.ShareGetPermissionResponse>;
   /**
    * @param filePermissionKey Key of the permission to be set for the directory/file.
    * @param callback The callback
    */
-  getPermission(filePermissionKey: string, callback: coreHttp.ServiceCallback<Models.SharePermission>): void;
+  getPermission(
+    filePermissionKey: string,
+    callback: coreHttp.ServiceCallback<Models.SharePermission>
+  ): void;
   /**
    * @param filePermissionKey Key of the permission to be set for the directory/file.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPermission(filePermissionKey: string, options: Models.ShareGetPermissionOptionalParams, callback: coreHttp.ServiceCallback<Models.SharePermission>): void;
-  getPermission(filePermissionKey: string, options?: Models.ShareGetPermissionOptionalParams | coreHttp.ServiceCallback<Models.SharePermission>, callback?: coreHttp.ServiceCallback<Models.SharePermission>): Promise<Models.ShareGetPermissionResponse> {
+  getPermission(
+    filePermissionKey: string,
+    options: Models.ShareGetPermissionOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SharePermission>
+  ): void;
+  getPermission(
+    filePermissionKey: string,
+    options?:
+      | Models.ShareGetPermissionOptionalParams
+      | coreHttp.ServiceCallback<Models.SharePermission>,
+    callback?: coreHttp.ServiceCallback<Models.SharePermission>
+  ): Promise<Models.ShareGetPermissionResponse> {
     return this.client.sendOperationRequest(
       {
         filePermissionKey,
         options
       },
       getPermissionOperationSpec,
-      callback) as Promise<Models.ShareGetPermissionResponse>;
+      callback
+    ) as Promise<Models.ShareGetPermissionResponse>;
   }
 
   /**
@@ -195,14 +258,21 @@ export class Share {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setQuota(options: Models.ShareSetQuotaOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setQuota(options?: Models.ShareSetQuotaOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareSetQuotaResponse> {
+  setQuota(
+    options: Models.ShareSetQuotaOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setQuota(
+    options?: Models.ShareSetQuotaOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.ShareSetQuotaResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setQuotaOperationSpec,
-      callback) as Promise<Models.ShareSetQuotaResponse>;
+      callback
+    ) as Promise<Models.ShareSetQuotaResponse>;
   }
 
   /**
@@ -210,7 +280,9 @@ export class Share {
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareSetMetadataResponse>
    */
-  setMetadata(options?: Models.ShareSetMetadataOptionalParams): Promise<Models.ShareSetMetadataResponse>;
+  setMetadata(
+    options?: Models.ShareSetMetadataOptionalParams
+  ): Promise<Models.ShareSetMetadataResponse>;
   /**
    * @param callback The callback
    */
@@ -219,14 +291,21 @@ export class Share {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setMetadata(options: Models.ShareSetMetadataOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setMetadata(options?: Models.ShareSetMetadataOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareSetMetadataResponse> {
+  setMetadata(
+    options: Models.ShareSetMetadataOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setMetadata(
+    options?: Models.ShareSetMetadataOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.ShareSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setMetadataOperationSpec,
-      callback) as Promise<Models.ShareSetMetadataResponse>;
+      callback
+    ) as Promise<Models.ShareSetMetadataResponse>;
   }
 
   /**
@@ -234,7 +313,9 @@ export class Share {
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareGetAccessPolicyResponse>
    */
-  getAccessPolicy(options?: Models.ShareGetAccessPolicyOptionalParams): Promise<Models.ShareGetAccessPolicyResponse>;
+  getAccessPolicy(
+    options?: Models.ShareGetAccessPolicyOptionalParams
+  ): Promise<Models.ShareGetAccessPolicyResponse>;
   /**
    * @param callback The callback
    */
@@ -243,14 +324,23 @@ export class Share {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAccessPolicy(options: Models.ShareGetAccessPolicyOptionalParams, callback: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): void;
-  getAccessPolicy(options?: Models.ShareGetAccessPolicyOptionalParams | coreHttp.ServiceCallback<Models.SignedIdentifier[]>, callback?: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.ShareGetAccessPolicyResponse> {
+  getAccessPolicy(
+    options: Models.ShareGetAccessPolicyOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SignedIdentifier[]>
+  ): void;
+  getAccessPolicy(
+    options?:
+      | Models.ShareGetAccessPolicyOptionalParams
+      | coreHttp.ServiceCallback<Models.SignedIdentifier[]>,
+    callback?: coreHttp.ServiceCallback<Models.SignedIdentifier[]>
+  ): Promise<Models.ShareGetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getAccessPolicyOperationSpec,
-      callback) as Promise<Models.ShareGetAccessPolicyResponse>;
+      callback
+    ) as Promise<Models.ShareGetAccessPolicyResponse>;
   }
 
   /**
@@ -258,7 +348,9 @@ export class Share {
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareSetAccessPolicyResponse>
    */
-  setAccessPolicy(options?: Models.ShareSetAccessPolicyOptionalParams): Promise<Models.ShareSetAccessPolicyResponse>;
+  setAccessPolicy(
+    options?: Models.ShareSetAccessPolicyOptionalParams
+  ): Promise<Models.ShareSetAccessPolicyResponse>;
   /**
    * @param callback The callback
    */
@@ -267,14 +359,21 @@ export class Share {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setAccessPolicy(options: Models.ShareSetAccessPolicyOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setAccessPolicy(options?: Models.ShareSetAccessPolicyOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareSetAccessPolicyResponse> {
+  setAccessPolicy(
+    options: Models.ShareSetAccessPolicyOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setAccessPolicy(
+    options?: Models.ShareSetAccessPolicyOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.ShareSetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setAccessPolicyOperationSpec,
-      callback) as Promise<Models.ShareSetAccessPolicyResponse>;
+      callback
+    ) as Promise<Models.ShareSetAccessPolicyResponse>;
   }
 
   /**
@@ -282,7 +381,9 @@ export class Share {
    * @param [options] The optional parameters
    * @returns Promise<Models.ShareGetStatisticsResponse>
    */
-  getStatistics(options?: Models.ShareGetStatisticsOptionalParams): Promise<Models.ShareGetStatisticsResponse>;
+  getStatistics(
+    options?: Models.ShareGetStatisticsOptionalParams
+  ): Promise<Models.ShareGetStatisticsResponse>;
   /**
    * @param callback The callback
    */
@@ -291,14 +392,21 @@ export class Share {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatistics(options: Models.ShareGetStatisticsOptionalParams, callback: coreHttp.ServiceCallback<Models.ShareStats>): void;
-  getStatistics(options?: Models.ShareGetStatisticsOptionalParams | coreHttp.ServiceCallback<Models.ShareStats>, callback?: coreHttp.ServiceCallback<Models.ShareStats>): Promise<Models.ShareGetStatisticsResponse> {
+  getStatistics(
+    options: Models.ShareGetStatisticsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ShareStats>
+  ): void;
+  getStatistics(
+    options?: Models.ShareGetStatisticsOptionalParams | coreHttp.ServiceCallback<Models.ShareStats>,
+    callback?: coreHttp.ServiceCallback<Models.ShareStats>
+  ): Promise<Models.ShareGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getStatisticsOperationSpec,
-      callback) as Promise<Models.ShareGetStatisticsResponse>;
+      callback
+    ) as Promise<Models.ShareGetStatisticsResponse>;
   }
 
   /**
@@ -315,14 +423,21 @@ export class Share {
    * @param options The optional parameters
    * @param callback The callback
    */
-  restore(options: Models.ShareRestoreOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  restore(options?: Models.ShareRestoreOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ShareRestoreResponse> {
+  restore(
+    options: Models.ShareRestoreOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  restore(
+    options?: Models.ShareRestoreOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.ShareRestoreResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       restoreOperationSpec,
-      callback) as Promise<Models.ShareRestoreResponse>;
+      callback
+    ) as Promise<Models.ShareRestoreResponse>;
   }
 }
 
@@ -331,18 +446,9 @@ const serializer = new coreHttp.Serializer(Mappers, true);
 const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype1
-  ],
-  headerParameters: [
-    Parameters.metadata,
-    Parameters.quota,
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype1],
+  headerParameters: [Parameters.metadata, Parameters.quota, Parameters.version],
   responses: {
     201: {
       headersMapper: Mappers.ShareCreateHeaders
@@ -359,17 +465,9 @@ const createOperationSpec: coreHttp.OperationSpec = {
 const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.shareSnapshot,
-    Parameters.timeoutInSeconds,
-    Parameters.restype1
-  ],
-  headerParameters: [
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.shareSnapshot, Parameters.timeoutInSeconds, Parameters.restype1],
+  headerParameters: [Parameters.version],
   responses: {
     200: {
       headersMapper: Mappers.ShareGetPropertiesHeaders
@@ -386,18 +484,9 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
 const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{shareName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.shareSnapshot,
-    Parameters.timeoutInSeconds,
-    Parameters.restype1
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.deleteSnapshots
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.shareSnapshot, Parameters.timeoutInSeconds, Parameters.restype1],
+  headerParameters: [Parameters.version, Parameters.deleteSnapshots],
   responses: {
     202: {
       headersMapper: Mappers.ShareDeleteHeaders
@@ -414,18 +503,9 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
 const createSnapshotOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype1,
-    Parameters.comp2
-  ],
-  headerParameters: [
-    Parameters.metadata,
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype1, Parameters.comp2],
+  headerParameters: [Parameters.metadata, Parameters.version],
   responses: {
     201: {
       headersMapper: Mappers.ShareCreateSnapshotHeaders
@@ -442,17 +522,9 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
 const createPermissionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype1,
-    Parameters.comp3
-  ],
-  headerParameters: [
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype1, Parameters.comp3],
+  headerParameters: [Parameters.version],
   requestBody: {
     parameterPath: "sharePermission",
     mapper: {
@@ -477,18 +549,9 @@ const createPermissionOperationSpec: coreHttp.OperationSpec = {
 const getPermissionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype1,
-    Parameters.comp3
-  ],
-  headerParameters: [
-    Parameters.filePermissionKey0,
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype1, Parameters.comp3],
+  headerParameters: [Parameters.filePermissionKey0, Parameters.version],
   responses: {
     200: {
       bodyMapper: Mappers.SharePermission,
@@ -506,18 +569,9 @@ const getPermissionOperationSpec: coreHttp.OperationSpec = {
 const setQuotaOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype1,
-    Parameters.comp0
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.quota
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype1, Parameters.comp0],
+  headerParameters: [Parameters.version, Parameters.quota],
   responses: {
     200: {
       headersMapper: Mappers.ShareSetQuotaHeaders
@@ -534,18 +588,9 @@ const setQuotaOperationSpec: coreHttp.OperationSpec = {
 const setMetadataOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype1,
-    Parameters.comp4
-  ],
-  headerParameters: [
-    Parameters.metadata,
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype1, Parameters.comp4],
+  headerParameters: [Parameters.metadata, Parameters.version],
   responses: {
     200: {
       headersMapper: Mappers.ShareSetMetadataHeaders
@@ -562,17 +607,9 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
 const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype1,
-    Parameters.comp5
-  ],
-  headerParameters: [
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype1, Parameters.comp5],
+  headerParameters: [Parameters.version],
   responses: {
     200: {
       bodyMapper: {
@@ -602,22 +639,11 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
 const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype1,
-    Parameters.comp5
-  ],
-  headerParameters: [
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype1, Parameters.comp5],
+  headerParameters: [Parameters.version],
   requestBody: {
-    parameterPath: [
-      "options",
-      "shareAcl"
-    ],
+    parameterPath: ["options", "shareAcl"],
     mapper: {
       xmlName: "SignedIdentifiers",
       xmlElementName: "SignedIdentifier",
@@ -650,17 +676,9 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
 const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype1,
-    Parameters.comp6
-  ],
-  headerParameters: [
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype1, Parameters.comp6],
+  headerParameters: [Parameters.version],
   responses: {
     200: {
       bodyMapper: Mappers.ShareStats,
@@ -678,14 +696,8 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
 const restoreOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype1,
-    Parameters.comp7
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype1, Parameters.comp7],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,

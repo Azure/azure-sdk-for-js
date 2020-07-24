@@ -37,7 +37,12 @@ export class NotificationRecipientUser {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationRecipientUserListByNotificationResponse>
    */
-  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: msRest.RequestOptionsBase): Promise<Models.NotificationRecipientUserListByNotificationResponse>;
+  listByNotification(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationRecipientUserListByNotificationResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -47,7 +52,12 @@ export class NotificationRecipientUser {
    * 'AccountClosedPublisher', 'QuotaLimitApproachingPublisherNotificationMessage'
    * @param callback The callback
    */
-  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, callback: msRest.ServiceCallback<Models.RecipientUserCollection>): void;
+  listByNotification(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    callback: msRest.ServiceCallback<Models.RecipientUserCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -58,8 +68,20 @@ export class NotificationRecipientUser {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecipientUserCollection>): void;
-  listByNotification(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecipientUserCollection>, callback?: msRest.ServiceCallback<Models.RecipientUserCollection>): Promise<Models.NotificationRecipientUserListByNotificationResponse> {
+  listByNotification(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecipientUserCollection>
+  ): void;
+  listByNotification(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecipientUserCollection>,
+    callback?: msRest.ServiceCallback<Models.RecipientUserCollection>
+  ): Promise<Models.NotificationRecipientUserListByNotificationResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +90,8 @@ export class NotificationRecipientUser {
         options
       },
       listByNotificationOperationSpec,
-      callback) as Promise<Models.NotificationRecipientUserListByNotificationResponse>;
+      callback
+    ) as Promise<Models.NotificationRecipientUserListByNotificationResponse>;
   }
 
   /**
@@ -83,7 +106,13 @@ export class NotificationRecipientUser {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationRecipientUserCheckEntityExistsResponse>
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationRecipientUserCheckEntityExistsResponse>;
+  checkEntityExists(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    userId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationRecipientUserCheckEntityExistsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -94,7 +123,13 @@ export class NotificationRecipientUser {
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, userId: string, callback: msRest.ServiceCallback<boolean>): void;
+  checkEntityExists(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    userId: string,
+    callback: msRest.ServiceCallback<boolean>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -106,8 +141,22 @@ export class NotificationRecipientUser {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkEntityExists(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.NotificationRecipientUserCheckEntityExistsResponse> {
+  checkEntityExists(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    userId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<boolean>
+  ): void;
+  checkEntityExists(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    userId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>,
+    callback?: msRest.ServiceCallback<boolean>
+  ): Promise<Models.NotificationRecipientUserCheckEntityExistsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +166,8 @@ export class NotificationRecipientUser {
         options
       },
       checkEntityExistsOperationSpec,
-      callback) as Promise<Models.NotificationRecipientUserCheckEntityExistsResponse>;
+      callback
+    ) as Promise<Models.NotificationRecipientUserCheckEntityExistsResponse>;
   }
 
   /**
@@ -132,7 +182,13 @@ export class NotificationRecipientUser {
    * @param [options] The optional parameters
    * @returns Promise<Models.NotificationRecipientUserCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, userId: string, options?: msRest.RequestOptionsBase): Promise<Models.NotificationRecipientUserCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    userId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NotificationRecipientUserCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -143,7 +199,13 @@ export class NotificationRecipientUser {
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, userId: string, callback: msRest.ServiceCallback<Models.RecipientUserContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    userId: string,
+    callback: msRest.ServiceCallback<Models.RecipientUserContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -155,8 +217,22 @@ export class NotificationRecipientUser {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecipientUserContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecipientUserContract>, callback?: msRest.ServiceCallback<Models.RecipientUserContract>): Promise<Models.NotificationRecipientUserCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    userId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecipientUserContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    userId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecipientUserContract>,
+    callback?: msRest.ServiceCallback<Models.RecipientUserContract>
+  ): Promise<Models.NotificationRecipientUserCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +242,8 @@ export class NotificationRecipientUser {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.NotificationRecipientUserCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.NotificationRecipientUserCreateOrUpdateResponse>;
   }
 
   /**
@@ -181,7 +258,13 @@ export class NotificationRecipientUser {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, userId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    userId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -192,7 +275,13 @@ export class NotificationRecipientUser {
    * @param userId User identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, userId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    userId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -204,8 +293,22 @@ export class NotificationRecipientUser {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, userId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, notificationName: Models.NotificationName, userId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    userId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    notificationName: Models.NotificationName,
+    userId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -215,7 +318,8 @@ export class NotificationRecipientUser {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -223,19 +327,16 @@ export class NotificationRecipientUser {
 const serializer = new msRest.Serializer(Mappers);
 const listByNotificationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.notificationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecipientUserCollection
@@ -249,7 +350,8 @@ const listByNotificationOperationSpec: msRest.OperationSpec = {
 
 const checkEntityExistsOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -257,12 +359,8 @@ const checkEntityExistsOperationSpec: msRest.OperationSpec = {
     Parameters.userId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     404: {},
@@ -275,7 +373,8 @@ const checkEntityExistsOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -283,12 +382,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.userId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecipientUserContract
@@ -305,7 +400,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}/recipientUsers/{userId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -313,12 +409,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.userId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},

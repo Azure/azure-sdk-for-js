@@ -36,7 +36,13 @@ export class JobVersions {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobVersionsListByJobResponse>
    */
-  listByJob(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: msRest.RequestOptionsBase): Promise<Models.JobVersionsListByJobResponse>;
+  listByJob(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobVersionsListByJobResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -45,7 +51,13 @@ export class JobVersions {
    * @param jobName The name of the job to get.
    * @param callback The callback
    */
-  listByJob(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, callback: msRest.ServiceCallback<Models.JobVersionListResult>): void;
+  listByJob(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<Models.JobVersionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -55,8 +67,22 @@ export class JobVersions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByJob(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobVersionListResult>): void;
-  listByJob(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobVersionListResult>, callback?: msRest.ServiceCallback<Models.JobVersionListResult>): Promise<Models.JobVersionsListByJobResponse> {
+  listByJob(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobVersionListResult>
+  ): void;
+  listByJob(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobVersionListResult>,
+    callback?: msRest.ServiceCallback<Models.JobVersionListResult>
+  ): Promise<Models.JobVersionsListByJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +92,8 @@ export class JobVersions {
         options
       },
       listByJobOperationSpec,
-      callback) as Promise<Models.JobVersionsListByJobResponse>;
+      callback
+    ) as Promise<Models.JobVersionsListByJobResponse>;
   }
 
   /**
@@ -80,7 +107,14 @@ export class JobVersions {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobVersionsGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobVersion: number, options?: msRest.RequestOptionsBase): Promise<Models.JobVersionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobVersion: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobVersionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -90,7 +124,14 @@ export class JobVersions {
    * @param jobVersion The version of the job to get.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobVersion: number, callback: msRest.ServiceCallback<Models.JobVersion>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobVersion: number,
+    callback: msRest.ServiceCallback<Models.JobVersion>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -101,8 +142,24 @@ export class JobVersions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobVersion: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobVersion>): void;
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, jobName: string, jobVersion: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobVersion>, callback?: msRest.ServiceCallback<Models.JobVersion>): Promise<Models.JobVersionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobVersion: number,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobVersion>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    jobName: string,
+    jobVersion: number,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobVersion>,
+    callback?: msRest.ServiceCallback<Models.JobVersion>
+  ): Promise<Models.JobVersionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +170,8 @@ export class JobVersions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.JobVersionsGetResponse>;
+      callback
+    ) as Promise<Models.JobVersionsGetResponse>;
   }
 
   /**
@@ -122,26 +180,41 @@ export class JobVersions {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobVersionsListByJobNextResponse>
    */
-  listByJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobVersionsListByJobNextResponse>;
+  listByJobNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobVersionsListByJobNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByJobNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.JobVersionListResult>): void;
+  listByJobNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.JobVersionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByJobNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobVersionListResult>): void;
-  listByJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobVersionListResult>, callback?: msRest.ServiceCallback<Models.JobVersionListResult>): Promise<Models.JobVersionsListByJobNextResponse> {
+  listByJobNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobVersionListResult>
+  ): void;
+  listByJobNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobVersionListResult>,
+    callback?: msRest.ServiceCallback<Models.JobVersionListResult>
+  ): Promise<Models.JobVersionsListByJobNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByJobNextOperationSpec,
-      callback) as Promise<Models.JobVersionsListByJobNextResponse>;
+      callback
+    ) as Promise<Models.JobVersionsListByJobNextResponse>;
   }
 }
 
@@ -149,7 +222,8 @@ export class JobVersions {
 const serializer = new msRest.Serializer(Mappers);
 const listByJobOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -157,12 +231,8 @@ const listByJobOperationSpec: msRest.OperationSpec = {
     Parameters.jobName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobVersionListResult
@@ -176,7 +246,8 @@ const listByJobOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -185,12 +256,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.jobVersion,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobVersion
@@ -206,12 +273,8 @@ const listByJobNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobVersionListResult

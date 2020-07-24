@@ -37,14 +37,24 @@ export class Network {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkCreateResponse>
    */
-  create(resourceGroupName: string, networkResourceName: string, networkResourceDescription: Models.NetworkResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.NetworkCreateResponse>;
+  create(
+    resourceGroupName: string,
+    networkResourceName: string,
+    networkResourceDescription: Models.NetworkResourceDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkCreateResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param networkResourceName The identity of the network.
    * @param networkResourceDescription Description for creating a Network resource.
    * @param callback The callback
    */
-  create(resourceGroupName: string, networkResourceName: string, networkResourceDescription: Models.NetworkResourceDescription, callback: msRest.ServiceCallback<Models.NetworkResourceDescription>): void;
+  create(
+    resourceGroupName: string,
+    networkResourceName: string,
+    networkResourceDescription: Models.NetworkResourceDescription,
+    callback: msRest.ServiceCallback<Models.NetworkResourceDescription>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param networkResourceName The identity of the network.
@@ -52,8 +62,20 @@ export class Network {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, networkResourceName: string, networkResourceDescription: Models.NetworkResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkResourceDescription>): void;
-  create(resourceGroupName: string, networkResourceName: string, networkResourceDescription: Models.NetworkResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkResourceDescription>, callback?: msRest.ServiceCallback<Models.NetworkResourceDescription>): Promise<Models.NetworkCreateResponse> {
+  create(
+    resourceGroupName: string,
+    networkResourceName: string,
+    networkResourceDescription: Models.NetworkResourceDescription,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkResourceDescription>
+  ): void;
+  create(
+    resourceGroupName: string,
+    networkResourceName: string,
+    networkResourceDescription: Models.NetworkResourceDescription,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.NetworkResourceDescription>
+  ): Promise<Models.NetworkCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +84,8 @@ export class Network {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.NetworkCreateResponse>;
+      callback
+    ) as Promise<Models.NetworkCreateResponse>;
   }
 
   /**
@@ -74,21 +97,39 @@ export class Network {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkGetResponse>
    */
-  get(resourceGroupName: string, networkResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkGetResponse>;
+  get(
+    resourceGroupName: string,
+    networkResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkGetResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param networkResourceName The identity of the network.
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkResourceName: string, callback: msRest.ServiceCallback<Models.NetworkResourceDescription>): void;
+  get(
+    resourceGroupName: string,
+    networkResourceName: string,
+    callback: msRest.ServiceCallback<Models.NetworkResourceDescription>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param networkResourceName The identity of the network.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkResourceDescription>): void;
-  get(resourceGroupName: string, networkResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkResourceDescription>, callback?: msRest.ServiceCallback<Models.NetworkResourceDescription>): Promise<Models.NetworkGetResponse> {
+  get(
+    resourceGroupName: string,
+    networkResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkResourceDescription>
+  ): void;
+  get(
+    resourceGroupName: string,
+    networkResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.NetworkResourceDescription>
+  ): Promise<Models.NetworkGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +137,8 @@ export class Network {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.NetworkGetResponse>;
+      callback
+    ) as Promise<Models.NetworkGetResponse>;
   }
 
   /**
@@ -107,21 +149,39 @@ export class Network {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, networkResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    networkResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param networkResourceName The identity of the network.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, networkResourceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    networkResourceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param networkResourceName The identity of the network.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, networkResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, networkResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    networkResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    networkResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +189,8 @@ export class Network {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -140,26 +201,43 @@ export class Network {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>): Promise<Models.NetworkListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>
+  ): Promise<Models.NetworkListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.NetworkListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.NetworkListByResourceGroupResponse>;
   }
 
   /**
@@ -169,7 +247,9 @@ export class Network {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.NetworkListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -178,14 +258,23 @@ export class Network {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>): Promise<Models.NetworkListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>
+  ): Promise<Models.NetworkListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.NetworkListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.NetworkListBySubscriptionResponse>;
   }
 
   /**
@@ -196,26 +285,43 @@ export class Network {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>): Promise<Models.NetworkListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>
+  ): Promise<Models.NetworkListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.NetworkListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.NetworkListByResourceGroupNextResponse>;
   }
 
   /**
@@ -226,26 +332,43 @@ export class Network {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>): Promise<Models.NetworkListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.NetworkResourceDescriptionList>
+  ): Promise<Models.NetworkListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.NetworkListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.NetworkListBySubscriptionNextResponse>;
   }
 }
 
@@ -253,18 +376,15 @@ export class Network {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/networks/{networkResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/networks/{networkResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.networkResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "networkResourceDescription",
     mapper: {
@@ -289,18 +409,15 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/networks/{networkResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/networks/{networkResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.networkResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkResourceDescription
@@ -314,18 +431,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/networks/{networkResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/networks/{networkResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.networkResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -339,17 +453,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/networks",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/networks",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkResourceDescriptionList
@@ -364,15 +472,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabricMesh/networks",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkResourceDescriptionList
@@ -388,12 +490,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkResourceDescriptionList
@@ -409,12 +507,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkResourceDescriptionList

@@ -26,7 +26,10 @@ export class MultiRegionWriteScenario {
       });
       this.conflictWorker.addClient(region, client);
       this.basicWorkers.push(
-        new Worker(region, client.database(config.databaseName).container(config.basicCollectionName))
+        new Worker(
+          region,
+          client.database(config.databaseName).container(config.basicCollectionName)
+        )
       );
     }
   }
@@ -43,11 +46,13 @@ export class MultiRegionWriteScenario {
 
     console.log("1) Starting insert loops across multiple regions");
 
-    await Promise.all(this.basicWorkers.map(worker => worker.RunLoop(100)));
+    await Promise.all(this.basicWorkers.map((worker) => worker.RunLoop(100)));
 
     console.log("2) Reading from every region...");
 
-    await Promise.all(this.basicWorkers.map(worker => worker.ReadAll(100 * this.basicWorkers.length)));
+    await Promise.all(
+      this.basicWorkers.map((worker) => worker.ReadAll(100 * this.basicWorkers.length))
+    );
 
     console.log("3) Deleting all the documents");
 

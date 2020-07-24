@@ -11,10 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 export const autocorrect: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "autocorrect"
-  ],
+  parameterPath: ["options", "autocorrect"],
   mapper: {
     serializedName: "autocorrect",
     defaultValue: false,
@@ -24,10 +21,7 @@ export const autocorrect: msRest.OperationQueryParameter = {
   }
 };
 export const cacheImage: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "cacheImage"
-  ],
+  parameterPath: ["options", "cacheImage"],
   mapper: {
     serializedName: "CacheImage",
     type: {
@@ -36,10 +30,7 @@ export const cacheImage: msRest.OperationQueryParameter = {
   }
 };
 export const callBackEndpoint: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "callBackEndpoint"
-  ],
+  parameterPath: ["options", "callBackEndpoint"],
   mapper: {
     serializedName: "CallBackEndpoint",
     type: {
@@ -48,10 +39,7 @@ export const callBackEndpoint: msRest.OperationQueryParameter = {
   }
 };
 export const classify: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "classify"
-  ],
+  parameterPath: ["options", "classify"],
   mapper: {
     serializedName: "classify",
     defaultValue: false,
@@ -96,7 +84,7 @@ export const contentType2: msRest.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "Content-Type",
-    defaultValue: 'text/plain',
+    defaultValue: "text/plain",
     type: {
       name: "String"
     }
@@ -107,7 +95,7 @@ export const endpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -115,10 +103,7 @@ export const endpoint: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const enhanced: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "enhanced"
-  ],
+  parameterPath: ["options", "enhanced"],
   mapper: {
     serializedName: "enhanced",
     defaultValue: false,
@@ -128,10 +113,7 @@ export const enhanced: msRest.OperationQueryParameter = {
   }
 };
 export const filter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "filter",
     type: {
@@ -190,10 +172,7 @@ export const jobId: msRest.OperationURLParameter = {
   }
 };
 export const label: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "label"
-  ],
+  parameterPath: ["options", "label"],
   mapper: {
     serializedName: "label",
     type: {
@@ -212,10 +191,7 @@ export const language0: msRest.OperationQueryParameter = {
   }
 };
 export const language1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "language"
-  ],
+  parameterPath: ["options", "language"],
   mapper: {
     serializedName: "language",
     type: {
@@ -224,10 +200,7 @@ export const language1: msRest.OperationQueryParameter = {
   }
 };
 export const limit: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "limit"
-  ],
+  parameterPath: ["options", "limit"],
   mapper: {
     serializedName: "limit",
     type: {
@@ -236,10 +209,7 @@ export const limit: msRest.OperationQueryParameter = {
   }
 };
 export const listId0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "listId"
-  ],
+  parameterPath: ["options", "listId"],
   mapper: {
     serializedName: "listId",
     type: {
@@ -258,10 +228,7 @@ export const listId1: msRest.OperationURLParameter = {
   }
 };
 export const noOfRecords: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "noOfRecords"
-  ],
+  parameterPath: ["options", "noOfRecords"],
   mapper: {
     serializedName: "noOfRecords",
     type: {
@@ -270,10 +237,7 @@ export const noOfRecords: msRest.OperationQueryParameter = {
   }
 };
 export const offset: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "offset"
-  ],
+  parameterPath: ["options", "offset"],
   mapper: {
     serializedName: "offset",
     type: {
@@ -282,10 +246,7 @@ export const offset: msRest.OperationQueryParameter = {
   }
 };
 export const pII: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "pII"
-  ],
+  parameterPath: ["options", "pII"],
   mapper: {
     serializedName: "PII",
     defaultValue: false,
@@ -305,10 +266,7 @@ export const reviewId: msRest.OperationURLParameter = {
   }
 };
 export const startSeed: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "startSeed"
-  ],
+  parameterPath: ["options", "startSeed"],
   mapper: {
     serializedName: "startSeed",
     type: {
@@ -317,10 +275,7 @@ export const startSeed: msRest.OperationQueryParameter = {
   }
 };
 export const subTeam: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "subTeam"
-  ],
+  parameterPath: ["options", "subTeam"],
   mapper: {
     serializedName: "subTeam",
     type: {
@@ -329,10 +284,7 @@ export const subTeam: msRest.OperationQueryParameter = {
   }
 };
 export const tag: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "tag"
-  ],
+  parameterPath: ["options", "tag"],
   mapper: {
     serializedName: "tag",
     type: {
@@ -371,10 +323,7 @@ export const textContentType: msRest.OperationParameter = {
   }
 };
 export const timescale: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "timescale"
-  ],
+  parameterPath: ["options", "timescale"],
   mapper: {
     serializedName: "timescale",
     type: {

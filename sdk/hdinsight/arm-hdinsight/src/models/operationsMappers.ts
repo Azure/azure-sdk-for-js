@@ -6,9 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationListResult
-} from "../models/mappers";
+export { ErrorResponse, Operation, OperationDisplay, OperationListResult } from "../models/mappers";

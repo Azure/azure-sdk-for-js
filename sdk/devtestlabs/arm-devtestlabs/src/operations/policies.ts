@@ -34,14 +34,24 @@ export class Policies {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoliciesListResponse>
    */
-  list(resourceGroupName: string, labName: string, policySetName: string, options?: Models.PoliciesListOptionalParams): Promise<Models.PoliciesListResponse>;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    options?: Models.PoliciesListOptionalParams
+  ): Promise<Models.PoliciesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, policySetName: string, callback: msRest.ServiceCallback<Models.PolicyList>): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    callback: msRest.ServiceCallback<Models.PolicyList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -49,8 +59,20 @@ export class Policies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, policySetName: string, options: Models.PoliciesListOptionalParams, callback: msRest.ServiceCallback<Models.PolicyList>): void;
-  list(resourceGroupName: string, labName: string, policySetName: string, options?: Models.PoliciesListOptionalParams | msRest.ServiceCallback<Models.PolicyList>, callback?: msRest.ServiceCallback<Models.PolicyList>): Promise<Models.PoliciesListResponse> {
+  list(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    options: Models.PoliciesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    options?: Models.PoliciesListOptionalParams | msRest.ServiceCallback<Models.PolicyList>,
+    callback?: msRest.ServiceCallback<Models.PolicyList>
+  ): Promise<Models.PoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class Policies {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PoliciesListResponse>;
+      callback
+    ) as Promise<Models.PoliciesListResponse>;
   }
 
   /**
@@ -71,7 +94,13 @@ export class Policies {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoliciesGetResponse>
    */
-  get(resourceGroupName: string, labName: string, policySetName: string, name: string, options?: Models.PoliciesGetOptionalParams): Promise<Models.PoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    options?: Models.PoliciesGetOptionalParams
+  ): Promise<Models.PoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -79,7 +108,13 @@ export class Policies {
    * @param name The name of the policy.
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, policySetName: string, name: string, callback: msRest.ServiceCallback<Models.Policy>): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.Policy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -88,8 +123,22 @@ export class Policies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, policySetName: string, name: string, options: Models.PoliciesGetOptionalParams, callback: msRest.ServiceCallback<Models.Policy>): void;
-  get(resourceGroupName: string, labName: string, policySetName: string, name: string, options?: Models.PoliciesGetOptionalParams | msRest.ServiceCallback<Models.Policy>, callback?: msRest.ServiceCallback<Models.Policy>): Promise<Models.PoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    options: Models.PoliciesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.Policy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    options?: Models.PoliciesGetOptionalParams | msRest.ServiceCallback<Models.Policy>,
+    callback?: msRest.ServiceCallback<Models.Policy>
+  ): Promise<Models.PoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +148,8 @@ export class Policies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PoliciesGetResponse>;
+      callback
+    ) as Promise<Models.PoliciesGetResponse>;
   }
 
   /**
@@ -112,7 +162,14 @@ export class Policies {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.Policy, options?: msRest.RequestOptionsBase): Promise<Models.PoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    policy: Models.Policy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -121,7 +178,14 @@ export class Policies {
    * @param policy A Policy.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.Policy, callback: msRest.ServiceCallback<Models.Policy>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    policy: Models.Policy,
+    callback: msRest.ServiceCallback<Models.Policy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -131,8 +195,24 @@ export class Policies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.Policy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Policy>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.Policy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Policy>, callback?: msRest.ServiceCallback<Models.Policy>): Promise<Models.PoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    policy: Models.Policy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Policy>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    policy: Models.Policy,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Policy>,
+    callback?: msRest.ServiceCallback<Models.Policy>
+  ): Promise<Models.PoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,7 +223,8 @@ export class Policies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.PoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.PoliciesCreateOrUpdateResponse>;
   }
 
   /**
@@ -155,7 +236,13 @@ export class Policies {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, labName: string, policySetName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -163,7 +250,13 @@ export class Policies {
    * @param name The name of the policy.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, labName: string, policySetName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -172,8 +265,22 @@ export class Policies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, labName: string, policySetName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, labName: string, policySetName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -183,7 +290,8 @@ export class Policies {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -196,7 +304,14 @@ export class Policies {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoliciesUpdateResponse>
    */
-  update(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.PolicyFragment, options?: msRest.RequestOptionsBase): Promise<Models.PoliciesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    policy: Models.PolicyFragment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PoliciesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -205,7 +320,14 @@ export class Policies {
    * @param policy A Policy.
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.PolicyFragment, callback: msRest.ServiceCallback<Models.Policy>): void;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    policy: Models.PolicyFragment,
+    callback: msRest.ServiceCallback<Models.Policy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -215,8 +337,24 @@ export class Policies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.PolicyFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Policy>): void;
-  update(resourceGroupName: string, labName: string, policySetName: string, name: string, policy: Models.PolicyFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Policy>, callback?: msRest.ServiceCallback<Models.Policy>): Promise<Models.PoliciesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    policy: Models.PolicyFragment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Policy>
+  ): void;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    policySetName: string,
+    name: string,
+    policy: Models.PolicyFragment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Policy>,
+    callback?: msRest.ServiceCallback<Models.Policy>
+  ): Promise<Models.PoliciesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -227,7 +365,8 @@ export class Policies {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.PoliciesUpdateResponse>;
+      callback
+    ) as Promise<Models.PoliciesUpdateResponse>;
   }
 
   /**
@@ -236,7 +375,10 @@ export class Policies {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoliciesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PoliciesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PoliciesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -247,15 +389,24 @@ export class Policies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyList>, callback?: msRest.ServiceCallback<Models.PolicyList>): Promise<Models.PoliciesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PolicyList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyList>,
+    callback?: msRest.ServiceCallback<Models.PolicyList>
+  ): Promise<Models.PoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PoliciesListNextResponse>;
+      callback
+    ) as Promise<Models.PoliciesListNextResponse>;
   }
 }
 
@@ -263,7 +414,8 @@ export class Policies {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -277,9 +429,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyList
@@ -293,7 +443,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -301,13 +452,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.policySetName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Policy
@@ -321,7 +467,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -329,12 +476,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.policySetName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "policy",
     mapper: {
@@ -358,7 +501,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -366,12 +510,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.policySetName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -384,7 +524,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/policies/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -392,12 +533,8 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.policySetName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "policy",
     mapper: {
@@ -420,12 +557,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyList

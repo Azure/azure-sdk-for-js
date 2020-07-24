@@ -269,8 +269,7 @@ export interface TxtRecord {
 /**
  * The resource model definition for an ARM proxy resource.
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * Describes a DNS record set (a collection of DNS records with the same name and type) in a
@@ -484,7 +483,8 @@ export interface VirtualNetworkLinksListOptionalParams extends msRest.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface VirtualNetworkLinksBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualNetworkLinksBeginCreateOrUpdateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The ETag of the virtual network link to the Private DNS zone. Omit this value to always
    * overwrite the current virtual network link. Specify the last-seen ETag value to prevent
@@ -513,7 +513,8 @@ export interface VirtualNetworkLinksBeginUpdateOptionalParams extends msRest.Req
 /**
  * Optional Parameters.
  */
-export interface VirtualNetworkLinksBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface VirtualNetworkLinksBeginDeleteMethodOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The ETag of the virtual network link to the Private DNS zone. Omit this value to always delete
    * the current zone. Specify the last-seen ETag value to prevent accidentally deleting any
@@ -644,7 +645,13 @@ export interface RecordSetListResult extends Array<RecordSet> {
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export type ProvisioningState =
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled";
 
 /**
  * Defines values for VirtualNetworkLinkState.
@@ -652,7 +659,7 @@ export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeede
  * @readonly
  * @enum {string}
  */
-export type VirtualNetworkLinkState = 'InProgress' | 'Completed';
+export type VirtualNetworkLinkState = "InProgress" | "Completed";
 
 /**
  * Defines values for RecordType.
@@ -660,7 +667,7 @@ export type VirtualNetworkLinkState = 'InProgress' | 'Completed';
  * @readonly
  * @enum {string}
  */
-export type RecordType = 'A' | 'AAAA' | 'CNAME' | 'MX' | 'PTR' | 'SOA' | 'SRV' | 'TXT';
+export type RecordType = "A" | "AAAA" | "CNAME" | "MX" | "PTR" | "SOA" | "SRV" | "TXT";
 
 /**
  * Contains response data for the createOrUpdate operation.
@@ -670,16 +677,16 @@ export type PrivateZonesCreateOrUpdateResponse = PrivateZone & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateZone;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateZone;
+  };
 };
 
 /**
@@ -690,16 +697,16 @@ export type PrivateZonesUpdateResponse = PrivateZone & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateZone;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateZone;
+  };
 };
 
 /**
@@ -710,16 +717,16 @@ export type PrivateZonesGetResponse = PrivateZone & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateZone;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateZone;
+  };
 };
 
 /**
@@ -730,16 +737,16 @@ export type PrivateZonesListResponse = PrivateZoneListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateZoneListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateZoneListResult;
+  };
 };
 
 /**
@@ -750,16 +757,16 @@ export type PrivateZonesListByResourceGroupResponse = PrivateZoneListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateZoneListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateZoneListResult;
+  };
 };
 
 /**
@@ -770,16 +777,16 @@ export type PrivateZonesBeginCreateOrUpdateResponse = PrivateZone & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateZone;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateZone;
+  };
 };
 
 /**
@@ -790,16 +797,16 @@ export type PrivateZonesBeginUpdateResponse = PrivateZone & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateZone;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateZone;
+  };
 };
 
 /**
@@ -810,16 +817,16 @@ export type PrivateZonesListNextResponse = PrivateZoneListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateZoneListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateZoneListResult;
+  };
 };
 
 /**
@@ -830,16 +837,16 @@ export type PrivateZonesListByResourceGroupNextResponse = PrivateZoneListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateZoneListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateZoneListResult;
+  };
 };
 
 /**
@@ -850,16 +857,16 @@ export type VirtualNetworkLinksCreateOrUpdateResponse = VirtualNetworkLink & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkLink;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualNetworkLink;
+  };
 };
 
 /**
@@ -870,16 +877,16 @@ export type VirtualNetworkLinksUpdateResponse = VirtualNetworkLink & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkLink;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualNetworkLink;
+  };
 };
 
 /**
@@ -890,16 +897,16 @@ export type VirtualNetworkLinksGetResponse = VirtualNetworkLink & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkLink;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualNetworkLink;
+  };
 };
 
 /**
@@ -910,16 +917,16 @@ export type VirtualNetworkLinksListResponse = VirtualNetworkLinkListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkLinkListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualNetworkLinkListResult;
+  };
 };
 
 /**
@@ -930,16 +937,16 @@ export type VirtualNetworkLinksBeginCreateOrUpdateResponse = VirtualNetworkLink 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkLink;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualNetworkLink;
+  };
 };
 
 /**
@@ -950,16 +957,16 @@ export type VirtualNetworkLinksBeginUpdateResponse = VirtualNetworkLink & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkLink;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualNetworkLink;
+  };
 };
 
 /**
@@ -970,16 +977,16 @@ export type VirtualNetworkLinksListNextResponse = VirtualNetworkLinkListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkLinkListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualNetworkLinkListResult;
+  };
 };
 
 /**
@@ -990,16 +997,16 @@ export type RecordSetsCreateOrUpdateResponse = RecordSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSet;
+  };
 };
 
 /**
@@ -1010,16 +1017,16 @@ export type RecordSetsUpdateResponse = RecordSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSet;
+  };
 };
 
 /**
@@ -1030,16 +1037,16 @@ export type RecordSetsGetResponse = RecordSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSet;
+  };
 };
 
 /**
@@ -1050,16 +1057,16 @@ export type RecordSetsListByTypeResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -1070,16 +1077,16 @@ export type RecordSetsListResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -1090,16 +1097,16 @@ export type RecordSetsListByTypeNextResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };
 
 /**
@@ -1110,14 +1117,14 @@ export type RecordSetsListNextResponse = RecordSetListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecordSetListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RecordSetListResult;
+  };
 };

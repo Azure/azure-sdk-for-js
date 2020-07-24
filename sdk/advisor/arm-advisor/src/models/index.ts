@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing ConfigDataProperties.
@@ -331,7 +330,6 @@ export interface RecommendationsGenerateHeaders {
   retryAfter: string;
 }
 
-
 /**
  * @interface
  * An interface representing the ConfigurationListResult.
@@ -398,7 +396,7 @@ export interface SuppressionContractListResult extends Array<SuppressionContract
  * @readonly
  * @enum {string}
  */
-export type Category = 'HighAvailability' | 'Security' | 'Performance' | 'Cost';
+export type Category = "HighAvailability" | "Security" | "Performance" | "Cost";
 
 /**
  * Defines values for Impact.
@@ -406,7 +404,7 @@ export type Category = 'HighAvailability' | 'Security' | 'Performance' | 'Cost';
  * @readonly
  * @enum {string}
  */
-export type Impact = 'High' | 'Medium' | 'Low';
+export type Impact = "High" | "Medium" | "Low";
 
 /**
  * Defines values for Risk.
@@ -414,7 +412,7 @@ export type Impact = 'High' | 'Medium' | 'Low';
  * @readonly
  * @enum {string}
  */
-export type Risk = 'Error' | 'Warning' | 'None';
+export type Risk = "Error" | "Warning" | "None";
 
 /**
  * Contains response data for the listBySubscription operation.
@@ -424,15 +422,15 @@ export type ConfigurationsListBySubscriptionResponse = ConfigurationListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationListResult;
+  };
 };
 
 /**
@@ -443,15 +441,15 @@ export type ConfigurationsCreateInSubscriptionResponse = ARMErrorResponseBody & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ARMErrorResponseBody;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ARMErrorResponseBody;
+  };
 };
 
 /**
@@ -462,15 +460,15 @@ export type ConfigurationsListByResourceGroupResponse = ConfigurationListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationListResult;
+  };
 };
 
 /**
@@ -481,15 +479,15 @@ export type ConfigurationsCreateInResourceGroupResponse = ARMErrorResponseBody &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ARMErrorResponseBody;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ARMErrorResponseBody;
+  };
 };
 
 /**
@@ -500,15 +498,15 @@ export type ConfigurationsListBySubscriptionNextResponse = ConfigurationListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationListResult;
+  };
 };
 
 /**
@@ -519,11 +517,11 @@ export type RecommendationsGenerateResponse = RecommendationsGenerateHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: RecommendationsGenerateHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: RecommendationsGenerateHeaders;
+  };
 };
 
 /**
@@ -534,15 +532,15 @@ export type RecommendationsListResponse = ResourceRecommendationBaseListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceRecommendationBaseListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceRecommendationBaseListResult;
+  };
 };
 
 /**
@@ -553,15 +551,15 @@ export type RecommendationsGetResponse = ResourceRecommendationBase & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceRecommendationBase;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceRecommendationBase;
+  };
 };
 
 /**
@@ -572,15 +570,15 @@ export type RecommendationsListNextResponse = ResourceRecommendationBaseListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceRecommendationBaseListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceRecommendationBaseListResult;
+  };
 };
 
 /**
@@ -591,15 +589,15 @@ export type OperationsListResponse = OperationEntityListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationEntityListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationEntityListResult;
+  };
 };
 
 /**
@@ -610,15 +608,15 @@ export type OperationsListNextResponse = OperationEntityListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationEntityListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationEntityListResult;
+  };
 };
 
 /**
@@ -629,15 +627,15 @@ export type SuppressionsGetResponse = SuppressionContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SuppressionContract;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SuppressionContract;
+  };
 };
 
 /**
@@ -648,15 +646,15 @@ export type SuppressionsCreateResponse = SuppressionContract & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SuppressionContract;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SuppressionContract;
+  };
 };
 
 /**
@@ -667,15 +665,15 @@ export type SuppressionsListResponse = SuppressionContractListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SuppressionContractListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SuppressionContractListResult;
+  };
 };
 
 /**
@@ -686,13 +684,13 @@ export type SuppressionsListNextResponse = SuppressionContractListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SuppressionContractListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SuppressionContractListResult;
+  };
 };

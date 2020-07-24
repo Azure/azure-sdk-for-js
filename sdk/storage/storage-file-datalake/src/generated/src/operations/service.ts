@@ -32,7 +32,9 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceListFileSystemsResponse>
    */
-  listFileSystems(options?: Models.ServiceListFileSystemsOptionalParams): Promise<Models.ServiceListFileSystemsResponse>;
+  listFileSystems(
+    options?: Models.ServiceListFileSystemsOptionalParams
+  ): Promise<Models.ServiceListFileSystemsResponse>;
   /**
    * @param callback The callback
    */
@@ -41,14 +43,23 @@ export class Service {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listFileSystems(options: Models.ServiceListFileSystemsOptionalParams, callback: coreHttp.ServiceCallback<Models.FileSystemList>): void;
-  listFileSystems(options?: Models.ServiceListFileSystemsOptionalParams | coreHttp.ServiceCallback<Models.FileSystemList>, callback?: coreHttp.ServiceCallback<Models.FileSystemList>): Promise<Models.ServiceListFileSystemsResponse> {
+  listFileSystems(
+    options: Models.ServiceListFileSystemsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.FileSystemList>
+  ): void;
+  listFileSystems(
+    options?:
+      | Models.ServiceListFileSystemsOptionalParams
+      | coreHttp.ServiceCallback<Models.FileSystemList>,
+    callback?: coreHttp.ServiceCallback<Models.FileSystemList>
+  ): Promise<Models.ServiceListFileSystemsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listFileSystemsOperationSpec,
-      callback) as Promise<Models.ServiceListFileSystemsResponse>;
+      callback
+    ) as Promise<Models.ServiceListFileSystemsResponse>;
   }
 }
 
@@ -56,9 +67,7 @@ export class Service {
 const serializer = new coreHttp.Serializer(Mappers);
 const listFileSystemsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.resource0,
     Parameters.prefix,
@@ -66,10 +75,7 @@ const listFileSystemsOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxResults,
     Parameters.timeout
   ],
-  headerParameters: [
-    Parameters.requestId,
-    Parameters.version
-  ],
+  headerParameters: [Parameters.requestId, Parameters.version],
   responses: {
     200: {
       bodyMapper: Mappers.FileSystemList,

@@ -36,7 +36,11 @@ export class FileServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileServicesListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.FileServicesListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FileServicesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -45,7 +49,11 @@ export class FileServices {
    * letters only.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.FileServiceItems>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.FileServiceItems>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -55,8 +63,18 @@ export class FileServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileServiceItems>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServiceItems>, callback?: msRest.ServiceCallback<Models.FileServiceItems>): Promise<Models.FileServicesListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileServiceItems>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServiceItems>,
+    callback?: msRest.ServiceCallback<Models.FileServiceItems>
+  ): Promise<Models.FileServicesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,7 +82,8 @@ export class FileServices {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.FileServicesListResponse>;
+      callback
+    ) as Promise<Models.FileServicesListResponse>;
   }
 
   /**
@@ -78,7 +97,11 @@ export class FileServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileServicesSetServicePropertiesResponse>
    */
-  setServiceProperties(resourceGroupName: string, accountName: string, options?: Models.FileServicesSetServicePropertiesOptionalParams): Promise<Models.FileServicesSetServicePropertiesResponse>;
+  setServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: Models.FileServicesSetServicePropertiesOptionalParams
+  ): Promise<Models.FileServicesSetServicePropertiesResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -87,7 +110,11 @@ export class FileServices {
    * letters only.
    * @param callback The callback
    */
-  setServiceProperties(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.FileServiceProperties>): void;
+  setServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.FileServiceProperties>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -97,8 +124,20 @@ export class FileServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setServiceProperties(resourceGroupName: string, accountName: string, options: Models.FileServicesSetServicePropertiesOptionalParams, callback: msRest.ServiceCallback<Models.FileServiceProperties>): void;
-  setServiceProperties(resourceGroupName: string, accountName: string, options?: Models.FileServicesSetServicePropertiesOptionalParams | msRest.ServiceCallback<Models.FileServiceProperties>, callback?: msRest.ServiceCallback<Models.FileServiceProperties>): Promise<Models.FileServicesSetServicePropertiesResponse> {
+  setServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options: Models.FileServicesSetServicePropertiesOptionalParams,
+    callback: msRest.ServiceCallback<Models.FileServiceProperties>
+  ): void;
+  setServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | Models.FileServicesSetServicePropertiesOptionalParams
+      | msRest.ServiceCallback<Models.FileServiceProperties>,
+    callback?: msRest.ServiceCallback<Models.FileServiceProperties>
+  ): Promise<Models.FileServicesSetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +145,8 @@ export class FileServices {
         options
       },
       setServicePropertiesOperationSpec,
-      callback) as Promise<Models.FileServicesSetServicePropertiesResponse>;
+      callback
+    ) as Promise<Models.FileServicesSetServicePropertiesResponse>;
   }
 
   /**
@@ -120,7 +160,11 @@ export class FileServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileServicesGetServicePropertiesResponse>
    */
-  getServiceProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.FileServicesGetServicePropertiesResponse>;
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FileServicesGetServicePropertiesResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -129,7 +173,11 @@ export class FileServices {
    * letters only.
    * @param callback The callback
    */
-  getServiceProperties(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.FileServiceProperties>): void;
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.FileServiceProperties>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -139,8 +187,18 @@ export class FileServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getServiceProperties(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileServiceProperties>): void;
-  getServiceProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServiceProperties>, callback?: msRest.ServiceCallback<Models.FileServiceProperties>): Promise<Models.FileServicesGetServicePropertiesResponse> {
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileServiceProperties>
+  ): void;
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServiceProperties>,
+    callback?: msRest.ServiceCallback<Models.FileServiceProperties>
+  ): Promise<Models.FileServicesGetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -148,7 +206,8 @@ export class FileServices {
         options
       },
       getServicePropertiesOperationSpec,
-      callback) as Promise<Models.FileServicesGetServicePropertiesResponse>;
+      callback
+    ) as Promise<Models.FileServicesGetServicePropertiesResponse>;
   }
 }
 
@@ -156,18 +215,11 @@ export class FileServices {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileServiceItems
@@ -181,29 +233,20 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const setServicePropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.fileServicesName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      cors: [
-        "options",
-        "cors"
-      ],
-      shareDeleteRetentionPolicy: [
-        "options",
-        "shareDeleteRetentionPolicy"
-      ]
+      cors: ["options", "cors"],
+      shareDeleteRetentionPolicy: ["options", "shareDeleteRetentionPolicy"]
     },
     mapper: {
       ...Mappers.FileServiceProperties,
@@ -223,19 +266,16 @@ const setServicePropertiesOperationSpec: msRest.OperationSpec = {
 
 const getServicePropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/{FileServicesName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.fileServicesName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileServiceProperties

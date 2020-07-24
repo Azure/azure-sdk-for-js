@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing ContainerHostMapping.
@@ -155,7 +154,9 @@ export interface ControllerUpdateParameters {
 /**
  * Contains the possible cases for OrchestratorSpecificConnectionDetails.
  */
-export type OrchestratorSpecificConnectionDetailsUnion = OrchestratorSpecificConnectionDetails | KubernetesConnectionDetails;
+export type OrchestratorSpecificConnectionDetailsUnion =
+  | OrchestratorSpecificConnectionDetails
+  | KubernetesConnectionDetails;
 
 /**
  * @interface
@@ -323,7 +324,6 @@ export interface DevSpacesManagementClientOptions extends AzureServiceClientOpti
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the ControllerList.
@@ -361,7 +361,14 @@ export interface ResourceProviderOperationList extends Array<ResourceProviderOpe
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'Updating' | 'Creating' | 'Deleting' | 'Deleted';
+export type ProvisioningState =
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Updating"
+  | "Creating"
+  | "Deleting"
+  | "Deleted";
 
 /**
  * Defines values for SkuTier.
@@ -369,7 +376,7 @@ export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'Updating'
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Standard';
+export type SkuTier = "Standard";
 
 /**
  * Contains response data for the getContainerHostMapping operation.
@@ -383,15 +390,15 @@ export type ContainerHostMappingsGetContainerHostMappingResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -402,15 +409,15 @@ export type ControllersGetResponse = Controller & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Controller;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Controller;
+  };
 };
 
 /**
@@ -421,15 +428,15 @@ export type ControllersCreateResponse = Controller & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Controller;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Controller;
+  };
 };
 
 /**
@@ -440,15 +447,15 @@ export type ControllersUpdateResponse = Controller & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Controller;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Controller;
+  };
 };
 
 /**
@@ -459,15 +466,15 @@ export type ControllersListByResourceGroupResponse = ControllerList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ControllerList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ControllerList;
+  };
 };
 
 /**
@@ -478,15 +485,15 @@ export type ControllersListResponse = ControllerList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ControllerList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ControllerList;
+  };
 };
 
 /**
@@ -497,15 +504,15 @@ export type ControllersListConnectionDetailsResponse = ControllerConnectionDetai
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ControllerConnectionDetailsList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ControllerConnectionDetailsList;
+  };
 };
 
 /**
@@ -516,15 +523,15 @@ export type ControllersBeginCreateResponse = Controller & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Controller;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Controller;
+  };
 };
 
 /**
@@ -535,15 +542,15 @@ export type ControllersListByResourceGroupNextResponse = ControllerList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ControllerList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ControllerList;
+  };
 };
 
 /**
@@ -554,15 +561,15 @@ export type ControllersListNextResponse = ControllerList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ControllerList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ControllerList;
+  };
 };
 
 /**
@@ -573,15 +580,15 @@ export type OperationsListResponse = ResourceProviderOperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceProviderOperationList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceProviderOperationList;
+  };
 };
 
 /**
@@ -592,13 +599,13 @@ export type OperationsListNextResponse = ResourceProviderOperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceProviderOperationList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceProviderOperationList;
+  };
 };

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { UsageManagementClientContext } from "./usageManagementClientContext";
 
-
 class UsageManagementClient extends UsageManagementClientContext {
   // Operation groups
   usageAggregates: operations.UsageAggregates;
@@ -27,7 +26,11 @@ class UsageManagementClient extends UsageManagementClientContext {
    * forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.UsageManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.UsageManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.usageAggregates = new operations.UsageAggregates(this);
     this.rateCard = new operations.RateCard(this);

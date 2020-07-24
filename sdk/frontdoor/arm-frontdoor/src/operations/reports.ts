@@ -36,7 +36,13 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsGetLatencyScorecardsResponse>
    */
-  getLatencyScorecards(resourceGroupName: string, profileName: string, experimentName: string, aggregationInterval: Models.LatencyScorecardAggregationInterval, options?: Models.ReportsGetLatencyScorecardsOptionalParams): Promise<Models.ReportsGetLatencyScorecardsResponse>;
+  getLatencyScorecards(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    aggregationInterval: Models.LatencyScorecardAggregationInterval,
+    options?: Models.ReportsGetLatencyScorecardsOptionalParams
+  ): Promise<Models.ReportsGetLatencyScorecardsResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName The Profile identifier associated with the Tenant and Partner
@@ -45,7 +51,13 @@ export class Reports {
    * include: 'Daily', 'Weekly', 'Monthly'
    * @param callback The callback
    */
-  getLatencyScorecards(resourceGroupName: string, profileName: string, experimentName: string, aggregationInterval: Models.LatencyScorecardAggregationInterval, callback: msRest.ServiceCallback<Models.LatencyScorecard>): void;
+  getLatencyScorecards(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    aggregationInterval: Models.LatencyScorecardAggregationInterval,
+    callback: msRest.ServiceCallback<Models.LatencyScorecard>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName The Profile identifier associated with the Tenant and Partner
@@ -55,8 +67,24 @@ export class Reports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getLatencyScorecards(resourceGroupName: string, profileName: string, experimentName: string, aggregationInterval: Models.LatencyScorecardAggregationInterval, options: Models.ReportsGetLatencyScorecardsOptionalParams, callback: msRest.ServiceCallback<Models.LatencyScorecard>): void;
-  getLatencyScorecards(resourceGroupName: string, profileName: string, experimentName: string, aggregationInterval: Models.LatencyScorecardAggregationInterval, options?: Models.ReportsGetLatencyScorecardsOptionalParams | msRest.ServiceCallback<Models.LatencyScorecard>, callback?: msRest.ServiceCallback<Models.LatencyScorecard>): Promise<Models.ReportsGetLatencyScorecardsResponse> {
+  getLatencyScorecards(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    aggregationInterval: Models.LatencyScorecardAggregationInterval,
+    options: Models.ReportsGetLatencyScorecardsOptionalParams,
+    callback: msRest.ServiceCallback<Models.LatencyScorecard>
+  ): void;
+  getLatencyScorecards(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    aggregationInterval: Models.LatencyScorecardAggregationInterval,
+    options?:
+      | Models.ReportsGetLatencyScorecardsOptionalParams
+      | msRest.ServiceCallback<Models.LatencyScorecard>,
+    callback?: msRest.ServiceCallback<Models.LatencyScorecard>
+  ): Promise<Models.ReportsGetLatencyScorecardsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +94,8 @@ export class Reports {
         options
       },
       getLatencyScorecardsOperationSpec,
-      callback) as Promise<Models.ReportsGetLatencyScorecardsResponse>;
+      callback
+    ) as Promise<Models.ReportsGetLatencyScorecardsResponse>;
   }
 
   /**
@@ -83,7 +112,16 @@ export class Reports {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReportsGetTimeseriesResponse>
    */
-  getTimeseries(resourceGroupName: string, profileName: string, experimentName: string, startDateTimeUTC: Date | string, endDateTimeUTC: Date | string, aggregationInterval: Models.TimeseriesAggregationInterval, timeseriesType: Models.TimeseriesType, options?: Models.ReportsGetTimeseriesOptionalParams): Promise<Models.ReportsGetTimeseriesResponse>;
+  getTimeseries(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    startDateTimeUTC: Date | string,
+    endDateTimeUTC: Date | string,
+    aggregationInterval: Models.TimeseriesAggregationInterval,
+    timeseriesType: Models.TimeseriesType,
+    options?: Models.ReportsGetTimeseriesOptionalParams
+  ): Promise<Models.ReportsGetTimeseriesResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName The Profile identifier associated with the Tenant and Partner
@@ -96,7 +134,16 @@ export class Reports {
    * 'LatencyP50', 'LatencyP75', 'LatencyP95'
    * @param callback The callback
    */
-  getTimeseries(resourceGroupName: string, profileName: string, experimentName: string, startDateTimeUTC: Date | string, endDateTimeUTC: Date | string, aggregationInterval: Models.TimeseriesAggregationInterval, timeseriesType: Models.TimeseriesType, callback: msRest.ServiceCallback<Models.Timeseries>): void;
+  getTimeseries(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    startDateTimeUTC: Date | string,
+    endDateTimeUTC: Date | string,
+    aggregationInterval: Models.TimeseriesAggregationInterval,
+    timeseriesType: Models.TimeseriesType,
+    callback: msRest.ServiceCallback<Models.Timeseries>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName The Profile identifier associated with the Tenant and Partner
@@ -110,8 +157,28 @@ export class Reports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getTimeseries(resourceGroupName: string, profileName: string, experimentName: string, startDateTimeUTC: Date | string, endDateTimeUTC: Date | string, aggregationInterval: Models.TimeseriesAggregationInterval, timeseriesType: Models.TimeseriesType, options: Models.ReportsGetTimeseriesOptionalParams, callback: msRest.ServiceCallback<Models.Timeseries>): void;
-  getTimeseries(resourceGroupName: string, profileName: string, experimentName: string, startDateTimeUTC: Date | string, endDateTimeUTC: Date | string, aggregationInterval: Models.TimeseriesAggregationInterval, timeseriesType: Models.TimeseriesType, options?: Models.ReportsGetTimeseriesOptionalParams | msRest.ServiceCallback<Models.Timeseries>, callback?: msRest.ServiceCallback<Models.Timeseries>): Promise<Models.ReportsGetTimeseriesResponse> {
+  getTimeseries(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    startDateTimeUTC: Date | string,
+    endDateTimeUTC: Date | string,
+    aggregationInterval: Models.TimeseriesAggregationInterval,
+    timeseriesType: Models.TimeseriesType,
+    options: Models.ReportsGetTimeseriesOptionalParams,
+    callback: msRest.ServiceCallback<Models.Timeseries>
+  ): void;
+  getTimeseries(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    startDateTimeUTC: Date | string,
+    endDateTimeUTC: Date | string,
+    aggregationInterval: Models.TimeseriesAggregationInterval,
+    timeseriesType: Models.TimeseriesType,
+    options?: Models.ReportsGetTimeseriesOptionalParams | msRest.ServiceCallback<Models.Timeseries>,
+    callback?: msRest.ServiceCallback<Models.Timeseries>
+  ): Promise<Models.ReportsGetTimeseriesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +191,8 @@ export class Reports {
         options
       },
       getTimeseriesOperationSpec,
-      callback) as Promise<Models.ReportsGetTimeseriesResponse>;
+      callback
+    ) as Promise<Models.ReportsGetTimeseriesResponse>;
   }
 }
 
@@ -132,7 +200,8 @@ export class Reports {
 const serializer = new msRest.Serializer(Mappers);
 const getLatencyScorecardsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/LatencyScorecard",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/LatencyScorecard",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -145,9 +214,7 @@ const getLatencyScorecardsOperationSpec: msRest.OperationSpec = {
     Parameters.country,
     Parameters.aggregationInterval
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LatencyScorecard
@@ -161,7 +228,8 @@ const getLatencyScorecardsOperationSpec: msRest.OperationSpec = {
 
 const getTimeseriesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/Timeseries",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/Timeseries",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -177,9 +245,7 @@ const getTimeseriesOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint,
     Parameters.country
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Timeseries

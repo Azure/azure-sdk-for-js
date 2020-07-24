@@ -32,26 +32,43 @@ export class PeeringLocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringLocationsListResponse>
    */
-  list(kind: Models.Kind2, options?: Models.PeeringLocationsListOptionalParams): Promise<Models.PeeringLocationsListResponse>;
+  list(
+    kind: Models.Kind2,
+    options?: Models.PeeringLocationsListOptionalParams
+  ): Promise<Models.PeeringLocationsListResponse>;
   /**
    * @param kind The kind of the peering. Possible values include: 'Direct', 'Exchange'
    * @param callback The callback
    */
-  list(kind: Models.Kind2, callback: msRest.ServiceCallback<Models.PeeringLocationListResult>): void;
+  list(
+    kind: Models.Kind2,
+    callback: msRest.ServiceCallback<Models.PeeringLocationListResult>
+  ): void;
   /**
    * @param kind The kind of the peering. Possible values include: 'Direct', 'Exchange'
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(kind: Models.Kind2, options: Models.PeeringLocationsListOptionalParams, callback: msRest.ServiceCallback<Models.PeeringLocationListResult>): void;
-  list(kind: Models.Kind2, options?: Models.PeeringLocationsListOptionalParams | msRest.ServiceCallback<Models.PeeringLocationListResult>, callback?: msRest.ServiceCallback<Models.PeeringLocationListResult>): Promise<Models.PeeringLocationsListResponse> {
+  list(
+    kind: Models.Kind2,
+    options: Models.PeeringLocationsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.PeeringLocationListResult>
+  ): void;
+  list(
+    kind: Models.Kind2,
+    options?:
+      | Models.PeeringLocationsListOptionalParams
+      | msRest.ServiceCallback<Models.PeeringLocationListResult>,
+    callback?: msRest.ServiceCallback<Models.PeeringLocationListResult>
+  ): Promise<Models.PeeringLocationsListResponse> {
     return this.client.sendOperationRequest(
       {
         kind,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PeeringLocationsListResponse>;
+      callback
+    ) as Promise<Models.PeeringLocationsListResponse>;
   }
 
   /**
@@ -60,26 +77,41 @@ export class PeeringLocations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringLocationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PeeringLocationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeeringLocationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PeeringLocationListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PeeringLocationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringLocationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringLocationListResult>, callback?: msRest.ServiceCallback<Models.PeeringLocationListResult>): Promise<Models.PeeringLocationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeeringLocationListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringLocationListResult>,
+    callback?: msRest.ServiceCallback<Models.PeeringLocationListResult>
+  ): Promise<Models.PeeringLocationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PeeringLocationsListNextResponse>;
+      callback
+    ) as Promise<Models.PeeringLocationsListNextResponse>;
   }
 }
 
@@ -88,17 +120,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringLocations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.kind,
-    Parameters.directPeeringType,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.kind, Parameters.directPeeringType, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeeringLocationListResult
@@ -114,12 +138,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeeringLocationListResult

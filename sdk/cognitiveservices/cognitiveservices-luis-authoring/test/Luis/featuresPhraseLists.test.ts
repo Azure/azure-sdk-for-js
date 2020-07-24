@@ -9,7 +9,6 @@ import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 import * as chai from "chai";
 
 describe("featuresPhraseLists.test.ts", () => {
-
   it("should add phrase list", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const id = await client.features.addPhraseList(BaseTest.GlobalAppId, "0.1", {
@@ -21,10 +20,11 @@ describe("featuresPhraseLists.test.ts", () => {
       await client.features.deletePhraseList(BaseTest.GlobalAppId, "0.1", id.body);
       chai.expect(phrases).not.to.be.null;
       chai.expect(phrases.name).to.eq("DayOfWeekToAdd");
-      chai.expect(phrases.phrases).to.eq("monday,tuesday,wednesday,thursday,friday,saturday,sunday")
+      chai
+        .expect(phrases.phrases)
+        .to.eq("monday,tuesday,wednesday,thursday,friday,saturday,sunday");
     });
   });
-
 
   it("should list phrase lists", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
@@ -57,7 +57,6 @@ describe("featuresPhraseLists.test.ts", () => {
     });
   });
 
-
   it("should update phrase list", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const id = await client.features.addPhraseList(BaseTest.GlobalAppId, "0.1", {
@@ -70,7 +69,8 @@ describe("featuresPhraseLists.test.ts", () => {
         phraselistUpdateObject: {
           isActive: false,
           name: "Month",
-          phrases: "january,february,march,april,may,june,july,august,september,october,november,december"
+          phrases:
+            "january,february,march,april,may,june,july,august,september,october,november,december"
         }
       });
 
@@ -78,7 +78,11 @@ describe("featuresPhraseLists.test.ts", () => {
       await client.features.deletePhraseList(BaseTest.GlobalAppId, "0.1", id.body);
       chai.expect(phrases).not.to.be.null;
       chai.expect(phrases.name).to.eq("Month");
-      chai.expect(phrases.phrases).to.eq("january,february,march,april,may,june,july,august,september,october,november,december");
+      chai
+        .expect(phrases.phrases)
+        .to.eq(
+          "january,february,march,april,may,june,july,august,september,october,november,december"
+        );
       chai.expect(phrases.isActive).to.eq(false);
     });
   });

@@ -35,9 +35,15 @@ export class DataFlowDebugSession {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataFlowDebugSessionCreateResponse>
    */
-  create(resourceGroupName: string, factoryName: string, request: Models.CreateDataFlowDebugSessionRequest, options?: msRest.RequestOptionsBase): Promise<Models.DataFlowDebugSessionCreateResponse> {
-    return this.beginCreate(resourceGroupName,factoryName,request,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DataFlowDebugSessionCreateResponse>;
+  create(
+    resourceGroupName: string,
+    factoryName: string,
+    request: Models.CreateDataFlowDebugSessionRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataFlowDebugSessionCreateResponse> {
+    return this.beginCreate(resourceGroupName, factoryName, request, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.DataFlowDebugSessionCreateResponse>;
   }
 
   /**
@@ -47,21 +53,41 @@ export class DataFlowDebugSession {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataFlowDebugSessionQueryByFactoryResponse>
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataFlowDebugSessionQueryByFactoryResponse>;
+  queryByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataFlowDebugSessionQueryByFactoryResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param callback The callback
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, callback: msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>): void;
+  queryByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    callback: msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>): void;
-  queryByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>, callback?: msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>): Promise<Models.DataFlowDebugSessionQueryByFactoryResponse> {
+  queryByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>
+  ): void;
+  queryByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>,
+    callback?: msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>
+  ): Promise<Models.DataFlowDebugSessionQueryByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -69,7 +95,8 @@ export class DataFlowDebugSession {
         options
       },
       queryByFactoryOperationSpec,
-      callback) as Promise<Models.DataFlowDebugSessionQueryByFactoryResponse>;
+      callback
+    ) as Promise<Models.DataFlowDebugSessionQueryByFactoryResponse>;
   }
 
   /**
@@ -80,14 +107,24 @@ export class DataFlowDebugSession {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataFlowDebugSessionAddDataFlowResponse>
    */
-  addDataFlow(resourceGroupName: string, factoryName: string, request: Models.DataFlowDebugPackage, options?: msRest.RequestOptionsBase): Promise<Models.DataFlowDebugSessionAddDataFlowResponse>;
+  addDataFlow(
+    resourceGroupName: string,
+    factoryName: string,
+    request: Models.DataFlowDebugPackage,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataFlowDebugSessionAddDataFlowResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param request Data flow debug session definition with debug content.
    * @param callback The callback
    */
-  addDataFlow(resourceGroupName: string, factoryName: string, request: Models.DataFlowDebugPackage, callback: msRest.ServiceCallback<Models.AddDataFlowToDebugSessionResponse>): void;
+  addDataFlow(
+    resourceGroupName: string,
+    factoryName: string,
+    request: Models.DataFlowDebugPackage,
+    callback: msRest.ServiceCallback<Models.AddDataFlowToDebugSessionResponse>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -95,8 +132,22 @@ export class DataFlowDebugSession {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addDataFlow(resourceGroupName: string, factoryName: string, request: Models.DataFlowDebugPackage, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AddDataFlowToDebugSessionResponse>): void;
-  addDataFlow(resourceGroupName: string, factoryName: string, request: Models.DataFlowDebugPackage, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AddDataFlowToDebugSessionResponse>, callback?: msRest.ServiceCallback<Models.AddDataFlowToDebugSessionResponse>): Promise<Models.DataFlowDebugSessionAddDataFlowResponse> {
+  addDataFlow(
+    resourceGroupName: string,
+    factoryName: string,
+    request: Models.DataFlowDebugPackage,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AddDataFlowToDebugSessionResponse>
+  ): void;
+  addDataFlow(
+    resourceGroupName: string,
+    factoryName: string,
+    request: Models.DataFlowDebugPackage,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AddDataFlowToDebugSessionResponse>,
+    callback?: msRest.ServiceCallback<Models.AddDataFlowToDebugSessionResponse>
+  ): Promise<Models.DataFlowDebugSessionAddDataFlowResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +156,8 @@ export class DataFlowDebugSession {
         options
       },
       addDataFlowOperationSpec,
-      callback) as Promise<Models.DataFlowDebugSessionAddDataFlowResponse>;
+      callback
+    ) as Promise<Models.DataFlowDebugSessionAddDataFlowResponse>;
   }
 
   /**
@@ -116,14 +168,24 @@ export class DataFlowDebugSession {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, request: Models.DeleteDataFlowDebugSessionRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    request: Models.DeleteDataFlowDebugSessionRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param request Data flow debug session definition for deletion
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, request: Models.DeleteDataFlowDebugSessionRequest, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    request: Models.DeleteDataFlowDebugSessionRequest,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -131,8 +193,20 @@ export class DataFlowDebugSession {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, request: Models.DeleteDataFlowDebugSessionRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, factoryName: string, request: Models.DeleteDataFlowDebugSessionRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    request: Models.DeleteDataFlowDebugSessionRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    request: Models.DeleteDataFlowDebugSessionRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -141,7 +215,8 @@ export class DataFlowDebugSession {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -152,9 +227,20 @@ export class DataFlowDebugSession {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataFlowDebugSessionExecuteCommandResponse>
    */
-  executeCommand(resourceGroupName: string, factoryName: string, request: Models.DataFlowDebugCommandRequest, options?: msRest.RequestOptionsBase): Promise<Models.DataFlowDebugSessionExecuteCommandResponse> {
-    return this.beginExecuteCommand(resourceGroupName,factoryName,request,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DataFlowDebugSessionExecuteCommandResponse>;
+  executeCommand(
+    resourceGroupName: string,
+    factoryName: string,
+    request: Models.DataFlowDebugCommandRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataFlowDebugSessionExecuteCommandResponse> {
+    return this.beginExecuteCommand(
+      resourceGroupName,
+      factoryName,
+      request,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DataFlowDebugSessionExecuteCommandResponse
+    >;
   }
 
   /**
@@ -165,7 +251,12 @@ export class DataFlowDebugSession {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, factoryName: string, request: Models.CreateDataFlowDebugSessionRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    factoryName: string,
+    request: Models.CreateDataFlowDebugSessionRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -174,7 +265,8 @@ export class DataFlowDebugSession {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -185,7 +277,12 @@ export class DataFlowDebugSession {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginExecuteCommand(resourceGroupName: string, factoryName: string, request: Models.DataFlowDebugCommandRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginExecuteCommand(
+    resourceGroupName: string,
+    factoryName: string,
+    request: Models.DataFlowDebugCommandRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -194,7 +291,8 @@ export class DataFlowDebugSession {
         options
       },
       beginExecuteCommandOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -203,26 +301,43 @@ export class DataFlowDebugSession {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataFlowDebugSessionQueryByFactoryNextResponse>
    */
-  queryByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DataFlowDebugSessionQueryByFactoryNextResponse>;
+  queryByFactoryNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataFlowDebugSessionQueryByFactoryNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  queryByFactoryNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>): void;
+  queryByFactoryNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  queryByFactoryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>): void;
-  queryByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>, callback?: msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>): Promise<Models.DataFlowDebugSessionQueryByFactoryNextResponse> {
+  queryByFactoryNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>
+  ): void;
+  queryByFactoryNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>,
+    callback?: msRest.ServiceCallback<Models.QueryDataFlowDebugSessionsResponse>
+  ): Promise<Models.DataFlowDebugSessionQueryByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       queryByFactoryNextOperationSpec,
-      callback) as Promise<Models.DataFlowDebugSessionQueryByFactoryNextResponse>;
+      callback
+    ) as Promise<Models.DataFlowDebugSessionQueryByFactoryNextResponse>;
   }
 }
 
@@ -230,18 +345,11 @@ export class DataFlowDebugSession {
 const serializer = new msRest.Serializer(Mappers);
 const queryByFactoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryDataFlowDebugSessions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryDataFlowDebugSessions",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.factoryName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.QueryDataFlowDebugSessionsResponse
@@ -255,18 +363,11 @@ const queryByFactoryOperationSpec: msRest.OperationSpec = {
 
 const addDataFlowOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/addDataFlowToDebugSession",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/addDataFlowToDebugSession",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.factoryName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {
@@ -287,18 +388,11 @@ const addDataFlowOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/deleteDataFlowDebugSession",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/deleteDataFlowDebugSession",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.factoryName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {
@@ -317,18 +411,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/createDataFlowDebugSession",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/createDataFlowDebugSession",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.factoryName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {
@@ -353,18 +440,11 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginExecuteCommandOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/executeDataFlowDebugCommand",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/executeDataFlowDebugCommand",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.factoryName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {
@@ -391,12 +471,8 @@ const queryByFactoryNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.QueryDataFlowDebugSessionsResponse

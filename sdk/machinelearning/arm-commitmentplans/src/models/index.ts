@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing SkuCapacity.
@@ -559,7 +558,8 @@ export interface CommitmentPlansListOptionalParams extends msRest.RequestOptions
  *
  * @extends RequestOptionsBase
  */
-export interface CommitmentPlansListInResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface CommitmentPlansListInResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [skipToken] Continuation token for pagination.
    */
@@ -592,7 +592,6 @@ export interface AzureMLCommitmentPlansManagementClientOptions extends AzureServ
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the SkuListResult.
@@ -600,8 +599,7 @@ export interface AzureMLCommitmentPlansManagementClientOptions extends AzureServ
  *
  * @extends Array<CatalogSku>
  */
-export interface SkuListResult extends Array<CatalogSku> {
-}
+export interface SkuListResult extends Array<CatalogSku> {}
 
 /**
  * @interface
@@ -651,7 +649,7 @@ export interface PlanUsageHistoryListResult extends Array<PlanUsageHistory> {
  * @readonly
  * @enum {string}
  */
-export type SkuCapacityScaleType = 'Automatic' | 'Manual' | 'None';
+export type SkuCapacityScaleType = "Automatic" | "Manual" | "None";
 
 /**
  * Defines values for ResourceSkuRestrictionsType.
@@ -659,7 +657,7 @@ export type SkuCapacityScaleType = 'Automatic' | 'Manual' | 'None';
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuRestrictionsType = 'location' | 'zone';
+export type ResourceSkuRestrictionsType = "location" | "zone";
 
 /**
  * Defines values for ResourceSkuRestrictionsReasonCode.
@@ -667,7 +665,7 @@ export type ResourceSkuRestrictionsType = 'location' | 'zone';
  * @readonly
  * @enum {string}
  */
-export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
+export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubscription";
 
 /**
  * Contains response data for the list operation.
@@ -677,15 +675,15 @@ export type SkusListResponse = SkuListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SkuListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SkuListResult;
+  };
 };
 
 /**
@@ -696,15 +694,15 @@ export type CommitmentAssociationsGetResponse = CommitmentAssociation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommitmentAssociation;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommitmentAssociation;
+  };
 };
 
 /**
@@ -715,15 +713,15 @@ export type CommitmentAssociationsListResponse = CommitmentAssociationListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommitmentAssociationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommitmentAssociationListResult;
+  };
 };
 
 /**
@@ -734,15 +732,15 @@ export type CommitmentAssociationsMoveResponse = CommitmentAssociation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommitmentAssociation;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommitmentAssociation;
+  };
 };
 
 /**
@@ -753,15 +751,15 @@ export type CommitmentAssociationsListNextResponse = CommitmentAssociationListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommitmentAssociationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommitmentAssociationListResult;
+  };
 };
 
 /**
@@ -772,15 +770,15 @@ export type CommitmentPlansGetResponse = CommitmentPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommitmentPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommitmentPlan;
+  };
 };
 
 /**
@@ -791,15 +789,15 @@ export type CommitmentPlansCreateOrUpdateResponse = CommitmentPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommitmentPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommitmentPlan;
+  };
 };
 
 /**
@@ -810,15 +808,15 @@ export type CommitmentPlansPatchResponse = CommitmentPlan & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommitmentPlan;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommitmentPlan;
+  };
 };
 
 /**
@@ -829,15 +827,15 @@ export type CommitmentPlansListResponse = CommitmentPlanListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommitmentPlanListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommitmentPlanListResult;
+  };
 };
 
 /**
@@ -848,15 +846,15 @@ export type CommitmentPlansListInResourceGroupResponse = CommitmentPlanListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommitmentPlanListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommitmentPlanListResult;
+  };
 };
 
 /**
@@ -867,15 +865,15 @@ export type CommitmentPlansListNextResponse = CommitmentPlanListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommitmentPlanListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommitmentPlanListResult;
+  };
 };
 
 /**
@@ -886,15 +884,15 @@ export type CommitmentPlansListInResourceGroupNextResponse = CommitmentPlanListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommitmentPlanListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CommitmentPlanListResult;
+  };
 };
 
 /**
@@ -905,15 +903,15 @@ export type UsageHistoryListResponse = PlanUsageHistoryListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PlanUsageHistoryListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PlanUsageHistoryListResult;
+  };
 };
 
 /**
@@ -924,13 +922,13 @@ export type UsageHistoryListNextResponse = PlanUsageHistoryListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PlanUsageHistoryListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PlanUsageHistoryListResult;
+  };
 };

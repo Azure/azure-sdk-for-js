@@ -305,9 +305,7 @@ export const Identity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned"
-          ]
+          allowedValues: ["SystemAssigned"]
         }
       }
     }
@@ -385,12 +383,7 @@ export const Sku: msRest.CompositeMapper = {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Free",
-            "Basic",
-            "Standard",
-            "Premium"
-          ]
+          allowedValues: ["Free", "Basic", "Standard", "Premium"]
         }
       },
       size: {

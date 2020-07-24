@@ -33,21 +33,39 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceListAvailableSkusResponse>
    */
-  listAvailableSkus(location: string, availableSkuRequest: Models.AvailableSkuRequest, options?: msRest.RequestOptionsBase): Promise<Models.ServiceListAvailableSkusResponse>;
+  listAvailableSkus(
+    location: string,
+    availableSkuRequest: Models.AvailableSkuRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceListAvailableSkusResponse>;
   /**
    * @param location The location of the resource
    * @param availableSkuRequest Filters for showing the available skus.
    * @param callback The callback
    */
-  listAvailableSkus(location: string, availableSkuRequest: Models.AvailableSkuRequest, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
+  listAvailableSkus(
+    location: string,
+    availableSkuRequest: Models.AvailableSkuRequest,
+    callback: msRest.ServiceCallback<Models.AvailableSkusResult>
+  ): void;
   /**
    * @param location The location of the resource
    * @param availableSkuRequest Filters for showing the available skus.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableSkus(location: string, availableSkuRequest: Models.AvailableSkuRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
-  listAvailableSkus(location: string, availableSkuRequest: Models.AvailableSkuRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableSkusResult>, callback?: msRest.ServiceCallback<Models.AvailableSkusResult>): Promise<Models.ServiceListAvailableSkusResponse> {
+  listAvailableSkus(
+    location: string,
+    availableSkuRequest: Models.AvailableSkuRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableSkusResult>
+  ): void;
+  listAvailableSkus(
+    location: string,
+    availableSkuRequest: Models.AvailableSkuRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableSkusResult>,
+    callback?: msRest.ServiceCallback<Models.AvailableSkusResult>
+  ): Promise<Models.ServiceListAvailableSkusResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -55,7 +73,8 @@ export class Service {
         options
       },
       listAvailableSkusOperationSpec,
-      callback) as Promise<Models.ServiceListAvailableSkusResponse>;
+      callback
+    ) as Promise<Models.ServiceListAvailableSkusResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceListAvailableSkusByResourceGroupResponse>
    */
-  listAvailableSkusByResourceGroup(resourceGroupName: string, location: string, availableSkuRequest: Models.AvailableSkuRequest, options?: msRest.RequestOptionsBase): Promise<Models.ServiceListAvailableSkusByResourceGroupResponse>;
+  listAvailableSkusByResourceGroup(
+    resourceGroupName: string,
+    location: string,
+    availableSkuRequest: Models.AvailableSkuRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceListAvailableSkusByResourceGroupResponse>;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param location The location of the resource
    * @param availableSkuRequest Filters for showing the available skus.
    * @param callback The callback
    */
-  listAvailableSkusByResourceGroup(resourceGroupName: string, location: string, availableSkuRequest: Models.AvailableSkuRequest, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
+  listAvailableSkusByResourceGroup(
+    resourceGroupName: string,
+    location: string,
+    availableSkuRequest: Models.AvailableSkuRequest,
+    callback: msRest.ServiceCallback<Models.AvailableSkusResult>
+  ): void;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param location The location of the resource
@@ -82,8 +111,20 @@ export class Service {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableSkusByResourceGroup(resourceGroupName: string, location: string, availableSkuRequest: Models.AvailableSkuRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
-  listAvailableSkusByResourceGroup(resourceGroupName: string, location: string, availableSkuRequest: Models.AvailableSkuRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableSkusResult>, callback?: msRest.ServiceCallback<Models.AvailableSkusResult>): Promise<Models.ServiceListAvailableSkusByResourceGroupResponse> {
+  listAvailableSkusByResourceGroup(
+    resourceGroupName: string,
+    location: string,
+    availableSkuRequest: Models.AvailableSkuRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableSkusResult>
+  ): void;
+  listAvailableSkusByResourceGroup(
+    resourceGroupName: string,
+    location: string,
+    availableSkuRequest: Models.AvailableSkuRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableSkusResult>,
+    callback?: msRest.ServiceCallback<Models.AvailableSkusResult>
+  ): Promise<Models.ServiceListAvailableSkusByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +133,8 @@ export class Service {
         options
       },
       listAvailableSkusByResourceGroupOperationSpec,
-      callback) as Promise<Models.ServiceListAvailableSkusByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ServiceListAvailableSkusByResourceGroupResponse>;
   }
 
   /**
@@ -104,14 +146,22 @@ export class Service {
    * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.ServiceValidateAddressMethodResponse>
    */
-  validateAddressMethod(location: string, validateAddress: Models.ValidateAddress, options?: msRest.RequestOptionsBase): Promise<Models.ServiceValidateAddressMethodResponse>;
+  validateAddressMethod(
+    location: string,
+    validateAddress: Models.ValidateAddress,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceValidateAddressMethodResponse>;
   /**
    * @param location The location of the resource
    * @param validateAddress Shipping address of the customer.
    * @param callback The callback
    * @deprecated This operation is deprecated. Please do not use it any longer.
    */
-  validateAddressMethod(location: string, validateAddress: Models.ValidateAddress, callback: msRest.ServiceCallback<Models.AddressValidationOutput>): void;
+  validateAddressMethod(
+    location: string,
+    validateAddress: Models.ValidateAddress,
+    callback: msRest.ServiceCallback<Models.AddressValidationOutput>
+  ): void;
   /**
    * @param location The location of the resource
    * @param validateAddress Shipping address of the customer.
@@ -119,8 +169,18 @@ export class Service {
    * @param callback The callback
    * @deprecated This operation is deprecated. Please do not use it any longer.
    */
-  validateAddressMethod(location: string, validateAddress: Models.ValidateAddress, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AddressValidationOutput>): void;
-  validateAddressMethod(location: string, validateAddress: Models.ValidateAddress, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AddressValidationOutput>, callback?: msRest.ServiceCallback<Models.AddressValidationOutput>): Promise<Models.ServiceValidateAddressMethodResponse> {
+  validateAddressMethod(
+    location: string,
+    validateAddress: Models.ValidateAddress,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AddressValidationOutput>
+  ): void;
+  validateAddressMethod(
+    location: string,
+    validateAddress: Models.ValidateAddress,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AddressValidationOutput>,
+    callback?: msRest.ServiceCallback<Models.AddressValidationOutput>
+  ): Promise<Models.ServiceValidateAddressMethodResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -128,7 +188,8 @@ export class Service {
         options
       },
       validateAddressMethodOperationSpec,
-      callback) as Promise<Models.ServiceValidateAddressMethodResponse>;
+      callback
+    ) as Promise<Models.ServiceValidateAddressMethodResponse>;
   }
 
   /**
@@ -139,14 +200,24 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceValidateInputsByResourceGroupResponse>
    */
-  validateInputsByResourceGroup(resourceGroupName: string, location: string, validationRequest: Models.ValidationRequestUnion, options?: msRest.RequestOptionsBase): Promise<Models.ServiceValidateInputsByResourceGroupResponse>;
+  validateInputsByResourceGroup(
+    resourceGroupName: string,
+    location: string,
+    validationRequest: Models.ValidationRequestUnion,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceValidateInputsByResourceGroupResponse>;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param location The location of the resource
    * @param validationRequest Inputs of the customer.
    * @param callback The callback
    */
-  validateInputsByResourceGroup(resourceGroupName: string, location: string, validationRequest: Models.ValidationRequestUnion, callback: msRest.ServiceCallback<Models.ValidationResponse>): void;
+  validateInputsByResourceGroup(
+    resourceGroupName: string,
+    location: string,
+    validationRequest: Models.ValidationRequestUnion,
+    callback: msRest.ServiceCallback<Models.ValidationResponse>
+  ): void;
   /**
    * @param resourceGroupName The Resource Group Name
    * @param location The location of the resource
@@ -154,8 +225,20 @@ export class Service {
    * @param options The optional parameters
    * @param callback The callback
    */
-  validateInputsByResourceGroup(resourceGroupName: string, location: string, validationRequest: Models.ValidationRequestUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidationResponse>): void;
-  validateInputsByResourceGroup(resourceGroupName: string, location: string, validationRequest: Models.ValidationRequestUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidationResponse>, callback?: msRest.ServiceCallback<Models.ValidationResponse>): Promise<Models.ServiceValidateInputsByResourceGroupResponse> {
+  validateInputsByResourceGroup(
+    resourceGroupName: string,
+    location: string,
+    validationRequest: Models.ValidationRequestUnion,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ValidationResponse>
+  ): void;
+  validateInputsByResourceGroup(
+    resourceGroupName: string,
+    location: string,
+    validationRequest: Models.ValidationRequestUnion,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidationResponse>,
+    callback?: msRest.ServiceCallback<Models.ValidationResponse>
+  ): Promise<Models.ServiceValidateInputsByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -164,7 +247,8 @@ export class Service {
         options
       },
       validateInputsByResourceGroupOperationSpec,
-      callback) as Promise<Models.ServiceValidateInputsByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ServiceValidateInputsByResourceGroupResponse>;
   }
 
   /**
@@ -174,21 +258,39 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceValidateInputsResponse>
    */
-  validateInputs(location: string, validationRequest: Models.ValidationRequestUnion, options?: msRest.RequestOptionsBase): Promise<Models.ServiceValidateInputsResponse>;
+  validateInputs(
+    location: string,
+    validationRequest: Models.ValidationRequestUnion,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceValidateInputsResponse>;
   /**
    * @param location The location of the resource
    * @param validationRequest Inputs of the customer.
    * @param callback The callback
    */
-  validateInputs(location: string, validationRequest: Models.ValidationRequestUnion, callback: msRest.ServiceCallback<Models.ValidationResponse>): void;
+  validateInputs(
+    location: string,
+    validationRequest: Models.ValidationRequestUnion,
+    callback: msRest.ServiceCallback<Models.ValidationResponse>
+  ): void;
   /**
    * @param location The location of the resource
    * @param validationRequest Inputs of the customer.
    * @param options The optional parameters
    * @param callback The callback
    */
-  validateInputs(location: string, validationRequest: Models.ValidationRequestUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidationResponse>): void;
-  validateInputs(location: string, validationRequest: Models.ValidationRequestUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidationResponse>, callback?: msRest.ServiceCallback<Models.ValidationResponse>): Promise<Models.ServiceValidateInputsResponse> {
+  validateInputs(
+    location: string,
+    validationRequest: Models.ValidationRequestUnion,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ValidationResponse>
+  ): void;
+  validateInputs(
+    location: string,
+    validationRequest: Models.ValidationRequestUnion,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidationResponse>,
+    callback?: msRest.ServiceCallback<Models.ValidationResponse>
+  ): Promise<Models.ServiceValidateInputsResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -196,7 +298,8 @@ export class Service {
         options
       },
       validateInputsOperationSpec,
-      callback) as Promise<Models.ServiceValidateInputsResponse>;
+      callback
+    ) as Promise<Models.ServiceValidateInputsResponse>;
   }
 
   /**
@@ -205,26 +308,43 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceRegionConfigurationResponse>
    */
-  regionConfiguration(location: string, options?: Models.ServiceRegionConfigurationOptionalParams): Promise<Models.ServiceRegionConfigurationResponse>;
+  regionConfiguration(
+    location: string,
+    options?: Models.ServiceRegionConfigurationOptionalParams
+  ): Promise<Models.ServiceRegionConfigurationResponse>;
   /**
    * @param location The location of the resource
    * @param callback The callback
    */
-  regionConfiguration(location: string, callback: msRest.ServiceCallback<Models.RegionConfigurationResponse>): void;
+  regionConfiguration(
+    location: string,
+    callback: msRest.ServiceCallback<Models.RegionConfigurationResponse>
+  ): void;
   /**
    * @param location The location of the resource
    * @param options The optional parameters
    * @param callback The callback
    */
-  regionConfiguration(location: string, options: Models.ServiceRegionConfigurationOptionalParams, callback: msRest.ServiceCallback<Models.RegionConfigurationResponse>): void;
-  regionConfiguration(location: string, options?: Models.ServiceRegionConfigurationOptionalParams | msRest.ServiceCallback<Models.RegionConfigurationResponse>, callback?: msRest.ServiceCallback<Models.RegionConfigurationResponse>): Promise<Models.ServiceRegionConfigurationResponse> {
+  regionConfiguration(
+    location: string,
+    options: Models.ServiceRegionConfigurationOptionalParams,
+    callback: msRest.ServiceCallback<Models.RegionConfigurationResponse>
+  ): void;
+  regionConfiguration(
+    location: string,
+    options?:
+      | Models.ServiceRegionConfigurationOptionalParams
+      | msRest.ServiceCallback<Models.RegionConfigurationResponse>,
+    callback?: msRest.ServiceCallback<Models.RegionConfigurationResponse>
+  ): Promise<Models.ServiceRegionConfigurationResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       regionConfigurationOperationSpec,
-      callback) as Promise<Models.ServiceRegionConfigurationResponse>;
+      callback
+    ) as Promise<Models.ServiceRegionConfigurationResponse>;
   }
 
   /**
@@ -233,26 +353,41 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceListAvailableSkusNextResponse>
    */
-  listAvailableSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceListAvailableSkusNextResponse>;
+  listAvailableSkusNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceListAvailableSkusNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAvailableSkusNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
+  listAvailableSkusNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AvailableSkusResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
-  listAvailableSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableSkusResult>, callback?: msRest.ServiceCallback<Models.AvailableSkusResult>): Promise<Models.ServiceListAvailableSkusNextResponse> {
+  listAvailableSkusNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableSkusResult>
+  ): void;
+  listAvailableSkusNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableSkusResult>,
+    callback?: msRest.ServiceCallback<Models.AvailableSkusResult>
+  ): Promise<Models.ServiceListAvailableSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAvailableSkusNextOperationSpec,
-      callback) as Promise<Models.ServiceListAvailableSkusNextResponse>;
+      callback
+    ) as Promise<Models.ServiceListAvailableSkusNextResponse>;
   }
 
   /**
@@ -262,26 +397,41 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceListAvailableSkusByResourceGroupNextResponse>
    */
-  listAvailableSkusByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceListAvailableSkusByResourceGroupNextResponse>;
+  listAvailableSkusByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceListAvailableSkusByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAvailableSkusByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
+  listAvailableSkusByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AvailableSkusResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableSkusByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
-  listAvailableSkusByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableSkusResult>, callback?: msRest.ServiceCallback<Models.AvailableSkusResult>): Promise<Models.ServiceListAvailableSkusByResourceGroupNextResponse> {
+  listAvailableSkusByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableSkusResult>
+  ): void;
+  listAvailableSkusByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableSkusResult>,
+    callback?: msRest.ServiceCallback<Models.AvailableSkusResult>
+  ): Promise<Models.ServiceListAvailableSkusByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAvailableSkusByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ServiceListAvailableSkusByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ServiceListAvailableSkusByResourceGroupNextResponse>;
   }
 }
 
@@ -289,17 +439,11 @@ export class Service {
 const serializer = new msRest.Serializer(Mappers);
 const listAvailableSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/availableSkus",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/availableSkus",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "availableSkuRequest",
     mapper: {
@@ -320,18 +464,11 @@ const listAvailableSkusOperationSpec: msRest.OperationSpec = {
 
 const listAvailableSkusByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/availableSkus",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/availableSkus",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "availableSkuRequest",
     mapper: {
@@ -352,17 +489,11 @@ const listAvailableSkusByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const validateAddressMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/validateAddress",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/validateAddress",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "validateAddress",
     mapper: {
@@ -383,18 +514,11 @@ const validateAddressMethodOperationSpec: msRest.OperationSpec = {
 
 const validateInputsByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/validateInputs",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/validateInputs",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "validationRequest",
     mapper: {
@@ -415,17 +539,11 @@ const validateInputsByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const validateInputsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/validateInputs",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/validateInputs",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "validationRequest",
     mapper: {
@@ -446,27 +564,15 @@ const validateInputsOperationSpec: msRest.OperationSpec = {
 
 const regionConfigurationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/regionConfiguration",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/regionConfiguration",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      scheduleAvailabilityRequest: [
-        "options",
-        "scheduleAvailabilityRequest"
-      ],
-      transportAvailabilityRequest: [
-        "options",
-        "transportAvailabilityRequest"
-      ]
+      scheduleAvailabilityRequest: ["options", "scheduleAvailabilityRequest"],
+      transportAvailabilityRequest: ["options", "transportAvailabilityRequest"]
     },
     mapper: {
       ...Mappers.RegionConfigurationRequest,
@@ -488,12 +594,8 @@ const listAvailableSkusNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailableSkusResult
@@ -509,12 +611,8 @@ const listAvailableSkusByResourceGroupNextOperationSpec: msRest.OperationSpec = 
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailableSkusResult

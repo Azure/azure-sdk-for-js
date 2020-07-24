@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { BatchAIManagementClientContext } from "./batchAIManagementClientContext";
 
-
 class BatchAIManagementClient extends BatchAIManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -31,7 +30,11 @@ class BatchAIManagementClient extends BatchAIManagementClientContext {
    * @param subscriptionId The subscriptionID for the Azure user.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.BatchAIManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.BatchAIManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.usages = new operations.Usages(this);

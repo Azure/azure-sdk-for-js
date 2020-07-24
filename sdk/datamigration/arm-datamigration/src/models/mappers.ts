@@ -2503,7 +2503,8 @@ export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError: msRest.C
   serializedName: "DatabaseLevelErrorOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
     className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError",
     modelProperties: {
@@ -2534,7 +2535,8 @@ export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputError: msRest.Composite
   serializedName: "ErrorOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
     className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputError",
     modelProperties: {
@@ -2555,7 +2557,8 @@ export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel: msRest.Comp
   serializedName: "TableLevelOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
     className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel",
     modelProperties: {
@@ -2659,7 +2662,8 @@ export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel: msRest.C
   serializedName: "DatabaseLevelOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
     className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel",
     modelProperties: {
@@ -2777,7 +2781,8 @@ export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel: msRest.
   serializedName: "MigrationLevelOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
     className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel",
     modelProperties: {
@@ -2894,7 +2899,8 @@ export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError: m
   serializedName: "DatabaseLevelErrorOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
     className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError",
     modelProperties: {
@@ -2925,7 +2931,8 @@ export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError: msRest.Co
   serializedName: "ErrorOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
     className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError",
     modelProperties: {
@@ -2946,7 +2953,8 @@ export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel: msRe
   serializedName: "TableLevelOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
     className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel",
     modelProperties: {
@@ -3050,7 +3058,8 @@ export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel: m
   serializedName: "DatabaseLevelOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
     className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel",
     modelProperties: {
@@ -3168,7 +3177,8 @@ export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel: 
   serializedName: "MigrationLevelOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
     className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel",
     modelProperties: {
@@ -3379,7 +3389,8 @@ export const MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError: msRest.Comp
   serializedName: "DatabaseLevelErrorOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
     className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError",
     modelProperties: {
@@ -3410,7 +3421,8 @@ export const MigrateMySqlAzureDbForMySqlSyncTaskOutputError: msRest.CompositeMap
   serializedName: "ErrorOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
     className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputError",
     modelProperties: {
@@ -3431,7 +3443,8 @@ export const MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel: msRest.Composi
   serializedName: "TableLevelOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
     className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel",
     modelProperties: {
@@ -3535,7 +3548,8 @@ export const MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel: msRest.Comp
   serializedName: "DatabaseLevelOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
     className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel",
     modelProperties: {
@@ -3653,7 +3667,8 @@ export const MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel: msRest.Com
   serializedName: "MigrationLevelOutput",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
+    polymorphicDiscriminator:
+      MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
     uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
     className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel",
     modelProperties: {
@@ -7281,7 +7296,8 @@ export const ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput: msRest.Com
           element: {
             type: {
               name: "Composite",
-              className: "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapItem"
+              className:
+                "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapItem"
             }
           }
         }
@@ -11051,107 +11067,106 @@ export const FileList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'CommandProperties.Migrate.SqlServer.AzureDbSqlMi.Complete' : MigrateMISyncCompleteCommandProperties,
-  'CommandProperties.Migrate.Sync.Complete.Database' : MigrateSyncCompleteCommandProperties,
-  'CommandProperties' : CommandProperties,
-  'MigrateSsisTaskOutput.SsisProjectLevelOutput' : MigrateSsisTaskOutputProjectLevel,
-  'MigrateSsisTaskOutput.MigrationLevelOutput' : MigrateSsisTaskOutputMigrationLevel,
-  'MigrateSsisTaskOutput' : MigrateSsisTaskOutput,
-  'ConnectionInfo.MiSqlConnectionInfo' : MiSqlConnectionInfo,
-  'ConnectionInfo.PostgreSqlConnectionInfo' : PostgreSqlConnectionInfo,
-  'ConnectionInfo.OracleConnectionInfo' : OracleConnectionInfo,
-  'ConnectionInfo.MySqlConnectionInfo' : MySqlConnectionInfo,
-  'ConnectionInfo.MongoDbConnectionInfo' : MongoDbConnectionInfo,
-  'ConnectionInfo' : ConnectionInfo,
-  'ConnectionInfo.SqlConnectionInfo' : SqlConnectionInfo,
-  'ProjectTaskProperties.Migrate.Ssis' : MigrateSsisTaskProperties,
-  'ProjectTaskProperties.GetTDECertificates.Sql' : GetTdeCertificatesSqlTaskProperties,
-  'ProjectTaskProperties.Validate.Oracle.AzureDbPostgreSql.Sync' : ValidateOracleAzureDbForPostgreSqlSyncTaskProperties,
-  'ProjectTaskProperties.Validate.MongoDb' : ValidateMongoDbTaskProperties,
-  'ProjectTaskProperties.ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS' : ValidateMigrationInputSqlServerSqlMISyncTaskProperties,
-  'ProjectTaskProperties.ValidateMigrationInput.SqlServer.AzureSqlDbMI' : ValidateMigrationInputSqlServerSqlMITaskProperties,
-  'ProjectTaskProperties.ValidateMigrationInput.SqlServer.SqlDb.Sync' : ValidateMigrationInputSqlServerSqlDbSyncTaskProperties,
-  'MigrateOracleAzureDbPostgreSqlSyncTaskOutput.DatabaseLevelErrorOutput' : MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError,
-  'MigrateOracleAzureDbPostgreSqlSyncTaskOutput.ErrorOutput' : MigrateOracleAzureDbPostgreSqlSyncTaskOutputError,
-  'MigrateOracleAzureDbPostgreSqlSyncTaskOutput.TableLevelOutput' : MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel,
-  'MigrateOracleAzureDbPostgreSqlSyncTaskOutput.DatabaseLevelOutput' : MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel,
-  'MigrateOracleAzureDbPostgreSqlSyncTaskOutput.MigrationLevelOutput' : MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel,
-  'MigrateOracleAzureDbPostgreSqlSyncTaskOutput' : MigrateOracleAzureDbPostgreSqlSyncTaskOutput,
-  'ProjectTaskProperties.Migrate.Oracle.AzureDbForPostgreSql.Sync' : MigrateOracleAzureDbForPostgreSqlSyncTaskProperties,
-  'MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.DatabaseLevelErrorOutput' : MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError,
-  'MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.ErrorOutput' : MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError,
-  'MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.TableLevelOutput' : MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel,
-  'MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.DatabaseLevelOutput' : MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel,
-  'MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.MigrationLevelOutput' : MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel,
-  'MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput' : MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput,
-  'ProjectTaskProperties.Migrate.PostgreSql.AzureDbForPostgreSql.Sync' : MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties,
-  'MigrateMySqlAzureDbForMySqlSyncTaskOutput.DatabaseLevelErrorOutput' : MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError,
-  'MigrateMySqlAzureDbForMySqlSyncTaskOutput.ErrorOutput' : MigrateMySqlAzureDbForMySqlSyncTaskOutputError,
-  'MigrateMySqlAzureDbForMySqlSyncTaskOutput.TableLevelOutput' : MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel,
-  'MigrateMySqlAzureDbForMySqlSyncTaskOutput.DatabaseLevelOutput' : MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel,
-  'MigrateMySqlAzureDbForMySqlSyncTaskOutput.MigrationLevelOutput' : MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel,
-  'MigrateMySqlAzureDbForMySqlSyncTaskOutput' : MigrateMySqlAzureDbForMySqlSyncTaskOutput,
-  'ProjectTaskProperties.Migrate.MySql.AzureDbForMySql.Sync' : MigrateMySqlAzureDbForMySqlSyncTaskProperties,
-  'MigrateSqlServerSqlDbSyncTaskOutput.DatabaseLevelErrorOutput' : MigrateSqlServerSqlDbSyncTaskOutputDatabaseError,
-  'MigrateSqlServerSqlDbSyncTaskOutput.ErrorOutput' : MigrateSqlServerSqlDbSyncTaskOutputError,
-  'MigrateSqlServerSqlDbSyncTaskOutput.TableLevelOutput' : MigrateSqlServerSqlDbSyncTaskOutputTableLevel,
-  'MigrateSqlServerSqlDbSyncTaskOutput.DatabaseLevelOutput' : MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel,
-  'MigrateSqlServerSqlDbSyncTaskOutput.MigrationLevelOutput' : MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel,
-  'MigrateSqlServerSqlDbSyncTaskOutput' : MigrateSqlServerSqlDbSyncTaskOutput,
-  'ProjectTaskProperties.Migrate.SqlServer.AzureSqlDb.Sync' : MigrateSqlServerSqlDbSyncTaskProperties,
-  'MigrateSqlServerSqlDbTaskOutput.ErrorOutput' : MigrateSqlServerSqlDbTaskOutputError,
-  'MigrateSqlServerSqlDbTaskOutput.TableLevelOutput' : MigrateSqlServerSqlDbTaskOutputTableLevel,
-  'MigrateSqlServerSqlDbTaskOutput.DatabaseLevelOutput' : MigrateSqlServerSqlDbTaskOutputDatabaseLevel,
-  'MigrateSqlServerSqlDbTaskOutput.MigrationLevelOutput' : MigrateSqlServerSqlDbTaskOutputMigrationLevel,
-  'MigrateSqlServerSqlDbTaskOutput' : MigrateSqlServerSqlDbTaskOutput,
-  'ProjectTaskProperties.Migrate.SqlServer.SqlDb' : MigrateSqlServerSqlDbTaskProperties,
-  'MigrateSqlServerSqlMISyncTaskOutput.ErrorOutput' : MigrateSqlServerSqlMISyncTaskOutputError,
-  'MigrateSqlServerSqlMISyncTaskOutput.DatabaseLevelOutput' : MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel,
-  'MigrateSqlServerSqlMISyncTaskOutput.MigrationLevelOutput' : MigrateSqlServerSqlMISyncTaskOutputMigrationLevel,
-  'MigrateSqlServerSqlMISyncTaskOutput' : MigrateSqlServerSqlMISyncTaskOutput,
-  'ProjectTaskProperties.Migrate.SqlServer.AzureSqlDbMI.Sync.LRS' : MigrateSqlServerSqlMISyncTaskProperties,
-  'MigrateSqlServerSqlMITaskOutput.ErrorOutput' : MigrateSqlServerSqlMITaskOutputError,
-  'MigrateSqlServerSqlMITaskOutput.LoginLevelOutput' : MigrateSqlServerSqlMITaskOutputLoginLevel,
-  'MigrateSqlServerSqlMITaskOutput.AgentJobLevelOutput' : MigrateSqlServerSqlMITaskOutputAgentJobLevel,
-  'MigrateSqlServerSqlMITaskOutput.DatabaseLevelOutput' : MigrateSqlServerSqlMITaskOutputDatabaseLevel,
-  'MigrateSqlServerSqlMITaskOutput.MigrationLevelOutput' : MigrateSqlServerSqlMITaskOutputMigrationLevel,
-  'MigrateSqlServerSqlMITaskOutput' : MigrateSqlServerSqlMITaskOutput,
-  'ProjectTaskProperties.Migrate.SqlServer.AzureSqlDbMI' : MigrateSqlServerSqlMITaskProperties,
-  'ProjectTaskProperties.Migrate.MongoDb' : MigrateMongoDbTaskProperties,
-  'ProjectTaskProperties.ConnectToTarget.AzureDbForMySql' : ConnectToTargetAzureDbForMySqlTaskProperties,
-  'ProjectTaskProperties.ConnectToTarget.AzureSqlDbMI.Sync.LRS' : ConnectToTargetSqlMISyncTaskProperties,
-  'ProjectTaskProperties.ConnectToTarget.AzureSqlDbMI' : ConnectToTargetSqlMITaskProperties,
-  'ProjectTaskProperties.GetUserTablesPostgreSql' : GetUserTablesPostgreSqlTaskProperties,
-  'ProjectTaskProperties.GetUserTablesOracle' : GetUserTablesOracleTaskProperties,
-  'ProjectTaskProperties.GetUserTables.AzureSqlDb.Sync' : GetUserTablesSqlSyncTaskProperties,
-  'ProjectTaskProperties.GetUserTables.Sql' : GetUserTablesSqlTaskProperties,
-  'ProjectTaskProperties.ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync' : ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties,
-  'ProjectTaskProperties.ConnectToTarget.AzureDbForPostgreSql.Sync' : ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties,
-  'ProjectTaskProperties.ConnectToTarget.SqlDb.Sync' : ConnectToTargetSqlSqlDbSyncTaskProperties,
-  'ProjectTaskProperties.ConnectToTarget.SqlDb' : ConnectToTargetSqlDbTaskProperties,
-  'ProjectTaskProperties.ConnectToSource.Oracle.Sync' : ConnectToSourceOracleSyncTaskProperties,
-  'ProjectTaskProperties.ConnectToSource.PostgreSql.Sync' : ConnectToSourcePostgreSqlSyncTaskProperties,
-  'ConnectToSourceSqlServerTaskOutput.AgentJobLevelOutput' : ConnectToSourceSqlServerTaskOutputAgentJobLevel,
-  'ConnectToSourceSqlServerTaskOutput.LoginLevelOutput' : ConnectToSourceSqlServerTaskOutputLoginLevel,
-  'ConnectToSourceSqlServerTaskOutput.DatabaseLevelOutput' : ConnectToSourceSqlServerTaskOutputDatabaseLevel,
-  'ConnectToSourceSqlServerTaskOutput.TaskLevelOutput' : ConnectToSourceSqlServerTaskOutputTaskLevel,
-  'ConnectToSourceSqlServerTaskOutput' : ConnectToSourceSqlServerTaskOutput,
-  'ProjectTaskProperties.ConnectToSource.SqlServer.Sync' : ConnectToSourceSqlServerSyncTaskProperties,
-  'ProjectTaskProperties.ConnectToSource.SqlServer' : ConnectToSourceSqlServerTaskProperties,
-  'ProjectTaskProperties.Connect.MongoDb' : ConnectToMongoDbTaskProperties,
-  'ProjectTaskProperties' : ProjectTaskProperties,
-  'ProjectTaskProperties.ConnectToSource.MySql' : ConnectToSourceMySqlTaskProperties,
-  'MigrateSchemaSqlServerSqlDbTaskOutput' : MigrateSchemaSqlServerSqlDbTaskOutput,
-  'ProjectTaskProperties.MigrateSchemaSqlServerSqlDb' : MigrateSchemaSqlServerSqlDbTaskProperties,
-  'MigrateSchemaSqlServerSqlDbTaskOutput.MigrationLevelOutput' : MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel,
-  'MigrateSchemaSqlServerSqlDbTaskOutput.DatabaseLevelOutput' : MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel,
-  'MigrateSchemaSqlServerSqlDbTaskOutput.SchemaErrorOutput' : MigrateSchemaSqlServerSqlDbTaskOutputError,
-  'MigrateSchemaSqlServerSqlDbTaskOutput.ErrorOutput' : MigrateSchemaSqlTaskOutputError,
-  'CommandProperties.cancel' : MongoDbCancelCommand,
-  'CommandProperties.finish' : MongoDbFinishCommand,
-  'CommandProperties.restart' : MongoDbRestartCommand,
-  'ProjectTaskProperties.Service.Check.OCI' : CheckOCIDriverTaskProperties,
-  'ProjectTaskProperties.Service.Upload.OCI' : UploadOCIDriverTaskProperties,
-  'ProjectTaskProperties.Service.Install.OCI' : InstallOCIDriverTaskProperties
-
+  "CommandProperties.Migrate.SqlServer.AzureDbSqlMi.Complete": MigrateMISyncCompleteCommandProperties,
+  "CommandProperties.Migrate.Sync.Complete.Database": MigrateSyncCompleteCommandProperties,
+  CommandProperties: CommandProperties,
+  "MigrateSsisTaskOutput.SsisProjectLevelOutput": MigrateSsisTaskOutputProjectLevel,
+  "MigrateSsisTaskOutput.MigrationLevelOutput": MigrateSsisTaskOutputMigrationLevel,
+  MigrateSsisTaskOutput: MigrateSsisTaskOutput,
+  "ConnectionInfo.MiSqlConnectionInfo": MiSqlConnectionInfo,
+  "ConnectionInfo.PostgreSqlConnectionInfo": PostgreSqlConnectionInfo,
+  "ConnectionInfo.OracleConnectionInfo": OracleConnectionInfo,
+  "ConnectionInfo.MySqlConnectionInfo": MySqlConnectionInfo,
+  "ConnectionInfo.MongoDbConnectionInfo": MongoDbConnectionInfo,
+  ConnectionInfo: ConnectionInfo,
+  "ConnectionInfo.SqlConnectionInfo": SqlConnectionInfo,
+  "ProjectTaskProperties.Migrate.Ssis": MigrateSsisTaskProperties,
+  "ProjectTaskProperties.GetTDECertificates.Sql": GetTdeCertificatesSqlTaskProperties,
+  "ProjectTaskProperties.Validate.Oracle.AzureDbPostgreSql.Sync": ValidateOracleAzureDbForPostgreSqlSyncTaskProperties,
+  "ProjectTaskProperties.Validate.MongoDb": ValidateMongoDbTaskProperties,
+  "ProjectTaskProperties.ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS": ValidateMigrationInputSqlServerSqlMISyncTaskProperties,
+  "ProjectTaskProperties.ValidateMigrationInput.SqlServer.AzureSqlDbMI": ValidateMigrationInputSqlServerSqlMITaskProperties,
+  "ProjectTaskProperties.ValidateMigrationInput.SqlServer.SqlDb.Sync": ValidateMigrationInputSqlServerSqlDbSyncTaskProperties,
+  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.DatabaseLevelErrorOutput": MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError,
+  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.ErrorOutput": MigrateOracleAzureDbPostgreSqlSyncTaskOutputError,
+  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.TableLevelOutput": MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel,
+  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.DatabaseLevelOutput": MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel,
+  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.MigrationLevelOutput": MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel,
+  MigrateOracleAzureDbPostgreSqlSyncTaskOutput: MigrateOracleAzureDbPostgreSqlSyncTaskOutput,
+  "ProjectTaskProperties.Migrate.Oracle.AzureDbForPostgreSql.Sync": MigrateOracleAzureDbForPostgreSqlSyncTaskProperties,
+  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.DatabaseLevelErrorOutput": MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError,
+  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.ErrorOutput": MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError,
+  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.TableLevelOutput": MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel,
+  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.DatabaseLevelOutput": MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel,
+  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.MigrationLevelOutput": MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel,
+  MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput,
+  "ProjectTaskProperties.Migrate.PostgreSql.AzureDbForPostgreSql.Sync": MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties,
+  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.DatabaseLevelErrorOutput": MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError,
+  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.ErrorOutput": MigrateMySqlAzureDbForMySqlSyncTaskOutputError,
+  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.TableLevelOutput": MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel,
+  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.DatabaseLevelOutput": MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel,
+  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.MigrationLevelOutput": MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel,
+  MigrateMySqlAzureDbForMySqlSyncTaskOutput: MigrateMySqlAzureDbForMySqlSyncTaskOutput,
+  "ProjectTaskProperties.Migrate.MySql.AzureDbForMySql.Sync": MigrateMySqlAzureDbForMySqlSyncTaskProperties,
+  "MigrateSqlServerSqlDbSyncTaskOutput.DatabaseLevelErrorOutput": MigrateSqlServerSqlDbSyncTaskOutputDatabaseError,
+  "MigrateSqlServerSqlDbSyncTaskOutput.ErrorOutput": MigrateSqlServerSqlDbSyncTaskOutputError,
+  "MigrateSqlServerSqlDbSyncTaskOutput.TableLevelOutput": MigrateSqlServerSqlDbSyncTaskOutputTableLevel,
+  "MigrateSqlServerSqlDbSyncTaskOutput.DatabaseLevelOutput": MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel,
+  "MigrateSqlServerSqlDbSyncTaskOutput.MigrationLevelOutput": MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel,
+  MigrateSqlServerSqlDbSyncTaskOutput: MigrateSqlServerSqlDbSyncTaskOutput,
+  "ProjectTaskProperties.Migrate.SqlServer.AzureSqlDb.Sync": MigrateSqlServerSqlDbSyncTaskProperties,
+  "MigrateSqlServerSqlDbTaskOutput.ErrorOutput": MigrateSqlServerSqlDbTaskOutputError,
+  "MigrateSqlServerSqlDbTaskOutput.TableLevelOutput": MigrateSqlServerSqlDbTaskOutputTableLevel,
+  "MigrateSqlServerSqlDbTaskOutput.DatabaseLevelOutput": MigrateSqlServerSqlDbTaskOutputDatabaseLevel,
+  "MigrateSqlServerSqlDbTaskOutput.MigrationLevelOutput": MigrateSqlServerSqlDbTaskOutputMigrationLevel,
+  MigrateSqlServerSqlDbTaskOutput: MigrateSqlServerSqlDbTaskOutput,
+  "ProjectTaskProperties.Migrate.SqlServer.SqlDb": MigrateSqlServerSqlDbTaskProperties,
+  "MigrateSqlServerSqlMISyncTaskOutput.ErrorOutput": MigrateSqlServerSqlMISyncTaskOutputError,
+  "MigrateSqlServerSqlMISyncTaskOutput.DatabaseLevelOutput": MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel,
+  "MigrateSqlServerSqlMISyncTaskOutput.MigrationLevelOutput": MigrateSqlServerSqlMISyncTaskOutputMigrationLevel,
+  MigrateSqlServerSqlMISyncTaskOutput: MigrateSqlServerSqlMISyncTaskOutput,
+  "ProjectTaskProperties.Migrate.SqlServer.AzureSqlDbMI.Sync.LRS": MigrateSqlServerSqlMISyncTaskProperties,
+  "MigrateSqlServerSqlMITaskOutput.ErrorOutput": MigrateSqlServerSqlMITaskOutputError,
+  "MigrateSqlServerSqlMITaskOutput.LoginLevelOutput": MigrateSqlServerSqlMITaskOutputLoginLevel,
+  "MigrateSqlServerSqlMITaskOutput.AgentJobLevelOutput": MigrateSqlServerSqlMITaskOutputAgentJobLevel,
+  "MigrateSqlServerSqlMITaskOutput.DatabaseLevelOutput": MigrateSqlServerSqlMITaskOutputDatabaseLevel,
+  "MigrateSqlServerSqlMITaskOutput.MigrationLevelOutput": MigrateSqlServerSqlMITaskOutputMigrationLevel,
+  MigrateSqlServerSqlMITaskOutput: MigrateSqlServerSqlMITaskOutput,
+  "ProjectTaskProperties.Migrate.SqlServer.AzureSqlDbMI": MigrateSqlServerSqlMITaskProperties,
+  "ProjectTaskProperties.Migrate.MongoDb": MigrateMongoDbTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.AzureDbForMySql": ConnectToTargetAzureDbForMySqlTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.AzureSqlDbMI.Sync.LRS": ConnectToTargetSqlMISyncTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.AzureSqlDbMI": ConnectToTargetSqlMITaskProperties,
+  "ProjectTaskProperties.GetUserTablesPostgreSql": GetUserTablesPostgreSqlTaskProperties,
+  "ProjectTaskProperties.GetUserTablesOracle": GetUserTablesOracleTaskProperties,
+  "ProjectTaskProperties.GetUserTables.AzureSqlDb.Sync": GetUserTablesSqlSyncTaskProperties,
+  "ProjectTaskProperties.GetUserTables.Sql": GetUserTablesSqlTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync": ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.AzureDbForPostgreSql.Sync": ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.SqlDb.Sync": ConnectToTargetSqlSqlDbSyncTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.SqlDb": ConnectToTargetSqlDbTaskProperties,
+  "ProjectTaskProperties.ConnectToSource.Oracle.Sync": ConnectToSourceOracleSyncTaskProperties,
+  "ProjectTaskProperties.ConnectToSource.PostgreSql.Sync": ConnectToSourcePostgreSqlSyncTaskProperties,
+  "ConnectToSourceSqlServerTaskOutput.AgentJobLevelOutput": ConnectToSourceSqlServerTaskOutputAgentJobLevel,
+  "ConnectToSourceSqlServerTaskOutput.LoginLevelOutput": ConnectToSourceSqlServerTaskOutputLoginLevel,
+  "ConnectToSourceSqlServerTaskOutput.DatabaseLevelOutput": ConnectToSourceSqlServerTaskOutputDatabaseLevel,
+  "ConnectToSourceSqlServerTaskOutput.TaskLevelOutput": ConnectToSourceSqlServerTaskOutputTaskLevel,
+  ConnectToSourceSqlServerTaskOutput: ConnectToSourceSqlServerTaskOutput,
+  "ProjectTaskProperties.ConnectToSource.SqlServer.Sync": ConnectToSourceSqlServerSyncTaskProperties,
+  "ProjectTaskProperties.ConnectToSource.SqlServer": ConnectToSourceSqlServerTaskProperties,
+  "ProjectTaskProperties.Connect.MongoDb": ConnectToMongoDbTaskProperties,
+  ProjectTaskProperties: ProjectTaskProperties,
+  "ProjectTaskProperties.ConnectToSource.MySql": ConnectToSourceMySqlTaskProperties,
+  MigrateSchemaSqlServerSqlDbTaskOutput: MigrateSchemaSqlServerSqlDbTaskOutput,
+  "ProjectTaskProperties.MigrateSchemaSqlServerSqlDb": MigrateSchemaSqlServerSqlDbTaskProperties,
+  "MigrateSchemaSqlServerSqlDbTaskOutput.MigrationLevelOutput": MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel,
+  "MigrateSchemaSqlServerSqlDbTaskOutput.DatabaseLevelOutput": MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel,
+  "MigrateSchemaSqlServerSqlDbTaskOutput.SchemaErrorOutput": MigrateSchemaSqlServerSqlDbTaskOutputError,
+  "MigrateSchemaSqlServerSqlDbTaskOutput.ErrorOutput": MigrateSchemaSqlTaskOutputError,
+  "CommandProperties.cancel": MongoDbCancelCommand,
+  "CommandProperties.finish": MongoDbFinishCommand,
+  "CommandProperties.restart": MongoDbRestartCommand,
+  "ProjectTaskProperties.Service.Check.OCI": CheckOCIDriverTaskProperties,
+  "ProjectTaskProperties.Service.Upload.OCI": UploadOCIDriverTaskProperties,
+  "ProjectTaskProperties.Service.Install.OCI": InstallOCIDriverTaskProperties
 };

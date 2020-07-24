@@ -36,9 +36,15 @@ export class TenantConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantConfigurationDeployResponse>
    */
-  deploy(resourceGroupName: string, serviceName: string, parameters: Models.DeployConfigurationParameters, options?: msRest.RequestOptionsBase): Promise<Models.TenantConfigurationDeployResponse> {
-    return this.beginDeploy(resourceGroupName,serviceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TenantConfigurationDeployResponse>;
+  deploy(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.DeployConfigurationParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TenantConfigurationDeployResponse> {
+    return this.beginDeploy(resourceGroupName, serviceName, parameters, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.TenantConfigurationDeployResponse>;
   }
 
   /**
@@ -50,9 +56,15 @@ export class TenantConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantConfigurationSaveResponse>
    */
-  save(resourceGroupName: string, serviceName: string, parameters: Models.SaveConfigurationParameter, options?: msRest.RequestOptionsBase): Promise<Models.TenantConfigurationSaveResponse> {
-    return this.beginSave(resourceGroupName,serviceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TenantConfigurationSaveResponse>;
+  save(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.SaveConfigurationParameter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TenantConfigurationSaveResponse> {
+    return this.beginSave(resourceGroupName, serviceName, parameters, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.TenantConfigurationSaveResponse>;
   }
 
   /**
@@ -64,9 +76,20 @@ export class TenantConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantConfigurationValidateResponse>
    */
-  validate(resourceGroupName: string, serviceName: string, parameters: Models.DeployConfigurationParameters, options?: msRest.RequestOptionsBase): Promise<Models.TenantConfigurationValidateResponse> {
-    return this.beginValidate(resourceGroupName,serviceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TenantConfigurationValidateResponse>;
+  validate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.DeployConfigurationParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TenantConfigurationValidateResponse> {
+    return this.beginValidate(
+      resourceGroupName,
+      serviceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.TenantConfigurationValidateResponse
+    >;
   }
 
   /**
@@ -77,21 +100,41 @@ export class TenantConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantConfigurationGetSyncStateResponse>
    */
-  getSyncState(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TenantConfigurationGetSyncStateResponse>;
+  getSyncState(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TenantConfigurationGetSyncStateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  getSyncState(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>): void;
+  getSyncState(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSyncState(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>): void;
-  getSyncState(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>, callback?: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>): Promise<Models.TenantConfigurationGetSyncStateResponse> {
+  getSyncState(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>
+  ): void;
+  getSyncState(
+    resourceGroupName: string,
+    serviceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>,
+    callback?: msRest.ServiceCallback<Models.TenantConfigurationSyncStateContract>
+  ): Promise<Models.TenantConfigurationGetSyncStateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +142,8 @@ export class TenantConfiguration {
         options
       },
       getSyncStateOperationSpec,
-      callback) as Promise<Models.TenantConfigurationGetSyncStateResponse>;
+      callback
+    ) as Promise<Models.TenantConfigurationGetSyncStateResponse>;
   }
 
   /**
@@ -111,7 +155,12 @@ export class TenantConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeploy(resourceGroupName: string, serviceName: string, parameters: Models.DeployConfigurationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeploy(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.DeployConfigurationParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -120,7 +169,8 @@ export class TenantConfiguration {
         options
       },
       beginDeployOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -132,7 +182,12 @@ export class TenantConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginSave(resourceGroupName: string, serviceName: string, parameters: Models.SaveConfigurationParameter, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginSave(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.SaveConfigurationParameter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -141,7 +196,8 @@ export class TenantConfiguration {
         options
       },
       beginSaveOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -153,7 +209,12 @@ export class TenantConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginValidate(resourceGroupName: string, serviceName: string, parameters: Models.DeployConfigurationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginValidate(
+    resourceGroupName: string,
+    serviceName: string,
+    parameters: Models.DeployConfigurationParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -162,7 +223,8 @@ export class TenantConfiguration {
         options
       },
       beginValidateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -170,19 +232,16 @@ export class TenantConfiguration {
 const serializer = new msRest.Serializer(Mappers);
 const getSyncStateOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/syncState",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/syncState",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.configurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TenantConfigurationSyncStateContract
@@ -196,19 +255,16 @@ const getSyncStateOperationSpec: msRest.OperationSpec = {
 
 const beginDeployOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/deploy",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/deploy",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.configurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -230,19 +286,16 @@ const beginDeployOperationSpec: msRest.OperationSpec = {
 
 const beginSaveOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/save",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/save",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.configurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -264,19 +317,16 @@ const beginSaveOperationSpec: msRest.OperationSpec = {
 
 const beginValidateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/validate",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{configurationName}/validate",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.configurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

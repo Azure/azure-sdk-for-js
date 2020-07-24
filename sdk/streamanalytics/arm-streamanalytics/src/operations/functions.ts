@@ -38,7 +38,13 @@ export class Functions {
    * @param [options] The optional parameters
    * @returns Promise<Models.FunctionsCreateOrReplaceResponse>
    */
-  createOrReplace(functionParameter: Models.FunctionModel, resourceGroupName: string, jobName: string, functionName: string, options?: Models.FunctionsCreateOrReplaceOptionalParams): Promise<Models.FunctionsCreateOrReplaceResponse>;
+  createOrReplace(
+    functionParameter: Models.FunctionModel,
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options?: Models.FunctionsCreateOrReplaceOptionalParams
+  ): Promise<Models.FunctionsCreateOrReplaceResponse>;
   /**
    * @param functionParameter The definition of the function that will be used to create a new
    * function or replace the existing one under the streaming job.
@@ -48,7 +54,13 @@ export class Functions {
    * @param functionName The name of the function.
    * @param callback The callback
    */
-  createOrReplace(functionParameter: Models.FunctionModel, resourceGroupName: string, jobName: string, functionName: string, callback: msRest.ServiceCallback<Models.FunctionModel>): void;
+  createOrReplace(
+    functionParameter: Models.FunctionModel,
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    callback: msRest.ServiceCallback<Models.FunctionModel>
+  ): void;
   /**
    * @param functionParameter The definition of the function that will be used to create a new
    * function or replace the existing one under the streaming job.
@@ -59,8 +71,24 @@ export class Functions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrReplace(functionParameter: Models.FunctionModel, resourceGroupName: string, jobName: string, functionName: string, options: Models.FunctionsCreateOrReplaceOptionalParams, callback: msRest.ServiceCallback<Models.FunctionModel>): void;
-  createOrReplace(functionParameter: Models.FunctionModel, resourceGroupName: string, jobName: string, functionName: string, options?: Models.FunctionsCreateOrReplaceOptionalParams | msRest.ServiceCallback<Models.FunctionModel>, callback?: msRest.ServiceCallback<Models.FunctionModel>): Promise<Models.FunctionsCreateOrReplaceResponse> {
+  createOrReplace(
+    functionParameter: Models.FunctionModel,
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options: Models.FunctionsCreateOrReplaceOptionalParams,
+    callback: msRest.ServiceCallback<Models.FunctionModel>
+  ): void;
+  createOrReplace(
+    functionParameter: Models.FunctionModel,
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options?:
+      | Models.FunctionsCreateOrReplaceOptionalParams
+      | msRest.ServiceCallback<Models.FunctionModel>,
+    callback?: msRest.ServiceCallback<Models.FunctionModel>
+  ): Promise<Models.FunctionsCreateOrReplaceResponse> {
     return this.client.sendOperationRequest(
       {
         functionParameter,
@@ -70,7 +98,8 @@ export class Functions {
         options
       },
       createOrReplaceOperationSpec,
-      callback) as Promise<Models.FunctionsCreateOrReplaceResponse>;
+      callback
+    ) as Promise<Models.FunctionsCreateOrReplaceResponse>;
   }
 
   /**
@@ -88,7 +117,13 @@ export class Functions {
    * @param [options] The optional parameters
    * @returns Promise<Models.FunctionsUpdateResponse>
    */
-  update(functionParameter: Models.FunctionModel, resourceGroupName: string, jobName: string, functionName: string, options?: Models.FunctionsUpdateOptionalParams): Promise<Models.FunctionsUpdateResponse>;
+  update(
+    functionParameter: Models.FunctionModel,
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options?: Models.FunctionsUpdateOptionalParams
+  ): Promise<Models.FunctionsUpdateResponse>;
   /**
    * @param functionParameter A function object. The properties specified here will overwrite the
    * corresponding properties in the existing function (ie. Those properties will be updated). Any
@@ -100,7 +135,13 @@ export class Functions {
    * @param functionName The name of the function.
    * @param callback The callback
    */
-  update(functionParameter: Models.FunctionModel, resourceGroupName: string, jobName: string, functionName: string, callback: msRest.ServiceCallback<Models.FunctionModel>): void;
+  update(
+    functionParameter: Models.FunctionModel,
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    callback: msRest.ServiceCallback<Models.FunctionModel>
+  ): void;
   /**
    * @param functionParameter A function object. The properties specified here will overwrite the
    * corresponding properties in the existing function (ie. Those properties will be updated). Any
@@ -113,8 +154,22 @@ export class Functions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(functionParameter: Models.FunctionModel, resourceGroupName: string, jobName: string, functionName: string, options: Models.FunctionsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.FunctionModel>): void;
-  update(functionParameter: Models.FunctionModel, resourceGroupName: string, jobName: string, functionName: string, options?: Models.FunctionsUpdateOptionalParams | msRest.ServiceCallback<Models.FunctionModel>, callback?: msRest.ServiceCallback<Models.FunctionModel>): Promise<Models.FunctionsUpdateResponse> {
+  update(
+    functionParameter: Models.FunctionModel,
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options: Models.FunctionsUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.FunctionModel>
+  ): void;
+  update(
+    functionParameter: Models.FunctionModel,
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options?: Models.FunctionsUpdateOptionalParams | msRest.ServiceCallback<Models.FunctionModel>,
+    callback?: msRest.ServiceCallback<Models.FunctionModel>
+  ): Promise<Models.FunctionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         functionParameter,
@@ -124,7 +179,8 @@ export class Functions {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.FunctionsUpdateResponse>;
+      callback
+    ) as Promise<Models.FunctionsUpdateResponse>;
   }
 
   /**
@@ -136,7 +192,12 @@ export class Functions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, jobName: string, functionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -144,7 +205,12 @@ export class Functions {
    * @param functionName The name of the function.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, jobName: string, functionName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -153,8 +219,20 @@ export class Functions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, jobName: string, functionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, jobName: string, functionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -163,7 +241,8 @@ export class Functions {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -175,7 +254,12 @@ export class Functions {
    * @param [options] The optional parameters
    * @returns Promise<Models.FunctionsGetResponse>
    */
-  get(resourceGroupName: string, jobName: string, functionName: string, options?: msRest.RequestOptionsBase): Promise<Models.FunctionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FunctionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -183,7 +267,12 @@ export class Functions {
    * @param functionName The name of the function.
    * @param callback The callback
    */
-  get(resourceGroupName: string, jobName: string, functionName: string, callback: msRest.ServiceCallback<Models.FunctionModel>): void;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    callback: msRest.ServiceCallback<Models.FunctionModel>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -192,8 +281,20 @@ export class Functions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, jobName: string, functionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FunctionModel>): void;
-  get(resourceGroupName: string, jobName: string, functionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionModel>, callback?: msRest.ServiceCallback<Models.FunctionModel>): Promise<Models.FunctionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FunctionModel>
+  ): void;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionModel>,
+    callback?: msRest.ServiceCallback<Models.FunctionModel>
+  ): Promise<Models.FunctionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -202,7 +303,8 @@ export class Functions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.FunctionsGetResponse>;
+      callback
+    ) as Promise<Models.FunctionsGetResponse>;
   }
 
   /**
@@ -213,14 +315,22 @@ export class Functions {
    * @param [options] The optional parameters
    * @returns Promise<Models.FunctionsListByStreamingJobResponse>
    */
-  listByStreamingJob(resourceGroupName: string, jobName: string, options?: Models.FunctionsListByStreamingJobOptionalParams): Promise<Models.FunctionsListByStreamingJobResponse>;
+  listByStreamingJob(
+    resourceGroupName: string,
+    jobName: string,
+    options?: Models.FunctionsListByStreamingJobOptionalParams
+  ): Promise<Models.FunctionsListByStreamingJobResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param jobName The name of the streaming job.
    * @param callback The callback
    */
-  listByStreamingJob(resourceGroupName: string, jobName: string, callback: msRest.ServiceCallback<Models.FunctionListResult>): void;
+  listByStreamingJob(
+    resourceGroupName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<Models.FunctionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -228,8 +338,20 @@ export class Functions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByStreamingJob(resourceGroupName: string, jobName: string, options: Models.FunctionsListByStreamingJobOptionalParams, callback: msRest.ServiceCallback<Models.FunctionListResult>): void;
-  listByStreamingJob(resourceGroupName: string, jobName: string, options?: Models.FunctionsListByStreamingJobOptionalParams | msRest.ServiceCallback<Models.FunctionListResult>, callback?: msRest.ServiceCallback<Models.FunctionListResult>): Promise<Models.FunctionsListByStreamingJobResponse> {
+  listByStreamingJob(
+    resourceGroupName: string,
+    jobName: string,
+    options: Models.FunctionsListByStreamingJobOptionalParams,
+    callback: msRest.ServiceCallback<Models.FunctionListResult>
+  ): void;
+  listByStreamingJob(
+    resourceGroupName: string,
+    jobName: string,
+    options?:
+      | Models.FunctionsListByStreamingJobOptionalParams
+      | msRest.ServiceCallback<Models.FunctionListResult>,
+    callback?: msRest.ServiceCallback<Models.FunctionListResult>
+  ): Promise<Models.FunctionsListByStreamingJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -237,7 +359,8 @@ export class Functions {
         options
       },
       listByStreamingJobOperationSpec,
-      callback) as Promise<Models.FunctionsListByStreamingJobResponse>;
+      callback
+    ) as Promise<Models.FunctionsListByStreamingJobResponse>;
   }
 
   /**
@@ -251,9 +374,15 @@ export class Functions {
    * @param [options] The optional parameters
    * @returns Promise<Models.FunctionsTestResponse>
    */
-  test(resourceGroupName: string, jobName: string, functionName: string, options?: Models.FunctionsTestOptionalParams): Promise<Models.FunctionsTestResponse> {
-    return this.beginTest(resourceGroupName,jobName,functionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.FunctionsTestResponse>;
+  test(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options?: Models.FunctionsTestOptionalParams
+  ): Promise<Models.FunctionsTestResponse> {
+    return this.beginTest(resourceGroupName, jobName, functionName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.FunctionsTestResponse>;
   }
 
   /**
@@ -265,7 +394,12 @@ export class Functions {
    * @param [options] The optional parameters
    * @returns Promise<Models.FunctionsRetrieveDefaultDefinitionResponse>
    */
-  retrieveDefaultDefinition(resourceGroupName: string, jobName: string, functionName: string, options?: Models.FunctionsRetrieveDefaultDefinitionOptionalParams): Promise<Models.FunctionsRetrieveDefaultDefinitionResponse>;
+  retrieveDefaultDefinition(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options?: Models.FunctionsRetrieveDefaultDefinitionOptionalParams
+  ): Promise<Models.FunctionsRetrieveDefaultDefinitionResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -273,7 +407,12 @@ export class Functions {
    * @param functionName The name of the function.
    * @param callback The callback
    */
-  retrieveDefaultDefinition(resourceGroupName: string, jobName: string, functionName: string, callback: msRest.ServiceCallback<Models.FunctionModel>): void;
+  retrieveDefaultDefinition(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    callback: msRest.ServiceCallback<Models.FunctionModel>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -282,8 +421,22 @@ export class Functions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  retrieveDefaultDefinition(resourceGroupName: string, jobName: string, functionName: string, options: Models.FunctionsRetrieveDefaultDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.FunctionModel>): void;
-  retrieveDefaultDefinition(resourceGroupName: string, jobName: string, functionName: string, options?: Models.FunctionsRetrieveDefaultDefinitionOptionalParams | msRest.ServiceCallback<Models.FunctionModel>, callback?: msRest.ServiceCallback<Models.FunctionModel>): Promise<Models.FunctionsRetrieveDefaultDefinitionResponse> {
+  retrieveDefaultDefinition(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options: Models.FunctionsRetrieveDefaultDefinitionOptionalParams,
+    callback: msRest.ServiceCallback<Models.FunctionModel>
+  ): void;
+  retrieveDefaultDefinition(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options?:
+      | Models.FunctionsRetrieveDefaultDefinitionOptionalParams
+      | msRest.ServiceCallback<Models.FunctionModel>,
+    callback?: msRest.ServiceCallback<Models.FunctionModel>
+  ): Promise<Models.FunctionsRetrieveDefaultDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -292,7 +445,8 @@ export class Functions {
         options
       },
       retrieveDefaultDefinitionOperationSpec,
-      callback) as Promise<Models.FunctionsRetrieveDefaultDefinitionResponse>;
+      callback
+    ) as Promise<Models.FunctionsRetrieveDefaultDefinitionResponse>;
   }
 
   /**
@@ -306,7 +460,12 @@ export class Functions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginTest(resourceGroupName: string, jobName: string, functionName: string, options?: Models.FunctionsBeginTestOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginTest(
+    resourceGroupName: string,
+    jobName: string,
+    functionName: string,
+    options?: Models.FunctionsBeginTestOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -315,7 +474,8 @@ export class Functions {
         options
       },
       beginTestOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -324,26 +484,41 @@ export class Functions {
    * @param [options] The optional parameters
    * @returns Promise<Models.FunctionsListByStreamingJobNextResponse>
    */
-  listByStreamingJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FunctionsListByStreamingJobNextResponse>;
+  listByStreamingJobNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FunctionsListByStreamingJobNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByStreamingJobNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FunctionListResult>): void;
+  listByStreamingJobNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.FunctionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByStreamingJobNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FunctionListResult>): void;
-  listByStreamingJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionListResult>, callback?: msRest.ServiceCallback<Models.FunctionListResult>): Promise<Models.FunctionsListByStreamingJobNextResponse> {
+  listByStreamingJobNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FunctionListResult>
+  ): void;
+  listByStreamingJobNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FunctionListResult>,
+    callback?: msRest.ServiceCallback<Models.FunctionListResult>
+  ): Promise<Models.FunctionsListByStreamingJobNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByStreamingJobNextOperationSpec,
-      callback) as Promise<Models.FunctionsListByStreamingJobNextResponse>;
+      callback
+    ) as Promise<Models.FunctionsListByStreamingJobNextResponse>;
   }
 }
 
@@ -351,21 +526,16 @@ export class Functions {
 const serializer = new msRest.Serializer(Mappers);
 const createOrReplaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.functionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.ifNoneMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "functionParameter",
     mapper: {
@@ -391,20 +561,16 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.functionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "functionParameter",
     mapper: {
@@ -426,19 +592,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.functionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -451,19 +614,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.functionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FunctionModel,
@@ -478,19 +638,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByStreamingJobOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.select,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.select, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FunctionListResult
@@ -504,24 +656,18 @@ const listByStreamingJobOperationSpec: msRest.OperationSpec = {
 
 const retrieveDefaultDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}/RetrieveDefaultDefinition",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}/RetrieveDefaultDefinition",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.functionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "functionRetrieveDefaultDefinitionParameters"
-    ],
+    parameterPath: ["options", "functionRetrieveDefaultDefinitionParameters"],
     mapper: Mappers.FunctionRetrieveDefaultDefinitionParameters
   },
   responses: {
@@ -537,24 +683,18 @@ const retrieveDefaultDefinitionOperationSpec: msRest.OperationSpec = {
 
 const beginTestOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}/test",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}/test",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.functionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "functionParameter"
-    ],
+    parameterPath: ["options", "functionParameter"],
     mapper: Mappers.FunctionModel
   },
   responses: {
@@ -573,12 +713,8 @@ const listByStreamingJobNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FunctionListResult

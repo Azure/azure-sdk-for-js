@@ -25,7 +25,12 @@ class SearchClient extends SearchClientContext {
    * @param indexName The name of the index.
    * @param [options] The parameter options
    */
-  constructor(apiVersion: string, endpoint: string, indexName: string, options?: coreHttp.ServiceClientOptions) {
+  constructor(
+    apiVersion: string,
+    endpoint: string,
+    indexName: string,
+    options?: coreHttp.ServiceClientOptions
+  ) {
     super(apiVersion, endpoint, indexName, options);
     this.documents = new operations.Documents(this);
   }
@@ -33,10 +38,5 @@ class SearchClient extends SearchClientContext {
 
 // Operation Specifications
 
-export {
-  SearchClient,
-  SearchClientContext,
-  Models as SearchModels,
-  Mappers as SearchMappers
-};
+export { SearchClient, SearchClientContext, Models as SearchModels, Mappers as SearchMappers };
 export * from "./operations";

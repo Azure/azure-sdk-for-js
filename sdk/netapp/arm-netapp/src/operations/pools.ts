@@ -35,21 +35,39 @@ export class Pools {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolsListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PoolsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.CapacityPoolList>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.CapacityPoolList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapacityPoolList>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapacityPoolList>, callback?: msRest.ServiceCallback<Models.CapacityPoolList>): Promise<Models.PoolsListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CapacityPoolList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapacityPoolList>,
+    callback?: msRest.ServiceCallback<Models.CapacityPoolList>
+  ): Promise<Models.PoolsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -57,7 +75,8 @@ export class Pools {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PoolsListResponse>;
+      callback
+    ) as Promise<Models.PoolsListResponse>;
   }
 
   /**
@@ -69,14 +88,24 @@ export class Pools {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, poolName: string, callback: msRest.ServiceCallback<Models.CapacityPool>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    callback: msRest.ServiceCallback<Models.CapacityPool>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -84,8 +113,20 @@ export class Pools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, poolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CapacityPool>): void;
-  get(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapacityPool>, callback?: msRest.ServiceCallback<Models.CapacityPool>): Promise<Models.PoolsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CapacityPool>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CapacityPool>,
+    callback?: msRest.ServiceCallback<Models.CapacityPool>
+  ): Promise<Models.PoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +135,8 @@ export class Pools {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PoolsGetResponse>;
+      callback
+    ) as Promise<Models.PoolsGetResponse>;
   }
 
   /**
@@ -107,9 +149,22 @@ export class Pools {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolsCreateOrUpdateResponse>
    */
-  createOrUpdate(body: Models.CapacityPool, resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(body,resourceGroupName,accountName,poolName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PoolsCreateOrUpdateResponse>;
+  createOrUpdate(
+    body: Models.CapacityPool,
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PoolsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      body,
+      resourceGroupName,
+      accountName,
+      poolName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PoolsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -122,9 +177,20 @@ export class Pools {
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolsUpdateResponse>
    */
-  update(body: Models.CapacityPoolPatch, resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.PoolsUpdateResponse> {
-    return this.beginUpdate(body,resourceGroupName,accountName,poolName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PoolsUpdateResponse>;
+  update(
+    body: Models.CapacityPoolPatch,
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PoolsUpdateResponse> {
+    return this.beginUpdate(
+      body,
+      resourceGroupName,
+      accountName,
+      poolName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.PoolsUpdateResponse>;
   }
 
   /**
@@ -136,9 +202,18 @@ export class Pools {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,accountName,poolName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      accountName,
+      poolName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -151,7 +226,13 @@ export class Pools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(body: Models.CapacityPool, resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    body: Models.CapacityPool,
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         body,
@@ -161,7 +242,8 @@ export class Pools {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -174,7 +256,13 @@ export class Pools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(body: Models.CapacityPoolPatch, resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    body: Models.CapacityPoolPatch,
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         body,
@@ -184,7 +272,8 @@ export class Pools {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -196,7 +285,12 @@ export class Pools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -205,7 +299,8 @@ export class Pools {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -213,18 +308,11 @@ export class Pools {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CapacityPoolList
@@ -238,19 +326,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CapacityPool
@@ -264,19 +349,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -301,19 +383,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -335,19 +414,16 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},

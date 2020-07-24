@@ -1737,7 +1737,13 @@ export interface NewsTrendingOptionalParams extends msRest.RequestOptionsBase {
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export type ErrorCode =
+  | "None"
+  | "ServerError"
+  | "InvalidRequest"
+  | "RateLimitExceeded"
+  | "InvalidAuthorization"
+  | "InsufficientAuthorization";
 
 /**
  * Defines values for ErrorSubCode.
@@ -1748,7 +1754,18 @@ export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitEx
  * @readonly
  * @enum {string}
  */
-export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
+export type ErrorSubCode =
+  | "UnexpectedError"
+  | "ResourceError"
+  | "NotImplemented"
+  | "ParameterMissing"
+  | "ParameterInvalidValue"
+  | "HttpNotAllowed"
+  | "Blocked"
+  | "AuthorizationMissing"
+  | "AuthorizationRedundancy"
+  | "AuthorizationDisabled"
+  | "AuthorizationExpired";
 
 /**
  * Defines values for Freshness.
@@ -1756,7 +1773,7 @@ export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented
  * @readonly
  * @enum {string}
  */
-export type Freshness = 'Day' | 'Week' | 'Month';
+export type Freshness = "Day" | "Week" | "Month";
 
 /**
  * Defines values for SafeSearch.
@@ -1764,7 +1781,7 @@ export type Freshness = 'Day' | 'Week' | 'Month';
  * @readonly
  * @enum {string}
  */
-export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
+export type SafeSearch = "Off" | "Moderate" | "Strict";
 
 /**
  * Defines values for TextFormat.
@@ -1772,7 +1789,7 @@ export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
  * @readonly
  * @enum {string}
  */
-export type TextFormat = 'Raw' | 'Html';
+export type TextFormat = "Raw" | "Html";
 
 /**
  * Contains response data for the search operation.
@@ -1782,16 +1799,16 @@ export type NewsSearchResponse = News & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: News;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: News;
+  };
 };
 
 /**
@@ -1802,16 +1819,16 @@ export type NewsCategoryResponse = News & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: News;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: News;
+  };
 };
 
 /**
@@ -1822,14 +1839,14 @@ export type NewsTrendingResponse = TrendingTopics & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TrendingTopics;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TrendingTopics;
+  };
 };

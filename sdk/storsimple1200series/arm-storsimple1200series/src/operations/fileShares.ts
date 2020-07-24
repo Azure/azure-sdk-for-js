@@ -36,7 +36,13 @@ export class FileShares {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSharesListByFileServerResponse>
    */
-  listByFileServer(deviceName: string, fileServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.FileSharesListByFileServerResponse>;
+  listByFileServer(
+    deviceName: string,
+    fileServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FileSharesListByFileServerResponse>;
   /**
    * @param deviceName The device name.
    * @param fileServerName The file server name.
@@ -44,7 +50,13 @@ export class FileShares {
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByFileServer(deviceName: string, fileServerName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.FileShareList>): void;
+  listByFileServer(
+    deviceName: string,
+    fileServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.FileShareList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param fileServerName The file server name.
@@ -53,8 +65,22 @@ export class FileShares {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFileServer(deviceName: string, fileServerName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileShareList>): void;
-  listByFileServer(deviceName: string, fileServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShareList>, callback?: msRest.ServiceCallback<Models.FileShareList>): Promise<Models.FileSharesListByFileServerResponse> {
+  listByFileServer(
+    deviceName: string,
+    fileServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileShareList>
+  ): void;
+  listByFileServer(
+    deviceName: string,
+    fileServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShareList>,
+    callback?: msRest.ServiceCallback<Models.FileShareList>
+  ): Promise<Models.FileSharesListByFileServerResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -64,7 +90,8 @@ export class FileShares {
         options
       },
       listByFileServerOperationSpec,
-      callback) as Promise<Models.FileSharesListByFileServerResponse>;
+      callback
+    ) as Promise<Models.FileSharesListByFileServerResponse>;
   }
 
   /**
@@ -77,7 +104,14 @@ export class FileShares {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSharesGetResponse>
    */
-  get(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.FileSharesGetResponse>;
+  get(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FileSharesGetResponse>;
   /**
    * @param deviceName The device name.
    * @param fileServerName The file server name.
@@ -86,7 +120,14 @@ export class FileShares {
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.FileShare>): void;
+  get(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.FileShare>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param fileServerName The file server name.
@@ -96,8 +137,24 @@ export class FileShares {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileShare>): void;
-  get(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShare>, callback?: msRest.ServiceCallback<Models.FileShare>): Promise<Models.FileSharesGetResponse> {
+  get(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileShare>
+  ): void;
+  get(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShare>,
+    callback?: msRest.ServiceCallback<Models.FileShare>
+  ): Promise<Models.FileSharesGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -108,7 +165,8 @@ export class FileShares {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.FileSharesGetResponse>;
+      callback
+    ) as Promise<Models.FileSharesGetResponse>;
   }
 
   /**
@@ -122,9 +180,26 @@ export class FileShares {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSharesCreateOrUpdateResponse>
    */
-  createOrUpdate(deviceName: string, fileServerName: string, shareName: string, fileShare: Models.FileShare, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.FileSharesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(deviceName,fileServerName,shareName,fileShare,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.FileSharesCreateOrUpdateResponse>;
+  createOrUpdate(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    fileShare: Models.FileShare,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FileSharesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      deviceName,
+      fileServerName,
+      shareName,
+      fileShare,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.FileSharesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -137,9 +212,22 @@ export class FileShares {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(deviceName,fileServerName,shareName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      deviceName,
+      fileServerName,
+      shareName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -152,7 +240,14 @@ export class FileShares {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSharesListMetricsResponse>
    */
-  listMetrics(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: Models.FileSharesListMetricsOptionalParams): Promise<Models.FileSharesListMetricsResponse>;
+  listMetrics(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.FileSharesListMetricsOptionalParams
+  ): Promise<Models.FileSharesListMetricsResponse>;
   /**
    * @param deviceName The device name.
    * @param fileServerName The file server name.
@@ -161,7 +256,14 @@ export class FileShares {
    * @param managerName The manager name
    * @param callback The callback
    */
-  listMetrics(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricList>): void;
+  listMetrics(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param fileServerName The file server name.
@@ -171,8 +273,26 @@ export class FileShares {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options: Models.FileSharesListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: Models.FileSharesListMetricsOptionalParams | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.FileSharesListMetricsResponse> {
+  listMetrics(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.FileSharesListMetricsOptionalParams,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
+  listMetrics(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?:
+      | Models.FileSharesListMetricsOptionalParams
+      | msRest.ServiceCallback<Models.MetricList>,
+    callback?: msRest.ServiceCallback<Models.MetricList>
+  ): Promise<Models.FileSharesListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -183,7 +303,8 @@ export class FileShares {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.FileSharesListMetricsResponse>;
+      callback
+    ) as Promise<Models.FileSharesListMetricsResponse>;
   }
 
   /**
@@ -196,7 +317,14 @@ export class FileShares {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSharesListMetricDefinitionResponse>
    */
-  listMetricDefinition(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.FileSharesListMetricDefinitionResponse>;
+  listMetricDefinition(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FileSharesListMetricDefinitionResponse>;
   /**
    * @param deviceName The device name.
    * @param fileServerName The file server name.
@@ -205,7 +333,14 @@ export class FileShares {
    * @param managerName The manager name
    * @param callback The callback
    */
-  listMetricDefinition(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
+  listMetricDefinition(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param fileServerName The file server name.
@@ -215,8 +350,24 @@ export class FileShares {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetricDefinition(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.FileSharesListMetricDefinitionResponse> {
+  listMetricDefinition(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
+  listMetricDefinition(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): Promise<Models.FileSharesListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -227,7 +378,8 @@ export class FileShares {
         options
       },
       listMetricDefinitionOperationSpec,
-      callback) as Promise<Models.FileSharesListMetricDefinitionResponse>;
+      callback
+    ) as Promise<Models.FileSharesListMetricDefinitionResponse>;
   }
 
   /**
@@ -238,14 +390,24 @@ export class FileShares {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSharesListByDeviceResponse>
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.FileSharesListByDeviceResponse>;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FileSharesListByDeviceResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.FileShareList>): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.FileShareList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
@@ -253,8 +415,20 @@ export class FileShares {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileShareList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShareList>, callback?: msRest.ServiceCallback<Models.FileShareList>): Promise<Models.FileSharesListByDeviceResponse> {
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileShareList>
+  ): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileShareList>,
+    callback?: msRest.ServiceCallback<Models.FileShareList>
+  ): Promise<Models.FileSharesListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -263,7 +437,8 @@ export class FileShares {
         options
       },
       listByDeviceOperationSpec,
-      callback) as Promise<Models.FileSharesListByDeviceResponse>;
+      callback
+    ) as Promise<Models.FileSharesListByDeviceResponse>;
   }
 
   /**
@@ -277,7 +452,15 @@ export class FileShares {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(deviceName: string, fileServerName: string, shareName: string, fileShare: Models.FileShare, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    fileShare: Models.FileShare,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -289,7 +472,8 @@ export class FileShares {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -302,7 +486,14 @@ export class FileShares {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(deviceName: string, fileServerName: string, shareName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    deviceName: string,
+    fileServerName: string,
+    shareName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -313,7 +504,8 @@ export class FileShares {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -321,7 +513,8 @@ export class FileShares {
 const serializer = new msRest.Serializer(Mappers);
 const listByFileServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/fileservers/{fileServerName}/shares",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/fileservers/{fileServerName}/shares",
   urlParameters: [
     Parameters.deviceName,
     Parameters.fileServerName,
@@ -329,12 +522,8 @@ const listByFileServerOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileShareList
@@ -348,7 +537,8 @@ const listByFileServerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/fileservers/{fileServerName}/shares/{shareName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/fileservers/{fileServerName}/shares/{shareName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.fileServerName,
@@ -357,12 +547,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileShare
@@ -376,7 +562,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/fileservers/{fileServerName}/shares/{shareName}/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/fileservers/{fileServerName}/shares/{shareName}/metrics",
   urlParameters: [
     Parameters.deviceName,
     Parameters.fileServerName,
@@ -385,13 +572,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricList
@@ -405,7 +587,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
 
 const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/fileservers/{fileServerName}/shares/{shareName}/metricsDefinitions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/fileservers/{fileServerName}/shares/{shareName}/metricsDefinitions",
   urlParameters: [
     Parameters.deviceName,
     Parameters.fileServerName,
@@ -414,12 +597,8 @@ const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricDefinitionList
@@ -433,19 +612,16 @@ const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
 
 const listByDeviceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/shares",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/shares",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileShareList
@@ -459,7 +635,8 @@ const listByDeviceOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/fileservers/{fileServerName}/shares/{shareName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/fileservers/{fileServerName}/shares/{shareName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.fileServerName,
@@ -468,12 +645,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "fileShare",
     mapper: {
@@ -495,7 +668,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/fileservers/{fileServerName}/shares/{shareName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/fileservers/{fileServerName}/shares/{shareName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.fileServerName,
@@ -504,12 +678,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},

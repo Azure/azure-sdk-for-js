@@ -34,26 +34,41 @@ export class Objects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ObjectsGetObjectsByObjectIdsResponse>
    */
-  getObjectsByObjectIds(parameters: Models.GetObjectsParameters, options?: msRest.RequestOptionsBase): Promise<Models.ObjectsGetObjectsByObjectIdsResponse>;
+  getObjectsByObjectIds(
+    parameters: Models.GetObjectsParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ObjectsGetObjectsByObjectIdsResponse>;
   /**
    * @param parameters Objects filtering parameters.
    * @param callback The callback
    */
-  getObjectsByObjectIds(parameters: Models.GetObjectsParameters, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
+  getObjectsByObjectIds(
+    parameters: Models.GetObjectsParameters,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
   /**
    * @param parameters Objects filtering parameters.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getObjectsByObjectIds(parameters: Models.GetObjectsParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  getObjectsByObjectIds(parameters: Models.GetObjectsParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.ObjectsGetObjectsByObjectIdsResponse> {
+  getObjectsByObjectIds(
+    parameters: Models.GetObjectsParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
+  getObjectsByObjectIds(
+    parameters: Models.GetObjectsParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>,
+    callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): Promise<Models.ObjectsGetObjectsByObjectIdsResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
         options
       },
       getObjectsByObjectIdsOperationSpec,
-      callback) as Promise<Models.ObjectsGetObjectsByObjectIdsResponse>;
+      callback
+    ) as Promise<Models.ObjectsGetObjectsByObjectIdsResponse>;
   }
 
   /**
@@ -62,26 +77,41 @@ export class Objects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ObjectsGetObjectsByObjectIdsNextResponse>
    */
-  getObjectsByObjectIdsNext(nextLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ObjectsGetObjectsByObjectIdsNextResponse>;
+  getObjectsByObjectIdsNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ObjectsGetObjectsByObjectIdsNextResponse>;
   /**
    * @param nextLink Next link for the list operation.
    * @param callback The callback
    */
-  getObjectsByObjectIdsNext(nextLink: string, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
+  getObjectsByObjectIdsNext(
+    nextLink: string,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
   /**
    * @param nextLink Next link for the list operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getObjectsByObjectIdsNext(nextLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  getObjectsByObjectIdsNext(nextLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.ObjectsGetObjectsByObjectIdsNextResponse> {
+  getObjectsByObjectIdsNext(
+    nextLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
+  getObjectsByObjectIdsNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>,
+    callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): Promise<Models.ObjectsGetObjectsByObjectIdsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextLink,
         options
       },
       getObjectsByObjectIdsNextOperationSpec,
-      callback) as Promise<Models.ObjectsGetObjectsByObjectIdsNextResponse>;
+      callback
+    ) as Promise<Models.ObjectsGetObjectsByObjectIdsNextResponse>;
   }
 }
 
@@ -90,15 +120,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getObjectsByObjectIdsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/getObjectsByObjectIds",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -120,16 +144,9 @@ const getObjectsByObjectIdsOperationSpec: msRest.OperationSpec = {
 const getObjectsByObjectIdsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/{nextLink}",
-  urlParameters: [
-    Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextLink, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DirectoryObjectListResult

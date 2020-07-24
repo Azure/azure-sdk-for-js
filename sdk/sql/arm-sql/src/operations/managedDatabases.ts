@@ -35,14 +35,22 @@ export class ManagedDatabases {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabasesListByInstanceResponse>
    */
-  listByInstance(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabasesListByInstanceResponse>;
+  listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabasesListByInstanceResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
    * @param callback The callback
    */
-  listByInstance(resourceGroupName: string, managedInstanceName: string, callback: msRest.ServiceCallback<Models.ManagedDatabaseListResult>): void;
+  listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -50,8 +58,18 @@ export class ManagedDatabases {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByInstance(resourceGroupName: string, managedInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedDatabaseListResult>): void;
-  listByInstance(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabaseListResult>, callback?: msRest.ServiceCallback<Models.ManagedDatabaseListResult>): Promise<Models.ManagedDatabasesListByInstanceResponse> {
+  listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseListResult>
+  ): void;
+  listByInstance(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabaseListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedDatabaseListResult>
+  ): Promise<Models.ManagedDatabasesListByInstanceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +77,8 @@ export class ManagedDatabases {
         options
       },
       listByInstanceOperationSpec,
-      callback) as Promise<Models.ManagedDatabasesListByInstanceResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabasesListByInstanceResponse>;
   }
 
   /**
@@ -71,7 +90,12 @@ export class ManagedDatabases {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabasesGetResponse>
    */
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabasesGetResponse>;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabasesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -79,7 +103,12 @@ export class ManagedDatabases {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ManagedDatabase>): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.ManagedDatabase>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -88,8 +117,20 @@ export class ManagedDatabases {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedDatabase>): void;
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabase>, callback?: msRest.ServiceCallback<Models.ManagedDatabase>): Promise<Models.ManagedDatabasesGetResponse> {
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedDatabase>
+  ): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabase>,
+    callback?: msRest.ServiceCallback<Models.ManagedDatabase>
+  ): Promise<Models.ManagedDatabasesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -98,7 +139,8 @@ export class ManagedDatabases {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagedDatabasesGetResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabasesGetResponse>;
   }
 
   /**
@@ -111,9 +153,22 @@ export class ManagedDatabases {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabasesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: Models.ManagedDatabase, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabasesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,managedInstanceName,databaseName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedDatabasesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: Models.ManagedDatabase,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabasesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ManagedDatabasesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -125,9 +180,18 @@ export class ManagedDatabases {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,managedInstanceName,databaseName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -140,9 +204,22 @@ export class ManagedDatabases {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabasesUpdateResponse>
    */
-  update(resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: Models.ManagedDatabaseUpdate, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabasesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,managedInstanceName,databaseName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedDatabasesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: Models.ManagedDatabaseUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabasesUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ManagedDatabasesUpdateResponse
+    >;
   }
 
   /**
@@ -155,9 +232,20 @@ export class ManagedDatabases {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  completeRestore(resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: Models.CompleteDatabaseRestoreDefinition, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginCompleteRestore(resourceGroupName,managedInstanceName,databaseName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  completeRestore(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: Models.CompleteDatabaseRestoreDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginCompleteRestore(
+      resourceGroupName,
+      managedInstanceName,
+      databaseName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -170,7 +258,13 @@ export class ManagedDatabases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: Models.ManagedDatabase, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: Models.ManagedDatabase,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -180,7 +274,8 @@ export class ManagedDatabases {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -192,7 +287,12 @@ export class ManagedDatabases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -201,7 +301,8 @@ export class ManagedDatabases {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -214,7 +315,13 @@ export class ManagedDatabases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: Models.ManagedDatabaseUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: Models.ManagedDatabaseUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -224,7 +331,8 @@ export class ManagedDatabases {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -237,7 +345,13 @@ export class ManagedDatabases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCompleteRestore(resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: Models.CompleteDatabaseRestoreDefinition, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCompleteRestore(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: Models.CompleteDatabaseRestoreDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -247,7 +361,8 @@ export class ManagedDatabases {
         options
       },
       beginCompleteRestoreOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -256,26 +371,41 @@ export class ManagedDatabases {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabasesListByInstanceNextResponse>
    */
-  listByInstanceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabasesListByInstanceNextResponse>;
+  listByInstanceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabasesListByInstanceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByInstanceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagedDatabaseListResult>): void;
+  listByInstanceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByInstanceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedDatabaseListResult>): void;
-  listByInstanceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabaseListResult>, callback?: msRest.ServiceCallback<Models.ManagedDatabaseListResult>): Promise<Models.ManagedDatabasesListByInstanceNextResponse> {
+  listByInstanceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseListResult>
+  ): void;
+  listByInstanceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabaseListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedDatabaseListResult>
+  ): Promise<Models.ManagedDatabasesListByInstanceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByInstanceNextOperationSpec,
-      callback) as Promise<Models.ManagedDatabasesListByInstanceNextResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabasesListByInstanceNextResponse>;
   }
 }
 
@@ -283,18 +413,15 @@ export class ManagedDatabases {
 const serializer = new msRest.Serializer(Mappers);
 const listByInstanceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedDatabaseListResult
@@ -308,19 +435,16 @@ const listByInstanceOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedDatabase
@@ -334,19 +458,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -371,19 +492,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -397,19 +515,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -431,19 +546,16 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginCompleteRestoreOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/completeRestore",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/completeRestore",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -465,12 +577,8 @@ const listByInstanceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedDatabaseListResult

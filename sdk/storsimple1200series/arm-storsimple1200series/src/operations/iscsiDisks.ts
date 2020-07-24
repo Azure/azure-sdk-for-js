@@ -35,14 +35,24 @@ export class IscsiDisks {
    * @param [options] The optional parameters
    * @returns Promise<Models.IscsiDisksListByDeviceResponse>
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiDisksListByDeviceResponse>;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IscsiDisksListByDeviceResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.ISCSIDiskList>): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.ISCSIDiskList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name
@@ -50,8 +60,20 @@ export class IscsiDisks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ISCSIDiskList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIDiskList>, callback?: msRest.ServiceCallback<Models.ISCSIDiskList>): Promise<Models.IscsiDisksListByDeviceResponse> {
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ISCSIDiskList>
+  ): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIDiskList>,
+    callback?: msRest.ServiceCallback<Models.ISCSIDiskList>
+  ): Promise<Models.IscsiDisksListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -60,7 +82,8 @@ export class IscsiDisks {
         options
       },
       listByDeviceOperationSpec,
-      callback) as Promise<Models.IscsiDisksListByDeviceResponse>;
+      callback
+    ) as Promise<Models.IscsiDisksListByDeviceResponse>;
   }
 
   /**
@@ -72,7 +95,13 @@ export class IscsiDisks {
    * @param [options] The optional parameters
    * @returns Promise<Models.IscsiDisksListByIscsiServerResponse>
    */
-  listByIscsiServer(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiDisksListByIscsiServerResponse>;
+  listByIscsiServer(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IscsiDisksListByIscsiServerResponse>;
   /**
    * @param deviceName The device name.
    * @param iscsiServerName The iscsi server name.
@@ -80,7 +109,13 @@ export class IscsiDisks {
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByIscsiServer(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.ISCSIDiskList>): void;
+  listByIscsiServer(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.ISCSIDiskList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param iscsiServerName The iscsi server name.
@@ -89,8 +124,22 @@ export class IscsiDisks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByIscsiServer(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ISCSIDiskList>): void;
-  listByIscsiServer(deviceName: string, iscsiServerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIDiskList>, callback?: msRest.ServiceCallback<Models.ISCSIDiskList>): Promise<Models.IscsiDisksListByIscsiServerResponse> {
+  listByIscsiServer(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ISCSIDiskList>
+  ): void;
+  listByIscsiServer(
+    deviceName: string,
+    iscsiServerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIDiskList>,
+    callback?: msRest.ServiceCallback<Models.ISCSIDiskList>
+  ): Promise<Models.IscsiDisksListByIscsiServerResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -100,7 +149,8 @@ export class IscsiDisks {
         options
       },
       listByIscsiServerOperationSpec,
-      callback) as Promise<Models.IscsiDisksListByIscsiServerResponse>;
+      callback
+    ) as Promise<Models.IscsiDisksListByIscsiServerResponse>;
   }
 
   /**
@@ -113,7 +163,14 @@ export class IscsiDisks {
    * @param [options] The optional parameters
    * @returns Promise<Models.IscsiDisksGetResponse>
    */
-  get(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiDisksGetResponse>;
+  get(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IscsiDisksGetResponse>;
   /**
    * @param deviceName The device name.
    * @param iscsiServerName The iscsi server name.
@@ -122,7 +179,14 @@ export class IscsiDisks {
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.ISCSIDisk>): void;
+  get(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.ISCSIDisk>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param iscsiServerName The iscsi server name.
@@ -132,8 +196,24 @@ export class IscsiDisks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ISCSIDisk>): void;
-  get(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIDisk>, callback?: msRest.ServiceCallback<Models.ISCSIDisk>): Promise<Models.IscsiDisksGetResponse> {
+  get(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ISCSIDisk>
+  ): void;
+  get(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ISCSIDisk>,
+    callback?: msRest.ServiceCallback<Models.ISCSIDisk>
+  ): Promise<Models.IscsiDisksGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -144,7 +224,8 @@ export class IscsiDisks {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IscsiDisksGetResponse>;
+      callback
+    ) as Promise<Models.IscsiDisksGetResponse>;
   }
 
   /**
@@ -158,9 +239,26 @@ export class IscsiDisks {
    * @param [options] The optional parameters
    * @returns Promise<Models.IscsiDisksCreateOrUpdateResponse>
    */
-  createOrUpdate(deviceName: string, iscsiServerName: string, diskName: string, iscsiDisk: Models.ISCSIDisk, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiDisksCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(deviceName,iscsiServerName,diskName,iscsiDisk,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IscsiDisksCreateOrUpdateResponse>;
+  createOrUpdate(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    iscsiDisk: Models.ISCSIDisk,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IscsiDisksCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      deviceName,
+      iscsiServerName,
+      diskName,
+      iscsiDisk,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.IscsiDisksCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -173,9 +271,22 @@ export class IscsiDisks {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(deviceName,iscsiServerName,diskName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      deviceName,
+      iscsiServerName,
+      diskName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -188,7 +299,14 @@ export class IscsiDisks {
    * @param [options] The optional parameters
    * @returns Promise<Models.IscsiDisksListMetricsResponse>
    */
-  listMetrics(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: Models.IscsiDisksListMetricsOptionalParams): Promise<Models.IscsiDisksListMetricsResponse>;
+  listMetrics(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.IscsiDisksListMetricsOptionalParams
+  ): Promise<Models.IscsiDisksListMetricsResponse>;
   /**
    * @param deviceName The device name.
    * @param iscsiServerName The iscsi server name.
@@ -197,7 +315,14 @@ export class IscsiDisks {
    * @param managerName The manager name
    * @param callback The callback
    */
-  listMetrics(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricList>): void;
+  listMetrics(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param iscsiServerName The iscsi server name.
@@ -207,8 +332,26 @@ export class IscsiDisks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options: Models.IscsiDisksListMetricsOptionalParams, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: Models.IscsiDisksListMetricsOptionalParams | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.IscsiDisksListMetricsResponse> {
+  listMetrics(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.IscsiDisksListMetricsOptionalParams,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
+  listMetrics(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?:
+      | Models.IscsiDisksListMetricsOptionalParams
+      | msRest.ServiceCallback<Models.MetricList>,
+    callback?: msRest.ServiceCallback<Models.MetricList>
+  ): Promise<Models.IscsiDisksListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -219,7 +362,8 @@ export class IscsiDisks {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.IscsiDisksListMetricsResponse>;
+      callback
+    ) as Promise<Models.IscsiDisksListMetricsResponse>;
   }
 
   /**
@@ -232,7 +376,14 @@ export class IscsiDisks {
    * @param [options] The optional parameters
    * @returns Promise<Models.IscsiDisksListMetricDefinitionResponse>
    */
-  listMetricDefinition(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.IscsiDisksListMetricDefinitionResponse>;
+  listMetricDefinition(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IscsiDisksListMetricDefinitionResponse>;
   /**
    * @param deviceName The device name.
    * @param iscsiServerName The iscsi server name.
@@ -241,7 +392,14 @@ export class IscsiDisks {
    * @param managerName The manager name
    * @param callback The callback
    */
-  listMetricDefinition(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
+  listMetricDefinition(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param iscsiServerName The iscsi server name.
@@ -251,8 +409,24 @@ export class IscsiDisks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetricDefinition(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.IscsiDisksListMetricDefinitionResponse> {
+  listMetricDefinition(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
+  listMetricDefinition(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): Promise<Models.IscsiDisksListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -263,7 +437,8 @@ export class IscsiDisks {
         options
       },
       listMetricDefinitionOperationSpec,
-      callback) as Promise<Models.IscsiDisksListMetricDefinitionResponse>;
+      callback
+    ) as Promise<Models.IscsiDisksListMetricDefinitionResponse>;
   }
 
   /**
@@ -277,7 +452,15 @@ export class IscsiDisks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(deviceName: string, iscsiServerName: string, diskName: string, iscsiDisk: Models.ISCSIDisk, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    iscsiDisk: Models.ISCSIDisk,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -289,7 +472,8 @@ export class IscsiDisks {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -302,7 +486,14 @@ export class IscsiDisks {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(deviceName: string, iscsiServerName: string, diskName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    deviceName: string,
+    iscsiServerName: string,
+    diskName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -313,7 +504,8 @@ export class IscsiDisks {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -321,19 +513,16 @@ export class IscsiDisks {
 const serializer = new msRest.Serializer(Mappers);
 const listByDeviceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/disks",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/disks",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ISCSIDiskList
@@ -347,7 +536,8 @@ const listByDeviceOperationSpec: msRest.OperationSpec = {
 
 const listByIscsiServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/disks",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/disks",
   urlParameters: [
     Parameters.deviceName,
     Parameters.iscsiServerName,
@@ -355,12 +545,8 @@ const listByIscsiServerOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ISCSIDiskList
@@ -374,7 +560,8 @@ const listByIscsiServerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/disks/{diskName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/disks/{diskName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.iscsiServerName,
@@ -383,12 +570,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ISCSIDisk
@@ -402,7 +585,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/disks/{diskName}/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/disks/{diskName}/metrics",
   urlParameters: [
     Parameters.deviceName,
     Parameters.iscsiServerName,
@@ -411,13 +595,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricList
@@ -431,7 +610,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
 
 const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/disks/{diskName}/metricsDefinitions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/disks/{diskName}/metricsDefinitions",
   urlParameters: [
     Parameters.deviceName,
     Parameters.iscsiServerName,
@@ -440,12 +620,8 @@ const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricDefinitionList
@@ -459,7 +635,8 @@ const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/disks/{diskName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/disks/{diskName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.iscsiServerName,
@@ -468,12 +645,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "iscsiDisk",
     mapper: {
@@ -495,7 +668,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/disks/{diskName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/iscsiservers/{iscsiServerName}/disks/{diskName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.iscsiServerName,
@@ -504,12 +678,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},

@@ -65,4 +65,3 @@ export {
   JobPropertiesConstraints,
   JobPropertiesExecutionInfo
 } from "../models/mappers";
-

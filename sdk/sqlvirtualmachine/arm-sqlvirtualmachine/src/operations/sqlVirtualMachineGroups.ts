@@ -35,14 +35,22 @@ export class SqlVirtualMachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlVirtualMachineGroupsGetResponse>
    */
-  get(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlVirtualMachineGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlVirtualMachineGroupsGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain
    * this value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineGroupName Name of the SQL virtual machine group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, sqlVirtualMachineGroupName: string, callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroup>): void;
+  get(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroup>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain
    * this value from the Azure Resource Manager API or the portal.
@@ -50,8 +58,18 @@ export class SqlVirtualMachineGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, sqlVirtualMachineGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroup>): void;
-  get(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlVirtualMachineGroup>, callback?: msRest.ServiceCallback<Models.SqlVirtualMachineGroup>): Promise<Models.SqlVirtualMachineGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroup>
+  ): void;
+  get(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlVirtualMachineGroup>,
+    callback?: msRest.ServiceCallback<Models.SqlVirtualMachineGroup>
+  ): Promise<Models.SqlVirtualMachineGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +77,8 @@ export class SqlVirtualMachineGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SqlVirtualMachineGroupsGetResponse>;
+      callback
+    ) as Promise<Models.SqlVirtualMachineGroupsGetResponse>;
   }
 
   /**
@@ -71,9 +90,20 @@ export class SqlVirtualMachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlVirtualMachineGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: Models.SqlVirtualMachineGroup, options?: msRest.RequestOptionsBase): Promise<Models.SqlVirtualMachineGroupsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,sqlVirtualMachineGroupName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlVirtualMachineGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    parameters: Models.SqlVirtualMachineGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlVirtualMachineGroupsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      sqlVirtualMachineGroupName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SqlVirtualMachineGroupsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -84,9 +114,16 @@ export class SqlVirtualMachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,sqlVirtualMachineGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      sqlVirtualMachineGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -98,9 +135,20 @@ export class SqlVirtualMachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlVirtualMachineGroupsUpdateResponse>
    */
-  update(resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: Models.SqlVirtualMachineGroupUpdate, options?: msRest.RequestOptionsBase): Promise<Models.SqlVirtualMachineGroupsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,sqlVirtualMachineGroupName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlVirtualMachineGroupsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    parameters: Models.SqlVirtualMachineGroupUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlVirtualMachineGroupsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      sqlVirtualMachineGroupName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SqlVirtualMachineGroupsUpdateResponse
+    >;
   }
 
   /**
@@ -110,28 +158,45 @@ export class SqlVirtualMachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlVirtualMachineGroupsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlVirtualMachineGroupsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlVirtualMachineGroupsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain
    * this value from the Azure Resource Manager API or the portal.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain
    * this value from the Azure Resource Manager API or the portal.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>, callback?: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>): Promise<Models.SqlVirtualMachineGroupsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>
+  ): Promise<Models.SqlVirtualMachineGroupsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.SqlVirtualMachineGroupsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.SqlVirtualMachineGroupsListByResourceGroupResponse>;
   }
 
   /**
@@ -148,14 +213,23 @@ export class SqlVirtualMachineGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>, callback?: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>): Promise<Models.SqlVirtualMachineGroupsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>
+  ): Promise<Models.SqlVirtualMachineGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SqlVirtualMachineGroupsListResponse>;
+      callback
+    ) as Promise<Models.SqlVirtualMachineGroupsListResponse>;
   }
 
   /**
@@ -167,7 +241,12 @@ export class SqlVirtualMachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: Models.SqlVirtualMachineGroup, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    parameters: Models.SqlVirtualMachineGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -176,7 +255,8 @@ export class SqlVirtualMachineGroups {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -187,7 +267,11 @@ export class SqlVirtualMachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -195,7 +279,8 @@ export class SqlVirtualMachineGroups {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -207,7 +292,12 @@ export class SqlVirtualMachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, sqlVirtualMachineGroupName: string, parameters: Models.SqlVirtualMachineGroupUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    sqlVirtualMachineGroupName: string,
+    parameters: Models.SqlVirtualMachineGroupUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -216,7 +306,8 @@ export class SqlVirtualMachineGroups {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -225,26 +316,43 @@ export class SqlVirtualMachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlVirtualMachineGroupsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlVirtualMachineGroupsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlVirtualMachineGroupsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>, callback?: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>): Promise<Models.SqlVirtualMachineGroupsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>
+  ): Promise<Models.SqlVirtualMachineGroupsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.SqlVirtualMachineGroupsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.SqlVirtualMachineGroupsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -253,26 +361,43 @@ export class SqlVirtualMachineGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlVirtualMachineGroupsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlVirtualMachineGroupsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlVirtualMachineGroupsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>, callback?: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>): Promise<Models.SqlVirtualMachineGroupsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.SqlVirtualMachineGroupListResult>
+  ): Promise<Models.SqlVirtualMachineGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SqlVirtualMachineGroupsListNextResponse>;
+      callback
+    ) as Promise<Models.SqlVirtualMachineGroupsListNextResponse>;
   }
 }
 
@@ -280,18 +405,15 @@ export class SqlVirtualMachineGroups {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.sqlVirtualMachineGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlVirtualMachineGroup
@@ -305,17 +427,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlVirtualMachineGroupListResult
@@ -329,16 +445,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlVirtualMachineGroupListResult
@@ -352,18 +463,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.sqlVirtualMachineGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -387,18 +495,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.sqlVirtualMachineGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -412,18 +517,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.sqlVirtualMachineGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -446,12 +548,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlVirtualMachineGroupListResult
@@ -467,12 +565,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlVirtualMachineGroupListResult

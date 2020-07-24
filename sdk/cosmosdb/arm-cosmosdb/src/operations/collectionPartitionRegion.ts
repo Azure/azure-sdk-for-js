@@ -40,7 +40,15 @@ export class CollectionPartitionRegion {
    * @param [options] The optional parameters
    * @returns Promise<Models.CollectionPartitionRegionListMetricsResponse>
    */
-  listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.CollectionPartitionRegionListMetricsResponse>;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    region: string,
+    databaseRid: string,
+    collectionRid: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CollectionPartitionRegionListMetricsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -52,7 +60,15 @@ export class CollectionPartitionRegion {
    * names), startTime, endTime, and timeGrain. The supported operator is eq.
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, callback: msRest.ServiceCallback<Models.PartitionMetricListResult>): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    region: string,
+    databaseRid: string,
+    collectionRid: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.PartitionMetricListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -65,8 +81,26 @@ export class CollectionPartitionRegion {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PartitionMetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartitionMetricListResult>, callback?: msRest.ServiceCallback<Models.PartitionMetricListResult>): Promise<Models.CollectionPartitionRegionListMetricsResponse> {
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    region: string,
+    databaseRid: string,
+    collectionRid: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PartitionMetricListResult>
+  ): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    region: string,
+    databaseRid: string,
+    collectionRid: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartitionMetricListResult>,
+    callback?: msRest.ServiceCallback<Models.PartitionMetricListResult>
+  ): Promise<Models.CollectionPartitionRegionListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -78,7 +112,8 @@ export class CollectionPartitionRegion {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.CollectionPartitionRegionListMetricsResponse>;
+      callback
+    ) as Promise<Models.CollectionPartitionRegionListMetricsResponse>;
   }
 }
 
@@ -86,7 +121,8 @@ export class CollectionPartitionRegion {
 const serializer = new msRest.Serializer(Mappers);
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -95,13 +131,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.databaseRid,
     Parameters.collectionRid
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PartitionMetricListResult

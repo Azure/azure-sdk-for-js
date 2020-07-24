@@ -49,7 +49,10 @@ export class Face {
    * @param [options] The optional parameters
    * @returns Promise<Models.FaceFindSimilarResponse>
    */
-  findSimilar(faceId: string, options?: Models.FaceFindSimilarOptionalParams): Promise<Models.FaceFindSimilarResponse>;
+  findSimilar(
+    faceId: string,
+    options?: Models.FaceFindSimilarOptionalParams
+  ): Promise<Models.FaceFindSimilarResponse>;
   /**
    * @param faceId FaceId of the query face. User needs to call Face - Detect first to get a valid
    * faceId. Note that this faceId is not persisted and will expire 24 hours after the detection call
@@ -62,15 +65,24 @@ export class Face {
    * @param options The optional parameters
    * @param callback The callback
    */
-  findSimilar(faceId: string, options: Models.FaceFindSimilarOptionalParams, callback: msRest.ServiceCallback<Models.SimilarFace[]>): void;
-  findSimilar(faceId: string, options?: Models.FaceFindSimilarOptionalParams | msRest.ServiceCallback<Models.SimilarFace[]>, callback?: msRest.ServiceCallback<Models.SimilarFace[]>): Promise<Models.FaceFindSimilarResponse> {
+  findSimilar(
+    faceId: string,
+    options: Models.FaceFindSimilarOptionalParams,
+    callback: msRest.ServiceCallback<Models.SimilarFace[]>
+  ): void;
+  findSimilar(
+    faceId: string,
+    options?: Models.FaceFindSimilarOptionalParams | msRest.ServiceCallback<Models.SimilarFace[]>,
+    callback?: msRest.ServiceCallback<Models.SimilarFace[]>
+  ): Promise<Models.FaceFindSimilarResponse> {
     return this.client.sendOperationRequest(
       {
         faceId,
         options
       },
       findSimilarOperationSpec,
-      callback) as Promise<Models.FaceFindSimilarResponse>;
+      callback
+    ) as Promise<Models.FaceFindSimilarResponse>;
   }
 
   /**
@@ -101,15 +113,24 @@ export class Face {
    * @param options The optional parameters
    * @param callback The callback
    */
-  group(faceIds: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GroupResult>): void;
-  group(faceIds: string[], options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GroupResult>, callback?: msRest.ServiceCallback<Models.GroupResult>): Promise<Models.FaceGroupResponse> {
+  group(
+    faceIds: string[],
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GroupResult>
+  ): void;
+  group(
+    faceIds: string[],
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GroupResult>,
+    callback?: msRest.ServiceCallback<Models.GroupResult>
+  ): Promise<Models.FaceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         faceIds,
         options
       },
       groupOperationSpec,
-      callback) as Promise<Models.FaceGroupResponse>;
+      callback
+    ) as Promise<Models.FaceGroupResponse>;
   }
 
   /**
@@ -145,7 +166,10 @@ export class Face {
    * @param [options] The optional parameters
    * @returns Promise<Models.FaceIdentifyResponse>
    */
-  identify(faceIds: string[], options?: Models.FaceIdentifyOptionalParams): Promise<Models.FaceIdentifyResponse>;
+  identify(
+    faceIds: string[],
+    options?: Models.FaceIdentifyOptionalParams
+  ): Promise<Models.FaceIdentifyResponse>;
   /**
    * @param faceIds Array of query faces faceIds, created by the Face - Detect. Each of the faces are
    * identified independently. The valid number of faceIds is between [1, 10].
@@ -158,15 +182,24 @@ export class Face {
    * @param options The optional parameters
    * @param callback The callback
    */
-  identify(faceIds: string[], options: Models.FaceIdentifyOptionalParams, callback: msRest.ServiceCallback<Models.IdentifyResult[]>): void;
-  identify(faceIds: string[], options?: Models.FaceIdentifyOptionalParams | msRest.ServiceCallback<Models.IdentifyResult[]>, callback?: msRest.ServiceCallback<Models.IdentifyResult[]>): Promise<Models.FaceIdentifyResponse> {
+  identify(
+    faceIds: string[],
+    options: Models.FaceIdentifyOptionalParams,
+    callback: msRest.ServiceCallback<Models.IdentifyResult[]>
+  ): void;
+  identify(
+    faceIds: string[],
+    options?: Models.FaceIdentifyOptionalParams | msRest.ServiceCallback<Models.IdentifyResult[]>,
+    callback?: msRest.ServiceCallback<Models.IdentifyResult[]>
+  ): Promise<Models.FaceIdentifyResponse> {
     return this.client.sendOperationRequest(
       {
         faceIds,
         options
       },
       identifyOperationSpec,
-      callback) as Promise<Models.FaceIdentifyResponse>;
+      callback
+    ) as Promise<Models.FaceIdentifyResponse>;
   }
 
   /**
@@ -183,21 +216,39 @@ export class Face {
    * @param [options] The optional parameters
    * @returns Promise<Models.FaceVerifyFaceToFaceResponse>
    */
-  verifyFaceToFace(faceId1: string, faceId2: string, options?: msRest.RequestOptionsBase): Promise<Models.FaceVerifyFaceToFaceResponse>;
+  verifyFaceToFace(
+    faceId1: string,
+    faceId2: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FaceVerifyFaceToFaceResponse>;
   /**
    * @param faceId1 FaceId of the first face, comes from Face - Detect
    * @param faceId2 FaceId of the second face, comes from Face - Detect
    * @param callback The callback
    */
-  verifyFaceToFace(faceId1: string, faceId2: string, callback: msRest.ServiceCallback<Models.VerifyResult>): void;
+  verifyFaceToFace(
+    faceId1: string,
+    faceId2: string,
+    callback: msRest.ServiceCallback<Models.VerifyResult>
+  ): void;
   /**
    * @param faceId1 FaceId of the first face, comes from Face - Detect
    * @param faceId2 FaceId of the second face, comes from Face - Detect
    * @param options The optional parameters
    * @param callback The callback
    */
-  verifyFaceToFace(faceId1: string, faceId2: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VerifyResult>): void;
-  verifyFaceToFace(faceId1: string, faceId2: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VerifyResult>, callback?: msRest.ServiceCallback<Models.VerifyResult>): Promise<Models.FaceVerifyFaceToFaceResponse> {
+  verifyFaceToFace(
+    faceId1: string,
+    faceId2: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VerifyResult>
+  ): void;
+  verifyFaceToFace(
+    faceId1: string,
+    faceId2: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VerifyResult>,
+    callback?: msRest.ServiceCallback<Models.VerifyResult>
+  ): Promise<Models.FaceVerifyFaceToFaceResponse> {
     return this.client.sendOperationRequest(
       {
         faceId1,
@@ -205,7 +256,8 @@ export class Face {
         options
       },
       verifyFaceToFaceOperationSpec,
-      callback) as Promise<Models.FaceVerifyFaceToFaceResponse>;
+      callback
+    ) as Promise<Models.FaceVerifyFaceToFaceResponse>;
   }
 
   /**
@@ -265,7 +317,10 @@ export class Face {
    * @param [options] The optional parameters
    * @returns Promise<Models.FaceDetectWithUrlResponse>
    */
-  detectWithUrl(url: string, options?: Models.FaceDetectWithUrlOptionalParams): Promise<Models.FaceDetectWithUrlResponse>;
+  detectWithUrl(
+    url: string,
+    options?: Models.FaceDetectWithUrlOptionalParams
+  ): Promise<Models.FaceDetectWithUrlResponse>;
   /**
    * @param url Publicly reachable URL of an image
    * @param callback The callback
@@ -276,15 +331,26 @@ export class Face {
    * @param options The optional parameters
    * @param callback The callback
    */
-  detectWithUrl(url: string, options: Models.FaceDetectWithUrlOptionalParams, callback: msRest.ServiceCallback<Models.DetectedFace[]>): void;
-  detectWithUrl(url: string, options?: Models.FaceDetectWithUrlOptionalParams | msRest.ServiceCallback<Models.DetectedFace[]>, callback?: msRest.ServiceCallback<Models.DetectedFace[]>): Promise<Models.FaceDetectWithUrlResponse> {
+  detectWithUrl(
+    url: string,
+    options: Models.FaceDetectWithUrlOptionalParams,
+    callback: msRest.ServiceCallback<Models.DetectedFace[]>
+  ): void;
+  detectWithUrl(
+    url: string,
+    options?:
+      | Models.FaceDetectWithUrlOptionalParams
+      | msRest.ServiceCallback<Models.DetectedFace[]>,
+    callback?: msRest.ServiceCallback<Models.DetectedFace[]>
+  ): Promise<Models.FaceDetectWithUrlResponse> {
     return this.client.sendOperationRequest(
       {
         url,
         options
       },
       detectWithUrlOperationSpec,
-      callback) as Promise<Models.FaceDetectWithUrlResponse>;
+      callback
+    ) as Promise<Models.FaceDetectWithUrlResponse>;
   }
 
   /**
@@ -295,14 +361,22 @@ export class Face {
    * @param [options] The optional parameters
    * @returns Promise<Models.FaceVerifyFaceToPersonResponse>
    */
-  verifyFaceToPerson(faceId: string, personId: string, options?: Models.FaceVerifyFaceToPersonOptionalParams): Promise<Models.FaceVerifyFaceToPersonResponse>;
+  verifyFaceToPerson(
+    faceId: string,
+    personId: string,
+    options?: Models.FaceVerifyFaceToPersonOptionalParams
+  ): Promise<Models.FaceVerifyFaceToPersonResponse>;
   /**
    * @param faceId FaceId of the face, comes from Face - Detect
    * @param personId Specify a certain person in a person group or a large person group. personId is
    * created in PersonGroup Person - Create or LargePersonGroup Person - Create.
    * @param callback The callback
    */
-  verifyFaceToPerson(faceId: string, personId: string, callback: msRest.ServiceCallback<Models.VerifyResult>): void;
+  verifyFaceToPerson(
+    faceId: string,
+    personId: string,
+    callback: msRest.ServiceCallback<Models.VerifyResult>
+  ): void;
   /**
    * @param faceId FaceId of the face, comes from Face - Detect
    * @param personId Specify a certain person in a person group or a large person group. personId is
@@ -310,8 +384,20 @@ export class Face {
    * @param options The optional parameters
    * @param callback The callback
    */
-  verifyFaceToPerson(faceId: string, personId: string, options: Models.FaceVerifyFaceToPersonOptionalParams, callback: msRest.ServiceCallback<Models.VerifyResult>): void;
-  verifyFaceToPerson(faceId: string, personId: string, options?: Models.FaceVerifyFaceToPersonOptionalParams | msRest.ServiceCallback<Models.VerifyResult>, callback?: msRest.ServiceCallback<Models.VerifyResult>): Promise<Models.FaceVerifyFaceToPersonResponse> {
+  verifyFaceToPerson(
+    faceId: string,
+    personId: string,
+    options: Models.FaceVerifyFaceToPersonOptionalParams,
+    callback: msRest.ServiceCallback<Models.VerifyResult>
+  ): void;
+  verifyFaceToPerson(
+    faceId: string,
+    personId: string,
+    options?:
+      | Models.FaceVerifyFaceToPersonOptionalParams
+      | msRest.ServiceCallback<Models.VerifyResult>,
+    callback?: msRest.ServiceCallback<Models.VerifyResult>
+  ): Promise<Models.FaceVerifyFaceToPersonResponse> {
     return this.client.sendOperationRequest(
       {
         faceId,
@@ -319,7 +405,8 @@ export class Face {
         options
       },
       verifyFaceToPersonOperationSpec,
-      callback) as Promise<Models.FaceVerifyFaceToPersonResponse>;
+      callback
+    ) as Promise<Models.FaceVerifyFaceToPersonResponse>;
   }
 
   /**
@@ -379,26 +466,43 @@ export class Face {
    * @param [options] The optional parameters
    * @returns Promise<Models.FaceDetectWithStreamResponse>
    */
-  detectWithStream(image: msRest.HttpRequestBody, options?: Models.FaceDetectWithStreamOptionalParams): Promise<Models.FaceDetectWithStreamResponse>;
+  detectWithStream(
+    image: msRest.HttpRequestBody,
+    options?: Models.FaceDetectWithStreamOptionalParams
+  ): Promise<Models.FaceDetectWithStreamResponse>;
   /**
    * @param image An image stream.
    * @param callback The callback
    */
-  detectWithStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.DetectedFace[]>): void;
+  detectWithStream(
+    image: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.DetectedFace[]>
+  ): void;
   /**
    * @param image An image stream.
    * @param options The optional parameters
    * @param callback The callback
    */
-  detectWithStream(image: msRest.HttpRequestBody, options: Models.FaceDetectWithStreamOptionalParams, callback: msRest.ServiceCallback<Models.DetectedFace[]>): void;
-  detectWithStream(image: msRest.HttpRequestBody, options?: Models.FaceDetectWithStreamOptionalParams | msRest.ServiceCallback<Models.DetectedFace[]>, callback?: msRest.ServiceCallback<Models.DetectedFace[]>): Promise<Models.FaceDetectWithStreamResponse> {
+  detectWithStream(
+    image: msRest.HttpRequestBody,
+    options: Models.FaceDetectWithStreamOptionalParams,
+    callback: msRest.ServiceCallback<Models.DetectedFace[]>
+  ): void;
+  detectWithStream(
+    image: msRest.HttpRequestBody,
+    options?:
+      | Models.FaceDetectWithStreamOptionalParams
+      | msRest.ServiceCallback<Models.DetectedFace[]>,
+    callback?: msRest.ServiceCallback<Models.DetectedFace[]>
+  ): Promise<Models.FaceDetectWithStreamResponse> {
     return this.client.sendOperationRequest(
       {
         image,
         options
       },
       detectWithStreamOperationSpec,
-      callback) as Promise<Models.FaceDetectWithStreamResponse>;
+      callback
+    ) as Promise<Models.FaceDetectWithStreamResponse>;
   }
 }
 
@@ -407,32 +511,15 @@ const serializer = new msRest.Serializer(Mappers);
 const findSimilarOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "findsimilars",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: {
       faceId: "faceId",
-      faceListId: [
-        "options",
-        "faceListId"
-      ],
-      largeFaceListId: [
-        "options",
-        "largeFaceListId"
-      ],
-      faceIds: [
-        "options",
-        "faceIds"
-      ],
-      maxNumOfCandidatesReturned: [
-        "options",
-        "maxNumOfCandidatesReturned"
-      ],
-      mode: [
-        "options",
-        "mode"
-      ]
+      faceListId: ["options", "faceListId"],
+      largeFaceListId: ["options", "largeFaceListId"],
+      faceIds: ["options", "faceIds"],
+      maxNumOfCandidatesReturned: ["options", "maxNumOfCandidatesReturned"],
+      mode: ["options", "mode"]
     },
     mapper: {
       ...Mappers.FindSimilarRequest,
@@ -464,9 +551,7 @@ const findSimilarOperationSpec: msRest.OperationSpec = {
 const groupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "group",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: {
       faceIds: "faceIds"
@@ -490,28 +575,14 @@ const groupOperationSpec: msRest.OperationSpec = {
 const identifyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "identify",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: {
       faceIds: "faceIds",
-      personGroupId: [
-        "options",
-        "personGroupId"
-      ],
-      largePersonGroupId: [
-        "options",
-        "largePersonGroupId"
-      ],
-      maxNumOfCandidatesReturned: [
-        "options",
-        "maxNumOfCandidatesReturned"
-      ],
-      confidenceThreshold: [
-        "options",
-        "confidenceThreshold"
-      ]
+      personGroupId: ["options", "personGroupId"],
+      largePersonGroupId: ["options", "largePersonGroupId"],
+      maxNumOfCandidatesReturned: ["options", "maxNumOfCandidatesReturned"],
+      confidenceThreshold: ["options", "confidenceThreshold"]
     },
     mapper: {
       ...Mappers.IdentifyRequest,
@@ -543,9 +614,7 @@ const identifyOperationSpec: msRest.OperationSpec = {
 const verifyFaceToFaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "verify",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: {
       faceId1: "faceId1",
@@ -570,9 +639,7 @@ const verifyFaceToFaceOperationSpec: msRest.OperationSpec = {
 const detectWithUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "detect",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.returnFaceId,
     Parameters.returnFaceLandmarks,
@@ -615,20 +682,12 @@ const detectWithUrlOperationSpec: msRest.OperationSpec = {
 const verifyFaceToPersonOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "verify",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: {
       faceId: "faceId",
-      personGroupId: [
-        "options",
-        "personGroupId"
-      ],
-      largePersonGroupId: [
-        "options",
-        "largePersonGroupId"
-      ],
+      personGroupId: ["options", "personGroupId"],
+      largePersonGroupId: ["options", "largePersonGroupId"],
       personId: "personId"
     },
     mapper: {
@@ -650,9 +709,7 @@ const verifyFaceToPersonOperationSpec: msRest.OperationSpec = {
 const detectWithStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "detect",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.returnFaceId,
     Parameters.returnFaceLandmarks,

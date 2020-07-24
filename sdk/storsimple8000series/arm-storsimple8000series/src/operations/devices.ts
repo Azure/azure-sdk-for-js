@@ -35,9 +35,18 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  configure(parameters: Models.ConfigureDeviceRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginConfigure(parameters,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  configure(
+    parameters: Models.ConfigureDeviceRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginConfigure(
+      parameters,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -47,21 +56,39 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesListByManagerResponse>
    */
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.DevicesListByManagerOptionalParams): Promise<Models.DevicesListByManagerResponse>;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.DevicesListByManagerOptionalParams
+  ): Promise<Models.DevicesListByManagerResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.DeviceList>): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.DeviceList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, options: Models.DevicesListByManagerOptionalParams, callback: msRest.ServiceCallback<Models.DeviceList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: Models.DevicesListByManagerOptionalParams | msRest.ServiceCallback<Models.DeviceList>, callback?: msRest.ServiceCallback<Models.DeviceList>): Promise<Models.DevicesListByManagerResponse> {
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.DevicesListByManagerOptionalParams,
+    callback: msRest.ServiceCallback<Models.DeviceList>
+  ): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.DevicesListByManagerOptionalParams | msRest.ServiceCallback<Models.DeviceList>,
+    callback?: msRest.ServiceCallback<Models.DeviceList>
+  ): Promise<Models.DevicesListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -69,7 +96,8 @@ export class Devices {
         options
       },
       listByManagerOperationSpec,
-      callback) as Promise<Models.DevicesListByManagerResponse>;
+      callback
+    ) as Promise<Models.DevicesListByManagerResponse>;
   }
 
   /**
@@ -80,14 +108,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesGetResponse>
    */
-  get(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesGetOptionalParams): Promise<Models.DevicesGetResponse>;
+  get(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.DevicesGetOptionalParams
+  ): Promise<Models.DevicesGetResponse>;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.Device>): void;
+  get(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.Device>
+  ): void;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
@@ -95,8 +133,20 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(deviceName: string, resourceGroupName: string, managerName: string, options: Models.DevicesGetOptionalParams, callback: msRest.ServiceCallback<Models.Device>): void;
-  get(deviceName: string, resourceGroupName: string, managerName: string, options?: Models.DevicesGetOptionalParams | msRest.ServiceCallback<Models.Device>, callback?: msRest.ServiceCallback<Models.Device>): Promise<Models.DevicesGetResponse> {
+  get(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: Models.DevicesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.Device>
+  ): void;
+  get(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: Models.DevicesGetOptionalParams | msRest.ServiceCallback<Models.Device>,
+    callback?: msRest.ServiceCallback<Models.Device>
+  ): Promise<Models.DevicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -105,7 +155,8 @@ export class Devices {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DevicesGetResponse>;
+      callback
+    ) as Promise<Models.DevicesGetResponse>;
   }
 
   /**
@@ -116,9 +167,18 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(deviceName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      deviceName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -130,7 +190,13 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesUpdateResponse>
    */
-  update(deviceName: string, parameters: Models.DevicePatch, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesUpdateResponse>;
+  update(
+    deviceName: string,
+    parameters: Models.DevicePatch,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesUpdateResponse>;
   /**
    * @param deviceName The device name
    * @param parameters Patch representation of the device.
@@ -138,7 +204,13 @@ export class Devices {
    * @param managerName The manager name
    * @param callback The callback
    */
-  update(deviceName: string, parameters: Models.DevicePatch, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.Device>): void;
+  update(
+    deviceName: string,
+    parameters: Models.DevicePatch,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.Device>
+  ): void;
   /**
    * @param deviceName The device name
    * @param parameters Patch representation of the device.
@@ -147,8 +219,22 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(deviceName: string, parameters: Models.DevicePatch, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Device>): void;
-  update(deviceName: string, parameters: Models.DevicePatch, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Device>, callback?: msRest.ServiceCallback<Models.Device>): Promise<Models.DevicesUpdateResponse> {
+  update(
+    deviceName: string,
+    parameters: Models.DevicePatch,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Device>
+  ): void;
+  update(
+    deviceName: string,
+    parameters: Models.DevicePatch,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Device>,
+    callback?: msRest.ServiceCallback<Models.Device>
+  ): Promise<Models.DevicesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -158,7 +244,8 @@ export class Devices {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.DevicesUpdateResponse>;
+      callback
+    ) as Promise<Models.DevicesUpdateResponse>;
   }
 
   /**
@@ -169,14 +256,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  authorizeForServiceEncryptionKeyRollover(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  authorizeForServiceEncryptionKeyRollover(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  authorizeForServiceEncryptionKeyRollover(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<void>): void;
+  authorizeForServiceEncryptionKeyRollover(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
@@ -184,8 +281,20 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  authorizeForServiceEncryptionKeyRollover(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  authorizeForServiceEncryptionKeyRollover(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  authorizeForServiceEncryptionKeyRollover(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  authorizeForServiceEncryptionKeyRollover(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -194,7 +303,8 @@ export class Devices {
         options
       },
       authorizeForServiceEncryptionKeyRolloverOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -205,9 +315,18 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deactivate(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeactivate(deviceName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deactivate(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeactivate(
+      deviceName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -218,9 +337,18 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  installUpdates(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginInstallUpdates(deviceName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  installUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginInstallUpdates(
+      deviceName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -233,14 +361,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesListFailoverSetsResponse>
    */
-  listFailoverSets(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesListFailoverSetsResponse>;
+  listFailoverSets(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesListFailoverSetsResponse>;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listFailoverSets(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.FailoverSetsList>): void;
+  listFailoverSets(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.FailoverSetsList>
+  ): void;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
@@ -248,8 +386,20 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listFailoverSets(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FailoverSetsList>): void;
-  listFailoverSets(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FailoverSetsList>, callback?: msRest.ServiceCallback<Models.FailoverSetsList>): Promise<Models.DevicesListFailoverSetsResponse> {
+  listFailoverSets(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FailoverSetsList>
+  ): void;
+  listFailoverSets(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FailoverSetsList>,
+    callback?: msRest.ServiceCallback<Models.FailoverSetsList>
+  ): Promise<Models.DevicesListFailoverSetsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -258,7 +408,8 @@ export class Devices {
         options
       },
       listFailoverSetsOperationSpec,
-      callback) as Promise<Models.DevicesListFailoverSetsResponse>;
+      callback
+    ) as Promise<Models.DevicesListFailoverSetsResponse>;
   }
 
   /**
@@ -270,7 +421,13 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesListMetricsResponse>
    */
-  listMetrics(deviceName: string, resourceGroupName: string, managerName: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesListMetricsResponse>;
+  listMetrics(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesListMetricsResponse>;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
@@ -278,7 +435,13 @@ export class Devices {
    * @param filter OData Filter options
    * @param callback The callback
    */
-  listMetrics(deviceName: string, resourceGroupName: string, managerName: string, filter: string, callback: msRest.ServiceCallback<Models.MetricList>): void;
+  listMetrics(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
@@ -287,8 +450,22 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(deviceName: string, resourceGroupName: string, managerName: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(deviceName: string, resourceGroupName: string, managerName: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.DevicesListMetricsResponse> {
+  listMetrics(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
+  listMetrics(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricList>,
+    callback?: msRest.ServiceCallback<Models.MetricList>
+  ): Promise<Models.DevicesListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -298,7 +475,8 @@ export class Devices {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.DevicesListMetricsResponse>;
+      callback
+    ) as Promise<Models.DevicesListMetricsResponse>;
   }
 
   /**
@@ -309,14 +487,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesListMetricDefinitionResponse>
    */
-  listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesListMetricDefinitionResponse>;
+  listMetricDefinition(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesListMetricDefinitionResponse>;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
+  listMetricDefinition(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
@@ -324,8 +512,20 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.DevicesListMetricDefinitionResponse> {
+  listMetricDefinition(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
+  listMetricDefinition(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): Promise<Models.DevicesListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -334,7 +534,8 @@ export class Devices {
         options
       },
       listMetricDefinitionOperationSpec,
-      callback) as Promise<Models.DevicesListMetricDefinitionResponse>;
+      callback
+    ) as Promise<Models.DevicesListMetricDefinitionResponse>;
   }
 
   /**
@@ -345,9 +546,18 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  scanForUpdates(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginScanForUpdates(deviceName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  scanForUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginScanForUpdates(
+      deviceName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -358,14 +568,24 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesGetUpdateSummaryResponse>
    */
-  getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesGetUpdateSummaryResponse>;
+  getUpdateSummary(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesGetUpdateSummaryResponse>;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.Updates>): void;
+  getUpdateSummary(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.Updates>
+  ): void;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
@@ -373,8 +593,20 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Updates>): void;
-  getUpdateSummary(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Updates>, callback?: msRest.ServiceCallback<Models.Updates>): Promise<Models.DevicesGetUpdateSummaryResponse> {
+  getUpdateSummary(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Updates>
+  ): void;
+  getUpdateSummary(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Updates>,
+    callback?: msRest.ServiceCallback<Models.Updates>
+  ): Promise<Models.DevicesGetUpdateSummaryResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -383,7 +615,8 @@ export class Devices {
         options
       },
       getUpdateSummaryOperationSpec,
-      callback) as Promise<Models.DevicesGetUpdateSummaryResponse>;
+      callback
+    ) as Promise<Models.DevicesGetUpdateSummaryResponse>;
   }
 
   /**
@@ -396,9 +629,20 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  failover(sourceDeviceName: string, parameters: Models.FailoverRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginFailover(sourceDeviceName,parameters,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  failover(
+    sourceDeviceName: string,
+    parameters: Models.FailoverRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginFailover(
+      sourceDeviceName,
+      parameters,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -412,7 +656,13 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<Models.DevicesListFailoverTargetsResponse>
    */
-  listFailoverTargets(sourceDeviceName: string, parameters: Models.ListFailoverTargetsRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.DevicesListFailoverTargetsResponse>;
+  listFailoverTargets(
+    sourceDeviceName: string,
+    parameters: Models.ListFailoverTargetsRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DevicesListFailoverTargetsResponse>;
   /**
    * @param sourceDeviceName The source device name on which failover is performed.
    * @param parameters ListFailoverTargetsRequest containing the list of volume containers to be
@@ -421,7 +671,13 @@ export class Devices {
    * @param managerName The manager name
    * @param callback The callback
    */
-  listFailoverTargets(sourceDeviceName: string, parameters: Models.ListFailoverTargetsRequest, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.FailoverTargetsList>): void;
+  listFailoverTargets(
+    sourceDeviceName: string,
+    parameters: Models.ListFailoverTargetsRequest,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.FailoverTargetsList>
+  ): void;
   /**
    * @param sourceDeviceName The source device name on which failover is performed.
    * @param parameters ListFailoverTargetsRequest containing the list of volume containers to be
@@ -431,8 +687,22 @@ export class Devices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listFailoverTargets(sourceDeviceName: string, parameters: Models.ListFailoverTargetsRequest, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FailoverTargetsList>): void;
-  listFailoverTargets(sourceDeviceName: string, parameters: Models.ListFailoverTargetsRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FailoverTargetsList>, callback?: msRest.ServiceCallback<Models.FailoverTargetsList>): Promise<Models.DevicesListFailoverTargetsResponse> {
+  listFailoverTargets(
+    sourceDeviceName: string,
+    parameters: Models.ListFailoverTargetsRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FailoverTargetsList>
+  ): void;
+  listFailoverTargets(
+    sourceDeviceName: string,
+    parameters: Models.ListFailoverTargetsRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FailoverTargetsList>,
+    callback?: msRest.ServiceCallback<Models.FailoverTargetsList>
+  ): Promise<Models.DevicesListFailoverTargetsResponse> {
     return this.client.sendOperationRequest(
       {
         sourceDeviceName,
@@ -442,7 +712,8 @@ export class Devices {
         options
       },
       listFailoverTargetsOperationSpec,
-      callback) as Promise<Models.DevicesListFailoverTargetsResponse>;
+      callback
+    ) as Promise<Models.DevicesListFailoverTargetsResponse>;
   }
 
   /**
@@ -453,7 +724,12 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginConfigure(parameters: Models.ConfigureDeviceRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginConfigure(
+    parameters: Models.ConfigureDeviceRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         parameters,
@@ -462,7 +738,8 @@ export class Devices {
         options
       },
       beginConfigureOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -473,7 +750,12 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -482,7 +764,8 @@ export class Devices {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -493,7 +776,12 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeactivate(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeactivate(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -502,7 +790,8 @@ export class Devices {
         options
       },
       beginDeactivateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -513,7 +802,12 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginInstallUpdates(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginInstallUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -522,7 +816,8 @@ export class Devices {
         options
       },
       beginInstallUpdatesOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -533,7 +828,12 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginScanForUpdates(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginScanForUpdates(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -542,7 +842,8 @@ export class Devices {
         options
       },
       beginScanForUpdatesOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -555,7 +856,13 @@ export class Devices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginFailover(sourceDeviceName: string, parameters: Models.FailoverRequest, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginFailover(
+    sourceDeviceName: string,
+    parameters: Models.FailoverRequest,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         sourceDeviceName,
@@ -565,7 +872,8 @@ export class Devices {
         options
       },
       beginFailoverOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -573,19 +881,11 @@ export class Devices {
 const serializer = new msRest.Serializer(Mappers);
 const listByManagerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeviceList
@@ -599,20 +899,16 @@ const listByManagerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Device
@@ -626,19 +922,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -659,19 +952,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const authorizeForServiceEncryptionKeyRolloverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/authorizeForServiceEncryptionKeyRollover",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/authorizeForServiceEncryptionKeyRollover",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -683,19 +973,16 @@ const authorizeForServiceEncryptionKeyRolloverOperationSpec: msRest.OperationSpe
 
 const listFailoverSetsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/listFailoverSets",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/listFailoverSets",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FailoverSetsList
@@ -709,20 +996,16 @@ const listFailoverSetsOperationSpec: msRest.OperationSpec = {
 
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/metrics",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricList
@@ -736,19 +1019,16 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
 
 const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/metricsDefinitions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/metricsDefinitions",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricDefinitionList
@@ -762,19 +1042,16 @@ const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
 
 const getUpdateSummaryOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/updateSummary/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/updateSummary/default",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Updates
@@ -788,19 +1065,16 @@ const getUpdateSummaryOperationSpec: msRest.OperationSpec = {
 
 const listFailoverTargetsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{sourceDeviceName}/listFailoverTargets",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{sourceDeviceName}/listFailoverTargets",
   urlParameters: [
     Parameters.sourceDeviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -821,18 +1095,11 @@ const listFailoverTargetsOperationSpec: msRest.OperationSpec = {
 
 const beginConfigureOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/configureDevice",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/configureDevice",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -852,19 +1119,16 @@ const beginConfigureOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -877,19 +1141,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginDeactivateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/deactivate",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/deactivate",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -902,19 +1163,16 @@ const beginDeactivateOperationSpec: msRest.OperationSpec = {
 
 const beginInstallUpdatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/installUpdates",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/installUpdates",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -927,19 +1185,16 @@ const beginInstallUpdatesOperationSpec: msRest.OperationSpec = {
 
 const beginScanForUpdatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/scanForUpdates",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/scanForUpdates",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -952,19 +1207,16 @@ const beginScanForUpdatesOperationSpec: msRest.OperationSpec = {
 
 const beginFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{sourceDeviceName}/failover",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{sourceDeviceName}/failover",
   urlParameters: [
     Parameters.sourceDeviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

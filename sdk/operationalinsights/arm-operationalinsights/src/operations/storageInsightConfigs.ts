@@ -35,7 +35,13 @@ export class StorageInsightConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageInsightConfigsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, storageInsightName: string, parameters: Models.StorageInsight, options?: msRest.RequestOptionsBase): Promise<Models.StorageInsightConfigsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    storageInsightName: string,
+    parameters: Models.StorageInsight,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageInsightConfigsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -43,7 +49,13 @@ export class StorageInsightConfigs {
    * @param parameters The parameters required to create or update a storage insight.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, storageInsightName: string, parameters: Models.StorageInsight, callback: msRest.ServiceCallback<Models.StorageInsight>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    storageInsightName: string,
+    parameters: Models.StorageInsight,
+    callback: msRest.ServiceCallback<Models.StorageInsight>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -52,8 +64,22 @@ export class StorageInsightConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, storageInsightName: string, parameters: Models.StorageInsight, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageInsight>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, storageInsightName: string, parameters: Models.StorageInsight, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageInsight>, callback?: msRest.ServiceCallback<Models.StorageInsight>): Promise<Models.StorageInsightConfigsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    storageInsightName: string,
+    parameters: Models.StorageInsight,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageInsight>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    storageInsightName: string,
+    parameters: Models.StorageInsight,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageInsight>,
+    callback?: msRest.ServiceCallback<Models.StorageInsight>
+  ): Promise<Models.StorageInsightConfigsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class StorageInsightConfigs {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.StorageInsightConfigsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.StorageInsightConfigsCreateOrUpdateResponse>;
   }
 
   /**
@@ -74,14 +101,24 @@ export class StorageInsightConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageInsightConfigsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, storageInsightName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageInsightConfigsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    storageInsightName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageInsightConfigsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param storageInsightName Name of the storageInsightsConfigs resource
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, storageInsightName: string, callback: msRest.ServiceCallback<Models.StorageInsight>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    storageInsightName: string,
+    callback: msRest.ServiceCallback<Models.StorageInsight>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -89,8 +126,20 @@ export class StorageInsightConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, storageInsightName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageInsight>): void;
-  get(resourceGroupName: string, workspaceName: string, storageInsightName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageInsight>, callback?: msRest.ServiceCallback<Models.StorageInsight>): Promise<Models.StorageInsightConfigsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    storageInsightName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageInsight>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    storageInsightName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageInsight>,
+    callback?: msRest.ServiceCallback<Models.StorageInsight>
+  ): Promise<Models.StorageInsightConfigsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +148,8 @@ export class StorageInsightConfigs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.StorageInsightConfigsGetResponse>;
+      callback
+    ) as Promise<Models.StorageInsightConfigsGetResponse>;
   }
 
   /**
@@ -110,14 +160,24 @@ export class StorageInsightConfigs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, storageInsightName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    storageInsightName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param storageInsightName Name of the storageInsightsConfigs resource
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, storageInsightName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    storageInsightName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -125,8 +185,20 @@ export class StorageInsightConfigs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, storageInsightName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workspaceName: string, storageInsightName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    storageInsightName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    storageInsightName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +207,8 @@ export class StorageInsightConfigs {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -145,21 +218,39 @@ export class StorageInsightConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageInsightConfigsListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageInsightConfigsListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageInsightConfigsListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.StorageInsightListResult>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.StorageInsightListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageInsightListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageInsightListResult>, callback?: msRest.ServiceCallback<Models.StorageInsightListResult>): Promise<Models.StorageInsightConfigsListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageInsightListResult>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageInsightListResult>,
+    callback?: msRest.ServiceCallback<Models.StorageInsightListResult>
+  ): Promise<Models.StorageInsightConfigsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +258,8 @@ export class StorageInsightConfigs {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.StorageInsightConfigsListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.StorageInsightConfigsListByWorkspaceResponse>;
   }
 
   /**
@@ -176,26 +268,41 @@ export class StorageInsightConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageInsightConfigsListByWorkspaceNextResponse>
    */
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageInsightConfigsListByWorkspaceNextResponse>;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageInsightConfigsListByWorkspaceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StorageInsightListResult>): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.StorageInsightListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageInsightListResult>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageInsightListResult>, callback?: msRest.ServiceCallback<Models.StorageInsightListResult>): Promise<Models.StorageInsightConfigsListByWorkspaceNextResponse> {
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageInsightListResult>
+  ): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageInsightListResult>,
+    callback?: msRest.ServiceCallback<Models.StorageInsightListResult>
+  ): Promise<Models.StorageInsightConfigsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByWorkspaceNextOperationSpec,
-      callback) as Promise<Models.StorageInsightConfigsListByWorkspaceNextResponse>;
+      callback
+    ) as Promise<Models.StorageInsightConfigsListByWorkspaceNextResponse>;
   }
 }
 
@@ -203,19 +310,16 @@ export class StorageInsightConfigs {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.storageInsightName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -239,19 +343,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.storageInsightName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageInsight
@@ -265,19 +366,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.storageInsightName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -290,18 +388,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageInsightListResult
@@ -317,12 +412,8 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageInsightListResult

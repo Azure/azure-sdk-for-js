@@ -740,7 +740,16 @@ export interface OperationList extends Array<OperationResponse> {
  * @readonly
  * @enum {string}
  */
-export type ReservationStatusCode = 'None' | 'Pending' | 'Active' | 'PurchaseError' | 'PaymentInstrumentError' | 'Split' | 'Merged' | 'Expired' | 'Succeeded';
+export type ReservationStatusCode =
+  | "None"
+  | "Pending"
+  | "Active"
+  | "PurchaseError"
+  | "PaymentInstrumentError"
+  | "Split"
+  | "Merged"
+  | "Expired"
+  | "Succeeded";
 
 /**
  * Defines values for ErrorResponseCode.
@@ -766,7 +775,62 @@ export type ReservationStatusCode = 'None' | 'Pending' | 'Active' | 'PurchaseErr
  * @readonly
  * @enum {string}
  */
-export type ErrorResponseCode = 'NotSpecified' | 'InternalServerError' | 'ServerTimeout' | 'AuthorizationFailed' | 'BadRequest' | 'ClientCertificateThumbprintNotSet' | 'InvalidRequestContent' | 'OperationFailed' | 'HttpMethodNotSupported' | 'InvalidRequestUri' | 'MissingTenantId' | 'InvalidTenantId' | 'InvalidReservationOrderId' | 'InvalidReservationId' | 'ReservationIdNotInReservationOrder' | 'ReservationOrderNotFound' | 'InvalidSubscriptionId' | 'InvalidAccessToken' | 'InvalidLocationId' | 'UnauthenticatedRequestsThrottled' | 'InvalidHealthCheckType' | 'Forbidden' | 'BillingScopeIdCannotBeChanged' | 'AppliedScopesNotAssociatedWithCommerceAccount' | 'PatchValuesSameAsExisting' | 'RoleAssignmentCreationFailed' | 'ReservationOrderCreationFailed' | 'ReservationOrderNotEnabled' | 'CapacityUpdateScopesFailed' | 'UnsupportedReservationTerm' | 'ReservationOrderIdAlreadyExists' | 'RiskCheckFailed' | 'CreateQuoteFailed' | 'ActivateQuoteFailed' | 'NonsupportedAccountId' | 'PaymentInstrumentNotFound' | 'MissingAppliedScopesForSingle' | 'NoValidReservationsToReRate' | 'ReRateOnlyAllowedForEA' | 'OperationCannotBePerformedInCurrentState' | 'InvalidSingleAppliedScopesCount' | 'InvalidFulfillmentRequestParameters' | 'NotSupportedCountry' | 'InvalidRefundQuantity' | 'PurchaseError' | 'BillingCustomerInputError' | 'BillingPaymentInstrumentSoftError' | 'BillingPaymentInstrumentHardError' | 'BillingTransientError' | 'BillingError' | 'FulfillmentConfigurationError' | 'FulfillmentOutOfStockError' | 'FulfillmentTransientError' | 'FulfillmentError' | 'CalculatePriceFailed';
+export type ErrorResponseCode =
+  | "NotSpecified"
+  | "InternalServerError"
+  | "ServerTimeout"
+  | "AuthorizationFailed"
+  | "BadRequest"
+  | "ClientCertificateThumbprintNotSet"
+  | "InvalidRequestContent"
+  | "OperationFailed"
+  | "HttpMethodNotSupported"
+  | "InvalidRequestUri"
+  | "MissingTenantId"
+  | "InvalidTenantId"
+  | "InvalidReservationOrderId"
+  | "InvalidReservationId"
+  | "ReservationIdNotInReservationOrder"
+  | "ReservationOrderNotFound"
+  | "InvalidSubscriptionId"
+  | "InvalidAccessToken"
+  | "InvalidLocationId"
+  | "UnauthenticatedRequestsThrottled"
+  | "InvalidHealthCheckType"
+  | "Forbidden"
+  | "BillingScopeIdCannotBeChanged"
+  | "AppliedScopesNotAssociatedWithCommerceAccount"
+  | "PatchValuesSameAsExisting"
+  | "RoleAssignmentCreationFailed"
+  | "ReservationOrderCreationFailed"
+  | "ReservationOrderNotEnabled"
+  | "CapacityUpdateScopesFailed"
+  | "UnsupportedReservationTerm"
+  | "ReservationOrderIdAlreadyExists"
+  | "RiskCheckFailed"
+  | "CreateQuoteFailed"
+  | "ActivateQuoteFailed"
+  | "NonsupportedAccountId"
+  | "PaymentInstrumentNotFound"
+  | "MissingAppliedScopesForSingle"
+  | "NoValidReservationsToReRate"
+  | "ReRateOnlyAllowedForEA"
+  | "OperationCannotBePerformedInCurrentState"
+  | "InvalidSingleAppliedScopesCount"
+  | "InvalidFulfillmentRequestParameters"
+  | "NotSupportedCountry"
+  | "InvalidRefundQuantity"
+  | "PurchaseError"
+  | "BillingCustomerInputError"
+  | "BillingPaymentInstrumentSoftError"
+  | "BillingPaymentInstrumentHardError"
+  | "BillingTransientError"
+  | "BillingError"
+  | "FulfillmentConfigurationError"
+  | "FulfillmentOutOfStockError"
+  | "FulfillmentTransientError"
+  | "FulfillmentError"
+  | "CalculatePriceFailed";
 
 /**
  * Defines values for ReservationBillingPlan.
@@ -774,7 +838,7 @@ export type ErrorResponseCode = 'NotSpecified' | 'InternalServerError' | 'Server
  * @readonly
  * @enum {string}
  */
-export type ReservationBillingPlan = 'Upfront' | 'Monthly';
+export type ReservationBillingPlan = "Upfront" | "Monthly";
 
 /**
  * Defines values for ReservationTerm.
@@ -782,7 +846,7 @@ export type ReservationBillingPlan = 'Upfront' | 'Monthly';
  * @readonly
  * @enum {string}
  */
-export type ReservationTerm = 'P1Y' | 'P3Y';
+export type ReservationTerm = "P1Y" | "P3Y";
 
 /**
  * Defines values for PaymentStatus.
@@ -790,7 +854,7 @@ export type ReservationTerm = 'P1Y' | 'P3Y';
  * @readonly
  * @enum {string}
  */
-export type PaymentStatus = 'Succeeded' | 'Failed' | 'Scheduled' | 'Cancelled';
+export type PaymentStatus = "Succeeded" | "Failed" | "Scheduled" | "Cancelled";
 
 /**
  * Defines values for ReservedResourceType.
@@ -799,7 +863,15 @@ export type PaymentStatus = 'Succeeded' | 'Failed' | 'Scheduled' | 'Cancelled';
  * @readonly
  * @enum {string}
  */
-export type ReservedResourceType = 'VirtualMachines' | 'SqlDatabases' | 'SuseLinux' | 'CosmosDb' | 'RedHat' | 'SqlDataWarehouse' | 'VMwareCloudSimple' | 'RedHatOsa';
+export type ReservedResourceType =
+  | "VirtualMachines"
+  | "SqlDatabases"
+  | "SuseLinux"
+  | "CosmosDb"
+  | "RedHat"
+  | "SqlDataWarehouse"
+  | "VMwareCloudSimple"
+  | "RedHatOsa";
 
 /**
  * Defines values for InstanceFlexibility.
@@ -807,7 +879,7 @@ export type ReservedResourceType = 'VirtualMachines' | 'SqlDatabases' | 'SuseLin
  * @readonly
  * @enum {string}
  */
-export type InstanceFlexibility = 'On' | 'Off';
+export type InstanceFlexibility = "On" | "Off";
 
 /**
  * Defines values for AppliedScopeType.
@@ -815,7 +887,7 @@ export type InstanceFlexibility = 'On' | 'Off';
  * @readonly
  * @enum {string}
  */
-export type AppliedScopeType = 'Single' | 'Shared';
+export type AppliedScopeType = "Single" | "Shared";
 
 /**
  * Contains response data for the availableScopes operation.
@@ -825,16 +897,16 @@ export type ReservationAvailableScopesResponse = Properties & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Properties;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Properties;
+  };
 };
 
 /**
@@ -845,16 +917,16 @@ export type ReservationSplitResponse = Array<ReservationResponse> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse[];
+  };
 };
 
 /**
@@ -865,16 +937,16 @@ export type ReservationMergeResponse = Array<ReservationResponse> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse[];
+  };
 };
 
 /**
@@ -885,16 +957,16 @@ export type ReservationListResponse = ReservationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationList;
+  };
 };
 
 /**
@@ -905,16 +977,16 @@ export type ReservationGetResponse = ReservationResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse;
+  };
 };
 
 /**
@@ -925,16 +997,16 @@ export type ReservationUpdateResponse = ReservationResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse;
+  };
 };
 
 /**
@@ -945,16 +1017,16 @@ export type ReservationListRevisionsResponse = ReservationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationList;
+  };
 };
 
 /**
@@ -965,16 +1037,16 @@ export type ReservationBeginAvailableScopesResponse = Properties & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Properties;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Properties;
+  };
 };
 
 /**
@@ -985,16 +1057,16 @@ export type ReservationBeginSplitResponse = Array<ReservationResponse> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse[];
+  };
 };
 
 /**
@@ -1005,16 +1077,16 @@ export type ReservationBeginMergeResponse = Array<ReservationResponse> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse[];
+  };
 };
 
 /**
@@ -1025,16 +1097,16 @@ export type ReservationBeginUpdateResponse = ReservationResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse;
+  };
 };
 
 /**
@@ -1045,16 +1117,16 @@ export type ReservationListNextResponse = ReservationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationList;
+  };
 };
 
 /**
@@ -1065,16 +1137,16 @@ export type ReservationListRevisionsNextResponse = ReservationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationList;
+  };
 };
 
 /**
@@ -1085,16 +1157,16 @@ export type GetCatalogResponse = Array<Catalog> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Catalog[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Catalog[];
+  };
 };
 
 /**
@@ -1105,16 +1177,16 @@ export type GetAppliedReservationListResponse = AppliedReservations & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppliedReservations;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AppliedReservations;
+  };
 };
 
 /**
@@ -1125,16 +1197,16 @@ export type ReservationOrderCalculateResponse = CalculatePriceResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CalculatePriceResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CalculatePriceResponse;
+  };
 };
 
 /**
@@ -1145,16 +1217,16 @@ export type ReservationOrderListResponse = ReservationOrderList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationOrderList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationOrderList;
+  };
 };
 
 /**
@@ -1165,16 +1237,16 @@ export type ReservationOrderPurchaseResponse = ReservationOrderResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationOrderResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationOrderResponse;
+  };
 };
 
 /**
@@ -1185,16 +1257,16 @@ export type ReservationOrderGetResponse = ReservationOrderResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationOrderResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationOrderResponse;
+  };
 };
 
 /**
@@ -1205,16 +1277,16 @@ export type ReservationOrderBeginPurchaseResponse = ReservationOrderResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationOrderResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationOrderResponse;
+  };
 };
 
 /**
@@ -1225,16 +1297,16 @@ export type ReservationOrderListNextResponse = ReservationOrderList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationOrderList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationOrderList;
+  };
 };
 
 /**
@@ -1245,16 +1317,16 @@ export type OperationListResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -1265,14 +1337,14 @@ export type OperationListNextResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };

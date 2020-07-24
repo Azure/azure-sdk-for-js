@@ -40,14 +40,21 @@ export class UsageModels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageModelsResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageModelsResult>, callback?: msRest.ServiceCallback<Models.UsageModelsResult>): Promise<Models.UsageModelsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UsageModelsResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageModelsResult>,
+    callback?: msRest.ServiceCallback<Models.UsageModelsResult>
+  ): Promise<Models.UsageModelsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.UsageModelsListResponse>;
+      callback
+    ) as Promise<Models.UsageModelsListResponse>;
   }
 
   /**
@@ -56,7 +63,10 @@ export class UsageModels {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsageModelsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.UsageModelsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UsageModelsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -67,15 +77,24 @@ export class UsageModels {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageModelsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageModelsResult>, callback?: msRest.ServiceCallback<Models.UsageModelsResult>): Promise<Models.UsageModelsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UsageModelsResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageModelsResult>,
+    callback?: msRest.ServiceCallback<Models.UsageModelsResult>
+  ): Promise<Models.UsageModelsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.UsageModelsListNextResponse>;
+      callback
+    ) as Promise<Models.UsageModelsListNextResponse>;
   }
 }
 
@@ -84,15 +103,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/usageModels",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UsageModelsResult
@@ -108,12 +121,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UsageModelsResult

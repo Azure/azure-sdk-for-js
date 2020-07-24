@@ -15,7 +15,6 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { FrontDoorManagementClientContext } from "./frontDoorManagementClientContext";
 
-
 class FrontDoorManagementClient extends FrontDoorManagementClientContext {
   // Operation groups
   networkExperimentProfiles: operations.NetworkExperimentProfiles;
@@ -36,7 +35,11 @@ class FrontDoorManagementClient extends FrontDoorManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.FrontDoorManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.FrontDoorManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.networkExperimentProfiles = new operations.NetworkExperimentProfiles(this);
     this.preconfiguredEndpoints = new operations.PreconfiguredEndpoints(this);
@@ -56,26 +59,43 @@ class FrontDoorManagementClient extends FrontDoorManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckFrontDoorNameAvailabilityResponse>
    */
-  checkFrontDoorNameAvailability(checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput, options?: msRest.RequestOptionsBase): Promise<Models.CheckFrontDoorNameAvailabilityResponse>;
+  checkFrontDoorNameAvailability(
+    checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CheckFrontDoorNameAvailabilityResponse>;
   /**
    * @param checkFrontDoorNameAvailabilityInput Input to check.
    * @param callback The callback
    */
-  checkFrontDoorNameAvailability(checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
+  checkFrontDoorNameAvailability(
+    checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): void;
   /**
    * @param checkFrontDoorNameAvailabilityInput Input to check.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkFrontDoorNameAvailability(checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
-  checkFrontDoorNameAvailability(checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): Promise<Models.CheckFrontDoorNameAvailabilityResponse> {
+  checkFrontDoorNameAvailability(
+    checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): void;
+  checkFrontDoorNameAvailability(
+    checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): Promise<Models.CheckFrontDoorNameAvailabilityResponse> {
     return this.sendOperationRequest(
       {
         checkFrontDoorNameAvailabilityInput,
         options
       },
       checkFrontDoorNameAvailabilityOperationSpec,
-      callback) as Promise<Models.CheckFrontDoorNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.CheckFrontDoorNameAvailabilityResponse>;
   }
 
   /**
@@ -84,26 +104,43 @@ class FrontDoorManagementClient extends FrontDoorManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckFrontDoorNameAvailabilityWithSubscriptionResponse>
    */
-  checkFrontDoorNameAvailabilityWithSubscription(checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput, options?: msRest.RequestOptionsBase): Promise<Models.CheckFrontDoorNameAvailabilityWithSubscriptionResponse>;
+  checkFrontDoorNameAvailabilityWithSubscription(
+    checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CheckFrontDoorNameAvailabilityWithSubscriptionResponse>;
   /**
    * @param checkFrontDoorNameAvailabilityInput Input to check.
    * @param callback The callback
    */
-  checkFrontDoorNameAvailabilityWithSubscription(checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
+  checkFrontDoorNameAvailabilityWithSubscription(
+    checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): void;
   /**
    * @param checkFrontDoorNameAvailabilityInput Input to check.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkFrontDoorNameAvailabilityWithSubscription(checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
-  checkFrontDoorNameAvailabilityWithSubscription(checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): Promise<Models.CheckFrontDoorNameAvailabilityWithSubscriptionResponse> {
+  checkFrontDoorNameAvailabilityWithSubscription(
+    checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): void;
+  checkFrontDoorNameAvailabilityWithSubscription(
+    checkFrontDoorNameAvailabilityInput: Models.CheckNameAvailabilityInput,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): Promise<Models.CheckFrontDoorNameAvailabilityWithSubscriptionResponse> {
     return this.sendOperationRequest(
       {
         checkFrontDoorNameAvailabilityInput,
         options
       },
       checkFrontDoorNameAvailabilityWithSubscriptionOperationSpec,
-      callback) as Promise<Models.CheckFrontDoorNameAvailabilityWithSubscriptionResponse>;
+      callback
+    ) as Promise<Models.CheckFrontDoorNameAvailabilityWithSubscriptionResponse>;
   }
 }
 
@@ -112,12 +149,8 @@ const serializer = new msRest.Serializer(Mappers);
 const checkFrontDoorNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Network/checkFrontDoorNameAvailability",
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "checkFrontDoorNameAvailabilityInput",
     mapper: {
@@ -139,15 +172,9 @@ const checkFrontDoorNameAvailabilityOperationSpec: msRest.OperationSpec = {
 const checkFrontDoorNameAvailabilityWithSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/checkFrontDoorNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "checkFrontDoorNameAvailabilityInput",
     mapper: {

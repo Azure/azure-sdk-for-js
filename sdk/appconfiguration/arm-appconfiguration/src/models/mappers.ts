@@ -413,7 +413,7 @@ export const CheckNameAvailabilityParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.AppConfiguration/configurationStores',
+        defaultValue: "Microsoft.AppConfiguration/configurationStores",
         type: {
           name: "String"
         }

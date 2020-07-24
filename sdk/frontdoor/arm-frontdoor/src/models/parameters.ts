@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -36,7 +36,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-11-01',
+    defaultValue: "2019-11-01",
     type: {
       name: "String"
     }
@@ -48,7 +48,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-01-01',
+    defaultValue: "2020-01-01",
     type: {
       name: "String"
     }
@@ -60,17 +60,14 @@ export const apiVersion2: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-10-01',
+    defaultValue: "2019-10-01",
     type: {
       name: "String"
     }
   }
 };
 export const country: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "country"
-  ],
+  parameterPath: ["options", "country"],
   mapper: {
     serializedName: "country",
     type: {
@@ -79,10 +76,7 @@ export const country: msRest.OperationQueryParameter = {
   }
 };
 export const endDateTimeUTC0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "endDateTimeUTC"
-  ],
+  parameterPath: ["options", "endDateTimeUTC"],
   mapper: {
     serializedName: "endDateTimeUTC",
     type: {
@@ -101,10 +95,7 @@ export const endDateTimeUTC1: msRest.OperationQueryParameter = {
   }
 };
 export const endpoint: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "endpoint"
-  ],
+  parameterPath: ["options", "endpoint"],
   mapper: {
     serializedName: "endpoint",
     type: {

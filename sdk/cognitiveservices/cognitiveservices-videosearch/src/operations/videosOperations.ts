@@ -40,7 +40,10 @@ export class VideosOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.VideosSearchResponse>
    */
-  search(query: string, options?: Models.VideosSearchOptionalParams): Promise<Models.VideosSearchResponse>;
+  search(
+    query: string,
+    options?: Models.VideosSearchOptionalParams
+  ): Promise<Models.VideosSearchResponse>;
   /**
    * @param query The user's search query string. The query string cannot be empty. The query string
    * may contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). For
@@ -59,15 +62,24 @@ export class VideosOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  search(query: string, options: Models.VideosSearchOptionalParams, callback: msRest.ServiceCallback<Models.Videos>): void;
-  search(query: string, options?: Models.VideosSearchOptionalParams | msRest.ServiceCallback<Models.Videos>, callback?: msRest.ServiceCallback<Models.Videos>): Promise<Models.VideosSearchResponse> {
+  search(
+    query: string,
+    options: Models.VideosSearchOptionalParams,
+    callback: msRest.ServiceCallback<Models.Videos>
+  ): void;
+  search(
+    query: string,
+    options?: Models.VideosSearchOptionalParams | msRest.ServiceCallback<Models.Videos>,
+    callback?: msRest.ServiceCallback<Models.Videos>
+  ): Promise<Models.VideosSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
         options
       },
       searchOperationSpec,
-      callback) as Promise<Models.VideosSearchResponse>;
+      callback
+    ) as Promise<Models.VideosSearchResponse>;
   }
 
   /**
@@ -84,7 +96,10 @@ export class VideosOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.VideosDetailsResponse>
    */
-  details(query: string, options?: Models.VideosDetailsOptionalParams): Promise<Models.VideosDetailsResponse>;
+  details(
+    query: string,
+    options?: Models.VideosDetailsOptionalParams
+  ): Promise<Models.VideosDetailsResponse>;
   /**
    * @param query The user's search query string. The query string cannot be empty. The query string
    * may contain [Bing Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). For
@@ -103,15 +118,24 @@ export class VideosOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  details(query: string, options: Models.VideosDetailsOptionalParams, callback: msRest.ServiceCallback<Models.VideoDetails>): void;
-  details(query: string, options?: Models.VideosDetailsOptionalParams | msRest.ServiceCallback<Models.VideoDetails>, callback?: msRest.ServiceCallback<Models.VideoDetails>): Promise<Models.VideosDetailsResponse> {
+  details(
+    query: string,
+    options: Models.VideosDetailsOptionalParams,
+    callback: msRest.ServiceCallback<Models.VideoDetails>
+  ): void;
+  details(
+    query: string,
+    options?: Models.VideosDetailsOptionalParams | msRest.ServiceCallback<Models.VideoDetails>,
+    callback?: msRest.ServiceCallback<Models.VideoDetails>
+  ): Promise<Models.VideosDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         query,
         options
       },
       detailsOperationSpec,
-      callback) as Promise<Models.VideosDetailsResponse>;
+      callback
+    ) as Promise<Models.VideosDetailsResponse>;
   }
 
   /**
@@ -132,14 +156,21 @@ export class VideosOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  trending(options: Models.VideosTrendingOptionalParams, callback: msRest.ServiceCallback<Models.TrendingVideos>): void;
-  trending(options?: Models.VideosTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingVideos>, callback?: msRest.ServiceCallback<Models.TrendingVideos>): Promise<Models.VideosTrendingResponse> {
+  trending(
+    options: Models.VideosTrendingOptionalParams,
+    callback: msRest.ServiceCallback<Models.TrendingVideos>
+  ): void;
+  trending(
+    options?: Models.VideosTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingVideos>,
+    callback?: msRest.ServiceCallback<Models.TrendingVideos>
+  ): Promise<Models.VideosTrendingResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       trendingOperationSpec,
-      callback) as Promise<Models.VideosTrendingResponse>;
+      callback
+    ) as Promise<Models.VideosTrendingResponse>;
   }
 }
 
@@ -148,9 +179,7 @@ const serializer = new msRest.Serializer(Mappers);
 const searchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "videos/search",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.countryCode,
     Parameters.count,
@@ -189,9 +218,7 @@ const searchOperationSpec: msRest.OperationSpec = {
 const detailsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "videos/details",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.countryCode,
     Parameters.id,
@@ -226,9 +253,7 @@ const detailsOperationSpec: msRest.OperationSpec = {
 const trendingOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "videos/trending",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.countryCode,
     Parameters.market,

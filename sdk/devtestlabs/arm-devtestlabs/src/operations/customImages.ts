@@ -34,21 +34,41 @@ export class CustomImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomImagesListResponse>
    */
-  list(resourceGroupName: string, labName: string, options?: Models.CustomImagesListOptionalParams): Promise<Models.CustomImagesListResponse>;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options?: Models.CustomImagesListOptionalParams
+  ): Promise<Models.CustomImagesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.CustomImageList>): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    callback: msRest.ServiceCallback<Models.CustomImageList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.CustomImagesListOptionalParams, callback: msRest.ServiceCallback<Models.CustomImageList>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.CustomImagesListOptionalParams | msRest.ServiceCallback<Models.CustomImageList>, callback?: msRest.ServiceCallback<Models.CustomImageList>): Promise<Models.CustomImagesListResponse> {
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options: Models.CustomImagesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.CustomImageList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options?:
+      | Models.CustomImagesListOptionalParams
+      | msRest.ServiceCallback<Models.CustomImageList>,
+    callback?: msRest.ServiceCallback<Models.CustomImageList>
+  ): Promise<Models.CustomImagesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class CustomImages {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.CustomImagesListResponse>;
+      callback
+    ) as Promise<Models.CustomImagesListResponse>;
   }
 
   /**
@@ -67,14 +88,24 @@ export class CustomImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomImagesGetResponse>
    */
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.CustomImagesGetOptionalParams): Promise<Models.CustomImagesGetResponse>;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: Models.CustomImagesGetOptionalParams
+  ): Promise<Models.CustomImagesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the custom image.
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, name: string, callback: msRest.ServiceCallback<Models.CustomImage>): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.CustomImage>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -82,8 +113,20 @@ export class CustomImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, name: string, options: Models.CustomImagesGetOptionalParams, callback: msRest.ServiceCallback<Models.CustomImage>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.CustomImagesGetOptionalParams | msRest.ServiceCallback<Models.CustomImage>, callback?: msRest.ServiceCallback<Models.CustomImage>): Promise<Models.CustomImagesGetResponse> {
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options: Models.CustomImagesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.CustomImage>
+  ): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: Models.CustomImagesGetOptionalParams | msRest.ServiceCallback<Models.CustomImage>,
+    callback?: msRest.ServiceCallback<Models.CustomImage>
+  ): Promise<Models.CustomImagesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +135,8 @@ export class CustomImages {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CustomImagesGetResponse>;
+      callback
+    ) as Promise<Models.CustomImagesGetResponse>;
   }
 
   /**
@@ -104,9 +148,22 @@ export class CustomImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomImagesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, customImage: Models.CustomImage, options?: msRest.RequestOptionsBase): Promise<Models.CustomImagesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,labName,name,customImage,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CustomImagesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    customImage: Models.CustomImage,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomImagesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      labName,
+      name,
+      customImage,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CustomImagesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -117,9 +174,15 @@ export class CustomImages {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,labName,name,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, labName, name, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -131,7 +194,13 @@ export class CustomImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomImagesUpdateResponse>
    */
-  update(resourceGroupName: string, labName: string, name: string, customImage: Models.CustomImageFragment, options?: msRest.RequestOptionsBase): Promise<Models.CustomImagesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    customImage: Models.CustomImageFragment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomImagesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -139,7 +208,13 @@ export class CustomImages {
    * @param customImage A custom image.
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, name: string, customImage: Models.CustomImageFragment, callback: msRest.ServiceCallback<Models.CustomImage>): void;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    customImage: Models.CustomImageFragment,
+    callback: msRest.ServiceCallback<Models.CustomImage>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -148,8 +223,22 @@ export class CustomImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, labName: string, name: string, customImage: Models.CustomImageFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomImage>): void;
-  update(resourceGroupName: string, labName: string, name: string, customImage: Models.CustomImageFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomImage>, callback?: msRest.ServiceCallback<Models.CustomImage>): Promise<Models.CustomImagesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    customImage: Models.CustomImageFragment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CustomImage>
+  ): void;
+  update(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    customImage: Models.CustomImageFragment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomImage>,
+    callback?: msRest.ServiceCallback<Models.CustomImage>
+  ): Promise<Models.CustomImagesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +248,8 @@ export class CustomImages {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.CustomImagesUpdateResponse>;
+      callback
+    ) as Promise<Models.CustomImagesUpdateResponse>;
   }
 
   /**
@@ -171,7 +261,13 @@ export class CustomImages {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, customImage: Models.CustomImage, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    customImage: Models.CustomImage,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -181,7 +277,8 @@ export class CustomImages {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -192,7 +289,12 @@ export class CustomImages {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, labName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -201,7 +303,8 @@ export class CustomImages {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -210,7 +313,10 @@ export class CustomImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.CustomImagesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomImagesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CustomImagesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -221,15 +327,24 @@ export class CustomImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CustomImageList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomImageList>, callback?: msRest.ServiceCallback<Models.CustomImageList>): Promise<Models.CustomImagesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CustomImageList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CustomImageList>,
+    callback?: msRest.ServiceCallback<Models.CustomImageList>
+  ): Promise<Models.CustomImagesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.CustomImagesListNextResponse>;
+      callback
+    ) as Promise<Models.CustomImagesListNextResponse>;
   }
 }
 
@@ -237,12 +352,9 @@ export class CustomImages {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.labName
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.labName],
   queryParameters: [
     Parameters.expand,
     Parameters.filter,
@@ -250,9 +362,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CustomImageList
@@ -266,20 +376,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CustomImage
@@ -293,19 +399,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "customImage",
     mapper: {
@@ -326,19 +429,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "customImage",
     mapper: {
@@ -362,19 +462,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/customimages/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -390,12 +487,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CustomImageList

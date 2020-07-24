@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ContainerServiceClientContext } from "./containerServiceClientContext";
 
-
 class ContainerServiceClient extends ContainerServiceClientContext {
   // Operation groups
   openShiftManagedClusters: operations.OpenShiftManagedClusters;
@@ -31,7 +30,11 @@ class ContainerServiceClient extends ContainerServiceClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ContainerServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ContainerServiceClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.openShiftManagedClusters = new operations.OpenShiftManagedClusters(this);
     this.containerServices = new operations.ContainerServices(this);

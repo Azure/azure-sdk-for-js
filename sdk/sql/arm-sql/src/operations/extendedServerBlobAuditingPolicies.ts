@@ -35,14 +35,22 @@ export class ExtendedServerBlobAuditingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExtendedServerBlobAuditingPoliciesGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExtendedServerBlobAuditingPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExtendedServerBlobAuditingPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ExtendedServerBlobAuditingPolicy>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.ExtendedServerBlobAuditingPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -50,8 +58,20 @@ export class ExtendedServerBlobAuditingPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExtendedServerBlobAuditingPolicy>): void;
-  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExtendedServerBlobAuditingPolicy>, callback?: msRest.ServiceCallback<Models.ExtendedServerBlobAuditingPolicy>): Promise<Models.ExtendedServerBlobAuditingPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExtendedServerBlobAuditingPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExtendedServerBlobAuditingPolicy>,
+    callback?: msRest.ServiceCallback<Models.ExtendedServerBlobAuditingPolicy>
+  ): Promise<Models.ExtendedServerBlobAuditingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +79,8 @@ export class ExtendedServerBlobAuditingPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ExtendedServerBlobAuditingPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.ExtendedServerBlobAuditingPoliciesGetResponse>;
   }
 
   /**
@@ -71,9 +92,20 @@ export class ExtendedServerBlobAuditingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, parameters: Models.ExtendedServerBlobAuditingPolicy, options?: msRest.RequestOptionsBase): Promise<Models.ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serverName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: Models.ExtendedServerBlobAuditingPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -85,7 +117,12 @@ export class ExtendedServerBlobAuditingPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serverName: string, parameters: Models.ExtendedServerBlobAuditingPolicy, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: Models.ExtendedServerBlobAuditingPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -94,7 +131,8 @@ export class ExtendedServerBlobAuditingPolicies {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -102,19 +140,16 @@ export class ExtendedServerBlobAuditingPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings/{blobAuditingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings/{blobAuditingPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.blobAuditingPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy
@@ -128,19 +163,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings/{blobAuditingPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings/{blobAuditingPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.blobAuditingPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

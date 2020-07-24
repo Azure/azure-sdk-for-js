@@ -35,9 +35,18 @@ export class Routes {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, routeTableName: string, routeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,routeTableName,routeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    routeTableName: string,
+    routeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      routeTableName,
+      routeName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -48,14 +57,24 @@ export class Routes {
    * @param [options] The optional parameters
    * @returns Promise<Models.RoutesGetResponse>
    */
-  get(resourceGroupName: string, routeTableName: string, routeName: string, options?: msRest.RequestOptionsBase): Promise<Models.RoutesGetResponse>;
+  get(
+    resourceGroupName: string,
+    routeTableName: string,
+    routeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RoutesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param routeTableName The name of the route table.
    * @param routeName The name of the route.
    * @param callback The callback
    */
-  get(resourceGroupName: string, routeTableName: string, routeName: string, callback: msRest.ServiceCallback<Models.Route>): void;
+  get(
+    resourceGroupName: string,
+    routeTableName: string,
+    routeName: string,
+    callback: msRest.ServiceCallback<Models.Route>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param routeTableName The name of the route table.
@@ -63,8 +82,20 @@ export class Routes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, routeTableName: string, routeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Route>): void;
-  get(resourceGroupName: string, routeTableName: string, routeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Route>, callback?: msRest.ServiceCallback<Models.Route>): Promise<Models.RoutesGetResponse> {
+  get(
+    resourceGroupName: string,
+    routeTableName: string,
+    routeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Route>
+  ): void;
+  get(
+    resourceGroupName: string,
+    routeTableName: string,
+    routeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Route>,
+    callback?: msRest.ServiceCallback<Models.Route>
+  ): Promise<Models.RoutesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,7 +104,8 @@ export class Routes {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RoutesGetResponse>;
+      callback
+    ) as Promise<Models.RoutesGetResponse>;
   }
 
   /**
@@ -85,9 +117,22 @@ export class Routes {
    * @param [options] The optional parameters
    * @returns Promise<Models.RoutesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, routeTableName: string, routeName: string, routeParameters: Models.Route, options?: msRest.RequestOptionsBase): Promise<Models.RoutesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,routeTableName,routeName,routeParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RoutesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    routeTableName: string,
+    routeName: string,
+    routeParameters: Models.Route,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RoutesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      routeTableName,
+      routeName,
+      routeParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.RoutesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -97,21 +142,39 @@ export class Routes {
    * @param [options] The optional parameters
    * @returns Promise<Models.RoutesListResponse>
    */
-  list(resourceGroupName: string, routeTableName: string, options?: msRest.RequestOptionsBase): Promise<Models.RoutesListResponse>;
+  list(
+    resourceGroupName: string,
+    routeTableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RoutesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param routeTableName The name of the route table.
    * @param callback The callback
    */
-  list(resourceGroupName: string, routeTableName: string, callback: msRest.ServiceCallback<Models.RouteListResult>): void;
+  list(
+    resourceGroupName: string,
+    routeTableName: string,
+    callback: msRest.ServiceCallback<Models.RouteListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param routeTableName The name of the route table.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, routeTableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteListResult>): void;
-  list(resourceGroupName: string, routeTableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteListResult>, callback?: msRest.ServiceCallback<Models.RouteListResult>): Promise<Models.RoutesListResponse> {
+  list(
+    resourceGroupName: string,
+    routeTableName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RouteListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    routeTableName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteListResult>,
+    callback?: msRest.ServiceCallback<Models.RouteListResult>
+  ): Promise<Models.RoutesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +182,8 @@ export class Routes {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.RoutesListResponse>;
+      callback
+    ) as Promise<Models.RoutesListResponse>;
   }
 
   /**
@@ -130,7 +194,12 @@ export class Routes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, routeTableName: string, routeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    routeTableName: string,
+    routeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -139,7 +208,8 @@ export class Routes {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -151,7 +221,13 @@ export class Routes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, routeTableName: string, routeName: string, routeParameters: Models.Route, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    routeTableName: string,
+    routeName: string,
+    routeParameters: Models.Route,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +237,8 @@ export class Routes {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,7 +247,10 @@ export class Routes {
    * @param [options] The optional parameters
    * @returns Promise<Models.RoutesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RoutesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RoutesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -181,15 +261,24 @@ export class Routes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RouteListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteListResult>, callback?: msRest.ServiceCallback<Models.RouteListResult>): Promise<Models.RoutesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RouteListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RouteListResult>,
+    callback?: msRest.ServiceCallback<Models.RouteListResult>
+  ): Promise<Models.RoutesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.RoutesListNextResponse>;
+      callback
+    ) as Promise<Models.RoutesListNextResponse>;
   }
 }
 
@@ -197,19 +286,16 @@ export class Routes {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.routeTableName,
     Parameters.routeName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Route
@@ -223,18 +309,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.routeTableName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RouteListResult
@@ -248,19 +331,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.routeTableName,
     Parameters.routeName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -274,19 +354,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.routeTableName,
     Parameters.routeName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "routeParameters",
     mapper: {
@@ -312,12 +389,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RouteListResult

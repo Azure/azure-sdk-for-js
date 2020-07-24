@@ -73,4 +73,3 @@ export {
   LocalNetworkResourceProperties,
   AutoScalingResourceMetric
 } from "../models/mappers";
-

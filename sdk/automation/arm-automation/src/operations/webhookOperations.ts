@@ -33,21 +33,39 @@ export class WebhookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhookGenerateUriResponse>
    */
-  generateUri(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebhookGenerateUriResponse>;
+  generateUri(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhookGenerateUriResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  generateUri(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<string>): void;
+  generateUri(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<string>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  generateUri(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  generateUri(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.WebhookGenerateUriResponse> {
+  generateUri(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<string>
+  ): void;
+  generateUri(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>,
+    callback?: msRest.ServiceCallback<string>
+  ): Promise<Models.WebhookGenerateUriResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class WebhookOperations {
         options
       },
       generateUriOperationSpec,
-      callback) as Promise<Models.WebhookGenerateUriResponse>;
+      callback
+    ) as Promise<Models.WebhookGenerateUriResponse>;
   }
 
   /**
@@ -66,14 +85,24 @@ export class WebhookOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, webhookName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param webhookName The webhook name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, webhookName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -81,8 +110,20 @@ export class WebhookOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, webhookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, webhookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +132,8 @@ export class WebhookOperations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -102,14 +144,24 @@ export class WebhookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhookGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, webhookName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebhookGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhookGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param webhookName The webhook name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, webhookName: string, callback: msRest.ServiceCallback<Models.Webhook>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    callback: msRest.ServiceCallback<Models.Webhook>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -117,8 +169,20 @@ export class WebhookOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, webhookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Webhook>): void;
-  get(resourceGroupName: string, automationAccountName: string, webhookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Webhook>, callback?: msRest.ServiceCallback<Models.Webhook>): Promise<Models.WebhookGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Webhook>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Webhook>,
+    callback?: msRest.ServiceCallback<Models.Webhook>
+  ): Promise<Models.WebhookGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +191,8 @@ export class WebhookOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WebhookGetResponse>;
+      callback
+    ) as Promise<Models.WebhookGetResponse>;
   }
 
   /**
@@ -139,7 +204,13 @@ export class WebhookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhookCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.WebhookCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    parameters: Models.WebhookCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhookCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -147,7 +218,13 @@ export class WebhookOperations {
    * @param parameters The create or update parameters for webhook.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.Webhook>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    parameters: Models.WebhookCreateOrUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Webhook>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -156,8 +233,22 @@ export class WebhookOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Webhook>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Webhook>, callback?: msRest.ServiceCallback<Models.Webhook>): Promise<Models.WebhookCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    parameters: Models.WebhookCreateOrUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Webhook>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    parameters: Models.WebhookCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Webhook>,
+    callback?: msRest.ServiceCallback<Models.Webhook>
+  ): Promise<Models.WebhookCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +258,8 @@ export class WebhookOperations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.WebhookCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.WebhookCreateOrUpdateResponse>;
   }
 
   /**
@@ -179,7 +271,13 @@ export class WebhookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhookUpdateResponse>
    */
-  update(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.WebhookUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    parameters: Models.WebhookUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhookUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -187,7 +285,13 @@ export class WebhookOperations {
    * @param parameters The update parameters for webhook.
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookUpdateParameters, callback: msRest.ServiceCallback<Models.Webhook>): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    parameters: Models.WebhookUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Webhook>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -196,8 +300,22 @@ export class WebhookOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Webhook>): void;
-  update(resourceGroupName: string, automationAccountName: string, webhookName: string, parameters: Models.WebhookUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Webhook>, callback?: msRest.ServiceCallback<Models.Webhook>): Promise<Models.WebhookUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    parameters: Models.WebhookUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Webhook>
+  ): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    webhookName: string,
+    parameters: Models.WebhookUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Webhook>,
+    callback?: msRest.ServiceCallback<Models.Webhook>
+  ): Promise<Models.WebhookUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +325,8 @@ export class WebhookOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.WebhookUpdateResponse>;
+      callback
+    ) as Promise<Models.WebhookUpdateResponse>;
   }
 
   /**
@@ -217,21 +336,41 @@ export class WebhookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhookListByAutomationAccountResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.WebhookListByAutomationAccountOptionalParams): Promise<Models.WebhookListByAutomationAccountResponse>;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: Models.WebhookListByAutomationAccountOptionalParams
+  ): Promise<Models.WebhookListByAutomationAccountResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.WebhookListResult>): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.WebhookListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.WebhookListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.WebhookListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.WebhookListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.WebhookListResult>, callback?: msRest.ServiceCallback<Models.WebhookListResult>): Promise<Models.WebhookListByAutomationAccountResponse> {
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: Models.WebhookListByAutomationAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.WebhookListResult>
+  ): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?:
+      | Models.WebhookListByAutomationAccountOptionalParams
+      | msRest.ServiceCallback<Models.WebhookListResult>,
+    callback?: msRest.ServiceCallback<Models.WebhookListResult>
+  ): Promise<Models.WebhookListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -239,7 +378,8 @@ export class WebhookOperations {
         options
       },
       listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.WebhookListByAutomationAccountResponse>;
+      callback
+    ) as Promise<Models.WebhookListByAutomationAccountResponse>;
   }
 
   /**
@@ -248,26 +388,41 @@ export class WebhookOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebhookListByAutomationAccountNextResponse>
    */
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebhookListByAutomationAccountNextResponse>;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebhookListByAutomationAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WebhookListResult>): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.WebhookListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebhookListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebhookListResult>, callback?: msRest.ServiceCallback<Models.WebhookListResult>): Promise<Models.WebhookListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebhookListResult>
+  ): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebhookListResult>,
+    callback?: msRest.ServiceCallback<Models.WebhookListResult>
+  ): Promise<Models.WebhookListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAutomationAccountNextOperationSpec,
-      callback) as Promise<Models.WebhookListByAutomationAccountNextResponse>;
+      callback
+    ) as Promise<Models.WebhookListByAutomationAccountNextResponse>;
   }
 }
 
@@ -275,18 +430,15 @@ export class WebhookOperations {
 const serializer = new msRest.Serializer(Mappers);
 const generateUriOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/generateUri",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/generateUri",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -305,19 +457,16 @@ const generateUriOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.webhookName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -329,19 +478,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.webhookName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Webhook
@@ -355,19 +501,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.webhookName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -391,19 +534,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.webhookName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -424,19 +564,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter, Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebhookListResult
@@ -452,12 +588,8 @@ const listByAutomationAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebhookListResult

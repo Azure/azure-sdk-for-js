@@ -37,7 +37,14 @@ export class SqlPoolTableColumns {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolTableColumnsListByTableNameResponse>
    */
-  listByTableName(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, options?: Models.SqlPoolTableColumnsListByTableNameOptionalParams): Promise<Models.SqlPoolTableColumnsListByTableNameResponse>;
+  listByTableName(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    options?: Models.SqlPoolTableColumnsListByTableNameOptionalParams
+  ): Promise<Models.SqlPoolTableColumnsListByTableNameResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -46,7 +53,14 @@ export class SqlPoolTableColumns {
    * @param tableName The name of the table.
    * @param callback The callback
    */
-  listByTableName(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, callback: msRest.ServiceCallback<Models.SqlPoolColumnListResult>): void;
+  listByTableName(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    callback: msRest.ServiceCallback<Models.SqlPoolColumnListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -56,8 +70,26 @@ export class SqlPoolTableColumns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTableName(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, options: Models.SqlPoolTableColumnsListByTableNameOptionalParams, callback: msRest.ServiceCallback<Models.SqlPoolColumnListResult>): void;
-  listByTableName(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, options?: Models.SqlPoolTableColumnsListByTableNameOptionalParams | msRest.ServiceCallback<Models.SqlPoolColumnListResult>, callback?: msRest.ServiceCallback<Models.SqlPoolColumnListResult>): Promise<Models.SqlPoolTableColumnsListByTableNameResponse> {
+  listByTableName(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    options: Models.SqlPoolTableColumnsListByTableNameOptionalParams,
+    callback: msRest.ServiceCallback<Models.SqlPoolColumnListResult>
+  ): void;
+  listByTableName(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    schemaName: string,
+    tableName: string,
+    options?:
+      | Models.SqlPoolTableColumnsListByTableNameOptionalParams
+      | msRest.ServiceCallback<Models.SqlPoolColumnListResult>,
+    callback?: msRest.ServiceCallback<Models.SqlPoolColumnListResult>
+  ): Promise<Models.SqlPoolTableColumnsListByTableNameResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +100,8 @@ export class SqlPoolTableColumns {
         options
       },
       listByTableNameOperationSpec,
-      callback) as Promise<Models.SqlPoolTableColumnsListByTableNameResponse>;
+      callback
+    ) as Promise<Models.SqlPoolTableColumnsListByTableNameResponse>;
   }
 
   /**
@@ -78,26 +111,41 @@ export class SqlPoolTableColumns {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolTableColumnsListByTableNameNextResponse>
    */
-  listByTableNameNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolTableColumnsListByTableNameNextResponse>;
+  listByTableNameNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolTableColumnsListByTableNameNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByTableNameNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SqlPoolColumnListResult>): void;
+  listByTableNameNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SqlPoolColumnListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTableNameNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolColumnListResult>): void;
-  listByTableNameNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolColumnListResult>, callback?: msRest.ServiceCallback<Models.SqlPoolColumnListResult>): Promise<Models.SqlPoolTableColumnsListByTableNameNextResponse> {
+  listByTableNameNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlPoolColumnListResult>
+  ): void;
+  listByTableNameNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolColumnListResult>,
+    callback?: msRest.ServiceCallback<Models.SqlPoolColumnListResult>
+  ): Promise<Models.SqlPoolTableColumnsListByTableNameNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByTableNameNextOperationSpec,
-      callback) as Promise<Models.SqlPoolTableColumnsListByTableNameNextResponse>;
+      callback
+    ) as Promise<Models.SqlPoolTableColumnsListByTableNameNextResponse>;
   }
 }
 
@@ -105,7 +153,8 @@ export class SqlPoolTableColumns {
 const serializer = new msRest.Serializer(Mappers);
 const listByTableNameOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -114,13 +163,8 @@ const listByTableNameOperationSpec: msRest.OperationSpec = {
     Parameters.schemaName,
     Parameters.tableName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlPoolColumnListResult
@@ -136,12 +180,8 @@ const listByTableNameNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlPoolColumnListResult

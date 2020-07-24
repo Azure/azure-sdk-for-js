@@ -921,32 +921,28 @@ export interface StorageManagementClientOptions extends AzureServiceClientOption
  * link to get the next set of results.
  * @extends Array<Operation>
  */
-export interface OperationListResult extends Array<Operation> {
-}
+export interface OperationListResult extends Array<Operation> {}
 
 /**
  * @interface
  * The response from the List Storage SKUs operation.
  * @extends Array<Sku>
  */
-export interface StorageSkuListResult extends Array<Sku> {
-}
+export interface StorageSkuListResult extends Array<Sku> {}
 
 /**
  * @interface
  * The response from the List Storage Accounts operation.
  * @extends Array<StorageAccount>
  */
-export interface StorageAccountListResult extends Array<StorageAccount> {
-}
+export interface StorageAccountListResult extends Array<StorageAccount> {}
 
 /**
  * @interface
  * The response from the List Usages operation.
  * @extends Array<Usage>
  */
-export interface UsageListResult extends Array<Usage> {
-}
+export interface UsageListResult extends Array<Usage> {}
 
 /**
  * Defines values for ReasonCode.
@@ -954,7 +950,7 @@ export interface UsageListResult extends Array<Usage> {
  * @readonly
  * @enum {string}
  */
-export type ReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
+export type ReasonCode = "QuotaId" | "NotAvailableForSubscription";
 
 /**
  * Defines values for SkuName.
@@ -963,7 +959,12 @@ export type ReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS';
+export type SkuName =
+  | "Standard_LRS"
+  | "Standard_GRS"
+  | "Standard_RAGRS"
+  | "Standard_ZRS"
+  | "Premium_LRS";
 
 /**
  * Defines values for SkuTier.
@@ -971,7 +972,7 @@ export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Stan
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Standard' | 'Premium';
+export type SkuTier = "Standard" | "Premium";
 
 /**
  * Defines values for Kind.
@@ -979,7 +980,7 @@ export type SkuTier = 'Standard' | 'Premium';
  * @readonly
  * @enum {string}
  */
-export type Kind = 'Storage' | 'StorageV2' | 'BlobStorage';
+export type Kind = "Storage" | "StorageV2" | "BlobStorage";
 
 /**
  * Defines values for Reason.
@@ -987,7 +988,7 @@ export type Kind = 'Storage' | 'StorageV2' | 'BlobStorage';
  * @readonly
  * @enum {string}
  */
-export type Reason = 'AccountNameInvalid' | 'AlreadyExists';
+export type Reason = "AccountNameInvalid" | "AlreadyExists";
 
 /**
  * Defines values for KeySource.
@@ -995,7 +996,7 @@ export type Reason = 'AccountNameInvalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type KeySource = 'Microsoft.Storage' | 'Microsoft.Keyvault';
+export type KeySource = "Microsoft.Storage" | "Microsoft.Keyvault";
 
 /**
  * Defines values for Action.
@@ -1003,7 +1004,7 @@ export type KeySource = 'Microsoft.Storage' | 'Microsoft.Keyvault';
  * @readonly
  * @enum {string}
  */
-export type Action = 'Allow';
+export type Action = "Allow";
 
 /**
  * Defines values for State.
@@ -1012,7 +1013,12 @@ export type Action = 'Allow';
  * @readonly
  * @enum {string}
  */
-export type State = 'provisioning' | 'deprovisioning' | 'succeeded' | 'failed' | 'networkSourceDeleted';
+export type State =
+  | "provisioning"
+  | "deprovisioning"
+  | "succeeded"
+  | "failed"
+  | "networkSourceDeleted";
 
 /**
  * Defines values for Bypass.
@@ -1020,7 +1026,7 @@ export type State = 'provisioning' | 'deprovisioning' | 'succeeded' | 'failed' |
  * @readonly
  * @enum {string}
  */
-export type Bypass = 'None' | 'Logging' | 'Metrics' | 'AzureServices';
+export type Bypass = "None" | "Logging" | "Metrics" | "AzureServices";
 
 /**
  * Defines values for DefaultAction.
@@ -1028,7 +1034,7 @@ export type Bypass = 'None' | 'Logging' | 'Metrics' | 'AzureServices';
  * @readonly
  * @enum {string}
  */
-export type DefaultAction = 'Allow' | 'Deny';
+export type DefaultAction = "Allow" | "Deny";
 
 /**
  * Defines values for AccessTier.
@@ -1036,7 +1042,7 @@ export type DefaultAction = 'Allow' | 'Deny';
  * @readonly
  * @enum {string}
  */
-export type AccessTier = 'Hot' | 'Cool';
+export type AccessTier = "Hot" | "Cool";
 
 /**
  * Defines values for ProvisioningState.
@@ -1044,7 +1050,7 @@ export type AccessTier = 'Hot' | 'Cool';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Succeeded';
+export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded";
 
 /**
  * Defines values for AccountStatus.
@@ -1052,7 +1058,7 @@ export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Succeeded';
  * @readonly
  * @enum {string}
  */
-export type AccountStatus = 'available' | 'unavailable';
+export type AccountStatus = "available" | "unavailable";
 
 /**
  * Defines values for KeyPermission.
@@ -1060,7 +1066,7 @@ export type AccountStatus = 'available' | 'unavailable';
  * @readonly
  * @enum {string}
  */
-export type KeyPermission = 'Read' | 'Full';
+export type KeyPermission = "Read" | "Full";
 
 /**
  * Defines values for UsageUnit.
@@ -1069,7 +1075,13 @@ export type KeyPermission = 'Read' | 'Full';
  * @readonly
  * @enum {string}
  */
-export type UsageUnit = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountsPerSecond' | 'BytesPerSecond';
+export type UsageUnit =
+  | "Count"
+  | "Bytes"
+  | "Seconds"
+  | "Percent"
+  | "CountsPerSecond"
+  | "BytesPerSecond";
 
 /**
  * Defines values for Services.
@@ -1077,7 +1089,7 @@ export type UsageUnit = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountsPerSe
  * @readonly
  * @enum {string}
  */
-export type Services = 'b' | 'q' | 't' | 'f';
+export type Services = "b" | "q" | "t" | "f";
 
 /**
  * Defines values for SignedResourceTypes.
@@ -1085,7 +1097,7 @@ export type Services = 'b' | 'q' | 't' | 'f';
  * @readonly
  * @enum {string}
  */
-export type SignedResourceTypes = 's' | 'c' | 'o';
+export type SignedResourceTypes = "s" | "c" | "o";
 
 /**
  * Defines values for Permissions.
@@ -1093,7 +1105,7 @@ export type SignedResourceTypes = 's' | 'c' | 'o';
  * @readonly
  * @enum {string}
  */
-export type Permissions = 'r' | 'd' | 'w' | 'l' | 'a' | 'c' | 'u' | 'p';
+export type Permissions = "r" | "d" | "w" | "l" | "a" | "c" | "u" | "p";
 
 /**
  * Defines values for HttpProtocol.
@@ -1101,7 +1113,7 @@ export type Permissions = 'r' | 'd' | 'w' | 'l' | 'a' | 'c' | 'u' | 'p';
  * @readonly
  * @enum {string}
  */
-export type HttpProtocol = 'https,http' | 'https';
+export type HttpProtocol = "https,http" | "https";
 
 /**
  * Defines values for SignedResource.
@@ -1109,7 +1121,7 @@ export type HttpProtocol = 'https,http' | 'https';
  * @readonly
  * @enum {string}
  */
-export type SignedResource = 'b' | 'c' | 'f' | 's';
+export type SignedResource = "b" | "c" | "f" | "s";
 
 /**
  * Contains response data for the list operation.
@@ -1119,16 +1131,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1139,16 +1151,16 @@ export type SkusListResponse = StorageSkuListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageSkuListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageSkuListResult;
+  };
 };
 
 /**
@@ -1159,16 +1171,16 @@ export type StorageAccountsCheckNameAvailabilityResponse = CheckNameAvailability
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResult;
+  };
 };
 
 /**
@@ -1179,16 +1191,16 @@ export type StorageAccountsCreateResponse = StorageAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageAccount;
+  };
 };
 
 /**
@@ -1199,16 +1211,16 @@ export type StorageAccountsGetPropertiesResponse = StorageAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageAccount;
+  };
 };
 
 /**
@@ -1219,16 +1231,16 @@ export type StorageAccountsUpdateResponse = StorageAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageAccount;
+  };
 };
 
 /**
@@ -1239,16 +1251,16 @@ export type StorageAccountsListResponse = StorageAccountListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageAccountListResult;
+  };
 };
 
 /**
@@ -1259,16 +1271,16 @@ export type StorageAccountsListByResourceGroupResponse = StorageAccountListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageAccountListResult;
+  };
 };
 
 /**
@@ -1279,16 +1291,16 @@ export type StorageAccountsListKeysResponse = StorageAccountListKeysResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountListKeysResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageAccountListKeysResult;
+  };
 };
 
 /**
@@ -1299,16 +1311,16 @@ export type StorageAccountsRegenerateKeyResponse = StorageAccountListKeysResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountListKeysResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageAccountListKeysResult;
+  };
 };
 
 /**
@@ -1319,16 +1331,16 @@ export type StorageAccountsListAccountSASResponse = ListAccountSasResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListAccountSasResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListAccountSasResponse;
+  };
 };
 
 /**
@@ -1339,16 +1351,16 @@ export type StorageAccountsListServiceSASResponse = ListServiceSasResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListServiceSasResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListServiceSasResponse;
+  };
 };
 
 /**
@@ -1359,16 +1371,16 @@ export type StorageAccountsBeginCreateResponse = StorageAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageAccount;
+  };
 };
 
 /**
@@ -1379,14 +1391,14 @@ export type UsageListResponse = UsageListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageListResult;
+  };
 };

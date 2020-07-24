@@ -90,10 +90,7 @@ export const BatchAccountCreateParameters: msRest.CompositeMapper = {
         serializedName: "properties.poolAllocationMode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "BatchService",
-            "UserSubscription"
-          ]
+          allowedValues: ["BatchService", "UserSubscription"]
         }
       },
       keyVaultReference: {
@@ -195,14 +192,7 @@ export const BatchAccount: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "Creating",
-            "Deleting",
-            "Succeeded",
-            "Failed",
-            "Cancelled"
-          ]
+          allowedValues: ["Invalid", "Creating", "Deleting", "Succeeded", "Failed", "Cancelled"]
         }
       },
       poolAllocationMode: {
@@ -210,10 +200,7 @@ export const BatchAccount: msRest.CompositeMapper = {
         serializedName: "properties.poolAllocationMode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "BatchService",
-            "UserSubscription"
-          ]
+          allowedValues: ["BatchService", "UserSubscription"]
         }
       },
       keyVaultReference: {
@@ -307,10 +294,7 @@ export const BatchAccountRegenerateKeyParameters: msRest.CompositeMapper = {
         serializedName: "keyName",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Primary",
-            "Secondary"
-          ]
+          allowedValues: ["Primary", "Secondary"]
         }
       }
     }
@@ -412,11 +396,7 @@ export const ApplicationPackage: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Pending",
-            "Active",
-            "Unmapped"
-          ]
+          allowedValues: ["Pending", "Active", "Unmapped"]
         }
       },
       format: {
@@ -603,10 +583,7 @@ export const CertificateBaseProperties: msRest.CompositeMapper = {
         serializedName: "format",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Pfx",
-            "Cer"
-          ]
+          allowedValues: ["Pfx", "Cer"]
         }
       }
     }
@@ -679,10 +656,7 @@ export const Certificate: msRest.CompositeMapper = {
         serializedName: "properties.format",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Pfx",
-            "Cer"
-          ]
+          allowedValues: ["Pfx", "Cer"]
         }
       },
       provisioningState: {
@@ -691,11 +665,7 @@ export const Certificate: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Succeeded",
-            "Deleting",
-            "Failed"
-          ]
+          allowedValues: ["Succeeded", "Deleting", "Failed"]
         }
       },
       provisioningStateTransitionTime: {
@@ -711,11 +681,7 @@ export const Certificate: msRest.CompositeMapper = {
         serializedName: "properties.previousProvisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Succeeded",
-            "Deleting",
-            "Failed"
-          ]
+          allowedValues: ["Succeeded", "Deleting", "Failed"]
         }
       },
       previousProvisioningStateTransitionTime: {
@@ -768,10 +734,7 @@ export const CertificateCreateOrUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.format",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Pfx",
-            "Cer"
-          ]
+          allowedValues: ["Pfx", "Cer"]
         }
       },
       data: {
@@ -870,11 +833,7 @@ export const OSDisk: msRest.CompositeMapper = {
         serializedName: "caching",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "ReadOnly",
-            "ReadWrite"
-          ]
+          allowedValues: ["None", "ReadOnly", "ReadWrite"]
         }
       }
     }
@@ -914,11 +873,7 @@ export const DataDisk: msRest.CompositeMapper = {
         serializedName: "caching",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "ReadOnly",
-            "ReadWrite"
-          ]
+          allowedValues: ["None", "ReadOnly", "ReadWrite"]
         }
       },
       diskSizeGB: {
@@ -932,10 +887,7 @@ export const DataDisk: msRest.CompositeMapper = {
         serializedName: "storageAccountType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Standard_LRS",
-            "Premium_LRS"
-          ]
+          allowedValues: ["Standard_LRS", "Premium_LRS"]
         }
       }
     }
@@ -1051,12 +1003,7 @@ export const FixedScaleSettings: msRest.CompositeMapper = {
         serializedName: "nodeDeallocationOption",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Requeue",
-            "Terminate",
-            "TaskCompletion",
-            "RetainedData"
-          ]
+          allowedValues: ["Requeue", "Terminate", "TaskCompletion", "RetainedData"]
         }
       }
     }
@@ -1194,10 +1141,7 @@ export const NetworkSecurityGroupRule: msRest.CompositeMapper = {
         serializedName: "access",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Allow",
-            "Deny"
-          ]
+          allowedValues: ["Allow", "Deny"]
         }
       },
       sourceAddressPrefix: {
@@ -1229,10 +1173,7 @@ export const InboundNatPool: msRest.CompositeMapper = {
         serializedName: "protocol",
         type: {
           name: "Enum",
-          allowedValues: [
-            "TCP",
-            "UDP"
-          ]
+          allowedValues: ["TCP", "UDP"]
         }
       },
       backendPort: {
@@ -1329,10 +1270,7 @@ export const TaskSchedulingPolicy: msRest.CompositeMapper = {
         serializedName: "nodeFillType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Spread",
-            "Pack"
-          ]
+          allowedValues: ["Spread", "Pack"]
         }
       }
     }
@@ -1391,10 +1329,7 @@ export const UserAccount: msRest.CompositeMapper = {
         serializedName: "elevationLevel",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NonAdmin",
-            "Admin"
-          ]
+          allowedValues: ["NonAdmin", "Admin"]
         }
       },
       linuxUserConfiguration: {
@@ -1495,20 +1430,14 @@ export const AutoUserSpecification: msRest.CompositeMapper = {
         serializedName: "scope",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Task",
-            "Pool"
-          ]
+          allowedValues: ["Task", "Pool"]
         }
       },
       elevationLevel: {
         serializedName: "elevationLevel",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NonAdmin",
-            "Admin"
-          ]
+          allowedValues: ["NonAdmin", "Admin"]
         }
       }
     }
@@ -1614,10 +1543,7 @@ export const CertificateReference: msRest.CompositeMapper = {
         serializedName: "storeLocation",
         type: {
           name: "Enum",
-          allowedValues: [
-            "CurrentUser",
-            "LocalMachine"
-          ]
+          allowedValues: ["CurrentUser", "LocalMachine"]
         }
       },
       storeName: {
@@ -1633,11 +1559,7 @@ export const CertificateReference: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "StartTask",
-                "Task",
-                "RemoteUser"
-              ]
+              allowedValues: ["StartTask", "Task", "RemoteUser"]
             }
           }
         }
@@ -1733,12 +1655,7 @@ export const ResizeOperationStatus: msRest.CompositeMapper = {
         serializedName: "nodeDeallocationOption",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Requeue",
-            "Terminate",
-            "TaskCompletion",
-            "RetainedData"
-          ]
+          allowedValues: ["Requeue", "Terminate", "TaskCompletion", "RetainedData"]
         }
       },
       startTime: {
@@ -1795,10 +1712,7 @@ export const Pool: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Succeeded",
-            "Deleting"
-          ]
+          allowedValues: ["Succeeded", "Deleting"]
         }
       },
       provisioningStateTransitionTime: {
@@ -1813,11 +1727,7 @@ export const Pool: msRest.CompositeMapper = {
         serializedName: "properties.allocationState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Steady",
-            "Resizing",
-            "Stopping"
-          ]
+          allowedValues: ["Steady", "Resizing", "Stopping"]
         }
       },
       allocationStateTransitionTime: {
@@ -1873,10 +1783,7 @@ export const Pool: msRest.CompositeMapper = {
         serializedName: "properties.interNodeCommunication",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Disabled"
-          ]
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       networkConfiguration: {
@@ -2063,7 +1970,7 @@ export const CheckNameAvailabilityParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.Batch/batchAccounts',
+        defaultValue: "Microsoft.Batch/batchAccounts",
         type: {
           name: "String"
         }
@@ -2090,10 +1997,7 @@ export const CheckNameAvailabilityResult: msRest.CompositeMapper = {
         serializedName: "reason",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Invalid",
-            "AlreadyExists"
-          ]
+          allowedValues: ["Invalid", "AlreadyExists"]
         }
       },
       message: {

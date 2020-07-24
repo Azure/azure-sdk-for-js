@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as msRest from "@azure/ms-rest-js";
 
 /**
@@ -175,7 +174,7 @@ export interface LastDetectResponse {
  * @readonly
  * @enum {string}
  */
-export type Granularity = 'yearly' | 'monthly' | 'weekly' | 'daily' | 'hourly' | 'minutely';
+export type Granularity = "yearly" | "monthly" | "weekly" | "daily" | "hourly" | "minutely";
 
 /**
  * Contains response data for the entireDetect operation.
@@ -185,16 +184,16 @@ export type EntireDetectResponse2 = EntireDetectResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntireDetectResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntireDetectResponse;
+  };
 };
 
 /**
@@ -205,14 +204,14 @@ export type LastDetectResponse2 = LastDetectResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LastDetectResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LastDetectResponse;
+  };
 };

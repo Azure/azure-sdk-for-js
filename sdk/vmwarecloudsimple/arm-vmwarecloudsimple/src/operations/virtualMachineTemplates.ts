@@ -35,14 +35,24 @@ export class VirtualMachineTemplates {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineTemplatesListResponse>
    */
-  list(pcName: string, regionId: string, resourcePoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineTemplatesListResponse>;
+  list(
+    pcName: string,
+    regionId: string,
+    resourcePoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineTemplatesListResponse>;
   /**
    * @param pcName The private cloud name
    * @param regionId The region Id (westus, eastus)
    * @param resourcePoolName Resource pool used to derive vSphere cluster which contains VM templates
    * @param callback The callback
    */
-  list(pcName: string, regionId: string, resourcePoolName: string, callback: msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>): void;
+  list(
+    pcName: string,
+    regionId: string,
+    resourcePoolName: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>
+  ): void;
   /**
    * @param pcName The private cloud name
    * @param regionId The region Id (westus, eastus)
@@ -50,8 +60,22 @@ export class VirtualMachineTemplates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(pcName: string, regionId: string, resourcePoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>): void;
-  list(pcName: string, regionId: string, resourcePoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>, callback?: msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>): Promise<Models.VirtualMachineTemplatesListResponse> {
+  list(
+    pcName: string,
+    regionId: string,
+    resourcePoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>
+  ): void;
+  list(
+    pcName: string,
+    regionId: string,
+    resourcePoolName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>
+  ): Promise<Models.VirtualMachineTemplatesListResponse> {
     return this.client.sendOperationRequest(
       {
         pcName,
@@ -60,7 +84,8 @@ export class VirtualMachineTemplates {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.VirtualMachineTemplatesListResponse>;
+      callback
+    ) as Promise<Models.VirtualMachineTemplatesListResponse>;
   }
 
   /**
@@ -72,14 +97,24 @@ export class VirtualMachineTemplates {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineTemplatesGetResponse>
    */
-  get(regionId: string, pcName: string, virtualMachineTemplateName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineTemplatesGetResponse>;
+  get(
+    regionId: string,
+    pcName: string,
+    virtualMachineTemplateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineTemplatesGetResponse>;
   /**
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
    * @param virtualMachineTemplateName virtual machine template id (vsphereId)
    * @param callback The callback
    */
-  get(regionId: string, pcName: string, virtualMachineTemplateName: string, callback: msRest.ServiceCallback<Models.VirtualMachineTemplate>): void;
+  get(
+    regionId: string,
+    pcName: string,
+    virtualMachineTemplateName: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineTemplate>
+  ): void;
   /**
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
@@ -87,8 +122,20 @@ export class VirtualMachineTemplates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(regionId: string, pcName: string, virtualMachineTemplateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineTemplate>): void;
-  get(regionId: string, pcName: string, virtualMachineTemplateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineTemplate>, callback?: msRest.ServiceCallback<Models.VirtualMachineTemplate>): Promise<Models.VirtualMachineTemplatesGetResponse> {
+  get(
+    regionId: string,
+    pcName: string,
+    virtualMachineTemplateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualMachineTemplate>
+  ): void;
+  get(
+    regionId: string,
+    pcName: string,
+    virtualMachineTemplateName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineTemplate>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineTemplate>
+  ): Promise<Models.VirtualMachineTemplatesGetResponse> {
     return this.client.sendOperationRequest(
       {
         regionId,
@@ -97,7 +144,8 @@ export class VirtualMachineTemplates {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VirtualMachineTemplatesGetResponse>;
+      callback
+    ) as Promise<Models.VirtualMachineTemplatesGetResponse>;
   }
 
   /**
@@ -107,26 +155,43 @@ export class VirtualMachineTemplates {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualMachineTemplatesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineTemplatesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualMachineTemplatesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>, callback?: msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>): Promise<Models.VirtualMachineTemplatesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>,
+    callback?: msRest.ServiceCallback<Models.VirtualMachineTemplateListResponse>
+  ): Promise<Models.VirtualMachineTemplatesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.VirtualMachineTemplatesListNextResponse>;
+      callback
+    ) as Promise<Models.VirtualMachineTemplatesListNextResponse>;
   }
 }
 
@@ -134,19 +199,11 @@ export class VirtualMachineTemplates {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/virtualMachineTemplates",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.pcName,
-    Parameters.regionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.resourcePoolName
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/virtualMachineTemplates",
+  urlParameters: [Parameters.subscriptionId, Parameters.pcName, Parameters.regionId],
+  queryParameters: [Parameters.apiVersion, Parameters.resourcePoolName],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineTemplateListResponse
@@ -160,19 +217,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/virtualMachineTemplates/{virtualMachineTemplateName}",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/virtualMachineTemplates/{virtualMachineTemplateName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.regionId,
     Parameters.pcName,
     Parameters.virtualMachineTemplateName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineTemplate
@@ -188,12 +242,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineTemplateListResponse

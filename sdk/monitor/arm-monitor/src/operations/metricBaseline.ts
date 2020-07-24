@@ -36,7 +36,11 @@ export class MetricBaseline {
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricBaselineGetResponse>
    */
-  get(resourceUri: string, metricName: string, options?: Models.MetricBaselineGetOptionalParams): Promise<Models.MetricBaselineGetResponse>;
+  get(
+    resourceUri: string,
+    metricName: string,
+    options?: Models.MetricBaselineGetOptionalParams
+  ): Promise<Models.MetricBaselineGetResponse>;
   /**
    * @param resourceUri The identifier of the resource. It has the following structure:
    * subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/{providerName}/{resourceName}.
@@ -45,7 +49,11 @@ export class MetricBaseline {
    * @param metricName The name of the metric to retrieve the baseline for.
    * @param callback The callback
    */
-  get(resourceUri: string, metricName: string, callback: msRest.ServiceCallback<Models.BaselineResponse>): void;
+  get(
+    resourceUri: string,
+    metricName: string,
+    callback: msRest.ServiceCallback<Models.BaselineResponse>
+  ): void;
   /**
    * @param resourceUri The identifier of the resource. It has the following structure:
    * subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/{providerName}/{resourceName}.
@@ -55,8 +63,20 @@ export class MetricBaseline {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceUri: string, metricName: string, options: Models.MetricBaselineGetOptionalParams, callback: msRest.ServiceCallback<Models.BaselineResponse>): void;
-  get(resourceUri: string, metricName: string, options?: Models.MetricBaselineGetOptionalParams | msRest.ServiceCallback<Models.BaselineResponse>, callback?: msRest.ServiceCallback<Models.BaselineResponse>): Promise<Models.MetricBaselineGetResponse> {
+  get(
+    resourceUri: string,
+    metricName: string,
+    options: Models.MetricBaselineGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.BaselineResponse>
+  ): void;
+  get(
+    resourceUri: string,
+    metricName: string,
+    options?:
+      | Models.MetricBaselineGetOptionalParams
+      | msRest.ServiceCallback<Models.BaselineResponse>,
+    callback?: msRest.ServiceCallback<Models.BaselineResponse>
+  ): Promise<Models.MetricBaselineGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -64,7 +84,8 @@ export class MetricBaseline {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MetricBaselineGetResponse>;
+      callback
+    ) as Promise<Models.MetricBaselineGetResponse>;
   }
 
   /**
@@ -78,7 +99,11 @@ export class MetricBaseline {
    * @param [options] The optional parameters
    * @returns Promise<Models.MetricBaselineCalculateBaselineResponse>
    */
-  calculateBaseline(resourceUri: string, timeSeriesInformation: Models.TimeSeriesInformation, options?: msRest.RequestOptionsBase): Promise<Models.MetricBaselineCalculateBaselineResponse>;
+  calculateBaseline(
+    resourceUri: string,
+    timeSeriesInformation: Models.TimeSeriesInformation,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MetricBaselineCalculateBaselineResponse>;
   /**
    * @param resourceUri The identifier of the resource. It has the following structure:
    * subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/{providerName}/{resourceName}.
@@ -88,7 +113,11 @@ export class MetricBaseline {
    * time series.
    * @param callback The callback
    */
-  calculateBaseline(resourceUri: string, timeSeriesInformation: Models.TimeSeriesInformation, callback: msRest.ServiceCallback<Models.CalculateBaselineResponse>): void;
+  calculateBaseline(
+    resourceUri: string,
+    timeSeriesInformation: Models.TimeSeriesInformation,
+    callback: msRest.ServiceCallback<Models.CalculateBaselineResponse>
+  ): void;
   /**
    * @param resourceUri The identifier of the resource. It has the following structure:
    * subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/{providerName}/{resourceName}.
@@ -99,8 +128,18 @@ export class MetricBaseline {
    * @param options The optional parameters
    * @param callback The callback
    */
-  calculateBaseline(resourceUri: string, timeSeriesInformation: Models.TimeSeriesInformation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CalculateBaselineResponse>): void;
-  calculateBaseline(resourceUri: string, timeSeriesInformation: Models.TimeSeriesInformation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CalculateBaselineResponse>, callback?: msRest.ServiceCallback<Models.CalculateBaselineResponse>): Promise<Models.MetricBaselineCalculateBaselineResponse> {
+  calculateBaseline(
+    resourceUri: string,
+    timeSeriesInformation: Models.TimeSeriesInformation,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CalculateBaselineResponse>
+  ): void;
+  calculateBaseline(
+    resourceUri: string,
+    timeSeriesInformation: Models.TimeSeriesInformation,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CalculateBaselineResponse>,
+    callback?: msRest.ServiceCallback<Models.CalculateBaselineResponse>
+  ): Promise<Models.MetricBaselineCalculateBaselineResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -108,7 +147,8 @@ export class MetricBaseline {
         options
       },
       calculateBaselineOperationSpec,
-      callback) as Promise<Models.MetricBaselineCalculateBaselineResponse>;
+      callback
+    ) as Promise<Models.MetricBaselineCalculateBaselineResponse>;
   }
 }
 
@@ -117,10 +157,7 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceUri}/providers/microsoft.insights/baseline/{metricName}",
-  urlParameters: [
-    Parameters.resourceUri,
-    Parameters.metricName
-  ],
+  urlParameters: [Parameters.resourceUri, Parameters.metricName],
   queryParameters: [
     Parameters.timespan,
     Parameters.interval,
@@ -129,9 +166,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resultType,
     Parameters.apiVersion6
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BaselineResponse
@@ -146,15 +181,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const calculateBaselineOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{resourceUri}/providers/microsoft.insights/calculatebaseline",
-  urlParameters: [
-    Parameters.resourceUri
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceUri],
+  queryParameters: [Parameters.apiVersion6],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "timeSeriesInformation",
     mapper: {

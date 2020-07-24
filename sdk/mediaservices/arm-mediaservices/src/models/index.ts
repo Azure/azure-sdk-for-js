@@ -105,8 +105,7 @@ export interface Resource extends BaseResource {
 /**
  * The resource model definition for a ARM proxy resource.
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * An Account Filter.
@@ -652,7 +651,10 @@ export interface ContentKeyPolicyPlayReadyExplicitAnalogTelevisionRestriction {
 /**
  * Contains the possible cases for ContentKeyPolicyPlayReadyContentKeyLocation.
  */
-export type ContentKeyPolicyPlayReadyContentKeyLocationUnion = ContentKeyPolicyPlayReadyContentKeyLocation | ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader | ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier;
+export type ContentKeyPolicyPlayReadyContentKeyLocationUnion =
+  | ContentKeyPolicyPlayReadyContentKeyLocation
+  | ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader
+  | ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier;
 
 /**
  * Base class for content key ID location. A derived class must be used to represent the location.
@@ -814,7 +816,11 @@ export interface ContentKeyPolicyPlayReadyLicense {
 /**
  * Contains the possible cases for ContentKeyPolicyRestriction.
  */
-export type ContentKeyPolicyRestrictionUnion = ContentKeyPolicyRestriction | ContentKeyPolicyOpenRestriction | ContentKeyPolicyUnknownRestriction | ContentKeyPolicyTokenRestriction;
+export type ContentKeyPolicyRestrictionUnion =
+  | ContentKeyPolicyRestriction
+  | ContentKeyPolicyOpenRestriction
+  | ContentKeyPolicyUnknownRestriction
+  | ContentKeyPolicyTokenRestriction;
 
 /**
  * Base class for Content Key Policy restrictions. A derived class must be used to create a
@@ -850,7 +856,13 @@ export interface ContentKeyPolicyUnknownRestriction {
 /**
  * Contains the possible cases for ContentKeyPolicyConfiguration.
  */
-export type ContentKeyPolicyConfigurationUnion = ContentKeyPolicyConfiguration | ContentKeyPolicyClearKeyConfiguration | ContentKeyPolicyUnknownConfiguration | ContentKeyPolicyWidevineConfiguration | ContentKeyPolicyPlayReadyConfiguration | ContentKeyPolicyFairPlayConfiguration;
+export type ContentKeyPolicyConfigurationUnion =
+  | ContentKeyPolicyConfiguration
+  | ContentKeyPolicyClearKeyConfiguration
+  | ContentKeyPolicyUnknownConfiguration
+  | ContentKeyPolicyWidevineConfiguration
+  | ContentKeyPolicyPlayReadyConfiguration
+  | ContentKeyPolicyFairPlayConfiguration;
 
 /**
  * Base class for Content Key Policy configuration. A derived class must be used to create a
@@ -866,7 +878,11 @@ export interface ContentKeyPolicyConfiguration {
 /**
  * Contains the possible cases for ContentKeyPolicyRestrictionTokenKey.
  */
-export type ContentKeyPolicyRestrictionTokenKeyUnion = ContentKeyPolicyRestrictionTokenKey | ContentKeyPolicySymmetricTokenKey | ContentKeyPolicyRsaTokenKey | ContentKeyPolicyX509CertificateTokenKey;
+export type ContentKeyPolicyRestrictionTokenKeyUnion =
+  | ContentKeyPolicyRestrictionTokenKey
+  | ContentKeyPolicySymmetricTokenKey
+  | ContentKeyPolicyRsaTokenKey
+  | ContentKeyPolicyX509CertificateTokenKey;
 
 /**
  * Base class for Content Key Policy key for token validation. A derived class must be used to
@@ -1150,7 +1166,12 @@ export interface ContentKeyPolicy extends ProxyResource {
 /**
  * Contains the possible cases for Preset.
  */
-export type PresetUnion = Preset | FaceDetectorPreset | AudioAnalyzerPresetUnion | BuiltInStandardEncoderPreset | StandardEncoderPreset;
+export type PresetUnion =
+  | Preset
+  | FaceDetectorPreset
+  | AudioAnalyzerPresetUnion
+  | BuiltInStandardEncoderPreset
+  | StandardEncoderPreset;
 
 /**
  * Base type for all Presets, which define the recipe or instructions on how the input media files
@@ -3916,7 +3937,13 @@ export interface StreamingEndpointListResult extends Array<StreamingEndpoint> {
  * @readonly
  * @enum {string}
  */
-export type FilterTrackPropertyType = 'Unknown' | 'Type' | 'Name' | 'Language' | 'FourCC' | 'Bitrate';
+export type FilterTrackPropertyType =
+  | "Unknown"
+  | "Type"
+  | "Name"
+  | "Language"
+  | "FourCC"
+  | "Bitrate";
 
 /**
  * Defines values for FilterTrackPropertyCompareOperation.
@@ -3924,7 +3951,7 @@ export type FilterTrackPropertyType = 'Unknown' | 'Type' | 'Name' | 'Language' |
  * @readonly
  * @enum {string}
  */
-export type FilterTrackPropertyCompareOperation = 'Equal' | 'NotEqual';
+export type FilterTrackPropertyCompareOperation = "Equal" | "NotEqual";
 
 /**
  * Defines values for MetricUnit.
@@ -3932,7 +3959,7 @@ export type FilterTrackPropertyCompareOperation = 'Equal' | 'NotEqual';
  * @readonly
  * @enum {string}
  */
-export type MetricUnit = 'Bytes' | 'Count' | 'Milliseconds';
+export type MetricUnit = "Bytes" | "Count" | "Milliseconds";
 
 /**
  * Defines values for MetricAggregationType.
@@ -3940,7 +3967,7 @@ export type MetricUnit = 'Bytes' | 'Count' | 'Milliseconds';
  * @readonly
  * @enum {string}
  */
-export type MetricAggregationType = 'Average' | 'Count' | 'Total';
+export type MetricAggregationType = "Average" | "Count" | "Total";
 
 /**
  * Defines values for StorageAccountType.
@@ -3948,7 +3975,7 @@ export type MetricAggregationType = 'Average' | 'Count' | 'Total';
  * @readonly
  * @enum {string}
  */
-export type StorageAccountType = 'Primary' | 'Secondary';
+export type StorageAccountType = "Primary" | "Secondary";
 
 /**
  * Defines values for AssetStorageEncryptionFormat.
@@ -3956,7 +3983,7 @@ export type StorageAccountType = 'Primary' | 'Secondary';
  * @readonly
  * @enum {string}
  */
-export type AssetStorageEncryptionFormat = 'None' | 'MediaStorageClientEncryption';
+export type AssetStorageEncryptionFormat = "None" | "MediaStorageClientEncryption";
 
 /**
  * Defines values for AssetContainerPermission.
@@ -3964,7 +3991,7 @@ export type AssetStorageEncryptionFormat = 'None' | 'MediaStorageClientEncryptio
  * @readonly
  * @enum {string}
  */
-export type AssetContainerPermission = 'Read' | 'ReadWrite' | 'ReadWriteDelete';
+export type AssetContainerPermission = "Read" | "ReadWrite" | "ReadWriteDelete";
 
 /**
  * Defines values for ContentKeyPolicyPlayReadyUnknownOutputPassingOption.
@@ -3972,7 +3999,11 @@ export type AssetContainerPermission = 'Read' | 'ReadWrite' | 'ReadWriteDelete';
  * @readonly
  * @enum {string}
  */
-export type ContentKeyPolicyPlayReadyUnknownOutputPassingOption = 'Unknown' | 'NotAllowed' | 'Allowed' | 'AllowedWithVideoConstriction';
+export type ContentKeyPolicyPlayReadyUnknownOutputPassingOption =
+  | "Unknown"
+  | "NotAllowed"
+  | "Allowed"
+  | "AllowedWithVideoConstriction";
 
 /**
  * Defines values for ContentKeyPolicyPlayReadyLicenseType.
@@ -3980,7 +4011,7 @@ export type ContentKeyPolicyPlayReadyUnknownOutputPassingOption = 'Unknown' | 'N
  * @readonly
  * @enum {string}
  */
-export type ContentKeyPolicyPlayReadyLicenseType = 'Unknown' | 'NonPersistent' | 'Persistent';
+export type ContentKeyPolicyPlayReadyLicenseType = "Unknown" | "NonPersistent" | "Persistent";
 
 /**
  * Defines values for ContentKeyPolicyPlayReadyContentType.
@@ -3988,7 +4019,11 @@ export type ContentKeyPolicyPlayReadyLicenseType = 'Unknown' | 'NonPersistent' |
  * @readonly
  * @enum {string}
  */
-export type ContentKeyPolicyPlayReadyContentType = 'Unknown' | 'Unspecified' | 'UltraVioletDownload' | 'UltraVioletStreaming';
+export type ContentKeyPolicyPlayReadyContentType =
+  | "Unknown"
+  | "Unspecified"
+  | "UltraVioletDownload"
+  | "UltraVioletStreaming";
 
 /**
  * Defines values for ContentKeyPolicyRestrictionTokenType.
@@ -3996,7 +4031,7 @@ export type ContentKeyPolicyPlayReadyContentType = 'Unknown' | 'Unspecified' | '
  * @readonly
  * @enum {string}
  */
-export type ContentKeyPolicyRestrictionTokenType = 'Unknown' | 'Swt' | 'Jwt';
+export type ContentKeyPolicyRestrictionTokenType = "Unknown" | "Swt" | "Jwt";
 
 /**
  * Defines values for ContentKeyPolicyFairPlayRentalAndLeaseKeyType.
@@ -4005,7 +4040,12 @@ export type ContentKeyPolicyRestrictionTokenType = 'Unknown' | 'Swt' | 'Jwt';
  * @readonly
  * @enum {string}
  */
-export type ContentKeyPolicyFairPlayRentalAndLeaseKeyType = 'Unknown' | 'Undefined' | 'DualExpiry' | 'PersistentUnlimited' | 'PersistentLimited';
+export type ContentKeyPolicyFairPlayRentalAndLeaseKeyType =
+  | "Unknown"
+  | "Undefined"
+  | "DualExpiry"
+  | "PersistentUnlimited"
+  | "PersistentLimited";
 
 /**
  * Defines values for AacAudioProfile.
@@ -4013,7 +4053,7 @@ export type ContentKeyPolicyFairPlayRentalAndLeaseKeyType = 'Unknown' | 'Undefin
  * @readonly
  * @enum {string}
  */
-export type AacAudioProfile = 'AacLc' | 'HeAacV1' | 'HeAacV2';
+export type AacAudioProfile = "AacLc" | "HeAacV1" | "HeAacV2";
 
 /**
  * Defines values for AnalysisResolution.
@@ -4021,7 +4061,7 @@ export type AacAudioProfile = 'AacLc' | 'HeAacV1' | 'HeAacV2';
  * @readonly
  * @enum {string}
  */
-export type AnalysisResolution = 'SourceResolution' | 'StandardDefinition';
+export type AnalysisResolution = "SourceResolution" | "StandardDefinition";
 
 /**
  * Defines values for StretchMode.
@@ -4029,7 +4069,7 @@ export type AnalysisResolution = 'SourceResolution' | 'StandardDefinition';
  * @readonly
  * @enum {string}
  */
-export type StretchMode = 'None' | 'AutoSize' | 'AutoFit';
+export type StretchMode = "None" | "AutoSize" | "AutoFit";
 
 /**
  * Defines values for DeinterlaceParity.
@@ -4037,7 +4077,7 @@ export type StretchMode = 'None' | 'AutoSize' | 'AutoFit';
  * @readonly
  * @enum {string}
  */
-export type DeinterlaceParity = 'Auto' | 'TopFieldFirst' | 'BottomFieldFirst';
+export type DeinterlaceParity = "Auto" | "TopFieldFirst" | "BottomFieldFirst";
 
 /**
  * Defines values for DeinterlaceMode.
@@ -4045,7 +4085,7 @@ export type DeinterlaceParity = 'Auto' | 'TopFieldFirst' | 'BottomFieldFirst';
  * @readonly
  * @enum {string}
  */
-export type DeinterlaceMode = 'Off' | 'AutoPixelAdaptive';
+export type DeinterlaceMode = "Off" | "AutoPixelAdaptive";
 
 /**
  * Defines values for Rotation.
@@ -4053,7 +4093,7 @@ export type DeinterlaceMode = 'Off' | 'AutoPixelAdaptive';
  * @readonly
  * @enum {string}
  */
-export type Rotation = 'Auto' | 'None' | 'Rotate0' | 'Rotate90' | 'Rotate180' | 'Rotate270';
+export type Rotation = "Auto" | "None" | "Rotate0" | "Rotate90" | "Rotate180" | "Rotate270";
 
 /**
  * Defines values for H264VideoProfile.
@@ -4061,7 +4101,7 @@ export type Rotation = 'Auto' | 'None' | 'Rotate0' | 'Rotate90' | 'Rotate180' | 
  * @readonly
  * @enum {string}
  */
-export type H264VideoProfile = 'Auto' | 'Baseline' | 'Main' | 'High' | 'High422' | 'High444';
+export type H264VideoProfile = "Auto" | "Baseline" | "Main" | "High" | "High422" | "High444";
 
 /**
  * Defines values for EntropyMode.
@@ -4069,7 +4109,7 @@ export type H264VideoProfile = 'Auto' | 'Baseline' | 'Main' | 'High' | 'High422'
  * @readonly
  * @enum {string}
  */
-export type EntropyMode = 'Cabac' | 'Cavlc';
+export type EntropyMode = "Cabac" | "Cavlc";
 
 /**
  * Defines values for H264Complexity.
@@ -4077,7 +4117,7 @@ export type EntropyMode = 'Cabac' | 'Cavlc';
  * @readonly
  * @enum {string}
  */
-export type H264Complexity = 'Speed' | 'Balanced' | 'Quality';
+export type H264Complexity = "Speed" | "Balanced" | "Quality";
 
 /**
  * Defines values for EncoderNamedPreset.
@@ -4088,7 +4128,17 @@ export type H264Complexity = 'Speed' | 'Balanced' | 'Quality';
  * @readonly
  * @enum {string}
  */
-export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'ContentAwareEncodingExperimental' | 'ContentAwareEncoding' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD';
+export type EncoderNamedPreset =
+  | "H264SingleBitrateSD"
+  | "H264SingleBitrate720p"
+  | "H264SingleBitrate1080p"
+  | "AdaptiveStreaming"
+  | "AACGoodQualityAudio"
+  | "ContentAwareEncodingExperimental"
+  | "ContentAwareEncoding"
+  | "H264MultipleBitrate1080p"
+  | "H264MultipleBitrate720p"
+  | "H264MultipleBitrateSD";
 
 /**
  * Defines values for InsightsType.
@@ -4096,7 +4146,7 @@ export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p'
  * @readonly
  * @enum {string}
  */
-export type InsightsType = 'AudioInsightsOnly' | 'VideoInsightsOnly' | 'AllInsights';
+export type InsightsType = "AudioInsightsOnly" | "VideoInsightsOnly" | "AllInsights";
 
 /**
  * Defines values for OnErrorType.
@@ -4104,7 +4154,7 @@ export type InsightsType = 'AudioInsightsOnly' | 'VideoInsightsOnly' | 'AllInsig
  * @readonly
  * @enum {string}
  */
-export type OnErrorType = 'StopProcessingJob' | 'ContinueJob';
+export type OnErrorType = "StopProcessingJob" | "ContinueJob";
 
 /**
  * Defines values for Priority.
@@ -4112,7 +4162,7 @@ export type OnErrorType = 'StopProcessingJob' | 'ContinueJob';
  * @readonly
  * @enum {string}
  */
-export type Priority = 'Low' | 'Normal' | 'High';
+export type Priority = "Low" | "Normal" | "High";
 
 /**
  * Defines values for JobErrorCode.
@@ -4122,7 +4172,16 @@ export type Priority = 'Low' | 'Normal' | 'High';
  * @readonly
  * @enum {string}
  */
-export type JobErrorCode = 'ServiceError' | 'ServiceTransientError' | 'DownloadNotAccessible' | 'DownloadTransientError' | 'UploadNotAccessible' | 'UploadTransientError' | 'ConfigurationUnsupported' | 'ContentMalformed' | 'ContentUnsupported';
+export type JobErrorCode =
+  | "ServiceError"
+  | "ServiceTransientError"
+  | "DownloadNotAccessible"
+  | "DownloadTransientError"
+  | "UploadNotAccessible"
+  | "UploadTransientError"
+  | "ConfigurationUnsupported"
+  | "ContentMalformed"
+  | "ContentUnsupported";
 
 /**
  * Defines values for JobErrorCategory.
@@ -4130,7 +4189,7 @@ export type JobErrorCode = 'ServiceError' | 'ServiceTransientError' | 'DownloadN
  * @readonly
  * @enum {string}
  */
-export type JobErrorCategory = 'Service' | 'Download' | 'Upload' | 'Configuration' | 'Content';
+export type JobErrorCategory = "Service" | "Download" | "Upload" | "Configuration" | "Content";
 
 /**
  * Defines values for JobRetry.
@@ -4138,7 +4197,7 @@ export type JobErrorCategory = 'Service' | 'Download' | 'Upload' | 'Configuratio
  * @readonly
  * @enum {string}
  */
-export type JobRetry = 'DoNotRetry' | 'MayRetry';
+export type JobRetry = "DoNotRetry" | "MayRetry";
 
 /**
  * Defines values for JobState.
@@ -4147,7 +4206,14 @@ export type JobRetry = 'DoNotRetry' | 'MayRetry';
  * @readonly
  * @enum {string}
  */
-export type JobState = 'Canceled' | 'Canceling' | 'Error' | 'Finished' | 'Processing' | 'Queued' | 'Scheduled';
+export type JobState =
+  | "Canceled"
+  | "Canceling"
+  | "Error"
+  | "Finished"
+  | "Processing"
+  | "Queued"
+  | "Scheduled";
 
 /**
  * Defines values for TrackPropertyType.
@@ -4155,7 +4221,7 @@ export type JobState = 'Canceled' | 'Canceling' | 'Error' | 'Finished' | 'Proces
  * @readonly
  * @enum {string}
  */
-export type TrackPropertyType = 'Unknown' | 'FourCC';
+export type TrackPropertyType = "Unknown" | "FourCC";
 
 /**
  * Defines values for TrackPropertyCompareOperation.
@@ -4163,7 +4229,7 @@ export type TrackPropertyType = 'Unknown' | 'FourCC';
  * @readonly
  * @enum {string}
  */
-export type TrackPropertyCompareOperation = 'Unknown' | 'Equal';
+export type TrackPropertyCompareOperation = "Unknown" | "Equal";
 
 /**
  * Defines values for StreamingLocatorContentKeyType.
@@ -4171,7 +4237,10 @@ export type TrackPropertyCompareOperation = 'Unknown' | 'Equal';
  * @readonly
  * @enum {string}
  */
-export type StreamingLocatorContentKeyType = 'CommonEncryptionCenc' | 'CommonEncryptionCbcs' | 'EnvelopeEncryption';
+export type StreamingLocatorContentKeyType =
+  | "CommonEncryptionCenc"
+  | "CommonEncryptionCbcs"
+  | "EnvelopeEncryption";
 
 /**
  * Defines values for StreamingPolicyStreamingProtocol.
@@ -4179,7 +4248,7 @@ export type StreamingLocatorContentKeyType = 'CommonEncryptionCenc' | 'CommonEnc
  * @readonly
  * @enum {string}
  */
-export type StreamingPolicyStreamingProtocol = 'Hls' | 'Dash' | 'SmoothStreaming' | 'Download';
+export type StreamingPolicyStreamingProtocol = "Hls" | "Dash" | "SmoothStreaming" | "Download";
 
 /**
  * Defines values for EncryptionScheme.
@@ -4188,7 +4257,11 @@ export type StreamingPolicyStreamingProtocol = 'Hls' | 'Dash' | 'SmoothStreaming
  * @readonly
  * @enum {string}
  */
-export type EncryptionScheme = 'NoEncryption' | 'EnvelopeEncryption' | 'CommonEncryptionCenc' | 'CommonEncryptionCbcs';
+export type EncryptionScheme =
+  | "NoEncryption"
+  | "EnvelopeEncryption"
+  | "CommonEncryptionCenc"
+  | "CommonEncryptionCbcs";
 
 /**
  * Defines values for LiveOutputResourceState.
@@ -4196,7 +4269,7 @@ export type EncryptionScheme = 'NoEncryption' | 'EnvelopeEncryption' | 'CommonEn
  * @readonly
  * @enum {string}
  */
-export type LiveOutputResourceState = 'Creating' | 'Running' | 'Deleting';
+export type LiveOutputResourceState = "Creating" | "Running" | "Deleting";
 
 /**
  * Defines values for LiveEventInputProtocol.
@@ -4204,7 +4277,7 @@ export type LiveOutputResourceState = 'Creating' | 'Running' | 'Deleting';
  * @readonly
  * @enum {string}
  */
-export type LiveEventInputProtocol = 'FragmentedMP4' | 'RTMP';
+export type LiveEventInputProtocol = "FragmentedMP4" | "RTMP";
 
 /**
  * Defines values for LiveEventEncodingType.
@@ -4212,7 +4285,7 @@ export type LiveEventInputProtocol = 'FragmentedMP4' | 'RTMP';
  * @readonly
  * @enum {string}
  */
-export type LiveEventEncodingType = 'None' | 'Basic' | 'Standard' | 'Premium1080p';
+export type LiveEventEncodingType = "None" | "Basic" | "Standard" | "Premium1080p";
 
 /**
  * Defines values for LiveEventResourceState.
@@ -4220,7 +4293,7 @@ export type LiveEventEncodingType = 'None' | 'Basic' | 'Standard' | 'Premium1080
  * @readonly
  * @enum {string}
  */
-export type LiveEventResourceState = 'Stopped' | 'Starting' | 'Running' | 'Stopping' | 'Deleting';
+export type LiveEventResourceState = "Stopped" | "Starting" | "Running" | "Stopping" | "Deleting";
 
 /**
  * Defines values for StreamOptionsFlag.
@@ -4228,7 +4301,7 @@ export type LiveEventResourceState = 'Stopped' | 'Starting' | 'Running' | 'Stopp
  * @readonly
  * @enum {string}
  */
-export type StreamOptionsFlag = 'Default' | 'LowLatency';
+export type StreamOptionsFlag = "Default" | "LowLatency";
 
 /**
  * Defines values for StreamingEndpointResourceState.
@@ -4236,7 +4309,13 @@ export type StreamOptionsFlag = 'Default' | 'LowLatency';
  * @readonly
  * @enum {string}
  */
-export type StreamingEndpointResourceState = 'Stopped' | 'Starting' | 'Running' | 'Stopping' | 'Deleting' | 'Scaling';
+export type StreamingEndpointResourceState =
+  | "Stopped"
+  | "Starting"
+  | "Running"
+  | "Stopping"
+  | "Deleting"
+  | "Scaling";
 
 /**
  * Contains response data for the list operation.
@@ -4246,16 +4325,16 @@ export type AccountFiltersListResponse = AccountFilterCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilterCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccountFilterCollection;
+  };
 };
 
 /**
@@ -4266,16 +4345,16 @@ export type AccountFiltersGetResponse = AccountFilter & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilter;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccountFilter;
+  };
 };
 
 /**
@@ -4286,16 +4365,16 @@ export type AccountFiltersCreateOrUpdateResponse = AccountFilter & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilter;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccountFilter;
+  };
 };
 
 /**
@@ -4306,16 +4385,16 @@ export type AccountFiltersUpdateResponse = AccountFilter & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilter;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccountFilter;
+  };
 };
 
 /**
@@ -4326,16 +4405,16 @@ export type AccountFiltersListNextResponse = AccountFilterCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccountFilterCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccountFilterCollection;
+  };
 };
 
 /**
@@ -4346,16 +4425,16 @@ export type OperationsListResponse = OperationCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationCollection;
+  };
 };
 
 /**
@@ -4366,16 +4445,16 @@ export type OperationsListNextResponse = OperationCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationCollection;
+  };
 };
 
 /**
@@ -4386,16 +4465,16 @@ export type MediaservicesListResponse = MediaServiceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MediaServiceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MediaServiceCollection;
+  };
 };
 
 /**
@@ -4406,16 +4485,16 @@ export type MediaservicesGetResponse = MediaService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MediaService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MediaService;
+  };
 };
 
 /**
@@ -4426,16 +4505,16 @@ export type MediaservicesCreateOrUpdateResponse = MediaService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MediaService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MediaService;
+  };
 };
 
 /**
@@ -4446,16 +4525,16 @@ export type MediaservicesUpdateResponse = MediaService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MediaService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MediaService;
+  };
 };
 
 /**
@@ -4466,16 +4545,16 @@ export type MediaservicesListEdgePoliciesResponse = EdgePolicies & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EdgePolicies;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EdgePolicies;
+  };
 };
 
 /**
@@ -4486,16 +4565,16 @@ export type MediaservicesListBySubscriptionResponse = SubscriptionMediaServiceCo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionMediaServiceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionMediaServiceCollection;
+  };
 };
 
 /**
@@ -4506,16 +4585,16 @@ export type MediaservicesGetBySubscriptionResponse = SubscriptionMediaService & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionMediaService;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionMediaService;
+  };
 };
 
 /**
@@ -4526,16 +4605,16 @@ export type MediaservicesListNextResponse = MediaServiceCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MediaServiceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MediaServiceCollection;
+  };
 };
 
 /**
@@ -4546,16 +4625,16 @@ export type MediaservicesListBySubscriptionNextResponse = SubscriptionMediaServi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionMediaServiceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionMediaServiceCollection;
+  };
 };
 
 /**
@@ -4566,16 +4645,16 @@ export type LocationsCheckNameAvailabilityResponse = EntityNameAvailabilityCheck
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntityNameAvailabilityCheckOutput;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntityNameAvailabilityCheckOutput;
+  };
 };
 
 /**
@@ -4586,16 +4665,16 @@ export type AssetsListResponse = AssetCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssetCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AssetCollection;
+  };
 };
 
 /**
@@ -4606,16 +4685,16 @@ export type AssetsGetResponse = Asset & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Asset;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Asset;
+  };
 };
 
 /**
@@ -4626,16 +4705,16 @@ export type AssetsCreateOrUpdateResponse = Asset & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Asset;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Asset;
+  };
 };
 
 /**
@@ -4646,16 +4725,16 @@ export type AssetsUpdateResponse = Asset & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Asset;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Asset;
+  };
 };
 
 /**
@@ -4666,16 +4745,16 @@ export type AssetsListContainerSasResponse = AssetContainerSas & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssetContainerSas;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AssetContainerSas;
+  };
 };
 
 /**
@@ -4686,16 +4765,16 @@ export type AssetsGetEncryptionKeyResponse = StorageEncryptedAssetDecryptionData
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageEncryptedAssetDecryptionData;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageEncryptedAssetDecryptionData;
+  };
 };
 
 /**
@@ -4706,16 +4785,16 @@ export type AssetsListStreamingLocatorsResponse = ListStreamingLocatorsResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListStreamingLocatorsResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListStreamingLocatorsResponse;
+  };
 };
 
 /**
@@ -4726,16 +4805,16 @@ export type AssetsListNextResponse = AssetCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssetCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AssetCollection;
+  };
 };
 
 /**
@@ -4746,16 +4825,16 @@ export type AssetFiltersListResponse = AssetFilterCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssetFilterCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AssetFilterCollection;
+  };
 };
 
 /**
@@ -4766,16 +4845,16 @@ export type AssetFiltersGetResponse = AssetFilter & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssetFilter;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AssetFilter;
+  };
 };
 
 /**
@@ -4786,16 +4865,16 @@ export type AssetFiltersCreateOrUpdateResponse = AssetFilter & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssetFilter;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AssetFilter;
+  };
 };
 
 /**
@@ -4806,16 +4885,16 @@ export type AssetFiltersUpdateResponse = AssetFilter & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssetFilter;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AssetFilter;
+  };
 };
 
 /**
@@ -4826,16 +4905,16 @@ export type AssetFiltersListNextResponse = AssetFilterCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AssetFilterCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AssetFilterCollection;
+  };
 };
 
 /**
@@ -4846,16 +4925,16 @@ export type ContentKeyPoliciesListResponse = ContentKeyPolicyCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContentKeyPolicyCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContentKeyPolicyCollection;
+  };
 };
 
 /**
@@ -4866,16 +4945,16 @@ export type ContentKeyPoliciesGetResponse = ContentKeyPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContentKeyPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContentKeyPolicy;
+  };
 };
 
 /**
@@ -4886,16 +4965,16 @@ export type ContentKeyPoliciesCreateOrUpdateResponse = ContentKeyPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContentKeyPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContentKeyPolicy;
+  };
 };
 
 /**
@@ -4906,16 +4985,16 @@ export type ContentKeyPoliciesUpdateResponse = ContentKeyPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContentKeyPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContentKeyPolicy;
+  };
 };
 
 /**
@@ -4926,16 +5005,16 @@ export type ContentKeyPoliciesGetPolicyPropertiesWithSecretsResponse = ContentKe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContentKeyPolicyProperties;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContentKeyPolicyProperties;
+  };
 };
 
 /**
@@ -4946,16 +5025,16 @@ export type ContentKeyPoliciesListNextResponse = ContentKeyPolicyCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContentKeyPolicyCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContentKeyPolicyCollection;
+  };
 };
 
 /**
@@ -4966,16 +5045,16 @@ export type TransformsListResponse = TransformCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TransformCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TransformCollection;
+  };
 };
 
 /**
@@ -4986,16 +5065,16 @@ export type TransformsGetResponse = Transform & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Transform;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Transform;
+  };
 };
 
 /**
@@ -5006,16 +5085,16 @@ export type TransformsCreateOrUpdateResponse = Transform & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Transform;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Transform;
+  };
 };
 
 /**
@@ -5026,16 +5105,16 @@ export type TransformsUpdateResponse = Transform & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Transform;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Transform;
+  };
 };
 
 /**
@@ -5046,16 +5125,16 @@ export type TransformsListNextResponse = TransformCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TransformCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TransformCollection;
+  };
 };
 
 /**
@@ -5066,16 +5145,16 @@ export type JobsListResponse = JobCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobCollection;
+  };
 };
 
 /**
@@ -5086,16 +5165,16 @@ export type JobsGetResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -5106,16 +5185,16 @@ export type JobsCreateResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -5126,16 +5205,16 @@ export type JobsUpdateResponse = Job & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Job;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Job;
+  };
 };
 
 /**
@@ -5146,16 +5225,16 @@ export type JobsListNextResponse = JobCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobCollection;
+  };
 };
 
 /**
@@ -5166,16 +5245,16 @@ export type StreamingPoliciesListResponse = StreamingPolicyCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingPolicyCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingPolicyCollection;
+  };
 };
 
 /**
@@ -5186,16 +5265,16 @@ export type StreamingPoliciesGetResponse = StreamingPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingPolicy;
+  };
 };
 
 /**
@@ -5206,16 +5285,16 @@ export type StreamingPoliciesCreateResponse = StreamingPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingPolicy;
+  };
 };
 
 /**
@@ -5226,16 +5305,16 @@ export type StreamingPoliciesListNextResponse = StreamingPolicyCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingPolicyCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingPolicyCollection;
+  };
 };
 
 /**
@@ -5246,16 +5325,16 @@ export type StreamingLocatorsListResponse = StreamingLocatorCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingLocatorCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingLocatorCollection;
+  };
 };
 
 /**
@@ -5266,16 +5345,16 @@ export type StreamingLocatorsGetResponse = StreamingLocator & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingLocator;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingLocator;
+  };
 };
 
 /**
@@ -5286,16 +5365,16 @@ export type StreamingLocatorsCreateResponse = StreamingLocator & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingLocator;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingLocator;
+  };
 };
 
 /**
@@ -5306,16 +5385,16 @@ export type StreamingLocatorsListContentKeysResponse = ListContentKeysResponse &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListContentKeysResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListContentKeysResponse;
+  };
 };
 
 /**
@@ -5326,16 +5405,16 @@ export type StreamingLocatorsListPathsResponse = ListPathsResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListPathsResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListPathsResponse;
+  };
 };
 
 /**
@@ -5346,16 +5425,16 @@ export type StreamingLocatorsListNextResponse = StreamingLocatorCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingLocatorCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingLocatorCollection;
+  };
 };
 
 /**
@@ -5366,16 +5445,16 @@ export type LiveEventsListResponse = LiveEventListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LiveEventListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LiveEventListResult;
+  };
 };
 
 /**
@@ -5386,16 +5465,16 @@ export type LiveEventsGetResponse = LiveEvent & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LiveEvent;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LiveEvent;
+  };
 };
 
 /**
@@ -5406,16 +5485,16 @@ export type LiveEventsCreateResponse = LiveEvent & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LiveEvent;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LiveEvent;
+  };
 };
 
 /**
@@ -5426,16 +5505,16 @@ export type LiveEventsUpdateResponse = LiveEvent & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LiveEvent;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LiveEvent;
+  };
 };
 
 /**
@@ -5446,16 +5525,16 @@ export type LiveEventsBeginCreateResponse = LiveEvent & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LiveEvent;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LiveEvent;
+  };
 };
 
 /**
@@ -5466,16 +5545,16 @@ export type LiveEventsBeginUpdateResponse = LiveEvent & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LiveEvent;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LiveEvent;
+  };
 };
 
 /**
@@ -5486,16 +5565,16 @@ export type LiveEventsListNextResponse = LiveEventListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LiveEventListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LiveEventListResult;
+  };
 };
 
 /**
@@ -5506,16 +5585,16 @@ export type LiveOutputsListResponse = LiveOutputListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LiveOutputListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LiveOutputListResult;
+  };
 };
 
 /**
@@ -5526,16 +5605,16 @@ export type LiveOutputsGetResponse = LiveOutput & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LiveOutput;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LiveOutput;
+  };
 };
 
 /**
@@ -5546,16 +5625,16 @@ export type LiveOutputsCreateResponse = LiveOutput & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LiveOutput;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LiveOutput;
+  };
 };
 
 /**
@@ -5566,16 +5645,16 @@ export type LiveOutputsBeginCreateResponse = LiveOutput & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LiveOutput;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LiveOutput;
+  };
 };
 
 /**
@@ -5586,16 +5665,16 @@ export type LiveOutputsListNextResponse = LiveOutputListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LiveOutputListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LiveOutputListResult;
+  };
 };
 
 /**
@@ -5606,16 +5685,16 @@ export type StreamingEndpointsListResponse = StreamingEndpointListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingEndpointListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingEndpointListResult;
+  };
 };
 
 /**
@@ -5626,16 +5705,16 @@ export type StreamingEndpointsGetResponse = StreamingEndpoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingEndpoint;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingEndpoint;
+  };
 };
 
 /**
@@ -5646,16 +5725,16 @@ export type StreamingEndpointsCreateResponse = StreamingEndpoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingEndpoint;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingEndpoint;
+  };
 };
 
 /**
@@ -5666,16 +5745,16 @@ export type StreamingEndpointsUpdateResponse = StreamingEndpoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingEndpoint;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingEndpoint;
+  };
 };
 
 /**
@@ -5686,16 +5765,16 @@ export type StreamingEndpointsBeginCreateResponse = StreamingEndpoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingEndpoint;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingEndpoint;
+  };
 };
 
 /**
@@ -5706,16 +5785,16 @@ export type StreamingEndpointsBeginUpdateResponse = StreamingEndpoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingEndpoint;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingEndpoint;
+  };
 };
 
 /**
@@ -5726,14 +5805,14 @@ export type StreamingEndpointsListNextResponse = StreamingEndpointListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StreamingEndpointListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StreamingEndpointListResult;
+  };
 };

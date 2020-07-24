@@ -34,21 +34,41 @@ export class ArtifactSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ArtifactSourcesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, artifactSourceName: string, options?: Models.ArtifactSourcesCreateOrUpdateOptionalParams): Promise<Models.ArtifactSourcesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    artifactSourceName: string,
+    options?: Models.ArtifactSourcesCreateOrUpdateOptionalParams
+  ): Promise<Models.ArtifactSourcesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param artifactSourceName The name of the artifact source.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, artifactSourceName: string, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    artifactSourceName: string,
+    callback: msRest.ServiceCallback<Models.ArtifactSource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param artifactSourceName The name of the artifact source.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, artifactSourceName: string, options: Models.ArtifactSourcesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
-  createOrUpdate(resourceGroupName: string, artifactSourceName: string, options?: Models.ArtifactSourcesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.ArtifactSource>, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    artifactSourceName: string,
+    options: Models.ArtifactSourcesCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.ArtifactSource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    artifactSourceName: string,
+    options?:
+      | Models.ArtifactSourcesCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.ArtifactSource>,
+    callback?: msRest.ServiceCallback<Models.ArtifactSource>
+  ): Promise<Models.ArtifactSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class ArtifactSources {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ArtifactSourcesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ArtifactSourcesCreateOrUpdateResponse>;
   }
 
   /**
@@ -66,21 +87,39 @@ export class ArtifactSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ArtifactSourcesGetResponse>
    */
-  get(resourceGroupName: string, artifactSourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ArtifactSourcesGetResponse>;
+  get(
+    resourceGroupName: string,
+    artifactSourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ArtifactSourcesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param artifactSourceName The name of the artifact source.
    * @param callback The callback
    */
-  get(resourceGroupName: string, artifactSourceName: string, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
+  get(
+    resourceGroupName: string,
+    artifactSourceName: string,
+    callback: msRest.ServiceCallback<Models.ArtifactSource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param artifactSourceName The name of the artifact source.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, artifactSourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactSource>): void;
-  get(resourceGroupName: string, artifactSourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSource>, callback?: msRest.ServiceCallback<Models.ArtifactSource>): Promise<Models.ArtifactSourcesGetResponse> {
+  get(
+    resourceGroupName: string,
+    artifactSourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ArtifactSource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    artifactSourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSource>,
+    callback?: msRest.ServiceCallback<Models.ArtifactSource>
+  ): Promise<Models.ArtifactSourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +127,8 @@ export class ArtifactSources {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ArtifactSourcesGetResponse>;
+      callback
+    ) as Promise<Models.ArtifactSourcesGetResponse>;
   }
 
   /**
@@ -98,21 +138,39 @@ export class ArtifactSources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, artifactSourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    artifactSourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param artifactSourceName The name of the artifact source.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, artifactSourceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    artifactSourceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param artifactSourceName The name of the artifact source.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, artifactSourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, artifactSourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    artifactSourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    artifactSourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +178,8 @@ export class ArtifactSources {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -129,7 +188,10 @@ export class ArtifactSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.ArtifactSourcesListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ArtifactSourcesListResponse>;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ArtifactSourcesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
@@ -140,15 +202,24 @@ export class ArtifactSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ArtifactSource[]>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSource[]>, callback?: msRest.ServiceCallback<Models.ArtifactSource[]>): Promise<Models.ArtifactSourcesListResponse> {
+  list(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ArtifactSource[]>
+  ): void;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ArtifactSource[]>,
+    callback?: msRest.ServiceCallback<Models.ArtifactSource[]>
+  ): Promise<Models.ArtifactSourcesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ArtifactSourcesListResponse>;
+      callback
+    ) as Promise<Models.ArtifactSourcesListResponse>;
   }
 }
 
@@ -156,23 +227,17 @@ export class ArtifactSources {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources/{artifactSourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources/{artifactSourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.artifactSourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "artifactSourceInfo"
-    ],
+    parameterPath: ["options", "artifactSourceInfo"],
     mapper: Mappers.ArtifactSource
   },
   responses: {
@@ -188,18 +253,15 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources/{artifactSourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources/{artifactSourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.artifactSourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ArtifactSource
@@ -213,18 +275,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources/{artifactSourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources/{artifactSourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.artifactSourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -237,17 +296,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/artifactSources",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {

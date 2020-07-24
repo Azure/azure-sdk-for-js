@@ -41,14 +41,21 @@ export class Profiles {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>,
+    callback?: msRest.ServiceCallback<Models.ProfileListResult>
+  ): Promise<Models.ProfilesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ProfilesListResponse>;
+      callback
+    ) as Promise<Models.ProfilesListResponse>;
   }
 
   /**
@@ -57,26 +64,41 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>,
+    callback?: msRest.ServiceCallback<Models.ProfileListResult>
+  ): Promise<Models.ProfilesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ProfilesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ProfilesListByResourceGroupResponse>;
   }
 
   /**
@@ -87,21 +109,39 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesGetResponse>
    */
-  get(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesGetResponse>;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesGetResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, callback: msRest.ServiceCallback<Models.Profile>): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    callback: msRest.ServiceCallback<Models.Profile>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Profile>): void;
-  get(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Profile>, callback?: msRest.ServiceCallback<Models.Profile>): Promise<Models.ProfilesGetResponse> {
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Profile>
+  ): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Profile>,
+    callback?: msRest.ServiceCallback<Models.Profile>
+  ): Promise<Models.ProfilesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -109,7 +149,8 @@ export class Profiles {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ProfilesGetResponse>;
+      callback
+    ) as Promise<Models.ProfilesGetResponse>;
   }
 
   /**
@@ -121,9 +162,15 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesCreateResponse>
    */
-  create(resourceGroupName: string, profileName: string, profile: Models.Profile, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesCreateResponse> {
-    return this.beginCreate(resourceGroupName,profileName,profile,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ProfilesCreateResponse>;
+  create(
+    resourceGroupName: string,
+    profileName: string,
+    profile: Models.Profile,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesCreateResponse> {
+    return this.beginCreate(resourceGroupName, profileName, profile, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ProfilesCreateResponse>;
   }
 
   /**
@@ -134,9 +181,14 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesUpdateResponse>
    */
-  update(resourceGroupName: string, profileName: string, options?: Models.ProfilesUpdateOptionalParams): Promise<Models.ProfilesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,profileName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ProfilesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    profileName: string,
+    options?: Models.ProfilesUpdateOptionalParams
+  ): Promise<Models.ProfilesUpdateResponse> {
+    return this.beginUpdate(resourceGroupName, profileName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ProfilesUpdateResponse>;
   }
 
   /**
@@ -147,9 +199,14 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,profileName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, profileName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -163,21 +220,39 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesGenerateSsoUriResponse>
    */
-  generateSsoUri(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesGenerateSsoUriResponse>;
+  generateSsoUri(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesGenerateSsoUriResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param callback The callback
    */
-  generateSsoUri(resourceGroupName: string, profileName: string, callback: msRest.ServiceCallback<Models.SsoUri>): void;
+  generateSsoUri(
+    resourceGroupName: string,
+    profileName: string,
+    callback: msRest.ServiceCallback<Models.SsoUri>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  generateSsoUri(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SsoUri>): void;
-  generateSsoUri(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SsoUri>, callback?: msRest.ServiceCallback<Models.SsoUri>): Promise<Models.ProfilesGenerateSsoUriResponse> {
+  generateSsoUri(
+    resourceGroupName: string,
+    profileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SsoUri>
+  ): void;
+  generateSsoUri(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SsoUri>,
+    callback?: msRest.ServiceCallback<Models.SsoUri>
+  ): Promise<Models.ProfilesGenerateSsoUriResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +260,8 @@ export class Profiles {
         options
       },
       generateSsoUriOperationSpec,
-      callback) as Promise<Models.ProfilesGenerateSsoUriResponse>;
+      callback
+    ) as Promise<Models.ProfilesGenerateSsoUriResponse>;
   }
 
   /**
@@ -196,21 +272,41 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesListSupportedOptimizationTypesResponse>
    */
-  listSupportedOptimizationTypes(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesListSupportedOptimizationTypesResponse>;
+  listSupportedOptimizationTypes(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesListSupportedOptimizationTypesResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param callback The callback
    */
-  listSupportedOptimizationTypes(resourceGroupName: string, profileName: string, callback: msRest.ServiceCallback<Models.SupportedOptimizationTypesListResult>): void;
+  listSupportedOptimizationTypes(
+    resourceGroupName: string,
+    profileName: string,
+    callback: msRest.ServiceCallback<Models.SupportedOptimizationTypesListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSupportedOptimizationTypes(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SupportedOptimizationTypesListResult>): void;
-  listSupportedOptimizationTypes(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SupportedOptimizationTypesListResult>, callback?: msRest.ServiceCallback<Models.SupportedOptimizationTypesListResult>): Promise<Models.ProfilesListSupportedOptimizationTypesResponse> {
+  listSupportedOptimizationTypes(
+    resourceGroupName: string,
+    profileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SupportedOptimizationTypesListResult>
+  ): void;
+  listSupportedOptimizationTypes(
+    resourceGroupName: string,
+    profileName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SupportedOptimizationTypesListResult>,
+    callback?: msRest.ServiceCallback<Models.SupportedOptimizationTypesListResult>
+  ): Promise<Models.ProfilesListSupportedOptimizationTypesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -218,7 +314,8 @@ export class Profiles {
         options
       },
       listSupportedOptimizationTypesOperationSpec,
-      callback) as Promise<Models.ProfilesListSupportedOptimizationTypesResponse>;
+      callback
+    ) as Promise<Models.ProfilesListSupportedOptimizationTypesResponse>;
   }
 
   /**
@@ -228,21 +325,39 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesListResourceUsageResponse>
    */
-  listResourceUsage(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesListResourceUsageResponse>;
+  listResourceUsage(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesListResourceUsageResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param callback The callback
    */
-  listResourceUsage(resourceGroupName: string, profileName: string, callback: msRest.ServiceCallback<Models.ResourceUsageListResult>): void;
+  listResourceUsage(
+    resourceGroupName: string,
+    profileName: string,
+    callback: msRest.ServiceCallback<Models.ResourceUsageListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listResourceUsage(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceUsageListResult>): void;
-  listResourceUsage(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceUsageListResult>, callback?: msRest.ServiceCallback<Models.ResourceUsageListResult>): Promise<Models.ProfilesListResourceUsageResponse> {
+  listResourceUsage(
+    resourceGroupName: string,
+    profileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceUsageListResult>
+  ): void;
+  listResourceUsage(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceUsageListResult>,
+    callback?: msRest.ServiceCallback<Models.ResourceUsageListResult>
+  ): Promise<Models.ProfilesListResourceUsageResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -250,7 +365,8 @@ export class Profiles {
         options
       },
       listResourceUsageOperationSpec,
-      callback) as Promise<Models.ProfilesListResourceUsageResponse>;
+      callback
+    ) as Promise<Models.ProfilesListResourceUsageResponse>;
   }
 
   /**
@@ -262,7 +378,12 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, profileName: string, profile: Models.Profile, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    profileName: string,
+    profile: Models.Profile,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -271,7 +392,8 @@ export class Profiles {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -282,7 +404,11 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, profileName: string, options?: Models.ProfilesBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    options?: Models.ProfilesBeginUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -290,7 +416,8 @@ export class Profiles {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -301,7 +428,11 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -309,7 +440,8 @@ export class Profiles {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -318,7 +450,10 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -329,15 +464,24 @@ export class Profiles {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>,
+    callback?: msRest.ServiceCallback<Models.ProfileListResult>
+  ): Promise<Models.ProfilesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ProfilesListNextResponse>;
+      callback
+    ) as Promise<Models.ProfilesListNextResponse>;
   }
 
   /**
@@ -346,26 +490,41 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>,
+    callback?: msRest.ServiceCallback<Models.ProfileListResult>
+  ): Promise<Models.ProfilesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ProfilesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ProfilesListByResourceGroupNextResponse>;
   }
 
   /**
@@ -374,26 +533,41 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesListResourceUsageNextResponse>
    */
-  listResourceUsageNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesListResourceUsageNextResponse>;
+  listResourceUsageNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesListResourceUsageNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listResourceUsageNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceUsageListResult>): void;
+  listResourceUsageNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResourceUsageListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listResourceUsageNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceUsageListResult>): void;
-  listResourceUsageNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceUsageListResult>, callback?: msRest.ServiceCallback<Models.ResourceUsageListResult>): Promise<Models.ProfilesListResourceUsageNextResponse> {
+  listResourceUsageNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceUsageListResult>
+  ): void;
+  listResourceUsageNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceUsageListResult>,
+    callback?: msRest.ServiceCallback<Models.ResourceUsageListResult>
+  ): Promise<Models.ProfilesListResourceUsageNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listResourceUsageNextOperationSpec,
-      callback) as Promise<Models.ProfilesListResourceUsageNextResponse>;
+      callback
+    ) as Promise<Models.ProfilesListResourceUsageNextResponse>;
   }
 }
 
@@ -402,15 +576,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Cdn/profiles",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProfileListResult
@@ -424,17 +592,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProfileListResult
@@ -448,18 +610,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.profileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.profileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Profile
@@ -473,18 +628,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const generateSsoUriOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/generateSsoUri",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.profileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/generateSsoUri",
+  urlParameters: [Parameters.resourceGroupName, Parameters.profileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SsoUri
@@ -498,18 +646,11 @@ const generateSsoUriOperationSpec: msRest.OperationSpec = {
 
 const listSupportedOptimizationTypesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getSupportedOptimizationTypes",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.profileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getSupportedOptimizationTypes",
+  urlParameters: [Parameters.resourceGroupName, Parameters.profileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SupportedOptimizationTypesListResult
@@ -523,18 +664,11 @@ const listSupportedOptimizationTypesOperationSpec: msRest.OperationSpec = {
 
 const listResourceUsageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkResourceUsage",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.profileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkResourceUsage",
+  urlParameters: [Parameters.resourceGroupName, Parameters.profileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceUsageListResult
@@ -548,18 +682,11 @@ const listResourceUsageOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.profileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.profileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "profile",
     mapper: {
@@ -586,24 +713,14 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.profileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.profileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      tags: [
-        "options",
-        "tags"
-      ]
+      tags: ["options", "tags"]
     },
     mapper: {
       ...Mappers.ProfileUpdateParameters,
@@ -626,18 +743,11 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.profileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.profileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -652,12 +762,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProfileListResult
@@ -673,12 +779,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProfileListResult
@@ -694,12 +796,8 @@ const listResourceUsageNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceUsageListResult

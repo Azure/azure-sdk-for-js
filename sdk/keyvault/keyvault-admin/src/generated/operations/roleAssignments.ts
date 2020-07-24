@@ -151,8 +151,7 @@ export class RoleAssignments {
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreHttp.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {
@@ -163,16 +162,11 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.scope,
-    Parameters.roleAssignmentName
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.scope, Parameters.roleAssignmentName],
   serializer
 };
 const createOperationSpec: coreHttp.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
   httpMethod: "PUT",
   responses: {
     201: {
@@ -184,18 +178,13 @@ const createOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.scope,
-    Parameters.roleAssignmentName
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.scope, Parameters.roleAssignmentName],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };
 const getOperationSpec: coreHttp.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -206,11 +195,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.scope,
-    Parameters.roleAssignmentName
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.scope, Parameters.roleAssignmentName],
   serializer
 };
 const listForScopeOperationSpec: coreHttp.OperationSpec = {
@@ -240,10 +225,6 @@ const listForScopeNextOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.filter, Parameters.apiVersion],
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.scope,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.scope, Parameters.nextLink],
   serializer
 };

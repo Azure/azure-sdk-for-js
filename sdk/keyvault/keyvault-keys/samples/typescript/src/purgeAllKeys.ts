@@ -26,7 +26,7 @@ export async function main(): Promise<void> {
     try {
       const poller = await client.beginDeleteKey(properties.name);
       await poller.pollUntilDone();
-    } catch(e) {
+    } catch (e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }
   }
@@ -34,7 +34,7 @@ export async function main(): Promise<void> {
     try {
       // This will take a while.
       await client.purgeDeletedKey(deletedKey.name);
-    } catch(e) {
+    } catch (e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }
   }

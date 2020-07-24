@@ -340,7 +340,11 @@ export interface UnknownTarget {
 /**
  * Contains the possible cases for StorageTargetProperties.
  */
-export type StorageTargetPropertiesUnion = StorageTargetProperties | Nfs3TargetProperties | ClfsTargetProperties | UnknownTargetProperties;
+export type StorageTargetPropertiesUnion =
+  | StorageTargetProperties
+  | Nfs3TargetProperties
+  | ClfsTargetProperties
+  | UnknownTargetProperties;
 
 /**
  * Properties of the Storage Target.
@@ -790,7 +794,7 @@ export interface StorageTargetsResult extends Array<StorageTarget> {
  * @readonly
  * @enum {string}
  */
-export type CacheIdentityType = 'SystemAssigned' | 'None';
+export type CacheIdentityType = "SystemAssigned" | "None";
 
 /**
  * Defines values for HealthStateType.
@@ -799,7 +803,16 @@ export type CacheIdentityType = 'SystemAssigned' | 'None';
  * @readonly
  * @enum {string}
  */
-export type HealthStateType = 'Unknown' | 'Healthy' | 'Degraded' | 'Down' | 'Transitioning' | 'Stopping' | 'Stopped' | 'Upgrading' | 'Flushing';
+export type HealthStateType =
+  | "Unknown"
+  | "Healthy"
+  | "Degraded"
+  | "Down"
+  | "Transitioning"
+  | "Stopping"
+  | "Stopped"
+  | "Upgrading"
+  | "Flushing";
 
 /**
  * Defines values for ProvisioningStateType.
@@ -807,7 +820,13 @@ export type HealthStateType = 'Unknown' | 'Healthy' | 'Degraded' | 'Down' | 'Tra
  * @readonly
  * @enum {string}
  */
-export type ProvisioningStateType = 'Succeeded' | 'Failed' | 'Cancelled' | 'Creating' | 'Deleting' | 'Updating';
+export type ProvisioningStateType =
+  | "Succeeded"
+  | "Failed"
+  | "Cancelled"
+  | "Creating"
+  | "Deleting"
+  | "Updating";
 
 /**
  * Defines values for FirmwareStatusType.
@@ -815,7 +834,7 @@ export type ProvisioningStateType = 'Succeeded' | 'Failed' | 'Cancelled' | 'Crea
  * @readonly
  * @enum {string}
  */
-export type FirmwareStatusType = 'available' | 'unavailable';
+export type FirmwareStatusType = "available" | "unavailable";
 
 /**
  * Defines values for StorageTargetType.
@@ -823,7 +842,7 @@ export type FirmwareStatusType = 'available' | 'unavailable';
  * @readonly
  * @enum {string}
  */
-export type StorageTargetType = 'nfs3' | 'clfs' | 'unknown';
+export type StorageTargetType = "nfs3" | "clfs" | "unknown";
 
 /**
  * Defines values for ReasonCode.
@@ -831,7 +850,7 @@ export type StorageTargetType = 'nfs3' | 'clfs' | 'unknown';
  * @readonly
  * @enum {string}
  */
-export type ReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
+export type ReasonCode = "QuotaId" | "NotAvailableForSubscription";
 
 /**
  * Contains response data for the list operation.
@@ -841,16 +860,16 @@ export type OperationsListResponse = ApiOperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiOperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiOperationListResult;
+  };
 };
 
 /**
@@ -861,16 +880,16 @@ export type OperationsListNextResponse = ApiOperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApiOperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApiOperationListResult;
+  };
 };
 
 /**
@@ -881,16 +900,16 @@ export type SkusListResponse = ResourceSkusResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceSkusResult;
+  };
 };
 
 /**
@@ -901,16 +920,16 @@ export type SkusListNextResponse = ResourceSkusResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceSkusResult;
+  };
 };
 
 /**
@@ -921,16 +940,16 @@ export type UsageModelsListResponse = UsageModelsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageModelsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageModelsResult;
+  };
 };
 
 /**
@@ -941,16 +960,16 @@ export type UsageModelsListNextResponse = UsageModelsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UsageModelsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UsageModelsResult;
+  };
 };
 
 /**
@@ -961,16 +980,16 @@ export type CachesListResponse = CachesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CachesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CachesListResult;
+  };
 };
 
 /**
@@ -981,16 +1000,16 @@ export type CachesListByResourceGroupResponse = CachesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CachesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CachesListResult;
+  };
 };
 
 /**
@@ -1006,16 +1025,16 @@ export type CachesDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1026,16 +1045,16 @@ export type CachesGetResponse = Cache & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cache;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cache;
+  };
 };
 
 /**
@@ -1046,16 +1065,16 @@ export type CachesCreateOrUpdateResponse = Cache & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cache;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cache;
+  };
 };
 
 /**
@@ -1066,16 +1085,16 @@ export type CachesUpdateResponse = Cache & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cache;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cache;
+  };
 };
 
 /**
@@ -1091,16 +1110,16 @@ export type CachesFlushResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1116,16 +1135,16 @@ export type CachesStartResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1141,16 +1160,16 @@ export type CachesStopResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1166,16 +1185,16 @@ export type CachesUpgradeFirmwareResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1191,16 +1210,16 @@ export type CachesBeginDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1211,16 +1230,16 @@ export type CachesBeginCreateOrUpdateResponse = Cache & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cache;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cache;
+  };
 };
 
 /**
@@ -1236,16 +1255,16 @@ export type CachesBeginFlushResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1261,16 +1280,16 @@ export type CachesBeginStartResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1286,16 +1305,16 @@ export type CachesBeginStopResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1311,16 +1330,16 @@ export type CachesBeginUpgradeFirmwareResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1331,16 +1350,16 @@ export type CachesListNextResponse = CachesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CachesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CachesListResult;
+  };
 };
 
 /**
@@ -1351,16 +1370,16 @@ export type CachesListByResourceGroupNextResponse = CachesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CachesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CachesListResult;
+  };
 };
 
 /**
@@ -1371,16 +1390,16 @@ export type StorageTargetsListByCacheResponse = StorageTargetsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageTargetsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageTargetsResult;
+  };
 };
 
 /**
@@ -1396,16 +1415,16 @@ export type StorageTargetsDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1416,16 +1435,16 @@ export type StorageTargetsGetResponse = StorageTarget & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageTarget;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageTarget;
+  };
 };
 
 /**
@@ -1436,16 +1455,16 @@ export type StorageTargetsCreateOrUpdateResponse = StorageTarget & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageTarget;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageTarget;
+  };
 };
 
 /**
@@ -1461,16 +1480,16 @@ export type StorageTargetsBeginDeleteMethodResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -1481,16 +1500,16 @@ export type StorageTargetsBeginCreateOrUpdateResponse = StorageTarget & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageTarget;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageTarget;
+  };
 };
 
 /**
@@ -1501,14 +1520,14 @@ export type StorageTargetsListByCacheNextResponse = StorageTargetsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageTargetsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: StorageTargetsResult;
+  };
 };

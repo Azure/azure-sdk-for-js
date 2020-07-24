@@ -32,7 +32,10 @@ export class AvailableDelegations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailableDelegationsListResponse>
    */
-  list(location: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailableDelegationsListResponse>;
+  list(
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailableDelegationsListResponse>;
   /**
    * @param location The location of the subnet.
    * @param callback The callback
@@ -43,15 +46,24 @@ export class AvailableDelegations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
-  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableDelegationsListResponse> {
+  list(
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>
+  ): void;
+  list(
+    location: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>,
+    callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>
+  ): Promise<Models.AvailableDelegationsListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AvailableDelegationsListResponse>;
+      callback
+    ) as Promise<Models.AvailableDelegationsListResponse>;
   }
 
   /**
@@ -60,26 +72,41 @@ export class AvailableDelegations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AvailableDelegationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AvailableDelegationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AvailableDelegationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>, callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>): Promise<Models.AvailableDelegationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AvailableDelegationsResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableDelegationsResult>,
+    callback?: msRest.ServiceCallback<Models.AvailableDelegationsResult>
+  ): Promise<Models.AvailableDelegationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AvailableDelegationsListNextResponse>;
+      callback
+    ) as Promise<Models.AvailableDelegationsListNextResponse>;
   }
 }
 
@@ -87,17 +114,11 @@ export class AvailableDelegations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableDelegations",
-  urlParameters: [
-    Parameters.location0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableDelegations",
+  urlParameters: [Parameters.location0, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailableDelegationsResult
@@ -113,12 +134,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AvailableDelegationsResult

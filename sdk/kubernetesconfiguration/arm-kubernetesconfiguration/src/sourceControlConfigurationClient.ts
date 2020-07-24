@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { SourceControlConfigurationClientContext } from "./sourceControlConfigurationClientContext";
 
-
 class SourceControlConfigurationClient extends SourceControlConfigurationClientContext {
   // Operation groups
   sourceControlConfigurations: operations.SourceControlConfigurations;
@@ -27,7 +26,11 @@ class SourceControlConfigurationClient extends SourceControlConfigurationClientC
    * 00000000-0000-0000-0000-000000000000)
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SourceControlConfigurationClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.SourceControlConfigurationClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.sourceControlConfigurations = new operations.SourceControlConfigurations(this);
     this.operations = new operations.Operations(this);

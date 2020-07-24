@@ -14,4 +14,3 @@ export {
   CheckNameAvailabilityParameters,
   CheckNameAvailabilityResult
 } from "../models/mappers";
-

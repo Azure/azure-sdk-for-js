@@ -25,7 +25,7 @@ export const runtimeEndpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "RuntimeEndpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }

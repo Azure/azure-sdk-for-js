@@ -43,7 +43,13 @@ export class EncryptionScopes {
    * @param [options] The optional parameters
    * @returns Promise<Models.EncryptionScopesPutResponse>
    */
-  put(resourceGroupName: string, accountName: string, encryptionScopeName: string, encryptionScope: Models.EncryptionScope, options?: msRest.RequestOptionsBase): Promise<Models.EncryptionScopesPutResponse>;
+  put(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    encryptionScope: Models.EncryptionScope,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EncryptionScopesPutResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -57,7 +63,13 @@ export class EncryptionScopes {
    * @param encryptionScope Encryption scope properties to be used for the create or update.
    * @param callback The callback
    */
-  put(resourceGroupName: string, accountName: string, encryptionScopeName: string, encryptionScope: Models.EncryptionScope, callback: msRest.ServiceCallback<Models.EncryptionScope>): void;
+  put(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    encryptionScope: Models.EncryptionScope,
+    callback: msRest.ServiceCallback<Models.EncryptionScope>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -72,8 +84,22 @@ export class EncryptionScopes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  put(resourceGroupName: string, accountName: string, encryptionScopeName: string, encryptionScope: Models.EncryptionScope, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EncryptionScope>): void;
-  put(resourceGroupName: string, accountName: string, encryptionScopeName: string, encryptionScope: Models.EncryptionScope, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionScope>, callback?: msRest.ServiceCallback<Models.EncryptionScope>): Promise<Models.EncryptionScopesPutResponse> {
+  put(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    encryptionScope: Models.EncryptionScope,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EncryptionScope>
+  ): void;
+  put(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    encryptionScope: Models.EncryptionScope,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionScope>,
+    callback?: msRest.ServiceCallback<Models.EncryptionScope>
+  ): Promise<Models.EncryptionScopesPutResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +109,8 @@ export class EncryptionScopes {
         options
       },
       putOperationSpec,
-      callback) as Promise<Models.EncryptionScopesPutResponse>;
+      callback
+    ) as Promise<Models.EncryptionScopesPutResponse>;
   }
 
   /**
@@ -102,7 +129,13 @@ export class EncryptionScopes {
    * @param [options] The optional parameters
    * @returns Promise<Models.EncryptionScopesPatchResponse>
    */
-  patch(resourceGroupName: string, accountName: string, encryptionScopeName: string, encryptionScope: Models.EncryptionScope, options?: msRest.RequestOptionsBase): Promise<Models.EncryptionScopesPatchResponse>;
+  patch(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    encryptionScope: Models.EncryptionScope,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EncryptionScopesPatchResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -116,7 +149,13 @@ export class EncryptionScopes {
    * @param encryptionScope Encryption scope properties to be used for the update.
    * @param callback The callback
    */
-  patch(resourceGroupName: string, accountName: string, encryptionScopeName: string, encryptionScope: Models.EncryptionScope, callback: msRest.ServiceCallback<Models.EncryptionScope>): void;
+  patch(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    encryptionScope: Models.EncryptionScope,
+    callback: msRest.ServiceCallback<Models.EncryptionScope>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -131,8 +170,22 @@ export class EncryptionScopes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  patch(resourceGroupName: string, accountName: string, encryptionScopeName: string, encryptionScope: Models.EncryptionScope, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EncryptionScope>): void;
-  patch(resourceGroupName: string, accountName: string, encryptionScopeName: string, encryptionScope: Models.EncryptionScope, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionScope>, callback?: msRest.ServiceCallback<Models.EncryptionScope>): Promise<Models.EncryptionScopesPatchResponse> {
+  patch(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    encryptionScope: Models.EncryptionScope,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EncryptionScope>
+  ): void;
+  patch(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    encryptionScope: Models.EncryptionScope,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionScope>,
+    callback?: msRest.ServiceCallback<Models.EncryptionScope>
+  ): Promise<Models.EncryptionScopesPatchResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -142,7 +195,8 @@ export class EncryptionScopes {
         options
       },
       patchOperationSpec,
-      callback) as Promise<Models.EncryptionScopesPatchResponse>;
+      callback
+    ) as Promise<Models.EncryptionScopesPatchResponse>;
   }
 
   /**
@@ -159,7 +213,12 @@ export class EncryptionScopes {
    * @param [options] The optional parameters
    * @returns Promise<Models.EncryptionScopesGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, encryptionScopeName: string, options?: msRest.RequestOptionsBase): Promise<Models.EncryptionScopesGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EncryptionScopesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -172,7 +231,12 @@ export class EncryptionScopes {
    * followed by a letter or number.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, encryptionScopeName: string, callback: msRest.ServiceCallback<Models.EncryptionScope>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    callback: msRest.ServiceCallback<Models.EncryptionScope>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -186,8 +250,20 @@ export class EncryptionScopes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, encryptionScopeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EncryptionScope>): void;
-  get(resourceGroupName: string, accountName: string, encryptionScopeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionScope>, callback?: msRest.ServiceCallback<Models.EncryptionScope>): Promise<Models.EncryptionScopesGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EncryptionScope>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    encryptionScopeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionScope>,
+    callback?: msRest.ServiceCallback<Models.EncryptionScope>
+  ): Promise<Models.EncryptionScopesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -196,7 +272,8 @@ export class EncryptionScopes {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.EncryptionScopesGetResponse>;
+      callback
+    ) as Promise<Models.EncryptionScopesGetResponse>;
   }
 
   /**
@@ -209,7 +286,11 @@ export class EncryptionScopes {
    * @param [options] The optional parameters
    * @returns Promise<Models.EncryptionScopesListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.EncryptionScopesListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EncryptionScopesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -218,7 +299,11 @@ export class EncryptionScopes {
    * letters only.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.EncryptionScopeListResult>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.EncryptionScopeListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -228,8 +313,18 @@ export class EncryptionScopes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EncryptionScopeListResult>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionScopeListResult>, callback?: msRest.ServiceCallback<Models.EncryptionScopeListResult>): Promise<Models.EncryptionScopesListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EncryptionScopeListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionScopeListResult>,
+    callback?: msRest.ServiceCallback<Models.EncryptionScopeListResult>
+  ): Promise<Models.EncryptionScopesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -237,7 +332,8 @@ export class EncryptionScopes {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.EncryptionScopesListResponse>;
+      callback
+    ) as Promise<Models.EncryptionScopesListResponse>;
   }
 
   /**
@@ -246,26 +342,41 @@ export class EncryptionScopes {
    * @param [options] The optional parameters
    * @returns Promise<Models.EncryptionScopesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EncryptionScopesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EncryptionScopesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EncryptionScopeListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.EncryptionScopeListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EncryptionScopeListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionScopeListResult>, callback?: msRest.ServiceCallback<Models.EncryptionScopeListResult>): Promise<Models.EncryptionScopesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EncryptionScopeListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EncryptionScopeListResult>,
+    callback?: msRest.ServiceCallback<Models.EncryptionScopeListResult>
+  ): Promise<Models.EncryptionScopesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.EncryptionScopesListNextResponse>;
+      callback
+    ) as Promise<Models.EncryptionScopesListNextResponse>;
   }
 }
 
@@ -273,19 +384,16 @@ export class EncryptionScopes {
 const serializer = new msRest.Serializer(Mappers);
 const putOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.encryptionScopeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "encryptionScope",
     mapper: {
@@ -309,19 +417,16 @@ const putOperationSpec: msRest.OperationSpec = {
 
 const patchOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.encryptionScopeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "encryptionScope",
     mapper: {
@@ -342,19 +447,16 @@ const patchOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.encryptionScopeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EncryptionScope
@@ -368,18 +470,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EncryptionScopeListResult
@@ -395,12 +490,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EncryptionScopeListResult

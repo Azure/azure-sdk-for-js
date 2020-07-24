@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const QueryContext: msRest.CompositeMapper = {
   serializedName: "QueryContext",
   type: {
@@ -406,7 +405,7 @@ export const ErrorModel: msRest.CompositeMapper = {
       code: {
         required: true,
         serializedName: "code",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -515,16 +514,15 @@ export const Query: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ResponseBase.WebPage' : WebPage,
-  'ResponseBase.Web/WebAnswer' : WebWebAnswer,
-  'ResponseBase.SearchResponse' : SearchResponse,
-  'ResponseBase.Response' : Response,
-  'ResponseBase.SearchResultsAnswer' : SearchResultsAnswer,
-  'ResponseBase.Identifiable' : Identifiable,
-  'ResponseBase.ErrorResponse' : ErrorResponse,
-  'ResponseBase.Answer' : Answer,
-  'ResponseBase.Thing' : Thing,
-  'ResponseBase.CreativeWork' : CreativeWork,
-  'ResponseBase' : ResponseBase
-
+  "ResponseBase.WebPage": WebPage,
+  "ResponseBase.Web/WebAnswer": WebWebAnswer,
+  "ResponseBase.SearchResponse": SearchResponse,
+  "ResponseBase.Response": Response,
+  "ResponseBase.SearchResultsAnswer": SearchResultsAnswer,
+  "ResponseBase.Identifiable": Identifiable,
+  "ResponseBase.ErrorResponse": ErrorResponse,
+  "ResponseBase.Answer": Answer,
+  "ResponseBase.Thing": Thing,
+  "ResponseBase.CreativeWork": CreativeWork,
+  ResponseBase: ResponseBase
 };

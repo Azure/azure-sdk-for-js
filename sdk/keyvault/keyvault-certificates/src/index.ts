@@ -471,10 +471,7 @@ export class CertificateClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
-      pipeline
-    );
+    this.client = new KeyVaultClient(pipelineOptions.apiVersion || LATEST_API_VERSION, pipeline);
   }
 
   private async *listPropertiesOfCertificatesPage(
@@ -1437,15 +1434,10 @@ export class CertificateClient {
     let result: UpdateCertificateResponse;
 
     try {
-      result = await this.client.updateCertificate(
-        this.vaultUrl,
-        certificateName,
-        version,
-        {
-          ...this.setParentSpan(span, requestOptions),
-          certificateAttributes: toCoreAttributes(options)
-        }
-      );
+      result = await this.client.updateCertificate(this.vaultUrl, certificateName, version, {
+        ...this.setParentSpan(span, requestOptions),
+        certificateAttributes: toCoreAttributes(options)
+      });
     } finally {
       span.end();
     }

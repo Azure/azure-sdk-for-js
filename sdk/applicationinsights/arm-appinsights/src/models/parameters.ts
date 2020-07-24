@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -41,10 +41,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
   }
 };
 export const canFetchContent: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "canFetchContent"
-  ],
+  parameterPath: ["options", "canFetchContent"],
   mapper: {
     serializedName: "canFetchContent",
     type: {
@@ -113,27 +110,18 @@ export const favoriteId: msRest.OperationURLParameter = {
   }
 };
 export const favoriteType: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "favoriteType"
-  ],
+  parameterPath: ["options", "favoriteType"],
   mapper: {
     serializedName: "favoriteType",
-    defaultValue: 'shared',
+    defaultValue: "shared",
     type: {
       name: "Enum",
-      allowedValues: [
-        "shared",
-        "user"
-      ]
+      allowedValues: ["shared", "user"]
     }
   }
 };
 export const id: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "id"
-  ],
+  parameterPath: ["options", "id"],
   mapper: {
     serializedName: "id",
     type: {
@@ -142,10 +130,7 @@ export const id: msRest.OperationQueryParameter = {
   }
 };
 export const includeContent: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includeContent"
-  ],
+  parameterPath: ["options", "includeContent"],
   mapper: {
     serializedName: "includeContent",
     type: {
@@ -164,10 +149,7 @@ export const keyId: msRest.OperationURLParameter = {
   }
 };
 export const name: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "name"
-  ],
+  parameterPath: ["options", "name"],
   mapper: {
     serializedName: "name",
     type: {
@@ -187,10 +169,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const overrideItem: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "overrideItem"
-  ],
+  parameterPath: ["options", "overrideItem"],
   mapper: {
     serializedName: "overrideItem",
     type: {
@@ -229,13 +208,10 @@ export const resourceName: msRest.OperationURLParameter = {
   }
 };
 export const scope: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "scope"
-  ],
+  parameterPath: ["options", "scope"],
   mapper: {
     serializedName: "scope",
-    defaultValue: 'shared',
+    defaultValue: "shared",
     type: {
       name: "String"
     }
@@ -252,10 +228,7 @@ export const scopePath: msRest.OperationURLParameter = {
   }
 };
 export const sourceType: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "sourceType"
-  ],
+  parameterPath: ["options", "sourceType"],
   mapper: {
     serializedName: "sourceType",
     type: {
@@ -284,10 +257,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const tags: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "tags"
-  ],
+  parameterPath: ["options", "tags"],
   mapper: {
     serializedName: "tags",
     type: {
@@ -302,13 +272,10 @@ export const tags: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const type: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "type"
-  ],
+  parameterPath: ["options", "type"],
   mapper: {
     serializedName: "type",
-    defaultValue: 'none',
+    defaultValue: "none",
     type: {
       name: "String"
     }

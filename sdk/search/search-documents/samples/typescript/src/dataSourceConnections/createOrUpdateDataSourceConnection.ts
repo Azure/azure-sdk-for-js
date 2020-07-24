@@ -16,7 +16,9 @@ async function main(): Promise<void> {
   console.log(`Running CreateOrUpdate Datasource Connection Sample....`);
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   console.log(`Get Datasource Connection my-data-source-2`);
-  const ds:SearchIndexerDataSourceConnection = await client.getDataSourceConnection("my-data-source-2")
+  const ds: SearchIndexerDataSourceConnection = await client.getDataSourceConnection(
+    "my-data-source-2"
+  );
   ds.container.name = "Listings_5K_KingCounty_WA";
   console.log(`Updating Container Name of Datasource Connection my-data-source-2`);
   await client.createOrUpdateDataSourceConnection(ds);

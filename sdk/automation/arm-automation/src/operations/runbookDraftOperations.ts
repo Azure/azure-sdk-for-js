@@ -35,14 +35,24 @@ export class RunbookDraftOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunbookDraftGetContentResponse>
    */
-  getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase): Promise<Models.RunbookDraftGetContentResponse>;
+  getContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunbookDraftGetContentResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
    * @param callback The callback
    */
-  getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, callback: msRest.ServiceCallback<void>): void;
+  getContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -50,8 +60,20 @@ export class RunbookDraftOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.RunbookDraftGetContentResponse> {
+  getContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.RunbookDraftGetContentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class RunbookDraftOperations {
         options
       },
       getContentOperationSpec,
-      callback) as Promise<Models.RunbookDraftGetContentResponse>;
+      callback
+    ) as Promise<Models.RunbookDraftGetContentResponse>;
   }
 
   /**
@@ -72,9 +95,22 @@ export class RunbookDraftOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunbookDraftReplaceContentResponse>
    */
-  replaceContent(resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.RunbookDraftReplaceContentResponse> {
-    return this.beginReplaceContent(resourceGroupName,automationAccountName,runbookName,runbookContent,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RunbookDraftReplaceContentResponse>;
+  replaceContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    runbookContent: msRest.HttpRequestBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunbookDraftReplaceContentResponse> {
+    return this.beginReplaceContent(
+      resourceGroupName,
+      automationAccountName,
+      runbookName,
+      runbookContent,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.RunbookDraftReplaceContentResponse
+    >;
   }
 
   /**
@@ -85,14 +121,24 @@ export class RunbookDraftOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunbookDraftGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase): Promise<Models.RunbookDraftGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunbookDraftGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, callback: msRest.ServiceCallback<Models.RunbookDraft>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    callback: msRest.ServiceCallback<Models.RunbookDraft>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -100,8 +146,20 @@ export class RunbookDraftOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunbookDraft>): void;
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunbookDraft>, callback?: msRest.ServiceCallback<Models.RunbookDraft>): Promise<Models.RunbookDraftGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RunbookDraft>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunbookDraft>,
+    callback?: msRest.ServiceCallback<Models.RunbookDraft>
+  ): Promise<Models.RunbookDraftGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -110,7 +168,8 @@ export class RunbookDraftOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RunbookDraftGetResponse>;
+      callback
+    ) as Promise<Models.RunbookDraftGetResponse>;
   }
 
   /**
@@ -121,14 +180,24 @@ export class RunbookDraftOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RunbookDraftUndoEditResponse>
    */
-  undoEdit(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase): Promise<Models.RunbookDraftUndoEditResponse>;
+  undoEdit(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RunbookDraftUndoEditResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
    * @param callback The callback
    */
-  undoEdit(resourceGroupName: string, automationAccountName: string, runbookName: string, callback: msRest.ServiceCallback<Models.RunbookDraftUndoEditResult>): void;
+  undoEdit(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    callback: msRest.ServiceCallback<Models.RunbookDraftUndoEditResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -136,8 +205,20 @@ export class RunbookDraftOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  undoEdit(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RunbookDraftUndoEditResult>): void;
-  undoEdit(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunbookDraftUndoEditResult>, callback?: msRest.ServiceCallback<Models.RunbookDraftUndoEditResult>): Promise<Models.RunbookDraftUndoEditResponse> {
+  undoEdit(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RunbookDraftUndoEditResult>
+  ): void;
+  undoEdit(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RunbookDraftUndoEditResult>,
+    callback?: msRest.ServiceCallback<Models.RunbookDraftUndoEditResult>
+  ): Promise<Models.RunbookDraftUndoEditResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,7 +227,8 @@ export class RunbookDraftOperations {
         options
       },
       undoEditOperationSpec,
-      callback) as Promise<Models.RunbookDraftUndoEditResponse>;
+      callback
+    ) as Promise<Models.RunbookDraftUndoEditResponse>;
   }
 
   /**
@@ -158,7 +240,13 @@ export class RunbookDraftOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginReplaceContent(resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginReplaceContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    runbookContent: msRest.HttpRequestBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -168,7 +256,8 @@ export class RunbookDraftOperations {
         options
       },
       beginReplaceContentOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -176,19 +265,16 @@ export class RunbookDraftOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getContentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/content",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/content",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -207,19 +293,16 @@ const getContentOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RunbookDraft
@@ -233,19 +316,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const undoEditOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/undoEdit",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/undoEdit",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RunbookDraftUndoEditResult
@@ -259,19 +339,16 @@ const undoEditOperationSpec: msRest.OperationSpec = {
 
 const beginReplaceContentOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/content",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/content",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "runbookContent",
     mapper: {

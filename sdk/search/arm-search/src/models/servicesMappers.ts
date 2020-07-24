@@ -19,4 +19,3 @@ export {
   CheckNameAvailabilityInput,
   CheckNameAvailabilityOutput
 } from "../models/mappers";
-

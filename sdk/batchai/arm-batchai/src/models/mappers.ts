@@ -150,14 +150,10 @@ export const DataDisks: msRest.CompositeMapper = {
       },
       cachingType: {
         serializedName: "cachingType",
-        defaultValue: 'none',
+        defaultValue: "none",
         type: {
           name: "Enum",
-          allowedValues: [
-            "none",
-            "readonly",
-            "readwrite"
-          ]
+          allowedValues: ["none", "readonly", "readwrite"]
         }
       },
       diskCount: {
@@ -403,7 +399,7 @@ export const ManualScaleSettings: msRest.CompositeMapper = {
       },
       nodeDeallocationOption: {
         serializedName: "nodeDeallocationOption",
-        defaultValue: 'requeue',
+        defaultValue: "requeue",
         type: {
           name: "String"
         }
@@ -696,14 +692,14 @@ export const AzureFileShareReference: msRest.CompositeMapper = {
       },
       fileMode: {
         serializedName: "fileMode",
-        defaultValue: '0777',
+        defaultValue: "0777",
         type: {
           name: "String"
         }
       },
       directoryMode: {
         serializedName: "directoryMode",
-        defaultValue: '0777',
+        defaultValue: "0777",
         type: {
           name: "String"
         }
@@ -1016,13 +1012,10 @@ export const ClusterCreateParameters: msRest.CompositeMapper = {
       },
       vmPriority: {
         serializedName: "properties.vmPriority",
-        defaultValue: 'dedicated',
+        defaultValue: "dedicated",
         type: {
           name: "Enum",
-          allowedValues: [
-            "dedicated",
-            "lowpriority"
-          ]
+          allowedValues: ["dedicated", "lowpriority"]
         }
       },
       scaleSettings: {
@@ -1156,13 +1149,10 @@ export const Cluster: msRest.CompositeMapper = {
       },
       vmPriority: {
         serializedName: "properties.vmPriority",
-        defaultValue: 'dedicated',
+        defaultValue: "dedicated",
         type: {
           name: "Enum",
-          allowedValues: [
-            "dedicated",
-            "lowpriority"
-          ]
+          allowedValues: ["dedicated", "lowpriority"]
         }
       },
       scaleSettings: {
@@ -1749,7 +1739,7 @@ export const JobBasePropertiesConstraints: msRest.CompositeMapper = {
     modelProperties: {
       maxWallClockTime: {
         serializedName: "maxWallClockTime",
-        defaultValue: '7.00:00:00',
+        defaultValue: "7.00:00:00",
         type: {
           name: "TimeSpan"
         }
@@ -1766,7 +1756,7 @@ export const JobCreateParameters: msRest.CompositeMapper = {
     modelProperties: {
       schedulingPriority: {
         serializedName: "properties.schedulingPriority",
-        defaultValue: 'normal',
+        defaultValue: "normal",
         type: {
           name: "String"
         }
@@ -1944,7 +1934,7 @@ export const JobPropertiesConstraints: msRest.CompositeMapper = {
     modelProperties: {
       maxWallClockTime: {
         serializedName: "maxWallClockTime",
-        defaultValue: '7.00:00:00',
+        defaultValue: "7.00:00:00",
         type: {
           name: "TimeSpan"
         }
@@ -2006,7 +1996,7 @@ export const Job: msRest.CompositeMapper = {
       ...ProxyResource.type.modelProperties,
       schedulingPriority: {
         serializedName: "properties.schedulingPriority",
-        defaultValue: 'normal',
+        defaultValue: "normal",
         type: {
           name: "String"
         }
@@ -2617,7 +2607,7 @@ export const JobsListOutputFilesOptions: msRest.CompositeMapper = {
         }
       },
       directory: {
-        defaultValue: '.',
+        defaultValue: ".",
         type: {
           name: "String"
         }

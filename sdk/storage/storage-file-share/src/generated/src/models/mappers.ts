@@ -8,7 +8,6 @@
 
 import * as coreHttp from "@azure/core-http";
 
-
 export const AccessPolicy: coreHttp.CompositeMapper = {
   serializedName: "AccessPolicy",
   type: {
@@ -903,10 +902,7 @@ export const CopyFileSmbInfo: coreHttp.CompositeMapper = {
         xmlName: "filePermissionCopyMode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "source",
-            "override"
-          ]
+          allowedValues: ["source", "override"]
         }
       },
       ignoreReadOnly: {
@@ -2339,12 +2335,7 @@ export const FileDownloadHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pending",
-            "success",
-            "aborted",
-            "failed"
-          ]
+          allowedValues: ["pending", "success", "aborted", "failed"]
         }
       },
       fileContentMD5: {
@@ -2405,33 +2396,21 @@ export const FileDownloadHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-lease-duration",
         type: {
           name: "Enum",
-          allowedValues: [
-            "infinite",
-            "fixed"
-          ]
+          allowedValues: ["infinite", "fixed"]
         }
       },
       leaseState: {
         serializedName: "x-ms-lease-state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "available",
-            "leased",
-            "expired",
-            "breaking",
-            "broken"
-          ]
+          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
         }
       },
       leaseStatus: {
         serializedName: "x-ms-lease-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "locked",
-            "unlocked"
-          ]
+          allowedValues: ["locked", "unlocked"]
         }
       },
       errorCode: {
@@ -2574,12 +2553,7 @@ export const FileGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pending",
-            "success",
-            "aborted",
-            "failed"
-          ]
+          allowedValues: ["pending", "success", "aborted", "failed"]
         }
       },
       isServerEncrypted: {
@@ -2634,33 +2608,21 @@ export const FileGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-lease-duration",
         type: {
           name: "Enum",
-          allowedValues: [
-            "infinite",
-            "fixed"
-          ]
+          allowedValues: ["infinite", "fixed"]
         }
       },
       leaseState: {
         serializedName: "x-ms-lease-state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "available",
-            "leased",
-            "expired",
-            "breaking",
-            "broken"
-          ]
+          allowedValues: ["available", "leased", "expired", "breaking", "broken"]
         }
       },
       leaseStatus: {
         serializedName: "x-ms-lease-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "locked",
-            "unlocked"
-          ]
+          allowedValues: ["locked", "unlocked"]
         }
       },
       errorCode: {
@@ -3287,12 +3249,7 @@ export const FileStartCopyHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-copy-status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pending",
-            "success",
-            "aborted",
-            "failed"
-          ]
+          allowedValues: ["pending", "success", "aborted", "failed"]
         }
       },
       errorCode: {

@@ -36,7 +36,10 @@ export class EntitiesOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.EntitiesSearchResponse>
    */
-  search(query: string, options?: Models.EntitiesSearchOptionalParams): Promise<Models.EntitiesSearchResponse>;
+  search(
+    query: string,
+    options?: Models.EntitiesSearchOptionalParams
+  ): Promise<Models.EntitiesSearchResponse>;
   /**
    * @param query The user's search term.
    * @param callback The callback
@@ -47,15 +50,24 @@ export class EntitiesOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  search(query: string, options: Models.EntitiesSearchOptionalParams, callback: msRest.ServiceCallback<Models.SearchResponse>): void;
-  search(query: string, options?: Models.EntitiesSearchOptionalParams | msRest.ServiceCallback<Models.SearchResponse>, callback?: msRest.ServiceCallback<Models.SearchResponse>): Promise<Models.EntitiesSearchResponse> {
+  search(
+    query: string,
+    options: Models.EntitiesSearchOptionalParams,
+    callback: msRest.ServiceCallback<Models.SearchResponse>
+  ): void;
+  search(
+    query: string,
+    options?: Models.EntitiesSearchOptionalParams | msRest.ServiceCallback<Models.SearchResponse>,
+    callback?: msRest.ServiceCallback<Models.SearchResponse>
+  ): Promise<Models.EntitiesSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
         options
       },
       searchOperationSpec,
-      callback) as Promise<Models.EntitiesSearchResponse>;
+      callback
+    ) as Promise<Models.EntitiesSearchResponse>;
   }
 }
 
@@ -64,9 +76,7 @@ const serializer = new msRest.Serializer(Mappers);
 const searchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "entities",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.countryCode,
     Parameters.market,

@@ -145,14 +145,7 @@ export const ResourceProperties: msRest.CompositeMapper = {
         serializedName: "provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Accepted",
-            "Creating",
-            "Updating",
-            "Succeeded",
-            "Failed",
-            "Deleting"
-          ]
+          allowedValues: ["Accepted", "Creating", "Updating", "Succeeded", "Failed", "Deleting"]
         }
       },
       creationTime: {
@@ -177,10 +170,7 @@ export const Sku: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "Enum",
-          allowedValues: [
-            "S1",
-            "S2"
-          ]
+          allowedValues: ["S1", "S2"]
         }
       },
       capacity: {
@@ -274,10 +264,7 @@ export const EnvironmentCreateOrUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.storageLimitExceededBehavior",
         type: {
           name: "Enum",
-          allowedValues: [
-            "PurgeOldData",
-            "PauseIngress"
-          ]
+          allowedValues: ["PurgeOldData", "PauseIngress"]
         }
       },
       partitionKeyProperties: {
@@ -330,10 +317,7 @@ export const EnvironmentUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.storageLimitExceededBehavior",
         type: {
           name: "Enum",
-          allowedValues: [
-            "PurgeOldData",
-            "PauseIngress"
-          ]
+          allowedValues: ["PurgeOldData", "PauseIngress"]
         }
       },
       partitionKeyProperties: {
@@ -384,13 +368,7 @@ export const IngressEnvironmentStatus: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Disabled",
-            "Ready",
-            "Running",
-            "Paused",
-            "Unknown"
-          ]
+          allowedValues: ["Disabled", "Ready", "Running", "Paused", "Unknown"]
         }
       },
       stateDetails: {
@@ -446,10 +424,7 @@ export const EnvironmentResource: msRest.CompositeMapper = {
         serializedName: "properties.storageLimitExceededBehavior",
         type: {
           name: "Enum",
-          allowedValues: [
-            "PurgeOldData",
-            "PauseIngress"
-          ]
+          allowedValues: ["PurgeOldData", "PauseIngress"]
         }
       },
       partitionKeyProperties: {
@@ -468,14 +443,7 @@ export const EnvironmentResource: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Accepted",
-            "Creating",
-            "Updating",
-            "Succeeded",
-            "Failed",
-            "Deleting"
-          ]
+          allowedValues: ["Accepted", "Creating", "Updating", "Succeeded", "Failed", "Deleting"]
         }
       },
       creationTime: {
@@ -566,14 +534,7 @@ export const EventHubEventSourceCreateOrUpdateParameters: msRest.CompositeMapper
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Accepted",
-            "Creating",
-            "Updating",
-            "Succeeded",
-            "Failed",
-            "Deleting"
-          ]
+          allowedValues: ["Accepted", "Creating", "Updating", "Succeeded", "Failed", "Deleting"]
         }
       },
       creationTime: {
@@ -646,14 +607,7 @@ export const IoTHubEventSourceCreateOrUpdateParameters: msRest.CompositeMapper =
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Accepted",
-            "Creating",
-            "Updating",
-            "Succeeded",
-            "Failed",
-            "Deleting"
-          ]
+          allowedValues: ["Accepted", "Creating", "Updating", "Succeeded", "Failed", "Deleting"]
         }
       },
       creationTime: {
@@ -845,14 +799,7 @@ export const EventHubEventSourceResource: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Accepted",
-            "Creating",
-            "Updating",
-            "Succeeded",
-            "Failed",
-            "Deleting"
-          ]
+          allowedValues: ["Accepted", "Creating", "Updating", "Succeeded", "Failed", "Deleting"]
         }
       },
       creationTime: {
@@ -918,14 +865,7 @@ export const IoTHubEventSourceResource: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Accepted",
-            "Creating",
-            "Updating",
-            "Succeeded",
-            "Failed",
-            "Deleting"
-          ]
+          allowedValues: ["Accepted", "Creating", "Updating", "Succeeded", "Failed", "Deleting"]
         }
       },
       creationTime: {
@@ -1105,11 +1045,7 @@ export const LocalTimestamp: msRest.CompositeMapper = {
         serializedName: "format",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Embedded",
-            "Iana",
-            "TimeSpan"
-          ]
+          allowedValues: ["Embedded", "Iana", "TimeSpan"]
         }
       },
       timeZoneOffset: {
@@ -1162,12 +1098,7 @@ export const ReferenceDataSetKeyProperty: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "String",
-            "Double",
-            "Bool",
-            "DateTime"
-          ]
+          allowedValues: ["String", "Double", "Bool", "DateTime"]
         }
       }
     }
@@ -1198,10 +1129,7 @@ export const ReferenceDataSetCreateOrUpdateParameters: msRest.CompositeMapper = 
         serializedName: "properties.dataStringComparisonBehavior",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Ordinal",
-            "OrdinalIgnoreCase"
-          ]
+          allowedValues: ["Ordinal", "OrdinalIgnoreCase"]
         }
       }
     }
@@ -1253,24 +1181,14 @@ export const ReferenceDataSetResource: msRest.CompositeMapper = {
         serializedName: "properties.dataStringComparisonBehavior",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Ordinal",
-            "OrdinalIgnoreCase"
-          ]
+          allowedValues: ["Ordinal", "OrdinalIgnoreCase"]
         }
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Accepted",
-            "Creating",
-            "Updating",
-            "Succeeded",
-            "Failed",
-            "Deleting"
-          ]
+          allowedValues: ["Accepted", "Creating", "Updating", "Succeeded", "Failed", "Deleting"]
         }
       },
       creationTime: {
@@ -1331,10 +1249,7 @@ export const AccessPolicyCreateOrUpdateParameters: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Reader",
-                "Contributor"
-              ]
+              allowedValues: ["Reader", "Contributor"]
             }
           }
         }
@@ -1362,10 +1277,7 @@ export const AccessPolicyUpdateParameters: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Reader",
-                "Contributor"
-              ]
+              allowedValues: ["Reader", "Contributor"]
             }
           }
         }
@@ -1400,10 +1312,7 @@ export const AccessPolicyResource: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Reader",
-                "Contributor"
-              ]
+              allowedValues: ["Reader", "Contributor"]
             }
           }
         }
@@ -1465,11 +1374,10 @@ export const OperationListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'CreateOrUpdateTrackedResourceProperties.EventSourceCreateOrUpdateParameters' : EventSourceCreateOrUpdateParameters,
-  'CreateOrUpdateTrackedResourceProperties.Microsoft.EventHub' : EventHubEventSourceCreateOrUpdateParameters,
-  'CreateOrUpdateTrackedResourceProperties.Microsoft.IoTHub' : IoTHubEventSourceCreateOrUpdateParameters,
-  'BaseResource.EventSourceResource' : EventSourceResource,
-  'BaseResource.Microsoft.EventHub' : EventHubEventSourceResource,
-  'BaseResource.Microsoft.IotHub' : IoTHubEventSourceResource
-
+  "CreateOrUpdateTrackedResourceProperties.EventSourceCreateOrUpdateParameters": EventSourceCreateOrUpdateParameters,
+  "CreateOrUpdateTrackedResourceProperties.Microsoft.EventHub": EventHubEventSourceCreateOrUpdateParameters,
+  "CreateOrUpdateTrackedResourceProperties.Microsoft.IoTHub": IoTHubEventSourceCreateOrUpdateParameters,
+  "BaseResource.EventSourceResource": EventSourceResource,
+  "BaseResource.Microsoft.EventHub": EventHubEventSourceResource,
+  "BaseResource.Microsoft.IotHub": IoTHubEventSourceResource
 };

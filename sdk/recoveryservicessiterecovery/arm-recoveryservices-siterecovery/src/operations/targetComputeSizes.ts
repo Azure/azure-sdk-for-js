@@ -35,14 +35,24 @@ export class TargetComputeSizes {
    * @param [options] The optional parameters
    * @returns Promise<Models.TargetComputeSizesListByReplicationProtectedItemsResponse>
    */
-  listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase): Promise<Models.TargetComputeSizesListByReplicationProtectedItemsResponse>;
+  listByReplicationProtectedItems(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TargetComputeSizesListByReplicationProtectedItemsResponse>;
   /**
    * @param fabricName Fabric name.
    * @param protectionContainerName protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
    * @param callback The callback
    */
-  listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, callback: msRest.ServiceCallback<Models.TargetComputeSizeCollection>): void;
+  listByReplicationProtectedItems(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    callback: msRest.ServiceCallback<Models.TargetComputeSizeCollection>
+  ): void;
   /**
    * @param fabricName Fabric name.
    * @param protectionContainerName protection container name.
@@ -50,8 +60,22 @@ export class TargetComputeSizes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TargetComputeSizeCollection>): void;
-  listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TargetComputeSizeCollection>, callback?: msRest.ServiceCallback<Models.TargetComputeSizeCollection>): Promise<Models.TargetComputeSizesListByReplicationProtectedItemsResponse> {
+  listByReplicationProtectedItems(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TargetComputeSizeCollection>
+  ): void;
+  listByReplicationProtectedItems(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.TargetComputeSizeCollection>,
+    callback?: msRest.ServiceCallback<Models.TargetComputeSizeCollection>
+  ): Promise<Models.TargetComputeSizesListByReplicationProtectedItemsResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -60,7 +84,8 @@ export class TargetComputeSizes {
         options
       },
       listByReplicationProtectedItemsOperationSpec,
-      callback) as Promise<Models.TargetComputeSizesListByReplicationProtectedItemsResponse>;
+      callback
+    ) as Promise<Models.TargetComputeSizesListByReplicationProtectedItemsResponse>;
   }
 
   /**
@@ -70,26 +95,43 @@ export class TargetComputeSizes {
    * @param [options] The optional parameters
    * @returns Promise<Models.TargetComputeSizesListByReplicationProtectedItemsNextResponse>
    */
-  listByReplicationProtectedItemsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TargetComputeSizesListByReplicationProtectedItemsNextResponse>;
+  listByReplicationProtectedItemsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TargetComputeSizesListByReplicationProtectedItemsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByReplicationProtectedItemsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TargetComputeSizeCollection>): void;
+  listByReplicationProtectedItemsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.TargetComputeSizeCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReplicationProtectedItemsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TargetComputeSizeCollection>): void;
-  listByReplicationProtectedItemsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TargetComputeSizeCollection>, callback?: msRest.ServiceCallback<Models.TargetComputeSizeCollection>): Promise<Models.TargetComputeSizesListByReplicationProtectedItemsNextResponse> {
+  listByReplicationProtectedItemsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TargetComputeSizeCollection>
+  ): void;
+  listByReplicationProtectedItemsNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.TargetComputeSizeCollection>,
+    callback?: msRest.ServiceCallback<Models.TargetComputeSizeCollection>
+  ): Promise<Models.TargetComputeSizesListByReplicationProtectedItemsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByReplicationProtectedItemsNextOperationSpec,
-      callback) as Promise<Models.TargetComputeSizesListByReplicationProtectedItemsNextResponse>;
+      callback
+    ) as Promise<Models.TargetComputeSizesListByReplicationProtectedItemsNextResponse>;
   }
 }
 
@@ -97,7 +139,8 @@ export class TargetComputeSizes {
 const serializer = new msRest.Serializer(Mappers);
 const listByReplicationProtectedItemsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/targetComputeSizes",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/targetComputeSizes",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -106,12 +149,8 @@ const listByReplicationProtectedItemsOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TargetComputeSizeCollection
@@ -127,12 +166,8 @@ const listByReplicationProtectedItemsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TargetComputeSizeCollection

@@ -35,21 +35,41 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingEndpointsListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.StreamingEndpointsListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingEndpointsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.StreamingEndpointListResult>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.StreamingEndpointListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingEndpointListResult>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingEndpointListResult>, callback?: msRest.ServiceCallback<Models.StreamingEndpointListResult>): Promise<Models.StreamingEndpointsListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StreamingEndpointListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StreamingEndpointListResult>,
+    callback?: msRest.ServiceCallback<Models.StreamingEndpointListResult>
+  ): Promise<Models.StreamingEndpointsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -57,7 +77,8 @@ export class StreamingEndpoints {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.StreamingEndpointsListResponse>;
+      callback
+    ) as Promise<Models.StreamingEndpointsListResponse>;
   }
 
   /**
@@ -69,14 +90,24 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingEndpointsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: msRest.RequestOptionsBase): Promise<Models.StreamingEndpointsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingEndpointsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param streamingEndpointName The name of the StreamingEndpoint.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, streamingEndpointName: string, callback: msRest.ServiceCallback<Models.StreamingEndpoint>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    callback: msRest.ServiceCallback<Models.StreamingEndpoint>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -84,8 +115,20 @@ export class StreamingEndpoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, streamingEndpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingEndpoint>): void;
-  get(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingEndpoint>, callback?: msRest.ServiceCallback<Models.StreamingEndpoint>): Promise<Models.StreamingEndpointsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StreamingEndpoint>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingEndpoint>,
+    callback?: msRest.ServiceCallback<Models.StreamingEndpoint>
+  ): Promise<Models.StreamingEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +137,8 @@ export class StreamingEndpoints {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.StreamingEndpointsGetResponse>;
+      callback
+    ) as Promise<Models.StreamingEndpointsGetResponse>;
   }
 
   /**
@@ -107,9 +151,22 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingEndpointsCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: Models.StreamingEndpoint, options?: Models.StreamingEndpointsCreateOptionalParams): Promise<Models.StreamingEndpointsCreateResponse> {
-    return this.beginCreate(resourceGroupName,accountName,streamingEndpointName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StreamingEndpointsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    parameters: Models.StreamingEndpoint,
+    options?: Models.StreamingEndpointsCreateOptionalParams
+  ): Promise<Models.StreamingEndpointsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      accountName,
+      streamingEndpointName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.StreamingEndpointsCreateResponse
+    >;
   }
 
   /**
@@ -122,9 +179,22 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingEndpointsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: Models.StreamingEndpoint, options?: msRest.RequestOptionsBase): Promise<Models.StreamingEndpointsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,accountName,streamingEndpointName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StreamingEndpointsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    parameters: Models.StreamingEndpoint,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingEndpointsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      accountName,
+      streamingEndpointName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.StreamingEndpointsUpdateResponse
+    >;
   }
 
   /**
@@ -136,9 +206,18 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,accountName,streamingEndpointName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      accountName,
+      streamingEndpointName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -150,9 +229,18 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStart(resourceGroupName,accountName,streamingEndpointName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  start(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStart(
+      resourceGroupName,
+      accountName,
+      streamingEndpointName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -164,9 +252,18 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStop(resourceGroupName,accountName,streamingEndpointName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  stop(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStop(
+      resourceGroupName,
+      accountName,
+      streamingEndpointName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -179,9 +276,20 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  scale(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: Models.StreamingEntityScaleUnit, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginScale(resourceGroupName,accountName,streamingEndpointName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  scale(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    parameters: Models.StreamingEntityScaleUnit,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginScale(
+      resourceGroupName,
+      accountName,
+      streamingEndpointName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -194,7 +302,13 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: Models.StreamingEndpoint, options?: Models.StreamingEndpointsBeginCreateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    parameters: Models.StreamingEndpoint,
+    options?: Models.StreamingEndpointsBeginCreateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -204,7 +318,8 @@ export class StreamingEndpoints {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -217,7 +332,13 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: Models.StreamingEndpoint, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    parameters: Models.StreamingEndpoint,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -227,7 +348,8 @@ export class StreamingEndpoints {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -239,7 +361,12 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -248,7 +375,8 @@ export class StreamingEndpoints {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -260,7 +388,12 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -269,7 +402,8 @@ export class StreamingEndpoints {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -281,7 +415,12 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStop(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -290,7 +429,8 @@ export class StreamingEndpoints {
         options
       },
       beginStopOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -303,7 +443,13 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginScale(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: Models.StreamingEntityScaleUnit, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginScale(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    parameters: Models.StreamingEntityScaleUnit,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -313,7 +459,8 @@ export class StreamingEndpoints {
         options
       },
       beginScaleOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -323,26 +470,43 @@ export class StreamingEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingEndpointsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StreamingEndpointsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingEndpointsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StreamingEndpointListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.StreamingEndpointListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingEndpointListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingEndpointListResult>, callback?: msRest.ServiceCallback<Models.StreamingEndpointListResult>): Promise<Models.StreamingEndpointsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StreamingEndpointListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StreamingEndpointListResult>,
+    callback?: msRest.ServiceCallback<Models.StreamingEndpointListResult>
+  ): Promise<Models.StreamingEndpointsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.StreamingEndpointsListNextResponse>;
+      callback
+    ) as Promise<Models.StreamingEndpointsListNextResponse>;
   }
 }
 
@@ -350,18 +514,11 @@ export class StreamingEndpoints {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingEndpointListResult
@@ -375,19 +532,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingEndpoint
@@ -402,20 +556,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.autoStart
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.autoStart],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -439,19 +589,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -475,19 +622,16 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -501,19 +645,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}/start",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}/start",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -526,19 +667,16 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginStopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}/stop",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}/stop",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -551,19 +689,16 @@ const beginStopOperationSpec: msRest.OperationSpec = {
 
 const beginScaleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}/scale",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}/scale",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -585,12 +720,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingEndpointListResult

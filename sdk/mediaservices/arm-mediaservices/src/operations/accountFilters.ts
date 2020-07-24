@@ -34,21 +34,39 @@ export class AccountFilters {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountFiltersListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountFiltersListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountFiltersListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.AccountFilterCollection>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.AccountFilterCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountFilterCollection>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilterCollection>, callback?: msRest.ServiceCallback<Models.AccountFilterCollection>): Promise<Models.AccountFiltersListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountFilterCollection>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilterCollection>,
+    callback?: msRest.ServiceCallback<Models.AccountFilterCollection>
+  ): Promise<Models.AccountFiltersListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class AccountFilters {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AccountFiltersListResponse>;
+      callback
+    ) as Promise<Models.AccountFiltersListResponse>;
   }
 
   /**
@@ -68,14 +87,24 @@ export class AccountFilters {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountFiltersGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, filterName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountFiltersGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountFiltersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param filterName The Account Filter name
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, filterName: string, callback: msRest.ServiceCallback<Models.AccountFilter>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    callback: msRest.ServiceCallback<Models.AccountFilter>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -83,8 +112,20 @@ export class AccountFilters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, filterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountFilter>): void;
-  get(resourceGroupName: string, accountName: string, filterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilter>, callback?: msRest.ServiceCallback<Models.AccountFilter>): Promise<Models.AccountFiltersGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountFilter>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilter>,
+    callback?: msRest.ServiceCallback<Models.AccountFilter>
+  ): Promise<Models.AccountFiltersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -93,7 +134,8 @@ export class AccountFilters {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AccountFiltersGetResponse>;
+      callback
+    ) as Promise<Models.AccountFiltersGetResponse>;
   }
 
   /**
@@ -106,7 +148,13 @@ export class AccountFilters {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountFiltersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, options?: msRest.RequestOptionsBase): Promise<Models.AccountFiltersCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    parameters: Models.AccountFilter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountFiltersCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -114,7 +162,13 @@ export class AccountFilters {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, callback: msRest.ServiceCallback<Models.AccountFilter>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    parameters: Models.AccountFilter,
+    callback: msRest.ServiceCallback<Models.AccountFilter>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -123,8 +177,22 @@ export class AccountFilters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountFilter>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilter>, callback?: msRest.ServiceCallback<Models.AccountFilter>): Promise<Models.AccountFiltersCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    parameters: Models.AccountFilter,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountFilter>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    parameters: Models.AccountFilter,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilter>,
+    callback?: msRest.ServiceCallback<Models.AccountFilter>
+  ): Promise<Models.AccountFiltersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +202,8 @@ export class AccountFilters {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.AccountFiltersCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.AccountFiltersCreateOrUpdateResponse>;
   }
 
   /**
@@ -146,14 +215,24 @@ export class AccountFilters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, filterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param filterName The Account Filter name
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, filterName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -161,8 +240,20 @@ export class AccountFilters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, filterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, filterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +262,8 @@ export class AccountFilters {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -184,7 +276,13 @@ export class AccountFilters {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountFiltersUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, options?: msRest.RequestOptionsBase): Promise<Models.AccountFiltersUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    parameters: Models.AccountFilter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountFiltersUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -192,7 +290,13 @@ export class AccountFilters {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, callback: msRest.ServiceCallback<Models.AccountFilter>): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    parameters: Models.AccountFilter,
+    callback: msRest.ServiceCallback<Models.AccountFilter>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -201,8 +305,22 @@ export class AccountFilters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountFilter>): void;
-  update(resourceGroupName: string, accountName: string, filterName: string, parameters: Models.AccountFilter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilter>, callback?: msRest.ServiceCallback<Models.AccountFilter>): Promise<Models.AccountFiltersUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    parameters: Models.AccountFilter,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountFilter>
+  ): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    filterName: string,
+    parameters: Models.AccountFilter,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilter>,
+    callback?: msRest.ServiceCallback<Models.AccountFilter>
+  ): Promise<Models.AccountFiltersUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -212,7 +330,8 @@ export class AccountFilters {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.AccountFiltersUpdateResponse>;
+      callback
+    ) as Promise<Models.AccountFiltersUpdateResponse>;
   }
 
   /**
@@ -222,26 +341,41 @@ export class AccountFilters {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountFiltersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountFiltersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccountFiltersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AccountFilterCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AccountFilterCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountFilterCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilterCollection>, callback?: msRest.ServiceCallback<Models.AccountFilterCollection>): Promise<Models.AccountFiltersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccountFilterCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountFilterCollection>,
+    callback?: msRest.ServiceCallback<Models.AccountFilterCollection>
+  ): Promise<Models.AccountFiltersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AccountFiltersListNextResponse>;
+      callback
+    ) as Promise<Models.AccountFiltersListNextResponse>;
   }
 }
 
@@ -249,18 +383,11 @@ export class AccountFilters {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/accountFilters",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/accountFilters",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccountFilterCollection
@@ -274,19 +401,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/accountFilters/{filterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/accountFilters/{filterName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.filterName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccountFilter
@@ -301,19 +425,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/accountFilters/{filterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/accountFilters/{filterName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.filterName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -337,19 +458,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/accountFilters/{filterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/accountFilters/{filterName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.filterName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -362,19 +480,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/accountFilters/{filterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/accountFilters/{filterName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.filterName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -397,12 +512,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccountFilterCollection

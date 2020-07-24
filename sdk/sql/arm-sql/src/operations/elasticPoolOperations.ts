@@ -36,7 +36,13 @@ export class ElasticPoolOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  cancel(resourceGroupName: string, serverName: string, elasticPoolName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  cancel(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -45,7 +51,13 @@ export class ElasticPoolOperations {
    * @param operationId The operation identifier.
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, serverName: string, elasticPoolName: string, operationId: string, callback: msRest.ServiceCallback<void>): void;
+  cancel(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    operationId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -55,8 +67,22 @@ export class ElasticPoolOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, serverName: string, elasticPoolName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancel(resourceGroupName: string, serverName: string, elasticPoolName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancel(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  cancel(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +92,8 @@ export class ElasticPoolOperations {
         options
       },
       cancelOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -78,7 +105,12 @@ export class ElasticPoolOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ElasticPoolOperationsListByElasticPoolResponse>
    */
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.ElasticPoolOperationsListByElasticPoolResponse>;
+  listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ElasticPoolOperationsListByElasticPoolResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -86,7 +118,12 @@ export class ElasticPoolOperations {
    * @param elasticPoolName
    * @param callback The callback
    */
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, callback: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>): void;
+  listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    callback: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -95,8 +132,22 @@ export class ElasticPoolOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>): void;
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ElasticPoolOperationListResult>, callback?: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>): Promise<Models.ElasticPoolOperationsListByElasticPoolResponse> {
+  listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>
+  ): void;
+  listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ElasticPoolOperationListResult>,
+    callback?: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>
+  ): Promise<Models.ElasticPoolOperationsListByElasticPoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +156,8 @@ export class ElasticPoolOperations {
         options
       },
       listByElasticPoolOperationSpec,
-      callback) as Promise<Models.ElasticPoolOperationsListByElasticPoolResponse>;
+      callback
+    ) as Promise<Models.ElasticPoolOperationsListByElasticPoolResponse>;
   }
 
   /**
@@ -114,26 +166,43 @@ export class ElasticPoolOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ElasticPoolOperationsListByElasticPoolNextResponse>
    */
-  listByElasticPoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ElasticPoolOperationsListByElasticPoolNextResponse>;
+  listByElasticPoolNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ElasticPoolOperationsListByElasticPoolNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByElasticPoolNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>): void;
+  listByElasticPoolNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByElasticPoolNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>): void;
-  listByElasticPoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ElasticPoolOperationListResult>, callback?: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>): Promise<Models.ElasticPoolOperationsListByElasticPoolNextResponse> {
+  listByElasticPoolNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>
+  ): void;
+  listByElasticPoolNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ElasticPoolOperationListResult>,
+    callback?: msRest.ServiceCallback<Models.ElasticPoolOperationListResult>
+  ): Promise<Models.ElasticPoolOperationsListByElasticPoolNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByElasticPoolNextOperationSpec,
-      callback) as Promise<Models.ElasticPoolOperationsListByElasticPoolNextResponse>;
+      callback
+    ) as Promise<Models.ElasticPoolOperationsListByElasticPoolNextResponse>;
   }
 }
 
@@ -141,7 +210,8 @@ export class ElasticPoolOperations {
 const serializer = new msRest.Serializer(Mappers);
 const cancelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/operations/{operationId}/cancel",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/operations/{operationId}/cancel",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -149,12 +219,8 @@ const cancelOperationSpec: msRest.OperationSpec = {
     Parameters.operationId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -166,19 +232,16 @@ const cancelOperationSpec: msRest.OperationSpec = {
 
 const listByElasticPoolOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/operations",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/operations",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.elasticPoolName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ElasticPoolOperationListResult
@@ -194,12 +257,8 @@ const listByElasticPoolNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ElasticPoolOperationListResult

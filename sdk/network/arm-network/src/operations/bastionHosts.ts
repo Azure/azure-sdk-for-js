@@ -34,9 +34,14 @@ export class BastionHosts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, bastionHostName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,bastionHostName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    bastionHostName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, bastionHostName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -46,21 +51,39 @@ export class BastionHosts {
    * @param [options] The optional parameters
    * @returns Promise<Models.BastionHostsGetResponse>
    */
-  get(resourceGroupName: string, bastionHostName: string, options?: msRest.RequestOptionsBase): Promise<Models.BastionHostsGetResponse>;
+  get(
+    resourceGroupName: string,
+    bastionHostName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BastionHostsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
    * @param callback The callback
    */
-  get(resourceGroupName: string, bastionHostName: string, callback: msRest.ServiceCallback<Models.BastionHost>): void;
+  get(
+    resourceGroupName: string,
+    bastionHostName: string,
+    callback: msRest.ServiceCallback<Models.BastionHost>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, bastionHostName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BastionHost>): void;
-  get(resourceGroupName: string, bastionHostName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionHost>, callback?: msRest.ServiceCallback<Models.BastionHost>): Promise<Models.BastionHostsGetResponse> {
+  get(
+    resourceGroupName: string,
+    bastionHostName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BastionHost>
+  ): void;
+  get(
+    resourceGroupName: string,
+    bastionHostName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionHost>,
+    callback?: msRest.ServiceCallback<Models.BastionHost>
+  ): Promise<Models.BastionHostsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +91,8 @@ export class BastionHosts {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BastionHostsGetResponse>;
+      callback
+    ) as Promise<Models.BastionHostsGetResponse>;
   }
 
   /**
@@ -79,9 +103,20 @@ export class BastionHosts {
    * @param [options] The optional parameters
    * @returns Promise<Models.BastionHostsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, bastionHostName: string, parameters: Models.BastionHost, options?: msRest.RequestOptionsBase): Promise<Models.BastionHostsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,bastionHostName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BastionHostsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    bastionHostName: string,
+    parameters: Models.BastionHost,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BastionHostsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      bastionHostName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.BastionHostsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -98,14 +133,21 @@ export class BastionHosts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BastionHostListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionHostListResult>, callback?: msRest.ServiceCallback<Models.BastionHostListResult>): Promise<Models.BastionHostsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BastionHostListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionHostListResult>,
+    callback?: msRest.ServiceCallback<Models.BastionHostListResult>
+  ): Promise<Models.BastionHostsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.BastionHostsListResponse>;
+      callback
+    ) as Promise<Models.BastionHostsListResponse>;
   }
 
   /**
@@ -114,26 +156,41 @@ export class BastionHosts {
    * @param [options] The optional parameters
    * @returns Promise<Models.BastionHostsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.BastionHostsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BastionHostsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.BastionHostListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.BastionHostListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BastionHostListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionHostListResult>, callback?: msRest.ServiceCallback<Models.BastionHostListResult>): Promise<Models.BastionHostsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BastionHostListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionHostListResult>,
+    callback?: msRest.ServiceCallback<Models.BastionHostListResult>
+  ): Promise<Models.BastionHostsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.BastionHostsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.BastionHostsListByResourceGroupResponse>;
   }
 
   /**
@@ -143,7 +200,11 @@ export class BastionHosts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, bastionHostName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    bastionHostName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -151,7 +212,8 @@ export class BastionHosts {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -162,7 +224,12 @@ export class BastionHosts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, bastionHostName: string, parameters: Models.BastionHost, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    bastionHostName: string,
+    parameters: Models.BastionHost,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -171,7 +238,8 @@ export class BastionHosts {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -180,26 +248,41 @@ export class BastionHosts {
    * @param [options] The optional parameters
    * @returns Promise<Models.BastionHostsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BastionHostsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BastionHostsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BastionHostListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.BastionHostListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BastionHostListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionHostListResult>, callback?: msRest.ServiceCallback<Models.BastionHostListResult>): Promise<Models.BastionHostsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BastionHostListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionHostListResult>,
+    callback?: msRest.ServiceCallback<Models.BastionHostListResult>
+  ): Promise<Models.BastionHostsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.BastionHostsListNextResponse>;
+      callback
+    ) as Promise<Models.BastionHostsListNextResponse>;
   }
 
   /**
@@ -208,26 +291,41 @@ export class BastionHosts {
    * @param [options] The optional parameters
    * @returns Promise<Models.BastionHostsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BastionHostsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BastionHostsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BastionHostListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.BastionHostListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BastionHostListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionHostListResult>, callback?: msRest.ServiceCallback<Models.BastionHostListResult>): Promise<Models.BastionHostsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BastionHostListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BastionHostListResult>,
+    callback?: msRest.ServiceCallback<Models.BastionHostListResult>
+  ): Promise<Models.BastionHostsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.BastionHostsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.BastionHostsListByResourceGroupNextResponse>;
   }
 }
 
@@ -235,18 +333,15 @@ export class BastionHosts {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.bastionHostName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BastionHost
@@ -261,15 +356,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/bastionHosts",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BastionHostListResult
@@ -283,17 +372,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BastionHostListResult
@@ -307,18 +390,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.bastionHostName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -332,18 +412,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.bastionHostName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -369,12 +446,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BastionHostListResult
@@ -390,12 +463,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BastionHostListResult

@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -1124,7 +1123,64 @@ export interface MessageIdDeleteHeaders {
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'InvalidMarker' | 'MessageNotFound' | 'MessageTooLarge' | 'PopReceiptMismatch' | 'QueueAlreadyExists' | 'QueueBeingDeleted' | 'QueueDisabled' | 'QueueNotEmpty' | 'QueueNotFound' | 'AuthorizationSourceIPMismatch' | 'AuthorizationProtocolMismatch' | 'AuthorizationPermissionMismatch' | 'AuthorizationServiceMismatch' | 'AuthorizationResourceTypeMismatch' | 'FeatureVersionMismatch';
+export type StorageErrorCode =
+  | "AccountAlreadyExists"
+  | "AccountBeingCreated"
+  | "AccountIsDisabled"
+  | "AuthenticationFailed"
+  | "AuthorizationFailure"
+  | "ConditionHeadersNotSupported"
+  | "ConditionNotMet"
+  | "EmptyMetadataKey"
+  | "InsufficientAccountPermissions"
+  | "InternalError"
+  | "InvalidAuthenticationInfo"
+  | "InvalidHeaderValue"
+  | "InvalidHttpVerb"
+  | "InvalidInput"
+  | "InvalidMd5"
+  | "InvalidMetadata"
+  | "InvalidQueryParameterValue"
+  | "InvalidRange"
+  | "InvalidResourceName"
+  | "InvalidUri"
+  | "InvalidXmlDocument"
+  | "InvalidXmlNodeValue"
+  | "Md5Mismatch"
+  | "MetadataTooLarge"
+  | "MissingContentLengthHeader"
+  | "MissingRequiredQueryParameter"
+  | "MissingRequiredHeader"
+  | "MissingRequiredXmlNode"
+  | "MultipleConditionHeadersNotSupported"
+  | "OperationTimedOut"
+  | "OutOfRangeInput"
+  | "OutOfRangeQueryParameterValue"
+  | "RequestBodyTooLarge"
+  | "ResourceTypeMismatch"
+  | "RequestUrlFailedToParse"
+  | "ResourceAlreadyExists"
+  | "ResourceNotFound"
+  | "ServerBusy"
+  | "UnsupportedHeader"
+  | "UnsupportedXmlNode"
+  | "UnsupportedQueryParameter"
+  | "UnsupportedHttpVerb"
+  | "InvalidMarker"
+  | "MessageNotFound"
+  | "MessageTooLarge"
+  | "PopReceiptMismatch"
+  | "QueueAlreadyExists"
+  | "QueueBeingDeleted"
+  | "QueueDisabled"
+  | "QueueNotEmpty"
+  | "QueueNotFound"
+  | "AuthorizationSourceIPMismatch"
+  | "AuthorizationProtocolMismatch"
+  | "AuthorizationPermissionMismatch"
+  | "AuthorizationServiceMismatch"
+  | "AuthorizationResourceTypeMismatch"
+  | "FeatureVersionMismatch";
 
 /**
  * Defines values for GeoReplicationStatusType.
@@ -1132,7 +1188,7 @@ export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 
  * @readonly
  * @enum {string}
  */
-export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
+export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 /**
  * Defines values for ListQueuesIncludeType.
@@ -1140,7 +1196,7 @@ export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
  * @readonly
  * @enum {string}
  */
-export type ListQueuesIncludeType = 'metadata';
+export type ListQueuesIncludeType = "metadata";
 
 /**
  * Contains response data for the setProperties operation.
@@ -1150,21 +1206,22 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServiceSetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ServiceSetPropertiesHeaders;
+  };
 };
 
 /**
  * Contains response data for the getProperties operation.
  */
-export type ServiceGetPropertiesResponse = QueueServiceProperties & ServiceGetPropertiesHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type ServiceGetPropertiesResponse = QueueServiceProperties &
+  ServiceGetPropertiesHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1180,16 +1237,17 @@ export type ServiceGetPropertiesResponse = QueueServiceProperties & ServiceGetPr
        */
       parsedBody: QueueServiceProperties;
     };
-};
+  };
 
 /**
  * Contains response data for the getStatistics operation.
  */
-export type ServiceGetStatisticsResponse = QueueServiceStatistics & ServiceGetStatisticsHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type ServiceGetStatisticsResponse = QueueServiceStatistics &
+  ServiceGetStatisticsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1205,16 +1263,17 @@ export type ServiceGetStatisticsResponse = QueueServiceStatistics & ServiceGetSt
        */
       parsedBody: QueueServiceStatistics;
     };
-};
+  };
 
 /**
  * Contains response data for the listQueuesSegment operation.
  */
-export type ServiceListQueuesSegmentResponse = ListQueuesSegmentResponse & ServiceListQueuesSegmentHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type ServiceListQueuesSegmentResponse = ListQueuesSegmentResponse &
+  ServiceListQueuesSegmentHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1230,7 +1289,7 @@ export type ServiceListQueuesSegmentResponse = ListQueuesSegmentResponse & Servi
        */
       parsedBody: ListQueuesSegmentResponse;
     };
-};
+  };
 
 /**
  * Contains response data for the create operation.
@@ -1240,11 +1299,11 @@ export type QueueCreateResponse = QueueCreateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QueueCreateHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: QueueCreateHeaders;
+  };
 };
 
 /**
@@ -1255,11 +1314,11 @@ export type QueueDeleteResponse = QueueDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QueueDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: QueueDeleteHeaders;
+  };
 };
 
 /**
@@ -1270,11 +1329,11 @@ export type QueueGetPropertiesResponse = QueueGetPropertiesHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QueueGetPropertiesHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: QueueGetPropertiesHeaders;
+  };
 };
 
 /**
@@ -1285,21 +1344,22 @@ export type QueueSetMetadataResponse = QueueSetMetadataHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QueueSetMetadataHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: QueueSetMetadataHeaders;
+  };
 };
 
 /**
  * Contains response data for the getAccessPolicy operation.
  */
-export type QueueGetAccessPolicyResponse = Array<SignedIdentifier> & QueueGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type QueueGetAccessPolicyResponse = Array<SignedIdentifier> &
+  QueueGetAccessPolicyHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1315,7 +1375,7 @@ export type QueueGetAccessPolicyResponse = Array<SignedIdentifier> & QueueGetAcc
        */
       parsedBody: SignedIdentifier[];
     };
-};
+  };
 
 /**
  * Contains response data for the setAccessPolicy operation.
@@ -1325,21 +1385,22 @@ export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QueueSetAccessPolicyHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: QueueSetAccessPolicyHeaders;
+  };
 };
 
 /**
  * Contains response data for the dequeue operation.
  */
-export type MessagesDequeueResponse = Array<DequeuedMessageItem> & MessagesDequeueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type MessagesDequeueResponse = Array<DequeuedMessageItem> &
+  MessagesDequeueHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1355,7 +1416,7 @@ export type MessagesDequeueResponse = Array<DequeuedMessageItem> & MessagesDeque
        */
       parsedBody: DequeuedMessageItem[];
     };
-};
+  };
 
 /**
  * Contains response data for the clear operation.
@@ -1365,21 +1426,22 @@ export type MessagesClearResponse = MessagesClearHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesClearHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: MessagesClearHeaders;
+  };
 };
 
 /**
  * Contains response data for the enqueue operation.
  */
-export type MessagesEnqueueResponse = Array<EnqueuedMessage> & MessagesEnqueueHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type MessagesEnqueueResponse = Array<EnqueuedMessage> &
+  MessagesEnqueueHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1395,16 +1457,17 @@ export type MessagesEnqueueResponse = Array<EnqueuedMessage> & MessagesEnqueueHe
        */
       parsedBody: EnqueuedMessage[];
     };
-};
+  };
 
 /**
  * Contains response data for the peek operation.
  */
-export type MessagesPeekResponse = Array<PeekedMessageItem> & MessagesPeekHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type MessagesPeekResponse = Array<PeekedMessageItem> &
+  MessagesPeekHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: coreHttp.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1420,7 +1483,7 @@ export type MessagesPeekResponse = Array<PeekedMessageItem> & MessagesPeekHeader
        */
       parsedBody: PeekedMessageItem[];
     };
-};
+  };
 
 /**
  * Contains response data for the update operation.
@@ -1430,11 +1493,11 @@ export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessageIdUpdateHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: MessageIdUpdateHeaders;
+  };
 };
 
 /**
@@ -1445,9 +1508,9 @@ export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessageIdDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: MessageIdDeleteHeaders;
+  };
 };

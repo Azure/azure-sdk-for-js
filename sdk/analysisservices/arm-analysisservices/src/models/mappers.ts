@@ -196,13 +196,10 @@ export const AnalysisServicesServer: msRest.CompositeMapper = {
       },
       querypoolConnectionMode: {
         serializedName: "properties.querypoolConnectionMode",
-        defaultValue: 'All',
+        defaultValue: "All",
         type: {
           name: "Enum",
-          allowedValues: [
-            "All",
-            "ReadOnly"
-          ]
+          allowedValues: ["All", "ReadOnly"]
         }
       },
       state: {
@@ -390,13 +387,10 @@ export const AnalysisServicesServerUpdateParameters: msRest.CompositeMapper = {
       },
       querypoolConnectionMode: {
         serializedName: "properties.querypoolConnectionMode",
-        defaultValue: 'All',
+        defaultValue: "All",
         type: {
           name: "Enum",
-          allowedValues: [
-            "All",
-            "ReadOnly"
-          ]
+          allowedValues: ["All", "ReadOnly"]
         }
       }
     }
@@ -413,9 +407,7 @@ export const GatewayListStatusLive: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Live"
-          ]
+          allowedValues: ["Live"]
         }
       }
     }
@@ -480,7 +472,7 @@ export const CheckServerNameAvailabilityParameters: msRest.CompositeMapper = {
       },
       type: {
         serializedName: "type",
-        defaultValue: 'Microsoft.AnalysisServices/servers',
+        defaultValue: "Microsoft.AnalysisServices/servers",
         type: {
           name: "String"
         }

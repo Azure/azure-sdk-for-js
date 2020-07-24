@@ -142,7 +142,7 @@ export const Sku: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "family",
-        defaultValue: 'A',
+        defaultValue: "A",
         type: {
           name: "String"
         }
@@ -152,10 +152,7 @@ export const Sku: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "Enum",
-          allowedValues: [
-            "standard",
-            "premium"
-          ]
+          allowedValues: ["standard", "premium"]
         }
       }
     }
@@ -322,10 +319,7 @@ export const VaultProperties: msRest.CompositeMapper = {
         serializedName: "createMode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "recover",
-            "default"
-          ]
+          allowedValues: ["recover", "default"]
         }
       },
       enablePurgeProtection: {
@@ -397,10 +391,7 @@ export const VaultPatchProperties: msRest.CompositeMapper = {
         serializedName: "createMode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "recover",
-            "default"
-          ]
+          allowedValues: ["recover", "default"]
         }
       },
       enablePurgeProtection: {
@@ -721,7 +712,7 @@ export const VaultCheckNameAvailabilityParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.KeyVault/vaults',
+        defaultValue: "Microsoft.KeyVault/vaults",
         type: {
           name: "String"
         }
@@ -748,10 +739,7 @@ export const CheckNameAvailabilityResult: msRest.CompositeMapper = {
         serializedName: "reason",
         type: {
           name: "Enum",
-          allowedValues: [
-            "AccountNameInvalid",
-            "AlreadyExists"
-          ]
+          allowedValues: ["AccountNameInvalid", "AlreadyExists"]
         }
       },
       message: {

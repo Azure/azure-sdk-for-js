@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const ResponseBase: msRest.CompositeMapper = {
   serializedName: "ResponseBase",
   type: {
@@ -529,7 +528,7 @@ export const Offer: msRest.CompositeMapper = {
       priceCurrency: {
         readOnly: true,
         serializedName: "priceCurrency",
-        defaultValue: 'USD',
+        defaultValue: "USD",
         type: {
           name: "String"
         }
@@ -780,7 +779,7 @@ export const ErrorModel: msRest.CompositeMapper = {
       code: {
         required: true,
         serializedName: "code",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -1248,34 +1247,33 @@ export const VisualSearchRequest: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ResponseBase.Point2D' : Point2D,
-  'ResponseBase.NormalizedQuadrilateral' : NormalizedQuadrilateral,
-  'ResponseBase.ImageAction' : ImageAction,
-  'ResponseBase.ImageTag' : ImageTag,
-  'ResponseBase.Organization' : Organization,
-  'PropertiesItem.AggregateRating' : AggregateRating,
-  'ResponseBase.Offer' : Offer,
-  'ResponseBase.AggregateOffer' : AggregateOffer,
-  'ResponseBase.ImageObject' : ImageObject,
-  'ResponseBase.ImageKnowledge' : ImageKnowledge,
-  'ResponseBase.Response' : Response,
-  'ResponseBase.Identifiable' : Identifiable,
-  'ResponseBase.ErrorResponse' : ErrorResponse,
-  'ResponseBase.Thing' : Thing,
-  'ResponseBase.Action' : Action,
-  'ResponseBase.MediaObject' : MediaObject,
-  'ResponseBase' : ResponseBase,
-  'ResponseBase.CreativeWork' : CreativeWork,
-  'ResponseBase.Person' : Person,
-  'ResponseBase.Intangible' : Intangible,
-  'ResponseBase.ImageEntityAction' : ImageEntityAction,
-  'ResponseBase.ImageModuleAction' : ImageModuleAction,
-  'ResponseBase.Recipe' : Recipe,
-  'ResponseBase.ImageRecipesAction' : ImageRecipesAction,
-  'ResponseBase.ImageRelatedSearchesAction' : ImageRelatedSearchesAction,
-  'ResponseBase.ImageShoppingSourcesAction' : ImageShoppingSourcesAction,
-  'ResponseBase.StructuredValue' : StructuredValue,
-  'Properties/Item' : PropertiesItem,
-  'PropertiesItem.Rating' : Rating
-
+  "ResponseBase.Point2D": Point2D,
+  "ResponseBase.NormalizedQuadrilateral": NormalizedQuadrilateral,
+  "ResponseBase.ImageAction": ImageAction,
+  "ResponseBase.ImageTag": ImageTag,
+  "ResponseBase.Organization": Organization,
+  "PropertiesItem.AggregateRating": AggregateRating,
+  "ResponseBase.Offer": Offer,
+  "ResponseBase.AggregateOffer": AggregateOffer,
+  "ResponseBase.ImageObject": ImageObject,
+  "ResponseBase.ImageKnowledge": ImageKnowledge,
+  "ResponseBase.Response": Response,
+  "ResponseBase.Identifiable": Identifiable,
+  "ResponseBase.ErrorResponse": ErrorResponse,
+  "ResponseBase.Thing": Thing,
+  "ResponseBase.Action": Action,
+  "ResponseBase.MediaObject": MediaObject,
+  ResponseBase: ResponseBase,
+  "ResponseBase.CreativeWork": CreativeWork,
+  "ResponseBase.Person": Person,
+  "ResponseBase.Intangible": Intangible,
+  "ResponseBase.ImageEntityAction": ImageEntityAction,
+  "ResponseBase.ImageModuleAction": ImageModuleAction,
+  "ResponseBase.Recipe": Recipe,
+  "ResponseBase.ImageRecipesAction": ImageRecipesAction,
+  "ResponseBase.ImageRelatedSearchesAction": ImageRelatedSearchesAction,
+  "ResponseBase.ImageShoppingSourcesAction": ImageShoppingSourcesAction,
+  "ResponseBase.StructuredValue": StructuredValue,
+  "Properties/Item": PropertiesItem,
+  "PropertiesItem.Rating": Rating
 };

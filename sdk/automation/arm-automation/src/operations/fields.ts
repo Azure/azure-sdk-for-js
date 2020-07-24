@@ -35,7 +35,13 @@ export class Fields {
    * @param [options] The optional parameters
    * @returns Promise<Models.FieldsListByTypeResponse>
    */
-  listByType(resourceGroupName: string, automationAccountName: string, moduleName: string, typeName: string, options?: msRest.RequestOptionsBase): Promise<Models.FieldsListByTypeResponse>;
+  listByType(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    typeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FieldsListByTypeResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -43,7 +49,13 @@ export class Fields {
    * @param typeName The name of type.
    * @param callback The callback
    */
-  listByType(resourceGroupName: string, automationAccountName: string, moduleName: string, typeName: string, callback: msRest.ServiceCallback<Models.TypeFieldListResult>): void;
+  listByType(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    typeName: string,
+    callback: msRest.ServiceCallback<Models.TypeFieldListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -52,8 +64,22 @@ export class Fields {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByType(resourceGroupName: string, automationAccountName: string, moduleName: string, typeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TypeFieldListResult>): void;
-  listByType(resourceGroupName: string, automationAccountName: string, moduleName: string, typeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TypeFieldListResult>, callback?: msRest.ServiceCallback<Models.TypeFieldListResult>): Promise<Models.FieldsListByTypeResponse> {
+  listByType(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    typeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TypeFieldListResult>
+  ): void;
+  listByType(
+    resourceGroupName: string,
+    automationAccountName: string,
+    moduleName: string,
+    typeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TypeFieldListResult>,
+    callback?: msRest.ServiceCallback<Models.TypeFieldListResult>
+  ): Promise<Models.FieldsListByTypeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class Fields {
         options
       },
       listByTypeOperationSpec,
-      callback) as Promise<Models.FieldsListByTypeResponse>;
+      callback
+    ) as Promise<Models.FieldsListByTypeResponse>;
   }
 }
 
@@ -71,7 +98,8 @@ export class Fields {
 const serializer = new msRest.Serializer(Mappers);
 const listByTypeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/types/{typeName}/fields",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/types/{typeName}/fields",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
@@ -79,12 +107,8 @@ const listByTypeOperationSpec: msRest.OperationSpec = {
     Parameters.typeName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TypeFieldListResult

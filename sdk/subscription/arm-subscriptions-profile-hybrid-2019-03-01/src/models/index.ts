@@ -186,8 +186,7 @@ export interface OperationListResult extends Array<Operation> {
  * Location list operation response.
  * @extends Array<Location>
  */
-export interface LocationListResult extends Array<Location> {
-}
+export interface LocationListResult extends Array<Location> {}
 
 /**
  * @interface
@@ -219,7 +218,7 @@ export interface TenantListResult extends Array<TenantIdDescription> {
  * @readonly
  * @enum {string}
  */
-export type SubscriptionState = 'Enabled' | 'Warned' | 'PastDue' | 'Disabled' | 'Deleted';
+export type SubscriptionState = "Enabled" | "Warned" | "PastDue" | "Disabled" | "Deleted";
 
 /**
  * Defines values for SpendingLimit.
@@ -227,7 +226,7 @@ export type SubscriptionState = 'Enabled' | 'Warned' | 'PastDue' | 'Disabled' | 
  * @readonly
  * @enum {string}
  */
-export type SpendingLimit = 'On' | 'Off' | 'CurrentPeriodOff';
+export type SpendingLimit = "On" | "Off" | "CurrentPeriodOff";
 
 /**
  * Contains response data for the list operation.
@@ -237,16 +236,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -257,16 +256,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -277,16 +276,16 @@ export type SubscriptionsListLocationsResponse = LocationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LocationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LocationListResult;
+  };
 };
 
 /**
@@ -297,16 +296,16 @@ export type SubscriptionsGetResponse = Subscription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Subscription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Subscription;
+  };
 };
 
 /**
@@ -317,16 +316,16 @@ export type SubscriptionsListResponse = SubscriptionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionListResult;
+  };
 };
 
 /**
@@ -337,16 +336,16 @@ export type SubscriptionsListNextResponse = SubscriptionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SubscriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SubscriptionListResult;
+  };
 };
 
 /**
@@ -357,16 +356,16 @@ export type TenantsListResponse = TenantListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TenantListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TenantListResult;
+  };
 };
 
 /**
@@ -377,14 +376,14 @@ export type TenantsListNextResponse = TenantListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TenantListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TenantListResult;
+  };
 };

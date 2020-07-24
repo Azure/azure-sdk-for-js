@@ -32,4 +32,3 @@ export {
   VerificationCodeResponse,
   VerificationCodeResponseProperties
 } from "../models/mappers";
-

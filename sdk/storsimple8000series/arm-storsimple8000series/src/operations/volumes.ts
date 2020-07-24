@@ -36,7 +36,13 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumesListByVolumeContainerResponse>
    */
-  listByVolumeContainer(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumesListByVolumeContainerResponse>;
+  listByVolumeContainer(
+    deviceName: string,
+    volumeContainerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumesListByVolumeContainerResponse>;
   /**
    * @param deviceName The device name
    * @param volumeContainerName The volume container name.
@@ -44,7 +50,13 @@ export class Volumes {
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByVolumeContainer(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.VolumeList>): void;
+  listByVolumeContainer(
+    deviceName: string,
+    volumeContainerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.VolumeList>
+  ): void;
   /**
    * @param deviceName The device name
    * @param volumeContainerName The volume container name.
@@ -53,8 +65,22 @@ export class Volumes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByVolumeContainer(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeList>): void;
-  listByVolumeContainer(deviceName: string, volumeContainerName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeList>, callback?: msRest.ServiceCallback<Models.VolumeList>): Promise<Models.VolumesListByVolumeContainerResponse> {
+  listByVolumeContainer(
+    deviceName: string,
+    volumeContainerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VolumeList>
+  ): void;
+  listByVolumeContainer(
+    deviceName: string,
+    volumeContainerName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeList>,
+    callback?: msRest.ServiceCallback<Models.VolumeList>
+  ): Promise<Models.VolumesListByVolumeContainerResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -64,7 +90,8 @@ export class Volumes {
         options
       },
       listByVolumeContainerOperationSpec,
-      callback) as Promise<Models.VolumesListByVolumeContainerResponse>;
+      callback
+    ) as Promise<Models.VolumesListByVolumeContainerResponse>;
   }
 
   /**
@@ -77,7 +104,14 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumesGetResponse>
    */
-  get(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumesGetResponse>;
+  get(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumesGetResponse>;
   /**
    * @param deviceName The device name
    * @param volumeContainerName The volume container name.
@@ -86,7 +120,14 @@ export class Volumes {
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.Volume>): void;
+  get(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.Volume>
+  ): void;
   /**
    * @param deviceName The device name
    * @param volumeContainerName The volume container name.
@@ -96,8 +137,24 @@ export class Volumes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Volume>): void;
-  get(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Volume>, callback?: msRest.ServiceCallback<Models.Volume>): Promise<Models.VolumesGetResponse> {
+  get(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Volume>
+  ): void;
+  get(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Volume>,
+    callback?: msRest.ServiceCallback<Models.Volume>
+  ): Promise<Models.VolumesGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -108,7 +165,8 @@ export class Volumes {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VolumesGetResponse>;
+      callback
+    ) as Promise<Models.VolumesGetResponse>;
   }
 
   /**
@@ -122,9 +180,26 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumesCreateOrUpdateResponse>
    */
-  createOrUpdate(deviceName: string, volumeContainerName: string, volumeName: string, parameters: Models.Volume, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(deviceName,volumeContainerName,volumeName,parameters,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VolumesCreateOrUpdateResponse>;
+  createOrUpdate(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    parameters: Models.Volume,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      deviceName,
+      volumeContainerName,
+      volumeName,
+      parameters,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.VolumesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -137,9 +212,22 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(deviceName,volumeContainerName,volumeName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      deviceName,
+      volumeContainerName,
+      volumeName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -153,7 +241,15 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumesListMetricsResponse>
    */
-  listMetrics(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumesListMetricsResponse>;
+  listMetrics(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumesListMetricsResponse>;
   /**
    * @param deviceName The device name
    * @param volumeContainerName The volume container name.
@@ -163,7 +259,15 @@ export class Volumes {
    * @param filter OData Filter options
    * @param callback The callback
    */
-  listMetrics(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, filter: string, callback: msRest.ServiceCallback<Models.MetricList>): void;
+  listMetrics(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
   /**
    * @param deviceName The device name
    * @param volumeContainerName The volume container name.
@@ -174,8 +278,26 @@ export class Volumes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricList>): void;
-  listMetrics(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricList>, callback?: msRest.ServiceCallback<Models.MetricList>): Promise<Models.VolumesListMetricsResponse> {
+  listMetrics(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricList>
+  ): void;
+  listMetrics(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricList>,
+    callback?: msRest.ServiceCallback<Models.MetricList>
+  ): Promise<Models.VolumesListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -187,7 +309,8 @@ export class Volumes {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.VolumesListMetricsResponse>;
+      callback
+    ) as Promise<Models.VolumesListMetricsResponse>;
   }
 
   /**
@@ -200,7 +323,14 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumesListMetricDefinitionResponse>
    */
-  listMetricDefinition(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumesListMetricDefinitionResponse>;
+  listMetricDefinition(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumesListMetricDefinitionResponse>;
   /**
    * @param deviceName The device name
    * @param volumeContainerName The volume container name.
@@ -209,7 +339,14 @@ export class Volumes {
    * @param managerName The manager name
    * @param callback The callback
    */
-  listMetricDefinition(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
+  listMetricDefinition(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
   /**
    * @param deviceName The device name
    * @param volumeContainerName The volume container name.
@@ -219,8 +356,24 @@ export class Volumes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetricDefinition(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MetricDefinitionList>): void;
-  listMetricDefinition(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>, callback?: msRest.ServiceCallback<Models.MetricDefinitionList>): Promise<Models.VolumesListMetricDefinitionResponse> {
+  listMetricDefinition(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): void;
+  listMetricDefinition(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MetricDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.MetricDefinitionList>
+  ): Promise<Models.VolumesListMetricDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -231,7 +384,8 @@ export class Volumes {
         options
       },
       listMetricDefinitionOperationSpec,
-      callback) as Promise<Models.VolumesListMetricDefinitionResponse>;
+      callback
+    ) as Promise<Models.VolumesListMetricDefinitionResponse>;
   }
 
   /**
@@ -242,14 +396,24 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumesListByDeviceResponse>
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumesListByDeviceResponse>;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumesListByDeviceResponse>;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.VolumeList>): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.VolumeList>
+  ): void;
   /**
    * @param deviceName The device name
    * @param resourceGroupName The resource group name
@@ -257,8 +421,20 @@ export class Volumes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeList>): void;
-  listByDevice(deviceName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeList>, callback?: msRest.ServiceCallback<Models.VolumeList>): Promise<Models.VolumesListByDeviceResponse> {
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VolumeList>
+  ): void;
+  listByDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeList>,
+    callback?: msRest.ServiceCallback<Models.VolumeList>
+  ): Promise<Models.VolumesListByDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -267,7 +443,8 @@ export class Volumes {
         options
       },
       listByDeviceOperationSpec,
-      callback) as Promise<Models.VolumesListByDeviceResponse>;
+      callback
+    ) as Promise<Models.VolumesListByDeviceResponse>;
   }
 
   /**
@@ -281,7 +458,15 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(deviceName: string, volumeContainerName: string, volumeName: string, parameters: Models.Volume, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    parameters: Models.Volume,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -293,7 +478,8 @@ export class Volumes {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -306,7 +492,14 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(deviceName: string, volumeContainerName: string, volumeName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    deviceName: string,
+    volumeContainerName: string,
+    volumeName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -317,7 +510,8 @@ export class Volumes {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -325,7 +519,8 @@ export class Volumes {
 const serializer = new msRest.Serializer(Mappers);
 const listByVolumeContainerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers/{volumeContainerName}/volumes",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers/{volumeContainerName}/volumes",
   urlParameters: [
     Parameters.deviceName,
     Parameters.volumeContainerName,
@@ -333,12 +528,8 @@ const listByVolumeContainerOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VolumeList
@@ -352,7 +543,8 @@ const listByVolumeContainerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers/{volumeContainerName}/volumes/{volumeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers/{volumeContainerName}/volumes/{volumeName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.volumeContainerName,
@@ -361,12 +553,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Volume
@@ -380,7 +568,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers/{volumeContainerName}/volumes/{volumeName}/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers/{volumeContainerName}/volumes/{volumeName}/metrics",
   urlParameters: [
     Parameters.deviceName,
     Parameters.volumeContainerName,
@@ -389,13 +578,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricList
@@ -409,7 +593,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
 
 const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers/{volumeContainerName}/volumes/{volumeName}/metricsDefinitions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers/{volumeContainerName}/volumes/{volumeName}/metricsDefinitions",
   urlParameters: [
     Parameters.deviceName,
     Parameters.volumeContainerName,
@@ -418,12 +603,8 @@ const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricDefinitionList
@@ -437,19 +618,16 @@ const listMetricDefinitionOperationSpec: msRest.OperationSpec = {
 
 const listByDeviceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumes",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumes",
   urlParameters: [
     Parameters.deviceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VolumeList
@@ -463,7 +641,8 @@ const listByDeviceOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers/{volumeContainerName}/volumes/{volumeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers/{volumeContainerName}/volumes/{volumeName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.volumeContainerName,
@@ -472,12 +651,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -499,7 +674,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers/{volumeContainerName}/volumes/{volumeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/devices/{deviceName}/volumeContainers/{volumeContainerName}/volumes/{volumeName}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.volumeContainerName,
@@ -508,12 +684,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},

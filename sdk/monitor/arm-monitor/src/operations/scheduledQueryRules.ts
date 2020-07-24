@@ -34,14 +34,24 @@ export class ScheduledQueryRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScheduledQueryRulesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.LogSearchRuleResource, options?: msRest.RequestOptionsBase): Promise<Models.ScheduledQueryRulesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.LogSearchRuleResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScheduledQueryRulesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param parameters The parameters of the rule to create or update.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.LogSearchRuleResource, callback: msRest.ServiceCallback<Models.LogSearchRuleResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.LogSearchRuleResource,
+    callback: msRest.ServiceCallback<Models.LogSearchRuleResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
@@ -49,8 +59,20 @@ export class ScheduledQueryRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.LogSearchRuleResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogSearchRuleResource>): void;
-  createOrUpdate(resourceGroupName: string, ruleName: string, parameters: Models.LogSearchRuleResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogSearchRuleResource>, callback?: msRest.ServiceCallback<Models.LogSearchRuleResource>): Promise<Models.ScheduledQueryRulesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.LogSearchRuleResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LogSearchRuleResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.LogSearchRuleResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogSearchRuleResource>,
+    callback?: msRest.ServiceCallback<Models.LogSearchRuleResource>
+  ): Promise<Models.ScheduledQueryRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class ScheduledQueryRules {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ScheduledQueryRulesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ScheduledQueryRulesCreateOrUpdateResponse>;
   }
 
   /**
@@ -69,21 +92,39 @@ export class ScheduledQueryRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScheduledQueryRulesGetResponse>
    */
-  get(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<Models.ScheduledQueryRulesGetResponse>;
+  get(
+    resourceGroupName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScheduledQueryRulesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param callback The callback
    */
-  get(resourceGroupName: string, ruleName: string, callback: msRest.ServiceCallback<Models.LogSearchRuleResource>): void;
+  get(
+    resourceGroupName: string,
+    ruleName: string,
+    callback: msRest.ServiceCallback<Models.LogSearchRuleResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogSearchRuleResource>): void;
-  get(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogSearchRuleResource>, callback?: msRest.ServiceCallback<Models.LogSearchRuleResource>): Promise<Models.ScheduledQueryRulesGetResponse> {
+  get(
+    resourceGroupName: string,
+    ruleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LogSearchRuleResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogSearchRuleResource>,
+    callback?: msRest.ServiceCallback<Models.LogSearchRuleResource>
+  ): Promise<Models.ScheduledQueryRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +132,8 @@ export class ScheduledQueryRules {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ScheduledQueryRulesGetResponse>;
+      callback
+    ) as Promise<Models.ScheduledQueryRulesGetResponse>;
   }
 
   /**
@@ -102,14 +144,24 @@ export class ScheduledQueryRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScheduledQueryRulesUpdateResponse>
    */
-  update(resourceGroupName: string, ruleName: string, parameters: Models.LogSearchRuleResourcePatch, options?: msRest.RequestOptionsBase): Promise<Models.ScheduledQueryRulesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.LogSearchRuleResourcePatch,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScheduledQueryRulesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param parameters The parameters of the rule to update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, ruleName: string, parameters: Models.LogSearchRuleResourcePatch, callback: msRest.ServiceCallback<Models.LogSearchRuleResource>): void;
+  update(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.LogSearchRuleResourcePatch,
+    callback: msRest.ServiceCallback<Models.LogSearchRuleResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
@@ -117,8 +169,20 @@ export class ScheduledQueryRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, ruleName: string, parameters: Models.LogSearchRuleResourcePatch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogSearchRuleResource>): void;
-  update(resourceGroupName: string, ruleName: string, parameters: Models.LogSearchRuleResourcePatch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogSearchRuleResource>, callback?: msRest.ServiceCallback<Models.LogSearchRuleResource>): Promise<Models.ScheduledQueryRulesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.LogSearchRuleResourcePatch,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LogSearchRuleResource>
+  ): void;
+  update(
+    resourceGroupName: string,
+    ruleName: string,
+    parameters: Models.LogSearchRuleResourcePatch,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogSearchRuleResource>,
+    callback?: msRest.ServiceCallback<Models.LogSearchRuleResource>
+  ): Promise<Models.ScheduledQueryRulesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +191,8 @@ export class ScheduledQueryRules {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ScheduledQueryRulesUpdateResponse>;
+      callback
+    ) as Promise<Models.ScheduledQueryRulesUpdateResponse>;
   }
 
   /**
@@ -137,21 +202,39 @@ export class ScheduledQueryRules {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, ruleName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    ruleName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param ruleName The name of the rule.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    ruleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +242,8 @@ export class ScheduledQueryRules {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -167,23 +251,36 @@ export class ScheduledQueryRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScheduledQueryRulesListBySubscriptionResponse>
    */
-  listBySubscription(options?: Models.ScheduledQueryRulesListBySubscriptionOptionalParams): Promise<Models.ScheduledQueryRulesListBySubscriptionResponse>;
+  listBySubscription(
+    options?: Models.ScheduledQueryRulesListBySubscriptionOptionalParams
+  ): Promise<Models.ScheduledQueryRulesListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>): void;
+  listBySubscription(
+    callback: msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: Models.ScheduledQueryRulesListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>): void;
-  listBySubscription(options?: Models.ScheduledQueryRulesListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>, callback?: msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>): Promise<Models.ScheduledQueryRulesListBySubscriptionResponse> {
+  listBySubscription(
+    options: Models.ScheduledQueryRulesListBySubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>
+  ): void;
+  listBySubscription(
+    options?:
+      | Models.ScheduledQueryRulesListBySubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>,
+    callback?: msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>
+  ): Promise<Models.ScheduledQueryRulesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.ScheduledQueryRulesListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.ScheduledQueryRulesListBySubscriptionResponse>;
   }
 
   /**
@@ -192,26 +289,43 @@ export class ScheduledQueryRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScheduledQueryRulesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.ScheduledQueryRulesListByResourceGroupOptionalParams): Promise<Models.ScheduledQueryRulesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.ScheduledQueryRulesListByResourceGroupOptionalParams
+  ): Promise<Models.ScheduledQueryRulesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.ScheduledQueryRulesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.ScheduledQueryRulesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>, callback?: msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>): Promise<Models.ScheduledQueryRulesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.ScheduledQueryRulesListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.ScheduledQueryRulesListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>,
+    callback?: msRest.ServiceCallback<Models.LogSearchRuleResourceCollection>
+  ): Promise<Models.ScheduledQueryRulesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ScheduledQueryRulesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ScheduledQueryRulesListByResourceGroupResponse>;
   }
 }
 
@@ -219,18 +333,11 @@ export class ScheduledQueryRules {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/scheduledQueryRules/{ruleName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.ruleName
-  ],
-  queryParameters: [
-    Parameters.apiVersion9
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/scheduledQueryRules/{ruleName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.ruleName],
+  queryParameters: [Parameters.apiVersion9],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -254,18 +361,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/scheduledQueryRules/{ruleName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.ruleName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion9
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/scheduledQueryRules/{ruleName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.ruleName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion9],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LogSearchRuleResource
@@ -279,18 +379,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/scheduledQueryRules/{ruleName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.ruleName
-  ],
-  queryParameters: [
-    Parameters.apiVersion9
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/scheduledQueryRules/{ruleName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.ruleName],
+  queryParameters: [Parameters.apiVersion9],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -311,18 +404,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/scheduledQueryRules/{ruleName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.ruleName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion9
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/scheduledQueryRules/{ruleName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.ruleName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion9],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -336,16 +422,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/microsoft.insights/scheduledQueryRules",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion9,
-    Parameters.filter1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion9, Parameters.filter1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LogSearchRuleResourceCollection
@@ -359,18 +438,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/scheduledQueryRules",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion9,
-    Parameters.filter1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/scheduledQueryRules",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion9, Parameters.filter1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LogSearchRuleResourceCollection

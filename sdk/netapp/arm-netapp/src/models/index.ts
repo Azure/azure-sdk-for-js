@@ -880,40 +880,35 @@ export interface AzureNetAppFilesManagementClientOptions extends AzureServiceCli
  * URL link to get the next set of results.
  * @extends Array<Operation>
  */
-export interface OperationListResult extends Array<Operation> {
-}
+export interface OperationListResult extends Array<Operation> {}
 
 /**
  * @interface
  * List of NetApp account resources
  * @extends Array<NetAppAccount>
  */
-export interface NetAppAccountList extends Array<NetAppAccount> {
-}
+export interface NetAppAccountList extends Array<NetAppAccount> {}
 
 /**
  * @interface
  * List of capacity pool resources
  * @extends Array<CapacityPool>
  */
-export interface CapacityPoolList extends Array<CapacityPool> {
-}
+export interface CapacityPoolList extends Array<CapacityPool> {}
 
 /**
  * @interface
  * List of volume resources
  * @extends Array<Volume>
  */
-export interface VolumeList extends Array<Volume> {
-}
+export interface VolumeList extends Array<Volume> {}
 
 /**
  * @interface
  * List of Snapshots
  * @extends Array<Snapshot>
  */
-export interface SnapshotsList extends Array<Snapshot> {
-}
+export interface SnapshotsList extends Array<Snapshot> {}
 
 /**
  * Defines values for InAvailabilityReasonType.
@@ -921,7 +916,7 @@ export interface SnapshotsList extends Array<Snapshot> {
  * @readonly
  * @enum {string}
  */
-export type InAvailabilityReasonType = 'Invalid' | 'AlreadyExists';
+export type InAvailabilityReasonType = "Invalid" | "AlreadyExists";
 
 /**
  * Defines values for CheckNameResourceTypes.
@@ -932,7 +927,11 @@ export type InAvailabilityReasonType = 'Invalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type CheckNameResourceTypes = 'Microsoft.NetApp/netAppAccounts' | 'Microsoft.NetApp/netAppAccounts/capacityPools' | 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes' | 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots';
+export type CheckNameResourceTypes =
+  | "Microsoft.NetApp/netAppAccounts"
+  | "Microsoft.NetApp/netAppAccounts/capacityPools"
+  | "Microsoft.NetApp/netAppAccounts/capacityPools/volumes"
+  | "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots";
 
 /**
  * Defines values for ServiceLevel.
@@ -940,7 +939,7 @@ export type CheckNameResourceTypes = 'Microsoft.NetApp/netAppAccounts' | 'Micros
  * @readonly
  * @enum {string}
  */
-export type ServiceLevel = 'Standard' | 'Premium' | 'Ultra';
+export type ServiceLevel = "Standard" | "Premium" | "Ultra";
 
 /**
  * Defines values for EndpointType.
@@ -948,7 +947,7 @@ export type ServiceLevel = 'Standard' | 'Premium' | 'Ultra';
  * @readonly
  * @enum {string}
  */
-export type EndpointType = 'src' | 'dst';
+export type EndpointType = "src" | "dst";
 
 /**
  * Defines values for ReplicationSchedule.
@@ -956,7 +955,7 @@ export type EndpointType = 'src' | 'dst';
  * @readonly
  * @enum {string}
  */
-export type ReplicationSchedule = '_10minutely' | 'hourly' | 'daily' | 'weekly' | 'monthly';
+export type ReplicationSchedule = "_10minutely" | "hourly" | "daily" | "weekly" | "monthly";
 
 /**
  * Defines values for RelationshipStatus.
@@ -964,7 +963,7 @@ export type ReplicationSchedule = '_10minutely' | 'hourly' | 'daily' | 'weekly' 
  * @readonly
  * @enum {string}
  */
-export type RelationshipStatus = 'Idle' | 'Transferring';
+export type RelationshipStatus = "Idle" | "Transferring";
 
 /**
  * Defines values for MirrorState.
@@ -972,7 +971,7 @@ export type RelationshipStatus = 'Idle' | 'Transferring';
  * @readonly
  * @enum {string}
  */
-export type MirrorState = 'Uninitialized' | 'Mirrored' | 'Broken';
+export type MirrorState = "Uninitialized" | "Mirrored" | "Broken";
 
 /**
  * Contains response data for the list operation.
@@ -982,16 +981,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1002,16 +1001,16 @@ export type NetAppResourceCheckNameAvailabilityResponse = ResourceNameAvailabili
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceNameAvailability;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceNameAvailability;
+  };
 };
 
 /**
@@ -1022,16 +1021,16 @@ export type NetAppResourceCheckFilePathAvailabilityResponse = ResourceNameAvaila
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceNameAvailability;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceNameAvailability;
+  };
 };
 
 /**
@@ -1042,16 +1041,16 @@ export type AccountsListResponse = NetAppAccountList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetAppAccountList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetAppAccountList;
+  };
 };
 
 /**
@@ -1062,16 +1061,16 @@ export type AccountsGetResponse = NetAppAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetAppAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetAppAccount;
+  };
 };
 
 /**
@@ -1082,16 +1081,16 @@ export type AccountsCreateOrUpdateResponse = NetAppAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetAppAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetAppAccount;
+  };
 };
 
 /**
@@ -1102,16 +1101,16 @@ export type AccountsUpdateResponse = NetAppAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetAppAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetAppAccount;
+  };
 };
 
 /**
@@ -1122,16 +1121,16 @@ export type AccountsBeginCreateOrUpdateResponse = NetAppAccount & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetAppAccount;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetAppAccount;
+  };
 };
 
 /**
@@ -1142,16 +1141,16 @@ export type PoolsListResponse = CapacityPoolList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CapacityPoolList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CapacityPoolList;
+  };
 };
 
 /**
@@ -1162,16 +1161,16 @@ export type PoolsGetResponse = CapacityPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CapacityPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CapacityPool;
+  };
 };
 
 /**
@@ -1182,16 +1181,16 @@ export type PoolsCreateOrUpdateResponse = CapacityPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CapacityPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CapacityPool;
+  };
 };
 
 /**
@@ -1202,16 +1201,16 @@ export type PoolsUpdateResponse = CapacityPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CapacityPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CapacityPool;
+  };
 };
 
 /**
@@ -1222,16 +1221,16 @@ export type PoolsBeginCreateOrUpdateResponse = CapacityPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CapacityPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CapacityPool;
+  };
 };
 
 /**
@@ -1242,16 +1241,16 @@ export type PoolsBeginUpdateResponse = CapacityPool & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CapacityPool;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CapacityPool;
+  };
 };
 
 /**
@@ -1262,16 +1261,16 @@ export type VolumesListResponse = VolumeList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeList;
+  };
 };
 
 /**
@@ -1282,16 +1281,16 @@ export type VolumesGetResponse = Volume & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Volume;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Volume;
+  };
 };
 
 /**
@@ -1302,16 +1301,16 @@ export type VolumesCreateOrUpdateResponse = Volume & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Volume;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Volume;
+  };
 };
 
 /**
@@ -1322,16 +1321,16 @@ export type VolumesUpdateResponse = Volume & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Volume;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Volume;
+  };
 };
 
 /**
@@ -1342,16 +1341,16 @@ export type VolumesReplicationStatusMethodResponse = ReplicationStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicationStatus;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicationStatus;
+  };
 };
 
 /**
@@ -1362,16 +1361,16 @@ export type VolumesBeginCreateOrUpdateResponse = Volume & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Volume;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Volume;
+  };
 };
 
 /**
@@ -1382,16 +1381,16 @@ export type VolumesBeginUpdateResponse = Volume & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Volume;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Volume;
+  };
 };
 
 /**
@@ -1402,16 +1401,16 @@ export type SnapshotsListResponse = SnapshotsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SnapshotsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SnapshotsList;
+  };
 };
 
 /**
@@ -1422,16 +1421,16 @@ export type SnapshotsGetResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -1442,16 +1441,16 @@ export type SnapshotsCreateResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -1462,16 +1461,16 @@ export type SnapshotsUpdateResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -1482,16 +1481,16 @@ export type SnapshotsBeginCreateResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };
 
 /**
@@ -1502,14 +1501,14 @@ export type SnapshotsBeginUpdateResponse = Snapshot & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Snapshot;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Snapshot;
+  };
 };

@@ -22,15 +22,18 @@ export class LogAnalyticsClientContext extends msRest.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.LogAnalyticsClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.LogAnalyticsClientOptions
+  ) {
     if (credentials === null || credentials === undefined) {
-      throw new Error('\'credentials\' cannot be null.');
+      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+    if (!options.userAgent) {
       const defaultUserAgent = msRest.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
@@ -40,6 +43,5 @@ export class LogAnalyticsClientContext extends msRest.ServiceClient {
     this.baseUri = options.baseUri || this.baseUri || "https://api.loganalytics.io";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
-
   }
 }

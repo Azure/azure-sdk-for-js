@@ -34,21 +34,39 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsersListByDataBoxEdgeDeviceResponse>
    */
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.UsersListByDataBoxEdgeDeviceResponse>;
+  listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UsersListByDataBoxEdgeDeviceResponse>;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param callback The callback
    */
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.UserList>): void;
+  listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.UserList>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param resourceGroupName The resource group name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserList>): void;
-  listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserList>, callback?: msRest.ServiceCallback<Models.UserList>): Promise<Models.UsersListByDataBoxEdgeDeviceResponse> {
+  listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UserList>
+  ): void;
+  listByDataBoxEdgeDevice(
+    deviceName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserList>,
+    callback?: msRest.ServiceCallback<Models.UserList>
+  ): Promise<Models.UsersListByDataBoxEdgeDeviceResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -56,7 +74,8 @@ export class Users {
         options
       },
       listByDataBoxEdgeDeviceOperationSpec,
-      callback) as Promise<Models.UsersListByDataBoxEdgeDeviceResponse>;
+      callback
+    ) as Promise<Models.UsersListByDataBoxEdgeDeviceResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsersGetResponse>
    */
-  get(deviceName: string, name: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.UsersGetResponse>;
+  get(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UsersGetResponse>;
   /**
    * @param deviceName The device name.
    * @param name The user name.
    * @param resourceGroupName The resource group name.
    * @param callback The callback
    */
-  get(deviceName: string, name: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.User>): void;
+  get(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.User>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param name The user name.
@@ -82,8 +111,20 @@ export class Users {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(deviceName: string, name: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.User>): void;
-  get(deviceName: string, name: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>, callback?: msRest.ServiceCallback<Models.User>): Promise<Models.UsersGetResponse> {
+  get(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.User>
+  ): void;
+  get(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.User>,
+    callback?: msRest.ServiceCallback<Models.User>
+  ): Promise<Models.UsersGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -92,7 +133,8 @@ export class Users {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.UsersGetResponse>;
+      callback
+    ) as Promise<Models.UsersGetResponse>;
   }
 
   /**
@@ -103,9 +145,20 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsersCreateOrUpdateResponse>
    */
-  createOrUpdate(deviceName: string, name: string, resourceGroupName: string, options?: Models.UsersCreateOrUpdateOptionalParams): Promise<Models.UsersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(deviceName,name,resourceGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.UsersCreateOrUpdateResponse>;
+  createOrUpdate(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: Models.UsersCreateOrUpdateOptionalParams
+  ): Promise<Models.UsersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      deviceName,
+      name,
+      resourceGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.UsersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -116,9 +169,15 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(deviceName: string, name: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(deviceName,name,resourceGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(deviceName, name, resourceGroupName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -129,7 +188,12 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(deviceName: string, name: string, resourceGroupName: string, options?: Models.UsersBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: Models.UsersBeginCreateOrUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -138,7 +202,8 @@ export class Users {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -149,7 +214,12 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(deviceName: string, name: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deviceName,
@@ -158,7 +228,8 @@ export class Users {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -167,26 +238,41 @@ export class Users {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsersListByDataBoxEdgeDeviceNextResponse>
    */
-  listByDataBoxEdgeDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.UsersListByDataBoxEdgeDeviceNextResponse>;
+  listByDataBoxEdgeDeviceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UsersListByDataBoxEdgeDeviceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByDataBoxEdgeDeviceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.UserList>): void;
+  listByDataBoxEdgeDeviceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.UserList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDataBoxEdgeDeviceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserList>): void;
-  listByDataBoxEdgeDeviceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserList>, callback?: msRest.ServiceCallback<Models.UserList>): Promise<Models.UsersListByDataBoxEdgeDeviceNextResponse> {
+  listByDataBoxEdgeDeviceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UserList>
+  ): void;
+  listByDataBoxEdgeDeviceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserList>,
+    callback?: msRest.ServiceCallback<Models.UserList>
+  ): Promise<Models.UsersListByDataBoxEdgeDeviceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByDataBoxEdgeDeviceNextOperationSpec,
-      callback) as Promise<Models.UsersListByDataBoxEdgeDeviceNextResponse>;
+      callback
+    ) as Promise<Models.UsersListByDataBoxEdgeDeviceNextResponse>;
   }
 }
 
@@ -194,18 +280,11 @@ export class Users {
 const serializer = new msRest.Serializer(Mappers);
 const listByDataBoxEdgeDeviceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users",
-  urlParameters: [
-    Parameters.deviceName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users",
+  urlParameters: [Parameters.deviceName, Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UserList
@@ -219,19 +298,16 @@ const listByDataBoxEdgeDeviceOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users/{name}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.name,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.User
@@ -245,29 +321,20 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users/{name}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.name,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      encryptedPassword: [
-        "options",
-        "encryptedPassword"
-      ],
-      shareAccessRights: [
-        "options",
-        "shareAccessRights"
-      ]
+      encryptedPassword: ["options", "encryptedPassword"],
+      shareAccessRights: ["options", "shareAccessRights"]
     },
     mapper: {
       ...Mappers.User,
@@ -288,19 +355,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users/{name}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.name,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -316,12 +380,8 @@ const listByDataBoxEdgeDeviceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UserList

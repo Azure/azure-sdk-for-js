@@ -35,7 +35,13 @@ export class TestJobStreams {
    * @param [options] The optional parameters
    * @returns Promise<Models.TestJobStreamsGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, jobStreamId: string, options?: msRest.RequestOptionsBase): Promise<Models.TestJobStreamsGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    jobStreamId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TestJobStreamsGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -43,7 +49,13 @@ export class TestJobStreams {
    * @param jobStreamId The job stream id.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, jobStreamId: string, callback: msRest.ServiceCallback<Models.JobStream>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    jobStreamId: string,
+    callback: msRest.ServiceCallback<Models.JobStream>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -52,8 +64,22 @@ export class TestJobStreams {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, jobStreamId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobStream>): void;
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, jobStreamId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobStream>, callback?: msRest.ServiceCallback<Models.JobStream>): Promise<Models.TestJobStreamsGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    jobStreamId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobStream>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    jobStreamId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobStream>,
+    callback?: msRest.ServiceCallback<Models.JobStream>
+  ): Promise<Models.TestJobStreamsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class TestJobStreams {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TestJobStreamsGetResponse>;
+      callback
+    ) as Promise<Models.TestJobStreamsGetResponse>;
   }
 
   /**
@@ -74,14 +101,24 @@ export class TestJobStreams {
    * @param [options] The optional parameters
    * @returns Promise<Models.TestJobStreamsListByTestJobResponse>
    */
-  listByTestJob(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: Models.TestJobStreamsListByTestJobOptionalParams): Promise<Models.TestJobStreamsListByTestJobResponse>;
+  listByTestJob(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: Models.TestJobStreamsListByTestJobOptionalParams
+  ): Promise<Models.TestJobStreamsListByTestJobResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
    * @param callback The callback
    */
-  listByTestJob(resourceGroupName: string, automationAccountName: string, runbookName: string, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
+  listByTestJob(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    callback: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -89,8 +126,22 @@ export class TestJobStreams {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTestJob(resourceGroupName: string, automationAccountName: string, runbookName: string, options: Models.TestJobStreamsListByTestJobOptionalParams, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
-  listByTestJob(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: Models.TestJobStreamsListByTestJobOptionalParams | msRest.ServiceCallback<Models.JobStreamListResult>, callback?: msRest.ServiceCallback<Models.JobStreamListResult>): Promise<Models.TestJobStreamsListByTestJobResponse> {
+  listByTestJob(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options: Models.TestJobStreamsListByTestJobOptionalParams,
+    callback: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): void;
+  listByTestJob(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?:
+      | Models.TestJobStreamsListByTestJobOptionalParams
+      | msRest.ServiceCallback<Models.JobStreamListResult>,
+    callback?: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): Promise<Models.TestJobStreamsListByTestJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +150,8 @@ export class TestJobStreams {
         options
       },
       listByTestJobOperationSpec,
-      callback) as Promise<Models.TestJobStreamsListByTestJobResponse>;
+      callback
+    ) as Promise<Models.TestJobStreamsListByTestJobResponse>;
   }
 
   /**
@@ -108,26 +160,41 @@ export class TestJobStreams {
    * @param [options] The optional parameters
    * @returns Promise<Models.TestJobStreamsListByTestJobNextResponse>
    */
-  listByTestJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TestJobStreamsListByTestJobNextResponse>;
+  listByTestJobNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TestJobStreamsListByTestJobNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByTestJobNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
+  listByTestJobNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByTestJobNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobStreamListResult>): void;
-  listByTestJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobStreamListResult>, callback?: msRest.ServiceCallback<Models.JobStreamListResult>): Promise<Models.TestJobStreamsListByTestJobNextResponse> {
+  listByTestJobNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): void;
+  listByTestJobNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobStreamListResult>,
+    callback?: msRest.ServiceCallback<Models.JobStreamListResult>
+  ): Promise<Models.TestJobStreamsListByTestJobNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByTestJobNextOperationSpec,
-      callback) as Promise<Models.TestJobStreamsListByTestJobNextResponse>;
+      callback
+    ) as Promise<Models.TestJobStreamsListByTestJobNextResponse>;
   }
 }
 
@@ -135,7 +202,8 @@ export class TestJobStreams {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/streams/{jobStreamId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/streams/{jobStreamId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -143,12 +211,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.runbookName,
     Parameters.jobStreamId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobStream
@@ -162,20 +226,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByTestJobOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/streams",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/streams",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter, Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobStreamListResult
@@ -191,12 +251,8 @@ const listByTestJobNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobStreamListResult

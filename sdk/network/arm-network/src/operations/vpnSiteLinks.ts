@@ -34,14 +34,24 @@ export class VpnSiteLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnSiteLinksGetResponse>
    */
-  get(resourceGroupName: string, vpnSiteName: string, vpnSiteLinkName: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnSiteLinksGetResponse>;
+  get(
+    resourceGroupName: string,
+    vpnSiteName: string,
+    vpnSiteLinkName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VpnSiteLinksGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the VpnSite.
    * @param vpnSiteName The name of the VpnSite.
    * @param vpnSiteLinkName The name of the VpnSiteLink being retrieved.
    * @param callback The callback
    */
-  get(resourceGroupName: string, vpnSiteName: string, vpnSiteLinkName: string, callback: msRest.ServiceCallback<Models.VpnSiteLink>): void;
+  get(
+    resourceGroupName: string,
+    vpnSiteName: string,
+    vpnSiteLinkName: string,
+    callback: msRest.ServiceCallback<Models.VpnSiteLink>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VpnSite.
    * @param vpnSiteName The name of the VpnSite.
@@ -49,8 +59,20 @@ export class VpnSiteLinks {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, vpnSiteName: string, vpnSiteLinkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VpnSiteLink>): void;
-  get(resourceGroupName: string, vpnSiteName: string, vpnSiteLinkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VpnSiteLink>, callback?: msRest.ServiceCallback<Models.VpnSiteLink>): Promise<Models.VpnSiteLinksGetResponse> {
+  get(
+    resourceGroupName: string,
+    vpnSiteName: string,
+    vpnSiteLinkName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VpnSiteLink>
+  ): void;
+  get(
+    resourceGroupName: string,
+    vpnSiteName: string,
+    vpnSiteLinkName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VpnSiteLink>,
+    callback?: msRest.ServiceCallback<Models.VpnSiteLink>
+  ): Promise<Models.VpnSiteLinksGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class VpnSiteLinks {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VpnSiteLinksGetResponse>;
+      callback
+    ) as Promise<Models.VpnSiteLinksGetResponse>;
   }
 
   /**
@@ -69,21 +92,39 @@ export class VpnSiteLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnSiteLinksListByVpnSiteResponse>
    */
-  listByVpnSite(resourceGroupName: string, vpnSiteName: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnSiteLinksListByVpnSiteResponse>;
+  listByVpnSite(
+    resourceGroupName: string,
+    vpnSiteName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VpnSiteLinksListByVpnSiteResponse>;
   /**
    * @param resourceGroupName The resource group name of the VpnSite.
    * @param vpnSiteName The name of the VpnSite.
    * @param callback The callback
    */
-  listByVpnSite(resourceGroupName: string, vpnSiteName: string, callback: msRest.ServiceCallback<Models.ListVpnSiteLinksResult>): void;
+  listByVpnSite(
+    resourceGroupName: string,
+    vpnSiteName: string,
+    callback: msRest.ServiceCallback<Models.ListVpnSiteLinksResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VpnSite.
    * @param vpnSiteName The name of the VpnSite.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByVpnSite(resourceGroupName: string, vpnSiteName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnSiteLinksResult>): void;
-  listByVpnSite(resourceGroupName: string, vpnSiteName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnSiteLinksResult>, callback?: msRest.ServiceCallback<Models.ListVpnSiteLinksResult>): Promise<Models.VpnSiteLinksListByVpnSiteResponse> {
+  listByVpnSite(
+    resourceGroupName: string,
+    vpnSiteName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListVpnSiteLinksResult>
+  ): void;
+  listByVpnSite(
+    resourceGroupName: string,
+    vpnSiteName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnSiteLinksResult>,
+    callback?: msRest.ServiceCallback<Models.ListVpnSiteLinksResult>
+  ): Promise<Models.VpnSiteLinksListByVpnSiteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +132,8 @@ export class VpnSiteLinks {
         options
       },
       listByVpnSiteOperationSpec,
-      callback) as Promise<Models.VpnSiteLinksListByVpnSiteResponse>;
+      callback
+    ) as Promise<Models.VpnSiteLinksListByVpnSiteResponse>;
   }
 
   /**
@@ -100,26 +142,41 @@ export class VpnSiteLinks {
    * @param [options] The optional parameters
    * @returns Promise<Models.VpnSiteLinksListByVpnSiteNextResponse>
    */
-  listByVpnSiteNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnSiteLinksListByVpnSiteNextResponse>;
+  listByVpnSiteNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VpnSiteLinksListByVpnSiteNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByVpnSiteNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListVpnSiteLinksResult>): void;
+  listByVpnSiteNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ListVpnSiteLinksResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByVpnSiteNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListVpnSiteLinksResult>): void;
-  listByVpnSiteNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnSiteLinksResult>, callback?: msRest.ServiceCallback<Models.ListVpnSiteLinksResult>): Promise<Models.VpnSiteLinksListByVpnSiteNextResponse> {
+  listByVpnSiteNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListVpnSiteLinksResult>
+  ): void;
+  listByVpnSiteNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListVpnSiteLinksResult>,
+    callback?: msRest.ServiceCallback<Models.ListVpnSiteLinksResult>
+  ): Promise<Models.VpnSiteLinksListByVpnSiteNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByVpnSiteNextOperationSpec,
-      callback) as Promise<Models.VpnSiteLinksListByVpnSiteNextResponse>;
+      callback
+    ) as Promise<Models.VpnSiteLinksListByVpnSiteNextResponse>;
   }
 }
 
@@ -127,19 +184,16 @@ export class VpnSiteLinks {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks/{vpnSiteLinkName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks/{vpnSiteLinkName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vpnSiteName,
     Parameters.vpnSiteLinkName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VpnSiteLink
@@ -153,18 +207,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByVpnSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vpnSiteName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.vpnSiteName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListVpnSiteLinksResult
@@ -180,12 +227,8 @@ const listByVpnSiteNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListVpnSiteLinksResult

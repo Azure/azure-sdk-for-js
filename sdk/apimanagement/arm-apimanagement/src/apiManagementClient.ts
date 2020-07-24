@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ApiManagementClientContext } from "./apiManagementClientContext";
 
-
 class ApiManagementClient extends ApiManagementClientContext {
   // Operation groups
   api: operations.Api;
@@ -89,7 +88,11 @@ class ApiManagementClient extends ApiManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ApiManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ApiManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.api = new operations.Api(this);
     this.apiRevision = new operations.ApiRevision(this);

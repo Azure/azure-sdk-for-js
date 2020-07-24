@@ -33,28 +33,45 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse>
    */
-  checkTrafficManagerRelativeDnsNameAvailability(parameters: Models.CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse>;
+  checkTrafficManagerRelativeDnsNameAvailability(
+    parameters: Models.CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse>;
   /**
    * @param parameters The Traffic Manager name parameters supplied to the
    * CheckTrafficManagerNameAvailability operation.
    * @param callback The callback
    */
-  checkTrafficManagerRelativeDnsNameAvailability(parameters: Models.CheckTrafficManagerRelativeDnsNameAvailabilityParameters, callback: msRest.ServiceCallback<Models.TrafficManagerNameAvailability>): void;
+  checkTrafficManagerRelativeDnsNameAvailability(
+    parameters: Models.CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
+    callback: msRest.ServiceCallback<Models.TrafficManagerNameAvailability>
+  ): void;
   /**
    * @param parameters The Traffic Manager name parameters supplied to the
    * CheckTrafficManagerNameAvailability operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkTrafficManagerRelativeDnsNameAvailability(parameters: Models.CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TrafficManagerNameAvailability>): void;
-  checkTrafficManagerRelativeDnsNameAvailability(parameters: Models.CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrafficManagerNameAvailability>, callback?: msRest.ServiceCallback<Models.TrafficManagerNameAvailability>): Promise<Models.ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse> {
+  checkTrafficManagerRelativeDnsNameAvailability(
+    parameters: Models.CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TrafficManagerNameAvailability>
+  ): void;
+  checkTrafficManagerRelativeDnsNameAvailability(
+    parameters: Models.CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.TrafficManagerNameAvailability>,
+    callback?: msRest.ServiceCallback<Models.TrafficManagerNameAvailability>
+  ): Promise<Models.ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
         options
       },
       checkTrafficManagerRelativeDnsNameAvailabilityOperationSpec,
-      callback) as Promise<Models.ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse>;
   }
 
   /**
@@ -64,28 +81,43 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager profiles
    * to be listed.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager profiles
    * to be listed.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>,
+    callback?: msRest.ServiceCallback<Models.ProfileListResult>
+  ): Promise<Models.ProfilesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ProfilesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ProfilesListByResourceGroupResponse>;
   }
 
   /**
@@ -93,7 +125,9 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.ProfilesListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -102,14 +136,21 @@ export class Profiles {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProfileListResult>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>, callback?: msRest.ServiceCallback<Models.ProfileListResult>): Promise<Models.ProfilesListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProfileListResult>
+  ): void;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProfileListResult>,
+    callback?: msRest.ServiceCallback<Models.ProfileListResult>
+  ): Promise<Models.ProfilesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.ProfilesListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.ProfilesListBySubscriptionResponse>;
   }
 
   /**
@@ -119,21 +160,39 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesGetResponse>
    */
-  get(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesGetResponse>;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager profile.
    * @param profileName The name of the Traffic Manager profile.
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, callback: msRest.ServiceCallback<Models.Profile>): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    callback: msRest.ServiceCallback<Models.Profile>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager profile.
    * @param profileName The name of the Traffic Manager profile.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Profile>): void;
-  get(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Profile>, callback?: msRest.ServiceCallback<Models.Profile>): Promise<Models.ProfilesGetResponse> {
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Profile>
+  ): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Profile>,
+    callback?: msRest.ServiceCallback<Models.Profile>
+  ): Promise<Models.ProfilesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -141,7 +200,8 @@ export class Profiles {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ProfilesGetResponse>;
+      callback
+    ) as Promise<Models.ProfilesGetResponse>;
   }
 
   /**
@@ -153,7 +213,12 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, profileName: string, parameters: Models.Profile, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    parameters: Models.Profile,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager profile.
    * @param profileName The name of the Traffic Manager profile.
@@ -161,7 +226,12 @@ export class Profiles {
    * operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, profileName: string, parameters: Models.Profile, callback: msRest.ServiceCallback<Models.Profile>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    parameters: Models.Profile,
+    callback: msRest.ServiceCallback<Models.Profile>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager profile.
    * @param profileName The name of the Traffic Manager profile.
@@ -170,8 +240,20 @@ export class Profiles {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, profileName: string, parameters: Models.Profile, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Profile>): void;
-  createOrUpdate(resourceGroupName: string, profileName: string, parameters: Models.Profile, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Profile>, callback?: msRest.ServiceCallback<Models.Profile>): Promise<Models.ProfilesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    parameters: Models.Profile,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Profile>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    parameters: Models.Profile,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Profile>,
+    callback?: msRest.ServiceCallback<Models.Profile>
+  ): Promise<Models.ProfilesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -180,7 +262,8 @@ export class Profiles {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ProfilesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ProfilesCreateOrUpdateResponse>;
   }
 
   /**
@@ -191,14 +274,22 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesDeleteMethodResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager profile
    * to be deleted.
    * @param profileName The name of the Traffic Manager profile to be deleted.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, profileName: string, callback: msRest.ServiceCallback<Models.DeleteOperationResult>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    callback: msRest.ServiceCallback<Models.DeleteOperationResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager profile
    * to be deleted.
@@ -206,8 +297,18 @@ export class Profiles {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeleteOperationResult>): void;
-  deleteMethod(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeleteOperationResult>, callback?: msRest.ServiceCallback<Models.DeleteOperationResult>): Promise<Models.ProfilesDeleteMethodResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeleteOperationResult>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeleteOperationResult>,
+    callback?: msRest.ServiceCallback<Models.DeleteOperationResult>
+  ): Promise<Models.ProfilesDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -215,7 +316,8 @@ export class Profiles {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.ProfilesDeleteMethodResponse>;
+      callback
+    ) as Promise<Models.ProfilesDeleteMethodResponse>;
   }
 
   /**
@@ -226,14 +328,24 @@ export class Profiles {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProfilesUpdateResponse>
    */
-  update(resourceGroupName: string, profileName: string, parameters: Models.Profile, options?: msRest.RequestOptionsBase): Promise<Models.ProfilesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    profileName: string,
+    parameters: Models.Profile,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProfilesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager profile.
    * @param profileName The name of the Traffic Manager profile.
    * @param parameters The Traffic Manager profile parameters supplied to the Update operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, profileName: string, parameters: Models.Profile, callback: msRest.ServiceCallback<Models.Profile>): void;
+  update(
+    resourceGroupName: string,
+    profileName: string,
+    parameters: Models.Profile,
+    callback: msRest.ServiceCallback<Models.Profile>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Traffic Manager profile.
    * @param profileName The name of the Traffic Manager profile.
@@ -241,8 +353,20 @@ export class Profiles {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, profileName: string, parameters: Models.Profile, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Profile>): void;
-  update(resourceGroupName: string, profileName: string, parameters: Models.Profile, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Profile>, callback?: msRest.ServiceCallback<Models.Profile>): Promise<Models.ProfilesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    profileName: string,
+    parameters: Models.Profile,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Profile>
+  ): void;
+  update(
+    resourceGroupName: string,
+    profileName: string,
+    parameters: Models.Profile,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Profile>,
+    callback?: msRest.ServiceCallback<Models.Profile>
+  ): Promise<Models.ProfilesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -251,7 +375,8 @@ export class Profiles {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ProfilesUpdateResponse>;
+      callback
+    ) as Promise<Models.ProfilesUpdateResponse>;
   }
 }
 
@@ -260,12 +385,8 @@ const serializer = new msRest.Serializer(Mappers);
 const checkTrafficManagerRelativeDnsNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.Network/checkTrafficManagerNameAvailability",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -286,17 +407,11 @@ const checkTrafficManagerRelativeDnsNameAvailabilityOperationSpec: msRest.Operat
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProfileListResult
@@ -311,15 +426,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficmanagerprofiles",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProfileListResult
@@ -333,18 +442,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.profileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.profileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Profile
@@ -358,18 +460,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.profileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.profileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -393,18 +488,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.profileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.profileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeleteOperationResult
@@ -419,18 +507,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.profileName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.profileName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

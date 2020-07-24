@@ -11,10 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 export const descriptionExclude: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "descriptionExclude"
-  ],
+  parameterPath: ["options", "descriptionExclude"],
   mapper: {
     serializedName: "descriptionExclude",
     type: {
@@ -22,10 +19,7 @@ export const descriptionExclude: msRest.OperationQueryParameter = {
       element: {
         type: {
           name: "Enum",
-          allowedValues: [
-            "Celebrities",
-            "Landmarks"
-          ]
+          allowedValues: ["Celebrities", "Landmarks"]
         }
       }
     }
@@ -33,10 +27,7 @@ export const descriptionExclude: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const details: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "details"
-  ],
+  parameterPath: ["options", "details"],
   mapper: {
     serializedName: "details",
     type: {
@@ -44,10 +35,7 @@ export const details: msRest.OperationQueryParameter = {
       element: {
         type: {
           name: "Enum",
-          allowedValues: [
-            "Celebrities",
-            "Landmarks"
-          ]
+          allowedValues: ["Celebrities", "Landmarks"]
         }
       }
     }
@@ -70,7 +58,7 @@ export const endpoint: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "Endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -92,26 +80,20 @@ export const height: msRest.OperationQueryParameter = {
   }
 };
 export const language0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "language"
-  ],
+  parameterPath: ["options", "language"],
   mapper: {
     serializedName: "language",
-    defaultValue: 'en',
+    defaultValue: "en",
     type: {
       name: "String"
     }
   }
 };
 export const language1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "language"
-  ],
+  parameterPath: ["options", "language"],
   mapper: {
     serializedName: "language",
-    defaultValue: 'unk',
+    defaultValue: "unk",
     type: {
       name: "Enum",
       allowedValues: [
@@ -147,10 +129,7 @@ export const language1: msRest.OperationQueryParameter = {
   }
 };
 export const maxCandidates: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "maxCandidates"
-  ],
+  parameterPath: ["options", "maxCandidates"],
   mapper: {
     serializedName: "maxCandidates",
     defaultValue: 1,
@@ -180,10 +159,7 @@ export const operationId: msRest.OperationURLParameter = {
   }
 };
 export const smartCropping: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "smartCropping"
-  ],
+  parameterPath: ["options", "smartCropping"],
   mapper: {
     serializedName: "smartCropping",
     defaultValue: false,
@@ -193,10 +169,7 @@ export const smartCropping: msRest.OperationQueryParameter = {
   }
 };
 export const visualFeatures: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "visualFeatures"
-  ],
+  parameterPath: ["options", "visualFeatures"],
   mapper: {
     serializedName: "visualFeatures",
     type: {

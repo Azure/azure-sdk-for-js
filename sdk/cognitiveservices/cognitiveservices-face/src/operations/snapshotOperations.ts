@@ -65,7 +65,12 @@ export class SnapshotOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotTakeResponse>
    */
-  take(type: Models.SnapshotObjectType, objectId: string, applyScope: string[], options?: Models.SnapshotTakeOptionalParams): Promise<Models.SnapshotTakeResponse>;
+  take(
+    type: Models.SnapshotObjectType,
+    objectId: string,
+    applyScope: string[],
+    options?: Models.SnapshotTakeOptionalParams
+  ): Promise<Models.SnapshotTakeResponse>;
   /**
    * @param type User specified type for the source object to take snapshot from. Currently FaceList,
    * PersonGroup, LargeFaceList and LargePersonGroup are supported. Possible values include:
@@ -75,7 +80,12 @@ export class SnapshotOperations {
    * each snapshot, only subscriptions included in the applyScope of Snapshot - Take can apply it.
    * @param callback The callback
    */
-  take(type: Models.SnapshotObjectType, objectId: string, applyScope: string[], callback: msRest.ServiceCallback<void>): void;
+  take(
+    type: Models.SnapshotObjectType,
+    objectId: string,
+    applyScope: string[],
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param type User specified type for the source object to take snapshot from. Currently FaceList,
    * PersonGroup, LargeFaceList and LargePersonGroup are supported. Possible values include:
@@ -86,8 +96,20 @@ export class SnapshotOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  take(type: Models.SnapshotObjectType, objectId: string, applyScope: string[], options: Models.SnapshotTakeOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  take(type: Models.SnapshotObjectType, objectId: string, applyScope: string[], options?: Models.SnapshotTakeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.SnapshotTakeResponse> {
+  take(
+    type: Models.SnapshotObjectType,
+    objectId: string,
+    applyScope: string[],
+    options: Models.SnapshotTakeOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  take(
+    type: Models.SnapshotObjectType,
+    objectId: string,
+    applyScope: string[],
+    options?: Models.SnapshotTakeOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.SnapshotTakeResponse> {
     return this.client.sendOperationRequest(
       {
         type,
@@ -96,7 +118,8 @@ export class SnapshotOperations {
         options
       },
       takeOperationSpec,
-      callback) as Promise<Models.SnapshotTakeResponse>;
+      callback
+    ) as Promise<Models.SnapshotTakeResponse>;
   }
 
   /**
@@ -115,14 +138,21 @@ export class SnapshotOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.SnapshotListOptionalParams, callback: msRest.ServiceCallback<Models.Snapshot[]>): void;
-  list(options?: Models.SnapshotListOptionalParams | msRest.ServiceCallback<Models.Snapshot[]>, callback?: msRest.ServiceCallback<Models.Snapshot[]>): Promise<Models.SnapshotListResponse> {
+  list(
+    options: Models.SnapshotListOptionalParams,
+    callback: msRest.ServiceCallback<Models.Snapshot[]>
+  ): void;
+  list(
+    options?: Models.SnapshotListOptionalParams | msRest.ServiceCallback<Models.Snapshot[]>,
+    callback?: msRest.ServiceCallback<Models.Snapshot[]>
+  ): Promise<Models.SnapshotListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SnapshotListResponse>;
+      callback
+    ) as Promise<Models.SnapshotListResponse>;
   }
 
   /**
@@ -143,15 +173,24 @@ export class SnapshotOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(snapshotId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Snapshot>): void;
-  get(snapshotId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Snapshot>, callback?: msRest.ServiceCallback<Models.Snapshot>): Promise<Models.SnapshotGetResponse> {
+  get(
+    snapshotId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Snapshot>
+  ): void;
+  get(
+    snapshotId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Snapshot>,
+    callback?: msRest.ServiceCallback<Models.Snapshot>
+  ): Promise<Models.SnapshotGetResponse> {
     return this.client.sendOperationRequest(
       {
         snapshotId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SnapshotGetResponse>;
+      callback
+    ) as Promise<Models.SnapshotGetResponse>;
   }
 
   /**
@@ -161,7 +200,10 @@ export class SnapshotOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(snapshotId: string, options?: Models.SnapshotUpdateOptionalParams): Promise<msRest.RestResponse>;
+  update(
+    snapshotId: string,
+    options?: Models.SnapshotUpdateOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param snapshotId Id referencing a particular snapshot.
    * @param callback The callback
@@ -172,15 +214,24 @@ export class SnapshotOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(snapshotId: string, options: Models.SnapshotUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(snapshotId: string, options?: Models.SnapshotUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    snapshotId: string,
+    options: Models.SnapshotUpdateOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    snapshotId: string,
+    options?: Models.SnapshotUpdateOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         snapshotId,
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -192,7 +243,10 @@ export class SnapshotOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(snapshotId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    snapshotId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param snapshotId Id referencing a particular snapshot.
    * @param callback The callback
@@ -203,15 +257,24 @@ export class SnapshotOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(snapshotId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(snapshotId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    snapshotId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    snapshotId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         snapshotId,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -250,7 +313,11 @@ export class SnapshotOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotApplyResponse>
    */
-  apply(snapshotId: string, objectId: string, options?: Models.SnapshotApplyOptionalParams): Promise<Models.SnapshotApplyResponse>;
+  apply(
+    snapshotId: string,
+    objectId: string,
+    options?: Models.SnapshotApplyOptionalParams
+  ): Promise<Models.SnapshotApplyResponse>;
   /**
    * @param snapshotId Id referencing a particular snapshot.
    * @param objectId User specified target object id to be created from the snapshot.
@@ -263,8 +330,18 @@ export class SnapshotOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  apply(snapshotId: string, objectId: string, options: Models.SnapshotApplyOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  apply(snapshotId: string, objectId: string, options?: Models.SnapshotApplyOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.SnapshotApplyResponse> {
+  apply(
+    snapshotId: string,
+    objectId: string,
+    options: Models.SnapshotApplyOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  apply(
+    snapshotId: string,
+    objectId: string,
+    options?: Models.SnapshotApplyOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.SnapshotApplyResponse> {
     return this.client.sendOperationRequest(
       {
         snapshotId,
@@ -272,7 +349,8 @@ export class SnapshotOperations {
         options
       },
       applyOperationSpec,
-      callback) as Promise<Models.SnapshotApplyResponse>;
+      callback
+    ) as Promise<Models.SnapshotApplyResponse>;
   }
 
   /**
@@ -281,26 +359,41 @@ export class SnapshotOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SnapshotGetOperationStatusResponse>
    */
-  getOperationStatus(operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.SnapshotGetOperationStatusResponse>;
+  getOperationStatus(
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SnapshotGetOperationStatusResponse>;
   /**
    * @param operationId Id referencing a particular take/apply snapshot operation.
    * @param callback The callback
    */
-  getOperationStatus(operationId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  getOperationStatus(
+    operationId: string,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
   /**
    * @param operationId Id referencing a particular take/apply snapshot operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOperationStatus(operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  getOperationStatus(operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.SnapshotGetOperationStatusResponse> {
+  getOperationStatus(
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  getOperationStatus(
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.SnapshotGetOperationStatusResponse> {
     return this.client.sendOperationRequest(
       {
         operationId,
         options
       },
       getOperationStatusOperationSpec,
-      callback) as Promise<Models.SnapshotGetOperationStatusResponse>;
+      callback
+    ) as Promise<Models.SnapshotGetOperationStatusResponse>;
   }
 }
 
@@ -309,18 +402,13 @@ const serializer = new msRest.Serializer(Mappers);
 const takeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "snapshots",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: {
       type: "type",
       objectId: "objectId",
       applyScope: "applyScope",
-      userData: [
-        "options",
-        "userData"
-      ]
+      userData: ["options", "userData"]
     },
     mapper: {
       ...Mappers.TakeSnapshotRequest,
@@ -341,13 +429,8 @@ const takeOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "snapshots",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.type,
-    Parameters.applyScope
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.type, Parameters.applyScope],
   responses: {
     200: {
       bodyMapper: {
@@ -373,10 +456,7 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "snapshots/{snapshotId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.snapshotId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.snapshotId],
   responses: {
     200: {
       bodyMapper: Mappers.Snapshot
@@ -391,20 +471,11 @@ const getOperationSpec: msRest.OperationSpec = {
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "snapshots/{snapshotId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.snapshotId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.snapshotId],
   requestBody: {
     parameterPath: {
-      applyScope: [
-        "options",
-        "applyScope"
-      ],
-      userData: [
-        "options",
-        "userData"
-      ]
+      applyScope: ["options", "applyScope"],
+      userData: ["options", "userData"]
     },
     mapper: {
       ...Mappers.UpdateSnapshotRequest,
@@ -423,10 +494,7 @@ const updateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "snapshots/{snapshotId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.snapshotId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.snapshotId],
   responses: {
     200: {},
     default: {
@@ -439,17 +507,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const applyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "snapshots/{snapshotId}/apply",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.snapshotId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.snapshotId],
   requestBody: {
     parameterPath: {
       objectId: "objectId",
-      mode: [
-        "options",
-        "mode"
-      ]
+      mode: ["options", "mode"]
     },
     mapper: {
       ...Mappers.ApplySnapshotRequest,
@@ -470,10 +532,7 @@ const applyOperationSpec: msRest.OperationSpec = {
 const getOperationStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "operations/{operationId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.operationId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.operationId],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus

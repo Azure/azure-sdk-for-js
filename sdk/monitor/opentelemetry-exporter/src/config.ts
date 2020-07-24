@@ -21,5 +21,5 @@ export const DEFAULT_EXPORTER_CONFIG: AzureExporterConfig = {
   instrumentationKey: "",
   endpointUrl: DEFAULT_BREEZE_ENDPOINT,
   batchSendRetryIntervalMs: 60_000,
-  maxConsecutiveFailuresBeforeWarning: 10,
+  maxConsecutiveFailuresBeforeWarning: 10
 };

@@ -41,13 +41,17 @@ export class Documents {
    * @param callback The callback
    */
   count(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<number>): void;
-  count(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<number>, callback?: coreHttp.ServiceCallback<number>): Promise<Models.DocumentsCountResponse> {
+  count(
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<number>,
+    callback?: coreHttp.ServiceCallback<number>
+  ): Promise<Models.DocumentsCountResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       countOperationSpec,
-      callback) as Promise<Models.DocumentsCountResponse>;
+      callback
+    ) as Promise<Models.DocumentsCountResponse>;
   }
 
   /**
@@ -55,7 +59,9 @@ export class Documents {
    * @param [options] The optional parameters
    * @returns Promise<Models.DocumentsSearchGetResponse>
    */
-  searchGet(options?: Models.DocumentsSearchGetOptionalParams): Promise<Models.DocumentsSearchGetResponse>;
+  searchGet(
+    options?: Models.DocumentsSearchGetOptionalParams
+  ): Promise<Models.DocumentsSearchGetResponse>;
   /**
    * @param callback The callback
    */
@@ -64,14 +70,23 @@ export class Documents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  searchGet(options: Models.DocumentsSearchGetOptionalParams, callback: coreHttp.ServiceCallback<Models.SearchDocumentsResult>): void;
-  searchGet(options?: Models.DocumentsSearchGetOptionalParams | coreHttp.ServiceCallback<Models.SearchDocumentsResult>, callback?: coreHttp.ServiceCallback<Models.SearchDocumentsResult>): Promise<Models.DocumentsSearchGetResponse> {
+  searchGet(
+    options: Models.DocumentsSearchGetOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SearchDocumentsResult>
+  ): void;
+  searchGet(
+    options?:
+      | Models.DocumentsSearchGetOptionalParams
+      | coreHttp.ServiceCallback<Models.SearchDocumentsResult>,
+    callback?: coreHttp.ServiceCallback<Models.SearchDocumentsResult>
+  ): Promise<Models.DocumentsSearchGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       searchGetOperationSpec,
-      callback) as Promise<Models.DocumentsSearchGetResponse>;
+      callback
+    ) as Promise<Models.DocumentsSearchGetResponse>;
   }
 
   /**
@@ -80,26 +95,41 @@ export class Documents {
    * @param [options] The optional parameters
    * @returns Promise<Models.DocumentsSearchPostResponse>
    */
-  searchPost(searchRequest: Models.SearchRequest, options?: coreHttp.RequestOptionsBase): Promise<Models.DocumentsSearchPostResponse>;
+  searchPost(
+    searchRequest: Models.SearchRequest,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.DocumentsSearchPostResponse>;
   /**
    * @param searchRequest The definition of the Search request.
    * @param callback The callback
    */
-  searchPost(searchRequest: Models.SearchRequest, callback: coreHttp.ServiceCallback<Models.SearchDocumentsResult>): void;
+  searchPost(
+    searchRequest: Models.SearchRequest,
+    callback: coreHttp.ServiceCallback<Models.SearchDocumentsResult>
+  ): void;
   /**
    * @param searchRequest The definition of the Search request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  searchPost(searchRequest: Models.SearchRequest, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SearchDocumentsResult>): void;
-  searchPost(searchRequest: Models.SearchRequest, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchDocumentsResult>, callback?: coreHttp.ServiceCallback<Models.SearchDocumentsResult>): Promise<Models.DocumentsSearchPostResponse> {
+  searchPost(
+    searchRequest: Models.SearchRequest,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.SearchDocumentsResult>
+  ): void;
+  searchPost(
+    searchRequest: Models.SearchRequest,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchDocumentsResult>,
+    callback?: coreHttp.ServiceCallback<Models.SearchDocumentsResult>
+  ): Promise<Models.DocumentsSearchPostResponse> {
     return this.client.sendOperationRequest(
       {
         searchRequest,
         options
       },
       searchPostOperationSpec,
-      callback) as Promise<Models.DocumentsSearchPostResponse>;
+      callback
+    ) as Promise<Models.DocumentsSearchPostResponse>;
   }
 
   /**
@@ -108,7 +138,10 @@ export class Documents {
    * @param [options] The optional parameters
    * @returns Promise<Models.DocumentsGetResponse>
    */
-  get(key: string, options?: Models.DocumentsGetOptionalParams): Promise<Models.DocumentsGetResponse>;
+  get(
+    key: string,
+    options?: Models.DocumentsGetOptionalParams
+  ): Promise<Models.DocumentsGetResponse>;
   /**
    * @param key The key of the document to retrieve.
    * @param callback The callback
@@ -119,15 +152,24 @@ export class Documents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(key: string, options: Models.DocumentsGetOptionalParams, callback: coreHttp.ServiceCallback<any>): void;
-  get(key: string, options?: Models.DocumentsGetOptionalParams | coreHttp.ServiceCallback<any>, callback?: coreHttp.ServiceCallback<any>): Promise<Models.DocumentsGetResponse> {
+  get(
+    key: string,
+    options: Models.DocumentsGetOptionalParams,
+    callback: coreHttp.ServiceCallback<any>
+  ): void;
+  get(
+    key: string,
+    options?: Models.DocumentsGetOptionalParams | coreHttp.ServiceCallback<any>,
+    callback?: coreHttp.ServiceCallback<any>
+  ): Promise<Models.DocumentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         key,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DocumentsGetResponse>;
+      callback
+    ) as Promise<Models.DocumentsGetResponse>;
   }
 
   /**
@@ -139,7 +181,11 @@ export class Documents {
    * @param [options] The optional parameters
    * @returns Promise<Models.DocumentsSuggestGetResponse>
    */
-  suggestGet(searchText: string, suggesterName: string, options?: Models.DocumentsSuggestGetOptionalParams): Promise<Models.DocumentsSuggestGetResponse>;
+  suggestGet(
+    searchText: string,
+    suggesterName: string,
+    options?: Models.DocumentsSuggestGetOptionalParams
+  ): Promise<Models.DocumentsSuggestGetResponse>;
   /**
    * @param searchText The search text to use to suggest documents. Must be at least 1 character, and
    * no more than 100 characters.
@@ -147,7 +193,11 @@ export class Documents {
    * part of the index definition.
    * @param callback The callback
    */
-  suggestGet(searchText: string, suggesterName: string, callback: coreHttp.ServiceCallback<Models.SuggestDocumentsResult>): void;
+  suggestGet(
+    searchText: string,
+    suggesterName: string,
+    callback: coreHttp.ServiceCallback<Models.SuggestDocumentsResult>
+  ): void;
   /**
    * @param searchText The search text to use to suggest documents. Must be at least 1 character, and
    * no more than 100 characters.
@@ -156,8 +206,20 @@ export class Documents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  suggestGet(searchText: string, suggesterName: string, options: Models.DocumentsSuggestGetOptionalParams, callback: coreHttp.ServiceCallback<Models.SuggestDocumentsResult>): void;
-  suggestGet(searchText: string, suggesterName: string, options?: Models.DocumentsSuggestGetOptionalParams | coreHttp.ServiceCallback<Models.SuggestDocumentsResult>, callback?: coreHttp.ServiceCallback<Models.SuggestDocumentsResult>): Promise<Models.DocumentsSuggestGetResponse> {
+  suggestGet(
+    searchText: string,
+    suggesterName: string,
+    options: Models.DocumentsSuggestGetOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SuggestDocumentsResult>
+  ): void;
+  suggestGet(
+    searchText: string,
+    suggesterName: string,
+    options?:
+      | Models.DocumentsSuggestGetOptionalParams
+      | coreHttp.ServiceCallback<Models.SuggestDocumentsResult>,
+    callback?: coreHttp.ServiceCallback<Models.SuggestDocumentsResult>
+  ): Promise<Models.DocumentsSuggestGetResponse> {
     return this.client.sendOperationRequest(
       {
         searchText,
@@ -165,7 +227,8 @@ export class Documents {
         options
       },
       suggestGetOperationSpec,
-      callback) as Promise<Models.DocumentsSuggestGetResponse>;
+      callback
+    ) as Promise<Models.DocumentsSuggestGetResponse>;
   }
 
   /**
@@ -174,26 +237,41 @@ export class Documents {
    * @param [options] The optional parameters
    * @returns Promise<Models.DocumentsSuggestPostResponse>
    */
-  suggestPost(suggestRequest: Models.SuggestRequest, options?: coreHttp.RequestOptionsBase): Promise<Models.DocumentsSuggestPostResponse>;
+  suggestPost(
+    suggestRequest: Models.SuggestRequest,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.DocumentsSuggestPostResponse>;
   /**
    * @param suggestRequest The Suggest request.
    * @param callback The callback
    */
-  suggestPost(suggestRequest: Models.SuggestRequest, callback: coreHttp.ServiceCallback<Models.SuggestDocumentsResult>): void;
+  suggestPost(
+    suggestRequest: Models.SuggestRequest,
+    callback: coreHttp.ServiceCallback<Models.SuggestDocumentsResult>
+  ): void;
   /**
    * @param suggestRequest The Suggest request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  suggestPost(suggestRequest: Models.SuggestRequest, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SuggestDocumentsResult>): void;
-  suggestPost(suggestRequest: Models.SuggestRequest, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SuggestDocumentsResult>, callback?: coreHttp.ServiceCallback<Models.SuggestDocumentsResult>): Promise<Models.DocumentsSuggestPostResponse> {
+  suggestPost(
+    suggestRequest: Models.SuggestRequest,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.SuggestDocumentsResult>
+  ): void;
+  suggestPost(
+    suggestRequest: Models.SuggestRequest,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SuggestDocumentsResult>,
+    callback?: coreHttp.ServiceCallback<Models.SuggestDocumentsResult>
+  ): Promise<Models.DocumentsSuggestPostResponse> {
     return this.client.sendOperationRequest(
       {
         suggestRequest,
         options
       },
       suggestPostOperationSpec,
-      callback) as Promise<Models.DocumentsSuggestPostResponse>;
+      callback
+    ) as Promise<Models.DocumentsSuggestPostResponse>;
   }
 
   /**
@@ -202,26 +280,41 @@ export class Documents {
    * @param [options] The optional parameters
    * @returns Promise<Models.DocumentsIndexResponse>
    */
-  index(batch: Models.IndexBatch, options?: coreHttp.RequestOptionsBase): Promise<Models.DocumentsIndexResponse>;
+  index(
+    batch: Models.IndexBatch,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.DocumentsIndexResponse>;
   /**
    * @param batch The batch of index actions.
    * @param callback The callback
    */
-  index(batch: Models.IndexBatch, callback: coreHttp.ServiceCallback<Models.IndexDocumentsResult>): void;
+  index(
+    batch: Models.IndexBatch,
+    callback: coreHttp.ServiceCallback<Models.IndexDocumentsResult>
+  ): void;
   /**
    * @param batch The batch of index actions.
    * @param options The optional parameters
    * @param callback The callback
    */
-  index(batch: Models.IndexBatch, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IndexDocumentsResult>): void;
-  index(batch: Models.IndexBatch, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IndexDocumentsResult>, callback?: coreHttp.ServiceCallback<Models.IndexDocumentsResult>): Promise<Models.DocumentsIndexResponse> {
+  index(
+    batch: Models.IndexBatch,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.IndexDocumentsResult>
+  ): void;
+  index(
+    batch: Models.IndexBatch,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IndexDocumentsResult>,
+    callback?: coreHttp.ServiceCallback<Models.IndexDocumentsResult>
+  ): Promise<Models.DocumentsIndexResponse> {
     return this.client.sendOperationRequest(
       {
         batch,
         options
       },
       indexOperationSpec,
-      callback) as Promise<Models.DocumentsIndexResponse>;
+      callback
+    ) as Promise<Models.DocumentsIndexResponse>;
   }
 
   /**
@@ -232,14 +325,22 @@ export class Documents {
    * @param [options] The optional parameters
    * @returns Promise<Models.DocumentsAutocompleteGetResponse>
    */
-  autocompleteGet(searchText: string, suggesterName: string, options?: Models.DocumentsAutocompleteGetOptionalParams): Promise<Models.DocumentsAutocompleteGetResponse>;
+  autocompleteGet(
+    searchText: string,
+    suggesterName: string,
+    options?: Models.DocumentsAutocompleteGetOptionalParams
+  ): Promise<Models.DocumentsAutocompleteGetResponse>;
   /**
    * @param searchText The incomplete term which should be auto-completed.
    * @param suggesterName The name of the suggester as specified in the suggesters collection that's
    * part of the index definition.
    * @param callback The callback
    */
-  autocompleteGet(searchText: string, suggesterName: string, callback: coreHttp.ServiceCallback<Models.AutocompleteResult>): void;
+  autocompleteGet(
+    searchText: string,
+    suggesterName: string,
+    callback: coreHttp.ServiceCallback<Models.AutocompleteResult>
+  ): void;
   /**
    * @param searchText The incomplete term which should be auto-completed.
    * @param suggesterName The name of the suggester as specified in the suggesters collection that's
@@ -247,8 +348,20 @@ export class Documents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  autocompleteGet(searchText: string, suggesterName: string, options: Models.DocumentsAutocompleteGetOptionalParams, callback: coreHttp.ServiceCallback<Models.AutocompleteResult>): void;
-  autocompleteGet(searchText: string, suggesterName: string, options?: Models.DocumentsAutocompleteGetOptionalParams | coreHttp.ServiceCallback<Models.AutocompleteResult>, callback?: coreHttp.ServiceCallback<Models.AutocompleteResult>): Promise<Models.DocumentsAutocompleteGetResponse> {
+  autocompleteGet(
+    searchText: string,
+    suggesterName: string,
+    options: Models.DocumentsAutocompleteGetOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.AutocompleteResult>
+  ): void;
+  autocompleteGet(
+    searchText: string,
+    suggesterName: string,
+    options?:
+      | Models.DocumentsAutocompleteGetOptionalParams
+      | coreHttp.ServiceCallback<Models.AutocompleteResult>,
+    callback?: coreHttp.ServiceCallback<Models.AutocompleteResult>
+  ): Promise<Models.DocumentsAutocompleteGetResponse> {
     return this.client.sendOperationRequest(
       {
         searchText,
@@ -256,7 +369,8 @@ export class Documents {
         options
       },
       autocompleteGetOperationSpec,
-      callback) as Promise<Models.DocumentsAutocompleteGetResponse>;
+      callback
+    ) as Promise<Models.DocumentsAutocompleteGetResponse>;
   }
 
   /**
@@ -265,26 +379,41 @@ export class Documents {
    * @param [options] The optional parameters
    * @returns Promise<Models.DocumentsAutocompletePostResponse>
    */
-  autocompletePost(autocompleteRequest: Models.AutocompleteRequest, options?: coreHttp.RequestOptionsBase): Promise<Models.DocumentsAutocompletePostResponse>;
+  autocompletePost(
+    autocompleteRequest: Models.AutocompleteRequest,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.DocumentsAutocompletePostResponse>;
   /**
    * @param autocompleteRequest The definition of the Autocomplete request.
    * @param callback The callback
    */
-  autocompletePost(autocompleteRequest: Models.AutocompleteRequest, callback: coreHttp.ServiceCallback<Models.AutocompleteResult>): void;
+  autocompletePost(
+    autocompleteRequest: Models.AutocompleteRequest,
+    callback: coreHttp.ServiceCallback<Models.AutocompleteResult>
+  ): void;
   /**
    * @param autocompleteRequest The definition of the Autocomplete request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  autocompletePost(autocompleteRequest: Models.AutocompleteRequest, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.AutocompleteResult>): void;
-  autocompletePost(autocompleteRequest: Models.AutocompleteRequest, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AutocompleteResult>, callback?: coreHttp.ServiceCallback<Models.AutocompleteResult>): Promise<Models.DocumentsAutocompletePostResponse> {
+  autocompletePost(
+    autocompleteRequest: Models.AutocompleteRequest,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.AutocompleteResult>
+  ): void;
+  autocompletePost(
+    autocompleteRequest: Models.AutocompleteRequest,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.AutocompleteResult>,
+    callback?: coreHttp.ServiceCallback<Models.AutocompleteResult>
+  ): Promise<Models.DocumentsAutocompletePostResponse> {
     return this.client.sendOperationRequest(
       {
         autocompleteRequest,
         options
       },
       autocompletePostOperationSpec,
-      callback) as Promise<Models.DocumentsAutocompletePostResponse>;
+      callback
+    ) as Promise<Models.DocumentsAutocompletePostResponse>;
   }
 }
 
@@ -293,13 +422,8 @@ const serializer = new coreHttp.Serializer(Mappers);
 const countOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "docs/$count",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
+  queryParameters: [Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: {
@@ -319,10 +443,7 @@ const countOperationSpec: coreHttp.OperationSpec = {
 const searchGetOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "docs",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
   queryParameters: [
     Parameters.searchText0,
     Parameters.apiVersion,
@@ -357,13 +478,8 @@ const searchGetOperationSpec: coreHttp.OperationSpec = {
 const searchPostOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "docs/search.post.search",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
+  queryParameters: [Parameters.apiVersion],
   requestBody: {
     parameterPath: "searchRequest",
     mapper: {
@@ -385,15 +501,8 @@ const searchPostOperationSpec: coreHttp.OperationSpec = {
 const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "docs('{key}')",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName,
-    Parameters.key
-  ],
-  queryParameters: [
-    Parameters.selectedFields,
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName, Parameters.key],
+  queryParameters: [Parameters.selectedFields, Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: {
@@ -413,10 +522,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
 const suggestGetOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "docs/search.suggest",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
   queryParameters: [
     Parameters.searchText1,
     Parameters.suggesterName,
@@ -445,13 +551,8 @@ const suggestGetOperationSpec: coreHttp.OperationSpec = {
 const suggestPostOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "docs/search.post.suggest",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
+  queryParameters: [Parameters.apiVersion],
   requestBody: {
     parameterPath: "suggestRequest",
     mapper: {
@@ -473,13 +574,8 @@ const suggestPostOperationSpec: coreHttp.OperationSpec = {
 const indexOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "docs/search.index",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
+  queryParameters: [Parameters.apiVersion],
   requestBody: {
     parameterPath: "batch",
     mapper: {
@@ -504,10 +600,7 @@ const indexOperationSpec: coreHttp.OperationSpec = {
 const autocompleteGetOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "docs/search.autocomplete",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
   queryParameters: [
     Parameters.apiVersion,
     Parameters.searchText1,
@@ -535,13 +628,8 @@ const autocompleteGetOperationSpec: coreHttp.OperationSpec = {
 const autocompletePostOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "docs/search.post.autocomplete",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.indexName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.indexName],
+  queryParameters: [Parameters.apiVersion],
   requestBody: {
     parameterPath: "autocompleteRequest",
     mapper: {

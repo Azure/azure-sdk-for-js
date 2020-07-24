@@ -40,9 +40,22 @@ export class FileServers {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileServersCreateResponse>
    */
-  create(resourceGroupName: string, workspaceName: string, fileServerName: string, parameters: Models.FileServerCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.FileServersCreateResponse> {
-    return this.beginCreate(resourceGroupName,workspaceName,fileServerName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.FileServersCreateResponse>;
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    fileServerName: string,
+    parameters: Models.FileServerCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FileServersCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      workspaceName,
+      fileServerName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.FileServersCreateResponse
+    >;
   }
 
   /**
@@ -57,9 +70,18 @@ export class FileServers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, fileServerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,workspaceName,fileServerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    fileServerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      workspaceName,
+      fileServerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -74,7 +96,12 @@ export class FileServers {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileServersGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, fileServerName: string, options?: msRest.RequestOptionsBase): Promise<Models.FileServersGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    fileServerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FileServersGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -85,7 +112,12 @@ export class FileServers {
    * underscore (_). The name must be from 1 through 64 characters long.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, fileServerName: string, callback: msRest.ServiceCallback<Models.FileServer>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    fileServerName: string,
+    callback: msRest.ServiceCallback<Models.FileServer>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -97,8 +129,20 @@ export class FileServers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, fileServerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileServer>): void;
-  get(resourceGroupName: string, workspaceName: string, fileServerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServer>, callback?: msRest.ServiceCallback<Models.FileServer>): Promise<Models.FileServersGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    fileServerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileServer>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    fileServerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServer>,
+    callback?: msRest.ServiceCallback<Models.FileServer>
+  ): Promise<Models.FileServersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +151,8 @@ export class FileServers {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.FileServersGetResponse>;
+      callback
+    ) as Promise<Models.FileServersGetResponse>;
   }
 
   /**
@@ -119,7 +164,11 @@ export class FileServers {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileServersListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.FileServersListByWorkspaceOptionalParams): Promise<Models.FileServersListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: Models.FileServersListByWorkspaceOptionalParams
+  ): Promise<Models.FileServersListByWorkspaceResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -127,7 +176,11 @@ export class FileServers {
    * through 64 characters long.
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.FileServerListResult>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.FileServerListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param workspaceName The name of the workspace. Workspace names can only contain a combination
@@ -136,8 +189,20 @@ export class FileServers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: Models.FileServersListByWorkspaceOptionalParams, callback: msRest.ServiceCallback<Models.FileServerListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: Models.FileServersListByWorkspaceOptionalParams | msRest.ServiceCallback<Models.FileServerListResult>, callback?: msRest.ServiceCallback<Models.FileServerListResult>): Promise<Models.FileServersListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: Models.FileServersListByWorkspaceOptionalParams,
+    callback: msRest.ServiceCallback<Models.FileServerListResult>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?:
+      | Models.FileServersListByWorkspaceOptionalParams
+      | msRest.ServiceCallback<Models.FileServerListResult>,
+    callback?: msRest.ServiceCallback<Models.FileServerListResult>
+  ): Promise<Models.FileServersListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -145,7 +210,8 @@ export class FileServers {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.FileServersListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.FileServersListByWorkspaceResponse>;
   }
 
   /**
@@ -161,7 +227,13 @@ export class FileServers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, workspaceName: string, fileServerName: string, parameters: Models.FileServerCreateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    workspaceName: string,
+    fileServerName: string,
+    parameters: Models.FileServerCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -171,7 +243,8 @@ export class FileServers {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -186,7 +259,12 @@ export class FileServers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, workspaceName: string, fileServerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    fileServerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -195,7 +273,8 @@ export class FileServers {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -204,26 +283,41 @@ export class FileServers {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileServersListByWorkspaceNextResponse>
    */
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FileServersListByWorkspaceNextResponse>;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FileServersListByWorkspaceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FileServerListResult>): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.FileServerListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FileServerListResult>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServerListResult>, callback?: msRest.ServiceCallback<Models.FileServerListResult>): Promise<Models.FileServersListByWorkspaceNextResponse> {
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FileServerListResult>
+  ): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FileServerListResult>,
+    callback?: msRest.ServiceCallback<Models.FileServerListResult>
+  ): Promise<Models.FileServersListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByWorkspaceNextOperationSpec,
-      callback) as Promise<Models.FileServersListByWorkspaceNextResponse>;
+      callback
+    ) as Promise<Models.FileServersListByWorkspaceNextResponse>;
   }
 }
 
@@ -231,19 +325,16 @@ export class FileServers {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.fileServerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileServer
@@ -257,19 +348,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxResults5
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxResults5],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileServerListResult
@@ -283,19 +370,16 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.fileServerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -317,19 +401,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BatchAI/workspaces/{workspaceName}/fileServers/{fileServerName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.fileServerName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -345,12 +426,8 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FileServerListResult

@@ -38,7 +38,11 @@ export class Query {
    * @param [options] The optional parameters
    * @returns Promise<Models.QueryExecuteResponse>
    */
-  execute(appId: string, body: Models.QueryBody, options?: msRest.RequestOptionsBase): Promise<Models.QueryExecuteResponse>;
+  execute(
+    appId: string,
+    body: Models.QueryBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.QueryExecuteResponse>;
   /**
    * @param appId ID of the application. This is Application ID from the API Access settings blade in
    * the Azure portal.
@@ -46,7 +50,11 @@ export class Query {
    * syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
    * @param callback The callback
    */
-  execute(appId: string, body: Models.QueryBody, callback: msRest.ServiceCallback<Models.QueryResults>): void;
+  execute(
+    appId: string,
+    body: Models.QueryBody,
+    callback: msRest.ServiceCallback<Models.QueryResults>
+  ): void;
   /**
    * @param appId ID of the application. This is Application ID from the API Access settings blade in
    * the Azure portal.
@@ -55,8 +63,18 @@ export class Query {
    * @param options The optional parameters
    * @param callback The callback
    */
-  execute(appId: string, body: Models.QueryBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QueryResults>): void;
-  execute(appId: string, body: Models.QueryBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryResults>, callback?: msRest.ServiceCallback<Models.QueryResults>): Promise<Models.QueryExecuteResponse> {
+  execute(
+    appId: string,
+    body: Models.QueryBody,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.QueryResults>
+  ): void;
+  execute(
+    appId: string,
+    body: Models.QueryBody,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryResults>,
+    callback?: msRest.ServiceCallback<Models.QueryResults>
+  ): Promise<Models.QueryExecuteResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -64,7 +82,8 @@ export class Query {
         options
       },
       executeOperationSpec,
-      callback) as Promise<Models.QueryExecuteResponse>;
+      callback
+    ) as Promise<Models.QueryExecuteResponse>;
   }
 }
 
@@ -73,9 +92,7 @@ const serializer = new msRest.Serializer(Mappers);
 const executeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "v1/apps/{appId}/query",
-  urlParameters: [
-    Parameters.appId
-  ],
+  urlParameters: [Parameters.appId],
   requestBody: {
     parameterPath: "body",
     mapper: {

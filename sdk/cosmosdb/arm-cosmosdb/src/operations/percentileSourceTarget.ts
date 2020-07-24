@@ -41,7 +41,14 @@ export class PercentileSourceTarget {
    * @param [options] The optional parameters
    * @returns Promise<Models.PercentileSourceTargetListMetricsResponse>
    */
-  listMetrics(resourceGroupName: string, accountName: string, sourceRegion: string, targetRegion: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.PercentileSourceTargetListMetricsResponse>;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    sourceRegion: string,
+    targetRegion: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PercentileSourceTargetListMetricsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -54,7 +61,14 @@ export class PercentileSourceTarget {
    * names), startTime, endTime, and timeGrain. The supported operator is eq.
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, sourceRegion: string, targetRegion: string, filter: string, callback: msRest.ServiceCallback<Models.PercentileMetricListResult>): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    sourceRegion: string,
+    targetRegion: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.PercentileMetricListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -68,8 +82,24 @@ export class PercentileSourceTarget {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listMetrics(resourceGroupName: string, accountName: string, sourceRegion: string, targetRegion: string, filter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PercentileMetricListResult>): void;
-  listMetrics(resourceGroupName: string, accountName: string, sourceRegion: string, targetRegion: string, filter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PercentileMetricListResult>, callback?: msRest.ServiceCallback<Models.PercentileMetricListResult>): Promise<Models.PercentileSourceTargetListMetricsResponse> {
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    sourceRegion: string,
+    targetRegion: string,
+    filter: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PercentileMetricListResult>
+  ): void;
+  listMetrics(
+    resourceGroupName: string,
+    accountName: string,
+    sourceRegion: string,
+    targetRegion: string,
+    filter: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PercentileMetricListResult>,
+    callback?: msRest.ServiceCallback<Models.PercentileMetricListResult>
+  ): Promise<Models.PercentileSourceTargetListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -80,7 +110,8 @@ export class PercentileSourceTarget {
         options
       },
       listMetricsOperationSpec,
-      callback) as Promise<Models.PercentileSourceTargetListMetricsResponse>;
+      callback
+    ) as Promise<Models.PercentileSourceTargetListMetricsResponse>;
   }
 }
 
@@ -88,7 +119,8 @@ export class PercentileSourceTarget {
 const serializer = new msRest.Serializer(Mappers);
 const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sourceRegion/{sourceRegion}/targetRegion/{targetRegion}/percentile/metrics",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sourceRegion/{sourceRegion}/targetRegion/{targetRegion}/percentile/metrics",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -96,13 +128,8 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
     Parameters.sourceRegion,
     Parameters.targetRegion
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PercentileMetricListResult

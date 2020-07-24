@@ -8,9 +8,4 @@
  * regenerated.
  */
 
-export {
-  TypeFieldListResult,
-  TypeField,
-  ErrorResponse
-} from "../models/mappers";
-
+export { TypeFieldListResult, TypeField, ErrorResponse } from "../models/mappers";

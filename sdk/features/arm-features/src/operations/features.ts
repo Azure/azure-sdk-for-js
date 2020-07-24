@@ -40,14 +40,23 @@ export class Features {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListAllResponse> {
+  listAll(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>
+  ): void;
+  listAll(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.FeatureOperationsListResult>,
+    callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>
+  ): Promise<Models.FeaturesListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAllOperationSpec,
-      callback) as Promise<Models.FeaturesListAllResponse>;
+      callback
+    ) as Promise<Models.FeaturesListAllResponse>;
   }
 
   /**
@@ -57,26 +66,43 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesListResponse>
    */
-  list(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListResponse>;
+  list(
+    resourceProviderNamespace: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FeaturesListResponse>;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider for getting features.
    * @param callback The callback
    */
-  list(resourceProviderNamespace: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  list(
+    resourceProviderNamespace: string,
+    callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>
+  ): void;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider for getting features.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceProviderNamespace: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
-  list(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListResponse> {
+  list(
+    resourceProviderNamespace: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>
+  ): void;
+  list(
+    resourceProviderNamespace: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.FeatureOperationsListResult>,
+    callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>
+  ): Promise<Models.FeaturesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.FeaturesListResponse>;
+      callback
+    ) as Promise<Models.FeaturesListResponse>;
   }
 
   /**
@@ -86,21 +112,39 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesGetResponse>
    */
-  get(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesGetResponse>;
+  get(
+    resourceProviderNamespace: string,
+    featureName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FeaturesGetResponse>;
   /**
    * @param resourceProviderNamespace The resource provider namespace for the feature.
    * @param featureName The name of the feature to get.
    * @param callback The callback
    */
-  get(resourceProviderNamespace: string, featureName: string, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
+  get(
+    resourceProviderNamespace: string,
+    featureName: string,
+    callback: msRest.ServiceCallback<Models.FeatureResult>
+  ): void;
   /**
    * @param resourceProviderNamespace The resource provider namespace for the feature.
    * @param featureName The name of the feature to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceProviderNamespace: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
-  get(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesGetResponse> {
+  get(
+    resourceProviderNamespace: string,
+    featureName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FeatureResult>
+  ): void;
+  get(
+    resourceProviderNamespace: string,
+    featureName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>,
+    callback?: msRest.ServiceCallback<Models.FeatureResult>
+  ): Promise<Models.FeaturesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
@@ -108,7 +152,8 @@ export class Features {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.FeaturesGetResponse>;
+      callback
+    ) as Promise<Models.FeaturesGetResponse>;
   }
 
   /**
@@ -118,21 +163,39 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesRegisterResponse>
    */
-  register(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesRegisterResponse>;
+  register(
+    resourceProviderNamespace: string,
+    featureName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FeaturesRegisterResponse>;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param featureName The name of the feature to register.
    * @param callback The callback
    */
-  register(resourceProviderNamespace: string, featureName: string, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
+  register(
+    resourceProviderNamespace: string,
+    featureName: string,
+    callback: msRest.ServiceCallback<Models.FeatureResult>
+  ): void;
   /**
    * @param resourceProviderNamespace The namespace of the resource provider.
    * @param featureName The name of the feature to register.
    * @param options The optional parameters
    * @param callback The callback
    */
-  register(resourceProviderNamespace: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
-  register(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesRegisterResponse> {
+  register(
+    resourceProviderNamespace: string,
+    featureName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FeatureResult>
+  ): void;
+  register(
+    resourceProviderNamespace: string,
+    featureName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureResult>,
+    callback?: msRest.ServiceCallback<Models.FeatureResult>
+  ): Promise<Models.FeaturesRegisterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceProviderNamespace,
@@ -140,7 +203,8 @@ export class Features {
         options
       },
       registerOperationSpec,
-      callback) as Promise<Models.FeaturesRegisterResponse>;
+      callback
+    ) as Promise<Models.FeaturesRegisterResponse>;
   }
 
   /**
@@ -149,26 +213,43 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListAllNextResponse>;
+  listAllNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FeaturesListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  listAllNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListAllNextResponse> {
+  listAllNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>
+  ): void;
+  listAllNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.FeatureOperationsListResult>,
+    callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>
+  ): Promise<Models.FeaturesListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAllNextOperationSpec,
-      callback) as Promise<Models.FeaturesListAllNextResponse>;
+      callback
+    ) as Promise<Models.FeaturesListAllNextResponse>;
   }
 
   /**
@@ -178,26 +259,43 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FeaturesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FeatureOperationsListResult>, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.FeatureOperationsListResult>,
+    callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>
+  ): Promise<Models.FeaturesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.FeaturesListNextResponse>;
+      callback
+    ) as Promise<Models.FeaturesListNextResponse>;
   }
 }
 
@@ -206,15 +304,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listAllOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Features/features",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
@@ -228,17 +320,11 @@ const listAllOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features",
-  urlParameters: [
-    Parameters.resourceProviderNamespace,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features",
+  urlParameters: [Parameters.resourceProviderNamespace, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
@@ -252,18 +338,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features/{featureName}",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features/{featureName}",
   urlParameters: [
     Parameters.resourceProviderNamespace,
     Parameters.featureName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FeatureResult
@@ -277,18 +360,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const registerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features/{featureName}/register",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features/{featureName}/register",
   urlParameters: [
     Parameters.resourceProviderNamespace,
     Parameters.featureName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FeatureResult
@@ -304,12 +384,8 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult
@@ -325,12 +401,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FeatureOperationsListResult

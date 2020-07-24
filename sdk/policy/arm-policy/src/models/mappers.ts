@@ -156,10 +156,7 @@ export const Identity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "None"]
         }
       }
     }

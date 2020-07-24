@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as msRest from "@azure/ms-rest-js";
 
 /**
@@ -169,7 +168,7 @@ export interface RankResponse {
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'BadRequest' | 'ResourceNotFound' | 'InternalServerError';
+export type ErrorCode = "BadRequest" | "ResourceNotFound" | "InternalServerError";
 
 /**
  * Contains response data for the rank operation.
@@ -179,14 +178,14 @@ export type RankResponse2 = RankResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RankResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RankResponse;
+  };
 };

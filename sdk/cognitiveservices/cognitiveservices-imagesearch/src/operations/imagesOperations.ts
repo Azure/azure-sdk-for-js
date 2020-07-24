@@ -42,7 +42,10 @@ export class ImagesOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImagesSearchResponse>
    */
-  search(query: string, options?: Models.ImagesSearchOptionalParams): Promise<Models.ImagesSearchResponse>;
+  search(
+    query: string,
+    options?: Models.ImagesSearchOptionalParams
+  ): Promise<Models.ImagesSearchResponse>;
   /**
    * @param query The user's search query term. The term cannot be empty. The term may contain [Bing
    * Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). For example, to limit
@@ -65,15 +68,24 @@ export class ImagesOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  search(query: string, options: Models.ImagesSearchOptionalParams, callback: msRest.ServiceCallback<Models.Images>): void;
-  search(query: string, options?: Models.ImagesSearchOptionalParams | msRest.ServiceCallback<Models.Images>, callback?: msRest.ServiceCallback<Models.Images>): Promise<Models.ImagesSearchResponse> {
+  search(
+    query: string,
+    options: Models.ImagesSearchOptionalParams,
+    callback: msRest.ServiceCallback<Models.Images>
+  ): void;
+  search(
+    query: string,
+    options?: Models.ImagesSearchOptionalParams | msRest.ServiceCallback<Models.Images>,
+    callback?: msRest.ServiceCallback<Models.Images>
+  ): Promise<Models.ImagesSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
         options
       },
       searchOperationSpec,
-      callback) as Promise<Models.ImagesSearchResponse>;
+      callback
+    ) as Promise<Models.ImagesSearchResponse>;
   }
 
   /**
@@ -93,7 +105,10 @@ export class ImagesOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImagesDetailsResponse>
    */
-  details(query: string, options?: Models.ImagesDetailsOptionalParams): Promise<Models.ImagesDetailsResponse>;
+  details(
+    query: string,
+    options?: Models.ImagesDetailsOptionalParams
+  ): Promise<Models.ImagesDetailsResponse>;
   /**
    * @param query The user's search query term. The term cannot be empty. The term may contain [Bing
    * Advanced Operators](http://msdn.microsoft.com/library/ff795620.aspx). For example, to limit
@@ -116,15 +131,24 @@ export class ImagesOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  details(query: string, options: Models.ImagesDetailsOptionalParams, callback: msRest.ServiceCallback<Models.ImageInsights>): void;
-  details(query: string, options?: Models.ImagesDetailsOptionalParams | msRest.ServiceCallback<Models.ImageInsights>, callback?: msRest.ServiceCallback<Models.ImageInsights>): Promise<Models.ImagesDetailsResponse> {
+  details(
+    query: string,
+    options: Models.ImagesDetailsOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImageInsights>
+  ): void;
+  details(
+    query: string,
+    options?: Models.ImagesDetailsOptionalParams | msRest.ServiceCallback<Models.ImageInsights>,
+    callback?: msRest.ServiceCallback<Models.ImageInsights>
+  ): Promise<Models.ImagesDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         query,
         options
       },
       detailsOperationSpec,
-      callback) as Promise<Models.ImagesDetailsResponse>;
+      callback
+    ) as Promise<Models.ImagesDetailsResponse>;
   }
 
   /**
@@ -145,14 +169,21 @@ export class ImagesOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  trending(options: Models.ImagesTrendingOptionalParams, callback: msRest.ServiceCallback<Models.TrendingImages>): void;
-  trending(options?: Models.ImagesTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingImages>, callback?: msRest.ServiceCallback<Models.TrendingImages>): Promise<Models.ImagesTrendingResponse> {
+  trending(
+    options: Models.ImagesTrendingOptionalParams,
+    callback: msRest.ServiceCallback<Models.TrendingImages>
+  ): void;
+  trending(
+    options?: Models.ImagesTrendingOptionalParams | msRest.ServiceCallback<Models.TrendingImages>,
+    callback?: msRest.ServiceCallback<Models.TrendingImages>
+  ): Promise<Models.ImagesTrendingResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       trendingOperationSpec,
-      callback) as Promise<Models.ImagesTrendingResponse>;
+      callback
+    ) as Promise<Models.ImagesTrendingResponse>;
   }
 }
 
@@ -161,9 +192,7 @@ const serializer = new msRest.Serializer(Mappers);
 const searchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "images/search",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.aspect,
     Parameters.color,
@@ -211,9 +240,7 @@ const searchOperationSpec: msRest.OperationSpec = {
 const detailsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "images/details",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.cropBottom,
     Parameters.cropLeft,
@@ -253,9 +280,7 @@ const detailsOperationSpec: msRest.OperationSpec = {
 const trendingOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "images/trending",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.countryCode,
     Parameters.market,

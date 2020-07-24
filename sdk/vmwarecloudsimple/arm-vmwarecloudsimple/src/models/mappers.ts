@@ -57,10 +57,7 @@ export const AvailableOperationDisplayPropertyServiceSpecificationMetricsItem: m
         serializedName: "aggregationType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Average",
-            "Total"
-          ]
+          allowedValues: ["Average", "Total"]
         }
       },
       displayDescription: {
@@ -147,11 +144,7 @@ export const AvailableOperation: msRest.CompositeMapper = {
         serializedName: "origin",
         type: {
           name: "Enum",
-          allowedValues: [
-            "user",
-            "system",
-            "user,system"
-          ]
+          allowedValues: ["user", "system", "user,system"]
         }
       },
       serviceSpecification: {
@@ -392,10 +385,7 @@ export const DedicatedCloudNode: msRest.CompositeMapper = {
         serializedName: "properties.status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "unused",
-            "used"
-          ]
+          allowedValues: ["unused", "used"]
         }
       },
       vmwareClusterName: {
@@ -476,12 +466,7 @@ export const DedicatedCloudService: msRest.CompositeMapper = {
         serializedName: "properties.isAccountOnboarded",
         type: {
           name: "Enum",
-          allowedValues: [
-            "notOnBoarded",
-            "onBoarded",
-            "onBoardingFailed",
-            "onBoarding"
-          ]
+          allowedValues: ["notOnBoarded", "onBoarded", "onBoardingFailed", "onBoarding"]
         }
       },
       nodes: {
@@ -721,11 +706,7 @@ export const VirtualDisk: msRest.CompositeMapper = {
         serializedName: "independenceMode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "persistent",
-            "independent_persistent",
-            "independent_nonpersistent"
-          ]
+          allowedValues: ["persistent", "independent_persistent", "independent_nonpersistent"]
         }
       },
       totalSize: {
@@ -840,14 +821,7 @@ export const VirtualNic: msRest.CompositeMapper = {
         serializedName: "nicType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "E1000",
-            "E1000E",
-            "PCNET32",
-            "VMXNET",
-            "VMXNET2",
-            "VMXNET3"
-          ]
+          allowedValues: ["E1000", "E1000E", "PCNET32", "VMXNET", "VMXNET2", "VMXNET3"]
         }
       },
       powerOnBoot: {
@@ -1221,9 +1195,7 @@ export const PrivateCloud: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Microsoft.VMwareCloudSimple/privateClouds"
-          ]
+          allowedValues: ["Microsoft.VMwareCloudSimple/privateClouds"]
         }
       }
     }
@@ -1452,11 +1424,7 @@ export const VirtualMachine: msRest.CompositeMapper = {
         serializedName: "properties.guestOSType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "linux",
-            "windows",
-            "other"
-          ]
+          allowedValues: ["linux", "windows", "other"]
         }
       },
       nics: {
@@ -1596,12 +1564,7 @@ export const VirtualMachineStopMode: msRest.CompositeMapper = {
         serializedName: "mode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "reboot",
-            "suspend",
-            "shutdown",
-            "poweroff"
-          ]
+          allowedValues: ["reboot", "suspend", "shutdown", "poweroff"]
         }
       }
     }

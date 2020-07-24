@@ -34,21 +34,39 @@ export class BandwidthSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.BandwidthSettingsListByManagerResponse>
    */
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.BandwidthSettingsListByManagerResponse>;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BandwidthSettingsListByManagerResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.BandwidthSettingList>): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.BandwidthSettingList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BandwidthSettingList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BandwidthSettingList>, callback?: msRest.ServiceCallback<Models.BandwidthSettingList>): Promise<Models.BandwidthSettingsListByManagerResponse> {
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BandwidthSettingList>
+  ): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BandwidthSettingList>,
+    callback?: msRest.ServiceCallback<Models.BandwidthSettingList>
+  ): Promise<Models.BandwidthSettingsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class BandwidthSettings {
         options
       },
       listByManagerOperationSpec,
-      callback) as Promise<Models.BandwidthSettingsListByManagerResponse>;
+      callback
+    ) as Promise<Models.BandwidthSettingsListByManagerResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class BandwidthSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.BandwidthSettingsGetResponse>
    */
-  get(bandwidthSettingName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.BandwidthSettingsGetResponse>;
+  get(
+    bandwidthSettingName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BandwidthSettingsGetResponse>;
   /**
    * @param bandwidthSettingName The name of bandwidth setting to be fetched.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(bandwidthSettingName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.BandwidthSetting>): void;
+  get(
+    bandwidthSettingName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.BandwidthSetting>
+  ): void;
   /**
    * @param bandwidthSettingName The name of bandwidth setting to be fetched.
    * @param resourceGroupName The resource group name
@@ -82,8 +111,20 @@ export class BandwidthSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(bandwidthSettingName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BandwidthSetting>): void;
-  get(bandwidthSettingName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BandwidthSetting>, callback?: msRest.ServiceCallback<Models.BandwidthSetting>): Promise<Models.BandwidthSettingsGetResponse> {
+  get(
+    bandwidthSettingName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BandwidthSetting>
+  ): void;
+  get(
+    bandwidthSettingName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BandwidthSetting>,
+    callback?: msRest.ServiceCallback<Models.BandwidthSetting>
+  ): Promise<Models.BandwidthSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         bandwidthSettingName,
@@ -92,7 +133,8 @@ export class BandwidthSettings {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BandwidthSettingsGetResponse>;
+      callback
+    ) as Promise<Models.BandwidthSettingsGetResponse>;
   }
 
   /**
@@ -104,9 +146,22 @@ export class BandwidthSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.BandwidthSettingsCreateOrUpdateResponse>
    */
-  createOrUpdate(bandwidthSettingName: string, parameters: Models.BandwidthSetting, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.BandwidthSettingsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(bandwidthSettingName,parameters,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BandwidthSettingsCreateOrUpdateResponse>;
+  createOrUpdate(
+    bandwidthSettingName: string,
+    parameters: Models.BandwidthSetting,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BandwidthSettingsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      bandwidthSettingName,
+      parameters,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.BandwidthSettingsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -117,9 +172,18 @@ export class BandwidthSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(bandwidthSettingName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(bandwidthSettingName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    bandwidthSettingName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      bandwidthSettingName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -131,7 +195,13 @@ export class BandwidthSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(bandwidthSettingName: string, parameters: Models.BandwidthSetting, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    bandwidthSettingName: string,
+    parameters: Models.BandwidthSetting,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         bandwidthSettingName,
@@ -141,7 +211,8 @@ export class BandwidthSettings {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +223,12 @@ export class BandwidthSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(bandwidthSettingName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    bandwidthSettingName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         bandwidthSettingName,
@@ -161,7 +237,8 @@ export class BandwidthSettings {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -169,18 +246,11 @@ export class BandwidthSettings {
 const serializer = new msRest.Serializer(Mappers);
 const listByManagerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/bandwidthSettings",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/bandwidthSettings",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BandwidthSettingList
@@ -194,19 +264,16 @@ const listByManagerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/bandwidthSettings/{bandwidthSettingName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/bandwidthSettings/{bandwidthSettingName}",
   urlParameters: [
     Parameters.bandwidthSettingName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BandwidthSetting
@@ -220,19 +287,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/bandwidthSettings/{bandwidthSettingName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/bandwidthSettings/{bandwidthSettingName}",
   urlParameters: [
     Parameters.bandwidthSettingName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -254,19 +318,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/bandwidthSettings/{bandwidthSettingName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/bandwidthSettings/{bandwidthSettingName}",
   urlParameters: [
     Parameters.bandwidthSettingName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},

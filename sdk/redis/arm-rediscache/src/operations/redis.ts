@@ -34,28 +34,43 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  checkNameAvailability(
+    parameters: Models.CheckNameAvailabilityParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param parameters Parameters supplied to the CheckNameAvailability Redis operation. The only
    * supported resource type is 'Microsoft.Cache/redis'
    * @param callback The callback
    */
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameters, callback: msRest.ServiceCallback<void>): void;
+  checkNameAvailability(
+    parameters: Models.CheckNameAvailabilityParameters,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param parameters Parameters supplied to the CheckNameAvailability Redis operation. The only
    * supported resource type is 'Microsoft.Cache/redis'
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  checkNameAvailability(
+    parameters: Models.CheckNameAvailabilityParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  checkNameAvailability(
+    parameters: Models.CheckNameAvailabilityParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -66,14 +81,24 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<Models.RedisListUpgradeNotificationsResponse>
    */
-  listUpgradeNotifications(resourceGroupName: string, name: string, history: number, options?: msRest.RequestOptionsBase): Promise<Models.RedisListUpgradeNotificationsResponse>;
+  listUpgradeNotifications(
+    resourceGroupName: string,
+    name: string,
+    history: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RedisListUpgradeNotificationsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
    * @param history how many minutes in past to look for upgrade notifications
    * @param callback The callback
    */
-  listUpgradeNotifications(resourceGroupName: string, name: string, history: number, callback: msRest.ServiceCallback<Models.NotificationListResponse>): void;
+  listUpgradeNotifications(
+    resourceGroupName: string,
+    name: string,
+    history: number,
+    callback: msRest.ServiceCallback<Models.NotificationListResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
@@ -81,8 +106,20 @@ export class Redis {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listUpgradeNotifications(resourceGroupName: string, name: string, history: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NotificationListResponse>): void;
-  listUpgradeNotifications(resourceGroupName: string, name: string, history: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationListResponse>, callback?: msRest.ServiceCallback<Models.NotificationListResponse>): Promise<Models.RedisListUpgradeNotificationsResponse> {
+  listUpgradeNotifications(
+    resourceGroupName: string,
+    name: string,
+    history: number,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NotificationListResponse>
+  ): void;
+  listUpgradeNotifications(
+    resourceGroupName: string,
+    name: string,
+    history: number,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NotificationListResponse>,
+    callback?: msRest.ServiceCallback<Models.NotificationListResponse>
+  ): Promise<Models.RedisListUpgradeNotificationsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +128,8 @@ export class Redis {
         options
       },
       listUpgradeNotificationsOperationSpec,
-      callback) as Promise<Models.RedisListUpgradeNotificationsResponse>;
+      callback
+    ) as Promise<Models.RedisListUpgradeNotificationsResponse>;
   }
 
   /**
@@ -102,9 +140,15 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<Models.RedisCreateResponse>
    */
-  create(resourceGroupName: string, name: string, parameters: Models.RedisCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.RedisCreateResponse> {
-    return this.beginCreate(resourceGroupName,name,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.RedisCreateResponse>;
+  create(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.RedisCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RedisCreateResponse> {
+    return this.beginCreate(resourceGroupName, name, parameters, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.RedisCreateResponse>;
   }
 
   /**
@@ -115,14 +159,24 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<Models.RedisUpdateResponse>
    */
-  update(resourceGroupName: string, name: string, parameters: Models.RedisUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.RedisUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.RedisUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RedisUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
    * @param parameters Parameters supplied to the Update Redis operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, name: string, parameters: Models.RedisUpdateParameters, callback: msRest.ServiceCallback<Models.RedisResource>): void;
+  update(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.RedisUpdateParameters,
+    callback: msRest.ServiceCallback<Models.RedisResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
@@ -130,8 +184,20 @@ export class Redis {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, name: string, parameters: Models.RedisUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisResource>): void;
-  update(resourceGroupName: string, name: string, parameters: Models.RedisUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisResource>, callback?: msRest.ServiceCallback<Models.RedisResource>): Promise<Models.RedisUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.RedisUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RedisResource>
+  ): void;
+  update(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.RedisUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisResource>,
+    callback?: msRest.ServiceCallback<Models.RedisResource>
+  ): Promise<Models.RedisUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +206,8 @@ export class Redis {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.RedisUpdateResponse>;
+      callback
+    ) as Promise<Models.RedisUpdateResponse>;
   }
 
   /**
@@ -150,9 +217,14 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,name,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, name, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -162,21 +234,39 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<Models.RedisGetResponse>
    */
-  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.RedisGetResponse>;
+  get(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RedisGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
    * @param callback The callback
    */
-  get(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.RedisResource>): void;
+  get(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.RedisResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisResource>): void;
-  get(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisResource>, callback?: msRest.ServiceCallback<Models.RedisResource>): Promise<Models.RedisGetResponse> {
+  get(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RedisResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisResource>,
+    callback?: msRest.ServiceCallback<Models.RedisResource>
+  ): Promise<Models.RedisGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +274,8 @@ export class Redis {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RedisGetResponse>;
+      callback
+    ) as Promise<Models.RedisGetResponse>;
   }
 
   /**
@@ -193,26 +284,41 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<Models.RedisListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.RedisListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RedisListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.RedisListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RedisListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>,
+    callback?: msRest.ServiceCallback<Models.RedisListResult>
+  ): Promise<Models.RedisListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.RedisListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.RedisListByResourceGroupResponse>;
   }
 
   /**
@@ -229,14 +335,21 @@ export class Redis {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RedisListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>,
+    callback?: msRest.ServiceCallback<Models.RedisListResult>
+  ): Promise<Models.RedisListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.RedisListResponse>;
+      callback
+    ) as Promise<Models.RedisListResponse>;
   }
 
   /**
@@ -247,21 +360,39 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<Models.RedisListKeysResponse>
    */
-  listKeys(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.RedisListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RedisListKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.RedisAccessKeys>): void;
+  listKeys(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.RedisAccessKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisAccessKeys>): void;
-  listKeys(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisAccessKeys>, callback?: msRest.ServiceCallback<Models.RedisAccessKeys>): Promise<Models.RedisListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RedisAccessKeys>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisAccessKeys>,
+    callback?: msRest.ServiceCallback<Models.RedisAccessKeys>
+  ): Promise<Models.RedisListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -269,7 +400,8 @@ export class Redis {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.RedisListKeysResponse>;
+      callback
+    ) as Promise<Models.RedisListKeysResponse>;
   }
 
   /**
@@ -282,7 +414,12 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<Models.RedisRegenerateKeyResponse>
    */
-  regenerateKey(resourceGroupName: string, name: string, keyType: Models.RedisKeyType, options?: msRest.RequestOptionsBase): Promise<Models.RedisRegenerateKeyResponse>;
+  regenerateKey(
+    resourceGroupName: string,
+    name: string,
+    keyType: Models.RedisKeyType,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RedisRegenerateKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
@@ -290,7 +427,12 @@ export class Redis {
    * 'Secondary'
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, name: string, keyType: Models.RedisKeyType, callback: msRest.ServiceCallback<Models.RedisAccessKeys>): void;
+  regenerateKey(
+    resourceGroupName: string,
+    name: string,
+    keyType: Models.RedisKeyType,
+    callback: msRest.ServiceCallback<Models.RedisAccessKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
@@ -299,8 +441,20 @@ export class Redis {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, name: string, keyType: Models.RedisKeyType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisAccessKeys>): void;
-  regenerateKey(resourceGroupName: string, name: string, keyType: Models.RedisKeyType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisAccessKeys>, callback?: msRest.ServiceCallback<Models.RedisAccessKeys>): Promise<Models.RedisRegenerateKeyResponse> {
+  regenerateKey(
+    resourceGroupName: string,
+    name: string,
+    keyType: Models.RedisKeyType,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RedisAccessKeys>
+  ): void;
+  regenerateKey(
+    resourceGroupName: string,
+    name: string,
+    keyType: Models.RedisKeyType,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisAccessKeys>,
+    callback?: msRest.ServiceCallback<Models.RedisAccessKeys>
+  ): Promise<Models.RedisRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -309,7 +463,8 @@ export class Redis {
         options
       },
       regenerateKeyOperationSpec,
-      callback) as Promise<Models.RedisRegenerateKeyResponse>;
+      callback
+    ) as Promise<Models.RedisRegenerateKeyResponse>;
   }
 
   /**
@@ -321,14 +476,24 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<Models.RedisForceRebootResponse2>
    */
-  forceReboot(resourceGroupName: string, name: string, parameters: Models.RedisRebootParameters, options?: msRest.RequestOptionsBase): Promise<Models.RedisForceRebootResponse2>;
+  forceReboot(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.RedisRebootParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RedisForceRebootResponse2>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
    * @param parameters Specifies which Redis node(s) to reboot.
    * @param callback The callback
    */
-  forceReboot(resourceGroupName: string, name: string, parameters: Models.RedisRebootParameters, callback: msRest.ServiceCallback<Models.RedisForceRebootResponse>): void;
+  forceReboot(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.RedisRebootParameters,
+    callback: msRest.ServiceCallback<Models.RedisForceRebootResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the Redis cache.
@@ -336,8 +501,20 @@ export class Redis {
    * @param options The optional parameters
    * @param callback The callback
    */
-  forceReboot(resourceGroupName: string, name: string, parameters: Models.RedisRebootParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisForceRebootResponse>): void;
-  forceReboot(resourceGroupName: string, name: string, parameters: Models.RedisRebootParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisForceRebootResponse>, callback?: msRest.ServiceCallback<Models.RedisForceRebootResponse>): Promise<Models.RedisForceRebootResponse2> {
+  forceReboot(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.RedisRebootParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RedisForceRebootResponse>
+  ): void;
+  forceReboot(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.RedisRebootParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisForceRebootResponse>,
+    callback?: msRest.ServiceCallback<Models.RedisForceRebootResponse>
+  ): Promise<Models.RedisForceRebootResponse2> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -346,7 +523,8 @@ export class Redis {
         options
       },
       forceRebootOperationSpec,
-      callback) as Promise<Models.RedisForceRebootResponse2>;
+      callback
+    ) as Promise<Models.RedisForceRebootResponse2>;
   }
 
   /**
@@ -357,9 +535,15 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  importData(resourceGroupName: string, name: string, parameters: Models.ImportRDBParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginImportData(resourceGroupName,name,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  importData(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.ImportRDBParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginImportData(resourceGroupName, name, parameters, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -370,9 +554,15 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  exportData(resourceGroupName: string, name: string, parameters: Models.ExportRDBParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginExportData(resourceGroupName,name,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  exportData(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.ExportRDBParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginExportData(resourceGroupName, name, parameters, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -383,7 +573,12 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, name: string, parameters: Models.RedisCreateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.RedisCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -392,7 +587,8 @@ export class Redis {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -402,7 +598,11 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -410,7 +610,8 @@ export class Redis {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -421,7 +622,12 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginImportData(resourceGroupName: string, name: string, parameters: Models.ImportRDBParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginImportData(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.ImportRDBParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -430,7 +636,8 @@ export class Redis {
         options
       },
       beginImportDataOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -441,7 +648,12 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginExportData(resourceGroupName: string, name: string, parameters: Models.ExportRDBParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginExportData(
+    resourceGroupName: string,
+    name: string,
+    parameters: Models.ExportRDBParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -450,7 +662,8 @@ export class Redis {
         options
       },
       beginExportDataOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -459,26 +672,41 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<Models.RedisListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RedisListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RedisListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RedisListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RedisListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>,
+    callback?: msRest.ServiceCallback<Models.RedisListResult>
+  ): Promise<Models.RedisListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.RedisListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.RedisListByResourceGroupNextResponse>;
   }
 
   /**
@@ -487,7 +715,10 @@ export class Redis {
    * @param [options] The optional parameters
    * @returns Promise<Models.RedisListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RedisListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RedisListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -498,15 +729,24 @@ export class Redis {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RedisListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>, callback?: msRest.ServiceCallback<Models.RedisListResult>): Promise<Models.RedisListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RedisListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RedisListResult>,
+    callback?: msRest.ServiceCallback<Models.RedisListResult>
+  ): Promise<Models.RedisListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.RedisListNextResponse>;
+      callback
+    ) as Promise<Models.RedisListNextResponse>;
   }
 }
 
@@ -515,15 +755,9 @@ const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Cache/CheckNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -542,19 +776,11 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const listUpgradeNotificationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/listUpgradeNotifications",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.history
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/listUpgradeNotifications",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.history],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NotificationListResponse
@@ -568,18 +794,11 @@ const listUpgradeNotificationsOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -600,18 +819,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RedisResource
@@ -625,17 +837,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RedisListResult
@@ -650,15 +856,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Cache/Redis",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RedisListResult
@@ -672,18 +872,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/listKeys",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/listKeys",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RedisAccessKeys
@@ -697,18 +890,11 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/regenerateKey",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/regenerateKey",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       keyType: "keyType"
@@ -731,18 +917,11 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
 
 const forceRebootOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/forceReboot",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/forceReboot",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -763,18 +942,11 @@ const forceRebootOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -798,18 +970,11 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -823,18 +988,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginImportDataOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/import",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/import",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -855,18 +1013,11 @@ const beginImportDataOperationSpec: msRest.OperationSpec = {
 
 const beginExportDataOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/export",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}/export",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -889,12 +1040,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RedisListResult
@@ -910,12 +1057,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RedisListResult

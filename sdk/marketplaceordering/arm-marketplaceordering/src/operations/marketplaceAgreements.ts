@@ -34,14 +34,24 @@ export class MarketplaceAgreements {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplaceAgreementsGetResponse>
    */
-  get(publisherId: string, offerId: string, planId: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplaceAgreementsGetResponse>;
+  get(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplaceAgreementsGetResponse>;
   /**
    * @param publisherId Publisher identifier string of image being deployed.
    * @param offerId Offer identifier string of image being deployed.
    * @param planId Plan identifier string of image being deployed.
    * @param callback The callback
    */
-  get(publisherId: string, offerId: string, planId: string, callback: msRest.ServiceCallback<Models.AgreementTerms>): void;
+  get(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    callback: msRest.ServiceCallback<Models.AgreementTerms>
+  ): void;
   /**
    * @param publisherId Publisher identifier string of image being deployed.
    * @param offerId Offer identifier string of image being deployed.
@@ -49,8 +59,20 @@ export class MarketplaceAgreements {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(publisherId: string, offerId: string, planId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgreementTerms>): void;
-  get(publisherId: string, offerId: string, planId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms>, callback?: msRest.ServiceCallback<Models.AgreementTerms>): Promise<Models.MarketplaceAgreementsGetResponse> {
+  get(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgreementTerms>
+  ): void;
+  get(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms>,
+    callback?: msRest.ServiceCallback<Models.AgreementTerms>
+  ): Promise<Models.MarketplaceAgreementsGetResponse> {
     return this.client.sendOperationRequest(
       {
         publisherId,
@@ -59,7 +81,8 @@ export class MarketplaceAgreements {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MarketplaceAgreementsGetResponse>;
+      callback
+    ) as Promise<Models.MarketplaceAgreementsGetResponse>;
   }
 
   /**
@@ -71,7 +94,13 @@ export class MarketplaceAgreements {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplaceAgreementsCreateResponse>
    */
-  create(publisherId: string, offerId: string, planId: string, parameters: Models.AgreementTerms, options?: msRest.RequestOptionsBase): Promise<Models.MarketplaceAgreementsCreateResponse>;
+  create(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    parameters: Models.AgreementTerms,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplaceAgreementsCreateResponse>;
   /**
    * @param publisherId Publisher identifier string of image being deployed.
    * @param offerId Offer identifier string of image being deployed.
@@ -79,7 +108,13 @@ export class MarketplaceAgreements {
    * @param parameters Parameters supplied to the Create Marketplace Terms operation.
    * @param callback The callback
    */
-  create(publisherId: string, offerId: string, planId: string, parameters: Models.AgreementTerms, callback: msRest.ServiceCallback<Models.AgreementTerms>): void;
+  create(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    parameters: Models.AgreementTerms,
+    callback: msRest.ServiceCallback<Models.AgreementTerms>
+  ): void;
   /**
    * @param publisherId Publisher identifier string of image being deployed.
    * @param offerId Offer identifier string of image being deployed.
@@ -88,8 +123,22 @@ export class MarketplaceAgreements {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(publisherId: string, offerId: string, planId: string, parameters: Models.AgreementTerms, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgreementTerms>): void;
-  create(publisherId: string, offerId: string, planId: string, parameters: Models.AgreementTerms, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms>, callback?: msRest.ServiceCallback<Models.AgreementTerms>): Promise<Models.MarketplaceAgreementsCreateResponse> {
+  create(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    parameters: Models.AgreementTerms,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgreementTerms>
+  ): void;
+  create(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    parameters: Models.AgreementTerms,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms>,
+    callback?: msRest.ServiceCallback<Models.AgreementTerms>
+  ): Promise<Models.MarketplaceAgreementsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         publisherId,
@@ -99,7 +148,8 @@ export class MarketplaceAgreements {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.MarketplaceAgreementsCreateResponse>;
+      callback
+    ) as Promise<Models.MarketplaceAgreementsCreateResponse>;
   }
 
   /**
@@ -110,14 +160,24 @@ export class MarketplaceAgreements {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplaceAgreementsSignResponse>
    */
-  sign(publisherId: string, offerId: string, planId: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplaceAgreementsSignResponse>;
+  sign(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplaceAgreementsSignResponse>;
   /**
    * @param publisherId Publisher identifier string of image being deployed.
    * @param offerId Offer identifier string of image being deployed.
    * @param planId Plan identifier string of image being deployed.
    * @param callback The callback
    */
-  sign(publisherId: string, offerId: string, planId: string, callback: msRest.ServiceCallback<Models.AgreementTerms>): void;
+  sign(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    callback: msRest.ServiceCallback<Models.AgreementTerms>
+  ): void;
   /**
    * @param publisherId Publisher identifier string of image being deployed.
    * @param offerId Offer identifier string of image being deployed.
@@ -125,8 +185,20 @@ export class MarketplaceAgreements {
    * @param options The optional parameters
    * @param callback The callback
    */
-  sign(publisherId: string, offerId: string, planId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgreementTerms>): void;
-  sign(publisherId: string, offerId: string, planId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms>, callback?: msRest.ServiceCallback<Models.AgreementTerms>): Promise<Models.MarketplaceAgreementsSignResponse> {
+  sign(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgreementTerms>
+  ): void;
+  sign(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms>,
+    callback?: msRest.ServiceCallback<Models.AgreementTerms>
+  ): Promise<Models.MarketplaceAgreementsSignResponse> {
     return this.client.sendOperationRequest(
       {
         publisherId,
@@ -135,7 +207,8 @@ export class MarketplaceAgreements {
         options
       },
       signOperationSpec,
-      callback) as Promise<Models.MarketplaceAgreementsSignResponse>;
+      callback
+    ) as Promise<Models.MarketplaceAgreementsSignResponse>;
   }
 
   /**
@@ -146,14 +219,24 @@ export class MarketplaceAgreements {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplaceAgreementsCancelResponse>
    */
-  cancel(publisherId: string, offerId: string, planId: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplaceAgreementsCancelResponse>;
+  cancel(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplaceAgreementsCancelResponse>;
   /**
    * @param publisherId Publisher identifier string of image being deployed.
    * @param offerId Offer identifier string of image being deployed.
    * @param planId Plan identifier string of image being deployed.
    * @param callback The callback
    */
-  cancel(publisherId: string, offerId: string, planId: string, callback: msRest.ServiceCallback<Models.AgreementTerms>): void;
+  cancel(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    callback: msRest.ServiceCallback<Models.AgreementTerms>
+  ): void;
   /**
    * @param publisherId Publisher identifier string of image being deployed.
    * @param offerId Offer identifier string of image being deployed.
@@ -161,8 +244,20 @@ export class MarketplaceAgreements {
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancel(publisherId: string, offerId: string, planId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgreementTerms>): void;
-  cancel(publisherId: string, offerId: string, planId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms>, callback?: msRest.ServiceCallback<Models.AgreementTerms>): Promise<Models.MarketplaceAgreementsCancelResponse> {
+  cancel(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgreementTerms>
+  ): void;
+  cancel(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms>,
+    callback?: msRest.ServiceCallback<Models.AgreementTerms>
+  ): Promise<Models.MarketplaceAgreementsCancelResponse> {
     return this.client.sendOperationRequest(
       {
         publisherId,
@@ -171,7 +266,8 @@ export class MarketplaceAgreements {
         options
       },
       cancelOperationSpec,
-      callback) as Promise<Models.MarketplaceAgreementsCancelResponse>;
+      callback
+    ) as Promise<Models.MarketplaceAgreementsCancelResponse>;
   }
 
   /**
@@ -182,14 +278,24 @@ export class MarketplaceAgreements {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplaceAgreementsGetAgreementResponse>
    */
-  getAgreement(publisherId: string, offerId: string, planId: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplaceAgreementsGetAgreementResponse>;
+  getAgreement(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplaceAgreementsGetAgreementResponse>;
   /**
    * @param publisherId Publisher identifier string of image being deployed.
    * @param offerId Offer identifier string of image being deployed.
    * @param planId Plan identifier string of image being deployed.
    * @param callback The callback
    */
-  getAgreement(publisherId: string, offerId: string, planId: string, callback: msRest.ServiceCallback<Models.AgreementTerms>): void;
+  getAgreement(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    callback: msRest.ServiceCallback<Models.AgreementTerms>
+  ): void;
   /**
    * @param publisherId Publisher identifier string of image being deployed.
    * @param offerId Offer identifier string of image being deployed.
@@ -197,8 +303,20 @@ export class MarketplaceAgreements {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAgreement(publisherId: string, offerId: string, planId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgreementTerms>): void;
-  getAgreement(publisherId: string, offerId: string, planId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms>, callback?: msRest.ServiceCallback<Models.AgreementTerms>): Promise<Models.MarketplaceAgreementsGetAgreementResponse> {
+  getAgreement(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgreementTerms>
+  ): void;
+  getAgreement(
+    publisherId: string,
+    offerId: string,
+    planId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms>,
+    callback?: msRest.ServiceCallback<Models.AgreementTerms>
+  ): Promise<Models.MarketplaceAgreementsGetAgreementResponse> {
     return this.client.sendOperationRequest(
       {
         publisherId,
@@ -207,7 +325,8 @@ export class MarketplaceAgreements {
         options
       },
       getAgreementOperationSpec,
-      callback) as Promise<Models.MarketplaceAgreementsGetAgreementResponse>;
+      callback
+    ) as Promise<Models.MarketplaceAgreementsGetAgreementResponse>;
   }
 
   /**
@@ -224,14 +343,21 @@ export class MarketplaceAgreements {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgreementTerms[]>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms[]>, callback?: msRest.ServiceCallback<Models.AgreementTerms[]>): Promise<Models.MarketplaceAgreementsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgreementTerms[]>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgreementTerms[]>,
+    callback?: msRest.ServiceCallback<Models.AgreementTerms[]>
+  ): Promise<Models.MarketplaceAgreementsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MarketplaceAgreementsListResponse>;
+      callback
+    ) as Promise<Models.MarketplaceAgreementsListResponse>;
   }
 }
 
@@ -239,7 +365,8 @@ export class MarketplaceAgreements {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/offerTypes/{offerType}/publishers/{publisherId}/offers/{offerId}/plans/{planId}/agreements/current",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/offerTypes/{offerType}/publishers/{publisherId}/offers/{offerId}/plans/{planId}/agreements/current",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.offerType,
@@ -247,12 +374,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.offerId,
     Parameters.planId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgreementTerms
@@ -266,7 +389,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/offerTypes/{offerType}/publishers/{publisherId}/offers/{offerId}/plans/{planId}/agreements/current",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/offerTypes/{offerType}/publishers/{publisherId}/offers/{offerId}/plans/{planId}/agreements/current",
   urlParameters: [
     Parameters.offerType,
     Parameters.subscriptionId,
@@ -274,12 +398,8 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.offerId,
     Parameters.planId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -300,19 +420,16 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const signOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/agreements/{publisherId}/offers/{offerId}/plans/{planId}/sign",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/agreements/{publisherId}/offers/{offerId}/plans/{planId}/sign",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.publisherId,
     Parameters.offerId,
     Parameters.planId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgreementTerms
@@ -326,19 +443,16 @@ const signOperationSpec: msRest.OperationSpec = {
 
 const cancelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/agreements/{publisherId}/offers/{offerId}/plans/{planId}/cancel",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/agreements/{publisherId}/offers/{offerId}/plans/{planId}/cancel",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.publisherId,
     Parameters.offerId,
     Parameters.planId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgreementTerms
@@ -352,19 +466,16 @@ const cancelOperationSpec: msRest.OperationSpec = {
 
 const getAgreementOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/agreements/{publisherId}/offers/{offerId}/plans/{planId}",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/agreements/{publisherId}/offers/{offerId}/plans/{planId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.publisherId,
     Parameters.offerId,
     Parameters.planId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgreementTerms
@@ -379,15 +490,9 @@ const getAgreementOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/agreements",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {

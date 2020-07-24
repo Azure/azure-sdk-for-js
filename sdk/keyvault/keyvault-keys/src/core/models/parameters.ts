@@ -54,10 +54,7 @@ export const keyVersion: coreHttp.OperationURLParameter = {
   }
 };
 export const maxresults: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "maxresults"
-  ],
+  parameterPath: ["options", "maxresults"],
   mapper: {
     serializedName: "maxresults",
     constraints: {
@@ -74,7 +71,7 @@ export const vaultBaseUrl: coreHttp.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "vaultBaseUrl",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }

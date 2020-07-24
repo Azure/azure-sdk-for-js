@@ -8,10 +8,4 @@
  * regenerated.
  */
 
-export {
-  ListUsagesResult,
-  Usage,
-  UsageName,
-  CloudError
-} from "../models/mappers";
-
+export { ListUsagesResult, Usage, UsageName, CloudError } from "../models/mappers";

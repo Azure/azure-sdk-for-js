@@ -421,9 +421,7 @@ export const Identity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned"
-          ]
+          allowedValues: ["SystemAssigned"]
         }
       }
     }
@@ -1722,19 +1720,18 @@ export const PaginatedComputeResourcesList: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'Compute' : Compute,
-  'Compute.AKS' : AKS,
-  'Compute.AmlCompute' : AmlCompute,
-  'Compute.VirtualMachine' : VirtualMachine,
-  'Compute.HDInsight' : HDInsight,
-  'Compute.DataFactory' : DataFactory,
-  'Compute.Databricks' : Databricks,
-  'Compute.DataLakeAnalytics' : DataLakeAnalytics,
-  'ComputeNodesInformation' : ComputeNodesInformation,
-  'ComputeNodesInformation.AmlCompute' : AmlComputeNodesInformation,
-  'ComputeSecrets' : ComputeSecrets,
-  'ComputeSecrets.AKS' : AksComputeSecrets,
-  'ComputeSecrets.VirtualMachine' : VirtualMachineSecrets,
-  'ComputeSecrets.Databricks' : DatabricksComputeSecrets
-
+  Compute: Compute,
+  "Compute.AKS": AKS,
+  "Compute.AmlCompute": AmlCompute,
+  "Compute.VirtualMachine": VirtualMachine,
+  "Compute.HDInsight": HDInsight,
+  "Compute.DataFactory": DataFactory,
+  "Compute.Databricks": Databricks,
+  "Compute.DataLakeAnalytics": DataLakeAnalytics,
+  ComputeNodesInformation: ComputeNodesInformation,
+  "ComputeNodesInformation.AmlCompute": AmlComputeNodesInformation,
+  ComputeSecrets: ComputeSecrets,
+  "ComputeSecrets.AKS": AksComputeSecrets,
+  "ComputeSecrets.VirtualMachine": VirtualMachineSecrets,
+  "ComputeSecrets.Databricks": DatabricksComputeSecrets
 };

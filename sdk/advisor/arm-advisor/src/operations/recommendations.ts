@@ -43,13 +43,17 @@ export class Recommendations {
    * @param callback The callback
    */
   generate(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  generate(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.RecommendationsGenerateResponse> {
+  generate(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.RecommendationsGenerateResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       generateOperationSpec,
-      callback) as Promise<Models.RecommendationsGenerateResponse>;
+      callback
+    ) as Promise<Models.RecommendationsGenerateResponse>;
   }
 
   /**
@@ -61,7 +65,10 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  getGenerateStatus(operationId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  getGenerateStatus(
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param operationId The operation ID, which can be found from the Location field in the generate
    * recommendation response header.
@@ -74,15 +81,24 @@ export class Recommendations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getGenerateStatus(operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getGenerateStatus(operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  getGenerateStatus(
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getGenerateStatus(
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         operationId,
         options
       },
       getGenerateStatusOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -91,7 +107,9 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListResponse>
    */
-  list(options?: Models.RecommendationsListOptionalParams): Promise<Models.RecommendationsListResponse>;
+  list(
+    options?: Models.RecommendationsListOptionalParams
+  ): Promise<Models.RecommendationsListResponse>;
   /**
    * @param callback The callback
    */
@@ -100,14 +118,23 @@ export class Recommendations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.RecommendationsListOptionalParams, callback: msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>): void;
-  list(options?: Models.RecommendationsListOptionalParams | msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>, callback?: msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>): Promise<Models.RecommendationsListResponse> {
+  list(
+    options: Models.RecommendationsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>
+  ): void;
+  list(
+    options?:
+      | Models.RecommendationsListOptionalParams
+      | msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>,
+    callback?: msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>
+  ): Promise<Models.RecommendationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.RecommendationsListResponse>;
+      callback
+    ) as Promise<Models.RecommendationsListResponse>;
   }
 
   /**
@@ -118,14 +145,22 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsGetResponse>
    */
-  get(resourceUri: string, recommendationId: string, options?: msRest.RequestOptionsBase): Promise<Models.RecommendationsGetResponse>;
+  get(
+    resourceUri: string,
+    recommendationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecommendationsGetResponse>;
   /**
    * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to
    * which the recommendation applies.
    * @param recommendationId The recommendation ID.
    * @param callback The callback
    */
-  get(resourceUri: string, recommendationId: string, callback: msRest.ServiceCallback<Models.ResourceRecommendationBase>): void;
+  get(
+    resourceUri: string,
+    recommendationId: string,
+    callback: msRest.ServiceCallback<Models.ResourceRecommendationBase>
+  ): void;
   /**
    * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to
    * which the recommendation applies.
@@ -133,8 +168,18 @@ export class Recommendations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceUri: string, recommendationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceRecommendationBase>): void;
-  get(resourceUri: string, recommendationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceRecommendationBase>, callback?: msRest.ServiceCallback<Models.ResourceRecommendationBase>): Promise<Models.RecommendationsGetResponse> {
+  get(
+    resourceUri: string,
+    recommendationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceRecommendationBase>
+  ): void;
+  get(
+    resourceUri: string,
+    recommendationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceRecommendationBase>,
+    callback?: msRest.ServiceCallback<Models.ResourceRecommendationBase>
+  ): Promise<Models.RecommendationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
@@ -142,7 +187,8 @@ export class Recommendations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RecommendationsGetResponse>;
+      callback
+    ) as Promise<Models.RecommendationsGetResponse>;
   }
 
   /**
@@ -152,26 +198,43 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RecommendationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecommendationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>, callback?: msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>): Promise<Models.RecommendationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>,
+    callback?: msRest.ServiceCallback<Models.ResourceRecommendationBaseListResult>
+  ): Promise<Models.RecommendationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.RecommendationsListNextResponse>;
+      callback
+    ) as Promise<Models.RecommendationsListNextResponse>;
   }
 }
 
@@ -180,15 +243,9 @@ const serializer = new msRest.Serializer(Mappers);
 const generateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {
       headersMapper: Mappers.RecommendationsGenerateHeaders
@@ -202,17 +259,11 @@ const generateOperationSpec: msRest.OperationSpec = {
 
 const getGenerateStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations/{operationId}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.operationId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations/{operationId}",
+  urlParameters: [Parameters.subscriptionId, Parameters.operationId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -226,18 +277,9 @@ const getGenerateStatusOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skipToken
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skipToken],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceRecommendationBaseListResult
@@ -252,16 +294,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
-  urlParameters: [
-    Parameters.resourceUri,
-    Parameters.recommendationId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.resourceUri, Parameters.recommendationId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceRecommendationBase
@@ -277,12 +312,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceRecommendationBaseListResult

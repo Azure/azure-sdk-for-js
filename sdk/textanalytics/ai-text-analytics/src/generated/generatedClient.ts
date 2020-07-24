@@ -35,26 +35,43 @@ class GeneratedClient extends GeneratedClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.EntitiesRecognitionGeneralResponse>
    */
-  entitiesRecognitionGeneral(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesRecognitionGeneralOptionalParams): Promise<Models.EntitiesRecognitionGeneralResponse>;
+  entitiesRecognitionGeneral(
+    input: Models.MultiLanguageBatchInput,
+    options?: Models.GeneratedClientEntitiesRecognitionGeneralOptionalParams
+  ): Promise<Models.EntitiesRecognitionGeneralResponse>;
   /**
    * @param input Collection of documents to analyze.
    * @param callback The callback
    */
-  entitiesRecognitionGeneral(input: Models.MultiLanguageBatchInput, callback: coreHttp.ServiceCallback<Models.EntitiesResult>): void;
+  entitiesRecognitionGeneral(
+    input: Models.MultiLanguageBatchInput,
+    callback: coreHttp.ServiceCallback<Models.EntitiesResult>
+  ): void;
   /**
    * @param input Collection of documents to analyze.
    * @param options The optional parameters
    * @param callback The callback
    */
-  entitiesRecognitionGeneral(input: Models.MultiLanguageBatchInput, options: Models.GeneratedClientEntitiesRecognitionGeneralOptionalParams, callback: coreHttp.ServiceCallback<Models.EntitiesResult>): void;
-  entitiesRecognitionGeneral(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesRecognitionGeneralOptionalParams | coreHttp.ServiceCallback<Models.EntitiesResult>, callback?: coreHttp.ServiceCallback<Models.EntitiesResult>): Promise<Models.EntitiesRecognitionGeneralResponse> {
+  entitiesRecognitionGeneral(
+    input: Models.MultiLanguageBatchInput,
+    options: Models.GeneratedClientEntitiesRecognitionGeneralOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.EntitiesResult>
+  ): void;
+  entitiesRecognitionGeneral(
+    input: Models.MultiLanguageBatchInput,
+    options?:
+      | Models.GeneratedClientEntitiesRecognitionGeneralOptionalParams
+      | coreHttp.ServiceCallback<Models.EntitiesResult>,
+    callback?: coreHttp.ServiceCallback<Models.EntitiesResult>
+  ): Promise<Models.EntitiesRecognitionGeneralResponse> {
     return this.sendOperationRequest(
       {
         input,
         options
       },
       entitiesRecognitionGeneralOperationSpec,
-      callback) as Promise<Models.EntitiesRecognitionGeneralResponse>;
+      callback
+    ) as Promise<Models.EntitiesRecognitionGeneralResponse>;
   }
 
   /**
@@ -66,26 +83,43 @@ class GeneratedClient extends GeneratedClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.EntitiesLinkingResponse>
    */
-  entitiesLinking(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesLinkingOptionalParams): Promise<Models.EntitiesLinkingResponse>;
+  entitiesLinking(
+    input: Models.MultiLanguageBatchInput,
+    options?: Models.GeneratedClientEntitiesLinkingOptionalParams
+  ): Promise<Models.EntitiesLinkingResponse>;
   /**
    * @param input Collection of documents to analyze.
    * @param callback The callback
    */
-  entitiesLinking(input: Models.MultiLanguageBatchInput, callback: coreHttp.ServiceCallback<Models.EntityLinkingResult>): void;
+  entitiesLinking(
+    input: Models.MultiLanguageBatchInput,
+    callback: coreHttp.ServiceCallback<Models.EntityLinkingResult>
+  ): void;
   /**
    * @param input Collection of documents to analyze.
    * @param options The optional parameters
    * @param callback The callback
    */
-  entitiesLinking(input: Models.MultiLanguageBatchInput, options: Models.GeneratedClientEntitiesLinkingOptionalParams, callback: coreHttp.ServiceCallback<Models.EntityLinkingResult>): void;
-  entitiesLinking(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesLinkingOptionalParams | coreHttp.ServiceCallback<Models.EntityLinkingResult>, callback?: coreHttp.ServiceCallback<Models.EntityLinkingResult>): Promise<Models.EntitiesLinkingResponse> {
+  entitiesLinking(
+    input: Models.MultiLanguageBatchInput,
+    options: Models.GeneratedClientEntitiesLinkingOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.EntityLinkingResult>
+  ): void;
+  entitiesLinking(
+    input: Models.MultiLanguageBatchInput,
+    options?:
+      | Models.GeneratedClientEntitiesLinkingOptionalParams
+      | coreHttp.ServiceCallback<Models.EntityLinkingResult>,
+    callback?: coreHttp.ServiceCallback<Models.EntityLinkingResult>
+  ): Promise<Models.EntitiesLinkingResponse> {
     return this.sendOperationRequest(
       {
         input,
         options
       },
       entitiesLinkingOperationSpec,
-      callback) as Promise<Models.EntitiesLinkingResponse>;
+      callback
+    ) as Promise<Models.EntitiesLinkingResponse>;
   }
 
   /**
@@ -98,28 +132,45 @@ class GeneratedClient extends GeneratedClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.KeyPhrasesResponse>
    */
-  keyPhrases(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientKeyPhrasesOptionalParams): Promise<Models.KeyPhrasesResponse>;
+  keyPhrases(
+    input: Models.MultiLanguageBatchInput,
+    options?: Models.GeneratedClientKeyPhrasesOptionalParams
+  ): Promise<Models.KeyPhrasesResponse>;
   /**
    * @param input Collection of documents to analyze. Documents can now contain a language field to
    * indicate the text language
    * @param callback The callback
    */
-  keyPhrases(input: Models.MultiLanguageBatchInput, callback: coreHttp.ServiceCallback<Models.KeyPhraseResult>): void;
+  keyPhrases(
+    input: Models.MultiLanguageBatchInput,
+    callback: coreHttp.ServiceCallback<Models.KeyPhraseResult>
+  ): void;
   /**
    * @param input Collection of documents to analyze. Documents can now contain a language field to
    * indicate the text language
    * @param options The optional parameters
    * @param callback The callback
    */
-  keyPhrases(input: Models.MultiLanguageBatchInput, options: Models.GeneratedClientKeyPhrasesOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyPhraseResult>): void;
-  keyPhrases(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientKeyPhrasesOptionalParams | coreHttp.ServiceCallback<Models.KeyPhraseResult>, callback?: coreHttp.ServiceCallback<Models.KeyPhraseResult>): Promise<Models.KeyPhrasesResponse> {
+  keyPhrases(
+    input: Models.MultiLanguageBatchInput,
+    options: Models.GeneratedClientKeyPhrasesOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.KeyPhraseResult>
+  ): void;
+  keyPhrases(
+    input: Models.MultiLanguageBatchInput,
+    options?:
+      | Models.GeneratedClientKeyPhrasesOptionalParams
+      | coreHttp.ServiceCallback<Models.KeyPhraseResult>,
+    callback?: coreHttp.ServiceCallback<Models.KeyPhraseResult>
+  ): Promise<Models.KeyPhrasesResponse> {
     return this.sendOperationRequest(
       {
         input,
         options
       },
       keyPhrasesOperationSpec,
-      callback) as Promise<Models.KeyPhrasesResponse>;
+      callback
+    ) as Promise<Models.KeyPhrasesResponse>;
   }
 
   /**
@@ -132,26 +183,43 @@ class GeneratedClient extends GeneratedClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.LanguagesResponse>
    */
-  languages(input: Models.LanguageBatchInput, options?: Models.GeneratedClientLanguagesOptionalParams): Promise<Models.LanguagesResponse>;
+  languages(
+    input: Models.LanguageBatchInput,
+    options?: Models.GeneratedClientLanguagesOptionalParams
+  ): Promise<Models.LanguagesResponse>;
   /**
    * @param input Collection of documents to analyze.
    * @param callback The callback
    */
-  languages(input: Models.LanguageBatchInput, callback: coreHttp.ServiceCallback<Models.LanguageResult>): void;
+  languages(
+    input: Models.LanguageBatchInput,
+    callback: coreHttp.ServiceCallback<Models.LanguageResult>
+  ): void;
   /**
    * @param input Collection of documents to analyze.
    * @param options The optional parameters
    * @param callback The callback
    */
-  languages(input: Models.LanguageBatchInput, options: Models.GeneratedClientLanguagesOptionalParams, callback: coreHttp.ServiceCallback<Models.LanguageResult>): void;
-  languages(input: Models.LanguageBatchInput, options?: Models.GeneratedClientLanguagesOptionalParams | coreHttp.ServiceCallback<Models.LanguageResult>, callback?: coreHttp.ServiceCallback<Models.LanguageResult>): Promise<Models.LanguagesResponse> {
+  languages(
+    input: Models.LanguageBatchInput,
+    options: Models.GeneratedClientLanguagesOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.LanguageResult>
+  ): void;
+  languages(
+    input: Models.LanguageBatchInput,
+    options?:
+      | Models.GeneratedClientLanguagesOptionalParams
+      | coreHttp.ServiceCallback<Models.LanguageResult>,
+    callback?: coreHttp.ServiceCallback<Models.LanguageResult>
+  ): Promise<Models.LanguagesResponse> {
     return this.sendOperationRequest(
       {
         input,
         options
       },
       languagesOperationSpec,
-      callback) as Promise<Models.LanguagesResponse>;
+      callback
+    ) as Promise<Models.LanguagesResponse>;
   }
 
   /**
@@ -164,26 +232,43 @@ class GeneratedClient extends GeneratedClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SentimentResponse2>
    */
-  sentiment(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientSentimentOptionalParams): Promise<Models.SentimentResponse2>;
+  sentiment(
+    input: Models.MultiLanguageBatchInput,
+    options?: Models.GeneratedClientSentimentOptionalParams
+  ): Promise<Models.SentimentResponse2>;
   /**
    * @param input Collection of documents to analyze.
    * @param callback The callback
    */
-  sentiment(input: Models.MultiLanguageBatchInput, callback: coreHttp.ServiceCallback<Models.SentimentResponse>): void;
+  sentiment(
+    input: Models.MultiLanguageBatchInput,
+    callback: coreHttp.ServiceCallback<Models.SentimentResponse>
+  ): void;
   /**
    * @param input Collection of documents to analyze.
    * @param options The optional parameters
    * @param callback The callback
    */
-  sentiment(input: Models.MultiLanguageBatchInput, options: Models.GeneratedClientSentimentOptionalParams, callback: coreHttp.ServiceCallback<Models.SentimentResponse>): void;
-  sentiment(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientSentimentOptionalParams | coreHttp.ServiceCallback<Models.SentimentResponse>, callback?: coreHttp.ServiceCallback<Models.SentimentResponse>): Promise<Models.SentimentResponse2> {
+  sentiment(
+    input: Models.MultiLanguageBatchInput,
+    options: Models.GeneratedClientSentimentOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SentimentResponse>
+  ): void;
+  sentiment(
+    input: Models.MultiLanguageBatchInput,
+    options?:
+      | Models.GeneratedClientSentimentOptionalParams
+      | coreHttp.ServiceCallback<Models.SentimentResponse>,
+    callback?: coreHttp.ServiceCallback<Models.SentimentResponse>
+  ): Promise<Models.SentimentResponse2> {
     return this.sendOperationRequest(
       {
         input,
         options
       },
       sentimentOperationSpec,
-      callback) as Promise<Models.SentimentResponse2>;
+      callback
+    ) as Promise<Models.SentimentResponse2>;
   }
 }
 
@@ -192,13 +277,8 @@ const serializer = new coreHttp.Serializer(Mappers);
 const entitiesRecognitionGeneralOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "entities/recognition/general",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.modelVersion,
-    Parameters.includeStatistics
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.modelVersion, Parameters.includeStatistics],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -220,13 +300,8 @@ const entitiesRecognitionGeneralOperationSpec: coreHttp.OperationSpec = {
 const entitiesLinkingOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "entities/linking",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.modelVersion,
-    Parameters.includeStatistics
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.modelVersion, Parameters.includeStatistics],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -248,13 +323,8 @@ const entitiesLinkingOperationSpec: coreHttp.OperationSpec = {
 const keyPhrasesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "keyPhrases",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.modelVersion,
-    Parameters.includeStatistics
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.modelVersion, Parameters.includeStatistics],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -276,13 +346,8 @@ const keyPhrasesOperationSpec: coreHttp.OperationSpec = {
 const languagesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "languages",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.modelVersion,
-    Parameters.includeStatistics
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.modelVersion, Parameters.includeStatistics],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -304,13 +369,8 @@ const languagesOperationSpec: coreHttp.OperationSpec = {
 const sentimentOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "sentiment",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.modelVersion,
-    Parameters.includeStatistics
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.modelVersion, Parameters.includeStatistics],
   requestBody: {
     parameterPath: "input",
     mapper: {

@@ -33,26 +33,43 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(name: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageAccountsCheckNameAvailabilityResponse>;
   /**
    * @param name The storage account name.
    * @param callback The callback
    */
-  checkNameAvailability(name: string, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
+  checkNameAvailability(
+    name: string,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
   /**
    * @param name The storage account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.StorageAccountsCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
+  checkNameAvailability(
+    name: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): Promise<Models.StorageAccountsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         name,
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.StorageAccountsCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.StorageAccountsCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -69,9 +86,15 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, parameters: Models.StorageAccountCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsCreateResponse> {
-    return this.beginCreate(resourceGroupName,accountName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StorageAccountsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.StorageAccountCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageAccountsCreateResponse> {
+    return this.beginCreate(resourceGroupName, accountName, parameters, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.StorageAccountsCreateResponse>;
   }
 
   /**
@@ -84,7 +107,11 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -93,7 +120,11 @@ export class StorageAccounts {
    * letters only.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -103,8 +134,18 @@ export class StorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -112,7 +153,8 @@ export class StorageAccounts {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -127,7 +169,11 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsGetPropertiesResponse>
    */
-  getProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsGetPropertiesResponse>;
+  getProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageAccountsGetPropertiesResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -136,7 +182,11 @@ export class StorageAccounts {
    * letters only.
    * @param callback The callback
    */
-  getProperties(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.StorageAccount>): void;
+  getProperties(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.StorageAccount>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -146,8 +196,18 @@ export class StorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccount>): void;
-  getProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccount>, callback?: msRest.ServiceCallback<Models.StorageAccount>): Promise<Models.StorageAccountsGetPropertiesResponse> {
+  getProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageAccount>
+  ): void;
+  getProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccount>,
+    callback?: msRest.ServiceCallback<Models.StorageAccount>
+  ): Promise<Models.StorageAccountsGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +215,8 @@ export class StorageAccounts {
         options
       },
       getPropertiesOperationSpec,
-      callback) as Promise<Models.StorageAccountsGetPropertiesResponse>;
+      callback
+    ) as Promise<Models.StorageAccountsGetPropertiesResponse>;
   }
 
   /**
@@ -176,7 +237,12 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, parameters: Models.StorageAccountUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.StorageAccountUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageAccountsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -186,7 +252,12 @@ export class StorageAccounts {
    * @param parameters The parameters to provide for the updated account.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, parameters: Models.StorageAccountUpdateParameters, callback: msRest.ServiceCallback<Models.StorageAccount>): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.StorageAccountUpdateParameters,
+    callback: msRest.ServiceCallback<Models.StorageAccount>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -197,8 +268,20 @@ export class StorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, parameters: Models.StorageAccountUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccount>): void;
-  update(resourceGroupName: string, accountName: string, parameters: Models.StorageAccountUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccount>, callback?: msRest.ServiceCallback<Models.StorageAccount>): Promise<Models.StorageAccountsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.StorageAccountUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageAccount>
+  ): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.StorageAccountUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccount>,
+    callback?: msRest.ServiceCallback<Models.StorageAccount>
+  ): Promise<Models.StorageAccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +290,8 @@ export class StorageAccounts {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.StorageAccountsUpdateResponse>;
+      callback
+    ) as Promise<Models.StorageAccountsUpdateResponse>;
   }
 
   /**
@@ -225,14 +309,21 @@ export class StorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListResult>, callback?: msRest.ServiceCallback<Models.StorageAccountListResult>): Promise<Models.StorageAccountsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageAccountListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListResult>,
+    callback?: msRest.ServiceCallback<Models.StorageAccountListResult>
+  ): Promise<Models.StorageAccountsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.StorageAccountsListResponse>;
+      callback
+    ) as Promise<Models.StorageAccountsListResponse>;
   }
 
   /**
@@ -243,28 +334,43 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageAccountsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.StorageAccountListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.StorageAccountListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListResult>, callback?: msRest.ServiceCallback<Models.StorageAccountListResult>): Promise<Models.StorageAccountsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageAccountListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListResult>,
+    callback?: msRest.ServiceCallback<Models.StorageAccountListResult>
+  ): Promise<Models.StorageAccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.StorageAccountsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.StorageAccountsListByResourceGroupResponse>;
   }
 
   /**
@@ -277,7 +383,11 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsListKeysResponse>
    */
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageAccountsListKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -286,7 +396,11 @@ export class StorageAccounts {
    * letters only.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): void;
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -296,8 +410,20 @@ export class StorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): void;
-  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListKeysResult>, callback?: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): Promise<Models.StorageAccountsListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageAccountListKeysResult>,
+    callback?: msRest.ServiceCallback<Models.StorageAccountListKeysResult>
+  ): Promise<Models.StorageAccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -305,7 +431,8 @@ export class StorageAccounts {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.StorageAccountsListKeysResponse>;
+      callback
+    ) as Promise<Models.StorageAccountsListKeysResponse>;
   }
 
   /**
@@ -320,7 +447,12 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsRegenerateKeyResponse>
    */
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsRegenerateKeyResponse>;
+  regenerateKey(
+    resourceGroupName: string,
+    accountName: string,
+    keyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageAccountsRegenerateKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -331,7 +463,12 @@ export class StorageAccounts {
    * key2.
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: string, callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): void;
+  regenerateKey(
+    resourceGroupName: string,
+    accountName: string,
+    keyName: string,
+    callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -343,8 +480,22 @@ export class StorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): void;
-  regenerateKey(resourceGroupName: string, accountName: string, keyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageAccountListKeysResult>, callback?: msRest.ServiceCallback<Models.StorageAccountListKeysResult>): Promise<Models.StorageAccountsRegenerateKeyResponse> {
+  regenerateKey(
+    resourceGroupName: string,
+    accountName: string,
+    keyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageAccountListKeysResult>
+  ): void;
+  regenerateKey(
+    resourceGroupName: string,
+    accountName: string,
+    keyName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageAccountListKeysResult>,
+    callback?: msRest.ServiceCallback<Models.StorageAccountListKeysResult>
+  ): Promise<Models.StorageAccountsRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -353,7 +504,8 @@ export class StorageAccounts {
         options
       },
       regenerateKeyOperationSpec,
-      callback) as Promise<Models.StorageAccountsRegenerateKeyResponse>;
+      callback
+    ) as Promise<Models.StorageAccountsRegenerateKeyResponse>;
   }
 
   /**
@@ -367,7 +519,12 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsListAccountSASResponse>
    */
-  listAccountSAS(resourceGroupName: string, accountName: string, parameters: Models.AccountSasParameters, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsListAccountSASResponse>;
+  listAccountSAS(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.AccountSasParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageAccountsListAccountSASResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -377,7 +534,12 @@ export class StorageAccounts {
    * @param parameters The parameters to provide to list SAS credentials for the storage account.
    * @param callback The callback
    */
-  listAccountSAS(resourceGroupName: string, accountName: string, parameters: Models.AccountSasParameters, callback: msRest.ServiceCallback<Models.ListAccountSasResponse>): void;
+  listAccountSAS(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.AccountSasParameters,
+    callback: msRest.ServiceCallback<Models.ListAccountSasResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -388,8 +550,20 @@ export class StorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAccountSAS(resourceGroupName: string, accountName: string, parameters: Models.AccountSasParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListAccountSasResponse>): void;
-  listAccountSAS(resourceGroupName: string, accountName: string, parameters: Models.AccountSasParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListAccountSasResponse>, callback?: msRest.ServiceCallback<Models.ListAccountSasResponse>): Promise<Models.StorageAccountsListAccountSASResponse> {
+  listAccountSAS(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.AccountSasParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListAccountSasResponse>
+  ): void;
+  listAccountSAS(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.AccountSasParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListAccountSasResponse>,
+    callback?: msRest.ServiceCallback<Models.ListAccountSasResponse>
+  ): Promise<Models.StorageAccountsListAccountSASResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -398,7 +572,8 @@ export class StorageAccounts {
         options
       },
       listAccountSASOperationSpec,
-      callback) as Promise<Models.StorageAccountsListAccountSASResponse>;
+      callback
+    ) as Promise<Models.StorageAccountsListAccountSASResponse>;
   }
 
   /**
@@ -412,7 +587,12 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageAccountsListServiceSASResponse>
    */
-  listServiceSAS(resourceGroupName: string, accountName: string, parameters: Models.ServiceSasParameters, options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsListServiceSASResponse>;
+  listServiceSAS(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.ServiceSasParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageAccountsListServiceSASResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -422,7 +602,12 @@ export class StorageAccounts {
    * @param parameters The parameters to provide to list service SAS credentials.
    * @param callback The callback
    */
-  listServiceSAS(resourceGroupName: string, accountName: string, parameters: Models.ServiceSasParameters, callback: msRest.ServiceCallback<Models.ListServiceSasResponse>): void;
+  listServiceSAS(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.ServiceSasParameters,
+    callback: msRest.ServiceCallback<Models.ListServiceSasResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -433,8 +618,20 @@ export class StorageAccounts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listServiceSAS(resourceGroupName: string, accountName: string, parameters: Models.ServiceSasParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListServiceSasResponse>): void;
-  listServiceSAS(resourceGroupName: string, accountName: string, parameters: Models.ServiceSasParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListServiceSasResponse>, callback?: msRest.ServiceCallback<Models.ListServiceSasResponse>): Promise<Models.StorageAccountsListServiceSASResponse> {
+  listServiceSAS(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.ServiceSasParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListServiceSasResponse>
+  ): void;
+  listServiceSAS(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.ServiceSasParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListServiceSasResponse>,
+    callback?: msRest.ServiceCallback<Models.ListServiceSasResponse>
+  ): Promise<Models.StorageAccountsListServiceSASResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -443,7 +640,8 @@ export class StorageAccounts {
         options
       },
       listServiceSASOperationSpec,
-      callback) as Promise<Models.StorageAccountsListServiceSASResponse>;
+      callback
+    ) as Promise<Models.StorageAccountsListServiceSASResponse>;
   }
 
   /**
@@ -460,7 +658,12 @@ export class StorageAccounts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, accountName: string, parameters: Models.StorageAccountCreateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.StorageAccountCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -469,7 +672,8 @@ export class StorageAccounts {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -478,15 +682,9 @@ const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       name: "name"
@@ -509,18 +707,11 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -533,18 +724,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getPropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageAccount
@@ -558,18 +742,11 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -591,15 +768,9 @@ const updateOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageAccountListResult
@@ -613,17 +784,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageAccountListResult
@@ -637,18 +802,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/listKeys",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageAccountListKeysResult
@@ -662,18 +820,11 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/regenerateKey",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
       keyName: "keyName"
@@ -696,18 +847,11 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
 
 const listAccountSASOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListAccountSas",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListAccountSas",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -728,18 +872,11 @@ const listAccountSASOperationSpec: msRest.OperationSpec = {
 
 const listServiceSASOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListServiceSas",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListServiceSas",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -760,18 +897,11 @@ const listServiceSASOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

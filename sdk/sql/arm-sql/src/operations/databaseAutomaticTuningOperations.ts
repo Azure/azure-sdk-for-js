@@ -35,7 +35,12 @@ export class DatabaseAutomaticTuningOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAutomaticTuningGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAutomaticTuningGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAutomaticTuningGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -43,7 +48,12 @@ export class DatabaseAutomaticTuningOperations {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -52,8 +62,20 @@ export class DatabaseAutomaticTuningOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAutomaticTuning>, callback?: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>): Promise<Models.DatabaseAutomaticTuningGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAutomaticTuning>,
+    callback?: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>
+  ): Promise<Models.DatabaseAutomaticTuningGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +84,8 @@ export class DatabaseAutomaticTuningOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DatabaseAutomaticTuningGetResponse>;
+      callback
+    ) as Promise<Models.DatabaseAutomaticTuningGetResponse>;
   }
 
   /**
@@ -75,7 +98,13 @@ export class DatabaseAutomaticTuningOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAutomaticTuningUpdateResponse>
    */
-  update(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseAutomaticTuning, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAutomaticTuningUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseAutomaticTuning,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DatabaseAutomaticTuningUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -84,7 +113,13 @@ export class DatabaseAutomaticTuningOperations {
    * @param parameters The requested automatic tuning resource state.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseAutomaticTuning, callback: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>): void;
+  update(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseAutomaticTuning,
+    callback: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -94,8 +129,22 @@ export class DatabaseAutomaticTuningOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseAutomaticTuning, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>): void;
-  update(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.DatabaseAutomaticTuning, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAutomaticTuning>, callback?: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>): Promise<Models.DatabaseAutomaticTuningUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseAutomaticTuning,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    parameters: Models.DatabaseAutomaticTuning,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseAutomaticTuning>,
+    callback?: msRest.ServiceCallback<Models.DatabaseAutomaticTuning>
+  ): Promise<Models.DatabaseAutomaticTuningUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +154,8 @@ export class DatabaseAutomaticTuningOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.DatabaseAutomaticTuningUpdateResponse>;
+      callback
+    ) as Promise<Models.DatabaseAutomaticTuningUpdateResponse>;
   }
 }
 
@@ -113,19 +163,16 @@ export class DatabaseAutomaticTuningOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/automaticTuning/current",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/automaticTuning/current",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DatabaseAutomaticTuning
@@ -139,19 +186,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/automaticTuning/current",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/automaticTuning/current",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

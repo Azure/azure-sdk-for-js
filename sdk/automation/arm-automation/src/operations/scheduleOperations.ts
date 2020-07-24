@@ -35,7 +35,13 @@ export class ScheduleOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScheduleCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: Models.ScheduleCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ScheduleCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    parameters: Models.ScheduleCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScheduleCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -43,7 +49,13 @@ export class ScheduleOperations {
    * @param parameters The parameters supplied to the create or update schedule operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: Models.ScheduleCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    parameters: Models.ScheduleCreateOrUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -52,8 +64,22 @@ export class ScheduleOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: Models.ScheduleCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: Models.ScheduleCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.ScheduleCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    parameters: Models.ScheduleCreateOrUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    parameters: Models.ScheduleCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>,
+    callback?: msRest.ServiceCallback<Models.Schedule>
+  ): Promise<Models.ScheduleCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class ScheduleOperations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ScheduleCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ScheduleCreateOrUpdateResponse>;
   }
 
   /**
@@ -75,7 +102,13 @@ export class ScheduleOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScheduleUpdateResponse>
    */
-  update(resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: Models.ScheduleUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ScheduleUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    parameters: Models.ScheduleUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScheduleUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -83,7 +116,13 @@ export class ScheduleOperations {
    * @param parameters The parameters supplied to the update schedule operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: Models.ScheduleUpdateParameters, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    parameters: Models.ScheduleUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -92,8 +131,22 @@ export class ScheduleOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: Models.ScheduleUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  update(resourceGroupName: string, automationAccountName: string, scheduleName: string, parameters: Models.ScheduleUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.ScheduleUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    parameters: Models.ScheduleUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    parameters: Models.ScheduleUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>,
+    callback?: msRest.ServiceCallback<Models.Schedule>
+  ): Promise<Models.ScheduleUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -103,7 +156,8 @@ export class ScheduleOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ScheduleUpdateResponse>;
+      callback
+    ) as Promise<Models.ScheduleUpdateResponse>;
   }
 
   /**
@@ -114,14 +168,24 @@ export class ScheduleOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScheduleGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, scheduleName: string, options?: msRest.RequestOptionsBase): Promise<Models.ScheduleGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScheduleGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param scheduleName The schedule name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, scheduleName: string, callback: msRest.ServiceCallback<Models.Schedule>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -129,8 +193,20 @@ export class ScheduleOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, scheduleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Schedule>): void;
-  get(resourceGroupName: string, automationAccountName: string, scheduleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>, callback?: msRest.ServiceCallback<Models.Schedule>): Promise<Models.ScheduleGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Schedule>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Schedule>,
+    callback?: msRest.ServiceCallback<Models.Schedule>
+  ): Promise<Models.ScheduleGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,7 +215,8 @@ export class ScheduleOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ScheduleGetResponse>;
+      callback
+    ) as Promise<Models.ScheduleGetResponse>;
   }
 
   /**
@@ -150,14 +227,24 @@ export class ScheduleOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, scheduleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param scheduleName The schedule name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, scheduleName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -165,8 +252,20 @@ export class ScheduleOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, scheduleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, scheduleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    scheduleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,7 +274,8 @@ export class ScheduleOperations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -185,21 +285,39 @@ export class ScheduleOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScheduleListByAutomationAccountResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.ScheduleListByAutomationAccountResponse>;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScheduleListByAutomationAccountResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.ScheduleListResult>): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.ScheduleListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduleListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleListResult>, callback?: msRest.ServiceCallback<Models.ScheduleListResult>): Promise<Models.ScheduleListByAutomationAccountResponse> {
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ScheduleListResult>
+  ): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleListResult>,
+    callback?: msRest.ServiceCallback<Models.ScheduleListResult>
+  ): Promise<Models.ScheduleListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +325,8 @@ export class ScheduleOperations {
         options
       },
       listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.ScheduleListByAutomationAccountResponse>;
+      callback
+    ) as Promise<Models.ScheduleListByAutomationAccountResponse>;
   }
 
   /**
@@ -216,26 +335,41 @@ export class ScheduleOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScheduleListByAutomationAccountNextResponse>
    */
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ScheduleListByAutomationAccountNextResponse>;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScheduleListByAutomationAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ScheduleListResult>): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ScheduleListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScheduleListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleListResult>, callback?: msRest.ServiceCallback<Models.ScheduleListResult>): Promise<Models.ScheduleListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ScheduleListResult>
+  ): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScheduleListResult>,
+    callback?: msRest.ServiceCallback<Models.ScheduleListResult>
+  ): Promise<Models.ScheduleListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAutomationAccountNextOperationSpec,
-      callback) as Promise<Models.ScheduleListByAutomationAccountNextResponse>;
+      callback
+    ) as Promise<Models.ScheduleListByAutomationAccountNextResponse>;
   }
 }
 
@@ -243,19 +377,16 @@ export class ScheduleOperations {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules/{scheduleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules/{scheduleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.scheduleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -280,19 +411,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules/{scheduleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules/{scheduleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.scheduleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -313,19 +441,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules/{scheduleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules/{scheduleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.scheduleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Schedule
@@ -339,19 +464,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules/{scheduleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules/{scheduleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.scheduleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -363,18 +485,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/schedules",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScheduleListResult
@@ -390,12 +509,8 @@ const listByAutomationAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScheduleListResult

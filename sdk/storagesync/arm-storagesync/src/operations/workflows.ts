@@ -33,21 +33,39 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsListByStorageSyncServiceResponse>
    */
-  listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsListByStorageSyncServiceResponse>;
+  listByStorageSyncService(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowsListByStorageSyncServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param callback The callback
    */
-  listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, callback: msRest.ServiceCallback<Models.WorkflowArray>): void;
+  listByStorageSyncService(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    callback: msRest.ServiceCallback<Models.WorkflowArray>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowArray>): void;
-  listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowArray>, callback?: msRest.ServiceCallback<Models.WorkflowArray>): Promise<Models.WorkflowsListByStorageSyncServiceResponse> {
+  listByStorageSyncService(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkflowArray>
+  ): void;
+  listByStorageSyncService(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowArray>,
+    callback?: msRest.ServiceCallback<Models.WorkflowArray>
+  ): Promise<Models.WorkflowsListByStorageSyncServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class Workflows {
         options
       },
       listByStorageSyncServiceOperationSpec,
-      callback) as Promise<Models.WorkflowsListByStorageSyncServiceResponse>;
+      callback
+    ) as Promise<Models.WorkflowsListByStorageSyncServiceResponse>;
   }
 
   /**
@@ -66,14 +85,24 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsGetResponse>
    */
-  get(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsGetResponse>;
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    workflowId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param workflowId workflow Id
    * @param callback The callback
    */
-  get(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, callback: msRest.ServiceCallback<Models.Workflow>): void;
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    workflowId: string,
+    callback: msRest.ServiceCallback<Models.Workflow>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
@@ -81,8 +110,20 @@ export class Workflows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workflow>): void;
-  get(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workflow>, callback?: msRest.ServiceCallback<Models.Workflow>): Promise<Models.WorkflowsGetResponse> {
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    workflowId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Workflow>
+  ): void;
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    workflowId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workflow>,
+    callback?: msRest.ServiceCallback<Models.Workflow>
+  ): Promise<Models.WorkflowsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +132,8 @@ export class Workflows {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WorkflowsGetResponse>;
+      callback
+    ) as Promise<Models.WorkflowsGetResponse>;
   }
 
   /**
@@ -102,14 +144,24 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsAbortResponse>
    */
-  abort(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsAbortResponse>;
+  abort(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    workflowId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowsAbortResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param workflowId workflow Id
    * @param callback The callback
    */
-  abort(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, callback: msRest.ServiceCallback<void>): void;
+  abort(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    workflowId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
@@ -117,8 +169,20 @@ export class Workflows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  abort(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  abort(resourceGroupName: string, storageSyncServiceName: string, workflowId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.WorkflowsAbortResponse> {
+  abort(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    workflowId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  abort(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    workflowId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.WorkflowsAbortResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -127,7 +191,8 @@ export class Workflows {
         options
       },
       abortOperationSpec,
-      callback) as Promise<Models.WorkflowsAbortResponse>;
+      callback
+    ) as Promise<Models.WorkflowsAbortResponse>;
   }
 }
 
@@ -135,18 +200,15 @@ export class Workflows {
 const serializer = new msRest.Serializer(Mappers);
 const listByStorageSyncServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/workflows",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/workflows",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkflowArray,
@@ -161,19 +223,16 @@ const listByStorageSyncServiceOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/workflows/{workflowId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/workflows/{workflowId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.workflowId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Workflow,
@@ -188,19 +247,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const abortOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/workflows/{workflowId}/abort",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/workflows/{workflowId}/abort",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.workflowId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.WorkflowsAbortHeaders

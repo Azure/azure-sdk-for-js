@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -51,10 +51,7 @@ export const defaultSecurityRuleName: msRest.OperationURLParameter = {
   }
 };
 export const expand: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
+  parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
@@ -73,10 +70,7 @@ export const frontendIPConfigurationName: msRest.OperationURLParameter = {
   }
 };
 export const gatewayVip: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "gatewayVip"
-  ],
+  parameterPath: ["options", "gatewayVip"],
   mapper: {
     serializedName: "gatewayVip",
     type: {
@@ -95,10 +89,7 @@ export const inboundNatRuleName: msRest.OperationURLParameter = {
   }
 };
 export const ipAddress: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "ipAddress"
-  ],
+  parameterPath: ["options", "ipAddress"],
   mapper: {
     serializedName: "ipAddress",
     type: {
@@ -181,10 +172,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const peer0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "peer"
-  ],
+  parameterPath: ["options", "peer"],
   mapper: {
     serializedName: "peer",
     type: {

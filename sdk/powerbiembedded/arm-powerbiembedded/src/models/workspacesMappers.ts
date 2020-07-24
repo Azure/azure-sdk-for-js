@@ -8,10 +8,4 @@
  * regenerated.
  */
 
-export {
-  WorkspaceList,
-  Workspace,
-  ErrorModel,
-  ErrorDetail
-} from "../models/mappers";
-
+export { WorkspaceList, Workspace, ErrorModel, ErrorDetail } from "../models/mappers";

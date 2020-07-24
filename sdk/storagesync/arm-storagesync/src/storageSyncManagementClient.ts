@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { StorageSyncManagementClientContext } from "./storageSyncManagementClientContext";
 
-
 class StorageSyncManagementClient extends StorageSyncManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -32,7 +31,11 @@ class StorageSyncManagementClient extends StorageSyncManagementClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.StorageSyncManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.StorageSyncManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.storageSyncServices = new operations.StorageSyncServices(this);

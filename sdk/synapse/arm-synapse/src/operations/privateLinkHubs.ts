@@ -32,26 +32,43 @@ export class PrivateLinkHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkHubsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkHubsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>): Promise<Models.PrivateLinkHubsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>
+  ): Promise<Models.PrivateLinkHubsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.PrivateLinkHubsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkHubsListByResourceGroupResponse>;
   }
 
   /**
@@ -61,21 +78,39 @@ export class PrivateLinkHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkHubsGetResponse>
    */
-  get(resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubsGetResponse>;
+  get(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkHubsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateLinkHubName The name of the privateLinkHub
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateLinkHubName: string, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
+  get(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHub>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateLinkHubName The name of the privateLinkHub
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateLinkHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
-  get(resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHub>, callback?: msRest.ServiceCallback<Models.PrivateLinkHub>): Promise<Models.PrivateLinkHubsGetResponse> {
+  get(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHub>
+  ): void;
+  get(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHub>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkHub>
+  ): Promise<Models.PrivateLinkHubsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +118,8 @@ export class PrivateLinkHubs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateLinkHubsGetResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkHubsGetResponse>;
   }
 
   /**
@@ -94,14 +130,24 @@ export class PrivateLinkHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkHubsUpdateResponse>
    */
-  update(resourceGroupName: string, privateLinkHubName: string, privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkHubsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateLinkHubName The name of the privateLinkHub
    * @param privateLinkHubPatchInfo PrivateLinkHub patch request properties
    * @param callback The callback
    */
-  update(resourceGroupName: string, privateLinkHubName: string, privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
+  update(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHub>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateLinkHubName The name of the privateLinkHub
@@ -109,8 +155,20 @@ export class PrivateLinkHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, privateLinkHubName: string, privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
-  update(resourceGroupName: string, privateLinkHubName: string, privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHub>, callback?: msRest.ServiceCallback<Models.PrivateLinkHub>): Promise<Models.PrivateLinkHubsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHub>
+  ): void;
+  update(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHub>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkHub>
+  ): Promise<Models.PrivateLinkHubsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +177,8 @@ export class PrivateLinkHubs {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.PrivateLinkHubsUpdateResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkHubsUpdateResponse>;
   }
 
   /**
@@ -130,14 +189,24 @@ export class PrivateLinkHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkHubsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, privateLinkHubName: string, privateLinkHubInfo: Models.PrivateLinkHub, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    privateLinkHubInfo: Models.PrivateLinkHub,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkHubsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateLinkHubName The name of the privateLinkHub
    * @param privateLinkHubInfo PrivateLinkHub create or update request properties
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, privateLinkHubName: string, privateLinkHubInfo: Models.PrivateLinkHub, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    privateLinkHubInfo: Models.PrivateLinkHub,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHub>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateLinkHubName The name of the privateLinkHub
@@ -145,8 +214,20 @@ export class PrivateLinkHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, privateLinkHubName: string, privateLinkHubInfo: Models.PrivateLinkHub, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
-  createOrUpdate(resourceGroupName: string, privateLinkHubName: string, privateLinkHubInfo: Models.PrivateLinkHub, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHub>, callback?: msRest.ServiceCallback<Models.PrivateLinkHub>): Promise<Models.PrivateLinkHubsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    privateLinkHubInfo: Models.PrivateLinkHub,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHub>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    privateLinkHubInfo: Models.PrivateLinkHub,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHub>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkHub>
+  ): Promise<Models.PrivateLinkHubsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +236,8 @@ export class PrivateLinkHubs {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.PrivateLinkHubsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkHubsCreateOrUpdateResponse>;
   }
 
   /**
@@ -165,21 +247,39 @@ export class PrivateLinkHubs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateLinkHubName The name of the privateLinkHub
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, privateLinkHubName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateLinkHubName The name of the privateLinkHub
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, privateLinkHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    privateLinkHubName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -187,7 +287,8 @@ export class PrivateLinkHubs {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -204,14 +305,23 @@ export class PrivateLinkHubs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>): Promise<Models.PrivateLinkHubsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>
+  ): Promise<Models.PrivateLinkHubsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateLinkHubsListResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkHubsListResponse>;
   }
 
   /**
@@ -220,26 +330,43 @@ export class PrivateLinkHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkHubsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkHubsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>): Promise<Models.PrivateLinkHubsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>
+  ): Promise<Models.PrivateLinkHubsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.PrivateLinkHubsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkHubsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -248,26 +375,43 @@ export class PrivateLinkHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkHubsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkHubsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>): Promise<Models.PrivateLinkHubsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkHubInfoListResult>
+  ): Promise<Models.PrivateLinkHubsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PrivateLinkHubsListNextResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkHubsListNextResponse>;
   }
 }
 
@@ -275,17 +419,11 @@ export class PrivateLinkHubs {
 const serializer = new msRest.Serializer(Mappers);
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHub",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHub",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkHubInfoListResult
@@ -299,18 +437,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateLinkHubName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkHub
@@ -324,18 +459,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateLinkHubName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "privateLinkHubPatchInfo",
     mapper: {
@@ -359,18 +491,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateLinkHubName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "privateLinkHubInfo",
     mapper: {
@@ -394,18 +523,15 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateLinkHubName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -419,15 +545,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Synapse/privateLinkHubs",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkHubInfoListResult
@@ -443,12 +563,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkHubInfoListResult
@@ -464,12 +580,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkHubInfoListResult

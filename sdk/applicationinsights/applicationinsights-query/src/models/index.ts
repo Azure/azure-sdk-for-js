@@ -11,7 +11,6 @@
 import { ServiceClientOptions } from "@azure/ms-rest-js";
 import * as msRest from "@azure/ms-rest-js";
 
-
 /**
  * @interface
  * An interface representing MetricsPostBodySchemaParameters.
@@ -432,7 +431,18 @@ export interface EventsClientInfo {
 /**
  * Contains the possible cases for EventsResultData.
  */
-export type EventsResultDataUnion = EventsResultData | EventsTraceResult | EventsCustomEventResult | EventsPageViewResult | EventsBrowserTimingResult | EventsRequestResult | EventsDependencyResult | EventsExceptionResult | EventsAvailabilityResultResult | EventsPerformanceCounterResult | EventsCustomMetricResult;
+export type EventsResultDataUnion =
+  | EventsResultData
+  | EventsTraceResult
+  | EventsCustomEventResult
+  | EventsPageViewResult
+  | EventsBrowserTimingResult
+  | EventsRequestResult
+  | EventsDependencyResult
+  | EventsExceptionResult
+  | EventsAvailabilityResultResult
+  | EventsPerformanceCounterResult
+  | EventsCustomMetricResult;
 
 /**
  * @interface
@@ -1935,7 +1945,39 @@ export interface EventsGetOptionalParams extends msRest.RequestOptionsBase {
  * @readonly
  * @enum {string}
  */
-export type MetricId = 'requests/count' | 'requests/duration' | 'requests/failed' | 'users/count' | 'users/authenticated' | 'pageViews/count' | 'pageViews/duration' | 'client/processingDuration' | 'client/receiveDuration' | 'client/networkDuration' | 'client/sendDuration' | 'client/totalDuration' | 'dependencies/count' | 'dependencies/failed' | 'dependencies/duration' | 'exceptions/count' | 'exceptions/browser' | 'exceptions/server' | 'sessions/count' | 'performanceCounters/requestExecutionTime' | 'performanceCounters/requestsPerSecond' | 'performanceCounters/requestsInQueue' | 'performanceCounters/memoryAvailableBytes' | 'performanceCounters/exceptionsPerSecond' | 'performanceCounters/processCpuPercentage' | 'performanceCounters/processIOBytesPerSecond' | 'performanceCounters/processPrivateBytes' | 'performanceCounters/processorCpuPercentage' | 'availabilityResults/availabilityPercentage' | 'availabilityResults/duration' | 'billing/telemetryCount' | 'customEvents/count';
+export type MetricId =
+  | "requests/count"
+  | "requests/duration"
+  | "requests/failed"
+  | "users/count"
+  | "users/authenticated"
+  | "pageViews/count"
+  | "pageViews/duration"
+  | "client/processingDuration"
+  | "client/receiveDuration"
+  | "client/networkDuration"
+  | "client/sendDuration"
+  | "client/totalDuration"
+  | "dependencies/count"
+  | "dependencies/failed"
+  | "dependencies/duration"
+  | "exceptions/count"
+  | "exceptions/browser"
+  | "exceptions/server"
+  | "sessions/count"
+  | "performanceCounters/requestExecutionTime"
+  | "performanceCounters/requestsPerSecond"
+  | "performanceCounters/requestsInQueue"
+  | "performanceCounters/memoryAvailableBytes"
+  | "performanceCounters/exceptionsPerSecond"
+  | "performanceCounters/processCpuPercentage"
+  | "performanceCounters/processIOBytesPerSecond"
+  | "performanceCounters/processPrivateBytes"
+  | "performanceCounters/processorCpuPercentage"
+  | "availabilityResults/availabilityPercentage"
+  | "availabilityResults/duration"
+  | "billing/telemetryCount"
+  | "customEvents/count";
 
 /**
  * Defines values for MetricsAggregation.
@@ -1943,7 +1985,7 @@ export type MetricId = 'requests/count' | 'requests/duration' | 'requests/failed
  * @readonly
  * @enum {string}
  */
-export type MetricsAggregation = 'min' | 'max' | 'avg' | 'sum' | 'count' | 'unique';
+export type MetricsAggregation = "min" | "max" | "avg" | "sum" | "count" | "unique";
 
 /**
  * Defines values for MetricsSegment.
@@ -1954,7 +1996,23 @@ export type MetricsAggregation = 'min' | 'max' | 'avg' | 'sum' | 'count' | 'uniq
  * @readonly
  * @enum {string}
  */
-export type MetricsSegment = 'applicationBuild' | 'applicationVersion' | 'authenticatedOrAnonymousTraffic' | 'browser' | 'browserVersion' | 'city' | 'cloudRoleName' | 'cloudServiceName' | 'continent' | 'countryOrRegion' | 'deploymentId' | 'deploymentUnit' | 'deviceType' | 'environment' | 'hostingLocation' | 'instanceName';
+export type MetricsSegment =
+  | "applicationBuild"
+  | "applicationVersion"
+  | "authenticatedOrAnonymousTraffic"
+  | "browser"
+  | "browserVersion"
+  | "city"
+  | "cloudRoleName"
+  | "cloudServiceName"
+  | "continent"
+  | "countryOrRegion"
+  | "deploymentId"
+  | "deploymentUnit"
+  | "deviceType"
+  | "environment"
+  | "hostingLocation"
+  | "instanceName";
 
 /**
  * Defines values for EventType.
@@ -1964,7 +2022,18 @@ export type MetricsSegment = 'applicationBuild' | 'applicationVersion' | 'authen
  * @readonly
  * @enum {string}
  */
-export type EventType = '$all' | 'traces' | 'customEvents' | 'pageViews' | 'browserTimings' | 'requests' | 'dependencies' | 'exceptions' | 'availabilityResults' | 'performanceCounters' | 'customMetrics';
+export type EventType =
+  | "$all"
+  | "traces"
+  | "customEvents"
+  | "pageViews"
+  | "browserTimings"
+  | "requests"
+  | "dependencies"
+  | "exceptions"
+  | "availabilityResults"
+  | "performanceCounters"
+  | "customMetrics";
 
 /**
  * Contains response data for the get operation.
@@ -1974,15 +2043,15 @@ export type MetricsGetResponse = MetricsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetricsResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetricsResult;
+  };
 };
 
 /**
@@ -1993,15 +2062,15 @@ export type MetricsGetMultipleResponse = Array<MetricsResultsItem> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetricsResultsItem[];
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetricsResultsItem[];
+  };
 };
 
 /**
@@ -2016,15 +2085,15 @@ export type MetricsGetMetadataResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -2035,15 +2104,15 @@ export type EventsGetByTypeResponse = EventsResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventsResults;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventsResults;
+  };
 };
 
 /**
@@ -2054,15 +2123,15 @@ export type EventsGetResponse = EventsResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventsResults;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventsResults;
+  };
 };
 
 /**
@@ -2073,13 +2142,13 @@ export type QueryExecuteResponse = QueryResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QueryResults;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QueryResults;
+  };
 };

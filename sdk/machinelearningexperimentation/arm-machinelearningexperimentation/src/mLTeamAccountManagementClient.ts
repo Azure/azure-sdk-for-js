@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { MLTeamAccountManagementClientContext } from "./mLTeamAccountManagementClientContext";
 
-
 class MLTeamAccountManagementClient extends MLTeamAccountManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -28,7 +27,11 @@ class MLTeamAccountManagementClient extends MLTeamAccountManagementClientContext
    * @param subscriptionId The Microsoft Azure subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MLTeamAccountManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.MLTeamAccountManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.accounts = new operations.Accounts(this);

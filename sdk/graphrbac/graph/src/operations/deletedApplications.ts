@@ -32,7 +32,10 @@ export class DeletedApplications {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeletedApplicationsRestoreResponse>
    */
-  restore(objectId: string, options?: msRest.RequestOptionsBase): Promise<Models.DeletedApplicationsRestoreResponse>;
+  restore(
+    objectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeletedApplicationsRestoreResponse>;
   /**
    * @param objectId Application object ID.
    * @param callback The callback
@@ -43,15 +46,24 @@ export class DeletedApplications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  restore(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Application>): void;
-  restore(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>, callback?: msRest.ServiceCallback<Models.Application>): Promise<Models.DeletedApplicationsRestoreResponse> {
+  restore(
+    objectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Application>
+  ): void;
+  restore(
+    objectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Application>,
+    callback?: msRest.ServiceCallback<Models.Application>
+  ): Promise<Models.DeletedApplicationsRestoreResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
         options
       },
       restoreOperationSpec,
-      callback) as Promise<Models.DeletedApplicationsRestoreResponse>;
+      callback
+    ) as Promise<Models.DeletedApplicationsRestoreResponse>;
   }
 
   /**
@@ -59,7 +71,9 @@ export class DeletedApplications {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeletedApplicationsListResponse>
    */
-  list(options?: Models.DeletedApplicationsListOptionalParams): Promise<Models.DeletedApplicationsListResponse>;
+  list(
+    options?: Models.DeletedApplicationsListOptionalParams
+  ): Promise<Models.DeletedApplicationsListResponse>;
   /**
    * @param callback The callback
    */
@@ -68,14 +82,23 @@ export class DeletedApplications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.DeletedApplicationsListOptionalParams, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  list(options?: Models.DeletedApplicationsListOptionalParams | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.DeletedApplicationsListResponse> {
+  list(
+    options: Models.DeletedApplicationsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): void;
+  list(
+    options?:
+      | Models.DeletedApplicationsListOptionalParams
+      | msRest.ServiceCallback<Models.ApplicationListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): Promise<Models.DeletedApplicationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DeletedApplicationsListResponse>;
+      callback
+    ) as Promise<Models.DeletedApplicationsListResponse>;
   }
 
   /**
@@ -84,7 +107,10 @@ export class DeletedApplications {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  hardDelete(applicationObjectId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  hardDelete(
+    applicationObjectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param applicationObjectId Application object ID.
    * @param callback The callback
@@ -95,15 +121,24 @@ export class DeletedApplications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  hardDelete(applicationObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  hardDelete(applicationObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  hardDelete(
+    applicationObjectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  hardDelete(
+    applicationObjectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         applicationObjectId,
         options
       },
       hardDeleteOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -112,7 +147,10 @@ export class DeletedApplications {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeletedApplicationsListNextResponse>
    */
-  listNext(nextLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DeletedApplicationsListNextResponse>;
+  listNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeletedApplicationsListNextResponse>;
   /**
    * @param nextLink Next link for the list operation.
    * @param callback The callback
@@ -123,15 +161,24 @@ export class DeletedApplications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationListResult>): void;
-  listNext(nextLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationListResult>, callback?: msRest.ServiceCallback<Models.ApplicationListResult>): Promise<Models.DeletedApplicationsListNextResponse> {
+  listNext(
+    nextLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): void;
+  listNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationListResult>
+  ): Promise<Models.DeletedApplicationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DeletedApplicationsListNextResponse>;
+      callback
+    ) as Promise<Models.DeletedApplicationsListNextResponse>;
   }
 }
 
@@ -140,16 +187,9 @@ const serializer = new msRest.Serializer(Mappers);
 const restoreOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/deletedApplications/{objectId}/restore",
-  urlParameters: [
-    Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.objectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Application
@@ -164,16 +204,9 @@ const restoreOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/deletedApplications",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationListResult
@@ -188,16 +221,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const hardDeleteOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{tenantID}/deletedApplications/{applicationObjectId}",
-  urlParameters: [
-    Parameters.applicationObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.applicationObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -210,16 +236,9 @@ const hardDeleteOperationSpec: msRest.OperationSpec = {
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/{nextLink}",
-  urlParameters: [
-    Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextLink, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationListResult

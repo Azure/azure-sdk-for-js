@@ -34,14 +34,24 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param certificateName The name of certificate.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, certificateName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -49,8 +59,20 @@ export class CertificateOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class CertificateOperations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -70,14 +93,24 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, certificateName: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CertificateGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param certificateName The name of certificate.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, certificateName: string, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    callback: msRest.ServiceCallback<Models.Certificate>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -85,8 +118,20 @@ export class CertificateOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, certificateName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Certificate>): void;
-  get(resourceGroupName: string, automationAccountName: string, certificateName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Certificate>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>,
+    callback?: msRest.ServiceCallback<Models.Certificate>
+  ): Promise<Models.CertificateGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +140,8 @@ export class CertificateOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CertificateGetResponse>;
+      callback
+    ) as Promise<Models.CertificateGetResponse>;
   }
 
   /**
@@ -107,7 +153,13 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.CertificateCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    parameters: Models.CertificateCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CertificateCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -115,7 +167,13 @@ export class CertificateOperations {
    * @param parameters The parameters supplied to the create or update certificate operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    parameters: Models.CertificateCreateOrUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Certificate>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -124,8 +182,22 @@ export class CertificateOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Certificate>): void;
-  createOrUpdate(resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: Models.CertificateCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    parameters: Models.CertificateCreateOrUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Certificate>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    parameters: Models.CertificateCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>,
+    callback?: msRest.ServiceCallback<Models.Certificate>
+  ): Promise<Models.CertificateCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +207,8 @@ export class CertificateOperations {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.CertificateCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.CertificateCreateOrUpdateResponse>;
   }
 
   /**
@@ -147,7 +220,13 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateUpdateResponse>
    */
-  update(resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: Models.CertificateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.CertificateUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    parameters: Models.CertificateUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CertificateUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -155,7 +234,13 @@ export class CertificateOperations {
    * @param parameters The parameters supplied to the update certificate operation.
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: Models.CertificateUpdateParameters, callback: msRest.ServiceCallback<Models.Certificate>): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    parameters: Models.CertificateUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Certificate>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -164,8 +249,22 @@ export class CertificateOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: Models.CertificateUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Certificate>): void;
-  update(resourceGroupName: string, automationAccountName: string, certificateName: string, parameters: Models.CertificateUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>, callback?: msRest.ServiceCallback<Models.Certificate>): Promise<Models.CertificateUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    parameters: Models.CertificateUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Certificate>
+  ): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    certificateName: string,
+    parameters: Models.CertificateUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Certificate>,
+    callback?: msRest.ServiceCallback<Models.Certificate>
+  ): Promise<Models.CertificateUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,7 +274,8 @@ export class CertificateOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.CertificateUpdateResponse>;
+      callback
+    ) as Promise<Models.CertificateUpdateResponse>;
   }
 
   /**
@@ -185,21 +285,39 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateListByAutomationAccountResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateListByAutomationAccountResponse>;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CertificateListByAutomationAccountResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.CertificateListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListResult>, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.CertificateListByAutomationAccountResponse> {
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateListResult>
+  ): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListResult>,
+    callback?: msRest.ServiceCallback<Models.CertificateListResult>
+  ): Promise<Models.CertificateListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +325,8 @@ export class CertificateOperations {
         options
       },
       listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.CertificateListByAutomationAccountResponse>;
+      callback
+    ) as Promise<Models.CertificateListByAutomationAccountResponse>;
   }
 
   /**
@@ -216,26 +335,41 @@ export class CertificateOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateListByAutomationAccountNextResponse>
    */
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificateListByAutomationAccountNextResponse>;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CertificateListByAutomationAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CertificateListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListResult>, callback?: msRest.ServiceCallback<Models.CertificateListResult>): Promise<Models.CertificateListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CertificateListResult>
+  ): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateListResult>,
+    callback?: msRest.ServiceCallback<Models.CertificateListResult>
+  ): Promise<Models.CertificateListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAutomationAccountNextOperationSpec,
-      callback) as Promise<Models.CertificateListByAutomationAccountNextResponse>;
+      callback
+    ) as Promise<Models.CertificateListByAutomationAccountNextResponse>;
   }
 }
 
@@ -243,19 +377,16 @@ export class CertificateOperations {
 const serializer = new msRest.Serializer(Mappers);
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -267,19 +398,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Certificate
@@ -293,19 +421,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -329,19 +454,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.certificateName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -362,18 +484,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -389,12 +508,8 @@ const listByAutomationAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult

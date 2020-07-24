@@ -38,4 +38,3 @@ export {
   PnsCredentialsResource,
   SubResource
 } from "../models/mappers";
-

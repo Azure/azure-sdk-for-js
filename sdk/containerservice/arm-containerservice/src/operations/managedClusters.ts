@@ -43,14 +43,21 @@ export class ManagedClusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterListResult>, callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>): Promise<Models.ManagedClustersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedClusterListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>
+  ): Promise<Models.ManagedClustersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ManagedClustersListResponse>;
+      callback
+    ) as Promise<Models.ManagedClustersListResponse>;
   }
 
   /**
@@ -61,26 +68,41 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedClustersListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ManagedClusterListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ManagedClusterListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterListResult>, callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>): Promise<Models.ManagedClustersListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedClusterListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>
+  ): Promise<Models.ManagedClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ManagedClustersListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ManagedClustersListByResourceGroupResponse>;
   }
 
   /**
@@ -92,21 +114,41 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersGetUpgradeProfileResponse>
    */
-  getUpgradeProfile(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersGetUpgradeProfileResponse>;
+  getUpgradeProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedClustersGetUpgradeProfileResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param callback The callback
    */
-  getUpgradeProfile(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ManagedClusterUpgradeProfile>): void;
+  getUpgradeProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ManagedClusterUpgradeProfile>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUpgradeProfile(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterUpgradeProfile>): void;
-  getUpgradeProfile(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterUpgradeProfile>, callback?: msRest.ServiceCallback<Models.ManagedClusterUpgradeProfile>): Promise<Models.ManagedClustersGetUpgradeProfileResponse> {
+  getUpgradeProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedClusterUpgradeProfile>
+  ): void;
+  getUpgradeProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedClusterUpgradeProfile>,
+    callback?: msRest.ServiceCallback<Models.ManagedClusterUpgradeProfile>
+  ): Promise<Models.ManagedClustersGetUpgradeProfileResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -114,7 +156,8 @@ export class ManagedClusters {
         options
       },
       getUpgradeProfileOperationSpec,
-      callback) as Promise<Models.ManagedClustersGetUpgradeProfileResponse>;
+      callback
+    ) as Promise<Models.ManagedClustersGetUpgradeProfileResponse>;
   }
 
   /**
@@ -132,7 +175,12 @@ export class ManagedClusters {
    * @deprecated This operation is deprecated. Please do not use it any longer.
    * @returns Promise<Models.ManagedClustersGetAccessProfileResponse>
    */
-  getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersGetAccessProfileResponse>;
+  getAccessProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    roleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedClustersGetAccessProfileResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -140,7 +188,12 @@ export class ManagedClusters {
    * @param callback The callback
    * @deprecated This operation is deprecated. Please do not use it any longer.
    */
-  getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, callback: msRest.ServiceCallback<Models.ManagedClusterAccessProfile>): void;
+  getAccessProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    roleName: string,
+    callback: msRest.ServiceCallback<Models.ManagedClusterAccessProfile>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
@@ -149,8 +202,22 @@ export class ManagedClusters {
    * @param callback The callback
    * @deprecated This operation is deprecated. Please do not use it any longer.
    */
-  getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterAccessProfile>): void;
-  getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterAccessProfile>, callback?: msRest.ServiceCallback<Models.ManagedClusterAccessProfile>): Promise<Models.ManagedClustersGetAccessProfileResponse> {
+  getAccessProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    roleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedClusterAccessProfile>
+  ): void;
+  getAccessProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    roleName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedClusterAccessProfile>,
+    callback?: msRest.ServiceCallback<Models.ManagedClusterAccessProfile>
+  ): Promise<Models.ManagedClustersGetAccessProfileResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +226,8 @@ export class ManagedClusters {
         options
       },
       getAccessProfileOperationSpec,
-      callback) as Promise<Models.ManagedClustersGetAccessProfileResponse>;
+      callback
+    ) as Promise<Models.ManagedClustersGetAccessProfileResponse>;
   }
 
   /**
@@ -170,21 +238,39 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersListClusterAdminCredentialsResponse>
    */
-  listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersListClusterAdminCredentialsResponse>;
+  listClusterAdminCredentials(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedClustersListClusterAdminCredentialsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param callback The callback
    */
-  listClusterAdminCredentials(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
+  listClusterAdminCredentials(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.CredentialResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
-  listClusterAdminCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterAdminCredentialsResponse> {
+  listClusterAdminCredentials(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CredentialResults>
+  ): void;
+  listClusterAdminCredentials(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>,
+    callback?: msRest.ServiceCallback<Models.CredentialResults>
+  ): Promise<Models.ManagedClustersListClusterAdminCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -192,7 +278,8 @@ export class ManagedClusters {
         options
       },
       listClusterAdminCredentialsOperationSpec,
-      callback) as Promise<Models.ManagedClustersListClusterAdminCredentialsResponse>;
+      callback
+    ) as Promise<Models.ManagedClustersListClusterAdminCredentialsResponse>;
   }
 
   /**
@@ -203,21 +290,39 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersListClusterUserCredentialsResponse>
    */
-  listClusterUserCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersListClusterUserCredentialsResponse>;
+  listClusterUserCredentials(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedClustersListClusterUserCredentialsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param callback The callback
    */
-  listClusterUserCredentials(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
+  listClusterUserCredentials(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.CredentialResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listClusterUserCredentials(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
-  listClusterUserCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterUserCredentialsResponse> {
+  listClusterUserCredentials(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CredentialResults>
+  ): void;
+  listClusterUserCredentials(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>,
+    callback?: msRest.ServiceCallback<Models.CredentialResults>
+  ): Promise<Models.ManagedClustersListClusterUserCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -225,7 +330,8 @@ export class ManagedClusters {
         options
       },
       listClusterUserCredentialsOperationSpec,
-      callback) as Promise<Models.ManagedClustersListClusterUserCredentialsResponse>;
+      callback
+    ) as Promise<Models.ManagedClustersListClusterUserCredentialsResponse>;
   }
 
   /**
@@ -237,21 +343,39 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse>
    */
-  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse>;
+  listClusterMonitoringUserCredentials(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param callback The callback
    */
-  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
+  listClusterMonitoringUserCredentials(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.CredentialResults>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
-  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse> {
+  listClusterMonitoringUserCredentials(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CredentialResults>
+  ): void;
+  listClusterMonitoringUserCredentials(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>,
+    callback?: msRest.ServiceCallback<Models.CredentialResults>
+  ): Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -259,7 +383,8 @@ export class ManagedClusters {
         options
       },
       listClusterMonitoringUserCredentialsOperationSpec,
-      callback) as Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse>;
+      callback
+    ) as Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse>;
   }
 
   /**
@@ -270,21 +395,39 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedClustersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ManagedCluster>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ManagedCluster>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedCluster>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedCluster>, callback?: msRest.ServiceCallback<Models.ManagedCluster>): Promise<Models.ManagedClustersGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedCluster>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedCluster>,
+    callback?: msRest.ServiceCallback<Models.ManagedCluster>
+  ): Promise<Models.ManagedClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -292,7 +435,8 @@ export class ManagedClusters {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagedClustersGetResponse>;
+      callback
+    ) as Promise<Models.ManagedClustersGetResponse>;
   }
 
   /**
@@ -305,9 +449,20 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, parameters: Models.ManagedCluster, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,resourceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedClustersCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: Models.ManagedCluster,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedClustersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      resourceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ManagedClustersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -319,9 +474,20 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, resourceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersUpdateTagsResponse> {
-    return this.beginUpdateTags(resourceGroupName,resourceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedClustersUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedClustersUpdateTagsResponse> {
+    return this.beginUpdateTags(
+      resourceGroupName,
+      resourceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ManagedClustersUpdateTagsResponse
+    >;
   }
 
   /**
@@ -332,9 +498,14 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, resourceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -347,9 +518,18 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resetServicePrincipalProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterServicePrincipalProfile, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginResetServicePrincipalProfile(resourceGroupName,resourceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  resetServicePrincipalProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: Models.ManagedClusterServicePrincipalProfile,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginResetServicePrincipalProfile(
+      resourceGroupName,
+      resourceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -361,9 +541,18 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resetAADProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterAADProfile, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginResetAADProfile(resourceGroupName,resourceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  resetAADProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: Models.ManagedClusterAADProfile,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginResetAADProfile(
+      resourceGroupName,
+      resourceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -374,9 +563,16 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  rotateClusterCertificates(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRotateClusterCertificates(resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  rotateClusterCertificates(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRotateClusterCertificates(
+      resourceGroupName,
+      resourceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -389,7 +585,12 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: Models.ManagedCluster, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: Models.ManagedCluster,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -398,7 +599,8 @@ export class ManagedClusters {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -410,7 +612,12 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateTags(resourceGroupName: string, resourceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateTags(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -419,7 +626,8 @@ export class ManagedClusters {
         options
       },
       beginUpdateTagsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -430,7 +638,11 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -438,7 +650,8 @@ export class ManagedClusters {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -451,7 +664,12 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginResetServicePrincipalProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterServicePrincipalProfile, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginResetServicePrincipalProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: Models.ManagedClusterServicePrincipalProfile,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -460,7 +678,8 @@ export class ManagedClusters {
         options
       },
       beginResetServicePrincipalProfileOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -472,7 +691,12 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginResetAADProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterAADProfile, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginResetAADProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: Models.ManagedClusterAADProfile,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -481,7 +705,8 @@ export class ManagedClusters {
         options
       },
       beginResetAADProfileOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -492,7 +717,11 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRotateClusterCertificates(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRotateClusterCertificates(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -500,7 +729,8 @@ export class ManagedClusters {
         options
       },
       beginRotateClusterCertificatesOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -511,26 +741,41 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedClustersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagedClusterListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagedClusterListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterListResult>, callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>): Promise<Models.ManagedClustersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedClusterListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>
+  ): Promise<Models.ManagedClustersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ManagedClustersListNextResponse>;
+      callback
+    ) as Promise<Models.ManagedClustersListNextResponse>;
   }
 
   /**
@@ -541,26 +786,41 @@ export class ManagedClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedClustersListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedClustersListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagedClusterListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagedClusterListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterListResult>, callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>): Promise<Models.ManagedClustersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedClusterListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedClusterListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedClusterListResult>
+  ): Promise<Models.ManagedClustersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ManagedClustersListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ManagedClustersListByResourceGroupNextResponse>;
   }
 }
 
@@ -569,15 +829,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedClusterListResult
@@ -591,17 +845,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName0
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName0],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedClusterListResult
@@ -615,18 +863,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedClusterUpgradeProfile
@@ -640,19 +885,16 @@ const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
 
 const getAccessProfileOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/accessProfiles/{roleName}/listCredential",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/accessProfiles/{roleName}/listCredential",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1,
     Parameters.roleName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedClusterAccessProfile
@@ -666,18 +908,15 @@ const getAccessProfileOperationSpec: msRest.OperationSpec = {
 
 const listClusterAdminCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterAdminCredential",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterAdminCredential",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CredentialResults
@@ -691,18 +930,15 @@ const listClusterAdminCredentialsOperationSpec: msRest.OperationSpec = {
 
 const listClusterUserCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterUserCredential",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterUserCredential",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CredentialResults
@@ -716,18 +952,15 @@ const listClusterUserCredentialsOperationSpec: msRest.OperationSpec = {
 
 const listClusterMonitoringUserCredentialsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterMonitoringUserCredential",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterMonitoringUserCredential",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CredentialResults
@@ -741,18 +974,15 @@ const listClusterMonitoringUserCredentialsOperationSpec: msRest.OperationSpec = 
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedCluster
@@ -766,18 +996,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -801,18 +1028,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -833,18 +1057,15 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -857,18 +1078,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginResetServicePrincipalProfileOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -888,18 +1106,15 @@ const beginResetServicePrincipalProfileOperationSpec: msRest.OperationSpec = {
 
 const beginResetAADProfileOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -919,18 +1134,15 @@ const beginResetAADProfileOperationSpec: msRest.OperationSpec = {
 
 const beginRotateClusterCertificatesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
     Parameters.resourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -945,12 +1157,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedClusterListResult
@@ -966,12 +1174,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedClusterListResult

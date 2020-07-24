@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { StorageCacheManagementClientContext } from "./storageCacheManagementClientContext";
 
-
 class StorageCacheManagementClient extends StorageCacheManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -30,7 +29,11 @@ class StorageCacheManagementClient extends StorageCacheManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.StorageCacheManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.StorageCacheManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.skus = new operations.Skus(this);

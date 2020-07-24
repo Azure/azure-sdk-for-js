@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { SynapseManagementClientContext } from "./synapseManagementClientContext";
 
-
 class SynapseManagementClient extends SynapseManagementClientContext {
   // Operation groups
   bigDataPools: operations.BigDataPools;
@@ -62,7 +61,11 @@ class SynapseManagementClient extends SynapseManagementClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SynapseManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.SynapseManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.bigDataPools = new operations.BigDataPools(this);
     this.operations = new operations.Operations(this);
@@ -71,7 +74,9 @@ class SynapseManagementClient extends SynapseManagementClientContext {
     this.sqlPoolMetadataSyncConfigs = new operations.SqlPoolMetadataSyncConfigs(this);
     this.sqlPoolOperationResults = new operations.SqlPoolOperationResults(this);
     this.sqlPoolGeoBackupPolicies = new operations.SqlPoolGeoBackupPolicies(this);
-    this.sqlPoolDataWarehouseUserActivities = new operations.SqlPoolDataWarehouseUserActivities(this);
+    this.sqlPoolDataWarehouseUserActivities = new operations.SqlPoolDataWarehouseUserActivities(
+      this
+    );
     this.sqlPoolRestorePoints = new operations.SqlPoolRestorePoints(this);
     this.sqlPoolReplicationLinks = new operations.SqlPoolReplicationLinks(this);
     this.sqlPoolTransparentDataEncryptions = new operations.SqlPoolTransparentDataEncryptions(this);
@@ -84,20 +89,30 @@ class SynapseManagementClient extends SynapseManagementClientContext {
     this.sqlPoolTableColumns = new operations.SqlPoolTableColumns(this);
     this.sqlPoolConnectionPolicies = new operations.SqlPoolConnectionPolicies(this);
     this.sqlPoolVulnerabilityAssessments = new operations.SqlPoolVulnerabilityAssessments(this);
-    this.sqlPoolVulnerabilityAssessmentScans = new operations.SqlPoolVulnerabilityAssessmentScans(this);
+    this.sqlPoolVulnerabilityAssessmentScans = new operations.SqlPoolVulnerabilityAssessmentScans(
+      this
+    );
     this.sqlPoolSecurityAlertPolicies = new operations.SqlPoolSecurityAlertPolicies(this);
-    this.sqlPoolVulnerabilityAssessmentRuleBaselines = new operations.SqlPoolVulnerabilityAssessmentRuleBaselines(this);
+    this.sqlPoolVulnerabilityAssessmentRuleBaselines = new operations.SqlPoolVulnerabilityAssessmentRuleBaselines(
+      this
+    );
     this.workspaces = new operations.Workspaces(this);
     this.workspaceAadAdmins = new operations.WorkspaceAadAdmins(this);
-    this.workspaceManagedIdentitySqlControlSettings = new operations.WorkspaceManagedIdentitySqlControlSettings(this);
+    this.workspaceManagedIdentitySqlControlSettings = new operations.WorkspaceManagedIdentitySqlControlSettings(
+      this
+    );
     this.integrationRuntimes = new operations.IntegrationRuntimes(this);
-    this.integrationRuntimeNodeIpAddress = new operations.IntegrationRuntimeNodeIpAddressOperations(this);
+    this.integrationRuntimeNodeIpAddress = new operations.IntegrationRuntimeNodeIpAddressOperations(
+      this
+    );
     this.integrationRuntimeObjectMetadata = new operations.IntegrationRuntimeObjectMetadata(this);
     this.integrationRuntimeNodes = new operations.IntegrationRuntimeNodes(this);
     this.integrationRuntimeCredentials = new operations.IntegrationRuntimeCredentials(this);
     this.integrationRuntimeConnectionInfos = new operations.IntegrationRuntimeConnectionInfos(this);
     this.integrationRuntimeAuthKeys = new operations.IntegrationRuntimeAuthKeysOperations(this);
-    this.integrationRuntimeMonitoringData = new operations.IntegrationRuntimeMonitoringDataOperations(this);
+    this.integrationRuntimeMonitoringData = new operations.IntegrationRuntimeMonitoringDataOperations(
+      this
+    );
     this.integrationRuntimeStatus = new operations.IntegrationRuntimeStatusOperations(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);

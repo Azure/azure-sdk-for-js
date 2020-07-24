@@ -35,14 +35,24 @@ export class SqlPoolTransparentDataEncryptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolTransparentDataEncryptionsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolTransparentDataEncryptionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolTransparentDataEncryptionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.TransparentDataEncryption>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    callback: msRest.ServiceCallback<Models.TransparentDataEncryption>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -50,8 +60,20 @@ export class SqlPoolTransparentDataEncryptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TransparentDataEncryption>): void;
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransparentDataEncryption>, callback?: msRest.ServiceCallback<Models.TransparentDataEncryption>): Promise<Models.SqlPoolTransparentDataEncryptionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TransparentDataEncryption>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransparentDataEncryption>,
+    callback?: msRest.ServiceCallback<Models.TransparentDataEncryption>
+  ): Promise<Models.SqlPoolTransparentDataEncryptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class SqlPoolTransparentDataEncryptions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SqlPoolTransparentDataEncryptionsGetResponse>;
+      callback
+    ) as Promise<Models.SqlPoolTransparentDataEncryptionsGetResponse>;
   }
 
   /**
@@ -73,7 +96,13 @@ export class SqlPoolTransparentDataEncryptions {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.TransparentDataEncryption, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.TransparentDataEncryption,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -81,7 +110,13 @@ export class SqlPoolTransparentDataEncryptions {
    * @param parameters The required parameters for creating or updating transparent data encryption.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.TransparentDataEncryption, callback: msRest.ServiceCallback<Models.TransparentDataEncryption>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.TransparentDataEncryption,
+    callback: msRest.ServiceCallback<Models.TransparentDataEncryption>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -90,8 +125,22 @@ export class SqlPoolTransparentDataEncryptions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.TransparentDataEncryption, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TransparentDataEncryption>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.TransparentDataEncryption, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransparentDataEncryption>, callback?: msRest.ServiceCallback<Models.TransparentDataEncryption>): Promise<Models.SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.TransparentDataEncryption,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TransparentDataEncryption>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.TransparentDataEncryption,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TransparentDataEncryption>,
+    callback?: msRest.ServiceCallback<Models.TransparentDataEncryption>
+  ): Promise<Models.SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +150,8 @@ export class SqlPoolTransparentDataEncryptions {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse>;
   }
 }
 
@@ -109,7 +159,8 @@ export class SqlPoolTransparentDataEncryptions {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/transparentDataEncryption/{transparentDataEncryptionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/transparentDataEncryption/{transparentDataEncryptionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -117,12 +168,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName,
     Parameters.transparentDataEncryptionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TransparentDataEncryption
@@ -136,7 +183,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/transparentDataEncryption/{transparentDataEncryptionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/transparentDataEncryption/{transparentDataEncryptionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -144,12 +192,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName,
     Parameters.transparentDataEncryptionName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

@@ -29,21 +29,41 @@ export class WorkspaceAcl {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceAclGetAccessControlInfoResponse>
    */
-  getAccessControlInfo(workspaceName: string, resource: Models.GetAccessControlInfoRequest, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceAclGetAccessControlInfoResponse>;
+  getAccessControlInfo(
+    workspaceName: string,
+    resource: Models.GetAccessControlInfoRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspaceAclGetAccessControlInfoResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param resource The resource to get the access control info for.
    * @param callback The callback
    */
-  getAccessControlInfo(workspaceName: string, resource: Models.GetAccessControlInfoRequest, callback: msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>): void;
+  getAccessControlInfo(
+    workspaceName: string,
+    resource: Models.GetAccessControlInfoRequest,
+    callback: msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param resource The resource to get the access control info for.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAccessControlInfo(workspaceName: string, resource: Models.GetAccessControlInfoRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>): void;
-  getAccessControlInfo(workspaceName: string, resource: Models.GetAccessControlInfoRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>, callback?: msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>): Promise<Models.WorkspaceAclGetAccessControlInfoResponse> {
+  getAccessControlInfo(
+    workspaceName: string,
+    resource: Models.GetAccessControlInfoRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>
+  ): void;
+  getAccessControlInfo(
+    workspaceName: string,
+    resource: Models.GetAccessControlInfoRequest,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>,
+    callback?: msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>
+  ): Promise<Models.WorkspaceAclGetAccessControlInfoResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -51,7 +71,8 @@ export class WorkspaceAcl {
         options
       },
       getAccessControlInfoOperationSpec,
-      callback) as Promise<Models.WorkspaceAclGetAccessControlInfoResponse>;
+      callback
+    ) as Promise<Models.WorkspaceAclGetAccessControlInfoResponse>;
   }
 
   /**
@@ -61,21 +82,41 @@ export class WorkspaceAcl {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceAclSetWorkspaceAdministratorsResponse>
    */
-  setWorkspaceAdministrators(workspaceName: string, request: Models.SetWorkspaceAdministratorsRequest, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceAclSetWorkspaceAdministratorsResponse>;
+  setWorkspaceAdministrators(
+    workspaceName: string,
+    request: Models.SetWorkspaceAdministratorsRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkspaceAclSetWorkspaceAdministratorsResponse>;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param request Details of administrators object-ids.
    * @param callback The callback
    */
-  setWorkspaceAdministrators(workspaceName: string, request: Models.SetWorkspaceAdministratorsRequest, callback: msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>): void;
+  setWorkspaceAdministrators(
+    workspaceName: string,
+    request: Models.SetWorkspaceAdministratorsRequest,
+    callback: msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>
+  ): void;
   /**
    * @param workspaceName The name of the workspace to execute operations on.
    * @param request Details of administrators object-ids.
    * @param options The optional parameters
    * @param callback The callback
    */
-  setWorkspaceAdministrators(workspaceName: string, request: Models.SetWorkspaceAdministratorsRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>): void;
-  setWorkspaceAdministrators(workspaceName: string, request: Models.SetWorkspaceAdministratorsRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>, callback?: msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>): Promise<Models.WorkspaceAclSetWorkspaceAdministratorsResponse> {
+  setWorkspaceAdministrators(
+    workspaceName: string,
+    request: Models.SetWorkspaceAdministratorsRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>
+  ): void;
+  setWorkspaceAdministrators(
+    workspaceName: string,
+    request: Models.SetWorkspaceAdministratorsRequest,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>,
+    callback?: msRest.ServiceCallback<Models.WorkspaceAccessControlResponse>
+  ): Promise<Models.WorkspaceAclSetWorkspaceAdministratorsResponse> {
     return this.client.sendOperationRequest(
       {
         workspaceName,
@@ -83,7 +124,8 @@ export class WorkspaceAcl {
         options
       },
       setWorkspaceAdministratorsOperationSpec,
-      callback) as Promise<Models.WorkspaceAclSetWorkspaceAdministratorsResponse>;
+      callback
+    ) as Promise<Models.WorkspaceAclSetWorkspaceAdministratorsResponse>;
   }
 }
 
@@ -92,16 +134,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getAccessControlInfoOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "getAccessControl",
-  urlParameters: [
-    Parameters.workspaceName,
-    Parameters.synapseDnsSuffix
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.workspaceName, Parameters.synapseDnsSuffix],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "resource",
     mapper: {
@@ -123,16 +158,9 @@ const getAccessControlInfoOperationSpec: msRest.OperationSpec = {
 const setWorkspaceAdministratorsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "setWorkspaceAdmins",
-  urlParameters: [
-    Parameters.workspaceName,
-    Parameters.synapseDnsSuffix
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.workspaceName, Parameters.synapseDnsSuffix],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {

@@ -25,7 +25,11 @@ class PersonalizerClient extends PersonalizerClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    endpoint: string,
+    options?: msRest.ServiceClientOptions
+  ) {
     super(credentials, endpoint, options);
     this.events = new operations.Events(this);
   }
@@ -36,26 +40,41 @@ class PersonalizerClient extends PersonalizerClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RankResponse2>
    */
-  rank(rankRequest: Models.RankRequest, options?: msRest.RequestOptionsBase): Promise<Models.RankResponse2>;
+  rank(
+    rankRequest: Models.RankRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RankResponse2>;
   /**
    * @param rankRequest A Personalizer request.
    * @param callback The callback
    */
-  rank(rankRequest: Models.RankRequest, callback: msRest.ServiceCallback<Models.RankResponse>): void;
+  rank(
+    rankRequest: Models.RankRequest,
+    callback: msRest.ServiceCallback<Models.RankResponse>
+  ): void;
   /**
    * @param rankRequest A Personalizer request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  rank(rankRequest: Models.RankRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RankResponse>): void;
-  rank(rankRequest: Models.RankRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RankResponse>, callback?: msRest.ServiceCallback<Models.RankResponse>): Promise<Models.RankResponse2> {
+  rank(
+    rankRequest: Models.RankRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RankResponse>
+  ): void;
+  rank(
+    rankRequest: Models.RankRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RankResponse>,
+    callback?: msRest.ServiceCallback<Models.RankResponse>
+  ): Promise<Models.RankResponse2> {
     return this.sendOperationRequest(
       {
         rankRequest,
         options
       },
       rankOperationSpec,
-      callback) as Promise<Models.RankResponse2>;
+      callback
+    ) as Promise<Models.RankResponse2>;
   }
 }
 
@@ -64,9 +83,7 @@ const serializer = new msRest.Serializer(Mappers);
 const rankOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "rank",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: "rankRequest",
     mapper: {

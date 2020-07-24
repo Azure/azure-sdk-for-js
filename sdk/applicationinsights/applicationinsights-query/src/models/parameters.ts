@@ -11,10 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 export const aggregation: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "aggregation"
-  ],
+  parameterPath: ["options", "aggregation"],
   mapper: {
     serializedName: "aggregation",
     constraints: {
@@ -42,10 +39,7 @@ export const appId: msRest.OperationURLParameter = {
   }
 };
 export const apply: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "apply"
-  ],
+  parameterPath: ["options", "apply"],
   mapper: {
     serializedName: "$apply",
     type: {
@@ -54,10 +48,7 @@ export const apply: msRest.OperationQueryParameter = {
   }
 };
 export const count: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "count"
-  ],
+  parameterPath: ["options", "count"],
   mapper: {
     serializedName: "$count",
     type: {
@@ -86,10 +77,7 @@ export const eventType: msRest.OperationURLParameter = {
   }
 };
 export const filter0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "filter",
     type: {
@@ -98,10 +86,7 @@ export const filter0: msRest.OperationQueryParameter = {
   }
 };
 export const filter1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -110,10 +95,7 @@ export const filter1: msRest.OperationQueryParameter = {
   }
 };
 export const format: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "format"
-  ],
+  parameterPath: ["options", "format"],
   mapper: {
     serializedName: "$format",
     type: {
@@ -122,10 +104,7 @@ export const format: msRest.OperationQueryParameter = {
   }
 };
 export const interval: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "interval"
-  ],
+  parameterPath: ["options", "interval"],
   mapper: {
     serializedName: "interval",
     type: {
@@ -144,10 +123,7 @@ export const metricId: msRest.OperationURLParameter = {
   }
 };
 export const orderby0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "orderby"
-  ],
+  parameterPath: ["options", "orderby"],
   mapper: {
     serializedName: "orderby",
     type: {
@@ -156,10 +132,7 @@ export const orderby0: msRest.OperationQueryParameter = {
   }
 };
 export const orderby1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "orderby"
-  ],
+  parameterPath: ["options", "orderby"],
   mapper: {
     serializedName: "$orderby",
     type: {
@@ -168,10 +141,7 @@ export const orderby1: msRest.OperationQueryParameter = {
   }
 };
 export const search: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "search"
-  ],
+  parameterPath: ["options", "search"],
   mapper: {
     serializedName: "$search",
     type: {
@@ -180,10 +150,7 @@ export const search: msRest.OperationQueryParameter = {
   }
 };
 export const segment: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "segment"
-  ],
+  parameterPath: ["options", "segment"],
   mapper: {
     serializedName: "segment",
     constraints: {
@@ -201,10 +168,7 @@ export const segment: msRest.OperationQueryParameter = {
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const select: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "select"
-  ],
+  parameterPath: ["options", "select"],
   mapper: {
     serializedName: "$select",
     type: {
@@ -213,10 +177,7 @@ export const select: msRest.OperationQueryParameter = {
   }
 };
 export const skip: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skip"
-  ],
+  parameterPath: ["options", "skip"],
   mapper: {
     serializedName: "$skip",
     type: {
@@ -225,10 +186,7 @@ export const skip: msRest.OperationQueryParameter = {
   }
 };
 export const timespan: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "timespan"
-  ],
+  parameterPath: ["options", "timespan"],
   mapper: {
     serializedName: "timespan",
     type: {
@@ -237,10 +195,7 @@ export const timespan: msRest.OperationQueryParameter = {
   }
 };
 export const top0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "top",
     type: {
@@ -249,10 +204,7 @@ export const top0: msRest.OperationQueryParameter = {
   }
 };
 export const top1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "$top",
     type: {

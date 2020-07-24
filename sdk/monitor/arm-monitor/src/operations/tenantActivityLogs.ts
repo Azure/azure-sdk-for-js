@@ -35,7 +35,9 @@ export class TenantActivityLogs {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantActivityLogsListResponse>
    */
-  list(options?: Models.TenantActivityLogsListOptionalParams): Promise<Models.TenantActivityLogsListResponse>;
+  list(
+    options?: Models.TenantActivityLogsListOptionalParams
+  ): Promise<Models.TenantActivityLogsListResponse>;
   /**
    * @param callback The callback
    */
@@ -44,14 +46,23 @@ export class TenantActivityLogs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.TenantActivityLogsListOptionalParams, callback: msRest.ServiceCallback<Models.EventDataCollection>): void;
-  list(options?: Models.TenantActivityLogsListOptionalParams | msRest.ServiceCallback<Models.EventDataCollection>, callback?: msRest.ServiceCallback<Models.EventDataCollection>): Promise<Models.TenantActivityLogsListResponse> {
+  list(
+    options: Models.TenantActivityLogsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.EventDataCollection>
+  ): void;
+  list(
+    options?:
+      | Models.TenantActivityLogsListOptionalParams
+      | msRest.ServiceCallback<Models.EventDataCollection>,
+    callback?: msRest.ServiceCallback<Models.EventDataCollection>
+  ): Promise<Models.TenantActivityLogsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.TenantActivityLogsListResponse>;
+      callback
+    ) as Promise<Models.TenantActivityLogsListResponse>;
   }
 
   /**
@@ -64,26 +75,41 @@ export class TenantActivityLogs {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantActivityLogsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TenantActivityLogsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TenantActivityLogsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventDataCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.EventDataCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventDataCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventDataCollection>, callback?: msRest.ServiceCallback<Models.EventDataCollection>): Promise<Models.TenantActivityLogsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventDataCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventDataCollection>,
+    callback?: msRest.ServiceCallback<Models.EventDataCollection>
+  ): Promise<Models.TenantActivityLogsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.TenantActivityLogsListNextResponse>;
+      callback
+    ) as Promise<Models.TenantActivityLogsListNextResponse>;
   }
 }
 
@@ -92,14 +118,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/microsoft.insights/eventtypes/management/values",
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter1,
-    Parameters.select
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter1, Parameters.select],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventDataCollection
@@ -115,12 +135,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventDataCollection

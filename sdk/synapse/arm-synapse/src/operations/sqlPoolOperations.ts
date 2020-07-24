@@ -35,14 +35,24 @@ export class SqlPoolOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolOperationsListResponse>
    */
-  list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolOperationsListResponse>;
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolOperationsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>): void;
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -50,8 +60,22 @@ export class SqlPoolOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>): void;
-  list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>, callback?: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>): Promise<Models.SqlPoolOperationsListResponse> {
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>,
+    callback?: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>
+  ): Promise<Models.SqlPoolOperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +84,8 @@ export class SqlPoolOperations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SqlPoolOperationsListResponse>;
+      callback
+    ) as Promise<Models.SqlPoolOperationsListResponse>;
   }
 
   /**
@@ -70,26 +95,43 @@ export class SqlPoolOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolOperationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolOperationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolOperationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>, callback?: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>): Promise<Models.SqlPoolOperationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>,
+    callback?: msRest.ServiceCallback<Models.SqlPoolBlobAuditingPolicySqlPoolOperationListResult>
+  ): Promise<Models.SqlPoolOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SqlPoolOperationsListNextResponse>;
+      callback
+    ) as Promise<Models.SqlPoolOperationsListNextResponse>;
   }
 }
 
@@ -97,19 +139,16 @@ export class SqlPoolOperations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/operations",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/operations",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlPoolBlobAuditingPolicySqlPoolOperationListResult
@@ -125,12 +164,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlPoolBlobAuditingPolicySqlPoolOperationListResult

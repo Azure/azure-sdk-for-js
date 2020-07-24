@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ACEProvisioningManagementPartnerAPIContext } from "./aCEProvisioningManagementPartnerAPIContext";
 
-
 class ACEProvisioningManagementPartnerAPI extends ACEProvisioningManagementPartnerAPIContext {
   // Operation groups
   partner: operations.Partner;
@@ -25,7 +24,10 @@ class ACEProvisioningManagementPartnerAPI extends ACEProvisioningManagementPartn
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.ACEProvisioningManagementPartnerAPIOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.ACEProvisioningManagementPartnerAPIOptions
+  ) {
     super(credentials, options);
     this.partner = new operations.Partner(this);
     this.operation = new operations.Operation(this);

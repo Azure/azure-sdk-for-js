@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SearchIndexerClient, AzureKeyCredential, SearchIndexerSkillset } from "@azure/search-documents";
+import {
+  SearchIndexerClient,
+  AzureKeyCredential,
+  SearchIndexerSkillset
+} from "@azure/search-documents";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -24,8 +28,8 @@ async function main(): Promise<void> {
       name: "organizations",
       targetName: "organizations"
     }
-  ]
-  
+  ];
+
   await client.createOrUpdateSkillset(skillset);
 }
 

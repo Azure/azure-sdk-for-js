@@ -304,7 +304,15 @@ export interface DomainTopic extends Resource {
 /**
  * Contains the possible cases for EventSubscriptionDestination.
  */
-export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination;
+export type EventSubscriptionDestinationUnion =
+  | EventSubscriptionDestination
+  | WebHookEventSubscriptionDestination
+  | EventHubEventSubscriptionDestination
+  | StorageQueueEventSubscriptionDestination
+  | HybridConnectionEventSubscriptionDestination
+  | ServiceBusQueueEventSubscriptionDestination
+  | ServiceBusTopicEventSubscriptionDestination
+  | AzureFunctionEventSubscriptionDestination;
 
 /**
  * Information about the destination for an event subscription.
@@ -319,7 +327,20 @@ export interface EventSubscriptionDestination {
 /**
  * Contains the possible cases for AdvancedFilter.
  */
-export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter;
+export type AdvancedFilterUnion =
+  | AdvancedFilter
+  | NumberInAdvancedFilter
+  | NumberNotInAdvancedFilter
+  | NumberLessThanAdvancedFilter
+  | NumberGreaterThanAdvancedFilter
+  | NumberLessThanOrEqualsAdvancedFilter
+  | NumberGreaterThanOrEqualsAdvancedFilter
+  | BoolEqualsAdvancedFilter
+  | StringInAdvancedFilter
+  | StringNotInAdvancedFilter
+  | StringBeginsWithAdvancedFilter
+  | StringEndsWithAdvancedFilter
+  | StringContainsAdvancedFilter;
 
 /**
  * This is the base type that represents an advanced filter. To configure an advanced filter, do
@@ -1152,7 +1173,8 @@ export interface DomainTopicsListByDomainOptionalParams extends msRest.RequestOp
 /**
  * Optional Parameters.
  */
-export interface EventSubscriptionsListGlobalBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+export interface EventSubscriptionsListGlobalBySubscriptionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1173,7 +1195,8 @@ export interface EventSubscriptionsListGlobalBySubscriptionOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
+export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1194,7 +1217,8 @@ export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalP
 /**
  * Optional Parameters.
  */
-export interface EventSubscriptionsListGlobalByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface EventSubscriptionsListGlobalByResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1215,7 +1239,8 @@ export interface EventSubscriptionsListGlobalByResourceGroupOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
+export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1236,7 +1261,8 @@ export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptional
 /**
  * Optional Parameters.
  */
-export interface EventSubscriptionsListRegionalBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+export interface EventSubscriptionsListRegionalBySubscriptionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1257,7 +1283,8 @@ export interface EventSubscriptionsListRegionalBySubscriptionOptionalParams exte
 /**
  * Optional Parameters.
  */
-export interface EventSubscriptionsListRegionalByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface EventSubscriptionsListRegionalByResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1278,7 +1305,8 @@ export interface EventSubscriptionsListRegionalByResourceGroupOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
+export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1299,7 +1327,8 @@ export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptiona
 /**
  * Optional Parameters.
  */
-export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams extends msRest.RequestOptionsBase {
+export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1341,7 +1370,8 @@ export interface EventSubscriptionsListByResourceOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface EventSubscriptionsListByDomainTopicOptionalParams extends msRest.RequestOptionsBase {
+export interface EventSubscriptionsListByDomainTopicOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1404,7 +1434,8 @@ export interface TopicsListByResourceGroupOptionalParams extends msRest.RequestO
 /**
  * Optional Parameters.
  */
-export interface PrivateEndpointConnectionsListByResourceOptionalParams extends msRest.RequestOptionsBase {
+export interface PrivateEndpointConnectionsListByResourceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1425,7 +1456,8 @@ export interface PrivateEndpointConnectionsListByResourceOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface PrivateLinkResourcesListByResourceOptionalParams extends msRest.RequestOptionsBase {
+export interface PrivateLinkResourcesListByResourceOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1491,8 +1523,7 @@ export interface EventSubscriptionsListResult extends Array<EventSubscription> {
  * Result of the List Operations operation
  * @extends Array<Operation>
  */
-export interface OperationsListResult extends Array<Operation> {
-}
+export interface OperationsListResult extends Array<Operation> {}
 
 /**
  * @interface
@@ -1511,8 +1542,7 @@ export interface TopicsListResult extends Array<Topic> {
  * Result of the List Event Types operation
  * @extends Array<EventType>
  */
-export interface EventTypesListResult extends Array<EventType> {
-}
+export interface EventTypesListResult extends Array<EventType> {}
 
 /**
  * @interface
@@ -1543,8 +1573,7 @@ export interface PrivateLinkResourcesListResult extends Array<PrivateLinkResourc
  * Result of the List Topic Types operation
  * @extends Array<TopicTypeInfo>
  */
-export interface TopicTypesListResult extends Array<TopicTypeInfo> {
-}
+export interface TopicTypesListResult extends Array<TopicTypeInfo> {}
 
 /**
  * Defines values for PersistedConnectionStatus.
@@ -1552,7 +1581,7 @@ export interface TopicTypesListResult extends Array<TopicTypeInfo> {
  * @readonly
  * @enum {string}
  */
-export type PersistedConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+export type PersistedConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 /**
  * Defines values for ResourceProvisioningState.
@@ -1560,7 +1589,13 @@ export type PersistedConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'D
  * @readonly
  * @enum {string}
  */
-export type ResourceProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+export type ResourceProvisioningState =
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Succeeded"
+  | "Canceled"
+  | "Failed";
 
 /**
  * Defines values for DomainProvisioningState.
@@ -1568,7 +1603,13 @@ export type ResourceProvisioningState = 'Creating' | 'Updating' | 'Deleting' | '
  * @readonly
  * @enum {string}
  */
-export type DomainProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+export type DomainProvisioningState =
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Succeeded"
+  | "Canceled"
+  | "Failed";
 
 /**
  * Defines values for InputSchema.
@@ -1576,7 +1617,7 @@ export type DomainProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Su
  * @readonly
  * @enum {string}
  */
-export type InputSchema = 'EventGridSchema' | 'CustomEventSchema' | 'CloudEventSchemaV1_0';
+export type InputSchema = "EventGridSchema" | "CustomEventSchema" | "CloudEventSchemaV1_0";
 
 /**
  * Defines values for PublicNetworkAccess.
@@ -1584,7 +1625,7 @@ export type InputSchema = 'EventGridSchema' | 'CustomEventSchema' | 'CloudEventS
  * @readonly
  * @enum {string}
  */
-export type PublicNetworkAccess = 'Enabled' | 'Disabled';
+export type PublicNetworkAccess = "Enabled" | "Disabled";
 
 /**
  * Defines values for IpActionType.
@@ -1592,7 +1633,7 @@ export type PublicNetworkAccess = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type IpActionType = 'Allow';
+export type IpActionType = "Allow";
 
 /**
  * Defines values for DomainTopicProvisioningState.
@@ -1600,7 +1641,13 @@ export type IpActionType = 'Allow';
  * @readonly
  * @enum {string}
  */
-export type DomainTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+export type DomainTopicProvisioningState =
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Succeeded"
+  | "Canceled"
+  | "Failed";
 
 /**
  * Defines values for EventSubscriptionProvisioningState.
@@ -1609,7 +1656,14 @@ export type DomainTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' 
  * @readonly
  * @enum {string}
  */
-export type EventSubscriptionProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed' | 'AwaitingManualAction';
+export type EventSubscriptionProvisioningState =
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Succeeded"
+  | "Canceled"
+  | "Failed"
+  | "AwaitingManualAction";
 
 /**
  * Defines values for EventDeliverySchema.
@@ -1617,7 +1671,7 @@ export type EventSubscriptionProvisioningState = 'Creating' | 'Updating' | 'Dele
  * @readonly
  * @enum {string}
  */
-export type EventDeliverySchema = 'EventGridSchema' | 'CustomInputSchema' | 'CloudEventSchemaV1_0';
+export type EventDeliverySchema = "EventGridSchema" | "CustomInputSchema" | "CloudEventSchemaV1_0";
 
 /**
  * Defines values for TopicProvisioningState.
@@ -1625,7 +1679,13 @@ export type EventDeliverySchema = 'EventGridSchema' | 'CustomInputSchema' | 'Clo
  * @readonly
  * @enum {string}
  */
-export type TopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+export type TopicProvisioningState =
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Succeeded"
+  | "Canceled"
+  | "Failed";
 
 /**
  * Defines values for ResourceRegionType.
@@ -1633,7 +1693,7 @@ export type TopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Suc
  * @readonly
  * @enum {string}
  */
-export type ResourceRegionType = 'RegionalResource' | 'GlobalResource';
+export type ResourceRegionType = "RegionalResource" | "GlobalResource";
 
 /**
  * Defines values for TopicTypeProvisioningState.
@@ -1641,7 +1701,13 @@ export type ResourceRegionType = 'RegionalResource' | 'GlobalResource';
  * @readonly
  * @enum {string}
  */
-export type TopicTypeProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+export type TopicTypeProvisioningState =
+  | "Creating"
+  | "Updating"
+  | "Deleting"
+  | "Succeeded"
+  | "Canceled"
+  | "Failed";
 
 /**
  * Defines values for ParentType.
@@ -1649,7 +1715,7 @@ export type TopicTypeProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 
  * @readonly
  * @enum {string}
  */
-export type ParentType = 'topics' | 'domains';
+export type ParentType = "topics" | "domains";
 
 /**
  * Defines values for ParentType1.
@@ -1657,7 +1723,7 @@ export type ParentType = 'topics' | 'domains';
  * @readonly
  * @enum {string}
  */
-export type ParentType1 = 'topics' | 'domains';
+export type ParentType1 = "topics" | "domains";
 
 /**
  * Defines values for ParentType2.
@@ -1665,7 +1731,7 @@ export type ParentType1 = 'topics' | 'domains';
  * @readonly
  * @enum {string}
  */
-export type ParentType2 = 'topics' | 'domains';
+export type ParentType2 = "topics" | "domains";
 
 /**
  * Defines values for ParentType3.
@@ -1673,7 +1739,7 @@ export type ParentType2 = 'topics' | 'domains';
  * @readonly
  * @enum {string}
  */
-export type ParentType3 = 'topics' | 'domains';
+export type ParentType3 = "topics" | "domains";
 
 /**
  * Contains response data for the get operation.
@@ -1683,16 +1749,16 @@ export type DomainsGetResponse = Domain & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Domain;
+  };
 };
 
 /**
@@ -1703,16 +1769,16 @@ export type DomainsCreateOrUpdateResponse = Domain & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Domain;
+  };
 };
 
 /**
@@ -1723,16 +1789,16 @@ export type DomainsUpdateResponse = Domain & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Domain;
+  };
 };
 
 /**
@@ -1743,16 +1809,16 @@ export type DomainsListBySubscriptionResponse = DomainsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainsListResult;
+  };
 };
 
 /**
@@ -1763,16 +1829,16 @@ export type DomainsListByResourceGroupResponse = DomainsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainsListResult;
+  };
 };
 
 /**
@@ -1783,16 +1849,16 @@ export type DomainsListSharedAccessKeysResponse = DomainSharedAccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainSharedAccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainSharedAccessKeys;
+  };
 };
 
 /**
@@ -1803,16 +1869,16 @@ export type DomainsRegenerateKeyResponse = DomainSharedAccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainSharedAccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainSharedAccessKeys;
+  };
 };
 
 /**
@@ -1823,16 +1889,16 @@ export type DomainsBeginCreateOrUpdateResponse = Domain & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Domain;
+  };
 };
 
 /**
@@ -1843,16 +1909,16 @@ export type DomainsBeginUpdateResponse = Domain & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Domain;
+  };
 };
 
 /**
@@ -1863,16 +1929,16 @@ export type DomainsListBySubscriptionNextResponse = DomainsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainsListResult;
+  };
 };
 
 /**
@@ -1883,16 +1949,16 @@ export type DomainsListByResourceGroupNextResponse = DomainsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainsListResult;
+  };
 };
 
 /**
@@ -1903,16 +1969,16 @@ export type DomainTopicsGetResponse = DomainTopic & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainTopic;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainTopic;
+  };
 };
 
 /**
@@ -1923,16 +1989,16 @@ export type DomainTopicsCreateOrUpdateResponse = DomainTopic & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainTopic;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainTopic;
+  };
 };
 
 /**
@@ -1943,16 +2009,16 @@ export type DomainTopicsListByDomainResponse = DomainTopicsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainTopicsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainTopicsListResult;
+  };
 };
 
 /**
@@ -1963,16 +2029,16 @@ export type DomainTopicsBeginCreateOrUpdateResponse = DomainTopic & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainTopic;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainTopic;
+  };
 };
 
 /**
@@ -1983,16 +2049,16 @@ export type DomainTopicsListByDomainNextResponse = DomainTopicsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainTopicsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainTopicsListResult;
+  };
 };
 
 /**
@@ -2003,16 +2069,16 @@ export type EventSubscriptionsGetResponse = EventSubscription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscription;
+  };
 };
 
 /**
@@ -2023,16 +2089,16 @@ export type EventSubscriptionsCreateOrUpdateResponse = EventSubscription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscription;
+  };
 };
 
 /**
@@ -2043,16 +2109,16 @@ export type EventSubscriptionsUpdateResponse = EventSubscription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscription;
+  };
 };
 
 /**
@@ -2063,16 +2129,16 @@ export type EventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionFullUrl;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionFullUrl;
+  };
 };
 
 /**
@@ -2083,16 +2149,16 @@ export type EventSubscriptionsListGlobalBySubscriptionResponse = EventSubscripti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2103,16 +2169,16 @@ export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse = Eve
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2123,16 +2189,16 @@ export type EventSubscriptionsListGlobalByResourceGroupResponse = EventSubscript
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2143,16 +2209,16 @@ export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse = Ev
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2163,16 +2229,16 @@ export type EventSubscriptionsListRegionalBySubscriptionResponse = EventSubscrip
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2183,16 +2249,16 @@ export type EventSubscriptionsListRegionalByResourceGroupResponse = EventSubscri
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2203,16 +2269,16 @@ export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse = E
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2223,16 +2289,16 @@ export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse = 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2243,16 +2309,16 @@ export type EventSubscriptionsListByResourceResponse = EventSubscriptionsListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2263,16 +2329,16 @@ export type EventSubscriptionsListByDomainTopicResponse = EventSubscriptionsList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2283,16 +2349,16 @@ export type EventSubscriptionsBeginCreateOrUpdateResponse = EventSubscription & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscription;
+  };
 };
 
 /**
@@ -2303,16 +2369,16 @@ export type EventSubscriptionsBeginUpdateResponse = EventSubscription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscription;
+  };
 };
 
 /**
@@ -2323,16 +2389,16 @@ export type EventSubscriptionsListGlobalBySubscriptionNextResponse = EventSubscr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2343,16 +2409,16 @@ export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse =
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2363,16 +2429,16 @@ export type EventSubscriptionsListGlobalByResourceGroupNextResponse = EventSubsc
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2383,16 +2449,16 @@ export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextResponse 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2403,16 +2469,16 @@ export type EventSubscriptionsListRegionalBySubscriptionNextResponse = EventSubs
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2423,16 +2489,16 @@ export type EventSubscriptionsListRegionalByResourceGroupNextResponse = EventSub
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2443,16 +2509,16 @@ export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextResponse
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2463,16 +2529,16 @@ export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2483,16 +2549,16 @@ export type EventSubscriptionsListByResourceNextResponse = EventSubscriptionsLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2503,16 +2569,16 @@ export type EventSubscriptionsListByDomainTopicNextResponse = EventSubscriptions
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventSubscriptionsListResult;
+  };
 };
 
 /**
@@ -2523,16 +2589,16 @@ export type OperationsListResponse = OperationsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationsListResult;
+  };
 };
 
 /**
@@ -2543,16 +2609,16 @@ export type TopicsGetResponse = Topic & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Topic;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Topic;
+  };
 };
 
 /**
@@ -2563,16 +2629,16 @@ export type TopicsCreateOrUpdateResponse = Topic & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Topic;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Topic;
+  };
 };
 
 /**
@@ -2583,16 +2649,16 @@ export type TopicsUpdateResponse = Topic & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Topic;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Topic;
+  };
 };
 
 /**
@@ -2603,16 +2669,16 @@ export type TopicsListBySubscriptionResponse = TopicsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopicsListResult;
+  };
 };
 
 /**
@@ -2623,16 +2689,16 @@ export type TopicsListByResourceGroupResponse = TopicsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopicsListResult;
+  };
 };
 
 /**
@@ -2643,16 +2709,16 @@ export type TopicsListSharedAccessKeysResponse = TopicSharedAccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicSharedAccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopicSharedAccessKeys;
+  };
 };
 
 /**
@@ -2663,16 +2729,16 @@ export type TopicsRegenerateKeyResponse = TopicSharedAccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicSharedAccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopicSharedAccessKeys;
+  };
 };
 
 /**
@@ -2683,16 +2749,16 @@ export type TopicsListEventTypesResponse = EventTypesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventTypesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventTypesListResult;
+  };
 };
 
 /**
@@ -2703,16 +2769,16 @@ export type TopicsBeginCreateOrUpdateResponse = Topic & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Topic;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Topic;
+  };
 };
 
 /**
@@ -2723,16 +2789,16 @@ export type TopicsBeginUpdateResponse = Topic & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Topic;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Topic;
+  };
 };
 
 /**
@@ -2743,16 +2809,16 @@ export type TopicsListBySubscriptionNextResponse = TopicsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopicsListResult;
+  };
 };
 
 /**
@@ -2763,16 +2829,16 @@ export type TopicsListByResourceGroupNextResponse = TopicsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopicsListResult;
+  };
 };
 
 /**
@@ -2783,16 +2849,16 @@ export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -2803,16 +2869,16 @@ export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -2823,16 +2889,16 @@ export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointCo
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnectionListResult;
+  };
 };
 
 /**
@@ -2843,16 +2909,16 @@ export type PrivateEndpointConnectionsBeginUpdateResponse = PrivateEndpointConne
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnection;
+  };
 };
 
 /**
@@ -2863,16 +2929,16 @@ export type PrivateEndpointConnectionsListByResourceNextResponse = PrivateEndpoi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateEndpointConnectionListResult;
+  };
 };
 
 /**
@@ -2883,16 +2949,16 @@ export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResource;
+  };
 };
 
 /**
@@ -2903,16 +2969,16 @@ export type PrivateLinkResourcesListByResourceResponse = PrivateLinkResourcesLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourcesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResourcesListResult;
+  };
 };
 
 /**
@@ -2923,16 +2989,16 @@ export type PrivateLinkResourcesListByResourceNextResponse = PrivateLinkResource
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourcesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateLinkResourcesListResult;
+  };
 };
 
 /**
@@ -2943,16 +3009,16 @@ export type TopicTypesListResponse = TopicTypesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicTypesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopicTypesListResult;
+  };
 };
 
 /**
@@ -2963,16 +3029,16 @@ export type TopicTypesGetResponse = TopicTypeInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TopicTypeInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TopicTypeInfo;
+  };
 };
 
 /**
@@ -2983,14 +3049,14 @@ export type TopicTypesListEventTypesResponse = EventTypesListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventTypesListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventTypesListResult;
+  };
 };

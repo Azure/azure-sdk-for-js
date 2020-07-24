@@ -35,14 +35,24 @@ export class SqlPoolDataWarehouseUserActivities {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolDataWarehouseUserActivitiesGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolDataWarehouseUserActivitiesGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolDataWarehouseUserActivitiesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.DataWarehouseUserActivities>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    callback: msRest.ServiceCallback<Models.DataWarehouseUserActivities>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -50,8 +60,22 @@ export class SqlPoolDataWarehouseUserActivities {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataWarehouseUserActivities>): void;
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataWarehouseUserActivities>, callback?: msRest.ServiceCallback<Models.DataWarehouseUserActivities>): Promise<Models.SqlPoolDataWarehouseUserActivitiesGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataWarehouseUserActivities>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DataWarehouseUserActivities>,
+    callback?: msRest.ServiceCallback<Models.DataWarehouseUserActivities>
+  ): Promise<Models.SqlPoolDataWarehouseUserActivitiesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +84,8 @@ export class SqlPoolDataWarehouseUserActivities {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SqlPoolDataWarehouseUserActivitiesGetResponse>;
+      callback
+    ) as Promise<Models.SqlPoolDataWarehouseUserActivitiesGetResponse>;
   }
 }
 
@@ -68,7 +93,8 @@ export class SqlPoolDataWarehouseUserActivities {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataWarehouseUserActivities/{dataWarehouseUserActivityName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataWarehouseUserActivities/{dataWarehouseUserActivityName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -76,12 +102,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.sqlPoolName,
     Parameters.dataWarehouseUserActivityName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataWarehouseUserActivities

@@ -40,9 +40,13 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteAtSubscriptionScope(deploymentName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteAtSubscriptionScope(
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteAtSubscriptionScope(deploymentName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -51,26 +55,41 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsCheckExistenceAtSubscriptionScopeResponse>
    */
-  checkExistenceAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
+  checkExistenceAtSubscriptionScope(
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
   /**
    * @param deploymentName The name of the deployment to check.
    * @param callback The callback
    */
-  checkExistenceAtSubscriptionScope(deploymentName: string, callback: msRest.ServiceCallback<boolean>): void;
+  checkExistenceAtSubscriptionScope(
+    deploymentName: string,
+    callback: msRest.ServiceCallback<boolean>
+  ): void;
   /**
    * @param deploymentName The name of the deployment to check.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkExistenceAtSubscriptionScope(deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkExistenceAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.DeploymentsCheckExistenceAtSubscriptionScopeResponse> {
+  checkExistenceAtSubscriptionScope(
+    deploymentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<boolean>
+  ): void;
+  checkExistenceAtSubscriptionScope(
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>,
+    callback?: msRest.ServiceCallback<boolean>
+  ): Promise<Models.DeploymentsCheckExistenceAtSubscriptionScopeResponse> {
     return this.client.sendOperationRequest(
       {
         deploymentName,
         options
       },
       checkExistenceAtSubscriptionScopeOperationSpec,
-      callback) as Promise<Models.DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
+      callback
+    ) as Promise<Models.DeploymentsCheckExistenceAtSubscriptionScopeResponse>;
   }
 
   /**
@@ -81,9 +100,18 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsCreateOrUpdateAtSubscriptionScopeResponse>
    */
-  createOrUpdateAtSubscriptionScope(deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsCreateOrUpdateAtSubscriptionScopeResponse> {
-    return this.beginCreateOrUpdateAtSubscriptionScope(deploymentName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DeploymentsCreateOrUpdateAtSubscriptionScopeResponse>;
+  createOrUpdateAtSubscriptionScope(
+    deploymentName: string,
+    parameters: Models.Deployment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeploymentsCreateOrUpdateAtSubscriptionScopeResponse> {
+    return this.beginCreateOrUpdateAtSubscriptionScope(
+      deploymentName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DeploymentsCreateOrUpdateAtSubscriptionScopeResponse
+    >;
   }
 
   /**
@@ -92,26 +120,41 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsGetAtSubscriptionScopeResponse>
    */
-  getAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsGetAtSubscriptionScopeResponse>;
+  getAtSubscriptionScope(
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeploymentsGetAtSubscriptionScopeResponse>;
   /**
    * @param deploymentName The name of the deployment to get.
    * @param callback The callback
    */
-  getAtSubscriptionScope(deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExtended>): void;
+  getAtSubscriptionScope(
+    deploymentName: string,
+    callback: msRest.ServiceCallback<Models.DeploymentExtended>
+  ): void;
   /**
    * @param deploymentName The name of the deployment to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAtSubscriptionScope(deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentExtended>): void;
-  getAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExtended>, callback?: msRest.ServiceCallback<Models.DeploymentExtended>): Promise<Models.DeploymentsGetAtSubscriptionScopeResponse> {
+  getAtSubscriptionScope(
+    deploymentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeploymentExtended>
+  ): void;
+  getAtSubscriptionScope(
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExtended>,
+    callback?: msRest.ServiceCallback<Models.DeploymentExtended>
+  ): Promise<Models.DeploymentsGetAtSubscriptionScopeResponse> {
     return this.client.sendOperationRequest(
       {
         deploymentName,
         options
       },
       getAtSubscriptionScopeOperationSpec,
-      callback) as Promise<Models.DeploymentsGetAtSubscriptionScopeResponse>;
+      callback
+    ) as Promise<Models.DeploymentsGetAtSubscriptionScopeResponse>;
   }
 
   /**
@@ -124,7 +167,10 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  cancelAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  cancelAtSubscriptionScope(
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param deploymentName The name of the deployment to cancel.
    * @param callback The callback
@@ -135,15 +181,24 @@ export class Deployments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancelAtSubscriptionScope(deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancelAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancelAtSubscriptionScope(
+    deploymentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  cancelAtSubscriptionScope(
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         deploymentName,
         options
       },
       cancelAtSubscriptionScopeOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -154,21 +209,39 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsValidateAtSubscriptionScopeResponse>
    */
-  validateAtSubscriptionScope(deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsValidateAtSubscriptionScopeResponse>;
+  validateAtSubscriptionScope(
+    deploymentName: string,
+    parameters: Models.Deployment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeploymentsValidateAtSubscriptionScopeResponse>;
   /**
    * @param deploymentName The name of the deployment.
    * @param parameters Parameters to validate.
    * @param callback The callback
    */
-  validateAtSubscriptionScope(deploymentName: string, parameters: Models.Deployment, callback: msRest.ServiceCallback<Models.DeploymentValidateResult>): void;
+  validateAtSubscriptionScope(
+    deploymentName: string,
+    parameters: Models.Deployment,
+    callback: msRest.ServiceCallback<Models.DeploymentValidateResult>
+  ): void;
   /**
    * @param deploymentName The name of the deployment.
    * @param parameters Parameters to validate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  validateAtSubscriptionScope(deploymentName: string, parameters: Models.Deployment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentValidateResult>): void;
-  validateAtSubscriptionScope(deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentValidateResult>, callback?: msRest.ServiceCallback<Models.DeploymentValidateResult>): Promise<Models.DeploymentsValidateAtSubscriptionScopeResponse> {
+  validateAtSubscriptionScope(
+    deploymentName: string,
+    parameters: Models.Deployment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeploymentValidateResult>
+  ): void;
+  validateAtSubscriptionScope(
+    deploymentName: string,
+    parameters: Models.Deployment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentValidateResult>,
+    callback?: msRest.ServiceCallback<Models.DeploymentValidateResult>
+  ): Promise<Models.DeploymentsValidateAtSubscriptionScopeResponse> {
     return this.client.sendOperationRequest(
       {
         deploymentName,
@@ -176,7 +249,8 @@ export class Deployments {
         options
       },
       validateAtSubscriptionScopeOperationSpec,
-      callback) as Promise<Models.DeploymentsValidateAtSubscriptionScopeResponse>;
+      callback
+    ) as Promise<Models.DeploymentsValidateAtSubscriptionScopeResponse>;
   }
 
   /**
@@ -185,26 +259,41 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsExportTemplateAtSubscriptionScopeResponse>
    */
-  exportTemplateAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsExportTemplateAtSubscriptionScopeResponse>;
+  exportTemplateAtSubscriptionScope(
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeploymentsExportTemplateAtSubscriptionScopeResponse>;
   /**
    * @param deploymentName The name of the deployment from which to get the template.
    * @param callback The callback
    */
-  exportTemplateAtSubscriptionScope(deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExportResult>): void;
+  exportTemplateAtSubscriptionScope(
+    deploymentName: string,
+    callback: msRest.ServiceCallback<Models.DeploymentExportResult>
+  ): void;
   /**
    * @param deploymentName The name of the deployment from which to get the template.
    * @param options The optional parameters
    * @param callback The callback
    */
-  exportTemplateAtSubscriptionScope(deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentExportResult>): void;
-  exportTemplateAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExportResult>, callback?: msRest.ServiceCallback<Models.DeploymentExportResult>): Promise<Models.DeploymentsExportTemplateAtSubscriptionScopeResponse> {
+  exportTemplateAtSubscriptionScope(
+    deploymentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeploymentExportResult>
+  ): void;
+  exportTemplateAtSubscriptionScope(
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExportResult>,
+    callback?: msRest.ServiceCallback<Models.DeploymentExportResult>
+  ): Promise<Models.DeploymentsExportTemplateAtSubscriptionScopeResponse> {
     return this.client.sendOperationRequest(
       {
         deploymentName,
         options
       },
       exportTemplateAtSubscriptionScopeOperationSpec,
-      callback) as Promise<Models.DeploymentsExportTemplateAtSubscriptionScopeResponse>;
+      callback
+    ) as Promise<Models.DeploymentsExportTemplateAtSubscriptionScopeResponse>;
   }
 
   /**
@@ -212,7 +301,9 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsListAtSubscriptionScopeResponse>
    */
-  listAtSubscriptionScope(options?: Models.DeploymentsListAtSubscriptionScopeOptionalParams): Promise<Models.DeploymentsListAtSubscriptionScopeResponse>;
+  listAtSubscriptionScope(
+    options?: Models.DeploymentsListAtSubscriptionScopeOptionalParams
+  ): Promise<Models.DeploymentsListAtSubscriptionScopeResponse>;
   /**
    * @param callback The callback
    */
@@ -221,14 +312,23 @@ export class Deployments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtSubscriptionScope(options: Models.DeploymentsListAtSubscriptionScopeOptionalParams, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
-  listAtSubscriptionScope(options?: Models.DeploymentsListAtSubscriptionScopeOptionalParams | msRest.ServiceCallback<Models.DeploymentListResult>, callback?: msRest.ServiceCallback<Models.DeploymentListResult>): Promise<Models.DeploymentsListAtSubscriptionScopeResponse> {
+  listAtSubscriptionScope(
+    options: Models.DeploymentsListAtSubscriptionScopeOptionalParams,
+    callback: msRest.ServiceCallback<Models.DeploymentListResult>
+  ): void;
+  listAtSubscriptionScope(
+    options?:
+      | Models.DeploymentsListAtSubscriptionScopeOptionalParams
+      | msRest.ServiceCallback<Models.DeploymentListResult>,
+    callback?: msRest.ServiceCallback<Models.DeploymentListResult>
+  ): Promise<Models.DeploymentsListAtSubscriptionScopeResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAtSubscriptionScopeOperationSpec,
-      callback) as Promise<Models.DeploymentsListAtSubscriptionScopeResponse>;
+      callback
+    ) as Promise<Models.DeploymentsListAtSubscriptionScopeResponse>;
   }
 
   /**
@@ -247,9 +347,14 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,deploymentName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, deploymentName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -260,14 +365,22 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsCheckExistenceResponse>
    */
-  checkExistence(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsCheckExistenceResponse>;
+  checkExistence(
+    resourceGroupName: string,
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeploymentsCheckExistenceResponse>;
   /**
    * @param resourceGroupName The name of the resource group with the deployment to check. The name
    * is case insensitive.
    * @param deploymentName The name of the deployment to check.
    * @param callback The callback
    */
-  checkExistence(resourceGroupName: string, deploymentName: string, callback: msRest.ServiceCallback<boolean>): void;
+  checkExistence(
+    resourceGroupName: string,
+    deploymentName: string,
+    callback: msRest.ServiceCallback<boolean>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group with the deployment to check. The name
    * is case insensitive.
@@ -275,8 +388,18 @@ export class Deployments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkExistence(resourceGroupName: string, deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkExistence(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.DeploymentsCheckExistenceResponse> {
+  checkExistence(
+    resourceGroupName: string,
+    deploymentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<boolean>
+  ): void;
+  checkExistence(
+    resourceGroupName: string,
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>,
+    callback?: msRest.ServiceCallback<boolean>
+  ): Promise<Models.DeploymentsCheckExistenceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -284,7 +407,8 @@ export class Deployments {
         options
       },
       checkExistenceOperationSpec,
-      callback) as Promise<Models.DeploymentsCheckExistenceResponse>;
+      callback
+    ) as Promise<Models.DeploymentsCheckExistenceResponse>;
   }
 
   /**
@@ -297,9 +421,20 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,deploymentName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DeploymentsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    deploymentName: string,
+    parameters: Models.Deployment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeploymentsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      deploymentName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DeploymentsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -309,21 +444,39 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsGetResponse>
    */
-  get(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsGetResponse>;
+  get(
+    resourceGroupName: string,
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeploymentsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of the deployment to get.
    * @param callback The callback
    */
-  get(resourceGroupName: string, deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExtended>): void;
+  get(
+    resourceGroupName: string,
+    deploymentName: string,
+    callback: msRest.ServiceCallback<Models.DeploymentExtended>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of the deployment to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentExtended>): void;
-  get(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExtended>, callback?: msRest.ServiceCallback<Models.DeploymentExtended>): Promise<Models.DeploymentsGetResponse> {
+  get(
+    resourceGroupName: string,
+    deploymentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeploymentExtended>
+  ): void;
+  get(
+    resourceGroupName: string,
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExtended>,
+    callback?: msRest.ServiceCallback<Models.DeploymentExtended>
+  ): Promise<Models.DeploymentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -331,7 +484,8 @@ export class Deployments {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DeploymentsGetResponse>;
+      callback
+    ) as Promise<Models.DeploymentsGetResponse>;
   }
 
   /**
@@ -345,21 +499,39 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  cancel(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  cancel(
+    resourceGroupName: string,
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of the deployment to cancel.
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, deploymentName: string, callback: msRest.ServiceCallback<void>): void;
+  cancel(
+    resourceGroupName: string,
+    deploymentName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of the deployment to cancel.
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancel(resourceGroupName: string, deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancel(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancel(
+    resourceGroupName: string,
+    deploymentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  cancel(
+    resourceGroupName: string,
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -367,7 +539,8 @@ export class Deployments {
         options
       },
       cancelOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -380,7 +553,12 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsValidateResponse>
    */
-  validate(resourceGroupName: string, deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsValidateResponse>;
+  validate(
+    resourceGroupName: string,
+    deploymentName: string,
+    parameters: Models.Deployment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeploymentsValidateResponse>;
   /**
    * @param resourceGroupName The name of the resource group the template will be deployed to. The
    * name is case insensitive.
@@ -388,7 +566,12 @@ export class Deployments {
    * @param parameters Parameters to validate.
    * @param callback The callback
    */
-  validate(resourceGroupName: string, deploymentName: string, parameters: Models.Deployment, callback: msRest.ServiceCallback<Models.DeploymentValidateResult>): void;
+  validate(
+    resourceGroupName: string,
+    deploymentName: string,
+    parameters: Models.Deployment,
+    callback: msRest.ServiceCallback<Models.DeploymentValidateResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group the template will be deployed to. The
    * name is case insensitive.
@@ -397,8 +580,20 @@ export class Deployments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  validate(resourceGroupName: string, deploymentName: string, parameters: Models.Deployment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentValidateResult>): void;
-  validate(resourceGroupName: string, deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentValidateResult>, callback?: msRest.ServiceCallback<Models.DeploymentValidateResult>): Promise<Models.DeploymentsValidateResponse> {
+  validate(
+    resourceGroupName: string,
+    deploymentName: string,
+    parameters: Models.Deployment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeploymentValidateResult>
+  ): void;
+  validate(
+    resourceGroupName: string,
+    deploymentName: string,
+    parameters: Models.Deployment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentValidateResult>,
+    callback?: msRest.ServiceCallback<Models.DeploymentValidateResult>
+  ): Promise<Models.DeploymentsValidateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -407,7 +602,8 @@ export class Deployments {
         options
       },
       validateOperationSpec,
-      callback) as Promise<Models.DeploymentsValidateResponse>;
+      callback
+    ) as Promise<Models.DeploymentsValidateResponse>;
   }
 
   /**
@@ -417,21 +613,39 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsExportTemplateResponse>
    */
-  exportTemplate(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsExportTemplateResponse>;
+  exportTemplate(
+    resourceGroupName: string,
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeploymentsExportTemplateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of the deployment from which to get the template.
    * @param callback The callback
    */
-  exportTemplate(resourceGroupName: string, deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentExportResult>): void;
+  exportTemplate(
+    resourceGroupName: string,
+    deploymentName: string,
+    callback: msRest.ServiceCallback<Models.DeploymentExportResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of the deployment from which to get the template.
    * @param options The optional parameters
    * @param callback The callback
    */
-  exportTemplate(resourceGroupName: string, deploymentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentExportResult>): void;
-  exportTemplate(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExportResult>, callback?: msRest.ServiceCallback<Models.DeploymentExportResult>): Promise<Models.DeploymentsExportTemplateResponse> {
+  exportTemplate(
+    resourceGroupName: string,
+    deploymentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeploymentExportResult>
+  ): void;
+  exportTemplate(
+    resourceGroupName: string,
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentExportResult>,
+    callback?: msRest.ServiceCallback<Models.DeploymentExportResult>
+  ): Promise<Models.DeploymentsExportTemplateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -439,7 +653,8 @@ export class Deployments {
         options
       },
       exportTemplateOperationSpec,
-      callback) as Promise<Models.DeploymentsExportTemplateResponse>;
+      callback
+    ) as Promise<Models.DeploymentsExportTemplateResponse>;
   }
 
   /**
@@ -449,28 +664,45 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.DeploymentsListByResourceGroupOptionalParams): Promise<Models.DeploymentsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.DeploymentsListByResourceGroupOptionalParams
+  ): Promise<Models.DeploymentsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group with the deployments to get. The name is
    * case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.DeploymentListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group with the deployments to get. The name is
    * case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.DeploymentsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.DeploymentsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.DeploymentListResult>, callback?: msRest.ServiceCallback<Models.DeploymentListResult>): Promise<Models.DeploymentsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.DeploymentsListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.DeploymentListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.DeploymentsListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.DeploymentListResult>,
+    callback?: msRest.ServiceCallback<Models.DeploymentListResult>
+  ): Promise<Models.DeploymentsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.DeploymentsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.DeploymentsListByResourceGroupResponse>;
   }
 
   /**
@@ -486,14 +718,18 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteAtSubscriptionScope(deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteAtSubscriptionScope(
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deploymentName,
         options
       },
       beginDeleteAtSubscriptionScopeOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -504,7 +740,11 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdateAtSubscriptionScope(deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdateAtSubscriptionScope(
+    deploymentName: string,
+    parameters: Models.Deployment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         deploymentName,
@@ -512,7 +752,8 @@ export class Deployments {
         options
       },
       beginCreateOrUpdateAtSubscriptionScopeOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -531,7 +772,11 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, deploymentName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    deploymentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -539,7 +784,8 @@ export class Deployments {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -552,7 +798,12 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, parameters: Models.Deployment, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    deploymentName: string,
+    parameters: Models.Deployment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -561,7 +812,8 @@ export class Deployments {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -570,26 +822,41 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsListAtSubscriptionScopeNextResponse>
    */
-  listAtSubscriptionScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsListAtSubscriptionScopeNextResponse>;
+  listAtSubscriptionScopeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeploymentsListAtSubscriptionScopeNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAtSubscriptionScopeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  listAtSubscriptionScopeNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DeploymentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAtSubscriptionScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
-  listAtSubscriptionScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentListResult>, callback?: msRest.ServiceCallback<Models.DeploymentListResult>): Promise<Models.DeploymentsListAtSubscriptionScopeNextResponse> {
+  listAtSubscriptionScopeNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeploymentListResult>
+  ): void;
+  listAtSubscriptionScopeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentListResult>,
+    callback?: msRest.ServiceCallback<Models.DeploymentListResult>
+  ): Promise<Models.DeploymentsListAtSubscriptionScopeNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAtSubscriptionScopeNextOperationSpec,
-      callback) as Promise<Models.DeploymentsListAtSubscriptionScopeNextResponse>;
+      callback
+    ) as Promise<Models.DeploymentsListAtSubscriptionScopeNextResponse>;
   }
 
   /**
@@ -598,26 +865,41 @@ export class Deployments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DeploymentsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DeploymentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DeploymentListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentListResult>, callback?: msRest.ServiceCallback<Models.DeploymentListResult>): Promise<Models.DeploymentsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DeploymentListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DeploymentListResult>,
+    callback?: msRest.ServiceCallback<Models.DeploymentListResult>
+  ): Promise<Models.DeploymentsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.DeploymentsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.DeploymentsListByResourceGroupNextResponse>;
   }
 }
 
@@ -626,16 +908,9 @@ const serializer = new msRest.Serializer(Mappers);
 const checkExistenceAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}",
-  urlParameters: [
-    Parameters.deploymentName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.deploymentName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     404: {},
@@ -649,16 +924,9 @@ const checkExistenceAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
 const getAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}",
-  urlParameters: [
-    Parameters.deploymentName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.deploymentName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeploymentExtended
@@ -672,17 +940,11 @@ const getAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
 
 const cancelAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
-  urlParameters: [
-    Parameters.deploymentName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
+  urlParameters: [Parameters.deploymentName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -694,17 +956,11 @@ const cancelAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
 
 const validateAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
-  urlParameters: [
-    Parameters.deploymentName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
+  urlParameters: [Parameters.deploymentName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -728,17 +984,11 @@ const validateAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
 
 const exportTemplateAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
-  urlParameters: [
-    Parameters.deploymentName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
+  urlParameters: [Parameters.deploymentName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeploymentExportResult
@@ -753,17 +1003,9 @@ const exportTemplateAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
 const listAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.filter, Parameters.top, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeploymentListResult
@@ -777,18 +1019,15 @@ const listAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
 
 const checkExistenceOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.deploymentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     404: {},
@@ -801,18 +1040,15 @@ const checkExistenceOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.deploymentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeploymentExtended
@@ -826,18 +1062,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const cancelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.deploymentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -849,18 +1082,15 @@ const cancelOperationSpec: msRest.OperationSpec = {
 
 const validateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.deploymentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -884,18 +1114,15 @@ const validateOperationSpec: msRest.OperationSpec = {
 
 const exportTemplateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.deploymentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeploymentExportResult
@@ -909,19 +1136,11 @@ const exportTemplateOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.filter, Parameters.top, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeploymentListResult
@@ -936,16 +1155,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const beginDeleteAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}",
-  urlParameters: [
-    Parameters.deploymentName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.deploymentName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -959,16 +1171,9 @@ const beginDeleteAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
 const beginCreateOrUpdateAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}",
-  urlParameters: [
-    Parameters.deploymentName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.deploymentName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -992,18 +1197,15 @@ const beginCreateOrUpdateAtSubscriptionScopeOperationSpec: msRest.OperationSpec 
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.deploymentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -1016,18 +1218,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.deploymentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -1053,12 +1252,8 @@ const listAtSubscriptionScopeNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeploymentListResult
@@ -1074,12 +1269,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DeploymentListResult

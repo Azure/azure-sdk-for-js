@@ -34,14 +34,24 @@ export class ListManagementTerm {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  addTerm(listId: string, term: string, language: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  addTerm(
+    listId: string,
+    term: string,
+    language: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param listId List Id of the image list.
    * @param term Term to be deleted
    * @param language Language of the terms.
    * @param callback The callback
    */
-  addTerm(listId: string, term: string, language: string, callback: msRest.ServiceCallback<void>): void;
+  addTerm(
+    listId: string,
+    term: string,
+    language: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param listId List Id of the image list.
    * @param term Term to be deleted
@@ -49,8 +59,20 @@ export class ListManagementTerm {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addTerm(listId: string, term: string, language: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  addTerm(listId: string, term: string, language: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  addTerm(
+    listId: string,
+    term: string,
+    language: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  addTerm(
+    listId: string,
+    term: string,
+    language: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -59,7 +81,8 @@ export class ListManagementTerm {
         options
       },
       addTermOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -70,14 +93,24 @@ export class ListManagementTerm {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListManagementTermDeleteTermResponse>
    */
-  deleteTerm(listId: string, term: string, language: string, options?: msRest.RequestOptionsBase): Promise<Models.ListManagementTermDeleteTermResponse>;
+  deleteTerm(
+    listId: string,
+    term: string,
+    language: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ListManagementTermDeleteTermResponse>;
   /**
    * @param listId List Id of the image list.
    * @param term Term to be deleted
    * @param language Language of the terms.
    * @param callback The callback
    */
-  deleteTerm(listId: string, term: string, language: string, callback: msRest.ServiceCallback<string>): void;
+  deleteTerm(
+    listId: string,
+    term: string,
+    language: string,
+    callback: msRest.ServiceCallback<string>
+  ): void;
   /**
    * @param listId List Id of the image list.
    * @param term Term to be deleted
@@ -85,8 +118,20 @@ export class ListManagementTerm {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteTerm(listId: string, term: string, language: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  deleteTerm(listId: string, term: string, language: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ListManagementTermDeleteTermResponse> {
+  deleteTerm(
+    listId: string,
+    term: string,
+    language: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<string>
+  ): void;
+  deleteTerm(
+    listId: string,
+    term: string,
+    language: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>,
+    callback?: msRest.ServiceCallback<string>
+  ): Promise<Models.ListManagementTermDeleteTermResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -95,7 +140,8 @@ export class ListManagementTerm {
         options
       },
       deleteTermOperationSpec,
-      callback) as Promise<Models.ListManagementTermDeleteTermResponse>;
+      callback
+    ) as Promise<Models.ListManagementTermDeleteTermResponse>;
   }
 
   /**
@@ -105,21 +151,41 @@ export class ListManagementTerm {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListManagementTermGetAllTermsResponse>
    */
-  getAllTerms(listId: string, language: string, options?: Models.ListManagementTermGetAllTermsOptionalParams): Promise<Models.ListManagementTermGetAllTermsResponse>;
+  getAllTerms(
+    listId: string,
+    language: string,
+    options?: Models.ListManagementTermGetAllTermsOptionalParams
+  ): Promise<Models.ListManagementTermGetAllTermsResponse>;
   /**
    * @param listId List Id of the image list.
    * @param language Language of the terms.
    * @param callback The callback
    */
-  getAllTerms(listId: string, language: string, callback: msRest.ServiceCallback<Models.Terms>): void;
+  getAllTerms(
+    listId: string,
+    language: string,
+    callback: msRest.ServiceCallback<Models.Terms>
+  ): void;
   /**
    * @param listId List Id of the image list.
    * @param language Language of the terms.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAllTerms(listId: string, language: string, options: Models.ListManagementTermGetAllTermsOptionalParams, callback: msRest.ServiceCallback<Models.Terms>): void;
-  getAllTerms(listId: string, language: string, options?: Models.ListManagementTermGetAllTermsOptionalParams | msRest.ServiceCallback<Models.Terms>, callback?: msRest.ServiceCallback<Models.Terms>): Promise<Models.ListManagementTermGetAllTermsResponse> {
+  getAllTerms(
+    listId: string,
+    language: string,
+    options: Models.ListManagementTermGetAllTermsOptionalParams,
+    callback: msRest.ServiceCallback<Models.Terms>
+  ): void;
+  getAllTerms(
+    listId: string,
+    language: string,
+    options?:
+      | Models.ListManagementTermGetAllTermsOptionalParams
+      | msRest.ServiceCallback<Models.Terms>,
+    callback?: msRest.ServiceCallback<Models.Terms>
+  ): Promise<Models.ListManagementTermGetAllTermsResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -127,7 +193,8 @@ export class ListManagementTerm {
         options
       },
       getAllTermsOperationSpec,
-      callback) as Promise<Models.ListManagementTermGetAllTermsResponse>;
+      callback
+    ) as Promise<Models.ListManagementTermGetAllTermsResponse>;
   }
 
   /**
@@ -137,7 +204,11 @@ export class ListManagementTerm {
    * @param [options] The optional parameters
    * @returns Promise<Models.ListManagementTermDeleteAllTermsResponse>
    */
-  deleteAllTerms(listId: string, language: string, options?: msRest.RequestOptionsBase): Promise<Models.ListManagementTermDeleteAllTermsResponse>;
+  deleteAllTerms(
+    listId: string,
+    language: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ListManagementTermDeleteAllTermsResponse>;
   /**
    * @param listId List Id of the image list.
    * @param language Language of the terms.
@@ -150,8 +221,18 @@ export class ListManagementTerm {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteAllTerms(listId: string, language: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  deleteAllTerms(listId: string, language: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.ListManagementTermDeleteAllTermsResponse> {
+  deleteAllTerms(
+    listId: string,
+    language: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<string>
+  ): void;
+  deleteAllTerms(
+    listId: string,
+    language: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>,
+    callback?: msRest.ServiceCallback<string>
+  ): Promise<Models.ListManagementTermDeleteAllTermsResponse> {
     return this.client.sendOperationRequest(
       {
         listId,
@@ -159,7 +240,8 @@ export class ListManagementTerm {
         options
       },
       deleteAllTermsOperationSpec,
-      callback) as Promise<Models.ListManagementTermDeleteAllTermsResponse>;
+      callback
+    ) as Promise<Models.ListManagementTermDeleteAllTermsResponse>;
   }
 }
 
@@ -168,14 +250,8 @@ const serializer = new msRest.Serializer(Mappers);
 const addTermOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "contentmoderator/lists/v1.0/termlists/{listId}/terms/{term}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.listId1,
-    Parameters.term
-  ],
-  queryParameters: [
-    Parameters.language0
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.listId1, Parameters.term],
+  queryParameters: [Parameters.language0],
   responses: {
     201: {},
     default: {
@@ -188,14 +264,8 @@ const addTermOperationSpec: msRest.OperationSpec = {
 const deleteTermOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "contentmoderator/lists/v1.0/termlists/{listId}/terms/{term}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.listId1,
-    Parameters.term
-  ],
-  queryParameters: [
-    Parameters.language0
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.listId1, Parameters.term],
+  queryParameters: [Parameters.language0],
   responses: {
     204: {
       bodyMapper: {
@@ -215,15 +285,8 @@ const deleteTermOperationSpec: msRest.OperationSpec = {
 const getAllTermsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "contentmoderator/lists/v1.0/termlists/{listId}/terms",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.listId1
-  ],
-  queryParameters: [
-    Parameters.language0,
-    Parameters.offset,
-    Parameters.limit
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.listId1],
+  queryParameters: [Parameters.language0, Parameters.offset, Parameters.limit],
   responses: {
     200: {
       bodyMapper: Mappers.Terms
@@ -238,13 +301,8 @@ const getAllTermsOperationSpec: msRest.OperationSpec = {
 const deleteAllTermsOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "contentmoderator/lists/v1.0/termlists/{listId}/terms",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.listId1
-  ],
-  queryParameters: [
-    Parameters.language0
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.listId1],
+  queryParameters: [Parameters.language0],
   responses: {
     204: {
       bodyMapper: {

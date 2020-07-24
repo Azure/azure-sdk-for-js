@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const CreateKbInputDTO: msRest.CompositeMapper = {
   serializedName: "CreateKbInputDTO",
   type: {

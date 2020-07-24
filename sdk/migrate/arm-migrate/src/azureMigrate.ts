@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AzureMigrateContext } from "./azureMigrateContext";
 
-
 class AzureMigrate extends AzureMigrateContext {
   // Operation groups
   location: operations.Location;
@@ -32,7 +31,11 @@ class AzureMigrate extends AzureMigrateContext {
    * @param subscriptionId Azure Subscription Id in which project was created.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureMigrateOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AzureMigrateOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.location = new operations.Location(this);
     this.assessmentOptions = new operations.AssessmentOptions(this);

@@ -3,7 +3,7 @@ import * as path from "path";
 
 export const getShallowDirectorySize = (
   directory: string,
-  callback: (err: Error | null, size: number) => void,
+  callback: (err: Error | null, size: number) => void
 ): void => {
   // Get the directory listing
   fs.readdir(directory, (err, files) => {
@@ -50,7 +50,7 @@ export const getShallowDirectorySize = (
  */
 export const confirmDirExists = (
   directory: string,
-  callback: (err: Error | null) => void,
+  callback: (err: Error | null) => void
 ): void => {
   fs.lstat(directory, (err, stats) => {
     if (err && err.code === "ENOENT") {

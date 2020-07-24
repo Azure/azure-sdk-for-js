@@ -178,7 +178,12 @@ export interface GraphError {
 /**
  * Contains the possible cases for DirectoryObject.
  */
-export type DirectoryObjectUnion = DirectoryObject | Application | ADGroup | ServicePrincipal | User;
+export type DirectoryObjectUnion =
+  | DirectoryObject
+  | Application
+  | ADGroup
+  | ServicePrincipal
+  | User;
 
 /**
  * Represents an Azure Active Directory object.
@@ -899,8 +904,7 @@ export interface ServicePrincipalCreateParameters extends ServicePrincipalBase {
 /**
  * Request parameters for update an existing service principal.
  */
-export interface ServicePrincipalUpdateParameters extends ServicePrincipalBase {
-}
+export interface ServicePrincipalUpdateParameters extends ServicePrincipalBase {}
 
 /**
  * Active Directory service principal information.
@@ -1443,16 +1447,14 @@ export interface ApplicationListResult extends Array<Application> {
  * KeyCredential list operation result.
  * @extends Array<KeyCredential>
  */
-export interface KeyCredentialListResult extends Array<KeyCredential> {
-}
+export interface KeyCredentialListResult extends Array<KeyCredential> {}
 
 /**
  * @interface
  * PasswordCredential list operation result.
  * @extends Array<PasswordCredential>
  */
-export interface PasswordCredentialListResult extends Array<PasswordCredential> {
-}
+export interface PasswordCredentialListResult extends Array<PasswordCredential> {}
 
 /**
  * @interface
@@ -1471,8 +1473,7 @@ export interface GroupListResult extends Array<ADGroup> {
  * Server response for GetMemberGroups API call.
  * @extends Array<string>
  */
-export interface GroupGetMemberGroupsResult extends Array<string> {
-}
+export interface GroupGetMemberGroupsResult extends Array<string> {}
 
 /**
  * @interface
@@ -1503,16 +1504,14 @@ export interface UserListResult extends Array<User> {
  * Server response for GetMemberGroups API call.
  * @extends Array<string>
  */
-export interface UserGetMemberGroupsResult extends Array<string> {
-}
+export interface UserGetMemberGroupsResult extends Array<string> {}
 
 /**
  * @interface
  * Server response for Get tenant domains API call.
  * @extends Array<Domain>
  */
-export interface DomainListResult extends Array<Domain> {
-}
+export interface DomainListResult extends Array<Domain> {}
 
 /**
  * @interface
@@ -1532,7 +1531,7 @@ export interface OAuth2PermissionGrantListResult extends Array<OAuth2PermissionG
  * @readonly
  * @enum {string}
  */
-export type UserType = 'Member' | 'Guest';
+export type UserType = "Member" | "Guest";
 
 /**
  * Defines values for ConsentType.
@@ -1540,7 +1539,7 @@ export type UserType = 'Member' | 'Guest';
  * @readonly
  * @enum {string}
  */
-export type ConsentType = 'AllPrincipals' | 'Principal';
+export type ConsentType = "AllPrincipals" | "Principal";
 
 /**
  * Contains response data for the get operation.
@@ -1550,16 +1549,16 @@ export type SignedInUserGetResponse = User & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: User;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: User;
+  };
 };
 
 /**
@@ -1570,16 +1569,16 @@ export type SignedInUserListOwnedObjectsResponse = DirectoryObjectListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DirectoryObjectListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DirectoryObjectListResult;
+  };
 };
 
 /**
@@ -1590,16 +1589,16 @@ export type SignedInUserListOwnedObjectsNextResponse = DirectoryObjectListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DirectoryObjectListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DirectoryObjectListResult;
+  };
 };
 
 /**
@@ -1610,16 +1609,16 @@ export type ApplicationsCreateResponse = Application & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Application;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Application;
+  };
 };
 
 /**
@@ -1630,16 +1629,16 @@ export type ApplicationsListResponse = ApplicationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationListResult;
+  };
 };
 
 /**
@@ -1650,16 +1649,16 @@ export type ApplicationsGetResponse = Application & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Application;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Application;
+  };
 };
 
 /**
@@ -1670,16 +1669,16 @@ export type ApplicationsListOwnersResponse = DirectoryObjectListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DirectoryObjectListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DirectoryObjectListResult;
+  };
 };
 
 /**
@@ -1690,16 +1689,16 @@ export type ApplicationsListKeyCredentialsResponse = KeyCredentialListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyCredentialListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyCredentialListResult;
+  };
 };
 
 /**
@@ -1710,16 +1709,16 @@ export type ApplicationsListPasswordCredentialsResponse = PasswordCredentialList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PasswordCredentialListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PasswordCredentialListResult;
+  };
 };
 
 /**
@@ -1730,16 +1729,16 @@ export type ApplicationsGetServicePrincipalsIdByAppIdResponse = ServicePrincipal
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServicePrincipalObjectResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServicePrincipalObjectResult;
+  };
 };
 
 /**
@@ -1750,16 +1749,16 @@ export type ApplicationsListNextResponse = ApplicationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationListResult;
+  };
 };
 
 /**
@@ -1770,16 +1769,16 @@ export type ApplicationsListOwnersNextResponse = DirectoryObjectListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DirectoryObjectListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DirectoryObjectListResult;
+  };
 };
 
 /**
@@ -1790,16 +1789,16 @@ export type DeletedApplicationsRestoreResponse = Application & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Application;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Application;
+  };
 };
 
 /**
@@ -1810,16 +1809,16 @@ export type DeletedApplicationsListResponse = ApplicationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationListResult;
+  };
 };
 
 /**
@@ -1830,16 +1829,16 @@ export type DeletedApplicationsListNextResponse = ApplicationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationListResult;
+  };
 };
 
 /**
@@ -1850,16 +1849,16 @@ export type GroupsIsMemberOfResponse = CheckGroupMembershipResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckGroupMembershipResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckGroupMembershipResult;
+  };
 };
 
 /**
@@ -1870,16 +1869,16 @@ export type GroupsCreateResponse = ADGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ADGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ADGroup;
+  };
 };
 
 /**
@@ -1890,16 +1889,16 @@ export type GroupsListResponse = GroupListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GroupListResult;
+  };
 };
 
 /**
@@ -1910,16 +1909,16 @@ export type GroupsGetGroupMembersResponse = DirectoryObjectListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DirectoryObjectListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DirectoryObjectListResult;
+  };
 };
 
 /**
@@ -1930,16 +1929,16 @@ export type GroupsGetResponse = ADGroup & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ADGroup;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ADGroup;
+  };
 };
 
 /**
@@ -1950,16 +1949,16 @@ export type GroupsGetMemberGroupsResponse = GroupGetMemberGroupsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupGetMemberGroupsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GroupGetMemberGroupsResult;
+  };
 };
 
 /**
@@ -1970,16 +1969,16 @@ export type GroupsListOwnersResponse = DirectoryObjectListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DirectoryObjectListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DirectoryObjectListResult;
+  };
 };
 
 /**
@@ -1990,16 +1989,16 @@ export type GroupsListNextResponse = GroupListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GroupListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GroupListResult;
+  };
 };
 
 /**
@@ -2010,16 +2009,16 @@ export type GroupsGetGroupMembersNextResponse = DirectoryObjectListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DirectoryObjectListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DirectoryObjectListResult;
+  };
 };
 
 /**
@@ -2030,16 +2029,16 @@ export type GroupsListOwnersNextResponse = DirectoryObjectListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DirectoryObjectListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DirectoryObjectListResult;
+  };
 };
 
 /**
@@ -2050,16 +2049,16 @@ export type ServicePrincipalsCreateResponse = ServicePrincipal & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServicePrincipal;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServicePrincipal;
+  };
 };
 
 /**
@@ -2070,16 +2069,16 @@ export type ServicePrincipalsListResponse = ServicePrincipalListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServicePrincipalListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServicePrincipalListResult;
+  };
 };
 
 /**
@@ -2090,16 +2089,16 @@ export type ServicePrincipalsGetResponse = ServicePrincipal & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServicePrincipal;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServicePrincipal;
+  };
 };
 
 /**
@@ -2110,16 +2109,16 @@ export type ServicePrincipalsListOwnersResponse = DirectoryObjectListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DirectoryObjectListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DirectoryObjectListResult;
+  };
 };
 
 /**
@@ -2130,16 +2129,16 @@ export type ServicePrincipalsListKeyCredentialsResponse = KeyCredentialListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyCredentialListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: KeyCredentialListResult;
+  };
 };
 
 /**
@@ -2150,16 +2149,16 @@ export type ServicePrincipalsListPasswordCredentialsResponse = PasswordCredentia
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PasswordCredentialListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PasswordCredentialListResult;
+  };
 };
 
 /**
@@ -2170,16 +2169,16 @@ export type ServicePrincipalsListNextResponse = ServicePrincipalListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServicePrincipalListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServicePrincipalListResult;
+  };
 };
 
 /**
@@ -2190,16 +2189,16 @@ export type ServicePrincipalsListOwnersNextResponse = DirectoryObjectListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DirectoryObjectListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DirectoryObjectListResult;
+  };
 };
 
 /**
@@ -2210,16 +2209,16 @@ export type UsersCreateResponse = User & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: User;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: User;
+  };
 };
 
 /**
@@ -2230,16 +2229,16 @@ export type UsersListResponse = UserListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserListResult;
+  };
 };
 
 /**
@@ -2250,16 +2249,16 @@ export type UsersGetResponse = User & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: User;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: User;
+  };
 };
 
 /**
@@ -2270,16 +2269,16 @@ export type UsersGetMemberGroupsResponse = UserGetMemberGroupsResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserGetMemberGroupsResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserGetMemberGroupsResult;
+  };
 };
 
 /**
@@ -2290,16 +2289,16 @@ export type UsersListNextResponse = UserListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UserListResult;
+  };
 };
 
 /**
@@ -2310,16 +2309,16 @@ export type ObjectsGetObjectsByObjectIdsResponse = DirectoryObjectListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DirectoryObjectListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DirectoryObjectListResult;
+  };
 };
 
 /**
@@ -2330,16 +2329,16 @@ export type ObjectsGetObjectsByObjectIdsNextResponse = DirectoryObjectListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DirectoryObjectListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DirectoryObjectListResult;
+  };
 };
 
 /**
@@ -2350,16 +2349,16 @@ export type DomainsListResponse = DomainListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DomainListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DomainListResult;
+  };
 };
 
 /**
@@ -2370,16 +2369,16 @@ export type DomainsGetResponse = Domain & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Domain;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Domain;
+  };
 };
 
 /**
@@ -2390,16 +2389,16 @@ export type OAuth2PermissionGrantListResponse = OAuth2PermissionGrantListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OAuth2PermissionGrantListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OAuth2PermissionGrantListResult;
+  };
 };
 
 /**
@@ -2410,16 +2409,16 @@ export type OAuth2PermissionGrantCreateResponse = OAuth2PermissionGrant & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OAuth2PermissionGrant;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OAuth2PermissionGrant;
+  };
 };
 
 /**
@@ -2430,14 +2429,14 @@ export type OAuth2PermissionGrantListNextResponse = OAuth2PermissionGrantListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OAuth2PermissionGrantListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OAuth2PermissionGrantListResult;
+  };
 };

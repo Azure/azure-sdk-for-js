@@ -36,7 +36,11 @@ export class BlobServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobServicesListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobServicesListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BlobServicesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -45,7 +49,11 @@ export class BlobServices {
    * letters only.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.BlobServiceItems>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.BlobServiceItems>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -55,8 +63,18 @@ export class BlobServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobServiceItems>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobServiceItems>, callback?: msRest.ServiceCallback<Models.BlobServiceItems>): Promise<Models.BlobServicesListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BlobServiceItems>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobServiceItems>,
+    callback?: msRest.ServiceCallback<Models.BlobServiceItems>
+  ): Promise<Models.BlobServicesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,7 +82,8 @@ export class BlobServices {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.BlobServicesListResponse>;
+      callback
+    ) as Promise<Models.BlobServicesListResponse>;
   }
 
   /**
@@ -80,7 +99,12 @@ export class BlobServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobServicesSetServicePropertiesResponse>
    */
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.BlobServiceProperties, options?: msRest.RequestOptionsBase): Promise<Models.BlobServicesSetServicePropertiesResponse>;
+  setServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.BlobServiceProperties,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BlobServicesSetServicePropertiesResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -91,7 +115,12 @@ export class BlobServices {
    * Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @param callback The callback
    */
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.BlobServiceProperties, callback: msRest.ServiceCallback<Models.BlobServiceProperties>): void;
+  setServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.BlobServiceProperties,
+    callback: msRest.ServiceCallback<Models.BlobServiceProperties>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -103,8 +132,20 @@ export class BlobServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.BlobServiceProperties, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobServiceProperties>): void;
-  setServiceProperties(resourceGroupName: string, accountName: string, parameters: Models.BlobServiceProperties, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobServiceProperties>, callback?: msRest.ServiceCallback<Models.BlobServiceProperties>): Promise<Models.BlobServicesSetServicePropertiesResponse> {
+  setServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.BlobServiceProperties,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BlobServiceProperties>
+  ): void;
+  setServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    parameters: Models.BlobServiceProperties,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobServiceProperties>,
+    callback?: msRest.ServiceCallback<Models.BlobServiceProperties>
+  ): Promise<Models.BlobServicesSetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +154,8 @@ export class BlobServices {
         options
       },
       setServicePropertiesOperationSpec,
-      callback) as Promise<Models.BlobServicesSetServicePropertiesResponse>;
+      callback
+    ) as Promise<Models.BlobServicesSetServicePropertiesResponse>;
   }
 
   /**
@@ -127,7 +169,11 @@ export class BlobServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.BlobServicesGetServicePropertiesResponse>
    */
-  getServiceProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobServicesGetServicePropertiesResponse>;
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BlobServicesGetServicePropertiesResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -136,7 +182,11 @@ export class BlobServices {
    * letters only.
    * @param callback The callback
    */
-  getServiceProperties(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.BlobServiceProperties>): void;
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.BlobServiceProperties>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -146,8 +196,18 @@ export class BlobServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getServiceProperties(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobServiceProperties>): void;
-  getServiceProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobServiceProperties>, callback?: msRest.ServiceCallback<Models.BlobServiceProperties>): Promise<Models.BlobServicesGetServicePropertiesResponse> {
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BlobServiceProperties>
+  ): void;
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobServiceProperties>,
+    callback?: msRest.ServiceCallback<Models.BlobServiceProperties>
+  ): Promise<Models.BlobServicesGetServicePropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +215,8 @@ export class BlobServices {
         options
       },
       getServicePropertiesOperationSpec,
-      callback) as Promise<Models.BlobServicesGetServicePropertiesResponse>;
+      callback
+    ) as Promise<Models.BlobServicesGetServicePropertiesResponse>;
   }
 }
 
@@ -163,18 +224,11 @@ export class BlobServices {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices",
+  urlParameters: [Parameters.resourceGroupName, Parameters.accountName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BlobServiceItems
@@ -188,19 +242,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const setServicePropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/{BlobServicesName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/{BlobServicesName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.blobServicesName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -221,19 +272,16 @@ const setServicePropertiesOperationSpec: msRest.OperationSpec = {
 
 const getServicePropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/{BlobServicesName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/{BlobServicesName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.blobServicesName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BlobServiceProperties

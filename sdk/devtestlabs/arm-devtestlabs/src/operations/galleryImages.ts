@@ -33,21 +33,41 @@ export class GalleryImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleryImagesListResponse>
    */
-  list(resourceGroupName: string, labName: string, options?: Models.GalleryImagesListOptionalParams): Promise<Models.GalleryImagesListResponse>;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options?: Models.GalleryImagesListOptionalParams
+  ): Promise<Models.GalleryImagesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, callback: msRest.ServiceCallback<Models.GalleryImageList>): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    callback: msRest.ServiceCallback<Models.GalleryImageList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labName: string, options: Models.GalleryImagesListOptionalParams, callback: msRest.ServiceCallback<Models.GalleryImageList>): void;
-  list(resourceGroupName: string, labName: string, options?: Models.GalleryImagesListOptionalParams | msRest.ServiceCallback<Models.GalleryImageList>, callback?: msRest.ServiceCallback<Models.GalleryImageList>): Promise<Models.GalleryImagesListResponse> {
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options: Models.GalleryImagesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.GalleryImageList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options?:
+      | Models.GalleryImagesListOptionalParams
+      | msRest.ServiceCallback<Models.GalleryImageList>,
+    callback?: msRest.ServiceCallback<Models.GalleryImageList>
+  ): Promise<Models.GalleryImagesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class GalleryImages {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.GalleryImagesListResponse>;
+      callback
+    ) as Promise<Models.GalleryImagesListResponse>;
   }
 
   /**
@@ -64,7 +85,10 @@ export class GalleryImages {
    * @param [options] The optional parameters
    * @returns Promise<Models.GalleryImagesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GalleryImagesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GalleryImagesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -75,15 +99,24 @@ export class GalleryImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GalleryImageList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryImageList>, callback?: msRest.ServiceCallback<Models.GalleryImageList>): Promise<Models.GalleryImagesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GalleryImageList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GalleryImageList>,
+    callback?: msRest.ServiceCallback<Models.GalleryImageList>
+  ): Promise<Models.GalleryImagesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.GalleryImagesListNextResponse>;
+      callback
+    ) as Promise<Models.GalleryImagesListNextResponse>;
   }
 }
 
@@ -91,12 +124,9 @@ export class GalleryImages {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/galleryimages",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.labName
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/galleryimages",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.labName],
   queryParameters: [
     Parameters.expand,
     Parameters.filter,
@@ -104,9 +134,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GalleryImageList
@@ -122,12 +150,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GalleryImageList

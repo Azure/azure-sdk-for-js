@@ -6,7 +6,8 @@ const clientOptions: coreArm.AzureServiceClientOptions = {
   filters: [new coreHttp.LogFilter()]
 };
 
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"] || "00977cdb-163f-435f-9c32-39ec8ae61f4d";
+const subscriptionId =
+  process.env["AZURE_SUBSCRIPTION_ID"] || "00977cdb-163f-435f-9c32-39ec8ae61f4d";
 const resourceGroupName = "foozap002";
 const accountName = "foozy894";
 const location = "westus";
@@ -55,10 +56,19 @@ console.log("Hi There!!");
 // }).catch((err) => {
 //   console.dir(err);
 // });
-execute(req).catch((err) => { console.dir(err); });
+execute(req).catch((err) => {
+  console.dir(err);
+});
 
 for (var i = 1; i <= 20; i++) {
   console.log("Hello World " + i);
-  setTimeout(function (x) { return function () { console.log(x); }; }(i), 1000 * i);
+  setTimeout(
+    (function(x) {
+      return function() {
+        console.log(x);
+      };
+    })(i),
+    1000 * i
+  );
   // 1 2 3 4 5
 }

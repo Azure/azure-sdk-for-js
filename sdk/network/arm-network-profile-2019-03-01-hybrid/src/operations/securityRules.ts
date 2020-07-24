@@ -35,9 +35,18 @@ export class SecurityRules {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,networkSecurityGroupName,securityRuleName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    securityRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      networkSecurityGroupName,
+      securityRuleName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -48,14 +57,24 @@ export class SecurityRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityRulesGetResponse>
    */
-  get(resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.SecurityRulesGetResponse>;
+  get(
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    securityRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityRulesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkSecurityGroupName The name of the network security group.
    * @param securityRuleName The name of the security rule.
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, callback: msRest.ServiceCallback<Models.SecurityRule>): void;
+  get(
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    securityRuleName: string,
+    callback: msRest.ServiceCallback<Models.SecurityRule>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkSecurityGroupName The name of the network security group.
@@ -63,8 +82,20 @@ export class SecurityRules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityRule>): void;
-  get(resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityRule>, callback?: msRest.ServiceCallback<Models.SecurityRule>): Promise<Models.SecurityRulesGetResponse> {
+  get(
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    securityRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityRule>
+  ): void;
+  get(
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    securityRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityRule>,
+    callback?: msRest.ServiceCallback<Models.SecurityRule>
+  ): Promise<Models.SecurityRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,7 +104,8 @@ export class SecurityRules {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SecurityRulesGetResponse>;
+      callback
+    ) as Promise<Models.SecurityRulesGetResponse>;
   }
 
   /**
@@ -86,9 +118,22 @@ export class SecurityRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityRulesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, securityRuleParameters: Models.SecurityRule, options?: msRest.RequestOptionsBase): Promise<Models.SecurityRulesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,networkSecurityGroupName,securityRuleName,securityRuleParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SecurityRulesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    securityRuleName: string,
+    securityRuleParameters: Models.SecurityRule,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityRulesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      networkSecurityGroupName,
+      securityRuleName,
+      securityRuleParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SecurityRulesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -98,21 +143,39 @@ export class SecurityRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityRulesListResponse>
    */
-  list(resourceGroupName: string, networkSecurityGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SecurityRulesListResponse>;
+  list(
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityRulesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkSecurityGroupName The name of the network security group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkSecurityGroupName: string, callback: msRest.ServiceCallback<Models.SecurityRuleListResult>): void;
+  list(
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    callback: msRest.ServiceCallback<Models.SecurityRuleListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkSecurityGroupName The name of the network security group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, networkSecurityGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityRuleListResult>): void;
-  list(resourceGroupName: string, networkSecurityGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityRuleListResult>, callback?: msRest.ServiceCallback<Models.SecurityRuleListResult>): Promise<Models.SecurityRulesListResponse> {
+  list(
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityRuleListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.SecurityRuleListResult>
+  ): Promise<Models.SecurityRulesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +183,8 @@ export class SecurityRules {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SecurityRulesListResponse>;
+      callback
+    ) as Promise<Models.SecurityRulesListResponse>;
   }
 
   /**
@@ -131,7 +195,12 @@ export class SecurityRules {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    securityRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -140,7 +209,8 @@ export class SecurityRules {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -153,7 +223,13 @@ export class SecurityRules {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, securityRuleParameters: Models.SecurityRule, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    networkSecurityGroupName: string,
+    securityRuleName: string,
+    securityRuleParameters: Models.SecurityRule,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -163,7 +239,8 @@ export class SecurityRules {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -172,26 +249,41 @@ export class SecurityRules {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecurityRulesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SecurityRulesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecurityRulesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecurityRuleListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecurityRuleListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecurityRuleListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityRuleListResult>, callback?: msRest.ServiceCallback<Models.SecurityRuleListResult>): Promise<Models.SecurityRulesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecurityRuleListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecurityRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.SecurityRuleListResult>
+  ): Promise<Models.SecurityRulesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SecurityRulesListNextResponse>;
+      callback
+    ) as Promise<Models.SecurityRulesListNextResponse>;
   }
 }
 
@@ -199,19 +291,16 @@ export class SecurityRules {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkSecurityGroupName,
     Parameters.securityRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityRule
@@ -225,18 +314,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkSecurityGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityRuleListResult
@@ -250,19 +336,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkSecurityGroupName,
     Parameters.securityRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -276,19 +359,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkSecurityGroupName,
     Parameters.securityRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "securityRuleParameters",
     mapper: {
@@ -314,12 +394,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecurityRuleListResult

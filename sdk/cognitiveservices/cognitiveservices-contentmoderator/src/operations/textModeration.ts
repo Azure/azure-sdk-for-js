@@ -35,14 +35,22 @@ export class TextModeration {
    * @param [options] The optional parameters
    * @returns Promise<Models.TextModerationScreenTextResponse>
    */
-  screenText(textContentType: Models.TextContentType, textContent: msRest.HttpRequestBody, options?: Models.TextModerationScreenTextOptionalParams): Promise<Models.TextModerationScreenTextResponse>;
+  screenText(
+    textContentType: Models.TextContentType,
+    textContent: msRest.HttpRequestBody,
+    options?: Models.TextModerationScreenTextOptionalParams
+  ): Promise<Models.TextModerationScreenTextResponse>;
   /**
    * @param textContentType The content type. Possible values include: 'text/plain', 'text/html',
    * 'text/xml', 'text/markdown'
    * @param textContent Content to screen.
    * @param callback The callback
    */
-  screenText(textContentType: Models.TextContentType, textContent: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.Screen>): void;
+  screenText(
+    textContentType: Models.TextContentType,
+    textContent: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.Screen>
+  ): void;
   /**
    * @param textContentType The content type. Possible values include: 'text/plain', 'text/html',
    * 'text/xml', 'text/markdown'
@@ -50,8 +58,18 @@ export class TextModeration {
    * @param options The optional parameters
    * @param callback The callback
    */
-  screenText(textContentType: Models.TextContentType, textContent: msRest.HttpRequestBody, options: Models.TextModerationScreenTextOptionalParams, callback: msRest.ServiceCallback<Models.Screen>): void;
-  screenText(textContentType: Models.TextContentType, textContent: msRest.HttpRequestBody, options?: Models.TextModerationScreenTextOptionalParams | msRest.ServiceCallback<Models.Screen>, callback?: msRest.ServiceCallback<Models.Screen>): Promise<Models.TextModerationScreenTextResponse> {
+  screenText(
+    textContentType: Models.TextContentType,
+    textContent: msRest.HttpRequestBody,
+    options: Models.TextModerationScreenTextOptionalParams,
+    callback: msRest.ServiceCallback<Models.Screen>
+  ): void;
+  screenText(
+    textContentType: Models.TextContentType,
+    textContent: msRest.HttpRequestBody,
+    options?: Models.TextModerationScreenTextOptionalParams | msRest.ServiceCallback<Models.Screen>,
+    callback?: msRest.ServiceCallback<Models.Screen>
+  ): Promise<Models.TextModerationScreenTextResponse> {
     return this.client.sendOperationRequest(
       {
         textContentType,
@@ -59,7 +77,8 @@ export class TextModeration {
         options
       },
       screenTextOperationSpec,
-      callback) as Promise<Models.TextModerationScreenTextResponse>;
+      callback
+    ) as Promise<Models.TextModerationScreenTextResponse>;
   }
 
   /**
@@ -72,14 +91,22 @@ export class TextModeration {
    * @param [options] The optional parameters
    * @returns Promise<Models.TextModerationDetectLanguageResponse>
    */
-  detectLanguage(textContentType: Models.TextContentType1, textContent: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.TextModerationDetectLanguageResponse>;
+  detectLanguage(
+    textContentType: Models.TextContentType1,
+    textContent: msRest.HttpRequestBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TextModerationDetectLanguageResponse>;
   /**
    * @param textContentType The content type. Possible values include: 'text/plain', 'text/html',
    * 'text/xml', 'text/markdown'
    * @param textContent Content to screen.
    * @param callback The callback
    */
-  detectLanguage(textContentType: Models.TextContentType1, textContent: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.DetectedLanguage>): void;
+  detectLanguage(
+    textContentType: Models.TextContentType1,
+    textContent: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.DetectedLanguage>
+  ): void;
   /**
    * @param textContentType The content type. Possible values include: 'text/plain', 'text/html',
    * 'text/xml', 'text/markdown'
@@ -87,8 +114,18 @@ export class TextModeration {
    * @param options The optional parameters
    * @param callback The callback
    */
-  detectLanguage(textContentType: Models.TextContentType1, textContent: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectedLanguage>): void;
-  detectLanguage(textContentType: Models.TextContentType1, textContent: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectedLanguage>, callback?: msRest.ServiceCallback<Models.DetectedLanguage>): Promise<Models.TextModerationDetectLanguageResponse> {
+  detectLanguage(
+    textContentType: Models.TextContentType1,
+    textContent: msRest.HttpRequestBody,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DetectedLanguage>
+  ): void;
+  detectLanguage(
+    textContentType: Models.TextContentType1,
+    textContent: msRest.HttpRequestBody,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectedLanguage>,
+    callback?: msRest.ServiceCallback<Models.DetectedLanguage>
+  ): Promise<Models.TextModerationDetectLanguageResponse> {
     return this.client.sendOperationRequest(
       {
         textContentType,
@@ -96,7 +133,8 @@ export class TextModeration {
         options
       },
       detectLanguageOperationSpec,
-      callback) as Promise<Models.TextModerationDetectLanguageResponse>;
+      callback
+    ) as Promise<Models.TextModerationDetectLanguageResponse>;
   }
 }
 
@@ -105,9 +143,7 @@ const serializer = new msRest.Serializer(Mappers);
 const screenTextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "contentmoderator/moderate/v1.0/ProcessText/Screen/",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.language1,
     Parameters.autocorrect,
@@ -115,9 +151,7 @@ const screenTextOperationSpec: msRest.OperationSpec = {
     Parameters.listId0,
     Parameters.classify
   ],
-  headerParameters: [
-    Parameters.textContentType
-  ],
+  headerParameters: [Parameters.textContentType],
   requestBody: {
     parameterPath: "textContent",
     mapper: {
@@ -143,12 +177,8 @@ const screenTextOperationSpec: msRest.OperationSpec = {
 const detectLanguageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "contentmoderator/moderate/v1.0/ProcessText/DetectLanguage",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  headerParameters: [
-    Parameters.textContentType
-  ],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.textContentType],
   requestBody: {
     parameterPath: "textContent",
     mapper: {

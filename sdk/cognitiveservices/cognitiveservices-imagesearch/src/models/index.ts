@@ -47,7 +47,15 @@ export interface Identifiable {
 /**
  * Contains the possible cases for Response.
  */
-export type ResponseUnion = Response | AnswerUnion | ThingUnion | ErrorResponse | RecognizedEntity | RecognizedEntityRegion | ImageInsights | TrendingImages;
+export type ResponseUnion =
+  | Response
+  | AnswerUnion
+  | ThingUnion
+  | ErrorResponse
+  | RecognizedEntity
+  | RecognizedEntityRegion
+  | ImageInsights
+  | TrendingImages;
 
 /**
  * Defines a response. All schemas that could be returned at the root of a response should inherit
@@ -78,7 +86,13 @@ export interface Response {
 /**
  * Contains the possible cases for Thing.
  */
-export type ThingUnion = Thing | Organization | OfferUnion | CreativeWorkUnion | Person | IntangibleUnion;
+export type ThingUnion =
+  | Thing
+  | Organization
+  | OfferUnion
+  | CreativeWorkUnion
+  | Person
+  | IntangibleUnion;
 
 /**
  * Defines a thing.
@@ -2856,7 +2870,168 @@ export interface ImagesTrendingOptionalParams extends msRest.RequestOptionsBase 
  * @readonly
  * @enum {string}
  */
-export type Currency = 'USD' | 'CAD' | 'GBP' | 'EUR' | 'COP' | 'JPY' | 'CNY' | 'AUD' | 'INR' | 'AED' | 'AFN' | 'ALL' | 'AMD' | 'ANG' | 'AOA' | 'ARS' | 'AWG' | 'AZN' | 'BAM' | 'BBD' | 'BDT' | 'BGN' | 'BHD' | 'BIF' | 'BMD' | 'BND' | 'BOB' | 'BOV' | 'BRL' | 'BSD' | 'BTN' | 'BWP' | 'BYR' | 'BZD' | 'CDF' | 'CHE' | 'CHF' | 'CHW' | 'CLF' | 'CLP' | 'COU' | 'CRC' | 'CUC' | 'CUP' | 'CVE' | 'CZK' | 'DJF' | 'DKK' | 'DOP' | 'DZD' | 'EGP' | 'ERN' | 'ETB' | 'FJD' | 'FKP' | 'GEL' | 'GHS' | 'GIP' | 'GMD' | 'GNF' | 'GTQ' | 'GYD' | 'HKD' | 'HNL' | 'HRK' | 'HTG' | 'HUF' | 'IDR' | 'ILS' | 'IQD' | 'IRR' | 'ISK' | 'JMD' | 'JOD' | 'KES' | 'KGS' | 'KHR' | 'KMF' | 'KPW' | 'KRW' | 'KWD' | 'KYD' | 'KZT' | 'LAK' | 'LBP' | 'LKR' | 'LRD' | 'LSL' | 'LYD' | 'MAD' | 'MDL' | 'MGA' | 'MKD' | 'MMK' | 'MNT' | 'MOP' | 'MRO' | 'MUR' | 'MVR' | 'MWK' | 'MXN' | 'MXV' | 'MYR' | 'MZN' | 'NAD' | 'NGN' | 'NIO' | 'NOK' | 'NPR' | 'NZD' | 'OMR' | 'PAB' | 'PEN' | 'PGK' | 'PHP' | 'PKR' | 'PLN' | 'PYG' | 'QAR' | 'RON' | 'RSD' | 'RUB' | 'RWF' | 'SAR' | 'SBD' | 'SCR' | 'SDG' | 'SEK' | 'SGD' | 'SHP' | 'SLL' | 'SOS' | 'SRD' | 'SSP' | 'STD' | 'SYP' | 'SZL' | 'THB' | 'TJS' | 'TMT' | 'TND' | 'TOP' | 'TRY' | 'TTD' | 'TWD' | 'TZS' | 'UAH' | 'UGX' | 'UYU' | 'UZS' | 'VEF' | 'VND' | 'VUV' | 'WST' | 'XAF' | 'XCD' | 'XOF' | 'XPF' | 'YER' | 'ZAR' | 'ZMW';
+export type Currency =
+  | "USD"
+  | "CAD"
+  | "GBP"
+  | "EUR"
+  | "COP"
+  | "JPY"
+  | "CNY"
+  | "AUD"
+  | "INR"
+  | "AED"
+  | "AFN"
+  | "ALL"
+  | "AMD"
+  | "ANG"
+  | "AOA"
+  | "ARS"
+  | "AWG"
+  | "AZN"
+  | "BAM"
+  | "BBD"
+  | "BDT"
+  | "BGN"
+  | "BHD"
+  | "BIF"
+  | "BMD"
+  | "BND"
+  | "BOB"
+  | "BOV"
+  | "BRL"
+  | "BSD"
+  | "BTN"
+  | "BWP"
+  | "BYR"
+  | "BZD"
+  | "CDF"
+  | "CHE"
+  | "CHF"
+  | "CHW"
+  | "CLF"
+  | "CLP"
+  | "COU"
+  | "CRC"
+  | "CUC"
+  | "CUP"
+  | "CVE"
+  | "CZK"
+  | "DJF"
+  | "DKK"
+  | "DOP"
+  | "DZD"
+  | "EGP"
+  | "ERN"
+  | "ETB"
+  | "FJD"
+  | "FKP"
+  | "GEL"
+  | "GHS"
+  | "GIP"
+  | "GMD"
+  | "GNF"
+  | "GTQ"
+  | "GYD"
+  | "HKD"
+  | "HNL"
+  | "HRK"
+  | "HTG"
+  | "HUF"
+  | "IDR"
+  | "ILS"
+  | "IQD"
+  | "IRR"
+  | "ISK"
+  | "JMD"
+  | "JOD"
+  | "KES"
+  | "KGS"
+  | "KHR"
+  | "KMF"
+  | "KPW"
+  | "KRW"
+  | "KWD"
+  | "KYD"
+  | "KZT"
+  | "LAK"
+  | "LBP"
+  | "LKR"
+  | "LRD"
+  | "LSL"
+  | "LYD"
+  | "MAD"
+  | "MDL"
+  | "MGA"
+  | "MKD"
+  | "MMK"
+  | "MNT"
+  | "MOP"
+  | "MRO"
+  | "MUR"
+  | "MVR"
+  | "MWK"
+  | "MXN"
+  | "MXV"
+  | "MYR"
+  | "MZN"
+  | "NAD"
+  | "NGN"
+  | "NIO"
+  | "NOK"
+  | "NPR"
+  | "NZD"
+  | "OMR"
+  | "PAB"
+  | "PEN"
+  | "PGK"
+  | "PHP"
+  | "PKR"
+  | "PLN"
+  | "PYG"
+  | "QAR"
+  | "RON"
+  | "RSD"
+  | "RUB"
+  | "RWF"
+  | "SAR"
+  | "SBD"
+  | "SCR"
+  | "SDG"
+  | "SEK"
+  | "SGD"
+  | "SHP"
+  | "SLL"
+  | "SOS"
+  | "SRD"
+  | "SSP"
+  | "STD"
+  | "SYP"
+  | "SZL"
+  | "THB"
+  | "TJS"
+  | "TMT"
+  | "TND"
+  | "TOP"
+  | "TRY"
+  | "TTD"
+  | "TWD"
+  | "TZS"
+  | "UAH"
+  | "UGX"
+  | "UYU"
+  | "UZS"
+  | "VEF"
+  | "VND"
+  | "VUV"
+  | "WST"
+  | "XAF"
+  | "XCD"
+  | "XOF"
+  | "XPF"
+  | "YER"
+  | "ZAR"
+  | "ZMW";
 
 /**
  * Defines values for ItemAvailability.
@@ -2865,7 +3040,15 @@ export type Currency = 'USD' | 'CAD' | 'GBP' | 'EUR' | 'COP' | 'JPY' | 'CNY' | '
  * @readonly
  * @enum {string}
  */
-export type ItemAvailability = 'Discontinued' | 'InStock' | 'InStoreOnly' | 'LimitedAvailability' | 'OnlineOnly' | 'OutOfStock' | 'PreOrder' | 'SoldOut';
+export type ItemAvailability =
+  | "Discontinued"
+  | "InStock"
+  | "InStoreOnly"
+  | "LimitedAvailability"
+  | "OnlineOnly"
+  | "OutOfStock"
+  | "PreOrder"
+  | "SoldOut";
 
 /**
  * Defines values for ErrorCode.
@@ -2874,7 +3057,13 @@ export type ItemAvailability = 'Discontinued' | 'InStock' | 'InStoreOnly' | 'Lim
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export type ErrorCode =
+  | "None"
+  | "ServerError"
+  | "InvalidRequest"
+  | "RateLimitExceeded"
+  | "InvalidAuthorization"
+  | "InsufficientAuthorization";
 
 /**
  * Defines values for ErrorSubCode.
@@ -2885,7 +3074,18 @@ export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitEx
  * @readonly
  * @enum {string}
  */
-export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
+export type ErrorSubCode =
+  | "UnexpectedError"
+  | "ResourceError"
+  | "NotImplemented"
+  | "ParameterMissing"
+  | "ParameterInvalidValue"
+  | "HttpNotAllowed"
+  | "Blocked"
+  | "AuthorizationMissing"
+  | "AuthorizationRedundancy"
+  | "AuthorizationDisabled"
+  | "AuthorizationExpired";
 
 /**
  * Defines values for ImageAspect.
@@ -2893,7 +3093,7 @@ export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented
  * @readonly
  * @enum {string}
  */
-export type ImageAspect = 'All' | 'Square' | 'Wide' | 'Tall';
+export type ImageAspect = "All" | "Square" | "Wide" | "Tall";
 
 /**
  * Defines values for ImageColor.
@@ -2902,7 +3102,21 @@ export type ImageAspect = 'All' | 'Square' | 'Wide' | 'Tall';
  * @readonly
  * @enum {string}
  */
-export type ImageColor = 'ColorOnly' | 'Monochrome' | 'Black' | 'Blue' | 'Brown' | 'Gray' | 'Green' | 'Orange' | 'Pink' | 'Purple' | 'Red' | 'Teal' | 'White' | 'Yellow';
+export type ImageColor =
+  | "ColorOnly"
+  | "Monochrome"
+  | "Black"
+  | "Blue"
+  | "Brown"
+  | "Gray"
+  | "Green"
+  | "Orange"
+  | "Pink"
+  | "Purple"
+  | "Red"
+  | "Teal"
+  | "White"
+  | "Yellow";
 
 /**
  * Defines values for Freshness.
@@ -2910,7 +3124,7 @@ export type ImageColor = 'ColorOnly' | 'Monochrome' | 'Black' | 'Blue' | 'Brown'
  * @readonly
  * @enum {string}
  */
-export type Freshness = 'Day' | 'Week' | 'Month';
+export type Freshness = "Day" | "Week" | "Month";
 
 /**
  * Defines values for ImageContent.
@@ -2918,7 +3132,7 @@ export type Freshness = 'Day' | 'Week' | 'Month';
  * @readonly
  * @enum {string}
  */
-export type ImageContent = 'Face' | 'Portrait';
+export type ImageContent = "Face" | "Portrait";
 
 /**
  * Defines values for ImageType.
@@ -2926,7 +3140,7 @@ export type ImageContent = 'Face' | 'Portrait';
  * @readonly
  * @enum {string}
  */
-export type ImageType = 'AnimatedGif' | 'Clipart' | 'Line' | 'Photo' | 'Shopping' | 'Transparent';
+export type ImageType = "AnimatedGif" | "Clipart" | "Line" | "Photo" | "Shopping" | "Transparent";
 
 /**
  * Defines values for ImageLicense.
@@ -2935,7 +3149,14 @@ export type ImageType = 'AnimatedGif' | 'Clipart' | 'Line' | 'Photo' | 'Shopping
  * @readonly
  * @enum {string}
  */
-export type ImageLicense = 'All' | 'Any' | 'Public' | 'Share' | 'ShareCommercially' | 'Modify' | 'ModifyCommercially';
+export type ImageLicense =
+  | "All"
+  | "Any"
+  | "Public"
+  | "Share"
+  | "ShareCommercially"
+  | "Modify"
+  | "ModifyCommercially";
 
 /**
  * Defines values for SafeSearch.
@@ -2943,7 +3164,7 @@ export type ImageLicense = 'All' | 'Any' | 'Public' | 'Share' | 'ShareCommercial
  * @readonly
  * @enum {string}
  */
-export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
+export type SafeSearch = "Off" | "Moderate" | "Strict";
 
 /**
  * Defines values for ImageSize.
@@ -2951,7 +3172,7 @@ export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
  * @readonly
  * @enum {string}
  */
-export type ImageSize = 'All' | 'Small' | 'Medium' | 'Large' | 'Wallpaper';
+export type ImageSize = "All" | "Small" | "Medium" | "Large" | "Wallpaper";
 
 /**
  * Defines values for ImageCropType.
@@ -2959,7 +3180,7 @@ export type ImageSize = 'All' | 'Small' | 'Medium' | 'Large' | 'Wallpaper';
  * @readonly
  * @enum {string}
  */
-export type ImageCropType = 'Rectangular';
+export type ImageCropType = "Rectangular";
 
 /**
  * Defines values for ImageInsightModule.
@@ -2969,7 +3190,19 @@ export type ImageCropType = 'Rectangular';
  * @readonly
  * @enum {string}
  */
-export type ImageInsightModule = 'All' | 'BRQ' | 'Caption' | 'Collections' | 'Recipes' | 'PagesIncluding' | 'RecognizedEntities' | 'RelatedSearches' | 'ShoppingSources' | 'SimilarImages' | 'SimilarProducts' | 'Tags';
+export type ImageInsightModule =
+  | "All"
+  | "BRQ"
+  | "Caption"
+  | "Collections"
+  | "Recipes"
+  | "PagesIncluding"
+  | "RecognizedEntities"
+  | "RelatedSearches"
+  | "ShoppingSources"
+  | "SimilarImages"
+  | "SimilarProducts"
+  | "Tags";
 
 /**
  * Contains response data for the search operation.
@@ -2979,16 +3212,16 @@ export type ImagesSearchResponse = Images & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Images;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Images;
+  };
 };
 
 /**
@@ -2999,16 +3232,16 @@ export type ImagesDetailsResponse = ImageInsights & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageInsights;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageInsights;
+  };
 };
 
 /**
@@ -3019,14 +3252,14 @@ export type ImagesTrendingResponse = TrendingImages & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TrendingImages;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TrendingImages;
+  };
 };

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ServiceFabricMeshManagementClientContext } from "./serviceFabricMeshManagementClientContext";
 
-
 class ServiceFabricMeshManagementClient extends ServiceFabricMeshManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -34,7 +33,11 @@ class ServiceFabricMeshManagementClient extends ServiceFabricMeshManagementClien
    * @param subscriptionId The customer subscription identifier
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ServiceFabricMeshManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ServiceFabricMeshManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.secret = new operations.Secret(this);

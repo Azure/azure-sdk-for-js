@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AvsClientContext } from "./avsClientContext";
 
-
 class AvsClient extends AvsClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -28,7 +27,11 @@ class AvsClient extends AvsClientContext {
    * @param subscriptionId Unique identifier for the Azure subscription
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AvsClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AvsClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.locations = new operations.Locations(this);
@@ -39,10 +42,5 @@ class AvsClient extends AvsClientContext {
 
 // Operation Specifications
 
-export {
-  AvsClient,
-  AvsClientContext,
-  Models as AvsModels,
-  Mappers as AvsMappers
-};
+export { AvsClient, AvsClientContext, Models as AvsModels, Mappers as AvsMappers };
 export * from "./operations";

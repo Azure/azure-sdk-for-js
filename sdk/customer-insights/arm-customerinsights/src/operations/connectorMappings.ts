@@ -36,7 +36,14 @@ export class ConnectorMappings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectorMappingsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, parameters: Models.ConnectorMappingResourceFormat, options?: msRest.RequestOptionsBase): Promise<Models.ConnectorMappingsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    mappingName: string,
+    parameters: Models.ConnectorMappingResourceFormat,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectorMappingsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -45,7 +52,14 @@ export class ConnectorMappings {
    * @param parameters Parameters supplied to the CreateOrUpdate Connector Mapping operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, parameters: Models.ConnectorMappingResourceFormat, callback: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    mappingName: string,
+    parameters: Models.ConnectorMappingResourceFormat,
+    callback: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -55,8 +69,26 @@ export class ConnectorMappings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, parameters: Models.ConnectorMappingResourceFormat, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>): void;
-  createOrUpdate(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, parameters: Models.ConnectorMappingResourceFormat, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>, callback?: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>): Promise<Models.ConnectorMappingsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    mappingName: string,
+    parameters: Models.ConnectorMappingResourceFormat,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    mappingName: string,
+    parameters: Models.ConnectorMappingResourceFormat,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>,
+    callback?: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>
+  ): Promise<Models.ConnectorMappingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +99,8 @@ export class ConnectorMappings {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ConnectorMappingsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ConnectorMappingsCreateOrUpdateResponse>;
   }
 
   /**
@@ -79,7 +112,13 @@ export class ConnectorMappings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectorMappingsGetResponse>
    */
-  get(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectorMappingsGetResponse>;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    mappingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectorMappingsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -87,7 +126,13 @@ export class ConnectorMappings {
    * @param mappingName The name of the connector mapping.
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, callback: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    mappingName: string,
+    callback: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -96,8 +141,24 @@ export class ConnectorMappings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>): void;
-  get(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>, callback?: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>): Promise<Models.ConnectorMappingsGetResponse> {
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    mappingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>
+  ): void;
+  get(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    mappingName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>,
+    callback?: msRest.ServiceCallback<Models.ConnectorMappingResourceFormat>
+  ): Promise<Models.ConnectorMappingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +168,8 @@ export class ConnectorMappings {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ConnectorMappingsGetResponse>;
+      callback
+    ) as Promise<Models.ConnectorMappingsGetResponse>;
   }
 
   /**
@@ -119,7 +181,13 @@ export class ConnectorMappings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    mappingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -127,7 +195,13 @@ export class ConnectorMappings {
    * @param mappingName The name of the connector mapping.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    mappingName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -136,8 +210,22 @@ export class ConnectorMappings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, hubName: string, connectorName: string, mappingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    mappingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    mappingName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -147,7 +235,8 @@ export class ConnectorMappings {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -158,14 +247,24 @@ export class ConnectorMappings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectorMappingsListByConnectorResponse>
    */
-  listByConnector(resourceGroupName: string, hubName: string, connectorName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectorMappingsListByConnectorResponse>;
+  listByConnector(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectorMappingsListByConnectorResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param connectorName The name of the connector.
    * @param callback The callback
    */
-  listByConnector(resourceGroupName: string, hubName: string, connectorName: string, callback: msRest.ServiceCallback<Models.ConnectorMappingListResult>): void;
+  listByConnector(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    callback: msRest.ServiceCallback<Models.ConnectorMappingListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -173,8 +272,20 @@ export class ConnectorMappings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByConnector(resourceGroupName: string, hubName: string, connectorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorMappingListResult>): void;
-  listByConnector(resourceGroupName: string, hubName: string, connectorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorMappingListResult>, callback?: msRest.ServiceCallback<Models.ConnectorMappingListResult>): Promise<Models.ConnectorMappingsListByConnectorResponse> {
+  listByConnector(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectorMappingListResult>
+  ): void;
+  listByConnector(
+    resourceGroupName: string,
+    hubName: string,
+    connectorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorMappingListResult>,
+    callback?: msRest.ServiceCallback<Models.ConnectorMappingListResult>
+  ): Promise<Models.ConnectorMappingsListByConnectorResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -183,7 +294,8 @@ export class ConnectorMappings {
         options
       },
       listByConnectorOperationSpec,
-      callback) as Promise<Models.ConnectorMappingsListByConnectorResponse>;
+      callback
+    ) as Promise<Models.ConnectorMappingsListByConnectorResponse>;
   }
 
   /**
@@ -192,26 +304,41 @@ export class ConnectorMappings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConnectorMappingsListByConnectorNextResponse>
    */
-  listByConnectorNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ConnectorMappingsListByConnectorNextResponse>;
+  listByConnectorNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConnectorMappingsListByConnectorNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByConnectorNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ConnectorMappingListResult>): void;
+  listByConnectorNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ConnectorMappingListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByConnectorNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConnectorMappingListResult>): void;
-  listByConnectorNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorMappingListResult>, callback?: msRest.ServiceCallback<Models.ConnectorMappingListResult>): Promise<Models.ConnectorMappingsListByConnectorNextResponse> {
+  listByConnectorNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConnectorMappingListResult>
+  ): void;
+  listByConnectorNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConnectorMappingListResult>,
+    callback?: msRest.ServiceCallback<Models.ConnectorMappingListResult>
+  ): Promise<Models.ConnectorMappingsListByConnectorNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByConnectorNextOperationSpec,
-      callback) as Promise<Models.ConnectorMappingsListByConnectorNextResponse>;
+      callback
+    ) as Promise<Models.ConnectorMappingsListByConnectorNextResponse>;
   }
 }
 
@@ -219,7 +346,8 @@ export class ConnectorMappings {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}/mappings/{mappingName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}/mappings/{mappingName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
@@ -227,12 +355,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.mappingName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -256,7 +380,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}/mappings/{mappingName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}/mappings/{mappingName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
@@ -264,12 +389,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.mappingName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectorMappingResourceFormat
@@ -283,7 +404,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}/mappings/{mappingName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}/mappings/{mappingName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
@@ -291,12 +413,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.mappingName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -309,19 +427,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByConnectorOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}/mappings",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/connectors/{connectorName}/mappings",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hubName1,
     Parameters.connectorName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectorMappingListResult
@@ -337,12 +452,8 @@ const listByConnectorNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConnectorMappingListResult

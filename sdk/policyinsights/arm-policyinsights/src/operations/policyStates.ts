@@ -36,7 +36,11 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesListQueryResultsForManagementGroupResponse>
    */
-  listQueryResultsForManagementGroup(policyStatesResource: Models.PolicyStatesResource, managementGroupName: string, options?: Models.PolicyStatesListQueryResultsForManagementGroupOptionalParams): Promise<Models.PolicyStatesListQueryResultsForManagementGroupResponse>;
+  listQueryResultsForManagementGroup(
+    policyStatesResource: Models.PolicyStatesResource,
+    managementGroupName: string,
+    options?: Models.PolicyStatesListQueryResultsForManagementGroupOptionalParams
+  ): Promise<Models.PolicyStatesListQueryResultsForManagementGroupResponse>;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -44,7 +48,11 @@ export class PolicyStates {
    * @param managementGroupName Management group name.
    * @param callback The callback
    */
-  listQueryResultsForManagementGroup(policyStatesResource: Models.PolicyStatesResource, managementGroupName: string, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
+  listQueryResultsForManagementGroup(
+    policyStatesResource: Models.PolicyStatesResource,
+    managementGroupName: string,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -53,8 +61,20 @@ export class PolicyStates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForManagementGroup(policyStatesResource: Models.PolicyStatesResource, managementGroupName: string, options: Models.PolicyStatesListQueryResultsForManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForManagementGroup(policyStatesResource: Models.PolicyStatesResource, managementGroupName: string, options?: Models.PolicyStatesListQueryResultsForManagementGroupOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForManagementGroupResponse> {
+  listQueryResultsForManagementGroup(
+    policyStatesResource: Models.PolicyStatesResource,
+    managementGroupName: string,
+    options: Models.PolicyStatesListQueryResultsForManagementGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
+  listQueryResultsForManagementGroup(
+    policyStatesResource: Models.PolicyStatesResource,
+    managementGroupName: string,
+    options?:
+      | Models.PolicyStatesListQueryResultsForManagementGroupOptionalParams
+      | msRest.ServiceCallback<Models.PolicyStatesQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): Promise<Models.PolicyStatesListQueryResultsForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -62,7 +82,8 @@ export class PolicyStates {
         options
       },
       listQueryResultsForManagementGroupOperationSpec,
-      callback) as Promise<Models.PolicyStatesListQueryResultsForManagementGroupResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesListQueryResultsForManagementGroupResponse>;
   }
 
   /**
@@ -71,26 +92,43 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesSummarizeForManagementGroupResponse>
    */
-  summarizeForManagementGroup(managementGroupName: string, options?: Models.PolicyStatesSummarizeForManagementGroupOptionalParams): Promise<Models.PolicyStatesSummarizeForManagementGroupResponse>;
+  summarizeForManagementGroup(
+    managementGroupName: string,
+    options?: Models.PolicyStatesSummarizeForManagementGroupOptionalParams
+  ): Promise<Models.PolicyStatesSummarizeForManagementGroupResponse>;
   /**
    * @param managementGroupName Management group name.
    * @param callback The callback
    */
-  summarizeForManagementGroup(managementGroupName: string, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
+  summarizeForManagementGroup(
+    managementGroupName: string,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
   /**
    * @param managementGroupName Management group name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  summarizeForManagementGroup(managementGroupName: string, options: Models.PolicyStatesSummarizeForManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForManagementGroup(managementGroupName: string, options?: Models.PolicyStatesSummarizeForManagementGroupOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForManagementGroupResponse> {
+  summarizeForManagementGroup(
+    managementGroupName: string,
+    options: Models.PolicyStatesSummarizeForManagementGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
+  summarizeForManagementGroup(
+    managementGroupName: string,
+    options?:
+      | Models.PolicyStatesSummarizeForManagementGroupOptionalParams
+      | msRest.ServiceCallback<Models.SummarizeResults>,
+    callback?: msRest.ServiceCallback<Models.SummarizeResults>
+  ): Promise<Models.PolicyStatesSummarizeForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupName,
         options
       },
       summarizeForManagementGroupOperationSpec,
-      callback) as Promise<Models.PolicyStatesSummarizeForManagementGroupResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesSummarizeForManagementGroupResponse>;
   }
 
   /**
@@ -102,7 +140,11 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesListQueryResultsForSubscriptionResponse>
    */
-  listQueryResultsForSubscription(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, options?: Models.PolicyStatesListQueryResultsForSubscriptionOptionalParams): Promise<Models.PolicyStatesListQueryResultsForSubscriptionResponse>;
+  listQueryResultsForSubscription(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    options?: Models.PolicyStatesListQueryResultsForSubscriptionOptionalParams
+  ): Promise<Models.PolicyStatesListQueryResultsForSubscriptionResponse>;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -110,7 +152,11 @@ export class PolicyStates {
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param callback The callback
    */
-  listQueryResultsForSubscription(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
+  listQueryResultsForSubscription(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -119,8 +165,20 @@ export class PolicyStates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForSubscription(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, options: Models.PolicyStatesListQueryResultsForSubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForSubscription(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, options?: Models.PolicyStatesListQueryResultsForSubscriptionOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForSubscriptionResponse> {
+  listQueryResultsForSubscription(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    options: Models.PolicyStatesListQueryResultsForSubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
+  listQueryResultsForSubscription(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    options?:
+      | Models.PolicyStatesListQueryResultsForSubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.PolicyStatesQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): Promise<Models.PolicyStatesListQueryResultsForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -128,7 +186,8 @@ export class PolicyStates {
         options
       },
       listQueryResultsForSubscriptionOperationSpec,
-      callback) as Promise<Models.PolicyStatesListQueryResultsForSubscriptionResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesListQueryResultsForSubscriptionResponse>;
   }
 
   /**
@@ -137,26 +196,43 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesSummarizeForSubscriptionResponse>
    */
-  summarizeForSubscription(subscriptionId: string, options?: Models.PolicyStatesSummarizeForSubscriptionOptionalParams): Promise<Models.PolicyStatesSummarizeForSubscriptionResponse>;
+  summarizeForSubscription(
+    subscriptionId: string,
+    options?: Models.PolicyStatesSummarizeForSubscriptionOptionalParams
+  ): Promise<Models.PolicyStatesSummarizeForSubscriptionResponse>;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param callback The callback
    */
-  summarizeForSubscription(subscriptionId: string, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
+  summarizeForSubscription(
+    subscriptionId: string,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  summarizeForSubscription(subscriptionId: string, options: Models.PolicyStatesSummarizeForSubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForSubscription(subscriptionId: string, options?: Models.PolicyStatesSummarizeForSubscriptionOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForSubscriptionResponse> {
+  summarizeForSubscription(
+    subscriptionId: string,
+    options: Models.PolicyStatesSummarizeForSubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
+  summarizeForSubscription(
+    subscriptionId: string,
+    options?:
+      | Models.PolicyStatesSummarizeForSubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.SummarizeResults>,
+    callback?: msRest.ServiceCallback<Models.SummarizeResults>
+  ): Promise<Models.PolicyStatesSummarizeForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
         options
       },
       summarizeForSubscriptionOperationSpec,
-      callback) as Promise<Models.PolicyStatesSummarizeForSubscriptionResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesSummarizeForSubscriptionResponse>;
   }
 
   /**
@@ -169,7 +245,12 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesListQueryResultsForResourceGroupResponse>
    */
-  listQueryResultsForResourceGroup(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, options?: Models.PolicyStatesListQueryResultsForResourceGroupOptionalParams): Promise<Models.PolicyStatesListQueryResultsForResourceGroupResponse>;
+  listQueryResultsForResourceGroup(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    resourceGroupName: string,
+    options?: Models.PolicyStatesListQueryResultsForResourceGroupOptionalParams
+  ): Promise<Models.PolicyStatesListQueryResultsForResourceGroupResponse>;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -178,7 +259,12 @@ export class PolicyStates {
    * @param resourceGroupName Resource group name.
    * @param callback The callback
    */
-  listQueryResultsForResourceGroup(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
+  listQueryResultsForResourceGroup(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -188,8 +274,22 @@ export class PolicyStates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForResourceGroup(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, options: Models.PolicyStatesListQueryResultsForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForResourceGroup(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, options?: Models.PolicyStatesListQueryResultsForResourceGroupOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForResourceGroupResponse> {
+  listQueryResultsForResourceGroup(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    resourceGroupName: string,
+    options: Models.PolicyStatesListQueryResultsForResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
+  listQueryResultsForResourceGroup(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    resourceGroupName: string,
+    options?:
+      | Models.PolicyStatesListQueryResultsForResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.PolicyStatesQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): Promise<Models.PolicyStatesListQueryResultsForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -198,7 +298,8 @@ export class PolicyStates {
         options
       },
       listQueryResultsForResourceGroupOperationSpec,
-      callback) as Promise<Models.PolicyStatesListQueryResultsForResourceGroupResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesListQueryResultsForResourceGroupResponse>;
   }
 
   /**
@@ -208,21 +309,41 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesSummarizeForResourceGroupResponse>
    */
-  summarizeForResourceGroup(subscriptionId: string, resourceGroupName: string, options?: Models.PolicyStatesSummarizeForResourceGroupOptionalParams): Promise<Models.PolicyStatesSummarizeForResourceGroupResponse>;
+  summarizeForResourceGroup(
+    subscriptionId: string,
+    resourceGroupName: string,
+    options?: Models.PolicyStatesSummarizeForResourceGroupOptionalParams
+  ): Promise<Models.PolicyStatesSummarizeForResourceGroupResponse>;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param callback The callback
    */
-  summarizeForResourceGroup(subscriptionId: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
+  summarizeForResourceGroup(
+    subscriptionId: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  summarizeForResourceGroup(subscriptionId: string, resourceGroupName: string, options: Models.PolicyStatesSummarizeForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForResourceGroup(subscriptionId: string, resourceGroupName: string, options?: Models.PolicyStatesSummarizeForResourceGroupOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForResourceGroupResponse> {
+  summarizeForResourceGroup(
+    subscriptionId: string,
+    resourceGroupName: string,
+    options: Models.PolicyStatesSummarizeForResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
+  summarizeForResourceGroup(
+    subscriptionId: string,
+    resourceGroupName: string,
+    options?:
+      | Models.PolicyStatesSummarizeForResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.SummarizeResults>,
+    callback?: msRest.ServiceCallback<Models.SummarizeResults>
+  ): Promise<Models.PolicyStatesSummarizeForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -230,7 +351,8 @@ export class PolicyStates {
         options
       },
       summarizeForResourceGroupOperationSpec,
-      callback) as Promise<Models.PolicyStatesSummarizeForResourceGroupResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesSummarizeForResourceGroupResponse>;
   }
 
   /**
@@ -242,7 +364,11 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesListQueryResultsForResourceResponse>
    */
-  listQueryResultsForResource(policyStatesResource: Models.PolicyStatesResource, resourceId: string, options?: Models.PolicyStatesListQueryResultsForResourceOptionalParams): Promise<Models.PolicyStatesListQueryResultsForResourceResponse>;
+  listQueryResultsForResource(
+    policyStatesResource: Models.PolicyStatesResource,
+    resourceId: string,
+    options?: Models.PolicyStatesListQueryResultsForResourceOptionalParams
+  ): Promise<Models.PolicyStatesListQueryResultsForResourceResponse>;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -250,7 +376,11 @@ export class PolicyStates {
    * @param resourceId Resource ID.
    * @param callback The callback
    */
-  listQueryResultsForResource(policyStatesResource: Models.PolicyStatesResource, resourceId: string, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
+  listQueryResultsForResource(
+    policyStatesResource: Models.PolicyStatesResource,
+    resourceId: string,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -259,8 +389,20 @@ export class PolicyStates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForResource(policyStatesResource: Models.PolicyStatesResource, resourceId: string, options: Models.PolicyStatesListQueryResultsForResourceOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForResource(policyStatesResource: Models.PolicyStatesResource, resourceId: string, options?: Models.PolicyStatesListQueryResultsForResourceOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForResourceResponse> {
+  listQueryResultsForResource(
+    policyStatesResource: Models.PolicyStatesResource,
+    resourceId: string,
+    options: Models.PolicyStatesListQueryResultsForResourceOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
+  listQueryResultsForResource(
+    policyStatesResource: Models.PolicyStatesResource,
+    resourceId: string,
+    options?:
+      | Models.PolicyStatesListQueryResultsForResourceOptionalParams
+      | msRest.ServiceCallback<Models.PolicyStatesQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): Promise<Models.PolicyStatesListQueryResultsForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -268,7 +410,8 @@ export class PolicyStates {
         options
       },
       listQueryResultsForResourceOperationSpec,
-      callback) as Promise<Models.PolicyStatesListQueryResultsForResourceResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesListQueryResultsForResourceResponse>;
   }
 
   /**
@@ -277,26 +420,43 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesSummarizeForResourceResponse>
    */
-  summarizeForResource(resourceId: string, options?: Models.PolicyStatesSummarizeForResourceOptionalParams): Promise<Models.PolicyStatesSummarizeForResourceResponse>;
+  summarizeForResource(
+    resourceId: string,
+    options?: Models.PolicyStatesSummarizeForResourceOptionalParams
+  ): Promise<Models.PolicyStatesSummarizeForResourceResponse>;
   /**
    * @param resourceId Resource ID.
    * @param callback The callback
    */
-  summarizeForResource(resourceId: string, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
+  summarizeForResource(
+    resourceId: string,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
   /**
    * @param resourceId Resource ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  summarizeForResource(resourceId: string, options: Models.PolicyStatesSummarizeForResourceOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForResource(resourceId: string, options?: Models.PolicyStatesSummarizeForResourceOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForResourceResponse> {
+  summarizeForResource(
+    resourceId: string,
+    options: Models.PolicyStatesSummarizeForResourceOptionalParams,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
+  summarizeForResource(
+    resourceId: string,
+    options?:
+      | Models.PolicyStatesSummarizeForResourceOptionalParams
+      | msRest.ServiceCallback<Models.SummarizeResults>,
+    callback?: msRest.ServiceCallback<Models.SummarizeResults>
+  ): Promise<Models.PolicyStatesSummarizeForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
         options
       },
       summarizeForResourceOperationSpec,
-      callback) as Promise<Models.PolicyStatesSummarizeForResourceResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesSummarizeForResourceResponse>;
   }
 
   /**
@@ -305,9 +465,13 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  triggerSubscriptionEvaluation(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginTriggerSubscriptionEvaluation(subscriptionId,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  triggerSubscriptionEvaluation(
+    subscriptionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginTriggerSubscriptionEvaluation(subscriptionId, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -317,9 +481,16 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  triggerResourceGroupEvaluation(subscriptionId: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginTriggerResourceGroupEvaluation(subscriptionId,resourceGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  triggerResourceGroupEvaluation(
+    subscriptionId: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginTriggerResourceGroupEvaluation(
+      subscriptionId,
+      resourceGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -332,7 +503,12 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesListQueryResultsForPolicySetDefinitionResponse>
    */
-  listQueryResultsForPolicySetDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policySetDefinitionName: string, options?: Models.PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams): Promise<Models.PolicyStatesListQueryResultsForPolicySetDefinitionResponse>;
+  listQueryResultsForPolicySetDefinition(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    policySetDefinitionName: string,
+    options?: Models.PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams
+  ): Promise<Models.PolicyStatesListQueryResultsForPolicySetDefinitionResponse>;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -341,7 +517,12 @@ export class PolicyStates {
    * @param policySetDefinitionName Policy set definition name.
    * @param callback The callback
    */
-  listQueryResultsForPolicySetDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policySetDefinitionName: string, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
+  listQueryResultsForPolicySetDefinition(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    policySetDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -351,8 +532,22 @@ export class PolicyStates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForPolicySetDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policySetDefinitionName: string, options: Models.PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForPolicySetDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policySetDefinitionName: string, options?: Models.PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForPolicySetDefinitionResponse> {
+  listQueryResultsForPolicySetDefinition(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    policySetDefinitionName: string,
+    options: Models.PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
+  listQueryResultsForPolicySetDefinition(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    policySetDefinitionName: string,
+    options?:
+      | Models.PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams
+      | msRest.ServiceCallback<Models.PolicyStatesQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): Promise<Models.PolicyStatesListQueryResultsForPolicySetDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -361,7 +556,8 @@ export class PolicyStates {
         options
       },
       listQueryResultsForPolicySetDefinitionOperationSpec,
-      callback) as Promise<Models.PolicyStatesListQueryResultsForPolicySetDefinitionResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesListQueryResultsForPolicySetDefinitionResponse>;
   }
 
   /**
@@ -371,21 +567,41 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesSummarizeForPolicySetDefinitionResponse>
    */
-  summarizeForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options?: Models.PolicyStatesSummarizeForPolicySetDefinitionOptionalParams): Promise<Models.PolicyStatesSummarizeForPolicySetDefinitionResponse>;
+  summarizeForPolicySetDefinition(
+    subscriptionId: string,
+    policySetDefinitionName: string,
+    options?: Models.PolicyStatesSummarizeForPolicySetDefinitionOptionalParams
+  ): Promise<Models.PolicyStatesSummarizeForPolicySetDefinitionResponse>;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policySetDefinitionName Policy set definition name.
    * @param callback The callback
    */
-  summarizeForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
+  summarizeForPolicySetDefinition(
+    subscriptionId: string,
+    policySetDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policySetDefinitionName Policy set definition name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  summarizeForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options: Models.PolicyStatesSummarizeForPolicySetDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options?: Models.PolicyStatesSummarizeForPolicySetDefinitionOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForPolicySetDefinitionResponse> {
+  summarizeForPolicySetDefinition(
+    subscriptionId: string,
+    policySetDefinitionName: string,
+    options: Models.PolicyStatesSummarizeForPolicySetDefinitionOptionalParams,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
+  summarizeForPolicySetDefinition(
+    subscriptionId: string,
+    policySetDefinitionName: string,
+    options?:
+      | Models.PolicyStatesSummarizeForPolicySetDefinitionOptionalParams
+      | msRest.ServiceCallback<Models.SummarizeResults>,
+    callback?: msRest.ServiceCallback<Models.SummarizeResults>
+  ): Promise<Models.PolicyStatesSummarizeForPolicySetDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -393,7 +609,8 @@ export class PolicyStates {
         options
       },
       summarizeForPolicySetDefinitionOperationSpec,
-      callback) as Promise<Models.PolicyStatesSummarizeForPolicySetDefinitionResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesSummarizeForPolicySetDefinitionResponse>;
   }
 
   /**
@@ -406,7 +623,12 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesListQueryResultsForPolicyDefinitionResponse>
    */
-  listQueryResultsForPolicyDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyDefinitionName: string, options?: Models.PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams): Promise<Models.PolicyStatesListQueryResultsForPolicyDefinitionResponse>;
+  listQueryResultsForPolicyDefinition(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    policyDefinitionName: string,
+    options?: Models.PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+  ): Promise<Models.PolicyStatesListQueryResultsForPolicyDefinitionResponse>;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -415,7 +637,12 @@ export class PolicyStates {
    * @param policyDefinitionName Policy definition name.
    * @param callback The callback
    */
-  listQueryResultsForPolicyDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyDefinitionName: string, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
+  listQueryResultsForPolicyDefinition(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    policyDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -425,8 +652,22 @@ export class PolicyStates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForPolicyDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyDefinitionName: string, options: Models.PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForPolicyDefinition(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyDefinitionName: string, options?: Models.PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForPolicyDefinitionResponse> {
+  listQueryResultsForPolicyDefinition(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    policyDefinitionName: string,
+    options: Models.PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
+  listQueryResultsForPolicyDefinition(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    policyDefinitionName: string,
+    options?:
+      | Models.PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+      | msRest.ServiceCallback<Models.PolicyStatesQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): Promise<Models.PolicyStatesListQueryResultsForPolicyDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -435,7 +676,8 @@ export class PolicyStates {
         options
       },
       listQueryResultsForPolicyDefinitionOperationSpec,
-      callback) as Promise<Models.PolicyStatesListQueryResultsForPolicyDefinitionResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesListQueryResultsForPolicyDefinitionResponse>;
   }
 
   /**
@@ -445,21 +687,41 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesSummarizeForPolicyDefinitionResponse>
    */
-  summarizeForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options?: Models.PolicyStatesSummarizeForPolicyDefinitionOptionalParams): Promise<Models.PolicyStatesSummarizeForPolicyDefinitionResponse>;
+  summarizeForPolicyDefinition(
+    subscriptionId: string,
+    policyDefinitionName: string,
+    options?: Models.PolicyStatesSummarizeForPolicyDefinitionOptionalParams
+  ): Promise<Models.PolicyStatesSummarizeForPolicyDefinitionResponse>;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyDefinitionName Policy definition name.
    * @param callback The callback
    */
-  summarizeForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
+  summarizeForPolicyDefinition(
+    subscriptionId: string,
+    policyDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyDefinitionName Policy definition name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  summarizeForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options: Models.PolicyStatesSummarizeForPolicyDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options?: Models.PolicyStatesSummarizeForPolicyDefinitionOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForPolicyDefinitionResponse> {
+  summarizeForPolicyDefinition(
+    subscriptionId: string,
+    policyDefinitionName: string,
+    options: Models.PolicyStatesSummarizeForPolicyDefinitionOptionalParams,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
+  summarizeForPolicyDefinition(
+    subscriptionId: string,
+    policyDefinitionName: string,
+    options?:
+      | Models.PolicyStatesSummarizeForPolicyDefinitionOptionalParams
+      | msRest.ServiceCallback<Models.SummarizeResults>,
+    callback?: msRest.ServiceCallback<Models.SummarizeResults>
+  ): Promise<Models.PolicyStatesSummarizeForPolicyDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -467,7 +729,8 @@ export class PolicyStates {
         options
       },
       summarizeForPolicyDefinitionOperationSpec,
-      callback) as Promise<Models.PolicyStatesSummarizeForPolicyDefinitionResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesSummarizeForPolicyDefinitionResponse>;
   }
 
   /**
@@ -481,7 +744,12 @@ export class PolicyStates {
    * @returns
    * Promise<Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>
    */
-  listQueryResultsForSubscriptionLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyAssignmentName: string, options?: Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams): Promise<Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>;
+  listQueryResultsForSubscriptionLevelPolicyAssignment(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    policyAssignmentName: string,
+    options?: Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+  ): Promise<Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -490,7 +758,12 @@ export class PolicyStates {
    * @param policyAssignmentName Policy assignment name.
    * @param callback The callback
    */
-  listQueryResultsForSubscriptionLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyAssignmentName: string, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
+  listQueryResultsForSubscriptionLevelPolicyAssignment(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    policyAssignmentName: string,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -500,8 +773,22 @@ export class PolicyStates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForSubscriptionLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyAssignmentName: string, options: Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForSubscriptionLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, policyAssignmentName: string, options?: Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse> {
+  listQueryResultsForSubscriptionLevelPolicyAssignment(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    policyAssignmentName: string,
+    options: Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
+  listQueryResultsForSubscriptionLevelPolicyAssignment(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    policyAssignmentName: string,
+    options?:
+      | Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+      | msRest.ServiceCallback<Models.PolicyStatesQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): Promise<Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -510,7 +797,8 @@ export class PolicyStates {
         options
       },
       listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec,
-      callback) as Promise<Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>;
   }
 
   /**
@@ -520,21 +808,41 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse>
    */
-  summarizeForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options?: Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams): Promise<Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse>;
+  summarizeForSubscriptionLevelPolicyAssignment(
+    subscriptionId: string,
+    policyAssignmentName: string,
+    options?: Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams
+  ): Promise<Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse>;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyAssignmentName Policy assignment name.
    * @param callback The callback
    */
-  summarizeForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
+  summarizeForSubscriptionLevelPolicyAssignment(
+    subscriptionId: string,
+    policyAssignmentName: string,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyAssignmentName Policy assignment name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  summarizeForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options: Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options?: Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse> {
+  summarizeForSubscriptionLevelPolicyAssignment(
+    subscriptionId: string,
+    policyAssignmentName: string,
+    options: Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
+  summarizeForSubscriptionLevelPolicyAssignment(
+    subscriptionId: string,
+    policyAssignmentName: string,
+    options?:
+      | Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams
+      | msRest.ServiceCallback<Models.SummarizeResults>,
+    callback?: msRest.ServiceCallback<Models.SummarizeResults>
+  ): Promise<Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -542,7 +850,8 @@ export class PolicyStates {
         options
       },
       summarizeForSubscriptionLevelPolicyAssignmentOperationSpec,
-      callback) as Promise<Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse>;
   }
 
   /**
@@ -557,7 +866,13 @@ export class PolicyStates {
    * @returns
    * Promise<Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>
    */
-  listQueryResultsForResourceGroupLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams): Promise<Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>;
+  listQueryResultsForResourceGroupLevelPolicyAssignment(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyAssignmentName: string,
+    options?: Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+  ): Promise<Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -567,7 +882,13 @@ export class PolicyStates {
    * @param policyAssignmentName Policy assignment name.
    * @param callback The callback
    */
-  listQueryResultsForResourceGroupLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
+  listQueryResultsForResourceGroupLevelPolicyAssignment(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyAssignmentName: string,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
   /**
    * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given
    * time range, 'latest' represents the latest policy state(s), whereas 'default' represents all
@@ -578,8 +899,24 @@ export class PolicyStates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForResourceGroupLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options: Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams, callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): void;
-  listQueryResultsForResourceGroupLevelPolicyAssignment(policyStatesResource: Models.PolicyStatesResource, subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams | msRest.ServiceCallback<Models.PolicyStatesQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>): Promise<Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse> {
+  listQueryResultsForResourceGroupLevelPolicyAssignment(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyAssignmentName: string,
+    options: Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): void;
+  listQueryResultsForResourceGroupLevelPolicyAssignment(
+    policyStatesResource: Models.PolicyStatesResource,
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyAssignmentName: string,
+    options?:
+      | Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+      | msRest.ServiceCallback<Models.PolicyStatesQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyStatesQueryResults>
+  ): Promise<Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         policyStatesResource,
@@ -589,7 +926,8 @@ export class PolicyStates {
         options
       },
       listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec,
-      callback) as Promise<Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>;
   }
 
   /**
@@ -600,14 +938,24 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse>
    */
-  summarizeForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams): Promise<Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse>;
+  summarizeForResourceGroupLevelPolicyAssignment(
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyAssignmentName: string,
+    options?: Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams
+  ): Promise<Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse>;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param policyAssignmentName Policy assignment name.
    * @param callback The callback
    */
-  summarizeForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
+  summarizeForResourceGroupLevelPolicyAssignment(
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyAssignmentName: string,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
@@ -615,8 +963,22 @@ export class PolicyStates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  summarizeForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options: Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams, callback: msRest.ServiceCallback<Models.SummarizeResults>): void;
-  summarizeForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams | msRest.ServiceCallback<Models.SummarizeResults>, callback?: msRest.ServiceCallback<Models.SummarizeResults>): Promise<Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse> {
+  summarizeForResourceGroupLevelPolicyAssignment(
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyAssignmentName: string,
+    options: Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.SummarizeResults>
+  ): void;
+  summarizeForResourceGroupLevelPolicyAssignment(
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyAssignmentName: string,
+    options?:
+      | Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams
+      | msRest.ServiceCallback<Models.SummarizeResults>,
+    callback?: msRest.ServiceCallback<Models.SummarizeResults>
+  ): Promise<Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -625,7 +987,8 @@ export class PolicyStates {
         options
       },
       summarizeForResourceGroupLevelPolicyAssignmentOperationSpec,
-      callback) as Promise<Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse>;
+      callback
+    ) as Promise<Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse>;
   }
 
   /**
@@ -634,14 +997,18 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginTriggerSubscriptionEvaluation(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginTriggerSubscriptionEvaluation(
+    subscriptionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         subscriptionId,
         options
       },
       beginTriggerSubscriptionEvaluationOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -651,7 +1018,11 @@ export class PolicyStates {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginTriggerResourceGroupEvaluation(subscriptionId: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginTriggerResourceGroupEvaluation(
+    subscriptionId: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         subscriptionId,
@@ -659,7 +1030,8 @@ export class PolicyStates {
         options
       },
       beginTriggerResourceGroupEvaluationOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -667,7 +1039,8 @@ export class PolicyStates {
 const serializer = new msRest.Serializer(Mappers);
 const listQueryResultsForManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+  path:
+    "providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
   urlParameters: [
     Parameters.policyStatesResource,
     Parameters.managementGroupsNamespace,
@@ -683,9 +1056,7 @@ const listQueryResultsForManagementGroupOperationSpec: msRest.OperationSpec = {
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyStatesQueryResults
@@ -699,7 +1070,8 @@ const listQueryResultsForManagementGroupOperationSpec: msRest.OperationSpec = {
 
 const summarizeForManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  path:
+    "providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
   urlParameters: [
     Parameters.policyStatesSummaryResource,
     Parameters.managementGroupsNamespace,
@@ -712,9 +1084,7 @@ const summarizeForManagementGroupOperationSpec: msRest.OperationSpec = {
     Parameters.to,
     Parameters.filter
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SummarizeResults
@@ -728,11 +1098,9 @@ const summarizeForManagementGroupOperationSpec: msRest.OperationSpec = {
 
 const listQueryResultsForSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
-  urlParameters: [
-    Parameters.policyStatesResource,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+  urlParameters: [Parameters.policyStatesResource, Parameters.subscriptionId],
   queryParameters: [
     Parameters.apiVersion3,
     Parameters.top,
@@ -743,9 +1111,7 @@ const listQueryResultsForSubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyStatesQueryResults
@@ -759,11 +1125,9 @@ const listQueryResultsForSubscriptionOperationSpec: msRest.OperationSpec = {
 
 const summarizeForSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
-  urlParameters: [
-    Parameters.policyStatesSummaryResource,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  urlParameters: [Parameters.policyStatesSummaryResource, Parameters.subscriptionId],
   queryParameters: [
     Parameters.apiVersion3,
     Parameters.top,
@@ -771,9 +1135,7 @@ const summarizeForSubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.to,
     Parameters.filter
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SummarizeResults
@@ -787,7 +1149,8 @@ const summarizeForSubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listQueryResultsForResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
   urlParameters: [
     Parameters.policyStatesResource,
     Parameters.subscriptionId,
@@ -803,9 +1166,7 @@ const listQueryResultsForResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyStatesQueryResults
@@ -819,7 +1180,8 @@ const listQueryResultsForResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const summarizeForResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
   urlParameters: [
     Parameters.policyStatesSummaryResource,
     Parameters.subscriptionId,
@@ -832,9 +1194,7 @@ const summarizeForResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.to,
     Parameters.filter
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SummarizeResults
@@ -848,11 +1208,9 @@ const summarizeForResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listQueryResultsForResourceOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
-  urlParameters: [
-    Parameters.policyStatesResource,
-    Parameters.resourceId
-  ],
+  path:
+    "{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+  urlParameters: [Parameters.policyStatesResource, Parameters.resourceId],
   queryParameters: [
     Parameters.apiVersion3,
     Parameters.top,
@@ -864,9 +1222,7 @@ const listQueryResultsForResourceOperationSpec: msRest.OperationSpec = {
     Parameters.apply,
     Parameters.expand
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyStatesQueryResults
@@ -880,11 +1236,9 @@ const listQueryResultsForResourceOperationSpec: msRest.OperationSpec = {
 
 const summarizeForResourceOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
-  urlParameters: [
-    Parameters.policyStatesSummaryResource,
-    Parameters.resourceId
-  ],
+  path:
+    "{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  urlParameters: [Parameters.policyStatesSummaryResource, Parameters.resourceId],
   queryParameters: [
     Parameters.apiVersion3,
     Parameters.top,
@@ -892,9 +1246,7 @@ const summarizeForResourceOperationSpec: msRest.OperationSpec = {
     Parameters.to,
     Parameters.filter
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SummarizeResults
@@ -908,7 +1260,8 @@ const summarizeForResourceOperationSpec: msRest.OperationSpec = {
 
 const listQueryResultsForPolicySetDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+  path:
+    "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
   urlParameters: [
     Parameters.policyStatesResource,
     Parameters.subscriptionId,
@@ -925,9 +1278,7 @@ const listQueryResultsForPolicySetDefinitionOperationSpec: msRest.OperationSpec 
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyStatesQueryResults
@@ -941,7 +1292,8 @@ const listQueryResultsForPolicySetDefinitionOperationSpec: msRest.OperationSpec 
 
 const summarizeForPolicySetDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  path:
+    "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
   urlParameters: [
     Parameters.policyStatesSummaryResource,
     Parameters.subscriptionId,
@@ -955,9 +1307,7 @@ const summarizeForPolicySetDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.to,
     Parameters.filter
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SummarizeResults
@@ -971,7 +1321,8 @@ const summarizeForPolicySetDefinitionOperationSpec: msRest.OperationSpec = {
 
 const listQueryResultsForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+  path:
+    "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
   urlParameters: [
     Parameters.policyStatesResource,
     Parameters.subscriptionId,
@@ -988,9 +1339,7 @@ const listQueryResultsForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyStatesQueryResults
@@ -1004,7 +1353,8 @@ const listQueryResultsForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
 
 const summarizeForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  path:
+    "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
   urlParameters: [
     Parameters.policyStatesSummaryResource,
     Parameters.subscriptionId,
@@ -1018,9 +1368,7 @@ const summarizeForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.to,
     Parameters.filter
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SummarizeResults
@@ -1034,7 +1382,8 @@ const summarizeForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
 
 const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+  path:
+    "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
   urlParameters: [
     Parameters.policyStatesResource,
     Parameters.subscriptionId,
@@ -1051,9 +1400,7 @@ const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyStatesQueryResults
@@ -1067,7 +1414,8 @@ const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.
 
 const summarizeForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  path:
+    "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
   urlParameters: [
     Parameters.policyStatesSummaryResource,
     Parameters.subscriptionId,
@@ -1081,9 +1429,7 @@ const summarizeForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.Operati
     Parameters.to,
     Parameters.filter
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SummarizeResults
@@ -1097,7 +1443,8 @@ const summarizeForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.Operati
 
 const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
   urlParameters: [
     Parameters.policyStatesResource,
     Parameters.subscriptionId,
@@ -1115,9 +1462,7 @@ const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: msRest
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyStatesQueryResults
@@ -1131,7 +1476,8 @@ const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: msRest
 
 const summarizeForResourceGroupLevelPolicyAssignmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
   urlParameters: [
     Parameters.policyStatesSummaryResource,
     Parameters.subscriptionId,
@@ -1146,9 +1492,7 @@ const summarizeForResourceGroupLevelPolicyAssignmentOperationSpec: msRest.Operat
     Parameters.to,
     Parameters.filter
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SummarizeResults
@@ -1162,16 +1506,11 @@ const summarizeForResourceGroupLevelPolicyAssignmentOperationSpec: msRest.Operat
 
 const beginTriggerSubscriptionEvaluationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -1184,17 +1523,11 @@ const beginTriggerSubscriptionEvaluationOperationSpec: msRest.OperationSpec = {
 
 const beginTriggerResourceGroupEvaluationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

@@ -35,7 +35,12 @@ export class ElasticPoolActivities {
    * @param [options] The optional parameters
    * @returns Promise<Models.ElasticPoolActivitiesListByElasticPoolResponse>
    */
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.ElasticPoolActivitiesListByElasticPoolResponse>;
+  listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ElasticPoolActivitiesListByElasticPoolResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -43,7 +48,12 @@ export class ElasticPoolActivities {
    * @param elasticPoolName The name of the elastic pool for which to get the current activity.
    * @param callback The callback
    */
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, callback: msRest.ServiceCallback<Models.ElasticPoolActivityListResult>): void;
+  listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    callback: msRest.ServiceCallback<Models.ElasticPoolActivityListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -52,8 +62,22 @@ export class ElasticPoolActivities {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ElasticPoolActivityListResult>): void;
-  listByElasticPool(resourceGroupName: string, serverName: string, elasticPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ElasticPoolActivityListResult>, callback?: msRest.ServiceCallback<Models.ElasticPoolActivityListResult>): Promise<Models.ElasticPoolActivitiesListByElasticPoolResponse> {
+  listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ElasticPoolActivityListResult>
+  ): void;
+  listByElasticPool(
+    resourceGroupName: string,
+    serverName: string,
+    elasticPoolName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ElasticPoolActivityListResult>,
+    callback?: msRest.ServiceCallback<Models.ElasticPoolActivityListResult>
+  ): Promise<Models.ElasticPoolActivitiesListByElasticPoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +86,8 @@ export class ElasticPoolActivities {
         options
       },
       listByElasticPoolOperationSpec,
-      callback) as Promise<Models.ElasticPoolActivitiesListByElasticPoolResponse>;
+      callback
+    ) as Promise<Models.ElasticPoolActivitiesListByElasticPoolResponse>;
   }
 }
 
@@ -70,19 +95,16 @@ export class ElasticPoolActivities {
 const serializer = new msRest.Serializer(Mappers);
 const listByElasticPoolOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/elasticPoolActivity",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}/elasticPoolActivity",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.elasticPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ElasticPoolActivityListResult

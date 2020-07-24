@@ -6,11 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  APIError,
-  Body,
-  ErrorModel,
-  ImageList,
-  RefreshIndex,
-  Status
-} from "../models/mappers";
+export { APIError, Body, ErrorModel, ImageList, RefreshIndex, Status } from "../models/mappers";

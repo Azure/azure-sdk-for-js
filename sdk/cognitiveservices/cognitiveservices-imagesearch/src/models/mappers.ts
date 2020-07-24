@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const ResponseBase: msRest.CompositeMapper = {
   serializedName: "ResponseBase",
   type: {
@@ -250,7 +249,7 @@ export const Offer: msRest.CompositeMapper = {
       priceCurrency: {
         readOnly: true,
         serializedName: "priceCurrency",
-        defaultValue: 'USD',
+        defaultValue: "USD",
         type: {
           name: "String"
         }
@@ -695,7 +694,7 @@ export const ErrorModel: msRest.CompositeMapper = {
       code: {
         required: true,
         serializedName: "code",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -1428,34 +1427,33 @@ export const Person: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ResponseBase.Organization' : Organization,
-  'PropertiesItem.AggregateRating' : AggregateRating,
-  'ResponseBase.Offer' : Offer,
-  'ResponseBase.AggregateOffer' : AggregateOffer,
-  'ResponseBase.ImageObject' : ImageObject,
-  'ResponseBase.Images' : Images,
-  'ResponseBase.SearchResultsAnswer' : SearchResultsAnswer,
-  'ResponseBase.Answer' : Answer,
-  'ResponseBase.MediaObject' : MediaObject,
-  'ResponseBase.Response' : Response,
-  'ResponseBase.Thing' : Thing,
-  'ResponseBase.CreativeWork' : CreativeWork,
-  'ResponseBase.Identifiable' : Identifiable,
-  'ResponseBase.ErrorResponse' : ErrorResponse,
-  'ResponseBase.ImageGallery' : ImageGallery,
-  'ResponseBase.Recipe' : Recipe,
-  'ResponseBase.NormalizedRectangle' : NormalizedRectangle,
-  'ResponseBase.RecognizedEntity' : RecognizedEntity,
-  'ResponseBase.RecognizedEntityRegion' : RecognizedEntityRegion,
-  'ResponseBase.ImageInsights' : ImageInsights,
-  'ResponseBase.TrendingImages' : TrendingImages,
-  'Properties/Item' : PropertiesItem,
-  'ResponseBase.WebPage' : WebPage,
-  'ResponseBase' : ResponseBase,
-  'ResponseBase.Person' : Person,
-  'ResponseBase.Intangible' : Intangible,
-  'PropertiesItem.Rating' : Rating,
-  'ResponseBase.CollectionPage' : CollectionPage,
-  'ResponseBase.StructuredValue' : StructuredValue
-
+  "ResponseBase.Organization": Organization,
+  "PropertiesItem.AggregateRating": AggregateRating,
+  "ResponseBase.Offer": Offer,
+  "ResponseBase.AggregateOffer": AggregateOffer,
+  "ResponseBase.ImageObject": ImageObject,
+  "ResponseBase.Images": Images,
+  "ResponseBase.SearchResultsAnswer": SearchResultsAnswer,
+  "ResponseBase.Answer": Answer,
+  "ResponseBase.MediaObject": MediaObject,
+  "ResponseBase.Response": Response,
+  "ResponseBase.Thing": Thing,
+  "ResponseBase.CreativeWork": CreativeWork,
+  "ResponseBase.Identifiable": Identifiable,
+  "ResponseBase.ErrorResponse": ErrorResponse,
+  "ResponseBase.ImageGallery": ImageGallery,
+  "ResponseBase.Recipe": Recipe,
+  "ResponseBase.NormalizedRectangle": NormalizedRectangle,
+  "ResponseBase.RecognizedEntity": RecognizedEntity,
+  "ResponseBase.RecognizedEntityRegion": RecognizedEntityRegion,
+  "ResponseBase.ImageInsights": ImageInsights,
+  "ResponseBase.TrendingImages": TrendingImages,
+  "Properties/Item": PropertiesItem,
+  "ResponseBase.WebPage": WebPage,
+  ResponseBase: ResponseBase,
+  "ResponseBase.Person": Person,
+  "ResponseBase.Intangible": Intangible,
+  "PropertiesItem.Rating": Rating,
+  "ResponseBase.CollectionPage": CollectionPage,
+  "ResponseBase.StructuredValue": StructuredValue
 };

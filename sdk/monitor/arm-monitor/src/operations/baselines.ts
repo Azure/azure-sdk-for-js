@@ -32,7 +32,10 @@ export class Baselines {
    * @param [options] The optional parameters
    * @returns Promise<Models.BaselinesListResponse>
    */
-  list(resourceUri: string, options?: Models.BaselinesListOptionalParams): Promise<Models.BaselinesListResponse>;
+  list(
+    resourceUri: string,
+    options?: Models.BaselinesListOptionalParams
+  ): Promise<Models.BaselinesListResponse>;
   /**
    * @param resourceUri The identifier of the resource.
    * @param callback The callback
@@ -43,15 +46,26 @@ export class Baselines {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceUri: string, options: Models.BaselinesListOptionalParams, callback: msRest.ServiceCallback<Models.MetricBaselinesResponse>): void;
-  list(resourceUri: string, options?: Models.BaselinesListOptionalParams | msRest.ServiceCallback<Models.MetricBaselinesResponse>, callback?: msRest.ServiceCallback<Models.MetricBaselinesResponse>): Promise<Models.BaselinesListResponse> {
+  list(
+    resourceUri: string,
+    options: Models.BaselinesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.MetricBaselinesResponse>
+  ): void;
+  list(
+    resourceUri: string,
+    options?:
+      | Models.BaselinesListOptionalParams
+      | msRest.ServiceCallback<Models.MetricBaselinesResponse>,
+    callback?: msRest.ServiceCallback<Models.MetricBaselinesResponse>
+  ): Promise<Models.BaselinesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceUri,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.BaselinesListResponse>;
+      callback
+    ) as Promise<Models.BaselinesListResponse>;
   }
 }
 
@@ -60,9 +74,7 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{resourceUri}/providers/microsoft.insights/metricBaselines",
-  urlParameters: [
-    Parameters.resourceUri
-  ],
+  urlParameters: [Parameters.resourceUri],
   queryParameters: [
     Parameters.metricnames,
     Parameters.metricnamespace,
@@ -74,9 +86,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.resultType,
     Parameters.apiVersion7
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MetricBaselinesResponse

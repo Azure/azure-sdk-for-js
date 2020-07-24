@@ -34,21 +34,39 @@ export class ResourcePools {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcePoolsListResponse2>
    */
-  list(regionId: string, pcName: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcePoolsListResponse2>;
+  list(
+    regionId: string,
+    pcName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourcePoolsListResponse2>;
   /**
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
    * @param callback The callback
    */
-  list(regionId: string, pcName: string, callback: msRest.ServiceCallback<Models.ResourcePoolsListResponse>): void;
+  list(
+    regionId: string,
+    pcName: string,
+    callback: msRest.ServiceCallback<Models.ResourcePoolsListResponse>
+  ): void;
   /**
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(regionId: string, pcName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourcePoolsListResponse>): void;
-  list(regionId: string, pcName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourcePoolsListResponse>, callback?: msRest.ServiceCallback<Models.ResourcePoolsListResponse>): Promise<Models.ResourcePoolsListResponse2> {
+  list(
+    regionId: string,
+    pcName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourcePoolsListResponse>
+  ): void;
+  list(
+    regionId: string,
+    pcName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourcePoolsListResponse>,
+    callback?: msRest.ServiceCallback<Models.ResourcePoolsListResponse>
+  ): Promise<Models.ResourcePoolsListResponse2> {
     return this.client.sendOperationRequest(
       {
         regionId,
@@ -56,7 +74,8 @@ export class ResourcePools {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ResourcePoolsListResponse2>;
+      callback
+    ) as Promise<Models.ResourcePoolsListResponse2>;
   }
 
   /**
@@ -68,14 +87,24 @@ export class ResourcePools {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcePoolsGetResponse>
    */
-  get(regionId: string, pcName: string, resourcePoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcePoolsGetResponse>;
+  get(
+    regionId: string,
+    pcName: string,
+    resourcePoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourcePoolsGetResponse>;
   /**
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
    * @param resourcePoolName resource pool id (vsphereId)
    * @param callback The callback
    */
-  get(regionId: string, pcName: string, resourcePoolName: string, callback: msRest.ServiceCallback<Models.ResourcePool>): void;
+  get(
+    regionId: string,
+    pcName: string,
+    resourcePoolName: string,
+    callback: msRest.ServiceCallback<Models.ResourcePool>
+  ): void;
   /**
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
@@ -83,8 +112,20 @@ export class ResourcePools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(regionId: string, pcName: string, resourcePoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourcePool>): void;
-  get(regionId: string, pcName: string, resourcePoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourcePool>, callback?: msRest.ServiceCallback<Models.ResourcePool>): Promise<Models.ResourcePoolsGetResponse> {
+  get(
+    regionId: string,
+    pcName: string,
+    resourcePoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourcePool>
+  ): void;
+  get(
+    regionId: string,
+    pcName: string,
+    resourcePoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourcePool>,
+    callback?: msRest.ServiceCallback<Models.ResourcePool>
+  ): Promise<Models.ResourcePoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
         regionId,
@@ -93,7 +134,8 @@ export class ResourcePools {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ResourcePoolsGetResponse>;
+      callback
+    ) as Promise<Models.ResourcePoolsGetResponse>;
   }
 
   /**
@@ -103,26 +145,41 @@ export class ResourcePools {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcePoolsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcePoolsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourcePoolsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourcePoolsListResponse>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResourcePoolsListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourcePoolsListResponse>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourcePoolsListResponse>, callback?: msRest.ServiceCallback<Models.ResourcePoolsListResponse>): Promise<Models.ResourcePoolsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourcePoolsListResponse>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourcePoolsListResponse>,
+    callback?: msRest.ServiceCallback<Models.ResourcePoolsListResponse>
+  ): Promise<Models.ResourcePoolsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ResourcePoolsListNextResponse>;
+      callback
+    ) as Promise<Models.ResourcePoolsListNextResponse>;
   }
 }
 
@@ -130,18 +187,11 @@ export class ResourcePools {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/resourcePools",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.regionId,
-    Parameters.pcName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/resourcePools",
+  urlParameters: [Parameters.subscriptionId, Parameters.regionId, Parameters.pcName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourcePoolsListResponse
@@ -155,19 +205,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/resourcePools/{resourcePoolName}",
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/resourcePools/{resourcePoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.regionId,
     Parameters.pcName,
     Parameters.resourcePoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourcePool
@@ -183,12 +230,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourcePoolsListResponse

@@ -1553,7 +1553,7 @@ export interface LocalSearchOptionalParams extends msRest.RequestOptionsBase {
  * @readonly
  * @enum {string}
  */
-export type EntityScenario = 'DominantEntity' | 'DisambiguationItem' | 'ListItem';
+export type EntityScenario = "DominantEntity" | "DisambiguationItem" | "ListItem";
 
 /**
  * Defines values for EntityType.
@@ -1561,7 +1561,7 @@ export type EntityScenario = 'DominantEntity' | 'DisambiguationItem' | 'ListItem
  * @readonly
  * @enum {string}
  */
-export type EntityType = 'Place' | 'LocalBusiness' | 'Restaurant' | 'Hotel';
+export type EntityType = "Place" | "LocalBusiness" | "Restaurant" | "Hotel";
 
 /**
  * Defines values for ErrorCode.
@@ -1570,7 +1570,13 @@ export type EntityType = 'Place' | 'LocalBusiness' | 'Restaurant' | 'Hotel';
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export type ErrorCode =
+  | "None"
+  | "ServerError"
+  | "InvalidRequest"
+  | "RateLimitExceeded"
+  | "InvalidAuthorization"
+  | "InsufficientAuthorization";
 
 /**
  * Defines values for ErrorSubCode.
@@ -1581,7 +1587,18 @@ export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitEx
  * @readonly
  * @enum {string}
  */
-export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
+export type ErrorSubCode =
+  | "UnexpectedError"
+  | "ResourceError"
+  | "NotImplemented"
+  | "ParameterMissing"
+  | "ParameterInvalidValue"
+  | "HttpNotAllowed"
+  | "Blocked"
+  | "AuthorizationMissing"
+  | "AuthorizationRedundancy"
+  | "AuthorizationDisabled"
+  | "AuthorizationExpired";
 
 /**
  * Defines values for ResponseFormat.
@@ -1589,7 +1606,7 @@ export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented
  * @readonly
  * @enum {string}
  */
-export type ResponseFormat = 'Json' | 'JsonLd';
+export type ResponseFormat = "Json" | "JsonLd";
 
 /**
  * Defines values for SafeSearch.
@@ -1597,7 +1614,7 @@ export type ResponseFormat = 'Json' | 'JsonLd';
  * @readonly
  * @enum {string}
  */
-export type SafeSearch = 'Off' | 'Moderate' | 'Strict';
+export type SafeSearch = "Off" | "Moderate" | "Strict";
 
 /**
  * Contains response data for the search operation.
@@ -1607,14 +1624,14 @@ export type LocalSearchResponse = SearchResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SearchResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchResponse;
+  };
 };

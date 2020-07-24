@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { PrivateDnsManagementClientContext } from "./privateDnsManagementClientContext";
 
-
 class PrivateDnsManagementClient extends PrivateDnsManagementClientContext {
   // Operation groups
   privateZones: operations.PrivateZones;
@@ -28,7 +27,11 @@ class PrivateDnsManagementClient extends PrivateDnsManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PrivateDnsManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.PrivateDnsManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.privateZones = new operations.PrivateZones(this);
     this.virtualNetworkLinks = new operations.VirtualNetworkLinks(this);

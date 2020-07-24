@@ -33,26 +33,41 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupsIsMemberOfResponse>
    */
-  isMemberOf(parameters: Models.CheckGroupMembershipParameters, options?: msRest.RequestOptionsBase): Promise<Models.GroupsIsMemberOfResponse>;
+  isMemberOf(
+    parameters: Models.CheckGroupMembershipParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GroupsIsMemberOfResponse>;
   /**
    * @param parameters The check group membership parameters.
    * @param callback The callback
    */
-  isMemberOf(parameters: Models.CheckGroupMembershipParameters, callback: msRest.ServiceCallback<Models.CheckGroupMembershipResult>): void;
+  isMemberOf(
+    parameters: Models.CheckGroupMembershipParameters,
+    callback: msRest.ServiceCallback<Models.CheckGroupMembershipResult>
+  ): void;
   /**
    * @param parameters The check group membership parameters.
    * @param options The optional parameters
    * @param callback The callback
    */
-  isMemberOf(parameters: Models.CheckGroupMembershipParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckGroupMembershipResult>): void;
-  isMemberOf(parameters: Models.CheckGroupMembershipParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckGroupMembershipResult>, callback?: msRest.ServiceCallback<Models.CheckGroupMembershipResult>): Promise<Models.GroupsIsMemberOfResponse> {
+  isMemberOf(
+    parameters: Models.CheckGroupMembershipParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckGroupMembershipResult>
+  ): void;
+  isMemberOf(
+    parameters: Models.CheckGroupMembershipParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckGroupMembershipResult>,
+    callback?: msRest.ServiceCallback<Models.CheckGroupMembershipResult>
+  ): Promise<Models.GroupsIsMemberOfResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
         options
       },
       isMemberOfOperationSpec,
-      callback) as Promise<Models.GroupsIsMemberOfResponse>;
+      callback
+    ) as Promise<Models.GroupsIsMemberOfResponse>;
   }
 
   /**
@@ -62,21 +77,39 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  removeMember(groupObjectId: string, memberObjectId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  removeMember(
+    groupObjectId: string,
+    memberObjectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param groupObjectId The object ID of the group from which to remove the member.
    * @param memberObjectId Member object id
    * @param callback The callback
    */
-  removeMember(groupObjectId: string, memberObjectId: string, callback: msRest.ServiceCallback<void>): void;
+  removeMember(
+    groupObjectId: string,
+    memberObjectId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param groupObjectId The object ID of the group from which to remove the member.
    * @param memberObjectId Member object id
    * @param options The optional parameters
    * @param callback The callback
    */
-  removeMember(groupObjectId: string, memberObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  removeMember(groupObjectId: string, memberObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  removeMember(
+    groupObjectId: string,
+    memberObjectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  removeMember(
+    groupObjectId: string,
+    memberObjectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         groupObjectId,
@@ -84,7 +117,8 @@ export class Groups {
         options
       },
       removeMemberOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -95,14 +129,22 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  addMember(groupObjectId: string, parameters: Models.GroupAddMemberParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  addMember(
+    groupObjectId: string,
+    parameters: Models.GroupAddMemberParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param groupObjectId The object ID of the group to which to add the member.
    * @param parameters The URL of the member object, such as
    * https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
    * @param callback The callback
    */
-  addMember(groupObjectId: string, parameters: Models.GroupAddMemberParameters, callback: msRest.ServiceCallback<void>): void;
+  addMember(
+    groupObjectId: string,
+    parameters: Models.GroupAddMemberParameters,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param groupObjectId The object ID of the group to which to add the member.
    * @param parameters The URL of the member object, such as
@@ -110,8 +152,18 @@ export class Groups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addMember(groupObjectId: string, parameters: Models.GroupAddMemberParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  addMember(groupObjectId: string, parameters: Models.GroupAddMemberParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  addMember(
+    groupObjectId: string,
+    parameters: Models.GroupAddMemberParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  addMember(
+    groupObjectId: string,
+    parameters: Models.GroupAddMemberParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         groupObjectId,
@@ -119,7 +171,8 @@ export class Groups {
         options
       },
       addMemberOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -128,26 +181,41 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupsCreateResponse>
    */
-  create(parameters: Models.GroupCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.GroupsCreateResponse>;
+  create(
+    parameters: Models.GroupCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GroupsCreateResponse>;
   /**
    * @param parameters The parameters for the group to create.
    * @param callback The callback
    */
-  create(parameters: Models.GroupCreateParameters, callback: msRest.ServiceCallback<Models.ADGroup>): void;
+  create(
+    parameters: Models.GroupCreateParameters,
+    callback: msRest.ServiceCallback<Models.ADGroup>
+  ): void;
   /**
    * @param parameters The parameters for the group to create.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(parameters: Models.GroupCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ADGroup>): void;
-  create(parameters: Models.GroupCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADGroup>, callback?: msRest.ServiceCallback<Models.ADGroup>): Promise<Models.GroupsCreateResponse> {
+  create(
+    parameters: Models.GroupCreateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ADGroup>
+  ): void;
+  create(
+    parameters: Models.GroupCreateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADGroup>,
+    callback?: msRest.ServiceCallback<Models.ADGroup>
+  ): Promise<Models.GroupsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.GroupsCreateResponse>;
+      callback
+    ) as Promise<Models.GroupsCreateResponse>;
   }
 
   /**
@@ -164,14 +232,21 @@ export class Groups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.GroupsListOptionalParams, callback: msRest.ServiceCallback<Models.GroupListResult>): void;
-  list(options?: Models.GroupsListOptionalParams | msRest.ServiceCallback<Models.GroupListResult>, callback?: msRest.ServiceCallback<Models.GroupListResult>): Promise<Models.GroupsListResponse> {
+  list(
+    options: Models.GroupsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.GroupListResult>
+  ): void;
+  list(
+    options?: Models.GroupsListOptionalParams | msRest.ServiceCallback<Models.GroupListResult>,
+    callback?: msRest.ServiceCallback<Models.GroupListResult>
+  ): Promise<Models.GroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.GroupsListResponse>;
+      callback
+    ) as Promise<Models.GroupsListResponse>;
   }
 
   /**
@@ -180,26 +255,41 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupsGetGroupMembersResponse>
    */
-  getGroupMembers(objectId: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupsGetGroupMembersResponse>;
+  getGroupMembers(
+    objectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GroupsGetGroupMembersResponse>;
   /**
    * @param objectId The object ID of the group whose members should be retrieved.
    * @param callback The callback
    */
-  getGroupMembers(objectId: string, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
+  getGroupMembers(
+    objectId: string,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
   /**
    * @param objectId The object ID of the group whose members should be retrieved.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getGroupMembers(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  getGroupMembers(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.GroupsGetGroupMembersResponse> {
+  getGroupMembers(
+    objectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
+  getGroupMembers(
+    objectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>,
+    callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): Promise<Models.GroupsGetGroupMembersResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
         options
       },
       getGroupMembersOperationSpec,
-      callback) as Promise<Models.GroupsGetGroupMembersResponse>;
+      callback
+    ) as Promise<Models.GroupsGetGroupMembersResponse>;
   }
 
   /**
@@ -219,15 +309,24 @@ export class Groups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ADGroup>): void;
-  get(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADGroup>, callback?: msRest.ServiceCallback<Models.ADGroup>): Promise<Models.GroupsGetResponse> {
+  get(
+    objectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ADGroup>
+  ): void;
+  get(
+    objectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ADGroup>,
+    callback?: msRest.ServiceCallback<Models.ADGroup>
+  ): Promise<Models.GroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.GroupsGetResponse>;
+      callback
+    ) as Promise<Models.GroupsGetResponse>;
   }
 
   /**
@@ -247,15 +346,24 @@ export class Groups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    objectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    objectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -265,21 +373,39 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupsGetMemberGroupsResponse>
    */
-  getMemberGroups(objectId: string, parameters: Models.GroupGetMemberGroupsParameters, options?: msRest.RequestOptionsBase): Promise<Models.GroupsGetMemberGroupsResponse>;
+  getMemberGroups(
+    objectId: string,
+    parameters: Models.GroupGetMemberGroupsParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GroupsGetMemberGroupsResponse>;
   /**
    * @param objectId The object ID of the group for which to get group membership.
    * @param parameters Group filtering parameters.
    * @param callback The callback
    */
-  getMemberGroups(objectId: string, parameters: Models.GroupGetMemberGroupsParameters, callback: msRest.ServiceCallback<Models.GroupGetMemberGroupsResult>): void;
+  getMemberGroups(
+    objectId: string,
+    parameters: Models.GroupGetMemberGroupsParameters,
+    callback: msRest.ServiceCallback<Models.GroupGetMemberGroupsResult>
+  ): void;
   /**
    * @param objectId The object ID of the group for which to get group membership.
    * @param parameters Group filtering parameters.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMemberGroups(objectId: string, parameters: Models.GroupGetMemberGroupsParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GroupGetMemberGroupsResult>): void;
-  getMemberGroups(objectId: string, parameters: Models.GroupGetMemberGroupsParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GroupGetMemberGroupsResult>, callback?: msRest.ServiceCallback<Models.GroupGetMemberGroupsResult>): Promise<Models.GroupsGetMemberGroupsResponse> {
+  getMemberGroups(
+    objectId: string,
+    parameters: Models.GroupGetMemberGroupsParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GroupGetMemberGroupsResult>
+  ): void;
+  getMemberGroups(
+    objectId: string,
+    parameters: Models.GroupGetMemberGroupsParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GroupGetMemberGroupsResult>,
+    callback?: msRest.ServiceCallback<Models.GroupGetMemberGroupsResult>
+  ): Promise<Models.GroupsGetMemberGroupsResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -287,7 +413,8 @@ export class Groups {
         options
       },
       getMemberGroupsOperationSpec,
-      callback) as Promise<Models.GroupsGetMemberGroupsResponse>;
+      callback
+    ) as Promise<Models.GroupsGetMemberGroupsResponse>;
   }
 
   /**
@@ -297,26 +424,41 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupsListOwnersResponse>
    */
-  listOwners(objectId: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupsListOwnersResponse>;
+  listOwners(
+    objectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GroupsListOwnersResponse>;
   /**
    * @param objectId The object ID of the group for which to get owners.
    * @param callback The callback
    */
-  listOwners(objectId: string, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
+  listOwners(
+    objectId: string,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
   /**
    * @param objectId The object ID of the group for which to get owners.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOwners(objectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  listOwners(objectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.GroupsListOwnersResponse> {
+  listOwners(
+    objectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
+  listOwners(
+    objectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>,
+    callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): Promise<Models.GroupsListOwnersResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
         options
       },
       listOwnersOperationSpec,
-      callback) as Promise<Models.GroupsListOwnersResponse>;
+      callback
+    ) as Promise<Models.GroupsListOwnersResponse>;
   }
 
   /**
@@ -327,14 +469,22 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  addOwner(objectId: string, parameters: Models.AddOwnerParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  addOwner(
+    objectId: string,
+    parameters: Models.AddOwnerParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param objectId The object ID of the application to which to add the owner.
    * @param parameters The URL of the owner object, such as
    * https://graph.windows.net/0b1f9851-1bf0-433f-aec3-cb9272f093dc/directoryObjects/f260bbc4-c254-447b-94cf-293b5ec434dd.
    * @param callback The callback
    */
-  addOwner(objectId: string, parameters: Models.AddOwnerParameters, callback: msRest.ServiceCallback<void>): void;
+  addOwner(
+    objectId: string,
+    parameters: Models.AddOwnerParameters,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param objectId The object ID of the application to which to add the owner.
    * @param parameters The URL of the owner object, such as
@@ -342,8 +492,18 @@ export class Groups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addOwner(objectId: string, parameters: Models.AddOwnerParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  addOwner(objectId: string, parameters: Models.AddOwnerParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  addOwner(
+    objectId: string,
+    parameters: Models.AddOwnerParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  addOwner(
+    objectId: string,
+    parameters: Models.AddOwnerParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -351,7 +511,8 @@ export class Groups {
         options
       },
       addOwnerOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -361,21 +522,39 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  removeOwner(objectId: string, ownerObjectId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  removeOwner(
+    objectId: string,
+    ownerObjectId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param objectId The object ID of the group from which to remove the owner.
    * @param ownerObjectId Owner object id
    * @param callback The callback
    */
-  removeOwner(objectId: string, ownerObjectId: string, callback: msRest.ServiceCallback<void>): void;
+  removeOwner(
+    objectId: string,
+    ownerObjectId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param objectId The object ID of the group from which to remove the owner.
    * @param ownerObjectId Owner object id
    * @param options The optional parameters
    * @param callback The callback
    */
-  removeOwner(objectId: string, ownerObjectId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  removeOwner(objectId: string, ownerObjectId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  removeOwner(
+    objectId: string,
+    ownerObjectId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  removeOwner(
+    objectId: string,
+    ownerObjectId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         objectId,
@@ -383,7 +562,8 @@ export class Groups {
         options
       },
       removeOwnerOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -392,7 +572,10 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupsListNextResponse>
    */
-  listNext(nextLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupsListNextResponse>;
+  listNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GroupsListNextResponse>;
   /**
    * @param nextLink Next link for the list operation.
    * @param callback The callback
@@ -403,15 +586,24 @@ export class Groups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GroupListResult>): void;
-  listNext(nextLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GroupListResult>, callback?: msRest.ServiceCallback<Models.GroupListResult>): Promise<Models.GroupsListNextResponse> {
+  listNext(
+    nextLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GroupListResult>
+  ): void;
+  listNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GroupListResult>,
+    callback?: msRest.ServiceCallback<Models.GroupListResult>
+  ): Promise<Models.GroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.GroupsListNextResponse>;
+      callback
+    ) as Promise<Models.GroupsListNextResponse>;
   }
 
   /**
@@ -420,26 +612,41 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupsGetGroupMembersNextResponse>
    */
-  getGroupMembersNext(nextLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupsGetGroupMembersNextResponse>;
+  getGroupMembersNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GroupsGetGroupMembersNextResponse>;
   /**
    * @param nextLink Next link for the list operation.
    * @param callback The callback
    */
-  getGroupMembersNext(nextLink: string, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
+  getGroupMembersNext(
+    nextLink: string,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
   /**
    * @param nextLink Next link for the list operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getGroupMembersNext(nextLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  getGroupMembersNext(nextLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.GroupsGetGroupMembersNextResponse> {
+  getGroupMembersNext(
+    nextLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
+  getGroupMembersNext(
+    nextLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>,
+    callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): Promise<Models.GroupsGetGroupMembersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextLink,
         options
       },
       getGroupMembersNextOperationSpec,
-      callback) as Promise<Models.GroupsGetGroupMembersNextResponse>;
+      callback
+    ) as Promise<Models.GroupsGetGroupMembersNextResponse>;
   }
 
   /**
@@ -449,26 +656,41 @@ export class Groups {
    * @param [options] The optional parameters
    * @returns Promise<Models.GroupsListOwnersNextResponse>
    */
-  listOwnersNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GroupsListOwnersNextResponse>;
+  listOwnersNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GroupsListOwnersNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listOwnersNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
+  listOwnersNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOwnersNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>): void;
-  listOwnersNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>, callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>): Promise<Models.GroupsListOwnersNextResponse> {
+  listOwnersNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): void;
+  listOwnersNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DirectoryObjectListResult>,
+    callback?: msRest.ServiceCallback<Models.DirectoryObjectListResult>
+  ): Promise<Models.GroupsListOwnersNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listOwnersNextOperationSpec,
-      callback) as Promise<Models.GroupsListOwnersNextResponse>;
+      callback
+    ) as Promise<Models.GroupsListOwnersNextResponse>;
   }
 }
 
@@ -477,15 +699,9 @@ const serializer = new msRest.Serializer(Mappers);
 const isMemberOfOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/isMemberOf",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -507,17 +723,9 @@ const isMemberOfOperationSpec: msRest.OperationSpec = {
 const removeMemberOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{tenantID}/groups/{groupObjectId}/$links/members/{memberObjectId}",
-  urlParameters: [
-    Parameters.groupObjectId,
-    Parameters.memberObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.groupObjectId, Parameters.memberObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -530,16 +738,9 @@ const removeMemberOperationSpec: msRest.OperationSpec = {
 const addMemberOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/groups/{groupObjectId}/$links/members",
-  urlParameters: [
-    Parameters.groupObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.groupObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -559,15 +760,9 @@ const addMemberOperationSpec: msRest.OperationSpec = {
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/groups",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -589,16 +784,9 @@ const createOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/groups",
-  urlParameters: [
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.tenantID],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GroupListResult
@@ -613,16 +801,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getGroupMembersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/groups/{objectId}/members",
-  urlParameters: [
-    Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.objectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DirectoryObjectListResult
@@ -637,16 +818,9 @@ const getGroupMembersOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/groups/{objectId}",
-  urlParameters: [
-    Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.objectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ADGroup
@@ -661,16 +835,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{tenantID}/groups/{objectId}",
-  urlParameters: [
-    Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.objectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -683,16 +850,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const getMemberGroupsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/groups/{objectId}/getMemberGroups",
-  urlParameters: [
-    Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.objectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -714,16 +874,9 @@ const getMemberGroupsOperationSpec: msRest.OperationSpec = {
 const listOwnersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/groups/{objectId}/owners",
-  urlParameters: [
-    Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.objectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DirectoryObjectListResult
@@ -738,16 +891,9 @@ const listOwnersOperationSpec: msRest.OperationSpec = {
 const addOwnerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{tenantID}/groups/{objectId}/$links/owners",
-  urlParameters: [
-    Parameters.objectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.objectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -767,17 +913,9 @@ const addOwnerOperationSpec: msRest.OperationSpec = {
 const removeOwnerOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{tenantID}/groups/{objectId}/$links/owners/{ownerObjectId}",
-  urlParameters: [
-    Parameters.objectId,
-    Parameters.ownerObjectId,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.objectId, Parameters.ownerObjectId, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -790,16 +928,9 @@ const removeOwnerOperationSpec: msRest.OperationSpec = {
 const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/{nextLink}",
-  urlParameters: [
-    Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextLink, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GroupListResult
@@ -814,16 +945,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
 const getGroupMembersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{tenantID}/{nextLink}",
-  urlParameters: [
-    Parameters.nextLink,
-    Parameters.tenantID
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextLink, Parameters.tenantID],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DirectoryObjectListResult
@@ -839,12 +963,8 @@ const listOwnersNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://graph.windows.net",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DirectoryObjectListResult

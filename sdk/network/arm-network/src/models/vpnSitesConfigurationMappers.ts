@@ -6,8 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  discriminators,
-  CloudError,
-  GetVpnSitesConfigurationRequest
-} from "./mappers";
+export { discriminators, CloudError, GetVpnSitesConfigurationRequest } from "./mappers";

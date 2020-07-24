@@ -33,26 +33,41 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceSetPropertiesResponse>
    */
-  setProperties(properties: Models.FileServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse>;
+  setProperties(
+    properties: Models.FileServiceProperties,
+    options?: Models.ServiceSetPropertiesOptionalParams
+  ): Promise<Models.ServiceSetPropertiesResponse>;
   /**
    * @param properties The StorageService properties.
    * @param callback The callback
    */
-  setProperties(properties: Models.FileServiceProperties, callback: coreHttp.ServiceCallback<void>): void;
+  setProperties(
+    properties: Models.FileServiceProperties,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param properties The StorageService properties.
    * @param options The optional parameters
    * @param callback The callback
    */
-  setProperties(properties: Models.FileServiceProperties, options: Models.ServiceSetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setProperties(properties: Models.FileServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ServiceSetPropertiesResponse> {
+  setProperties(
+    properties: Models.FileServiceProperties,
+    options: Models.ServiceSetPropertiesOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setProperties(
+    properties: Models.FileServiceProperties,
+    options?: Models.ServiceSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.ServiceSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         properties,
         options
       },
       setPropertiesOperationSpec,
-      callback) as Promise<Models.ServiceSetPropertiesResponse>;
+      callback
+    ) as Promise<Models.ServiceSetPropertiesResponse>;
   }
 
   /**
@@ -61,7 +76,9 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceGetPropertiesResponse>
    */
-  getProperties(options?: Models.ServiceGetPropertiesOptionalParams): Promise<Models.ServiceGetPropertiesResponse>;
+  getProperties(
+    options?: Models.ServiceGetPropertiesOptionalParams
+  ): Promise<Models.ServiceGetPropertiesResponse>;
   /**
    * @param callback The callback
    */
@@ -70,14 +87,23 @@ export class Service {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.ServiceGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<Models.FileServiceProperties>): void;
-  getProperties(options?: Models.ServiceGetPropertiesOptionalParams | coreHttp.ServiceCallback<Models.FileServiceProperties>, callback?: coreHttp.ServiceCallback<Models.FileServiceProperties>): Promise<Models.ServiceGetPropertiesResponse> {
+  getProperties(
+    options: Models.ServiceGetPropertiesOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.FileServiceProperties>
+  ): void;
+  getProperties(
+    options?:
+      | Models.ServiceGetPropertiesOptionalParams
+      | coreHttp.ServiceCallback<Models.FileServiceProperties>,
+    callback?: coreHttp.ServiceCallback<Models.FileServiceProperties>
+  ): Promise<Models.ServiceGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getPropertiesOperationSpec,
-      callback) as Promise<Models.ServiceGetPropertiesResponse>;
+      callback
+    ) as Promise<Models.ServiceGetPropertiesResponse>;
   }
 
   /**
@@ -86,7 +112,9 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceListSharesSegmentResponse>
    */
-  listSharesSegment(options?: Models.ServiceListSharesSegmentOptionalParams): Promise<Models.ServiceListSharesSegmentResponse>;
+  listSharesSegment(
+    options?: Models.ServiceListSharesSegmentOptionalParams
+  ): Promise<Models.ServiceListSharesSegmentResponse>;
   /**
    * @param callback The callback
    */
@@ -95,14 +123,23 @@ export class Service {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSharesSegment(options: Models.ServiceListSharesSegmentOptionalParams, callback: coreHttp.ServiceCallback<Models.ListSharesResponse>): void;
-  listSharesSegment(options?: Models.ServiceListSharesSegmentOptionalParams | coreHttp.ServiceCallback<Models.ListSharesResponse>, callback?: coreHttp.ServiceCallback<Models.ListSharesResponse>): Promise<Models.ServiceListSharesSegmentResponse> {
+  listSharesSegment(
+    options: Models.ServiceListSharesSegmentOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ListSharesResponse>
+  ): void;
+  listSharesSegment(
+    options?:
+      | Models.ServiceListSharesSegmentOptionalParams
+      | coreHttp.ServiceCallback<Models.ListSharesResponse>,
+    callback?: coreHttp.ServiceCallback<Models.ListSharesResponse>
+  ): Promise<Models.ServiceListSharesSegmentResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listSharesSegmentOperationSpec,
-      callback) as Promise<Models.ServiceListSharesSegmentResponse>;
+      callback
+    ) as Promise<Models.ServiceListSharesSegmentResponse>;
   }
 }
 
@@ -110,17 +147,9 @@ export class Service {
 const serializer = new coreHttp.Serializer(Mappers, true);
 const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype0,
-    Parameters.comp0
-  ],
-  headerParameters: [
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype0, Parameters.comp0],
+  headerParameters: [Parameters.version],
   requestBody: {
     parameterPath: "properties",
     mapper: {
@@ -144,17 +173,9 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
 
 const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype0,
-    Parameters.comp0
-  ],
-  headerParameters: [
-    Parameters.version
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype0, Parameters.comp0],
+  headerParameters: [Parameters.version],
   responses: {
     200: {
       bodyMapper: Mappers.FileServiceProperties,
@@ -171,9 +192,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
 
 const listSharesSegmentOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.prefix,
     Parameters.marker,
@@ -182,9 +201,7 @@ const listSharesSegmentOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.comp1
   ],
-  headerParameters: [
-    Parameters.version
-  ],
+  headerParameters: [Parameters.version],
   responses: {
     200: {
       bodyMapper: Mappers.ListSharesResponse,

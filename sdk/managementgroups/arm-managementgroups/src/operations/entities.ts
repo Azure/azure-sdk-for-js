@@ -40,14 +40,21 @@ export class Entities {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.EntitiesListOptionalParams, callback: msRest.ServiceCallback<Models.EntityListResult>): void;
-  list(options?: Models.EntitiesListOptionalParams | msRest.ServiceCallback<Models.EntityListResult>, callback?: msRest.ServiceCallback<Models.EntityListResult>): Promise<Models.EntitiesListResponse> {
+  list(
+    options: Models.EntitiesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.EntityListResult>
+  ): void;
+  list(
+    options?: Models.EntitiesListOptionalParams | msRest.ServiceCallback<Models.EntityListResult>,
+    callback?: msRest.ServiceCallback<Models.EntityListResult>
+  ): Promise<Models.EntitiesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.EntitiesListResponse>;
+      callback
+    ) as Promise<Models.EntitiesListResponse>;
   }
 
   /**
@@ -56,7 +63,10 @@ export class Entities {
    * @param [options] The optional parameters
    * @returns Promise<Models.EntitiesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.EntitiesListNextOptionalParams): Promise<Models.EntitiesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.EntitiesListNextOptionalParams
+  ): Promise<Models.EntitiesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -67,15 +77,26 @@ export class Entities {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.EntitiesListNextOptionalParams, callback: msRest.ServiceCallback<Models.EntityListResult>): void;
-  listNext(nextPageLink: string, options?: Models.EntitiesListNextOptionalParams | msRest.ServiceCallback<Models.EntityListResult>, callback?: msRest.ServiceCallback<Models.EntityListResult>): Promise<Models.EntitiesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.EntitiesListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.EntityListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.EntitiesListNextOptionalParams
+      | msRest.ServiceCallback<Models.EntityListResult>,
+    callback?: msRest.ServiceCallback<Models.EntityListResult>
+  ): Promise<Models.EntitiesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.EntitiesListNextResponse>;
+      callback
+    ) as Promise<Models.EntitiesListNextResponse>;
   }
 }
 
@@ -95,10 +116,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.view,
     Parameters.groupName
   ],
-  headerParameters: [
-    Parameters.cacheControl,
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.cacheControl, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EntityListResult
@@ -114,13 +132,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.cacheControl,
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.cacheControl, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EntityListResult

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AnalysisServicesManagementClientContext } from "./analysisServicesManagementClientContext";
 
-
 class AnalysisServicesManagementClient extends AnalysisServicesManagementClientContext {
   // Operation groups
   servers: operations.Servers;
@@ -27,7 +26,11 @@ class AnalysisServicesManagementClient extends AnalysisServicesManagementClientC
    * ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AnalysisServicesManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AnalysisServicesManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.servers = new operations.Servers(this);
     this.operations = new operations.Operations(this);

@@ -36,7 +36,12 @@ export class ManagedDatabaseSecurityAlertPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabaseSecurityAlertPoliciesGetResponse>
    */
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabaseSecurityAlertPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabaseSecurityAlertPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -45,7 +50,12 @@ export class ManagedDatabaseSecurityAlertPolicies {
    * defined.
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -55,8 +65,22 @@ export class ManagedDatabaseSecurityAlertPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>): void;
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>, callback?: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>): Promise<Models.ManagedDatabaseSecurityAlertPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>,
+    callback?: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>
+  ): Promise<Models.ManagedDatabaseSecurityAlertPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -65,7 +89,8 @@ export class ManagedDatabaseSecurityAlertPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagedDatabaseSecurityAlertPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabaseSecurityAlertPoliciesGetResponse>;
   }
 
   /**
@@ -79,7 +104,13 @@ export class ManagedDatabaseSecurityAlertPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: Models.ManagedDatabaseSecurityAlertPolicy, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: Models.ManagedDatabaseSecurityAlertPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -89,7 +120,13 @@ export class ManagedDatabaseSecurityAlertPolicies {
    * @param parameters The database security alert policy.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: Models.ManagedDatabaseSecurityAlertPolicy, callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: Models.ManagedDatabaseSecurityAlertPolicy,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -100,8 +137,24 @@ export class ManagedDatabaseSecurityAlertPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: Models.ManagedDatabaseSecurityAlertPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>): void;
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, databaseName: string, parameters: Models.ManagedDatabaseSecurityAlertPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>, callback?: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>): Promise<Models.ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: Models.ManagedDatabaseSecurityAlertPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: Models.ManagedDatabaseSecurityAlertPolicy,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>,
+    callback?: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicy>
+  ): Promise<Models.ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +164,8 @@ export class ManagedDatabaseSecurityAlertPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabaseSecurityAlertPoliciesCreateOrUpdateResponse>;
   }
 
   /**
@@ -124,7 +178,12 @@ export class ManagedDatabaseSecurityAlertPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseResponse>
    */
-  listByDatabase(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseResponse>;
+  listByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -133,7 +192,12 @@ export class ManagedDatabaseSecurityAlertPolicies {
    * defined.
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, managedInstanceName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>): void;
+  listByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -143,8 +207,22 @@ export class ManagedDatabaseSecurityAlertPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, managedInstanceName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>): void;
-  listByDatabase(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>, callback?: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>): Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseResponse> {
+  listByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>
+  ): void;
+  listByDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>
+  ): Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -153,7 +231,8 @@ export class ManagedDatabaseSecurityAlertPolicies {
         options
       },
       listByDatabaseOperationSpec,
-      callback) as Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseResponse>;
   }
 
   /**
@@ -162,26 +241,43 @@ export class ManagedDatabaseSecurityAlertPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseNextResponse>
    */
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseNextResponse>;
+  listByDatabaseNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByDatabaseNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>): void;
+  listByDatabaseNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>): void;
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>, callback?: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>): Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseNextResponse> {
+  listByDatabaseNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>
+  ): void;
+  listByDatabaseNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedDatabaseSecurityAlertPolicyListResult>
+  ): Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByDatabaseNextOperationSpec,
-      callback) as Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseNextResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabaseSecurityAlertPoliciesListByDatabaseNextResponse>;
   }
 }
 
@@ -189,7 +285,8 @@ export class ManagedDatabaseSecurityAlertPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
@@ -197,12 +294,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.securityAlertPolicyName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedDatabaseSecurityAlertPolicy
@@ -216,7 +309,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityAlertPolicies/{securityAlertPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
@@ -224,12 +318,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.securityAlertPolicyName0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -253,19 +343,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityAlertPolicies",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityAlertPolicies",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedDatabaseSecurityAlertPolicyListResult
@@ -281,12 +368,8 @@ const listByDatabaseNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedDatabaseSecurityAlertPolicyListResult

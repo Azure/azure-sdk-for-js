@@ -35,14 +35,24 @@ export class IntegrationRuntimeObjectMetadata {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: Models.IntegrationRuntimeObjectMetadataGetOptionalParams): Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    options?: Models.IntegrationRuntimeObjectMetadataGetOptionalParams
+  ): Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -50,8 +60,22 @@ export class IntegrationRuntimeObjectMetadata {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options: Models.IntegrationRuntimeObjectMetadataGetOptionalParams, callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): void;
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: Models.IntegrationRuntimeObjectMetadataGetOptionalParams | msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>, callback?: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): Promise<Models.IntegrationRuntimeObjectMetadataGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    options: Models.IntegrationRuntimeObjectMetadataGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    options?:
+      | Models.IntegrationRuntimeObjectMetadataGetOptionalParams
+      | msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>,
+    callback?: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>
+  ): Promise<Models.IntegrationRuntimeObjectMetadataGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +84,8 @@ export class IntegrationRuntimeObjectMetadata {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>;
+      callback
+    ) as Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>;
   }
 
   /**
@@ -72,14 +97,24 @@ export class IntegrationRuntimeObjectMetadata {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>
    */
-  refresh(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>;
+  refresh(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param callback The callback
    */
-  refresh(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.SsisObjectMetadataStatusResponse>): void;
+  refresh(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    callback: msRest.ServiceCallback<Models.SsisObjectMetadataStatusResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -87,8 +122,22 @@ export class IntegrationRuntimeObjectMetadata {
    * @param options The optional parameters
    * @param callback The callback
    */
-  refresh(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SsisObjectMetadataStatusResponse>): void;
-  refresh(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SsisObjectMetadataStatusResponse>, callback?: msRest.ServiceCallback<Models.SsisObjectMetadataStatusResponse>): Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse> {
+  refresh(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SsisObjectMetadataStatusResponse>
+  ): void;
+  refresh(
+    resourceGroupName: string,
+    workspaceName: string,
+    integrationRuntimeName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SsisObjectMetadataStatusResponse>,
+    callback?: msRest.ServiceCallback<Models.SsisObjectMetadataStatusResponse>
+  ): Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +146,8 @@ export class IntegrationRuntimeObjectMetadata {
         options
       },
       refreshOperationSpec,
-      callback) as Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>;
+      callback
+    ) as Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>;
   }
 }
 
@@ -105,24 +155,18 @@ export class IntegrationRuntimeObjectMetadata {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.integrationRuntimeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "getMetadataRequest"
-    ],
+    parameterPath: ["options", "getMetadataRequest"],
     mapper: Mappers.GetSsisObjectMetadataRequest
   },
   responses: {
@@ -138,19 +182,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const refreshOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/refreshObjectMetadata",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/refreshObjectMetadata",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.integrationRuntimeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SsisObjectMetadataStatusResponse

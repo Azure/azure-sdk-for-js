@@ -177,10 +177,7 @@ export const CheckNameAvailabilityInput: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Microsoft.Support/supportTickets",
-            "Microsoft.Support/communications"
-          ]
+          allowedValues: ["Microsoft.Support/supportTickets", "Microsoft.Support/communications"]
         }
       }
     }

@@ -9,9 +9,8 @@ import * as fs from "fs";
 import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 import { BaseTest } from "../baseTest";
 
-
 describe("Features Module Functionality", () => {
-  it('should list features', async () => {
+  it("should list features", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       await fs.readFile("test/SessionRecords/ImportApp.json", "utf-8", async (err, data) => {
         if (err) {
@@ -27,17 +26,36 @@ describe("Features Module Functionality", () => {
     });
   });
 
-    it('should add required feature', async () => {
-      await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-        var entityId = await client.model.addEntity(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, {name: "flat entity"});
-        var featureEntityId = await client.model.addEntity(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, {name: "feature entity"});
-        client.features.addEntityFeature(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, entityId.body, {
+  it("should add required feature", async () => {
+    await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
+      var entityId = await client.model.addEntity(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, {
+        name: "flat entity"
+      });
+      var featureEntityId = await client.model.addEntity(
+        BaseTest.GlobalAppId,
+        BaseTest.GlobalVersionId,
+        { name: "feature entity" }
+      );
+      client.features.addEntityFeature(
+        BaseTest.GlobalAppId,
+        BaseTest.GlobalVersionId,
+        entityId.body,
+        {
           modelName: "feature entity",
           isRequired: true
-        })
-        var features = await client.features.list(BaseTest.GlobalAppId, BaseTest.GlobalVersionId);
-        await client.model.deleteEntity(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, entityId.body);
-        await client.model.deleteEntity(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, featureEntityId.body);
-      });
+        }
+      );
+      var features = await client.features.list(BaseTest.GlobalAppId, BaseTest.GlobalVersionId);
+      await client.model.deleteEntity(
+        BaseTest.GlobalAppId,
+        BaseTest.GlobalVersionId,
+        entityId.body
+      );
+      await client.model.deleteEntity(
+        BaseTest.GlobalAppId,
+        BaseTest.GlobalVersionId,
+        featureEntityId.body
+      );
+    });
   });
 });

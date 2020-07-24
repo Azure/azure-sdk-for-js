@@ -34,14 +34,22 @@ export class Usages {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsagesListByInstancePoolResponse>
    */
-  listByInstancePool(resourceGroupName: string, instancePoolName: string, options?: Models.UsagesListByInstancePoolOptionalParams): Promise<Models.UsagesListByInstancePoolResponse>;
+  listByInstancePool(
+    resourceGroupName: string,
+    instancePoolName: string,
+    options?: Models.UsagesListByInstancePoolOptionalParams
+  ): Promise<Models.UsagesListByInstancePoolResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param instancePoolName The name of the instance pool to be retrieved.
    * @param callback The callback
    */
-  listByInstancePool(resourceGroupName: string, instancePoolName: string, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
+  listByInstancePool(
+    resourceGroupName: string,
+    instancePoolName: string,
+    callback: msRest.ServiceCallback<Models.UsageListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -49,8 +57,20 @@ export class Usages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByInstancePool(resourceGroupName: string, instancePoolName: string, options: Models.UsagesListByInstancePoolOptionalParams, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
-  listByInstancePool(resourceGroupName: string, instancePoolName: string, options?: Models.UsagesListByInstancePoolOptionalParams | msRest.ServiceCallback<Models.UsageListResult>, callback?: msRest.ServiceCallback<Models.UsageListResult>): Promise<Models.UsagesListByInstancePoolResponse> {
+  listByInstancePool(
+    resourceGroupName: string,
+    instancePoolName: string,
+    options: Models.UsagesListByInstancePoolOptionalParams,
+    callback: msRest.ServiceCallback<Models.UsageListResult>
+  ): void;
+  listByInstancePool(
+    resourceGroupName: string,
+    instancePoolName: string,
+    options?:
+      | Models.UsagesListByInstancePoolOptionalParams
+      | msRest.ServiceCallback<Models.UsageListResult>,
+    callback?: msRest.ServiceCallback<Models.UsageListResult>
+  ): Promise<Models.UsagesListByInstancePoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +78,8 @@ export class Usages {
         options
       },
       listByInstancePoolOperationSpec,
-      callback) as Promise<Models.UsagesListByInstancePoolResponse>;
+      callback
+    ) as Promise<Models.UsagesListByInstancePoolResponse>;
   }
 
   /**
@@ -67,26 +88,41 @@ export class Usages {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsagesListByInstancePoolNextResponse>
    */
-  listByInstancePoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.UsagesListByInstancePoolNextResponse>;
+  listByInstancePoolNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UsagesListByInstancePoolNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByInstancePoolNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
+  listByInstancePoolNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.UsageListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByInstancePoolNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
-  listByInstancePoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageListResult>, callback?: msRest.ServiceCallback<Models.UsageListResult>): Promise<Models.UsagesListByInstancePoolNextResponse> {
+  listByInstancePoolNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UsageListResult>
+  ): void;
+  listByInstancePoolNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageListResult>,
+    callback?: msRest.ServiceCallback<Models.UsageListResult>
+  ): Promise<Models.UsagesListByInstancePoolNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByInstancePoolNextOperationSpec,
-      callback) as Promise<Models.UsagesListByInstancePoolNextResponse>;
+      callback
+    ) as Promise<Models.UsagesListByInstancePoolNextResponse>;
   }
 }
 
@@ -94,19 +130,15 @@ export class Usages {
 const serializer = new msRest.Serializer(Mappers);
 const listByInstancePoolOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools/{instancePoolName}/usages",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools/{instancePoolName}/usages",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.instancePoolName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.expandChildren,
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expandChildren, Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UsageListResult
@@ -122,12 +154,8 @@ const listByInstancePoolNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UsageListResult

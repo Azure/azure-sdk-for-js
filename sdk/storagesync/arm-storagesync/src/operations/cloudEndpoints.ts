@@ -37,9 +37,24 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudEndpointsCreateResponse>
    */
-  create(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.CloudEndpointCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.CloudEndpointsCreateResponse> {
-    return this.beginCreate(resourceGroupName,storageSyncServiceName,syncGroupName,cloudEndpointName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CloudEndpointsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    parameters: Models.CloudEndpointCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudEndpointsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      storageSyncServiceName,
+      syncGroupName,
+      cloudEndpointName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CloudEndpointsCreateResponse
+    >;
   }
 
   /**
@@ -51,7 +66,13 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudEndpointsGetResponse>
    */
-  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudEndpointsGetResponse>;
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudEndpointsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
@@ -59,7 +80,13 @@ export class CloudEndpoints {
    * @param cloudEndpointName Name of Cloud Endpoint object.
    * @param callback The callback
    */
-  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, callback: msRest.ServiceCallback<Models.CloudEndpoint>): void;
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    callback: msRest.ServiceCallback<Models.CloudEndpoint>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
@@ -68,8 +95,22 @@ export class CloudEndpoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudEndpoint>): void;
-  get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudEndpoint>, callback?: msRest.ServiceCallback<Models.CloudEndpoint>): Promise<Models.CloudEndpointsGetResponse> {
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CloudEndpoint>
+  ): void;
+  get(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudEndpoint>,
+    callback?: msRest.ServiceCallback<Models.CloudEndpoint>
+  ): Promise<Models.CloudEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -79,7 +120,8 @@ export class CloudEndpoints {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CloudEndpointsGetResponse>;
+      callback
+    ) as Promise<Models.CloudEndpointsGetResponse>;
   }
 
   /**
@@ -91,9 +133,22 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudEndpointsDeleteResponse>
    */
-  deleteMethod(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudEndpointsDeleteResponse> {
-    return this.beginDeleteMethod(resourceGroupName,storageSyncServiceName,syncGroupName,cloudEndpointName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CloudEndpointsDeleteResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudEndpointsDeleteResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      storageSyncServiceName,
+      syncGroupName,
+      cloudEndpointName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CloudEndpointsDeleteResponse
+    >;
   }
 
   /**
@@ -104,14 +159,24 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudEndpointsListBySyncGroupResponse>
    */
-  listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudEndpointsListBySyncGroupResponse>;
+  listBySyncGroup(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudEndpointsListBySyncGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
    * @param syncGroupName Name of Sync Group resource.
    * @param callback The callback
    */
-  listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, callback: msRest.ServiceCallback<Models.CloudEndpointArray>): void;
+  listBySyncGroup(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    callback: msRest.ServiceCallback<Models.CloudEndpointArray>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
@@ -119,8 +184,20 @@ export class CloudEndpoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CloudEndpointArray>): void;
-  listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudEndpointArray>, callback?: msRest.ServiceCallback<Models.CloudEndpointArray>): Promise<Models.CloudEndpointsListBySyncGroupResponse> {
+  listBySyncGroup(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CloudEndpointArray>
+  ): void;
+  listBySyncGroup(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CloudEndpointArray>,
+    callback?: msRest.ServiceCallback<Models.CloudEndpointArray>
+  ): Promise<Models.CloudEndpointsListBySyncGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +206,8 @@ export class CloudEndpoints {
         options
       },
       listBySyncGroupOperationSpec,
-      callback) as Promise<Models.CloudEndpointsListBySyncGroupResponse>;
+      callback
+    ) as Promise<Models.CloudEndpointsListBySyncGroupResponse>;
   }
 
   /**
@@ -142,9 +220,24 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudEndpointsPreBackupResponse>
    */
-  preBackup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.BackupRequest, options?: msRest.RequestOptionsBase): Promise<Models.CloudEndpointsPreBackupResponse> {
-    return this.beginPreBackup(resourceGroupName,storageSyncServiceName,syncGroupName,cloudEndpointName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CloudEndpointsPreBackupResponse>;
+  preBackup(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    parameters: Models.BackupRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudEndpointsPreBackupResponse> {
+    return this.beginPreBackup(
+      resourceGroupName,
+      storageSyncServiceName,
+      syncGroupName,
+      cloudEndpointName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CloudEndpointsPreBackupResponse
+    >;
   }
 
   /**
@@ -157,9 +250,24 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudEndpointsPostBackupResponse>
    */
-  postBackup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.BackupRequest, options?: msRest.RequestOptionsBase): Promise<Models.CloudEndpointsPostBackupResponse> {
-    return this.beginPostBackup(resourceGroupName,storageSyncServiceName,syncGroupName,cloudEndpointName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CloudEndpointsPostBackupResponse>;
+  postBackup(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    parameters: Models.BackupRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudEndpointsPostBackupResponse> {
+    return this.beginPostBackup(
+      resourceGroupName,
+      storageSyncServiceName,
+      syncGroupName,
+      cloudEndpointName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CloudEndpointsPostBackupResponse
+    >;
   }
 
   /**
@@ -172,9 +280,24 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudEndpointsPreRestoreResponse>
    */
-  preRestore(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.PreRestoreRequest, options?: msRest.RequestOptionsBase): Promise<Models.CloudEndpointsPreRestoreResponse> {
-    return this.beginPreRestore(resourceGroupName,storageSyncServiceName,syncGroupName,cloudEndpointName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CloudEndpointsPreRestoreResponse>;
+  preRestore(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    parameters: Models.PreRestoreRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudEndpointsPreRestoreResponse> {
+    return this.beginPreRestore(
+      resourceGroupName,
+      storageSyncServiceName,
+      syncGroupName,
+      cloudEndpointName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CloudEndpointsPreRestoreResponse
+    >;
   }
 
   /**
@@ -186,7 +309,13 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudEndpointsRestoreheartbeatResponse>
    */
-  restoreheartbeat(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: msRest.RequestOptionsBase): Promise<Models.CloudEndpointsRestoreheartbeatResponse>;
+  restoreheartbeat(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudEndpointsRestoreheartbeatResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
@@ -194,7 +323,13 @@ export class CloudEndpoints {
    * @param cloudEndpointName Name of Cloud Endpoint object.
    * @param callback The callback
    */
-  restoreheartbeat(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, callback: msRest.ServiceCallback<void>): void;
+  restoreheartbeat(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName Name of Storage Sync Service resource.
@@ -203,8 +338,22 @@ export class CloudEndpoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  restoreheartbeat(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  restoreheartbeat(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CloudEndpointsRestoreheartbeatResponse> {
+  restoreheartbeat(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  restoreheartbeat(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.CloudEndpointsRestoreheartbeatResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -214,7 +363,8 @@ export class CloudEndpoints {
         options
       },
       restoreheartbeatOperationSpec,
-      callback) as Promise<Models.CloudEndpointsRestoreheartbeatResponse>;
+      callback
+    ) as Promise<Models.CloudEndpointsRestoreheartbeatResponse>;
   }
 
   /**
@@ -227,9 +377,24 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudEndpointsPostRestoreResponse>
    */
-  postRestore(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.PostRestoreRequest, options?: msRest.RequestOptionsBase): Promise<Models.CloudEndpointsPostRestoreResponse> {
-    return this.beginPostRestore(resourceGroupName,storageSyncServiceName,syncGroupName,cloudEndpointName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CloudEndpointsPostRestoreResponse>;
+  postRestore(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    parameters: Models.PostRestoreRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudEndpointsPostRestoreResponse> {
+    return this.beginPostRestore(
+      resourceGroupName,
+      storageSyncServiceName,
+      syncGroupName,
+      cloudEndpointName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CloudEndpointsPostRestoreResponse
+    >;
   }
 
   /**
@@ -243,9 +408,24 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.CloudEndpointsTriggerChangeDetectionResponse>
    */
-  triggerChangeDetection(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.TriggerChangeDetectionParameters, options?: msRest.RequestOptionsBase): Promise<Models.CloudEndpointsTriggerChangeDetectionResponse> {
-    return this.beginTriggerChangeDetection(resourceGroupName,storageSyncServiceName,syncGroupName,cloudEndpointName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CloudEndpointsTriggerChangeDetectionResponse>;
+  triggerChangeDetection(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    parameters: Models.TriggerChangeDetectionParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CloudEndpointsTriggerChangeDetectionResponse> {
+    return this.beginTriggerChangeDetection(
+      resourceGroupName,
+      storageSyncServiceName,
+      syncGroupName,
+      cloudEndpointName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CloudEndpointsTriggerChangeDetectionResponse
+    >;
   }
 
   /**
@@ -258,7 +438,14 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.CloudEndpointCreateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    parameters: Models.CloudEndpointCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -269,7 +456,8 @@ export class CloudEndpoints {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -281,7 +469,13 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -291,7 +485,8 @@ export class CloudEndpoints {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -304,7 +499,14 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPreBackup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.BackupRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPreBackup(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    parameters: Models.BackupRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -315,7 +517,8 @@ export class CloudEndpoints {
         options
       },
       beginPreBackupOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -328,7 +531,14 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPostBackup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.BackupRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPostBackup(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    parameters: Models.BackupRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -339,7 +549,8 @@ export class CloudEndpoints {
         options
       },
       beginPostBackupOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -352,7 +563,14 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPreRestore(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.PreRestoreRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPreRestore(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    parameters: Models.PreRestoreRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -363,7 +581,8 @@ export class CloudEndpoints {
         options
       },
       beginPreRestoreOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -376,7 +595,14 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPostRestore(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.PostRestoreRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPostRestore(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    parameters: Models.PostRestoreRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -387,7 +613,8 @@ export class CloudEndpoints {
         options
       },
       beginPostRestoreOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -401,7 +628,14 @@ export class CloudEndpoints {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginTriggerChangeDetection(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: Models.TriggerChangeDetectionParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginTriggerChangeDetection(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    parameters: Models.TriggerChangeDetectionParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -412,7 +646,8 @@ export class CloudEndpoints {
         options
       },
       beginTriggerChangeDetectionOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -420,7 +655,8 @@ export class CloudEndpoints {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -428,12 +664,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.cloudEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CloudEndpoint,
@@ -448,19 +680,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listBySyncGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.syncGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CloudEndpointArray,
@@ -475,7 +704,8 @@ const listBySyncGroupOperationSpec: msRest.OperationSpec = {
 
 const restoreheartbeatOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/restoreheartbeat",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/restoreheartbeat",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -483,12 +713,8 @@ const restoreheartbeatOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.cloudEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.CloudEndpointsRestoreheartbeatHeaders
@@ -502,7 +728,8 @@ const restoreheartbeatOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -510,12 +737,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.cloudEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -540,7 +763,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -548,12 +772,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.cloudEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.CloudEndpointsDeleteHeaders
@@ -573,7 +793,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginPreBackupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/prebackup",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/prebackup",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -581,12 +802,8 @@ const beginPreBackupOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.cloudEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -610,7 +827,8 @@ const beginPreBackupOperationSpec: msRest.OperationSpec = {
 
 const beginPostBackupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/postbackup",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/postbackup",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -618,12 +836,8 @@ const beginPostBackupOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.cloudEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -648,7 +862,8 @@ const beginPostBackupOperationSpec: msRest.OperationSpec = {
 
 const beginPreRestoreOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/prerestore",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/prerestore",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -656,12 +871,8 @@ const beginPreRestoreOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.cloudEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -685,7 +896,8 @@ const beginPreRestoreOperationSpec: msRest.OperationSpec = {
 
 const beginPostRestoreOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/postrestore",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/postrestore",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -693,12 +905,8 @@ const beginPostRestoreOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.cloudEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -722,7 +930,8 @@ const beginPostRestoreOperationSpec: msRest.OperationSpec = {
 
 const beginTriggerChangeDetectionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/triggerChangeDetection",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/triggerChangeDetection",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -730,12 +939,8 @@ const beginTriggerChangeDetectionOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.cloudEndpointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

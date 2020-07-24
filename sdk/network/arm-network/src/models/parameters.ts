@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -26,7 +26,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-05-01',
+    defaultValue: "2020-05-01",
     type: {
       name: "String"
     }
@@ -38,7 +38,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-10-01',
+    defaultValue: "2018-10-01",
     type: {
       name: "String"
     }
@@ -209,10 +209,7 @@ export const domainNameLabel: msRest.OperationQueryParameter = {
   }
 };
 export const expand: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
+  parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
@@ -281,10 +278,7 @@ export const gatewayName: msRest.OperationURLParameter = {
   }
 };
 export const gatewayVip: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "gatewayVip"
-  ],
+  parameterPath: ["options", "gatewayVip"],
   mapper: {
     serializedName: "gatewayVip",
     type: {
@@ -550,10 +544,7 @@ export const peConnectionName: msRest.OperationURLParameter = {
   }
 };
 export const peer0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "peer"
-  ],
+  parameterPath: ["options", "peer"],
   mapper: {
     serializedName: "peer",
     type: {

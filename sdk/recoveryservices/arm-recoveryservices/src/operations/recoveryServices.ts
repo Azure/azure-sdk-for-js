@@ -39,7 +39,12 @@ export class RecoveryServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoveryServicesCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(resourceGroupName: string, location: string, input: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase): Promise<Models.RecoveryServicesCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    resourceGroupName: string,
+    location: string,
+    input: Models.CheckNameAvailabilityParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoveryServicesCheckNameAvailabilityResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -47,7 +52,12 @@ export class RecoveryServices {
    * @param input Contains information about Resource type and Resource name
    * @param callback The callback
    */
-  checkNameAvailability(resourceGroupName: string, location: string, input: Models.CheckNameAvailabilityParameters, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
+  checkNameAvailability(
+    resourceGroupName: string,
+    location: string,
+    input: Models.CheckNameAvailabilityParameters,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -56,8 +66,22 @@ export class RecoveryServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(resourceGroupName: string, location: string, input: Models.CheckNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(resourceGroupName: string, location: string, input: Models.CheckNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.RecoveryServicesCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    resourceGroupName: string,
+    location: string,
+    input: Models.CheckNameAvailabilityParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
+  checkNameAvailability(
+    resourceGroupName: string,
+    location: string,
+    input: Models.CheckNameAvailabilityParameters,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): Promise<Models.RecoveryServicesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +90,8 @@ export class RecoveryServices {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.RecoveryServicesCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.RecoveryServicesCheckNameAvailabilityResponse>;
   }
 }
 
@@ -74,18 +99,11 @@ export class RecoveryServices {
 const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/locations/{location}/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/locations/{location}/checkNameAvailability",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {

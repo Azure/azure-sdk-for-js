@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { DataBoxManagementClientContext } from "./dataBoxManagementClientContext";
 
-
 class DataBoxManagementClient extends DataBoxManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -27,7 +26,11 @@ class DataBoxManagementClient extends DataBoxManagementClientContext {
    * @param subscriptionId The Subscription Id
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DataBoxManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.DataBoxManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.jobs = new operations.Jobs(this);

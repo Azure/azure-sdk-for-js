@@ -38,9 +38,20 @@ export class DiskEncryptionSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskEncryptionSetsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: Models.DiskEncryptionSet, options?: msRest.RequestOptionsBase): Promise<Models.DiskEncryptionSetsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,diskEncryptionSetName,diskEncryptionSet,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DiskEncryptionSetsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    diskEncryptionSet: Models.DiskEncryptionSet,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskEncryptionSetsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      diskEncryptionSetName,
+      diskEncryptionSet,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DiskEncryptionSetsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -54,9 +65,20 @@ export class DiskEncryptionSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskEncryptionSetsUpdateResponse>
    */
-  update(resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: Models.DiskEncryptionSetUpdate, options?: msRest.RequestOptionsBase): Promise<Models.DiskEncryptionSetsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,diskEncryptionSetName,diskEncryptionSet,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DiskEncryptionSetsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    diskEncryptionSet: Models.DiskEncryptionSetUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskEncryptionSetsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      diskEncryptionSetName,
+      diskEncryptionSet,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DiskEncryptionSetsUpdateResponse
+    >;
   }
 
   /**
@@ -68,7 +90,11 @@ export class DiskEncryptionSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskEncryptionSetsGetResponse>
    */
-  get(resourceGroupName: string, diskEncryptionSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskEncryptionSetsGetResponse>;
+  get(
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskEncryptionSetsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
@@ -76,7 +102,11 @@ export class DiskEncryptionSets {
    * a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
    * @param callback The callback
    */
-  get(resourceGroupName: string, diskEncryptionSetName: string, callback: msRest.ServiceCallback<Models.DiskEncryptionSet>): void;
+  get(
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    callback: msRest.ServiceCallback<Models.DiskEncryptionSet>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
@@ -85,8 +115,18 @@ export class DiskEncryptionSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, diskEncryptionSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskEncryptionSet>): void;
-  get(resourceGroupName: string, diskEncryptionSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskEncryptionSet>, callback?: msRest.ServiceCallback<Models.DiskEncryptionSet>): Promise<Models.DiskEncryptionSetsGetResponse> {
+  get(
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiskEncryptionSet>
+  ): void;
+  get(
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskEncryptionSet>,
+    callback?: msRest.ServiceCallback<Models.DiskEncryptionSet>
+  ): Promise<Models.DiskEncryptionSetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +134,8 @@ export class DiskEncryptionSets {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DiskEncryptionSetsGetResponse>;
+      callback
+    ) as Promise<Models.DiskEncryptionSetsGetResponse>;
   }
 
   /**
@@ -106,9 +147,16 @@ export class DiskEncryptionSets {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, diskEncryptionSetName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,diskEncryptionSetName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      diskEncryptionSetName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -117,26 +165,41 @@ export class DiskEncryptionSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskEncryptionSetsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskEncryptionSetsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskEncryptionSetsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskEncryptionSetList>, callback?: msRest.ServiceCallback<Models.DiskEncryptionSetList>): Promise<Models.DiskEncryptionSetsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskEncryptionSetList>,
+    callback?: msRest.ServiceCallback<Models.DiskEncryptionSetList>
+  ): Promise<Models.DiskEncryptionSetsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.DiskEncryptionSetsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.DiskEncryptionSetsListByResourceGroupResponse>;
   }
 
   /**
@@ -153,14 +216,21 @@ export class DiskEncryptionSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskEncryptionSetList>, callback?: msRest.ServiceCallback<Models.DiskEncryptionSetList>): Promise<Models.DiskEncryptionSetsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskEncryptionSetList>,
+    callback?: msRest.ServiceCallback<Models.DiskEncryptionSetList>
+  ): Promise<Models.DiskEncryptionSetsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DiskEncryptionSetsListResponse>;
+      callback
+    ) as Promise<Models.DiskEncryptionSetsListResponse>;
   }
 
   /**
@@ -174,7 +244,12 @@ export class DiskEncryptionSets {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: Models.DiskEncryptionSet, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    diskEncryptionSet: Models.DiskEncryptionSet,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -183,7 +258,8 @@ export class DiskEncryptionSets {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -197,7 +273,12 @@ export class DiskEncryptionSets {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, diskEncryptionSetName: string, diskEncryptionSet: Models.DiskEncryptionSetUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    diskEncryptionSet: Models.DiskEncryptionSetUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -206,7 +287,8 @@ export class DiskEncryptionSets {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -218,7 +300,11 @@ export class DiskEncryptionSets {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, diskEncryptionSetName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -226,7 +312,8 @@ export class DiskEncryptionSets {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -235,26 +322,41 @@ export class DiskEncryptionSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskEncryptionSetsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskEncryptionSetsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskEncryptionSetsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskEncryptionSetList>, callback?: msRest.ServiceCallback<Models.DiskEncryptionSetList>): Promise<Models.DiskEncryptionSetsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskEncryptionSetList>,
+    callback?: msRest.ServiceCallback<Models.DiskEncryptionSetList>
+  ): Promise<Models.DiskEncryptionSetsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.DiskEncryptionSetsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.DiskEncryptionSetsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -263,26 +365,41 @@ export class DiskEncryptionSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskEncryptionSetsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskEncryptionSetsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DiskEncryptionSetsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskEncryptionSetList>, callback?: msRest.ServiceCallback<Models.DiskEncryptionSetList>): Promise<Models.DiskEncryptionSetsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DiskEncryptionSetList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DiskEncryptionSetList>,
+    callback?: msRest.ServiceCallback<Models.DiskEncryptionSetList>
+  ): Promise<Models.DiskEncryptionSetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DiskEncryptionSetsListNextResponse>;
+      callback
+    ) as Promise<Models.DiskEncryptionSetsListNextResponse>;
   }
 }
 
@@ -290,18 +407,15 @@ export class DiskEncryptionSets {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskEncryptionSetName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiskEncryptionSet
@@ -315,17 +429,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiskEncryptionSetList
@@ -340,15 +448,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskEncryptionSets",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiskEncryptionSetList
@@ -362,18 +464,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskEncryptionSetName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "diskEncryptionSet",
     mapper: {
@@ -397,18 +496,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskEncryptionSetName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "diskEncryptionSet",
     mapper: {
@@ -432,18 +528,15 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskEncryptionSetName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -459,12 +552,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiskEncryptionSetList
@@ -480,12 +569,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DiskEncryptionSetList

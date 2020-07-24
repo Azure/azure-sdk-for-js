@@ -100,9 +100,7 @@ export const SecurityProfile: msRest.CompositeMapper = {
         serializedName: "directoryType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "ActiveDirectory"
-          ]
+          allowedValues: ["ActiveDirectory"]
         }
       },
       domain: {
@@ -777,20 +775,14 @@ export const ClusterCreateProperties: msRest.CompositeMapper = {
         serializedName: "osType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Windows",
-            "Linux"
-          ]
+          allowedValues: ["Windows", "Linux"]
         }
       },
       tier: {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Standard",
-            "Premium"
-          ]
+          allowedValues: ["Standard", "Premium"]
         }
       },
       clusterDefinition: {
@@ -907,12 +899,7 @@ export const ClusterIdentity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned", "None"]
         }
       },
       userAssignedIdentities: {
@@ -1082,20 +1069,14 @@ export const ClusterGetProperties: msRest.CompositeMapper = {
         serializedName: "osType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Windows",
-            "Linux"
-          ]
+          allowedValues: ["Windows", "Linux"]
         }
       },
       tier: {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Standard",
-            "Premium"
-          ]
+          allowedValues: ["Standard", "Premium"]
         }
       },
       clusterDefinition: {
@@ -1131,13 +1112,7 @@ export const ClusterGetProperties: msRest.CompositeMapper = {
         serializedName: "provisioningState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "InProgress",
-            "Failed",
-            "Succeeded",
-            "Canceled",
-            "Deleting"
-          ]
+          allowedValues: ["InProgress", "Failed", "Succeeded", "Canceled", "Deleting"]
         }
       },
       createdDate: {
@@ -1645,11 +1620,7 @@ export const OperationResource: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "InProgress",
-            "Succeeded",
-            "Failed"
-          ]
+          allowedValues: ["InProgress", "Succeeded", "Failed"]
         }
       },
       error: {
@@ -2375,10 +2346,7 @@ export const VmSizeCompatibilityFilterV2: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "Windows",
-                "Linux"
-              ]
+              allowedValues: ["Windows", "Linux"]
             }
           }
         }
@@ -2448,10 +2416,7 @@ export const DiskBillingMeters: msRest.CompositeMapper = {
         serializedName: "tier",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Standard",
-            "Premium"
-          ]
+          allowedValues: ["Standard", "Premium"]
         }
       }
     }

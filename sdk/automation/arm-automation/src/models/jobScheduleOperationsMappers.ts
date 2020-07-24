@@ -16,4 +16,3 @@ export {
   JobScheduleCreateParameters,
   JobScheduleListResult
 } from "../models/mappers";
-

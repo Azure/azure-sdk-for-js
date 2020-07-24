@@ -23,7 +23,10 @@ class EntitySearchClient extends EntitySearchClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.EntitySearchClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.EntitySearchClientOptions
+  ) {
     super(credentials, options);
     this.entities = new operations.EntitiesOperations(this);
   }

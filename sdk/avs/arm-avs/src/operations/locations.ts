@@ -32,7 +32,10 @@ export class Locations {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationsCheckTrialAvailabilityResponse>
    */
-  checkTrialAvailability(location: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationsCheckTrialAvailabilityResponse>;
+  checkTrialAvailability(
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocationsCheckTrialAvailabilityResponse>;
   /**
    * @param location Azure region
    * @param callback The callback
@@ -43,15 +46,24 @@ export class Locations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkTrialAvailability(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Trial>): void;
-  checkTrialAvailability(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Trial>, callback?: msRest.ServiceCallback<Models.Trial>): Promise<Models.LocationsCheckTrialAvailabilityResponse> {
+  checkTrialAvailability(
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Trial>
+  ): void;
+  checkTrialAvailability(
+    location: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Trial>,
+    callback?: msRest.ServiceCallback<Models.Trial>
+  ): Promise<Models.LocationsCheckTrialAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       checkTrialAvailabilityOperationSpec,
-      callback) as Promise<Models.LocationsCheckTrialAvailabilityResponse>;
+      callback
+    ) as Promise<Models.LocationsCheckTrialAvailabilityResponse>;
   }
 
   /**
@@ -60,7 +72,10 @@ export class Locations {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationsCheckQuotaAvailabilityResponse>
    */
-  checkQuotaAvailability(location: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationsCheckQuotaAvailabilityResponse>;
+  checkQuotaAvailability(
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocationsCheckQuotaAvailabilityResponse>;
   /**
    * @param location Azure region
    * @param callback The callback
@@ -71,15 +86,24 @@ export class Locations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkQuotaAvailability(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Quota>): void;
-  checkQuotaAvailability(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Quota>, callback?: msRest.ServiceCallback<Models.Quota>): Promise<Models.LocationsCheckQuotaAvailabilityResponse> {
+  checkQuotaAvailability(
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Quota>
+  ): void;
+  checkQuotaAvailability(
+    location: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Quota>,
+    callback?: msRest.ServiceCallback<Models.Quota>
+  ): Promise<Models.LocationsCheckQuotaAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
         options
       },
       checkQuotaAvailabilityOperationSpec,
-      callback) as Promise<Models.LocationsCheckQuotaAvailabilityResponse>;
+      callback
+    ) as Promise<Models.LocationsCheckQuotaAvailabilityResponse>;
   }
 }
 
@@ -87,17 +111,11 @@ export class Locations {
 const serializer = new msRest.Serializer(Mappers);
 const checkTrialAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkTrialAvailability",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkTrialAvailability",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Trial
@@ -111,17 +129,11 @@ const checkTrialAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const checkQuotaAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkQuotaAvailability",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.AVS/locations/{location}/checkQuotaAvailability",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Quota

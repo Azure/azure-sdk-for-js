@@ -520,7 +520,7 @@ export interface ClusterList extends Array<Cluster> {
  * @readonly
  * @enum {string}
  */
-export type QuotaEnabled = 'Enabled' | 'Disabled';
+export type QuotaEnabled = "Enabled" | "Disabled";
 
 /**
  * Defines values for SslEnum.
@@ -528,7 +528,7 @@ export type QuotaEnabled = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type SslEnum = 'Enabled' | 'Disabled';
+export type SslEnum = "Enabled" | "Disabled";
 
 /**
  * Defines values for PrivateCloudProvisioningState.
@@ -536,7 +536,13 @@ export type SslEnum = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type PrivateCloudProvisioningState = 'Succeeded' | 'Failed' | 'Cancelled' | 'Pending' | 'Building' | 'Updating';
+export type PrivateCloudProvisioningState =
+  | "Succeeded"
+  | "Failed"
+  | "Cancelled"
+  | "Pending"
+  | "Building"
+  | "Updating";
 
 /**
  * Defines values for InternetEnum.
@@ -544,7 +550,7 @@ export type PrivateCloudProvisioningState = 'Succeeded' | 'Failed' | 'Cancelled'
  * @readonly
  * @enum {string}
  */
-export type InternetEnum = 'Enabled' | 'Disabled';
+export type InternetEnum = "Enabled" | "Disabled";
 
 /**
  * Defines values for ClusterProvisioningState.
@@ -552,7 +558,7 @@ export type InternetEnum = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type ClusterProvisioningState = 'Succeeded' | 'Failed' | 'Cancelled' | 'Updating';
+export type ClusterProvisioningState = "Succeeded" | "Failed" | "Cancelled" | "Updating";
 
 /**
  * Defines values for Status.
@@ -560,7 +566,7 @@ export type ClusterProvisioningState = 'Succeeded' | 'Failed' | 'Cancelled' | 'U
  * @readonly
  * @enum {string}
  */
-export type Status = 'TrialAvailable' | 'TrialUsed' | 'TrialDisabled';
+export type Status = "TrialAvailable" | "TrialUsed" | "TrialDisabled";
 
 /**
  * Contains response data for the list operation.
@@ -570,16 +576,16 @@ export type OperationsListResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -590,16 +596,16 @@ export type OperationsListNextResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -610,16 +616,16 @@ export type LocationsCheckTrialAvailabilityResponse = Trial & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Trial;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Trial;
+  };
 };
 
 /**
@@ -630,16 +636,16 @@ export type LocationsCheckQuotaAvailabilityResponse = Quota & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Quota;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Quota;
+  };
 };
 
 /**
@@ -650,16 +656,16 @@ export type PrivateCloudsListResponse = PrivateCloudList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateCloudList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateCloudList;
+  };
 };
 
 /**
@@ -670,16 +676,16 @@ export type PrivateCloudsListInSubscriptionResponse = PrivateCloudList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateCloudList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateCloudList;
+  };
 };
 
 /**
@@ -690,16 +696,16 @@ export type PrivateCloudsGetResponse = PrivateCloud & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateCloud;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateCloud;
+  };
 };
 
 /**
@@ -710,16 +716,16 @@ export type PrivateCloudsCreateOrUpdateResponse = PrivateCloud & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateCloud;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateCloud;
+  };
 };
 
 /**
@@ -730,16 +736,16 @@ export type PrivateCloudsUpdateResponse = PrivateCloud & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateCloud;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateCloud;
+  };
 };
 
 /**
@@ -750,16 +756,16 @@ export type PrivateCloudsListAdminCredentialsResponse = AdminCredentials & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AdminCredentials;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AdminCredentials;
+  };
 };
 
 /**
@@ -770,16 +776,16 @@ export type PrivateCloudsBeginCreateOrUpdateResponse = PrivateCloud & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateCloud;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateCloud;
+  };
 };
 
 /**
@@ -790,16 +796,16 @@ export type PrivateCloudsBeginUpdateResponse = PrivateCloud & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateCloud;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateCloud;
+  };
 };
 
 /**
@@ -810,16 +816,16 @@ export type PrivateCloudsListNextResponse = PrivateCloudList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateCloudList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateCloudList;
+  };
 };
 
 /**
@@ -830,16 +836,16 @@ export type PrivateCloudsListInSubscriptionNextResponse = PrivateCloudList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateCloudList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PrivateCloudList;
+  };
 };
 
 /**
@@ -850,16 +856,16 @@ export type ClustersListResponse = ClusterList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterList;
+  };
 };
 
 /**
@@ -870,16 +876,16 @@ export type ClustersGetResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -890,16 +896,16 @@ export type ClustersCreateOrUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -910,16 +916,16 @@ export type ClustersUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -930,16 +936,16 @@ export type ClustersBeginCreateOrUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -950,16 +956,16 @@ export type ClustersBeginUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -970,14 +976,14 @@ export type ClustersListNextResponse = ClusterList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterList;
+  };
 };

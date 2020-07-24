@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AdvisorManagementClientContext } from "./advisorManagementClientContext";
 
-
 class AdvisorManagementClient extends AdvisorManagementClientContext {
   // Operation groups
   configurations: operations.Configurations;
@@ -28,7 +27,11 @@ class AdvisorManagementClient extends AdvisorManagementClientContext {
    * @param subscriptionId The Azure subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AdvisorManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AdvisorManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.configurations = new operations.Configurations(this);
     this.recommendations = new operations.Recommendations(this);

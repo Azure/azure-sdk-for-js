@@ -36,9 +36,15 @@ export class TdeCertificates {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  create(resourceGroupName: string, serverName: string, parameters: Models.TdeCertificate, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginCreate(resourceGroupName,serverName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  create(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: Models.TdeCertificate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginCreate(resourceGroupName, serverName, parameters, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -50,7 +56,12 @@ export class TdeCertificates {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, serverName: string, parameters: Models.TdeCertificate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    serverName: string,
+    parameters: Models.TdeCertificate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -59,7 +70,8 @@ export class TdeCertificates {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -67,18 +79,11 @@ export class TdeCertificates {
 const serializer = new msRest.Serializer(Mappers);
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/tdeCertificates",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/tdeCertificates",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

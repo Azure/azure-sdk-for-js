@@ -21,7 +21,11 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    endpoint: string,
+    options?: msRest.ServiceClientOptions
+  ) {
     super(credentials, endpoint, options);
   }
 
@@ -34,7 +38,12 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClassifyImageResponse>
    */
-  classifyImage(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, options?: Models.PredictionAPIClientClassifyImageOptionalParams): Promise<Models.ClassifyImageResponse>;
+  classifyImage(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    options?: Models.PredictionAPIClientClassifyImageOptionalParams
+  ): Promise<Models.ClassifyImageResponse>;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -42,7 +51,12 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * images up to 4MB.
    * @param callback The callback
    */
-  classifyImage(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
+  classifyImage(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -51,8 +65,22 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  classifyImage(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, options: Models.PredictionAPIClientClassifyImageOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  classifyImage(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, options?: Models.PredictionAPIClientClassifyImageOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.ClassifyImageResponse> {
+  classifyImage(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    options: Models.PredictionAPIClientClassifyImageOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
+  classifyImage(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    options?:
+      | Models.PredictionAPIClientClassifyImageOptionalParams
+      | msRest.ServiceCallback<Models.ImagePrediction>,
+    callback?: msRest.ServiceCallback<Models.ImagePrediction>
+  ): Promise<Models.ClassifyImageResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -61,7 +89,8 @@ class PredictionAPIClient extends PredictionAPIClientContext {
         options
       },
       classifyImageOperationSpec,
-      callback) as Promise<Models.ClassifyImageResponse>;
+      callback
+    ) as Promise<Models.ClassifyImageResponse>;
   }
 
   /**
@@ -73,7 +102,12 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClassifyImageWithNoStoreResponse>
    */
-  classifyImageWithNoStore(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, options?: Models.PredictionAPIClientClassifyImageWithNoStoreOptionalParams): Promise<Models.ClassifyImageWithNoStoreResponse>;
+  classifyImageWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    options?: Models.PredictionAPIClientClassifyImageWithNoStoreOptionalParams
+  ): Promise<Models.ClassifyImageWithNoStoreResponse>;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -81,7 +115,12 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * images up to 4MB.
    * @param callback The callback
    */
-  classifyImageWithNoStore(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
+  classifyImageWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -90,8 +129,22 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  classifyImageWithNoStore(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, options: Models.PredictionAPIClientClassifyImageWithNoStoreOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  classifyImageWithNoStore(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, options?: Models.PredictionAPIClientClassifyImageWithNoStoreOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.ClassifyImageWithNoStoreResponse> {
+  classifyImageWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    options: Models.PredictionAPIClientClassifyImageWithNoStoreOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
+  classifyImageWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    options?:
+      | Models.PredictionAPIClientClassifyImageWithNoStoreOptionalParams
+      | msRest.ServiceCallback<Models.ImagePrediction>,
+    callback?: msRest.ServiceCallback<Models.ImagePrediction>
+  ): Promise<Models.ClassifyImageWithNoStoreResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -100,7 +153,8 @@ class PredictionAPIClient extends PredictionAPIClientContext {
         options
       },
       classifyImageWithNoStoreOperationSpec,
-      callback) as Promise<Models.ClassifyImageWithNoStoreResponse>;
+      callback
+    ) as Promise<Models.ClassifyImageWithNoStoreResponse>;
   }
 
   /**
@@ -111,14 +165,24 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClassifyImageUrlResponse>
    */
-  classifyImageUrl(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, options?: Models.PredictionAPIClientClassifyImageUrlOptionalParams): Promise<Models.ClassifyImageUrlResponse>;
+  classifyImageUrl(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    options?: Models.PredictionAPIClientClassifyImageUrlOptionalParams
+  ): Promise<Models.ClassifyImageUrlResponse>;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
    * @param imageUrl An ImageUrl that contains the url of the image to be evaluated.
    * @param callback The callback
    */
-  classifyImageUrl(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
+  classifyImageUrl(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -126,8 +190,22 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  classifyImageUrl(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, options: Models.PredictionAPIClientClassifyImageUrlOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  classifyImageUrl(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, options?: Models.PredictionAPIClientClassifyImageUrlOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.ClassifyImageUrlResponse> {
+  classifyImageUrl(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    options: Models.PredictionAPIClientClassifyImageUrlOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
+  classifyImageUrl(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    options?:
+      | Models.PredictionAPIClientClassifyImageUrlOptionalParams
+      | msRest.ServiceCallback<Models.ImagePrediction>,
+    callback?: msRest.ServiceCallback<Models.ImagePrediction>
+  ): Promise<Models.ClassifyImageUrlResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -136,7 +214,8 @@ class PredictionAPIClient extends PredictionAPIClientContext {
         options
       },
       classifyImageUrlOperationSpec,
-      callback) as Promise<Models.ClassifyImageUrlResponse>;
+      callback
+    ) as Promise<Models.ClassifyImageUrlResponse>;
   }
 
   /**
@@ -148,7 +227,12 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ClassifyImageUrlWithNoStoreResponse>
    */
-  classifyImageUrlWithNoStore(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, options?: Models.PredictionAPIClientClassifyImageUrlWithNoStoreOptionalParams): Promise<Models.ClassifyImageUrlWithNoStoreResponse>;
+  classifyImageUrlWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    options?: Models.PredictionAPIClientClassifyImageUrlWithNoStoreOptionalParams
+  ): Promise<Models.ClassifyImageUrlWithNoStoreResponse>;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -156,7 +240,12 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * evaluated.
    * @param callback The callback
    */
-  classifyImageUrlWithNoStore(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
+  classifyImageUrlWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -165,8 +254,22 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  classifyImageUrlWithNoStore(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, options: Models.PredictionAPIClientClassifyImageUrlWithNoStoreOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  classifyImageUrlWithNoStore(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, options?: Models.PredictionAPIClientClassifyImageUrlWithNoStoreOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.ClassifyImageUrlWithNoStoreResponse> {
+  classifyImageUrlWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    options: Models.PredictionAPIClientClassifyImageUrlWithNoStoreOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
+  classifyImageUrlWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    options?:
+      | Models.PredictionAPIClientClassifyImageUrlWithNoStoreOptionalParams
+      | msRest.ServiceCallback<Models.ImagePrediction>,
+    callback?: msRest.ServiceCallback<Models.ImagePrediction>
+  ): Promise<Models.ClassifyImageUrlWithNoStoreResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -175,7 +278,8 @@ class PredictionAPIClient extends PredictionAPIClientContext {
         options
       },
       classifyImageUrlWithNoStoreOperationSpec,
-      callback) as Promise<Models.ClassifyImageUrlWithNoStoreResponse>;
+      callback
+    ) as Promise<Models.ClassifyImageUrlWithNoStoreResponse>;
   }
 
   /**
@@ -187,7 +291,12 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DetectImageResponse>
    */
-  detectImage(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, options?: Models.PredictionAPIClientDetectImageOptionalParams): Promise<Models.DetectImageResponse>;
+  detectImage(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    options?: Models.PredictionAPIClientDetectImageOptionalParams
+  ): Promise<Models.DetectImageResponse>;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -195,7 +304,12 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * images up to 4MB.
    * @param callback The callback
    */
-  detectImage(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
+  detectImage(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -204,8 +318,22 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  detectImage(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, options: Models.PredictionAPIClientDetectImageOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  detectImage(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, options?: Models.PredictionAPIClientDetectImageOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.DetectImageResponse> {
+  detectImage(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    options: Models.PredictionAPIClientDetectImageOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
+  detectImage(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    options?:
+      | Models.PredictionAPIClientDetectImageOptionalParams
+      | msRest.ServiceCallback<Models.ImagePrediction>,
+    callback?: msRest.ServiceCallback<Models.ImagePrediction>
+  ): Promise<Models.DetectImageResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -214,7 +342,8 @@ class PredictionAPIClient extends PredictionAPIClientContext {
         options
       },
       detectImageOperationSpec,
-      callback) as Promise<Models.DetectImageResponse>;
+      callback
+    ) as Promise<Models.DetectImageResponse>;
   }
 
   /**
@@ -226,7 +355,12 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DetectImageWithNoStoreResponse>
    */
-  detectImageWithNoStore(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, options?: Models.PredictionAPIClientDetectImageWithNoStoreOptionalParams): Promise<Models.DetectImageWithNoStoreResponse>;
+  detectImageWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    options?: Models.PredictionAPIClientDetectImageWithNoStoreOptionalParams
+  ): Promise<Models.DetectImageWithNoStoreResponse>;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -234,7 +368,12 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * images up to 4MB.
    * @param callback The callback
    */
-  detectImageWithNoStore(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
+  detectImageWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -243,8 +382,22 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  detectImageWithNoStore(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, options: Models.PredictionAPIClientDetectImageWithNoStoreOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  detectImageWithNoStore(projectId: string, publishedName: string, imageData: msRest.HttpRequestBody, options?: Models.PredictionAPIClientDetectImageWithNoStoreOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.DetectImageWithNoStoreResponse> {
+  detectImageWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    options: Models.PredictionAPIClientDetectImageWithNoStoreOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
+  detectImageWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageData: msRest.HttpRequestBody,
+    options?:
+      | Models.PredictionAPIClientDetectImageWithNoStoreOptionalParams
+      | msRest.ServiceCallback<Models.ImagePrediction>,
+    callback?: msRest.ServiceCallback<Models.ImagePrediction>
+  ): Promise<Models.DetectImageWithNoStoreResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -253,7 +406,8 @@ class PredictionAPIClient extends PredictionAPIClientContext {
         options
       },
       detectImageWithNoStoreOperationSpec,
-      callback) as Promise<Models.DetectImageWithNoStoreResponse>;
+      callback
+    ) as Promise<Models.DetectImageWithNoStoreResponse>;
   }
 
   /**
@@ -264,14 +418,24 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DetectImageUrlResponse>
    */
-  detectImageUrl(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, options?: Models.PredictionAPIClientDetectImageUrlOptionalParams): Promise<Models.DetectImageUrlResponse>;
+  detectImageUrl(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    options?: Models.PredictionAPIClientDetectImageUrlOptionalParams
+  ): Promise<Models.DetectImageUrlResponse>;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
    * @param imageUrl An ImageUrl that contains the url of the image to be evaluated.
    * @param callback The callback
    */
-  detectImageUrl(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
+  detectImageUrl(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -279,8 +443,22 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  detectImageUrl(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, options: Models.PredictionAPIClientDetectImageUrlOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  detectImageUrl(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, options?: Models.PredictionAPIClientDetectImageUrlOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.DetectImageUrlResponse> {
+  detectImageUrl(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    options: Models.PredictionAPIClientDetectImageUrlOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
+  detectImageUrl(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    options?:
+      | Models.PredictionAPIClientDetectImageUrlOptionalParams
+      | msRest.ServiceCallback<Models.ImagePrediction>,
+    callback?: msRest.ServiceCallback<Models.ImagePrediction>
+  ): Promise<Models.DetectImageUrlResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -289,7 +467,8 @@ class PredictionAPIClient extends PredictionAPIClientContext {
         options
       },
       detectImageUrlOperationSpec,
-      callback) as Promise<Models.DetectImageUrlResponse>;
+      callback
+    ) as Promise<Models.DetectImageUrlResponse>;
   }
 
   /**
@@ -301,7 +480,12 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DetectImageUrlWithNoStoreResponse>
    */
-  detectImageUrlWithNoStore(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, options?: Models.PredictionAPIClientDetectImageUrlWithNoStoreOptionalParams): Promise<Models.DetectImageUrlWithNoStoreResponse>;
+  detectImageUrlWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    options?: Models.PredictionAPIClientDetectImageUrlWithNoStoreOptionalParams
+  ): Promise<Models.DetectImageUrlWithNoStoreResponse>;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -309,7 +493,12 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * evaluated.
    * @param callback The callback
    */
-  detectImageUrlWithNoStore(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
+  detectImageUrlWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
   /**
    * @param projectId The project id.
    * @param publishedName Specifies the name of the model to evaluate against.
@@ -318,8 +507,22 @@ class PredictionAPIClient extends PredictionAPIClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  detectImageUrlWithNoStore(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, options: Models.PredictionAPIClientDetectImageUrlWithNoStoreOptionalParams, callback: msRest.ServiceCallback<Models.ImagePrediction>): void;
-  detectImageUrlWithNoStore(projectId: string, publishedName: string, imageUrl: Models.ImageUrl, options?: Models.PredictionAPIClientDetectImageUrlWithNoStoreOptionalParams | msRest.ServiceCallback<Models.ImagePrediction>, callback?: msRest.ServiceCallback<Models.ImagePrediction>): Promise<Models.DetectImageUrlWithNoStoreResponse> {
+  detectImageUrlWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    options: Models.PredictionAPIClientDetectImageUrlWithNoStoreOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImagePrediction>
+  ): void;
+  detectImageUrlWithNoStore(
+    projectId: string,
+    publishedName: string,
+    imageUrl: Models.ImageUrl,
+    options?:
+      | Models.PredictionAPIClientDetectImageUrlWithNoStoreOptionalParams
+      | msRest.ServiceCallback<Models.ImagePrediction>,
+    callback?: msRest.ServiceCallback<Models.ImagePrediction>
+  ): Promise<Models.DetectImageUrlWithNoStoreResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -328,7 +531,8 @@ class PredictionAPIClient extends PredictionAPIClientContext {
         options
       },
       detectImageUrlWithNoStoreOperationSpec,
-      callback) as Promise<Models.DetectImageUrlWithNoStoreResponse>;
+      callback
+    ) as Promise<Models.DetectImageUrlWithNoStoreResponse>;
   }
 }
 
@@ -337,17 +541,9 @@ const serializer = new msRest.Serializer(Mappers);
 const classifyImageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{projectId}/classify/iterations/{publishedName}/image",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.projectId,
-    Parameters.publishedName
-  ],
-  queryParameters: [
-    Parameters.application
-  ],
-  formDataParameters: [
-    Parameters.imageData
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.projectId, Parameters.publishedName],
+  queryParameters: [Parameters.application],
+  formDataParameters: [Parameters.imageData],
   contentType: "multipart/form-data",
   responses: {
     200: {
@@ -363,17 +559,9 @@ const classifyImageOperationSpec: msRest.OperationSpec = {
 const classifyImageWithNoStoreOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{projectId}/classify/iterations/{publishedName}/image/nostore",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.projectId,
-    Parameters.publishedName
-  ],
-  queryParameters: [
-    Parameters.application
-  ],
-  formDataParameters: [
-    Parameters.imageData
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.projectId, Parameters.publishedName],
+  queryParameters: [Parameters.application],
+  formDataParameters: [Parameters.imageData],
   contentType: "multipart/form-data",
   responses: {
     200: {
@@ -389,14 +577,8 @@ const classifyImageWithNoStoreOperationSpec: msRest.OperationSpec = {
 const classifyImageUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{projectId}/classify/iterations/{publishedName}/url",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.projectId,
-    Parameters.publishedName
-  ],
-  queryParameters: [
-    Parameters.application
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.projectId, Parameters.publishedName],
+  queryParameters: [Parameters.application],
   requestBody: {
     parameterPath: "imageUrl",
     mapper: {
@@ -419,14 +601,8 @@ const classifyImageUrlOperationSpec: msRest.OperationSpec = {
 const classifyImageUrlWithNoStoreOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{projectId}/classify/iterations/{publishedName}/url/nostore",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.projectId,
-    Parameters.publishedName
-  ],
-  queryParameters: [
-    Parameters.application
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.projectId, Parameters.publishedName],
+  queryParameters: [Parameters.application],
   requestBody: {
     parameterPath: "imageUrl",
     mapper: {
@@ -449,17 +625,9 @@ const classifyImageUrlWithNoStoreOperationSpec: msRest.OperationSpec = {
 const detectImageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{projectId}/detect/iterations/{publishedName}/image",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.projectId,
-    Parameters.publishedName
-  ],
-  queryParameters: [
-    Parameters.application
-  ],
-  formDataParameters: [
-    Parameters.imageData
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.projectId, Parameters.publishedName],
+  queryParameters: [Parameters.application],
+  formDataParameters: [Parameters.imageData],
   contentType: "multipart/form-data",
   responses: {
     200: {
@@ -475,17 +643,9 @@ const detectImageOperationSpec: msRest.OperationSpec = {
 const detectImageWithNoStoreOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{projectId}/detect/iterations/{publishedName}/image/nostore",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.projectId,
-    Parameters.publishedName
-  ],
-  queryParameters: [
-    Parameters.application
-  ],
-  formDataParameters: [
-    Parameters.imageData
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.projectId, Parameters.publishedName],
+  queryParameters: [Parameters.application],
+  formDataParameters: [Parameters.imageData],
   contentType: "multipart/form-data",
   responses: {
     200: {
@@ -501,14 +661,8 @@ const detectImageWithNoStoreOperationSpec: msRest.OperationSpec = {
 const detectImageUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{projectId}/detect/iterations/{publishedName}/url",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.projectId,
-    Parameters.publishedName
-  ],
-  queryParameters: [
-    Parameters.application
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.projectId, Parameters.publishedName],
+  queryParameters: [Parameters.application],
   requestBody: {
     parameterPath: "imageUrl",
     mapper: {
@@ -531,14 +685,8 @@ const detectImageUrlOperationSpec: msRest.OperationSpec = {
 const detectImageUrlWithNoStoreOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{projectId}/detect/iterations/{publishedName}/url/nostore",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.projectId,
-    Parameters.publishedName
-  ],
-  queryParameters: [
-    Parameters.application
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.projectId, Parameters.publishedName],
+  queryParameters: [Parameters.application],
   requestBody: {
     parameterPath: "imageUrl",
     mapper: {

@@ -38,10 +38,5 @@ class StorageClient extends StorageClientContext {
 
 // Operation Specifications
 
-export {
-  StorageClient,
-  StorageClientContext,
-  Models as StorageModels,
-  Mappers as StorageMappers
-};
+export { StorageClient, StorageClientContext, Models as StorageModels, Mappers as StorageMappers };
 export * from "./operations";

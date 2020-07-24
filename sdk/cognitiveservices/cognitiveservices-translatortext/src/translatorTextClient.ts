@@ -24,7 +24,11 @@ class TranslatorTextClient extends TranslatorTextClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: Models.TranslatorTextClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    endpoint: string,
+    options?: Models.TranslatorTextClientOptions
+  ) {
     super(credentials, endpoint, options);
     this.translator = new operations.Translator(this);
   }

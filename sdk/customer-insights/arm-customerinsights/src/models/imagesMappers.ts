@@ -8,9 +8,4 @@
  * regenerated.
  */
 
-export {
-  GetImageUploadUrlInput,
-  ImageDefinition,
-  CloudError
-} from "../models/mappers";
-
+export { GetImageUploadUrlInput, ImageDefinition, CloudError } from "../models/mappers";

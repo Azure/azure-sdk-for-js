@@ -38,7 +38,13 @@ export class Inputs {
    * @param [options] The optional parameters
    * @returns Promise<Models.InputsCreateOrReplaceResponse>
    */
-  createOrReplace(input: Models.Input, resourceGroupName: string, jobName: string, inputName: string, options?: Models.InputsCreateOrReplaceOptionalParams): Promise<Models.InputsCreateOrReplaceResponse>;
+  createOrReplace(
+    input: Models.Input,
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options?: Models.InputsCreateOrReplaceOptionalParams
+  ): Promise<Models.InputsCreateOrReplaceResponse>;
   /**
    * @param input The definition of the input that will be used to create a new input or replace the
    * existing one under the streaming job.
@@ -48,7 +54,13 @@ export class Inputs {
    * @param inputName The name of the input.
    * @param callback The callback
    */
-  createOrReplace(input: Models.Input, resourceGroupName: string, jobName: string, inputName: string, callback: msRest.ServiceCallback<Models.Input>): void;
+  createOrReplace(
+    input: Models.Input,
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    callback: msRest.ServiceCallback<Models.Input>
+  ): void;
   /**
    * @param input The definition of the input that will be used to create a new input or replace the
    * existing one under the streaming job.
@@ -59,8 +71,22 @@ export class Inputs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrReplace(input: Models.Input, resourceGroupName: string, jobName: string, inputName: string, options: Models.InputsCreateOrReplaceOptionalParams, callback: msRest.ServiceCallback<Models.Input>): void;
-  createOrReplace(input: Models.Input, resourceGroupName: string, jobName: string, inputName: string, options?: Models.InputsCreateOrReplaceOptionalParams | msRest.ServiceCallback<Models.Input>, callback?: msRest.ServiceCallback<Models.Input>): Promise<Models.InputsCreateOrReplaceResponse> {
+  createOrReplace(
+    input: Models.Input,
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options: Models.InputsCreateOrReplaceOptionalParams,
+    callback: msRest.ServiceCallback<Models.Input>
+  ): void;
+  createOrReplace(
+    input: Models.Input,
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options?: Models.InputsCreateOrReplaceOptionalParams | msRest.ServiceCallback<Models.Input>,
+    callback?: msRest.ServiceCallback<Models.Input>
+  ): Promise<Models.InputsCreateOrReplaceResponse> {
     return this.client.sendOperationRequest(
       {
         input,
@@ -70,7 +96,8 @@ export class Inputs {
         options
       },
       createOrReplaceOperationSpec,
-      callback) as Promise<Models.InputsCreateOrReplaceResponse>;
+      callback
+    ) as Promise<Models.InputsCreateOrReplaceResponse>;
   }
 
   /**
@@ -88,7 +115,13 @@ export class Inputs {
    * @param [options] The optional parameters
    * @returns Promise<Models.InputsUpdateResponse>
    */
-  update(input: Models.Input, resourceGroupName: string, jobName: string, inputName: string, options?: Models.InputsUpdateOptionalParams): Promise<Models.InputsUpdateResponse>;
+  update(
+    input: Models.Input,
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options?: Models.InputsUpdateOptionalParams
+  ): Promise<Models.InputsUpdateResponse>;
   /**
    * @param input An Input object. The properties specified here will overwrite the corresponding
    * properties in the existing input (ie. Those properties will be updated). Any properties that are
@@ -100,7 +133,13 @@ export class Inputs {
    * @param inputName The name of the input.
    * @param callback The callback
    */
-  update(input: Models.Input, resourceGroupName: string, jobName: string, inputName: string, callback: msRest.ServiceCallback<Models.Input>): void;
+  update(
+    input: Models.Input,
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    callback: msRest.ServiceCallback<Models.Input>
+  ): void;
   /**
    * @param input An Input object. The properties specified here will overwrite the corresponding
    * properties in the existing input (ie. Those properties will be updated). Any properties that are
@@ -113,8 +152,22 @@ export class Inputs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(input: Models.Input, resourceGroupName: string, jobName: string, inputName: string, options: Models.InputsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Input>): void;
-  update(input: Models.Input, resourceGroupName: string, jobName: string, inputName: string, options?: Models.InputsUpdateOptionalParams | msRest.ServiceCallback<Models.Input>, callback?: msRest.ServiceCallback<Models.Input>): Promise<Models.InputsUpdateResponse> {
+  update(
+    input: Models.Input,
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options: Models.InputsUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.Input>
+  ): void;
+  update(
+    input: Models.Input,
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options?: Models.InputsUpdateOptionalParams | msRest.ServiceCallback<Models.Input>,
+    callback?: msRest.ServiceCallback<Models.Input>
+  ): Promise<Models.InputsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         input,
@@ -124,7 +177,8 @@ export class Inputs {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.InputsUpdateResponse>;
+      callback
+    ) as Promise<Models.InputsUpdateResponse>;
   }
 
   /**
@@ -136,7 +190,12 @@ export class Inputs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, jobName: string, inputName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -144,7 +203,12 @@ export class Inputs {
    * @param inputName The name of the input.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, jobName: string, inputName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -153,8 +217,20 @@ export class Inputs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, jobName: string, inputName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, jobName: string, inputName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -163,7 +239,8 @@ export class Inputs {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -175,7 +252,12 @@ export class Inputs {
    * @param [options] The optional parameters
    * @returns Promise<Models.InputsGetResponse>
    */
-  get(resourceGroupName: string, jobName: string, inputName: string, options?: msRest.RequestOptionsBase): Promise<Models.InputsGetResponse>;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InputsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -183,7 +265,12 @@ export class Inputs {
    * @param inputName The name of the input.
    * @param callback The callback
    */
-  get(resourceGroupName: string, jobName: string, inputName: string, callback: msRest.ServiceCallback<Models.Input>): void;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    callback: msRest.ServiceCallback<Models.Input>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -192,8 +279,20 @@ export class Inputs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, jobName: string, inputName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Input>): void;
-  get(resourceGroupName: string, jobName: string, inputName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Input>, callback?: msRest.ServiceCallback<Models.Input>): Promise<Models.InputsGetResponse> {
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Input>
+  ): void;
+  get(
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Input>,
+    callback?: msRest.ServiceCallback<Models.Input>
+  ): Promise<Models.InputsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -202,7 +301,8 @@ export class Inputs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.InputsGetResponse>;
+      callback
+    ) as Promise<Models.InputsGetResponse>;
   }
 
   /**
@@ -213,14 +313,22 @@ export class Inputs {
    * @param [options] The optional parameters
    * @returns Promise<Models.InputsListByStreamingJobResponse>
    */
-  listByStreamingJob(resourceGroupName: string, jobName: string, options?: Models.InputsListByStreamingJobOptionalParams): Promise<Models.InputsListByStreamingJobResponse>;
+  listByStreamingJob(
+    resourceGroupName: string,
+    jobName: string,
+    options?: Models.InputsListByStreamingJobOptionalParams
+  ): Promise<Models.InputsListByStreamingJobResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param jobName The name of the streaming job.
    * @param callback The callback
    */
-  listByStreamingJob(resourceGroupName: string, jobName: string, callback: msRest.ServiceCallback<Models.InputListResult>): void;
+  listByStreamingJob(
+    resourceGroupName: string,
+    jobName: string,
+    callback: msRest.ServiceCallback<Models.InputListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -228,8 +336,20 @@ export class Inputs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByStreamingJob(resourceGroupName: string, jobName: string, options: Models.InputsListByStreamingJobOptionalParams, callback: msRest.ServiceCallback<Models.InputListResult>): void;
-  listByStreamingJob(resourceGroupName: string, jobName: string, options?: Models.InputsListByStreamingJobOptionalParams | msRest.ServiceCallback<Models.InputListResult>, callback?: msRest.ServiceCallback<Models.InputListResult>): Promise<Models.InputsListByStreamingJobResponse> {
+  listByStreamingJob(
+    resourceGroupName: string,
+    jobName: string,
+    options: Models.InputsListByStreamingJobOptionalParams,
+    callback: msRest.ServiceCallback<Models.InputListResult>
+  ): void;
+  listByStreamingJob(
+    resourceGroupName: string,
+    jobName: string,
+    options?:
+      | Models.InputsListByStreamingJobOptionalParams
+      | msRest.ServiceCallback<Models.InputListResult>,
+    callback?: msRest.ServiceCallback<Models.InputListResult>
+  ): Promise<Models.InputsListByStreamingJobResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -237,7 +357,8 @@ export class Inputs {
         options
       },
       listByStreamingJobOperationSpec,
-      callback) as Promise<Models.InputsListByStreamingJobResponse>;
+      callback
+    ) as Promise<Models.InputsListByStreamingJobResponse>;
   }
 
   /**
@@ -250,9 +371,15 @@ export class Inputs {
    * @param [options] The optional parameters
    * @returns Promise<Models.InputsTestResponse>
    */
-  test(resourceGroupName: string, jobName: string, inputName: string, options?: Models.InputsTestOptionalParams): Promise<Models.InputsTestResponse> {
-    return this.beginTest(resourceGroupName,jobName,inputName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.InputsTestResponse>;
+  test(
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options?: Models.InputsTestOptionalParams
+  ): Promise<Models.InputsTestResponse> {
+    return this.beginTest(resourceGroupName, jobName, inputName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.InputsTestResponse>;
   }
 
   /**
@@ -265,7 +392,12 @@ export class Inputs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginTest(resourceGroupName: string, jobName: string, inputName: string, options?: Models.InputsBeginTestOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginTest(
+    resourceGroupName: string,
+    jobName: string,
+    inputName: string,
+    options?: Models.InputsBeginTestOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -274,7 +406,8 @@ export class Inputs {
         options
       },
       beginTestOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -283,26 +416,41 @@ export class Inputs {
    * @param [options] The optional parameters
    * @returns Promise<Models.InputsListByStreamingJobNextResponse>
    */
-  listByStreamingJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.InputsListByStreamingJobNextResponse>;
+  listByStreamingJobNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.InputsListByStreamingJobNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByStreamingJobNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.InputListResult>): void;
+  listByStreamingJobNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.InputListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByStreamingJobNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InputListResult>): void;
-  listByStreamingJobNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InputListResult>, callback?: msRest.ServiceCallback<Models.InputListResult>): Promise<Models.InputsListByStreamingJobNextResponse> {
+  listByStreamingJobNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.InputListResult>
+  ): void;
+  listByStreamingJobNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InputListResult>,
+    callback?: msRest.ServiceCallback<Models.InputListResult>
+  ): Promise<Models.InputsListByStreamingJobNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByStreamingJobNextOperationSpec,
-      callback) as Promise<Models.InputsListByStreamingJobNextResponse>;
+      callback
+    ) as Promise<Models.InputsListByStreamingJobNextResponse>;
   }
 }
 
@@ -310,21 +458,16 @@ export class Inputs {
 const serializer = new msRest.Serializer(Mappers);
 const createOrReplaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs/{inputName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs/{inputName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.inputName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.ifNoneMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -350,20 +493,16 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs/{inputName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs/{inputName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.inputName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -385,19 +524,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs/{inputName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs/{inputName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.inputName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -410,19 +546,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs/{inputName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs/{inputName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.inputName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Input,
@@ -437,19 +570,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByStreamingJobOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.jobName
-  ],
-  queryParameters: [
-    Parameters.select,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.jobName],
+  queryParameters: [Parameters.select, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InputListResult
@@ -463,24 +588,18 @@ const listByStreamingJobOperationSpec: msRest.OperationSpec = {
 
 const beginTestOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs/{inputName}/test",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs/{inputName}/test",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
     Parameters.inputName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "input"
-    ],
+    parameterPath: ["options", "input"],
     mapper: Mappers.Input
   },
   responses: {
@@ -499,12 +618,8 @@ const listByStreamingJobNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.InputListResult

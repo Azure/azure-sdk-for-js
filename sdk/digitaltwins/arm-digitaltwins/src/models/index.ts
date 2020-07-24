@@ -14,8 +14,7 @@ export { BaseResource, CloudError };
 /**
  * Information about the SKU of the DigitalTwinsInstance.
  */
-export interface DigitalTwinsSkuInfo {
-}
+export interface DigitalTwinsSkuInfo {}
 
 /**
  * The common properties of a DigitalTwinsInstance.
@@ -213,7 +212,11 @@ export interface ExternalResource {
 /**
  * Contains the possible cases for DigitalTwinsEndpointResourceProperties.
  */
-export type DigitalTwinsEndpointResourcePropertiesUnion = DigitalTwinsEndpointResourceProperties | ServiceBus | EventHub | EventGrid;
+export type DigitalTwinsEndpointResourcePropertiesUnion =
+  | DigitalTwinsEndpointResourceProperties
+  | ServiceBus
+  | EventHub
+  | EventGrid;
 
 /**
  * Properties related to Digital Twins Endpoint
@@ -376,7 +379,8 @@ export interface DigitalTwinsBeginUpdateOptionalParams extends msRest.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface DigitalTwinsEndpointCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface DigitalTwinsEndpointCreateOrUpdateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * DigitalTwinsInstance endpoint resource properties.
    */
@@ -386,7 +390,8 @@ export interface DigitalTwinsEndpointCreateOrUpdateOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface DigitalTwinsEndpointBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface DigitalTwinsEndpointBeginCreateOrUpdateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * DigitalTwinsInstance endpoint resource properties.
    */
@@ -417,7 +422,8 @@ export interface DigitalTwinsDescriptionListResult extends Array<DigitalTwinsDes
  * A list of DigitalTwinsInstance Endpoints with a next link.
  * @extends Array<DigitalTwinsEndpointResource>
  */
-export interface DigitalTwinsEndpointResourceListResult extends Array<DigitalTwinsEndpointResource> {
+export interface DigitalTwinsEndpointResourceListResult
+  extends Array<DigitalTwinsEndpointResource> {
   /**
    * The link used to get the next page of DigitalTwinsInstance Endpoints.
    */
@@ -443,7 +449,7 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Provisioning' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export type ProvisioningState = "Provisioning" | "Deleting" | "Succeeded" | "Failed" | "Canceled";
 
 /**
  * Defines values for Reason.
@@ -451,7 +457,7 @@ export type ProvisioningState = 'Provisioning' | 'Deleting' | 'Succeeded' | 'Fai
  * @readonly
  * @enum {string}
  */
-export type Reason = 'Invalid' | 'AlreadyExists';
+export type Reason = "Invalid" | "AlreadyExists";
 
 /**
  * Defines values for EndpointProvisioningState.
@@ -459,7 +465,12 @@ export type Reason = 'Invalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type EndpointProvisioningState = 'Provisioning' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export type EndpointProvisioningState =
+  | "Provisioning"
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled";
 
 /**
  * Contains response data for the get operation.
@@ -469,16 +480,16 @@ export type DigitalTwinsGetResponse = DigitalTwinsDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsDescription;
+  };
 };
 
 /**
@@ -489,16 +500,16 @@ export type DigitalTwinsCreateOrUpdateResponse = DigitalTwinsDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsDescription;
+  };
 };
 
 /**
@@ -509,16 +520,16 @@ export type DigitalTwinsUpdateResponse = DigitalTwinsDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsDescription;
+  };
 };
 
 /**
@@ -529,16 +540,16 @@ export type DigitalTwinsDeleteMethodResponse = DigitalTwinsDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsDescription;
+  };
 };
 
 /**
@@ -549,16 +560,16 @@ export type DigitalTwinsListResponse = DigitalTwinsDescriptionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsDescriptionListResult;
+  };
 };
 
 /**
@@ -569,16 +580,16 @@ export type DigitalTwinsListByResourceGroupResponse = DigitalTwinsDescriptionLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsDescriptionListResult;
+  };
 };
 
 /**
@@ -589,16 +600,16 @@ export type DigitalTwinsCheckNameAvailabilityResponse = CheckNameResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameResult;
+  };
 };
 
 /**
@@ -609,16 +620,16 @@ export type DigitalTwinsBeginCreateOrUpdateResponse = DigitalTwinsDescription & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsDescription;
+  };
 };
 
 /**
@@ -629,16 +640,16 @@ export type DigitalTwinsBeginUpdateResponse = DigitalTwinsDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsDescription;
+  };
 };
 
 /**
@@ -649,16 +660,16 @@ export type DigitalTwinsBeginDeleteMethodResponse = DigitalTwinsDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsDescription;
+  };
 };
 
 /**
@@ -669,16 +680,16 @@ export type DigitalTwinsListNextResponse = DigitalTwinsDescriptionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsDescriptionListResult;
+  };
 };
 
 /**
@@ -689,16 +700,16 @@ export type DigitalTwinsListByResourceGroupNextResponse = DigitalTwinsDescriptio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsDescriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsDescriptionListResult;
+  };
 };
 
 /**
@@ -709,16 +720,16 @@ export type DigitalTwinsEndpointListResponse = DigitalTwinsEndpointResourceListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsEndpointResourceListResult;
+  };
 };
 
 /**
@@ -729,16 +740,16 @@ export type DigitalTwinsEndpointGetResponse = DigitalTwinsEndpointResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsEndpointResource;
+  };
 };
 
 /**
@@ -749,16 +760,16 @@ export type DigitalTwinsEndpointCreateOrUpdateResponse = DigitalTwinsEndpointRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsEndpointResource;
+  };
 };
 
 /**
@@ -769,16 +780,16 @@ export type DigitalTwinsEndpointDeleteMethodResponse = DigitalTwinsEndpointResou
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsEndpointResource;
+  };
 };
 
 /**
@@ -789,16 +800,16 @@ export type DigitalTwinsEndpointBeginCreateOrUpdateResponse = DigitalTwinsEndpoi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsEndpointResource;
+  };
 };
 
 /**
@@ -809,16 +820,16 @@ export type DigitalTwinsEndpointBeginDeleteMethodResponse = DigitalTwinsEndpoint
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsEndpointResource;
+  };
 };
 
 /**
@@ -829,16 +840,16 @@ export type DigitalTwinsEndpointListNextResponse = DigitalTwinsEndpointResourceL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DigitalTwinsEndpointResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DigitalTwinsEndpointResourceListResult;
+  };
 };
 
 /**
@@ -849,16 +860,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -869,14 +880,14 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

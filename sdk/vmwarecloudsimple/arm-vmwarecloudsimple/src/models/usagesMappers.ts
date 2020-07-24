@@ -6,10 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  CSRPError,
-  CSRPErrorBody,
-  Usage,
-  UsageListResponse,
-  UsageName
-} from "../models/mappers";
+export { CSRPError, CSRPErrorBody, Usage, UsageListResponse, UsageName } from "../models/mappers";

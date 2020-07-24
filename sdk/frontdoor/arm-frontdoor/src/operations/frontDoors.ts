@@ -41,14 +41,21 @@ export class FrontDoors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontDoorListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoorListResult>, callback?: msRest.ServiceCallback<Models.FrontDoorListResult>): Promise<Models.FrontDoorsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FrontDoorListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoorListResult>,
+    callback?: msRest.ServiceCallback<Models.FrontDoorListResult>
+  ): Promise<Models.FrontDoorsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.FrontDoorsListResponse>;
+      callback
+    ) as Promise<Models.FrontDoorsListResponse>;
   }
 
   /**
@@ -57,26 +64,41 @@ export class FrontDoors {
    * @param [options] The optional parameters
    * @returns Promise<Models.FrontDoorsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.FrontDoorsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FrontDoorsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.FrontDoorListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.FrontDoorListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontDoorListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoorListResult>, callback?: msRest.ServiceCallback<Models.FrontDoorListResult>): Promise<Models.FrontDoorsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FrontDoorListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoorListResult>,
+    callback?: msRest.ServiceCallback<Models.FrontDoorListResult>
+  ): Promise<Models.FrontDoorsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.FrontDoorsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.FrontDoorsListByResourceGroupResponse>;
   }
 
   /**
@@ -87,21 +109,39 @@ export class FrontDoors {
    * @param [options] The optional parameters
    * @returns Promise<Models.FrontDoorsGetResponse>
    */
-  get(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase): Promise<Models.FrontDoorsGetResponse>;
+  get(
+    resourceGroupName: string,
+    frontDoorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FrontDoorsGetResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
    * @param callback The callback
    */
-  get(resourceGroupName: string, frontDoorName: string, callback: msRest.ServiceCallback<Models.FrontDoor>): void;
+  get(
+    resourceGroupName: string,
+    frontDoorName: string,
+    callback: msRest.ServiceCallback<Models.FrontDoor>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, frontDoorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontDoor>): void;
-  get(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoor>, callback?: msRest.ServiceCallback<Models.FrontDoor>): Promise<Models.FrontDoorsGetResponse> {
+  get(
+    resourceGroupName: string,
+    frontDoorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FrontDoor>
+  ): void;
+  get(
+    resourceGroupName: string,
+    frontDoorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoor>,
+    callback?: msRest.ServiceCallback<Models.FrontDoor>
+  ): Promise<Models.FrontDoorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -109,7 +149,8 @@ export class FrontDoors {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.FrontDoorsGetResponse>;
+      callback
+    ) as Promise<Models.FrontDoorsGetResponse>;
   }
 
   /**
@@ -121,9 +162,20 @@ export class FrontDoors {
    * @param [options] The optional parameters
    * @returns Promise<Models.FrontDoorsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, frontDoorName: string, frontDoorParameters: Models.FrontDoor, options?: msRest.RequestOptionsBase): Promise<Models.FrontDoorsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,frontDoorName,frontDoorParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.FrontDoorsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    frontDoorName: string,
+    frontDoorParameters: Models.FrontDoor,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FrontDoorsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      frontDoorName,
+      frontDoorParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.FrontDoorsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -133,9 +185,14 @@ export class FrontDoors {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,frontDoorName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    frontDoorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, frontDoorName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -146,14 +203,24 @@ export class FrontDoors {
    * @param [options] The optional parameters
    * @returns Promise<Models.FrontDoorsValidateCustomDomainResponse>
    */
-  validateCustomDomain(resourceGroupName: string, frontDoorName: string, customDomainProperties: Models.ValidateCustomDomainInput, options?: msRest.RequestOptionsBase): Promise<Models.FrontDoorsValidateCustomDomainResponse>;
+  validateCustomDomain(
+    resourceGroupName: string,
+    frontDoorName: string,
+    customDomainProperties: Models.ValidateCustomDomainInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FrontDoorsValidateCustomDomainResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
    * @param customDomainProperties Custom domain to be validated.
    * @param callback The callback
    */
-  validateCustomDomain(resourceGroupName: string, frontDoorName: string, customDomainProperties: Models.ValidateCustomDomainInput, callback: msRest.ServiceCallback<Models.ValidateCustomDomainOutput>): void;
+  validateCustomDomain(
+    resourceGroupName: string,
+    frontDoorName: string,
+    customDomainProperties: Models.ValidateCustomDomainInput,
+    callback: msRest.ServiceCallback<Models.ValidateCustomDomainOutput>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param frontDoorName Name of the Front Door which is globally unique.
@@ -161,8 +228,20 @@ export class FrontDoors {
    * @param options The optional parameters
    * @param callback The callback
    */
-  validateCustomDomain(resourceGroupName: string, frontDoorName: string, customDomainProperties: Models.ValidateCustomDomainInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidateCustomDomainOutput>): void;
-  validateCustomDomain(resourceGroupName: string, frontDoorName: string, customDomainProperties: Models.ValidateCustomDomainInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateCustomDomainOutput>, callback?: msRest.ServiceCallback<Models.ValidateCustomDomainOutput>): Promise<Models.FrontDoorsValidateCustomDomainResponse> {
+  validateCustomDomain(
+    resourceGroupName: string,
+    frontDoorName: string,
+    customDomainProperties: Models.ValidateCustomDomainInput,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ValidateCustomDomainOutput>
+  ): void;
+  validateCustomDomain(
+    resourceGroupName: string,
+    frontDoorName: string,
+    customDomainProperties: Models.ValidateCustomDomainInput,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateCustomDomainOutput>,
+    callback?: msRest.ServiceCallback<Models.ValidateCustomDomainOutput>
+  ): Promise<Models.FrontDoorsValidateCustomDomainResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +250,8 @@ export class FrontDoors {
         options
       },
       validateCustomDomainOperationSpec,
-      callback) as Promise<Models.FrontDoorsValidateCustomDomainResponse>;
+      callback
+    ) as Promise<Models.FrontDoorsValidateCustomDomainResponse>;
   }
 
   /**
@@ -183,7 +263,12 @@ export class FrontDoors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, frontDoorName: string, frontDoorParameters: Models.FrontDoor, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    frontDoorName: string,
+    frontDoorParameters: Models.FrontDoor,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -192,7 +277,8 @@ export class FrontDoors {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -202,7 +288,11 @@ export class FrontDoors {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, frontDoorName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    frontDoorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -210,7 +300,8 @@ export class FrontDoors {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -219,26 +310,41 @@ export class FrontDoors {
    * @param [options] The optional parameters
    * @returns Promise<Models.FrontDoorsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FrontDoorsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FrontDoorsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FrontDoorListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.FrontDoorListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontDoorListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoorListResult>, callback?: msRest.ServiceCallback<Models.FrontDoorListResult>): Promise<Models.FrontDoorsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FrontDoorListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoorListResult>,
+    callback?: msRest.ServiceCallback<Models.FrontDoorListResult>
+  ): Promise<Models.FrontDoorsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.FrontDoorsListNextResponse>;
+      callback
+    ) as Promise<Models.FrontDoorsListNextResponse>;
   }
 
   /**
@@ -247,26 +353,41 @@ export class FrontDoors {
    * @param [options] The optional parameters
    * @returns Promise<Models.FrontDoorsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FrontDoorsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FrontDoorsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FrontDoorListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.FrontDoorListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FrontDoorListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoorListResult>, callback?: msRest.ServiceCallback<Models.FrontDoorListResult>): Promise<Models.FrontDoorsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FrontDoorListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FrontDoorListResult>,
+    callback?: msRest.ServiceCallback<Models.FrontDoorListResult>
+  ): Promise<Models.FrontDoorsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.FrontDoorsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.FrontDoorsListByResourceGroupNextResponse>;
   }
 }
 
@@ -275,15 +396,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoors",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FrontDoorListResult
@@ -297,17 +412,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FrontDoorListResult
@@ -321,18 +430,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FrontDoor
@@ -346,18 +452,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const validateCustomDomainOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/validateCustomDomain",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/validateCustomDomain",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "customDomainProperties",
     mapper: {
@@ -378,18 +481,15 @@ const validateCustomDomainOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "frontDoorParameters",
     mapper: {
@@ -416,18 +516,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.frontDoorName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -442,12 +539,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FrontDoorListResult
@@ -463,12 +556,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FrontDoorListResult

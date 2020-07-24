@@ -31,7 +31,11 @@ class ContentModeratorClient extends ContentModeratorClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    endpoint: string,
+    options?: msRest.ServiceClientOptions
+  ) {
     super(credentials, endpoint, options);
     this.imageModeration = new operations.ImageModeration(this);
     this.textModeration = new operations.TextModeration(this);

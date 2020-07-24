@@ -9,7 +9,7 @@ import { BaseTest } from "../baseTest";
 import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 
 describe("Model Prebuilt Domain Tests", () => {
-  it('should add custom prebuilt domain', async () => {
+  it("should add custom prebuilt domain", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -19,8 +19,10 @@ describe("Model Prebuilt Domain Tests", () => {
         usageScenario: "IoT"
       });
       let versionsApp = await client.versions.list(appId.body);
-      let version = '0.1';
-      let results = await client.model.addCustomPrebuiltDomain(appId.body, version, { domainName: "Communication" });
+      let version = "0.1";
+      let results = await client.model.addCustomPrebuiltDomain(appId.body, version, {
+        domainName: "Communication"
+      });
       let prebuiltModels = await client.model.listCustomPrebuiltModels(appId.body, version);
       await client.model.deleteCustomPrebuiltDomain(appId.body, version, "Communication");
       await client.apps.deleteMethod(appId.body);
@@ -28,16 +30,14 @@ describe("Model Prebuilt Domain Tests", () => {
       let fine = true;
       for (let model of prebuiltModels) {
         let found = false;
-        for (let result of results)
-          if (result == model.id)
-            found = true;
-        fine = (found && fine);
+        for (let result of results) if (result == model.id) found = true;
+        fine = found && fine;
       }
       chai.expect(fine).to.be.true;
     });
   });
 
-  it('should delete custom prebuilt domain', async () => {
+  it("should delete custom prebuilt domain", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -48,20 +48,25 @@ describe("Model Prebuilt Domain Tests", () => {
       });
       let versionsApp = await client.versions.list(appId.body);
       let version = versionsApp[0].version;
-      let results = await client.model.addCustomPrebuiltDomain(appId.body, version, { domainName: "Communication" });
+      let results = await client.model.addCustomPrebuiltDomain(appId.body, version, {
+        domainName: "Communication"
+      });
       let prebuiltModels = await client.model.listCustomPrebuiltModels(appId.body, version);
-      chai.expect(BaseTest.doesListContain(prebuiltModels, "customPrebuiltDomainName", "Communication")).to.be.true;
+      chai.expect(
+        BaseTest.doesListContain(prebuiltModels, "customPrebuiltDomainName", "Communication")
+      ).to.be.true;
 
-      await client.model.deleteCustomPrebuiltDomain(appId.body, version, "Communication")
+      await client.model.deleteCustomPrebuiltDomain(appId.body, version, "Communication");
 
       prebuiltModels = await client.model.listCustomPrebuiltModels(appId.body, version);
       await client.apps.deleteMethod(appId.body);
-      chai.expect(BaseTest.doesListContain(prebuiltModels, "customPrebuiltDomainName", "Communication")).to.be.false;
-
+      chai.expect(
+        BaseTest.doesListContain(prebuiltModels, "customPrebuiltDomainName", "Communication")
+      ).to.be.false;
     });
   });
 
-  it('should list custom prebuilt entities', async () => {
+  it("should list custom prebuilt entities", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -78,16 +83,16 @@ describe("Model Prebuilt Domain Tests", () => {
         domainName: "Communication"
       });
       let prebuiltEntities = await client.model.listCustomPrebuiltEntities(appId.body, version);
-      await client.model.deleteCustomPrebuiltDomain(appId.body, version, "Communication")
+      await client.model.deleteCustomPrebuiltDomain(appId.body, version, "Communication");
       await client.apps.deleteMethod(appId.body);
 
-      chai.expect(BaseTest.doesListContain(prebuiltEntities, "customPrebuiltDomainName", "Communication")).to.be.true;
-
-
+      chai.expect(
+        BaseTest.doesListContain(prebuiltEntities, "customPrebuiltDomainName", "Communication")
+      ).to.be.true;
     });
   });
 
-  it('should add custom prebuilt entity', async () => {
+  it("should add custom prebuilt entity", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -109,8 +114,7 @@ describe("Model Prebuilt Domain Tests", () => {
     });
   });
 
-
-  it('should list custom prebuilt intents', async () => {
+  it("should list custom prebuilt intents", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -121,15 +125,19 @@ describe("Model Prebuilt Domain Tests", () => {
       });
       let versionsApp = await client.versions.list(appId.body);
       let version = versionsApp[0].version;
-      let results = await client.model.addCustomPrebuiltDomain(appId.body, version, { domainName: "Communication" });
+      let results = await client.model.addCustomPrebuiltDomain(appId.body, version, {
+        domainName: "Communication"
+      });
       let prebuiltIntents = await client.model.listCustomPrebuiltIntents(appId.body, version);
-      await client.model.deleteCustomPrebuiltDomain(appId.body, version, "Communication")
+      await client.model.deleteCustomPrebuiltDomain(appId.body, version, "Communication");
       await client.apps.deleteMethod(appId.body);
-      chai.expect(BaseTest.doesListContain(prebuiltIntents, "customPrebuiltDomainName", "Communication")).to.be.true;
+      chai.expect(
+        BaseTest.doesListContain(prebuiltIntents, "customPrebuiltDomainName", "Communication")
+      ).to.be.true;
     });
   });
 
-  it('should add custom prebuilt intent', async () => {
+  it("should add custom prebuilt intent", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -140,7 +148,10 @@ describe("Model Prebuilt Domain Tests", () => {
       });
       let versionsApp = await client.versions.list(appId.body);
       let version = versionsApp[0].version;
-      let guidModel = await client.model.addCustomPrebuiltIntent(appId.body, version, { domainName: "Communication", modelName: "AddContact" });
+      let guidModel = await client.model.addCustomPrebuiltIntent(appId.body, version, {
+        domainName: "Communication",
+        modelName: "AddContact"
+      });
       let prebuiltIntents = await client.model.listCustomPrebuiltIntents(appId.body, version);
       await client.model.deleteIntent(appId.body, version, guidModel.body);
       await client.apps.deleteMethod(appId.body);
@@ -148,7 +159,7 @@ describe("Model Prebuilt Domain Tests", () => {
     });
   });
 
-  it('should list custom prebuilt models', async () => {
+  it("should list custom prebuilt models", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const appId = await client.apps.add({
         name: "Existing LUIS App",
@@ -159,9 +170,11 @@ describe("Model Prebuilt Domain Tests", () => {
       });
       let versionsApp = await client.versions.list(appId.body);
       let version = versionsApp[0].version;
-      let results = await client.model.addCustomPrebuiltDomain(appId.body, version, { domainName: "Communication" });
+      let results = await client.model.addCustomPrebuiltDomain(appId.body, version, {
+        domainName: "Communication"
+      });
       let prebuiltModels = await client.model.listCustomPrebuiltModels(appId.body, version);
-      await client.model.deleteCustomPrebuiltDomain(appId.body, version, "Communication")
+      await client.model.deleteCustomPrebuiltDomain(appId.body, version, "Communication");
       await client.apps.deleteMethod(appId.body);
       let found: boolean = false;
       for (let model of prebuiltModels) {

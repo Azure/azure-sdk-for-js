@@ -509,26 +509,26 @@ export class BatchingReceiver extends MessageReceiver {
  * Gets a function that returns the smaller of the two timeouts,
  * taking into account elapsed time from when getRemainingWaitTimeInMsFn
  * was called.
- * 
+ *
  * @param maxWaitTimeInMs Maximum time to wait for the first message
  * @param maxTimeAfterFirstMessageInMs Maximum time to wait after the first message before completing the receive.
- * 
+ *
  * @internal
  * @ignore
  */
 export function getRemainingWaitTimeInMsFn(
-    maxWaitTimeInMs: number,
-    maxTimeAfterFirstMessageInMs: number
-  ): () => number {
-    const startTimeMs = Date.now();
+  maxWaitTimeInMs: number,
+  maxTimeAfterFirstMessageInMs: number
+): () => number {
+  const startTimeMs = Date.now();
 
-    return () => {
-      const remainingTimeMs = maxWaitTimeInMs - (Date.now() - startTimeMs);
+  return () => {
+    const remainingTimeMs = maxWaitTimeInMs - (Date.now() - startTimeMs);
 
-      if (remainingTimeMs < 0) {
-        return 0;
-      }
+    if (remainingTimeMs < 0) {
+      return 0;
+    }
 
-      return Math.min(remainingTimeMs, maxTimeAfterFirstMessageInMs);
-    };
-  }
+    return Math.min(remainingTimeMs, maxTimeAfterFirstMessageInMs);
+  };
+}

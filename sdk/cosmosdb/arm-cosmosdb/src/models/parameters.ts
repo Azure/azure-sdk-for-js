@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -41,7 +41,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-04-01',
+    defaultValue: "2020-04-01",
     constraints: {
       MinLength: 1
     },
@@ -56,7 +56,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-08-01-preview',
+    defaultValue: "2019-08-01-preview",
     constraints: {
       MinLength: 1
     },
@@ -126,10 +126,7 @@ export const filter0: msRest.OperationQueryParameter = {
   }
 };
 export const filter1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -184,7 +181,7 @@ export const notebookWorkspaceName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "notebookWorkspaceName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }

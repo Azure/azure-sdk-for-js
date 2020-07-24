@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing ErrorResponseErrorDetailsItem.
@@ -711,7 +710,6 @@ export interface StorageImportExportManagementClientOptions extends AzureService
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the LocationsResponse.
@@ -719,8 +717,7 @@ export interface StorageImportExportManagementClientOptions extends AzureService
  *
  * @extends Array<Location>
  */
-export interface LocationsResponse extends Array<Location> {
-}
+export interface LocationsResponse extends Array<Location> {}
 
 /**
  * @interface
@@ -743,8 +740,7 @@ export interface ListJobsResponse extends Array<JobResponse> {
  *
  * @extends Array<DriveBitLockerKey>
  */
-export interface GetBitLockerKeysResponse extends Array<DriveBitLockerKey> {
-}
+export interface GetBitLockerKeysResponse extends Array<DriveBitLockerKey> {}
 
 /**
  * @interface
@@ -753,8 +749,7 @@ export interface GetBitLockerKeysResponse extends Array<DriveBitLockerKey> {
  *
  * @extends Array<Operation>
  */
-export interface ListOperationsResponse extends Array<Operation> {
-}
+export interface ListOperationsResponse extends Array<Operation> {}
 
 /**
  * Defines values for DriveState.
@@ -763,7 +758,14 @@ export interface ListOperationsResponse extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type DriveState = 'Specified' | 'Received' | 'NeverReceived' | 'Transferring' | 'Completed' | 'CompletedMoreInfo' | 'ShippedBack';
+export type DriveState =
+  | "Specified"
+  | "Received"
+  | "NeverReceived"
+  | "Transferring"
+  | "Completed"
+  | "CompletedMoreInfo"
+  | "ShippedBack";
 
 /**
  * Contains response data for the list operation.
@@ -773,15 +775,15 @@ export type LocationsListResponse = LocationsResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LocationsResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LocationsResponse;
+  };
 };
 
 /**
@@ -792,15 +794,15 @@ export type LocationsGetResponse = Location & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Location;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Location;
+  };
 };
 
 /**
@@ -811,15 +813,15 @@ export type JobsListBySubscriptionResponse = ListJobsResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListJobsResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListJobsResponse;
+  };
 };
 
 /**
@@ -830,15 +832,15 @@ export type JobsListByResourceGroupResponse = ListJobsResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListJobsResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListJobsResponse;
+  };
 };
 
 /**
@@ -849,15 +851,15 @@ export type JobsGetResponse = JobResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResponse;
+  };
 };
 
 /**
@@ -868,15 +870,15 @@ export type JobsUpdateResponse = JobResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResponse;
+  };
 };
 
 /**
@@ -887,15 +889,15 @@ export type JobsCreateResponse = JobResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResponse;
+  };
 };
 
 /**
@@ -906,15 +908,15 @@ export type JobsListBySubscriptionNextResponse = ListJobsResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListJobsResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListJobsResponse;
+  };
 };
 
 /**
@@ -925,15 +927,15 @@ export type JobsListByResourceGroupNextResponse = ListJobsResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListJobsResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListJobsResponse;
+  };
 };
 
 /**
@@ -944,15 +946,15 @@ export type BitLockerKeysListResponse = GetBitLockerKeysResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GetBitLockerKeysResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GetBitLockerKeysResponse;
+  };
 };
 
 /**
@@ -963,13 +965,13 @@ export type OperationsListResponse = ListOperationsResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListOperationsResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListOperationsResponse;
+  };
 };

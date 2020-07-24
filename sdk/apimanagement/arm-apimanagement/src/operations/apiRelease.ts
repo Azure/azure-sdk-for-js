@@ -36,14 +36,24 @@ export class ApiRelease {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiReleaseListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiReleaseListByServiceOptionalParams): Promise<Models.ApiReleaseListByServiceResponse>;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?: Models.ApiReleaseListByServiceOptionalParams
+  ): Promise<Models.ApiReleaseListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, callback: msRest.ServiceCallback<Models.ApiReleaseCollection>): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    callback: msRest.ServiceCallback<Models.ApiReleaseCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -51,8 +61,22 @@ export class ApiRelease {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options: Models.ApiReleaseListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.ApiReleaseCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, apiId: string, options?: Models.ApiReleaseListByServiceOptionalParams | msRest.ServiceCallback<Models.ApiReleaseCollection>, callback?: msRest.ServiceCallback<Models.ApiReleaseCollection>): Promise<Models.ApiReleaseListByServiceResponse> {
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options: Models.ApiReleaseListByServiceOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApiReleaseCollection>
+  ): void;
+  listByService(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    options?:
+      | Models.ApiReleaseListByServiceOptionalParams
+      | msRest.ServiceCallback<Models.ApiReleaseCollection>,
+    callback?: msRest.ServiceCallback<Models.ApiReleaseCollection>
+  ): Promise<Models.ApiReleaseListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -61,7 +85,8 @@ export class ApiRelease {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.ApiReleaseListByServiceResponse>;
+      callback
+    ) as Promise<Models.ApiReleaseListByServiceResponse>;
   }
 
   /**
@@ -74,7 +99,13 @@ export class ApiRelease {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiReleaseGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiReleaseGetEntityTagResponse>;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApiReleaseGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -83,7 +114,13 @@ export class ApiRelease {
    * service instance.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -93,8 +130,22 @@ export class ApiRelease {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ApiReleaseGetEntityTagResponse> {
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getEntityTag(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.ApiReleaseGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -104,7 +155,8 @@ export class ApiRelease {
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.ApiReleaseGetEntityTagResponse>;
+      callback
+    ) as Promise<Models.ApiReleaseGetEntityTagResponse>;
   }
 
   /**
@@ -117,7 +169,13 @@ export class ApiRelease {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiReleaseGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiReleaseGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApiReleaseGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -126,7 +184,13 @@ export class ApiRelease {
    * service instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, callback: msRest.ServiceCallback<Models.ApiReleaseContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    callback: msRest.ServiceCallback<Models.ApiReleaseContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -136,8 +200,22 @@ export class ApiRelease {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiReleaseContract>): void;
-  get(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiReleaseContract>, callback?: msRest.ServiceCallback<Models.ApiReleaseContract>): Promise<Models.ApiReleaseGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApiReleaseContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiReleaseContract>,
+    callback?: msRest.ServiceCallback<Models.ApiReleaseContract>
+  ): Promise<Models.ApiReleaseGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -147,7 +225,8 @@ export class ApiRelease {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ApiReleaseGetResponse>;
+      callback
+    ) as Promise<Models.ApiReleaseGetResponse>;
   }
 
   /**
@@ -161,7 +240,14 @@ export class ApiRelease {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiReleaseCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, options?: Models.ApiReleaseCreateOrUpdateOptionalParams): Promise<Models.ApiReleaseCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    parameters: Models.ApiReleaseContract,
+    options?: Models.ApiReleaseCreateOrUpdateOptionalParams
+  ): Promise<Models.ApiReleaseCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -171,7 +257,14 @@ export class ApiRelease {
    * @param parameters Create parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, callback: msRest.ServiceCallback<Models.ApiReleaseContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    parameters: Models.ApiReleaseContract,
+    callback: msRest.ServiceCallback<Models.ApiReleaseContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -182,8 +275,26 @@ export class ApiRelease {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, options: Models.ApiReleaseCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.ApiReleaseContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, options?: Models.ApiReleaseCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.ApiReleaseContract>, callback?: msRest.ServiceCallback<Models.ApiReleaseContract>): Promise<Models.ApiReleaseCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    parameters: Models.ApiReleaseContract,
+    options: Models.ApiReleaseCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApiReleaseContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    parameters: Models.ApiReleaseContract,
+    options?:
+      | Models.ApiReleaseCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.ApiReleaseContract>,
+    callback?: msRest.ServiceCallback<Models.ApiReleaseContract>
+  ): Promise<Models.ApiReleaseCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +305,8 @@ export class ApiRelease {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ApiReleaseCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ApiReleaseCreateOrUpdateResponse>;
   }
 
   /**
@@ -210,7 +322,15 @@ export class ApiRelease {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    parameters: Models.ApiReleaseContract,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -222,7 +342,15 @@ export class ApiRelease {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    parameters: Models.ApiReleaseContract,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -235,8 +363,26 @@ export class ApiRelease {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, parameters: Models.ApiReleaseContract, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    parameters: Models.ApiReleaseContract,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  update(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    parameters: Models.ApiReleaseContract,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -248,7 +394,8 @@ export class ApiRelease {
         options
       },
       updateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -263,7 +410,14 @@ export class ApiRelease {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -274,7 +428,14 @@ export class ApiRelease {
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    ifMatch: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -286,8 +447,24 @@ export class ApiRelease {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, apiId: string, releaseId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    ifMatch: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    apiId: string,
+    releaseId: string,
+    ifMatch: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -298,7 +475,8 @@ export class ApiRelease {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -309,26 +487,41 @@ export class ApiRelease {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiReleaseListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApiReleaseListByServiceNextResponse>;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApiReleaseListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApiReleaseCollection>): void;
+  listByServiceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApiReleaseCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiReleaseCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiReleaseCollection>, callback?: msRest.ServiceCallback<Models.ApiReleaseCollection>): Promise<Models.ApiReleaseListByServiceNextResponse> {
+  listByServiceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApiReleaseCollection>
+  ): void;
+  listByServiceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiReleaseCollection>,
+    callback?: msRest.ServiceCallback<Models.ApiReleaseCollection>
+  ): Promise<Models.ApiReleaseListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.ApiReleaseListByServiceNextResponse>;
+      callback
+    ) as Promise<Models.ApiReleaseListByServiceNextResponse>;
   }
 }
 
@@ -336,22 +529,16 @@ export class ApiRelease {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.apiId1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter0, Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiReleaseCollection
@@ -365,7 +552,8 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -373,12 +561,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
     Parameters.releaseId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       headersMapper: Mappers.ApiReleaseGetEntityTagHeaders
@@ -392,7 +576,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -400,12 +585,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.releaseId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiReleaseContract,
@@ -420,7 +601,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -428,13 +610,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.releaseId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch0, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -460,7 +637,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -468,13 +646,8 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.releaseId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -493,7 +666,8 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -501,13 +675,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.releaseId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch1,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch1, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -522,12 +691,8 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiReleaseCollection

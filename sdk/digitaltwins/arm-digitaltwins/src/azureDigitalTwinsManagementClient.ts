@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AzureDigitalTwinsManagementClientContext } from "./azureDigitalTwinsManagementClientContext";
 
-
 class AzureDigitalTwinsManagementClient extends AzureDigitalTwinsManagementClientContext {
   // Operation groups
   digitalTwins: operations.DigitalTwins;
@@ -27,7 +26,11 @@ class AzureDigitalTwinsManagementClient extends AzureDigitalTwinsManagementClien
    * @param subscriptionId The subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureDigitalTwinsManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AzureDigitalTwinsManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.digitalTwins = new operations.DigitalTwins(this);
     this.digitalTwinsEndpoint = new operations.DigitalTwinsEndpoint(this);

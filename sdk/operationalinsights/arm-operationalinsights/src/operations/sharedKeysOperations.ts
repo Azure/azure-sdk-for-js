@@ -33,21 +33,39 @@ export class SharedKeysOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SharedKeysGetSharedKeysResponse>
    */
-  getSharedKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SharedKeysGetSharedKeysResponse>;
+  getSharedKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SharedKeysGetSharedKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
-  getSharedKeys(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.SharedKeys>): void;
+  getSharedKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.SharedKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSharedKeys(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedKeys>): void;
-  getSharedKeys(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedKeys>, callback?: msRest.ServiceCallback<Models.SharedKeys>): Promise<Models.SharedKeysGetSharedKeysResponse> {
+  getSharedKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SharedKeys>
+  ): void;
+  getSharedKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedKeys>,
+    callback?: msRest.ServiceCallback<Models.SharedKeys>
+  ): Promise<Models.SharedKeysGetSharedKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class SharedKeysOperations {
         options
       },
       getSharedKeysOperationSpec,
-      callback) as Promise<Models.SharedKeysGetSharedKeysResponse>;
+      callback
+    ) as Promise<Models.SharedKeysGetSharedKeysResponse>;
   }
 
   /**
@@ -66,21 +85,39 @@ export class SharedKeysOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SharedKeysRegenerateResponse>
    */
-  regenerate(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SharedKeysRegenerateResponse>;
+  regenerate(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SharedKeysRegenerateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
-  regenerate(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.SharedKeys>): void;
+  regenerate(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.SharedKeys>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerate(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedKeys>): void;
-  regenerate(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedKeys>, callback?: msRest.ServiceCallback<Models.SharedKeys>): Promise<Models.SharedKeysRegenerateResponse> {
+  regenerate(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SharedKeys>
+  ): void;
+  regenerate(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedKeys>,
+    callback?: msRest.ServiceCallback<Models.SharedKeys>
+  ): Promise<Models.SharedKeysRegenerateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -88,7 +125,8 @@ export class SharedKeysOperations {
         options
       },
       regenerateOperationSpec,
-      callback) as Promise<Models.SharedKeysRegenerateResponse>;
+      callback
+    ) as Promise<Models.SharedKeysRegenerateResponse>;
   }
 }
 
@@ -96,18 +134,15 @@ export class SharedKeysOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getSharedKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/sharedKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/sharedKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SharedKeys
@@ -121,18 +156,15 @@ const getSharedKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/regenerateSharedKey",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/regenerateSharedKey",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SharedKeys

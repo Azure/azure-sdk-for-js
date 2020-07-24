@@ -35,7 +35,12 @@ export class JobCredentials {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobCredentialsListByAgentResponse>
    */
-  listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options?: msRest.RequestOptionsBase): Promise<Models.JobCredentialsListByAgentResponse>;
+  listByAgent(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobCredentialsListByAgentResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -43,7 +48,12 @@ export class JobCredentials {
    * @param jobAgentName The name of the job agent.
    * @param callback The callback
    */
-  listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, callback: msRest.ServiceCallback<Models.JobCredentialListResult>): void;
+  listByAgent(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    callback: msRest.ServiceCallback<Models.JobCredentialListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -52,8 +62,20 @@ export class JobCredentials {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobCredentialListResult>): void;
-  listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCredentialListResult>, callback?: msRest.ServiceCallback<Models.JobCredentialListResult>): Promise<Models.JobCredentialsListByAgentResponse> {
+  listByAgent(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobCredentialListResult>
+  ): void;
+  listByAgent(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCredentialListResult>,
+    callback?: msRest.ServiceCallback<Models.JobCredentialListResult>
+  ): Promise<Models.JobCredentialsListByAgentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +84,8 @@ export class JobCredentials {
         options
       },
       listByAgentOperationSpec,
-      callback) as Promise<Models.JobCredentialsListByAgentResponse>;
+      callback
+    ) as Promise<Models.JobCredentialsListByAgentResponse>;
   }
 
   /**
@@ -75,7 +98,13 @@ export class JobCredentials {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobCredentialsGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options?: msRest.RequestOptionsBase): Promise<Models.JobCredentialsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    credentialName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobCredentialsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -84,7 +113,13 @@ export class JobCredentials {
    * @param credentialName The name of the credential.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, callback: msRest.ServiceCallback<Models.JobCredential>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    credentialName: string,
+    callback: msRest.ServiceCallback<Models.JobCredential>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -94,8 +129,22 @@ export class JobCredentials {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobCredential>): void;
-  get(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCredential>, callback?: msRest.ServiceCallback<Models.JobCredential>): Promise<Models.JobCredentialsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    credentialName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobCredential>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    credentialName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCredential>,
+    callback?: msRest.ServiceCallback<Models.JobCredential>
+  ): Promise<Models.JobCredentialsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +154,8 @@ export class JobCredentials {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.JobCredentialsGetResponse>;
+      callback
+    ) as Promise<Models.JobCredentialsGetResponse>;
   }
 
   /**
@@ -119,7 +169,14 @@ export class JobCredentials {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobCredentialsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, parameters: Models.JobCredential, options?: msRest.RequestOptionsBase): Promise<Models.JobCredentialsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    credentialName: string,
+    parameters: Models.JobCredential,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobCredentialsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -129,7 +186,14 @@ export class JobCredentials {
    * @param parameters The requested job credential state.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, parameters: Models.JobCredential, callback: msRest.ServiceCallback<Models.JobCredential>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    credentialName: string,
+    parameters: Models.JobCredential,
+    callback: msRest.ServiceCallback<Models.JobCredential>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -140,8 +204,24 @@ export class JobCredentials {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, parameters: Models.JobCredential, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobCredential>): void;
-  createOrUpdate(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, parameters: Models.JobCredential, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCredential>, callback?: msRest.ServiceCallback<Models.JobCredential>): Promise<Models.JobCredentialsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    credentialName: string,
+    parameters: Models.JobCredential,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobCredential>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    credentialName: string,
+    parameters: Models.JobCredential,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCredential>,
+    callback?: msRest.ServiceCallback<Models.JobCredential>
+  ): Promise<Models.JobCredentialsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -152,7 +232,8 @@ export class JobCredentials {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.JobCredentialsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.JobCredentialsCreateOrUpdateResponse>;
   }
 
   /**
@@ -165,7 +246,13 @@ export class JobCredentials {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    credentialName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -174,7 +261,13 @@ export class JobCredentials {
    * @param credentialName The name of the credential.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    credentialName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -184,8 +277,22 @@ export class JobCredentials {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serverName: string, jobAgentName: string, credentialName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    credentialName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    jobAgentName: string,
+    credentialName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -195,7 +302,8 @@ export class JobCredentials {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -204,26 +312,41 @@ export class JobCredentials {
    * @param [options] The optional parameters
    * @returns Promise<Models.JobCredentialsListByAgentNextResponse>
    */
-  listByAgentNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.JobCredentialsListByAgentNextResponse>;
+  listByAgentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.JobCredentialsListByAgentNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAgentNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.JobCredentialListResult>): void;
+  listByAgentNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.JobCredentialListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAgentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobCredentialListResult>): void;
-  listByAgentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCredentialListResult>, callback?: msRest.ServiceCallback<Models.JobCredentialListResult>): Promise<Models.JobCredentialsListByAgentNextResponse> {
+  listByAgentNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobCredentialListResult>
+  ): void;
+  listByAgentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobCredentialListResult>,
+    callback?: msRest.ServiceCallback<Models.JobCredentialListResult>
+  ): Promise<Models.JobCredentialsListByAgentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAgentNextOperationSpec,
-      callback) as Promise<Models.JobCredentialsListByAgentNextResponse>;
+      callback
+    ) as Promise<Models.JobCredentialsListByAgentNextResponse>;
   }
 }
 
@@ -231,19 +354,16 @@ export class JobCredentials {
 const serializer = new msRest.Serializer(Mappers);
 const listByAgentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobCredentialListResult
@@ -257,7 +377,8 @@ const listByAgentOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -265,12 +386,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.credentialName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobCredential
@@ -284,7 +401,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -292,12 +410,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.credentialName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -321,7 +435,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/credentials/{credentialName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -329,12 +444,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.credentialName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -349,12 +460,8 @@ const listByAgentNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobCredentialListResult

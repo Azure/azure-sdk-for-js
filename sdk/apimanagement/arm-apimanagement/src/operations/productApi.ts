@@ -35,7 +35,12 @@ export class ProductApi {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProductApiListByProductResponse>
    */
-  listByProduct(resourceGroupName: string, serviceName: string, productId: string, options?: Models.ProductApiListByProductOptionalParams): Promise<Models.ProductApiListByProductResponse>;
+  listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    options?: Models.ProductApiListByProductOptionalParams
+  ): Promise<Models.ProductApiListByProductResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -43,7 +48,12 @@ export class ProductApi {
    * instance.
    * @param callback The callback
    */
-  listByProduct(resourceGroupName: string, serviceName: string, productId: string, callback: msRest.ServiceCallback<Models.ApiCollection>): void;
+  listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    callback: msRest.ServiceCallback<Models.ApiCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -52,8 +62,22 @@ export class ProductApi {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByProduct(resourceGroupName: string, serviceName: string, productId: string, options: Models.ProductApiListByProductOptionalParams, callback: msRest.ServiceCallback<Models.ApiCollection>): void;
-  listByProduct(resourceGroupName: string, serviceName: string, productId: string, options?: Models.ProductApiListByProductOptionalParams | msRest.ServiceCallback<Models.ApiCollection>, callback?: msRest.ServiceCallback<Models.ApiCollection>): Promise<Models.ProductApiListByProductResponse> {
+  listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    options: Models.ProductApiListByProductOptionalParams,
+    callback: msRest.ServiceCallback<Models.ApiCollection>
+  ): void;
+  listByProduct(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    options?:
+      | Models.ProductApiListByProductOptionalParams
+      | msRest.ServiceCallback<Models.ApiCollection>,
+    callback?: msRest.ServiceCallback<Models.ApiCollection>
+  ): Promise<Models.ProductApiListByProductResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +86,8 @@ export class ProductApi {
         options
       },
       listByProductOperationSpec,
-      callback) as Promise<Models.ProductApiListByProductResponse>;
+      callback
+    ) as Promise<Models.ProductApiListByProductResponse>;
   }
 
   /**
@@ -76,7 +101,13 @@ export class ProductApi {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  checkEntityExists(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    apiId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -86,7 +117,13 @@ export class ProductApi {
    * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, callback: msRest.ServiceCallback<void>): void;
+  checkEntityExists(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    apiId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -97,8 +134,22 @@ export class ProductApi {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  checkEntityExists(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  checkEntityExists(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    apiId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  checkEntityExists(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    apiId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +159,8 @@ export class ProductApi {
         options
       },
       checkEntityExistsOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -122,7 +174,13 @@ export class ProductApi {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProductApiCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase): Promise<Models.ProductApiCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    apiId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProductApiCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -132,7 +190,13 @@ export class ProductApi {
    * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, apiId: string, callback: msRest.ServiceCallback<Models.ApiContract>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    apiId: string,
+    callback: msRest.ServiceCallback<Models.ApiContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -143,8 +207,22 @@ export class ProductApi {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiContract>, callback?: msRest.ServiceCallback<Models.ApiContract>): Promise<Models.ProductApiCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    apiId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApiContract>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    apiId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiContract>,
+    callback?: msRest.ServiceCallback<Models.ApiContract>
+  ): Promise<Models.ProductApiCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -154,7 +232,8 @@ export class ProductApi {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ProductApiCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ProductApiCreateOrUpdateResponse>;
   }
 
   /**
@@ -168,7 +247,13 @@ export class ProductApi {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    apiId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -178,7 +263,13 @@ export class ProductApi {
    * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, productId: string, apiId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    apiId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
@@ -189,8 +280,22 @@ export class ProductApi {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, productId: string, apiId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    apiId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    serviceName: string,
+    productId: string,
+    apiId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -200,7 +305,8 @@ export class ProductApi {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -209,26 +315,41 @@ export class ProductApi {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProductApiListByProductNextResponse>
    */
-  listByProductNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProductApiListByProductNextResponse>;
+  listByProductNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProductApiListByProductNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByProductNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApiCollection>): void;
+  listByProductNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApiCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByProductNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiCollection>): void;
-  listByProductNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiCollection>, callback?: msRest.ServiceCallback<Models.ApiCollection>): Promise<Models.ProductApiListByProductNextResponse> {
+  listByProductNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApiCollection>
+  ): void;
+  listByProductNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiCollection>,
+    callback?: msRest.ServiceCallback<Models.ApiCollection>
+  ): Promise<Models.ProductApiListByProductNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByProductNextOperationSpec,
-      callback) as Promise<Models.ProductApiListByProductNextResponse>;
+      callback
+    ) as Promise<Models.ProductApiListByProductNextResponse>;
   }
 }
 
@@ -236,22 +357,16 @@ export class ProductApi {
 const serializer = new msRest.Serializer(Mappers);
 const listByProductOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.productId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter0,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter0, Parameters.top, Parameters.skip, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiCollection
@@ -265,7 +380,8 @@ const listByProductOperationSpec: msRest.OperationSpec = {
 
 const checkEntityExistsOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -273,12 +389,8 @@ const checkEntityExistsOperationSpec: msRest.OperationSpec = {
     Parameters.apiId0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -290,7 +402,8 @@ const checkEntityExistsOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -298,12 +411,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.apiId0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiContract
@@ -320,7 +429,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/apis/{apiId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -328,12 +438,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.apiId0,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -348,12 +454,8 @@ const listByProductNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApiCollection

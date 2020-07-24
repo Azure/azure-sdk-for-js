@@ -34,14 +34,24 @@ export class OperationsStatus {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsStatusGetResponse>
    */
-  get(deviceName: string, name: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsStatusGetResponse>;
+  get(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.OperationsStatusGetResponse>;
   /**
    * @param deviceName The device name.
    * @param name The job name.
    * @param resourceGroupName The resource group name.
    * @param callback The callback
    */
-  get(deviceName: string, name: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.Job>): void;
+  get(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.Job>
+  ): void;
   /**
    * @param deviceName The device name.
    * @param name The job name.
@@ -49,8 +59,20 @@ export class OperationsStatus {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(deviceName: string, name: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Job>): void;
-  get(deviceName: string, name: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>, callback?: msRest.ServiceCallback<Models.Job>): Promise<Models.OperationsStatusGetResponse> {
+  get(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Job>
+  ): void;
+  get(
+    deviceName: string,
+    name: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Job>,
+    callback?: msRest.ServiceCallback<Models.Job>
+  ): Promise<Models.OperationsStatusGetResponse> {
     return this.client.sendOperationRequest(
       {
         deviceName,
@@ -59,7 +81,8 @@ export class OperationsStatus {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.OperationsStatusGetResponse>;
+      callback
+    ) as Promise<Models.OperationsStatusGetResponse>;
   }
 }
 
@@ -67,19 +90,16 @@ export class OperationsStatus {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/operationsStatus/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/operationsStatus/{name}",
   urlParameters: [
     Parameters.deviceName,
     Parameters.name,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Job

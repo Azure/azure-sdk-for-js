@@ -32,26 +32,43 @@ export class PolicyEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyEventsListQueryResultsForManagementGroupResponse>
    */
-  listQueryResultsForManagementGroup(managementGroupName: string, options?: Models.PolicyEventsListQueryResultsForManagementGroupOptionalParams): Promise<Models.PolicyEventsListQueryResultsForManagementGroupResponse>;
+  listQueryResultsForManagementGroup(
+    managementGroupName: string,
+    options?: Models.PolicyEventsListQueryResultsForManagementGroupOptionalParams
+  ): Promise<Models.PolicyEventsListQueryResultsForManagementGroupResponse>;
   /**
    * @param managementGroupName Management group name.
    * @param callback The callback
    */
-  listQueryResultsForManagementGroup(managementGroupName: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  listQueryResultsForManagementGroup(
+    managementGroupName: string,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
   /**
    * @param managementGroupName Management group name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForManagementGroup(managementGroupName: string, options: Models.PolicyEventsListQueryResultsForManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForManagementGroup(managementGroupName: string, options?: Models.PolicyEventsListQueryResultsForManagementGroupOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForManagementGroupResponse> {
+  listQueryResultsForManagementGroup(
+    managementGroupName: string,
+    options: Models.PolicyEventsListQueryResultsForManagementGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
+  listQueryResultsForManagementGroup(
+    managementGroupName: string,
+    options?:
+      | Models.PolicyEventsListQueryResultsForManagementGroupOptionalParams
+      | msRest.ServiceCallback<Models.PolicyEventsQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): Promise<Models.PolicyEventsListQueryResultsForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupName,
         options
       },
       listQueryResultsForManagementGroupOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForManagementGroupResponse>;
+      callback
+    ) as Promise<Models.PolicyEventsListQueryResultsForManagementGroupResponse>;
   }
 
   /**
@@ -60,26 +77,43 @@ export class PolicyEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyEventsListQueryResultsForSubscriptionResponse>
    */
-  listQueryResultsForSubscription(subscriptionId: string, options?: Models.PolicyEventsListQueryResultsForSubscriptionOptionalParams): Promise<Models.PolicyEventsListQueryResultsForSubscriptionResponse>;
+  listQueryResultsForSubscription(
+    subscriptionId: string,
+    options?: Models.PolicyEventsListQueryResultsForSubscriptionOptionalParams
+  ): Promise<Models.PolicyEventsListQueryResultsForSubscriptionResponse>;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param callback The callback
    */
-  listQueryResultsForSubscription(subscriptionId: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  listQueryResultsForSubscription(
+    subscriptionId: string,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForSubscription(subscriptionId: string, options: Models.PolicyEventsListQueryResultsForSubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForSubscription(subscriptionId: string, options?: Models.PolicyEventsListQueryResultsForSubscriptionOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForSubscriptionResponse> {
+  listQueryResultsForSubscription(
+    subscriptionId: string,
+    options: Models.PolicyEventsListQueryResultsForSubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
+  listQueryResultsForSubscription(
+    subscriptionId: string,
+    options?:
+      | Models.PolicyEventsListQueryResultsForSubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.PolicyEventsQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): Promise<Models.PolicyEventsListQueryResultsForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
         options
       },
       listQueryResultsForSubscriptionOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForSubscriptionResponse>;
+      callback
+    ) as Promise<Models.PolicyEventsListQueryResultsForSubscriptionResponse>;
   }
 
   /**
@@ -89,21 +123,41 @@ export class PolicyEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyEventsListQueryResultsForResourceGroupResponse>
    */
-  listQueryResultsForResourceGroup(subscriptionId: string, resourceGroupName: string, options?: Models.PolicyEventsListQueryResultsForResourceGroupOptionalParams): Promise<Models.PolicyEventsListQueryResultsForResourceGroupResponse>;
+  listQueryResultsForResourceGroup(
+    subscriptionId: string,
+    resourceGroupName: string,
+    options?: Models.PolicyEventsListQueryResultsForResourceGroupOptionalParams
+  ): Promise<Models.PolicyEventsListQueryResultsForResourceGroupResponse>;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param callback The callback
    */
-  listQueryResultsForResourceGroup(subscriptionId: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  listQueryResultsForResourceGroup(
+    subscriptionId: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForResourceGroup(subscriptionId: string, resourceGroupName: string, options: Models.PolicyEventsListQueryResultsForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForResourceGroup(subscriptionId: string, resourceGroupName: string, options?: Models.PolicyEventsListQueryResultsForResourceGroupOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForResourceGroupResponse> {
+  listQueryResultsForResourceGroup(
+    subscriptionId: string,
+    resourceGroupName: string,
+    options: Models.PolicyEventsListQueryResultsForResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
+  listQueryResultsForResourceGroup(
+    subscriptionId: string,
+    resourceGroupName: string,
+    options?:
+      | Models.PolicyEventsListQueryResultsForResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.PolicyEventsQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): Promise<Models.PolicyEventsListQueryResultsForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -111,7 +165,8 @@ export class PolicyEvents {
         options
       },
       listQueryResultsForResourceGroupOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForResourceGroupResponse>;
+      callback
+    ) as Promise<Models.PolicyEventsListQueryResultsForResourceGroupResponse>;
   }
 
   /**
@@ -120,26 +175,43 @@ export class PolicyEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyEventsListQueryResultsForResourceResponse>
    */
-  listQueryResultsForResource(resourceId: string, options?: Models.PolicyEventsListQueryResultsForResourceOptionalParams): Promise<Models.PolicyEventsListQueryResultsForResourceResponse>;
+  listQueryResultsForResource(
+    resourceId: string,
+    options?: Models.PolicyEventsListQueryResultsForResourceOptionalParams
+  ): Promise<Models.PolicyEventsListQueryResultsForResourceResponse>;
   /**
    * @param resourceId Resource ID.
    * @param callback The callback
    */
-  listQueryResultsForResource(resourceId: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  listQueryResultsForResource(
+    resourceId: string,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
   /**
    * @param resourceId Resource ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForResource(resourceId: string, options: Models.PolicyEventsListQueryResultsForResourceOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForResource(resourceId: string, options?: Models.PolicyEventsListQueryResultsForResourceOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForResourceResponse> {
+  listQueryResultsForResource(
+    resourceId: string,
+    options: Models.PolicyEventsListQueryResultsForResourceOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
+  listQueryResultsForResource(
+    resourceId: string,
+    options?:
+      | Models.PolicyEventsListQueryResultsForResourceOptionalParams
+      | msRest.ServiceCallback<Models.PolicyEventsQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): Promise<Models.PolicyEventsListQueryResultsForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
         options
       },
       listQueryResultsForResourceOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForResourceResponse>;
+      callback
+    ) as Promise<Models.PolicyEventsListQueryResultsForResourceResponse>;
   }
 
   /**
@@ -149,21 +221,41 @@ export class PolicyEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionResponse>
    */
-  listQueryResultsForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options?: Models.PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams): Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionResponse>;
+  listQueryResultsForPolicySetDefinition(
+    subscriptionId: string,
+    policySetDefinitionName: string,
+    options?: Models.PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
+  ): Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionResponse>;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policySetDefinitionName Policy set definition name.
    * @param callback The callback
    */
-  listQueryResultsForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  listQueryResultsForPolicySetDefinition(
+    subscriptionId: string,
+    policySetDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policySetDefinitionName Policy set definition name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options: Models.PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForPolicySetDefinition(subscriptionId: string, policySetDefinitionName: string, options?: Models.PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionResponse> {
+  listQueryResultsForPolicySetDefinition(
+    subscriptionId: string,
+    policySetDefinitionName: string,
+    options: Models.PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
+  listQueryResultsForPolicySetDefinition(
+    subscriptionId: string,
+    policySetDefinitionName: string,
+    options?:
+      | Models.PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
+      | msRest.ServiceCallback<Models.PolicyEventsQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -171,7 +263,8 @@ export class PolicyEvents {
         options
       },
       listQueryResultsForPolicySetDefinitionOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionResponse>;
+      callback
+    ) as Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionResponse>;
   }
 
   /**
@@ -181,21 +274,41 @@ export class PolicyEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionResponse>
    */
-  listQueryResultsForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options?: Models.PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams): Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionResponse>;
+  listQueryResultsForPolicyDefinition(
+    subscriptionId: string,
+    policyDefinitionName: string,
+    options?: Models.PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
+  ): Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionResponse>;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyDefinitionName Policy definition name.
    * @param callback The callback
    */
-  listQueryResultsForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  listQueryResultsForPolicyDefinition(
+    subscriptionId: string,
+    policyDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyDefinitionName Policy definition name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options: Models.PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForPolicyDefinition(subscriptionId: string, policyDefinitionName: string, options?: Models.PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionResponse> {
+  listQueryResultsForPolicyDefinition(
+    subscriptionId: string,
+    policyDefinitionName: string,
+    options: Models.PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
+  listQueryResultsForPolicyDefinition(
+    subscriptionId: string,
+    policyDefinitionName: string,
+    options?:
+      | Models.PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
+      | msRest.ServiceCallback<Models.PolicyEventsQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -203,7 +316,8 @@ export class PolicyEvents {
         options
       },
       listQueryResultsForPolicyDefinitionOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionResponse>;
+      callback
+    ) as Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionResponse>;
   }
 
   /**
@@ -214,21 +328,41 @@ export class PolicyEvents {
    * @returns
    * Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>
    */
-  listQueryResultsForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options?: Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams): Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>;
+  listQueryResultsForSubscriptionLevelPolicyAssignment(
+    subscriptionId: string,
+    policyAssignmentName: string,
+    options?: Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+  ): Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyAssignmentName Policy assignment name.
    * @param callback The callback
    */
-  listQueryResultsForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  listQueryResultsForSubscriptionLevelPolicyAssignment(
+    subscriptionId: string,
+    policyAssignmentName: string,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param policyAssignmentName Policy assignment name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options: Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForSubscriptionLevelPolicyAssignment(subscriptionId: string, policyAssignmentName: string, options?: Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse> {
+  listQueryResultsForSubscriptionLevelPolicyAssignment(
+    subscriptionId: string,
+    policyAssignmentName: string,
+    options: Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
+  listQueryResultsForSubscriptionLevelPolicyAssignment(
+    subscriptionId: string,
+    policyAssignmentName: string,
+    options?:
+      | Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+      | msRest.ServiceCallback<Models.PolicyEventsQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -236,7 +370,8 @@ export class PolicyEvents {
         options
       },
       listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>;
+      callback
+    ) as Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>;
   }
 
   /**
@@ -248,14 +383,24 @@ export class PolicyEvents {
    * @returns
    * Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>
    */
-  listQueryResultsForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams): Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>;
+  listQueryResultsForResourceGroupLevelPolicyAssignment(
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyAssignmentName: string,
+    options?: Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+  ): Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
    * @param policyAssignmentName Policy assignment name.
    * @param callback The callback
    */
-  listQueryResultsForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  listQueryResultsForResourceGroupLevelPolicyAssignment(
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyAssignmentName: string,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
   /**
    * @param subscriptionId Microsoft Azure subscription ID.
    * @param resourceGroupName Resource group name.
@@ -263,8 +408,22 @@ export class PolicyEvents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options: Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForResourceGroupLevelPolicyAssignment(subscriptionId: string, resourceGroupName: string, policyAssignmentName: string, options?: Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse> {
+  listQueryResultsForResourceGroupLevelPolicyAssignment(
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyAssignmentName: string,
+    options: Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): void;
+  listQueryResultsForResourceGroupLevelPolicyAssignment(
+    subscriptionId: string,
+    resourceGroupName: string,
+    policyAssignmentName: string,
+    options?:
+      | Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+      | msRest.ServiceCallback<Models.PolicyEventsQueryResults>,
+    callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>
+  ): Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse> {
     return this.client.sendOperationRequest(
       {
         subscriptionId,
@@ -273,7 +432,8 @@ export class PolicyEvents {
         options
       },
       listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>;
+      callback
+    ) as Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>;
   }
 
   /**
@@ -283,7 +443,10 @@ export class PolicyEvents {
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyEventsGetMetadataResponse>
    */
-  getMetadata(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsGetMetadataResponse>;
+  getMetadata(
+    scope: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PolicyEventsGetMetadataResponse>;
   /**
    * @param scope A valid scope, i.e. management group, subscription, resource group, or resource ID.
    * Scope used has no effect on metadata returned.
@@ -296,15 +459,24 @@ export class PolicyEvents {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMetadata(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  getMetadata(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.PolicyEventsGetMetadataResponse> {
+  getMetadata(
+    scope: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<string>
+  ): void;
+  getMetadata(
+    scope: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>,
+    callback?: msRest.ServiceCallback<string>
+  ): Promise<Models.PolicyEventsGetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       getMetadataOperationSpec,
-      callback) as Promise<Models.PolicyEventsGetMetadataResponse>;
+      callback
+    ) as Promise<Models.PolicyEventsGetMetadataResponse>;
   }
 }
 
@@ -312,7 +484,8 @@ export class PolicyEvents {
 const serializer = new msRest.Serializer(Mappers);
 const listQueryResultsForManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+  path:
+    "providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
     Parameters.managementGroupsNamespace,
@@ -328,9 +501,7 @@ const listQueryResultsForManagementGroupOperationSpec: msRest.OperationSpec = {
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyEventsQueryResults
@@ -344,11 +515,9 @@ const listQueryResultsForManagementGroupOperationSpec: msRest.OperationSpec = {
 
 const listQueryResultsForSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
-  urlParameters: [
-    Parameters.policyEventsResource,
-    Parameters.subscriptionId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+  urlParameters: [Parameters.policyEventsResource, Parameters.subscriptionId],
   queryParameters: [
     Parameters.apiVersion2,
     Parameters.top,
@@ -359,9 +528,7 @@ const listQueryResultsForSubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyEventsQueryResults
@@ -375,7 +542,8 @@ const listQueryResultsForSubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listQueryResultsForResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
     Parameters.subscriptionId,
@@ -391,9 +559,7 @@ const listQueryResultsForResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyEventsQueryResults
@@ -407,11 +573,9 @@ const listQueryResultsForResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listQueryResultsForResourceOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
-  urlParameters: [
-    Parameters.policyEventsResource,
-    Parameters.resourceId
-  ],
+  path:
+    "{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+  urlParameters: [Parameters.policyEventsResource, Parameters.resourceId],
   queryParameters: [
     Parameters.apiVersion2,
     Parameters.top,
@@ -422,9 +586,7 @@ const listQueryResultsForResourceOperationSpec: msRest.OperationSpec = {
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyEventsQueryResults
@@ -438,7 +600,8 @@ const listQueryResultsForResourceOperationSpec: msRest.OperationSpec = {
 
 const listQueryResultsForPolicySetDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+  path:
+    "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
     Parameters.subscriptionId,
@@ -455,9 +618,7 @@ const listQueryResultsForPolicySetDefinitionOperationSpec: msRest.OperationSpec 
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyEventsQueryResults
@@ -471,7 +632,8 @@ const listQueryResultsForPolicySetDefinitionOperationSpec: msRest.OperationSpec 
 
 const listQueryResultsForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+  path:
+    "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
     Parameters.subscriptionId,
@@ -488,9 +650,7 @@ const listQueryResultsForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyEventsQueryResults
@@ -504,7 +664,8 @@ const listQueryResultsForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
 
 const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+  path:
+    "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
     Parameters.subscriptionId,
@@ -521,9 +682,7 @@ const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyEventsQueryResults
@@ -537,7 +696,8 @@ const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.
 
 const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
     Parameters.subscriptionId,
@@ -555,9 +715,7 @@ const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: msRest
     Parameters.filter,
     Parameters.apply
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PolicyEventsQueryResults
@@ -572,15 +730,9 @@ const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: msRest
 const getMetadataOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.PolicyInsights/policyEvents/$metadata",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {

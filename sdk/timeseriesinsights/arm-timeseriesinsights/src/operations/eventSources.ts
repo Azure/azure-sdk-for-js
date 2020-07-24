@@ -36,7 +36,13 @@ export class EventSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSourcesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, environmentName: string, eventSourceName: string, parameters: Models.EventSourceCreateOrUpdateParametersUnion, options?: msRest.RequestOptionsBase): Promise<Models.EventSourcesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    parameters: Models.EventSourceCreateOrUpdateParametersUnion,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EventSourcesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -45,7 +51,13 @@ export class EventSources {
    * @param parameters Parameters for creating an event source resource.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, environmentName: string, eventSourceName: string, parameters: Models.EventSourceCreateOrUpdateParametersUnion, callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    parameters: Models.EventSourceCreateOrUpdateParametersUnion,
+    callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -55,8 +67,22 @@ export class EventSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, environmentName: string, eventSourceName: string, parameters: Models.EventSourceCreateOrUpdateParametersUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>): void;
-  createOrUpdate(resourceGroupName: string, environmentName: string, eventSourceName: string, parameters: Models.EventSourceCreateOrUpdateParametersUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSourceResourceUnion>, callback?: msRest.ServiceCallback<Models.EventSourceResourceUnion>): Promise<Models.EventSourcesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    parameters: Models.EventSourceCreateOrUpdateParametersUnion,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    parameters: Models.EventSourceCreateOrUpdateParametersUnion,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSourceResourceUnion>,
+    callback?: msRest.ServiceCallback<Models.EventSourceResourceUnion>
+  ): Promise<Models.EventSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +92,8 @@ export class EventSources {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.EventSourcesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.EventSourcesCreateOrUpdateResponse>;
   }
 
   /**
@@ -79,7 +106,12 @@ export class EventSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSourcesGetResponse>
    */
-  get(resourceGroupName: string, environmentName: string, eventSourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSourcesGetResponse>;
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EventSourcesGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -88,7 +120,12 @@ export class EventSources {
    * specified environment.
    * @param callback The callback
    */
-  get(resourceGroupName: string, environmentName: string, eventSourceName: string, callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>): void;
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -98,8 +135,20 @@ export class EventSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, environmentName: string, eventSourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>): void;
-  get(resourceGroupName: string, environmentName: string, eventSourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSourceResourceUnion>, callback?: msRest.ServiceCallback<Models.EventSourceResourceUnion>): Promise<Models.EventSourcesGetResponse> {
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>
+  ): void;
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSourceResourceUnion>,
+    callback?: msRest.ServiceCallback<Models.EventSourceResourceUnion>
+  ): Promise<Models.EventSourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +157,8 @@ export class EventSources {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.EventSourcesGetResponse>;
+      callback
+    ) as Promise<Models.EventSourcesGetResponse>;
   }
 
   /**
@@ -124,7 +174,13 @@ export class EventSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSourcesUpdateResponse>
    */
-  update(resourceGroupName: string, environmentName: string, eventSourceName: string, eventSourceUpdateParameters: Models.EventSourceUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.EventSourcesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    eventSourceUpdateParameters: Models.EventSourceUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EventSourcesUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -135,7 +191,13 @@ export class EventSources {
    * event source.
    * @param callback The callback
    */
-  update(resourceGroupName: string, environmentName: string, eventSourceName: string, eventSourceUpdateParameters: Models.EventSourceUpdateParameters, callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>): void;
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    eventSourceUpdateParameters: Models.EventSourceUpdateParameters,
+    callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -147,8 +209,22 @@ export class EventSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, environmentName: string, eventSourceName: string, eventSourceUpdateParameters: Models.EventSourceUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>): void;
-  update(resourceGroupName: string, environmentName: string, eventSourceName: string, eventSourceUpdateParameters: Models.EventSourceUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSourceResourceUnion>, callback?: msRest.ServiceCallback<Models.EventSourceResourceUnion>): Promise<Models.EventSourcesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    eventSourceUpdateParameters: Models.EventSourceUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventSourceResourceUnion>
+  ): void;
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    eventSourceUpdateParameters: Models.EventSourceUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSourceResourceUnion>,
+    callback?: msRest.ServiceCallback<Models.EventSourceResourceUnion>
+  ): Promise<Models.EventSourcesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +234,8 @@ export class EventSources {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.EventSourcesUpdateResponse>;
+      callback
+    ) as Promise<Models.EventSourcesUpdateResponse>;
   }
 
   /**
@@ -172,7 +249,12 @@ export class EventSources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, environmentName: string, eventSourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -181,7 +263,12 @@ export class EventSources {
    * specified environment.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, environmentName: string, eventSourceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -191,8 +278,20 @@ export class EventSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, environmentName: string, eventSourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, environmentName: string, eventSourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    eventSourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -201,7 +300,8 @@ export class EventSources {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -213,14 +313,22 @@ export class EventSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSourcesListByEnvironmentResponse>
    */
-  listByEnvironment(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSourcesListByEnvironmentResponse>;
+  listByEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EventSourcesListByEnvironmentResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
    * specified resource group.
    * @param callback The callback
    */
-  listByEnvironment(resourceGroupName: string, environmentName: string, callback: msRest.ServiceCallback<Models.EventSourceListResponse>): void;
+  listByEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    callback: msRest.ServiceCallback<Models.EventSourceListResponse>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -228,8 +336,18 @@ export class EventSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByEnvironment(resourceGroupName: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSourceListResponse>): void;
-  listByEnvironment(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSourceListResponse>, callback?: msRest.ServiceCallback<Models.EventSourceListResponse>): Promise<Models.EventSourcesListByEnvironmentResponse> {
+  listByEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventSourceListResponse>
+  ): void;
+  listByEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventSourceListResponse>,
+    callback?: msRest.ServiceCallback<Models.EventSourceListResponse>
+  ): Promise<Models.EventSourcesListByEnvironmentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -237,7 +355,8 @@ export class EventSources {
         options
       },
       listByEnvironmentOperationSpec,
-      callback) as Promise<Models.EventSourcesListByEnvironmentResponse>;
+      callback
+    ) as Promise<Models.EventSourcesListByEnvironmentResponse>;
   }
 }
 
@@ -245,19 +364,16 @@ export class EventSources {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/eventSources/{eventSourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/eventSources/{eventSourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1,
     Parameters.eventSourceName0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -281,19 +397,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/eventSources/{eventSourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/eventSources/{eventSourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1,
     Parameters.eventSourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventSourceResource
@@ -307,19 +420,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/eventSources/{eventSourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/eventSources/{eventSourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1,
     Parameters.eventSourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "eventSourceUpdateParameters",
     mapper: {
@@ -340,19 +450,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/eventSources/{eventSourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/eventSources/{eventSourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1,
     Parameters.eventSourceName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -365,18 +472,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/eventSources",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/eventSources",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventSourceListResponse

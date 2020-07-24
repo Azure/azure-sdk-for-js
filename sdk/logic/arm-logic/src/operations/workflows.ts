@@ -31,7 +31,9 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsListBySubscriptionResponse>
    */
-  listBySubscription(options?: Models.WorkflowsListBySubscriptionOptionalParams): Promise<Models.WorkflowsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: Models.WorkflowsListBySubscriptionOptionalParams
+  ): Promise<Models.WorkflowsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,23 @@ export class Workflows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: Models.WorkflowsListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.WorkflowListResult>): void;
-  listBySubscription(options?: Models.WorkflowsListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.WorkflowListResult>, callback?: msRest.ServiceCallback<Models.WorkflowListResult>): Promise<Models.WorkflowsListBySubscriptionResponse> {
+  listBySubscription(
+    options: Models.WorkflowsListBySubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.WorkflowListResult>
+  ): void;
+  listBySubscription(
+    options?:
+      | Models.WorkflowsListBySubscriptionOptionalParams
+      | msRest.ServiceCallback<Models.WorkflowListResult>,
+    callback?: msRest.ServiceCallback<Models.WorkflowListResult>
+  ): Promise<Models.WorkflowsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.WorkflowsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.WorkflowsListBySubscriptionResponse>;
   }
 
   /**
@@ -56,26 +67,43 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.WorkflowsListByResourceGroupOptionalParams): Promise<Models.WorkflowsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.WorkflowsListByResourceGroupOptionalParams
+  ): Promise<Models.WorkflowsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.WorkflowListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.WorkflowListResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.WorkflowsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.WorkflowListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.WorkflowsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.WorkflowListResult>, callback?: msRest.ServiceCallback<Models.WorkflowListResult>): Promise<Models.WorkflowsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.WorkflowsListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.WorkflowListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.WorkflowsListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.WorkflowListResult>,
+    callback?: msRest.ServiceCallback<Models.WorkflowListResult>
+  ): Promise<Models.WorkflowsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.WorkflowsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.WorkflowsListByResourceGroupResponse>;
   }
 
   /**
@@ -85,21 +113,39 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsGetResponse>
    */
-  get(resourceGroupName: string, workflowName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowsGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workflowName: string, callback: msRest.ServiceCallback<Models.Workflow>): void;
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    callback: msRest.ServiceCallback<Models.Workflow>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workflowName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workflow>): void;
-  get(resourceGroupName: string, workflowName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workflow>, callback?: msRest.ServiceCallback<Models.Workflow>): Promise<Models.WorkflowsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Workflow>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workflow>,
+    callback?: msRest.ServiceCallback<Models.Workflow>
+  ): Promise<Models.WorkflowsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +153,8 @@ export class Workflows {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WorkflowsGetResponse>;
+      callback
+    ) as Promise<Models.WorkflowsGetResponse>;
   }
 
   /**
@@ -118,14 +165,24 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workflowName: string, workflow: Models.Workflow, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workflowName: string,
+    workflow: Models.Workflow,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param workflow The workflow.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workflowName: string, workflow: Models.Workflow, callback: msRest.ServiceCallback<Models.Workflow>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workflowName: string,
+    workflow: Models.Workflow,
+    callback: msRest.ServiceCallback<Models.Workflow>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -133,8 +190,20 @@ export class Workflows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workflowName: string, workflow: Models.Workflow, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workflow>): void;
-  createOrUpdate(resourceGroupName: string, workflowName: string, workflow: Models.Workflow, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workflow>, callback?: msRest.ServiceCallback<Models.Workflow>): Promise<Models.WorkflowsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    workflowName: string,
+    workflow: Models.Workflow,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Workflow>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workflowName: string,
+    workflow: Models.Workflow,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workflow>,
+    callback?: msRest.ServiceCallback<Models.Workflow>
+  ): Promise<Models.WorkflowsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -143,7 +212,8 @@ export class Workflows {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.WorkflowsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.WorkflowsCreateOrUpdateResponse>;
   }
 
   /**
@@ -154,14 +224,24 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsUpdateResponse>
    */
-  update(resourceGroupName: string, workflowName: string, workflow: Models.Workflow, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    workflowName: string,
+    workflow: Models.Workflow,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowsUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param workflow The workflow.
    * @param callback The callback
    */
-  update(resourceGroupName: string, workflowName: string, workflow: Models.Workflow, callback: msRest.ServiceCallback<Models.Workflow>): void;
+  update(
+    resourceGroupName: string,
+    workflowName: string,
+    workflow: Models.Workflow,
+    callback: msRest.ServiceCallback<Models.Workflow>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -169,8 +249,20 @@ export class Workflows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, workflowName: string, workflow: Models.Workflow, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Workflow>): void;
-  update(resourceGroupName: string, workflowName: string, workflow: Models.Workflow, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workflow>, callback?: msRest.ServiceCallback<Models.Workflow>): Promise<Models.WorkflowsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    workflowName: string,
+    workflow: Models.Workflow,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Workflow>
+  ): void;
+  update(
+    resourceGroupName: string,
+    workflowName: string,
+    workflow: Models.Workflow,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Workflow>,
+    callback?: msRest.ServiceCallback<Models.Workflow>
+  ): Promise<Models.WorkflowsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -179,7 +271,8 @@ export class Workflows {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.WorkflowsUpdateResponse>;
+      callback
+    ) as Promise<Models.WorkflowsUpdateResponse>;
   }
 
   /**
@@ -189,21 +282,39 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workflowName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workflowName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workflowName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workflowName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workflowName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    workflowName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -211,7 +322,8 @@ export class Workflows {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -221,21 +333,39 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  disable(resourceGroupName: string, workflowName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  disable(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param callback The callback
    */
-  disable(resourceGroupName: string, workflowName: string, callback: msRest.ServiceCallback<void>): void;
+  disable(
+    resourceGroupName: string,
+    workflowName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  disable(resourceGroupName: string, workflowName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disable(resourceGroupName: string, workflowName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disable(
+    resourceGroupName: string,
+    workflowName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  disable(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -243,7 +373,8 @@ export class Workflows {
         options
       },
       disableOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -253,21 +384,39 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  enable(resourceGroupName: string, workflowName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  enable(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param callback The callback
    */
-  enable(resourceGroupName: string, workflowName: string, callback: msRest.ServiceCallback<void>): void;
+  enable(
+    resourceGroupName: string,
+    workflowName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  enable(resourceGroupName: string, workflowName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  enable(resourceGroupName: string, workflowName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  enable(
+    resourceGroupName: string,
+    workflowName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  enable(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -275,7 +424,8 @@ export class Workflows {
         options
       },
       enableOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -286,14 +436,24 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsGenerateUpgradedDefinitionResponse>
    */
-  generateUpgradedDefinition(resourceGroupName: string, workflowName: string, parameters: Models.GenerateUpgradedDefinitionParameters, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsGenerateUpgradedDefinitionResponse>;
+  generateUpgradedDefinition(
+    resourceGroupName: string,
+    workflowName: string,
+    parameters: Models.GenerateUpgradedDefinitionParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowsGenerateUpgradedDefinitionResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param parameters Parameters for generating an upgraded definition.
    * @param callback The callback
    */
-  generateUpgradedDefinition(resourceGroupName: string, workflowName: string, parameters: Models.GenerateUpgradedDefinitionParameters, callback: msRest.ServiceCallback<any>): void;
+  generateUpgradedDefinition(
+    resourceGroupName: string,
+    workflowName: string,
+    parameters: Models.GenerateUpgradedDefinitionParameters,
+    callback: msRest.ServiceCallback<any>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -301,8 +461,20 @@ export class Workflows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  generateUpgradedDefinition(resourceGroupName: string, workflowName: string, parameters: Models.GenerateUpgradedDefinitionParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  generateUpgradedDefinition(resourceGroupName: string, workflowName: string, parameters: Models.GenerateUpgradedDefinitionParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.WorkflowsGenerateUpgradedDefinitionResponse> {
+  generateUpgradedDefinition(
+    resourceGroupName: string,
+    workflowName: string,
+    parameters: Models.GenerateUpgradedDefinitionParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<any>
+  ): void;
+  generateUpgradedDefinition(
+    resourceGroupName: string,
+    workflowName: string,
+    parameters: Models.GenerateUpgradedDefinitionParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>,
+    callback?: msRest.ServiceCallback<any>
+  ): Promise<Models.WorkflowsGenerateUpgradedDefinitionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -311,7 +483,8 @@ export class Workflows {
         options
       },
       generateUpgradedDefinitionOperationSpec,
-      callback) as Promise<Models.WorkflowsGenerateUpgradedDefinitionResponse>;
+      callback
+    ) as Promise<Models.WorkflowsGenerateUpgradedDefinitionResponse>;
   }
 
   /**
@@ -322,14 +495,24 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsListCallbackUrlResponse>
    */
-  listCallbackUrl(resourceGroupName: string, workflowName: string, listCallbackUrlParameter: Models.GetCallbackUrlParameters, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsListCallbackUrlResponse>;
+  listCallbackUrl(
+    resourceGroupName: string,
+    workflowName: string,
+    listCallbackUrlParameter: Models.GetCallbackUrlParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowsListCallbackUrlResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param listCallbackUrlParameter Which callback url to list.
    * @param callback The callback
    */
-  listCallbackUrl(resourceGroupName: string, workflowName: string, listCallbackUrlParameter: Models.GetCallbackUrlParameters, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
+  listCallbackUrl(
+    resourceGroupName: string,
+    workflowName: string,
+    listCallbackUrlParameter: Models.GetCallbackUrlParameters,
+    callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -337,8 +520,20 @@ export class Workflows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCallbackUrl(resourceGroupName: string, workflowName: string, listCallbackUrlParameter: Models.GetCallbackUrlParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
-  listCallbackUrl(resourceGroupName: string, workflowName: string, listCallbackUrlParameter: Models.GetCallbackUrlParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.WorkflowsListCallbackUrlResponse> {
+  listCallbackUrl(
+    resourceGroupName: string,
+    workflowName: string,
+    listCallbackUrlParameter: Models.GetCallbackUrlParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): void;
+  listCallbackUrl(
+    resourceGroupName: string,
+    workflowName: string,
+    listCallbackUrlParameter: Models.GetCallbackUrlParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>,
+    callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): Promise<Models.WorkflowsListCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -347,7 +542,8 @@ export class Workflows {
         options
       },
       listCallbackUrlOperationSpec,
-      callback) as Promise<Models.WorkflowsListCallbackUrlResponse>;
+      callback
+    ) as Promise<Models.WorkflowsListCallbackUrlResponse>;
   }
 
   /**
@@ -357,21 +553,39 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsListSwaggerResponse>
    */
-  listSwagger(resourceGroupName: string, workflowName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsListSwaggerResponse>;
+  listSwagger(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowsListSwaggerResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param callback The callback
    */
-  listSwagger(resourceGroupName: string, workflowName: string, callback: msRest.ServiceCallback<any>): void;
+  listSwagger(
+    resourceGroupName: string,
+    workflowName: string,
+    callback: msRest.ServiceCallback<any>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSwagger(resourceGroupName: string, workflowName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  listSwagger(resourceGroupName: string, workflowName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.WorkflowsListSwaggerResponse> {
+  listSwagger(
+    resourceGroupName: string,
+    workflowName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<any>
+  ): void;
+  listSwagger(
+    resourceGroupName: string,
+    workflowName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>,
+    callback?: msRest.ServiceCallback<any>
+  ): Promise<Models.WorkflowsListSwaggerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -379,7 +593,8 @@ export class Workflows {
         options
       },
       listSwaggerOperationSpec,
-      callback) as Promise<Models.WorkflowsListSwaggerResponse>;
+      callback
+    ) as Promise<Models.WorkflowsListSwaggerResponse>;
   }
 
   /**
@@ -390,14 +605,24 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  move(resourceGroupName: string, workflowName: string, moveParameter: Models.Workflow, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  move(
+    resourceGroupName: string,
+    workflowName: string,
+    moveParameter: Models.Workflow,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param moveParameter The workflow to move.
    * @param callback The callback
    */
-  move(resourceGroupName: string, workflowName: string, moveParameter: Models.Workflow, callback: msRest.ServiceCallback<void>): void;
+  move(
+    resourceGroupName: string,
+    workflowName: string,
+    moveParameter: Models.Workflow,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -405,8 +630,20 @@ export class Workflows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  move(resourceGroupName: string, workflowName: string, moveParameter: Models.Workflow, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  move(resourceGroupName: string, workflowName: string, moveParameter: Models.Workflow, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  move(
+    resourceGroupName: string,
+    workflowName: string,
+    moveParameter: Models.Workflow,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  move(
+    resourceGroupName: string,
+    workflowName: string,
+    moveParameter: Models.Workflow,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -415,7 +652,8 @@ export class Workflows {
         options
       },
       moveOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -426,14 +664,24 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  regenerateAccessKey(resourceGroupName: string, workflowName: string, keyType: Models.RegenerateActionParameter, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  regenerateAccessKey(
+    resourceGroupName: string,
+    workflowName: string,
+    keyType: Models.RegenerateActionParameter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param keyType The access key type.
    * @param callback The callback
    */
-  regenerateAccessKey(resourceGroupName: string, workflowName: string, keyType: Models.RegenerateActionParameter, callback: msRest.ServiceCallback<void>): void;
+  regenerateAccessKey(
+    resourceGroupName: string,
+    workflowName: string,
+    keyType: Models.RegenerateActionParameter,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -441,8 +689,20 @@ export class Workflows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateAccessKey(resourceGroupName: string, workflowName: string, keyType: Models.RegenerateActionParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  regenerateAccessKey(resourceGroupName: string, workflowName: string, keyType: Models.RegenerateActionParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  regenerateAccessKey(
+    resourceGroupName: string,
+    workflowName: string,
+    keyType: Models.RegenerateActionParameter,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  regenerateAccessKey(
+    resourceGroupName: string,
+    workflowName: string,
+    keyType: Models.RegenerateActionParameter,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -451,7 +711,8 @@ export class Workflows {
         options
       },
       regenerateAccessKeyOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -462,14 +723,24 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  validateByResourceGroup(resourceGroupName: string, workflowName: string, validate: Models.Workflow, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  validateByResourceGroup(
+    resourceGroupName: string,
+    workflowName: string,
+    validate: Models.Workflow,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
    * @param validate The workflow.
    * @param callback The callback
    */
-  validateByResourceGroup(resourceGroupName: string, workflowName: string, validate: Models.Workflow, callback: msRest.ServiceCallback<void>): void;
+  validateByResourceGroup(
+    resourceGroupName: string,
+    workflowName: string,
+    validate: Models.Workflow,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -477,8 +748,20 @@ export class Workflows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  validateByResourceGroup(resourceGroupName: string, workflowName: string, validate: Models.Workflow, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  validateByResourceGroup(resourceGroupName: string, workflowName: string, validate: Models.Workflow, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  validateByResourceGroup(
+    resourceGroupName: string,
+    workflowName: string,
+    validate: Models.Workflow,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  validateByResourceGroup(
+    resourceGroupName: string,
+    workflowName: string,
+    validate: Models.Workflow,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -487,7 +770,8 @@ export class Workflows {
         options
       },
       validateByResourceGroupOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -499,7 +783,13 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  validateByLocation(resourceGroupName: string, location: string, workflowName: string, workflow: Models.Workflow, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  validateByLocation(
+    resourceGroupName: string,
+    location: string,
+    workflowName: string,
+    workflow: Models.Workflow,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param location The workflow location.
@@ -507,7 +797,13 @@ export class Workflows {
    * @param workflow The workflow definition.
    * @param callback The callback
    */
-  validateByLocation(resourceGroupName: string, location: string, workflowName: string, workflow: Models.Workflow, callback: msRest.ServiceCallback<void>): void;
+  validateByLocation(
+    resourceGroupName: string,
+    location: string,
+    workflowName: string,
+    workflow: Models.Workflow,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param location The workflow location.
@@ -516,8 +812,22 @@ export class Workflows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  validateByLocation(resourceGroupName: string, location: string, workflowName: string, workflow: Models.Workflow, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  validateByLocation(resourceGroupName: string, location: string, workflowName: string, workflow: Models.Workflow, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  validateByLocation(
+    resourceGroupName: string,
+    location: string,
+    workflowName: string,
+    workflow: Models.Workflow,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  validateByLocation(
+    resourceGroupName: string,
+    location: string,
+    workflowName: string,
+    workflow: Models.Workflow,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -527,7 +837,8 @@ export class Workflows {
         options
       },
       validateByLocationOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -536,26 +847,41 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WorkflowListResult>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.WorkflowListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowListResult>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowListResult>, callback?: msRest.ServiceCallback<Models.WorkflowListResult>): Promise<Models.WorkflowsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkflowListResult>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowListResult>,
+    callback?: msRest.ServiceCallback<Models.WorkflowListResult>
+  ): Promise<Models.WorkflowsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.WorkflowsListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.WorkflowsListBySubscriptionNextResponse>;
   }
 
   /**
@@ -564,26 +890,41 @@ export class Workflows {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkflowsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkflowsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WorkflowListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.WorkflowListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowListResult>, callback?: msRest.ServiceCallback<Models.WorkflowListResult>): Promise<Models.WorkflowsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkflowListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowListResult>,
+    callback?: msRest.ServiceCallback<Models.WorkflowListResult>
+  ): Promise<Models.WorkflowsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.WorkflowsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.WorkflowsListByResourceGroupNextResponse>;
   }
 }
 
@@ -592,17 +933,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Logic/workflows",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkflowListResult
@@ -616,19 +949,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkflowListResult
@@ -642,18 +967,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Workflow
@@ -667,18 +985,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "workflow",
     mapper: {
@@ -702,18 +1013,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "workflow",
     mapper: {
@@ -734,18 +1038,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -758,18 +1055,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const disableOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/disable",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/disable",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -781,18 +1071,11 @@ const disableOperationSpec: msRest.OperationSpec = {
 
 const enableOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/enable",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/enable",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -804,18 +1087,11 @@ const enableOperationSpec: msRest.OperationSpec = {
 
 const generateUpgradedDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/generateUpgradedDefinition",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/generateUpgradedDefinition",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -841,18 +1117,11 @@ const generateUpgradedDefinitionOperationSpec: msRest.OperationSpec = {
 
 const listCallbackUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/listCallbackUrl",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/listCallbackUrl",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "listCallbackUrlParameter",
     mapper: {
@@ -873,18 +1142,11 @@ const listCallbackUrlOperationSpec: msRest.OperationSpec = {
 
 const listSwaggerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/listSwagger",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/listSwagger",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -903,18 +1165,11 @@ const listSwaggerOperationSpec: msRest.OperationSpec = {
 
 const moveOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/move",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/move",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "moveParameter",
     mapper: {
@@ -934,18 +1189,11 @@ const moveOperationSpec: msRest.OperationSpec = {
 
 const regenerateAccessKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/regenerateAccessKey",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/regenerateAccessKey",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "keyType",
     mapper: {
@@ -964,18 +1212,11 @@ const regenerateAccessKeyOperationSpec: msRest.OperationSpec = {
 
 const validateByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/validate",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/validate",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.workflowName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "validate",
     mapper: {
@@ -994,19 +1235,16 @@ const validateByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const validateByLocationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/locations/{location}/workflows/{workflowName}/validate",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/locations/{location}/workflows/{workflowName}/validate",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.location,
     Parameters.workflowName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "workflow",
     mapper: {
@@ -1027,12 +1265,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkflowListResult
@@ -1048,12 +1282,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkflowListResult

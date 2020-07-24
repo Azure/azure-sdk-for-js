@@ -33,7 +33,10 @@ export class Usages {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsagesListResponse>
    */
-  list(regionId: string, options?: Models.UsagesListOptionalParams): Promise<Models.UsagesListResponse>;
+  list(
+    regionId: string,
+    options?: Models.UsagesListOptionalParams
+  ): Promise<Models.UsagesListResponse>;
   /**
    * @param regionId The region Id (westus, eastus)
    * @param callback The callback
@@ -44,15 +47,24 @@ export class Usages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(regionId: string, options: Models.UsagesListOptionalParams, callback: msRest.ServiceCallback<Models.UsageListResponse>): void;
-  list(regionId: string, options?: Models.UsagesListOptionalParams | msRest.ServiceCallback<Models.UsageListResponse>, callback?: msRest.ServiceCallback<Models.UsageListResponse>): Promise<Models.UsagesListResponse> {
+  list(
+    regionId: string,
+    options: Models.UsagesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.UsageListResponse>
+  ): void;
+  list(
+    regionId: string,
+    options?: Models.UsagesListOptionalParams | msRest.ServiceCallback<Models.UsageListResponse>,
+    callback?: msRest.ServiceCallback<Models.UsageListResponse>
+  ): Promise<Models.UsagesListResponse> {
     return this.client.sendOperationRequest(
       {
         regionId,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.UsagesListResponse>;
+      callback
+    ) as Promise<Models.UsagesListResponse>;
   }
 
   /**
@@ -62,7 +74,10 @@ export class Usages {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsagesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.UsagesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UsagesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -73,15 +88,24 @@ export class Usages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageListResponse>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageListResponse>, callback?: msRest.ServiceCallback<Models.UsageListResponse>): Promise<Models.UsagesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UsageListResponse>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UsageListResponse>,
+    callback?: msRest.ServiceCallback<Models.UsageListResponse>
+  ): Promise<Models.UsagesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.UsagesListNextResponse>;
+      callback
+    ) as Promise<Models.UsagesListNextResponse>;
   }
 }
 
@@ -89,18 +113,11 @@ export class Usages {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/usages",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.regionId
-  ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/usages",
+  urlParameters: [Parameters.subscriptionId, Parameters.regionId],
+  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UsageListResponse
@@ -116,12 +133,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UsageListResponse

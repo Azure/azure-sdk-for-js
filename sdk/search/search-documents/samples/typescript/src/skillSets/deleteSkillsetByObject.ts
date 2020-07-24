@@ -19,7 +19,7 @@ async function main(): Promise<void> {
   console.log(`Getting Skillset my-azureblob-skillset`);
   const skillset: SearchIndexerSkillset = await client.getSkillset("my-azureblob-skillset");
   console.log(`Deleting Indexer my-azureblob-skillset`);
-  await client.deleteSkillset(skillset)
+  await client.deleteSkillset(skillset);
 }
 
 main();

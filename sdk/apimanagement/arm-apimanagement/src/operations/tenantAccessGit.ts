@@ -33,21 +33,39 @@ export class TenantAccessGit {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantAccessGitGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TenantAccessGitGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TenantAccessGitGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.AccessInformationContract>): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.AccessInformationContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessInformationContract>): void;
-  get(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessInformationContract>, callback?: msRest.ServiceCallback<Models.AccessInformationContract>): Promise<Models.TenantAccessGitGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessInformationContract>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessInformationContract>,
+    callback?: msRest.ServiceCallback<Models.AccessInformationContract>
+  ): Promise<Models.TenantAccessGitGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class TenantAccessGit {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TenantAccessGitGetResponse>;
+      callback
+    ) as Promise<Models.TenantAccessGitGetResponse>;
   }
 
   /**
@@ -65,21 +84,39 @@ export class TenantAccessGit {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<void>): void;
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  regeneratePrimaryKey(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  regeneratePrimaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -87,7 +124,8 @@ export class TenantAccessGit {
         options
       },
       regeneratePrimaryKeyOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -97,21 +135,39 @@ export class TenantAccessGit {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<void>): void;
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  regenerateSecondaryKey(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  regenerateSecondaryKey(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +175,8 @@ export class TenantAccessGit {
         options
       },
       regenerateSecondaryKeyOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -129,21 +186,39 @@ export class TenantAccessGit {
    * @param [options] The optional parameters
    * @returns Promise<Models.TenantAccessGitListSecretsResponse>
    */
-  listSecrets(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TenantAccessGitListSecretsResponse>;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TenantAccessGitListSecretsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listSecrets(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.AccessInformationContract>): void;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.AccessInformationContract>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSecrets(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessInformationContract>): void;
-  listSecrets(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessInformationContract>, callback?: msRest.ServiceCallback<Models.AccessInformationContract>): Promise<Models.TenantAccessGitListSecretsResponse> {
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessInformationContract>
+  ): void;
+  listSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessInformationContract>,
+    callback?: msRest.ServiceCallback<Models.AccessInformationContract>
+  ): Promise<Models.TenantAccessGitListSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -151,7 +226,8 @@ export class TenantAccessGit {
         options
       },
       listSecretsOperationSpec,
-      callback) as Promise<Models.TenantAccessGitListSecretsResponse>;
+      callback
+    ) as Promise<Models.TenantAccessGitListSecretsResponse>;
   }
 }
 
@@ -159,19 +235,16 @@ export class TenantAccessGit {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.accessName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccessInformationContract,
@@ -186,19 +259,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const regeneratePrimaryKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regeneratePrimaryKey",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regeneratePrimaryKey",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.accessName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -210,19 +280,16 @@ const regeneratePrimaryKeyOperationSpec: msRest.OperationSpec = {
 
 const regenerateSecondaryKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regenerateSecondaryKey",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/regenerateSecondaryKey",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.accessName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -234,19 +301,16 @@ const regenerateSecondaryKeyOperationSpec: msRest.OperationSpec = {
 
 const listSecretsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/listSecrets",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/listSecrets",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.accessName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccessInformationContract,

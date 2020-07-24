@@ -8,9 +8,4 @@
  * regenerated.
  */
 
-export {
-  TestJobCreateParameters,
-  TestJob,
-  ErrorResponse
-} from "../models/mappers";
-
+export { TestJobCreateParameters, TestJob, ErrorResponse } from "../models/mappers";

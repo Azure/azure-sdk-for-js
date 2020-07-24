@@ -34,14 +34,24 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImagesGetUploadUrlForEntityTypeResponse>
    */
-  getUploadUrlForEntityType(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, options?: msRest.RequestOptionsBase): Promise<Models.ImagesGetUploadUrlForEntityTypeResponse>;
+  getUploadUrlForEntityType(
+    resourceGroupName: string,
+    hubName: string,
+    parameters: Models.GetImageUploadUrlInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ImagesGetUploadUrlForEntityTypeResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param parameters Parameters supplied to the GetUploadUrlForEntityType operation.
    * @param callback The callback
    */
-  getUploadUrlForEntityType(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, callback: msRest.ServiceCallback<Models.ImageDefinition>): void;
+  getUploadUrlForEntityType(
+    resourceGroupName: string,
+    hubName: string,
+    parameters: Models.GetImageUploadUrlInput,
+    callback: msRest.ServiceCallback<Models.ImageDefinition>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -49,8 +59,20 @@ export class Images {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUploadUrlForEntityType(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageDefinition>): void;
-  getUploadUrlForEntityType(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageDefinition>, callback?: msRest.ServiceCallback<Models.ImageDefinition>): Promise<Models.ImagesGetUploadUrlForEntityTypeResponse> {
+  getUploadUrlForEntityType(
+    resourceGroupName: string,
+    hubName: string,
+    parameters: Models.GetImageUploadUrlInput,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ImageDefinition>
+  ): void;
+  getUploadUrlForEntityType(
+    resourceGroupName: string,
+    hubName: string,
+    parameters: Models.GetImageUploadUrlInput,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageDefinition>,
+    callback?: msRest.ServiceCallback<Models.ImageDefinition>
+  ): Promise<Models.ImagesGetUploadUrlForEntityTypeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class Images {
         options
       },
       getUploadUrlForEntityTypeOperationSpec,
-      callback) as Promise<Models.ImagesGetUploadUrlForEntityTypeResponse>;
+      callback
+    ) as Promise<Models.ImagesGetUploadUrlForEntityTypeResponse>;
   }
 
   /**
@@ -70,14 +93,24 @@ export class Images {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImagesGetUploadUrlForDataResponse>
    */
-  getUploadUrlForData(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, options?: msRest.RequestOptionsBase): Promise<Models.ImagesGetUploadUrlForDataResponse>;
+  getUploadUrlForData(
+    resourceGroupName: string,
+    hubName: string,
+    parameters: Models.GetImageUploadUrlInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ImagesGetUploadUrlForDataResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
    * @param parameters Parameters supplied to the GetUploadUrlForData operation.
    * @param callback The callback
    */
-  getUploadUrlForData(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, callback: msRest.ServiceCallback<Models.ImageDefinition>): void;
+  getUploadUrlForData(
+    resourceGroupName: string,
+    hubName: string,
+    parameters: Models.GetImageUploadUrlInput,
+    callback: msRest.ServiceCallback<Models.ImageDefinition>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hubName The name of the hub.
@@ -85,8 +118,20 @@ export class Images {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUploadUrlForData(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageDefinition>): void;
-  getUploadUrlForData(resourceGroupName: string, hubName: string, parameters: Models.GetImageUploadUrlInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageDefinition>, callback?: msRest.ServiceCallback<Models.ImageDefinition>): Promise<Models.ImagesGetUploadUrlForDataResponse> {
+  getUploadUrlForData(
+    resourceGroupName: string,
+    hubName: string,
+    parameters: Models.GetImageUploadUrlInput,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ImageDefinition>
+  ): void;
+  getUploadUrlForData(
+    resourceGroupName: string,
+    hubName: string,
+    parameters: Models.GetImageUploadUrlInput,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageDefinition>,
+    callback?: msRest.ServiceCallback<Models.ImageDefinition>
+  ): Promise<Models.ImagesGetUploadUrlForDataResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +140,8 @@ export class Images {
         options
       },
       getUploadUrlForDataOperationSpec,
-      callback) as Promise<Models.ImagesGetUploadUrlForDataResponse>;
+      callback
+    ) as Promise<Models.ImagesGetUploadUrlForDataResponse>;
   }
 }
 
@@ -103,18 +149,11 @@ export class Images {
 const serializer = new msRest.Serializer(Mappers);
 const getUploadUrlForEntityTypeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/images/getEntityTypeImageUploadUrl",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.hubName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/images/getEntityTypeImageUploadUrl",
+  urlParameters: [Parameters.resourceGroupName, Parameters.hubName1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -135,18 +174,11 @@ const getUploadUrlForEntityTypeOperationSpec: msRest.OperationSpec = {
 
 const getUploadUrlForDataOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/images/getDataImageUploadUrl",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.hubName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomerInsights/hubs/{hubName}/images/getDataImageUploadUrl",
+  urlParameters: [Parameters.resourceGroupName, Parameters.hubName1, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

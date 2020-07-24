@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing ErrorResponse.
@@ -224,13 +223,13 @@ export interface Operation {
  * An interface representing MachineLearningWorkspacesManagementClientOptions.
  * @extends AzureServiceClientOptions
  */
-export interface MachineLearningWorkspacesManagementClientOptions extends AzureServiceClientOptions {
+export interface MachineLearningWorkspacesManagementClientOptions
+  extends AzureServiceClientOptions {
   /**
    * @member {string} [baseUri]
    */
   baseUri?: string;
 }
-
 
 /**
  * @interface
@@ -239,8 +238,7 @@ export interface MachineLearningWorkspacesManagementClientOptions extends AzureS
  *
  * @extends Array<Operation>
  */
-export interface OperationListResult extends Array<Operation> {
-}
+export interface OperationListResult extends Array<Operation> {}
 
 /**
  * @interface
@@ -263,7 +261,7 @@ export interface WorkspaceListResult extends Array<Workspace> {
  * @readonly
  * @enum {string}
  */
-export type WorkspaceType = 'Production' | 'Free' | 'Anonymous' | 'PaidStandard' | 'PaidPremium';
+export type WorkspaceType = "Production" | "Free" | "Anonymous" | "PaidStandard" | "PaidPremium";
 
 /**
  * Defines values for WorkspaceState.
@@ -272,7 +270,14 @@ export type WorkspaceType = 'Production' | 'Free' | 'Anonymous' | 'PaidStandard'
  * @readonly
  * @enum {string}
  */
-export type WorkspaceState = 'Deleted' | 'Enabled' | 'Disabled' | 'Migrated' | 'Updated' | 'Registered' | 'Unregistered';
+export type WorkspaceState =
+  | "Deleted"
+  | "Enabled"
+  | "Disabled"
+  | "Migrated"
+  | "Updated"
+  | "Registered"
+  | "Unregistered";
 
 /**
  * Contains response data for the list operation.
@@ -282,15 +287,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -301,15 +306,15 @@ export type WorkspacesGetResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -320,15 +325,15 @@ export type WorkspacesCreateOrUpdateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -339,15 +344,15 @@ export type WorkspacesUpdateResponse = Workspace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Workspace;
+  };
 };
 
 /**
@@ -358,15 +363,15 @@ export type WorkspacesListWorkspaceKeysResponse = WorkspaceKeysResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceKeysResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceKeysResponse;
+  };
 };
 
 /**
@@ -377,15 +382,15 @@ export type WorkspacesListByResourceGroupResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -396,15 +401,15 @@ export type WorkspacesListResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -415,15 +420,15 @@ export type WorkspacesListByResourceGroupNextResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };
 
 /**
@@ -434,13 +439,13 @@ export type WorkspacesListNextResponse = WorkspaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WorkspaceListResult;
+  };
 };

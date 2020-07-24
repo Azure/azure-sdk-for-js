@@ -33,7 +33,9 @@ export class BillingPeriods {
    * @param [options] The optional parameters
    * @returns Promise<Models.BillingPeriodsListResponse>
    */
-  list(options?: Models.BillingPeriodsListOptionalParams): Promise<Models.BillingPeriodsListResponse>;
+  list(
+    options?: Models.BillingPeriodsListOptionalParams
+  ): Promise<Models.BillingPeriodsListResponse>;
   /**
    * @param callback The callback
    */
@@ -42,14 +44,23 @@ export class BillingPeriods {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.BillingPeriodsListOptionalParams, callback: msRest.ServiceCallback<Models.BillingPeriodsListResult>): void;
-  list(options?: Models.BillingPeriodsListOptionalParams | msRest.ServiceCallback<Models.BillingPeriodsListResult>, callback?: msRest.ServiceCallback<Models.BillingPeriodsListResult>): Promise<Models.BillingPeriodsListResponse> {
+  list(
+    options: Models.BillingPeriodsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.BillingPeriodsListResult>
+  ): void;
+  list(
+    options?:
+      | Models.BillingPeriodsListOptionalParams
+      | msRest.ServiceCallback<Models.BillingPeriodsListResult>,
+    callback?: msRest.ServiceCallback<Models.BillingPeriodsListResult>
+  ): Promise<Models.BillingPeriodsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.BillingPeriodsListResponse>;
+      callback
+    ) as Promise<Models.BillingPeriodsListResponse>;
   }
 
   /**
@@ -60,7 +71,10 @@ export class BillingPeriods {
    * @param [options] The optional parameters
    * @returns Promise<Models.BillingPeriodsGetResponse>
    */
-  get(billingPeriodName: string, options?: msRest.RequestOptionsBase): Promise<Models.BillingPeriodsGetResponse>;
+  get(
+    billingPeriodName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BillingPeriodsGetResponse>;
   /**
    * @param billingPeriodName The name of a BillingPeriod resource.
    * @param callback The callback
@@ -71,15 +85,24 @@ export class BillingPeriods {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(billingPeriodName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BillingPeriod>): void;
-  get(billingPeriodName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingPeriod>, callback?: msRest.ServiceCallback<Models.BillingPeriod>): Promise<Models.BillingPeriodsGetResponse> {
+  get(
+    billingPeriodName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BillingPeriod>
+  ): void;
+  get(
+    billingPeriodName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingPeriod>,
+    callback?: msRest.ServiceCallback<Models.BillingPeriod>
+  ): Promise<Models.BillingPeriodsGetResponse> {
     return this.client.sendOperationRequest(
       {
         billingPeriodName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BillingPeriodsGetResponse>;
+      callback
+    ) as Promise<Models.BillingPeriodsGetResponse>;
   }
 
   /**
@@ -90,26 +113,41 @@ export class BillingPeriods {
    * @param [options] The optional parameters
    * @returns Promise<Models.BillingPeriodsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BillingPeriodsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BillingPeriodsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BillingPeriodsListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.BillingPeriodsListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BillingPeriodsListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingPeriodsListResult>, callback?: msRest.ServiceCallback<Models.BillingPeriodsListResult>): Promise<Models.BillingPeriodsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BillingPeriodsListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BillingPeriodsListResult>,
+    callback?: msRest.ServiceCallback<Models.BillingPeriodsListResult>
+  ): Promise<Models.BillingPeriodsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.BillingPeriodsListNextResponse>;
+      callback
+    ) as Promise<Models.BillingPeriodsListNextResponse>;
   }
 }
 
@@ -118,18 +156,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skiptoken,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.skiptoken, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BillingPeriodsListResult
@@ -143,17 +172,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.billingPeriodName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.billingPeriodName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BillingPeriod
@@ -169,12 +192,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BillingPeriodsListResult

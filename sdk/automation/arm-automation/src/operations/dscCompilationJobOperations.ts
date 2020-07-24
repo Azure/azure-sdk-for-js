@@ -36,9 +36,22 @@ export class DscCompilationJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DscCompilationJobCreateResponse>
    */
-  create(resourceGroupName: string, automationAccountName: string, compilationJobName: string, parameters: Models.DscCompilationJobCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DscCompilationJobCreateResponse> {
-    return this.beginCreate(resourceGroupName,automationAccountName,compilationJobName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DscCompilationJobCreateResponse>;
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    compilationJobName: string,
+    parameters: Models.DscCompilationJobCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DscCompilationJobCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      automationAccountName,
+      compilationJobName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DscCompilationJobCreateResponse
+    >;
   }
 
   /**
@@ -49,14 +62,24 @@ export class DscCompilationJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DscCompilationJobGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, compilationJobName: string, options?: msRest.RequestOptionsBase): Promise<Models.DscCompilationJobGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    compilationJobName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DscCompilationJobGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param compilationJobName The the DSC configuration Id.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, compilationJobName: string, callback: msRest.ServiceCallback<Models.DscCompilationJob>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    compilationJobName: string,
+    callback: msRest.ServiceCallback<Models.DscCompilationJob>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -64,8 +87,20 @@ export class DscCompilationJobOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, compilationJobName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscCompilationJob>): void;
-  get(resourceGroupName: string, automationAccountName: string, compilationJobName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscCompilationJob>, callback?: msRest.ServiceCallback<Models.DscCompilationJob>): Promise<Models.DscCompilationJobGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    compilationJobName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DscCompilationJob>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    compilationJobName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscCompilationJob>,
+    callback?: msRest.ServiceCallback<Models.DscCompilationJob>
+  ): Promise<Models.DscCompilationJobGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +109,8 @@ export class DscCompilationJobOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DscCompilationJobGetResponse>;
+      callback
+    ) as Promise<Models.DscCompilationJobGetResponse>;
   }
 
   /**
@@ -84,21 +120,41 @@ export class DscCompilationJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DscCompilationJobListByAutomationAccountResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.DscCompilationJobListByAutomationAccountOptionalParams): Promise<Models.DscCompilationJobListByAutomationAccountResponse>;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: Models.DscCompilationJobListByAutomationAccountOptionalParams
+  ): Promise<Models.DscCompilationJobListByAutomationAccountResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.DscCompilationJobListResult>): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.DscCompilationJobListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.DscCompilationJobListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.DscCompilationJobListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.DscCompilationJobListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.DscCompilationJobListResult>, callback?: msRest.ServiceCallback<Models.DscCompilationJobListResult>): Promise<Models.DscCompilationJobListByAutomationAccountResponse> {
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: Models.DscCompilationJobListByAutomationAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.DscCompilationJobListResult>
+  ): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?:
+      | Models.DscCompilationJobListByAutomationAccountOptionalParams
+      | msRest.ServiceCallback<Models.DscCompilationJobListResult>,
+    callback?: msRest.ServiceCallback<Models.DscCompilationJobListResult>
+  ): Promise<Models.DscCompilationJobListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -106,7 +162,8 @@ export class DscCompilationJobOperations {
         options
       },
       listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.DscCompilationJobListByAutomationAccountResponse>;
+      callback
+    ) as Promise<Models.DscCompilationJobListByAutomationAccountResponse>;
   }
 
   /**
@@ -118,7 +175,13 @@ export class DscCompilationJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DscCompilationJobGetStreamResponse>
    */
-  getStream(resourceGroupName: string, automationAccountName: string, jobId: string, jobStreamId: string, options?: msRest.RequestOptionsBase): Promise<Models.DscCompilationJobGetStreamResponse>;
+  getStream(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobId: string,
+    jobStreamId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DscCompilationJobGetStreamResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -126,7 +189,13 @@ export class DscCompilationJobOperations {
    * @param jobStreamId The job stream id.
    * @param callback The callback
    */
-  getStream(resourceGroupName: string, automationAccountName: string, jobId: string, jobStreamId: string, callback: msRest.ServiceCallback<Models.JobStream>): void;
+  getStream(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobId: string,
+    jobStreamId: string,
+    callback: msRest.ServiceCallback<Models.JobStream>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -135,8 +204,22 @@ export class DscCompilationJobOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStream(resourceGroupName: string, automationAccountName: string, jobId: string, jobStreamId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.JobStream>): void;
-  getStream(resourceGroupName: string, automationAccountName: string, jobId: string, jobStreamId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobStream>, callback?: msRest.ServiceCallback<Models.JobStream>): Promise<Models.DscCompilationJobGetStreamResponse> {
+  getStream(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobId: string,
+    jobStreamId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.JobStream>
+  ): void;
+  getStream(
+    resourceGroupName: string,
+    automationAccountName: string,
+    jobId: string,
+    jobStreamId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.JobStream>,
+    callback?: msRest.ServiceCallback<Models.JobStream>
+  ): Promise<Models.DscCompilationJobGetStreamResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,7 +229,8 @@ export class DscCompilationJobOperations {
         options
       },
       getStreamOperationSpec,
-      callback) as Promise<Models.DscCompilationJobGetStreamResponse>;
+      callback
+    ) as Promise<Models.DscCompilationJobGetStreamResponse>;
   }
 
   /**
@@ -158,7 +242,13 @@ export class DscCompilationJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, automationAccountName: string, compilationJobName: string, parameters: Models.DscCompilationJobCreateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    automationAccountName: string,
+    compilationJobName: string,
+    parameters: Models.DscCompilationJobCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -168,7 +258,8 @@ export class DscCompilationJobOperations {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -177,26 +268,43 @@ export class DscCompilationJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DscCompilationJobListByAutomationAccountNextResponse>
    */
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DscCompilationJobListByAutomationAccountNextResponse>;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DscCompilationJobListByAutomationAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DscCompilationJobListResult>): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DscCompilationJobListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscCompilationJobListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscCompilationJobListResult>, callback?: msRest.ServiceCallback<Models.DscCompilationJobListResult>): Promise<Models.DscCompilationJobListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DscCompilationJobListResult>
+  ): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DscCompilationJobListResult>,
+    callback?: msRest.ServiceCallback<Models.DscCompilationJobListResult>
+  ): Promise<Models.DscCompilationJobListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAutomationAccountNextOperationSpec,
-      callback) as Promise<Models.DscCompilationJobListByAutomationAccountNextResponse>;
+      callback
+    ) as Promise<Models.DscCompilationJobListByAutomationAccountNextResponse>;
   }
 }
 
@@ -204,19 +312,16 @@ export class DscCompilationJobOperations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{compilationJobName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{compilationJobName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.compilationJobName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DscCompilationJob
@@ -230,19 +335,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DscCompilationJobListResult
@@ -256,7 +357,8 @@ const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
 
 const getStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{jobId}/streams/{jobStreamId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{jobId}/streams/{jobStreamId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
@@ -264,12 +366,8 @@ const getStreamOperationSpec: msRest.OperationSpec = {
     Parameters.jobStreamId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.JobStream
@@ -283,19 +381,16 @@ const getStreamOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{compilationJobName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{compilationJobName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.compilationJobName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -318,12 +413,8 @@ const listByAutomationAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DscCompilationJobListResult

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { OperationsManagementClientContext } from "./operationsManagementClientContext";
 
-
 class OperationsManagementClient extends OperationsManagementClientContext {
   // Operation groups
   solutions: operations.Solutions;
@@ -32,7 +31,14 @@ class OperationsManagementClient extends OperationsManagementClientContext {
    * @param resourceName Parent resource name.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, providerName: string, resourceType: string, resourceName: string, options?: Models.OperationsManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    providerName: string,
+    resourceType: string,
+    resourceName: string,
+    options?: Models.OperationsManagementClientOptions
+  ) {
     super(credentials, subscriptionId, providerName, resourceType, resourceName, options);
     this.solutions = new operations.Solutions(this);
     this.managementAssociations = new operations.ManagementAssociations(this);

@@ -23,7 +23,10 @@ class WebSearchClient extends WebSearchClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.WebSearchClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.WebSearchClientOptions
+  ) {
     super(credentials, options);
     this.web = new operations.Web(this);
   }

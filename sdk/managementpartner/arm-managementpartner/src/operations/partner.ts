@@ -44,15 +44,24 @@ export class Partner {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(partnerId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PartnerResponse>): void;
-  get(partnerId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartnerResponse>, callback?: msRest.ServiceCallback<Models.PartnerResponse>): Promise<Models.PartnerGetResponse> {
+  get(
+    partnerId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PartnerResponse>
+  ): void;
+  get(
+    partnerId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartnerResponse>,
+    callback?: msRest.ServiceCallback<Models.PartnerResponse>
+  ): Promise<Models.PartnerGetResponse> {
     return this.client.sendOperationRequest(
       {
         partnerId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PartnerGetResponse>;
+      callback
+    ) as Promise<Models.PartnerGetResponse>;
   }
 
   /**
@@ -62,7 +71,10 @@ export class Partner {
    * @param [options] The optional parameters
    * @returns Promise<Models.PartnerCreateResponse>
    */
-  create(partnerId: string, options?: msRest.RequestOptionsBase): Promise<Models.PartnerCreateResponse>;
+  create(
+    partnerId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PartnerCreateResponse>;
   /**
    * @param partnerId Id of the Partner
    * @param callback The callback
@@ -73,15 +85,24 @@ export class Partner {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(partnerId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PartnerResponse>): void;
-  create(partnerId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartnerResponse>, callback?: msRest.ServiceCallback<Models.PartnerResponse>): Promise<Models.PartnerCreateResponse> {
+  create(
+    partnerId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PartnerResponse>
+  ): void;
+  create(
+    partnerId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartnerResponse>,
+    callback?: msRest.ServiceCallback<Models.PartnerResponse>
+  ): Promise<Models.PartnerCreateResponse> {
     return this.client.sendOperationRequest(
       {
         partnerId,
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.PartnerCreateResponse>;
+      callback
+    ) as Promise<Models.PartnerCreateResponse>;
   }
 
   /**
@@ -91,7 +112,10 @@ export class Partner {
    * @param [options] The optional parameters
    * @returns Promise<Models.PartnerUpdateResponse>
    */
-  update(partnerId: string, options?: msRest.RequestOptionsBase): Promise<Models.PartnerUpdateResponse>;
+  update(
+    partnerId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PartnerUpdateResponse>;
   /**
    * @param partnerId Id of the Partner
    * @param callback The callback
@@ -102,15 +126,24 @@ export class Partner {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(partnerId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PartnerResponse>): void;
-  update(partnerId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartnerResponse>, callback?: msRest.ServiceCallback<Models.PartnerResponse>): Promise<Models.PartnerUpdateResponse> {
+  update(
+    partnerId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PartnerResponse>
+  ): void;
+  update(
+    partnerId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PartnerResponse>,
+    callback?: msRest.ServiceCallback<Models.PartnerResponse>
+  ): Promise<Models.PartnerUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         partnerId,
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.PartnerUpdateResponse>;
+      callback
+    ) as Promise<Models.PartnerUpdateResponse>;
   }
 
   /**
@@ -120,7 +153,10 @@ export class Partner {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(partnerId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    partnerId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param partnerId Id of the Partner
    * @param callback The callback
@@ -131,15 +167,24 @@ export class Partner {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(partnerId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(partnerId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    partnerId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    partnerId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         partnerId,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -148,15 +193,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.ManagementPartner/partners/{partnerId}",
-  urlParameters: [
-    Parameters.partnerId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.partnerId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PartnerResponse
@@ -171,15 +210,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "providers/Microsoft.ManagementPartner/partners/{partnerId}",
-  urlParameters: [
-    Parameters.partnerId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.partnerId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PartnerResponse
@@ -194,15 +227,9 @@ const createOperationSpec: msRest.OperationSpec = {
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "providers/Microsoft.ManagementPartner/partners/{partnerId}",
-  urlParameters: [
-    Parameters.partnerId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.partnerId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PartnerResponse
@@ -217,15 +244,9 @@ const updateOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "providers/Microsoft.ManagementPartner/partners/{partnerId}",
-  urlParameters: [
-    Parameters.partnerId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.partnerId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {

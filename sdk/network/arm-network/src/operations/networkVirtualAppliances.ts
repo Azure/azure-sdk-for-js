@@ -34,9 +34,16 @@ export class NetworkVirtualAppliances {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, networkVirtualApplianceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,networkVirtualApplianceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      networkVirtualApplianceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -46,21 +53,41 @@ export class NetworkVirtualAppliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkVirtualAppliancesGetResponse>
    */
-  get(resourceGroupName: string, networkVirtualApplianceName: string, options?: Models.NetworkVirtualAppliancesGetOptionalParams): Promise<Models.NetworkVirtualAppliancesGetResponse>;
+  get(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: Models.NetworkVirtualAppliancesGetOptionalParams
+  ): Promise<Models.NetworkVirtualAppliancesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkVirtualApplianceName The name of Network Virtual Appliance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkVirtualApplianceName: string, callback: msRest.ServiceCallback<Models.NetworkVirtualAppliance>): void;
+  get(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualAppliance>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param networkVirtualApplianceName The name of Network Virtual Appliance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, networkVirtualApplianceName: string, options: Models.NetworkVirtualAppliancesGetOptionalParams, callback: msRest.ServiceCallback<Models.NetworkVirtualAppliance>): void;
-  get(resourceGroupName: string, networkVirtualApplianceName: string, options?: Models.NetworkVirtualAppliancesGetOptionalParams | msRest.ServiceCallback<Models.NetworkVirtualAppliance>, callback?: msRest.ServiceCallback<Models.NetworkVirtualAppliance>): Promise<Models.NetworkVirtualAppliancesGetResponse> {
+  get(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options: Models.NetworkVirtualAppliancesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualAppliance>
+  ): void;
+  get(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?:
+      | Models.NetworkVirtualAppliancesGetOptionalParams
+      | msRest.ServiceCallback<Models.NetworkVirtualAppliance>,
+    callback?: msRest.ServiceCallback<Models.NetworkVirtualAppliance>
+  ): Promise<Models.NetworkVirtualAppliancesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +95,8 @@ export class NetworkVirtualAppliances {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.NetworkVirtualAppliancesGetResponse>;
+      callback
+    ) as Promise<Models.NetworkVirtualAppliancesGetResponse>;
   }
 
   /**
@@ -79,14 +107,24 @@ export class NetworkVirtualAppliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkVirtualAppliancesUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, networkVirtualApplianceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.NetworkVirtualAppliancesUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkVirtualAppliancesUpdateTagsResponse>;
   /**
    * @param resourceGroupName The resource group name of Network Virtual Appliance.
    * @param networkVirtualApplianceName The name of Network Virtual Appliance being updated.
    * @param parameters Parameters supplied to Update Network Virtual Appliance Tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, networkVirtualApplianceName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.NetworkVirtualAppliance>): void;
+  updateTags(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    parameters: Models.TagsObject,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualAppliance>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of Network Virtual Appliance.
    * @param networkVirtualApplianceName The name of Network Virtual Appliance being updated.
@@ -94,8 +132,20 @@ export class NetworkVirtualAppliances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, networkVirtualApplianceName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkVirtualAppliance>): void;
-  updateTags(resourceGroupName: string, networkVirtualApplianceName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkVirtualAppliance>, callback?: msRest.ServiceCallback<Models.NetworkVirtualAppliance>): Promise<Models.NetworkVirtualAppliancesUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    parameters: Models.TagsObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualAppliance>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkVirtualAppliance>,
+    callback?: msRest.ServiceCallback<Models.NetworkVirtualAppliance>
+  ): Promise<Models.NetworkVirtualAppliancesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -104,7 +154,8 @@ export class NetworkVirtualAppliances {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.NetworkVirtualAppliancesUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.NetworkVirtualAppliancesUpdateTagsResponse>;
   }
 
   /**
@@ -115,9 +166,20 @@ export class NetworkVirtualAppliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkVirtualAppliancesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, networkVirtualApplianceName: string, parameters: Models.NetworkVirtualAppliance, options?: msRest.RequestOptionsBase): Promise<Models.NetworkVirtualAppliancesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,networkVirtualApplianceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NetworkVirtualAppliancesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    parameters: Models.NetworkVirtualAppliance,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkVirtualAppliancesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      networkVirtualApplianceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.NetworkVirtualAppliancesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -126,26 +188,43 @@ export class NetworkVirtualAppliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkVirtualAppliancesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkVirtualAppliancesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkVirtualAppliancesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>, callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>): Promise<Models.NetworkVirtualAppliancesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>,
+    callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>
+  ): Promise<Models.NetworkVirtualAppliancesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.NetworkVirtualAppliancesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.NetworkVirtualAppliancesListByResourceGroupResponse>;
   }
 
   /**
@@ -162,14 +241,23 @@ export class NetworkVirtualAppliances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>, callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>): Promise<Models.NetworkVirtualAppliancesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>,
+    callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>
+  ): Promise<Models.NetworkVirtualAppliancesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.NetworkVirtualAppliancesListResponse>;
+      callback
+    ) as Promise<Models.NetworkVirtualAppliancesListResponse>;
   }
 
   /**
@@ -179,7 +267,11 @@ export class NetworkVirtualAppliances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, networkVirtualApplianceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -187,7 +279,8 @@ export class NetworkVirtualAppliances {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -198,7 +291,12 @@ export class NetworkVirtualAppliances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, networkVirtualApplianceName: string, parameters: Models.NetworkVirtualAppliance, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    parameters: Models.NetworkVirtualAppliance,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -207,7 +305,8 @@ export class NetworkVirtualAppliances {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -216,26 +315,43 @@ export class NetworkVirtualAppliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkVirtualAppliancesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkVirtualAppliancesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkVirtualAppliancesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>, callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>): Promise<Models.NetworkVirtualAppliancesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>,
+    callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>
+  ): Promise<Models.NetworkVirtualAppliancesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.NetworkVirtualAppliancesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.NetworkVirtualAppliancesListByResourceGroupNextResponse>;
   }
 
   /**
@@ -244,26 +360,43 @@ export class NetworkVirtualAppliances {
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkVirtualAppliancesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NetworkVirtualAppliancesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NetworkVirtualAppliancesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>, callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>): Promise<Models.NetworkVirtualAppliancesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>,
+    callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceListResult>
+  ): Promise<Models.NetworkVirtualAppliancesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.NetworkVirtualAppliancesListNextResponse>;
+      callback
+    ) as Promise<Models.NetworkVirtualAppliancesListNextResponse>;
   }
 }
 
@@ -271,19 +404,15 @@ export class NetworkVirtualAppliances {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkVirtualApplianceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkVirtualAppliance
@@ -297,18 +426,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.networkVirtualApplianceName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -329,17 +455,11 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkVirtualApplianceListResult
@@ -354,15 +474,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualAppliances",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkVirtualApplianceListResult
@@ -376,18 +490,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkVirtualApplianceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -401,18 +512,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.networkVirtualApplianceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -438,12 +546,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkVirtualApplianceListResult
@@ -459,12 +563,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkVirtualApplianceListResult

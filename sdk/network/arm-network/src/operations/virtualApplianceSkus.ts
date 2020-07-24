@@ -40,14 +40,23 @@ export class VirtualApplianceSkus {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>, callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>): Promise<Models.VirtualApplianceSkusListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>,
+    callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>
+  ): Promise<Models.VirtualApplianceSkusListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.VirtualApplianceSkusListResponse>;
+      callback
+    ) as Promise<Models.VirtualApplianceSkusListResponse>;
   }
 
   /**
@@ -56,7 +65,10 @@ export class VirtualApplianceSkus {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualApplianceSkusGetResponse>
    */
-  get(skuName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualApplianceSkusGetResponse>;
+  get(
+    skuName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualApplianceSkusGetResponse>;
   /**
    * @param skuName Name of the Sku.
    * @param callback The callback
@@ -67,15 +79,24 @@ export class VirtualApplianceSkus {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(skuName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceSku>): void;
-  get(skuName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkVirtualApplianceSku>, callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceSku>): Promise<Models.VirtualApplianceSkusGetResponse> {
+  get(
+    skuName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceSku>
+  ): void;
+  get(
+    skuName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkVirtualApplianceSku>,
+    callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceSku>
+  ): Promise<Models.VirtualApplianceSkusGetResponse> {
     return this.client.sendOperationRequest(
       {
         skuName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VirtualApplianceSkusGetResponse>;
+      callback
+    ) as Promise<Models.VirtualApplianceSkusGetResponse>;
   }
 
   /**
@@ -84,26 +105,43 @@ export class VirtualApplianceSkus {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualApplianceSkusListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualApplianceSkusListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualApplianceSkusListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>, callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>): Promise<Models.VirtualApplianceSkusListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>,
+    callback?: msRest.ServiceCallback<Models.NetworkVirtualApplianceSkuListResult>
+  ): Promise<Models.VirtualApplianceSkusListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.VirtualApplianceSkusListNextResponse>;
+      callback
+    ) as Promise<Models.VirtualApplianceSkusListNextResponse>;
   }
 }
 
@@ -112,15 +150,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkVirtualApplianceSkuListResult
@@ -134,17 +166,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus/{skuName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.skuName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus/{skuName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.skuName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkVirtualApplianceSku
@@ -160,12 +186,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkVirtualApplianceSkuListResult

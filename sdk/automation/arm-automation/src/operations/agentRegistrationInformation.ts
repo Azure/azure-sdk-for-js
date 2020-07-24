@@ -33,21 +33,39 @@ export class AgentRegistrationInformation {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentRegistrationInformationGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentRegistrationInformationGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentRegistrationInformationGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.AgentRegistration>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.AgentRegistration>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentRegistration>): void;
-  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentRegistration>, callback?: msRest.ServiceCallback<Models.AgentRegistration>): Promise<Models.AgentRegistrationInformationGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgentRegistration>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentRegistration>,
+    callback?: msRest.ServiceCallback<Models.AgentRegistration>
+  ): Promise<Models.AgentRegistrationInformationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class AgentRegistrationInformation {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AgentRegistrationInformationGetResponse>;
+      callback
+    ) as Promise<Models.AgentRegistrationInformationGetResponse>;
   }
 
   /**
@@ -66,14 +85,24 @@ export class AgentRegistrationInformation {
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentRegistrationInformationRegenerateKeyResponse>
    */
-  regenerateKey(resourceGroupName: string, automationAccountName: string, parameters: Models.AgentRegistrationRegenerateKeyParameter, options?: msRest.RequestOptionsBase): Promise<Models.AgentRegistrationInformationRegenerateKeyResponse>;
+  regenerateKey(
+    resourceGroupName: string,
+    automationAccountName: string,
+    parameters: Models.AgentRegistrationRegenerateKeyParameter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AgentRegistrationInformationRegenerateKeyResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param parameters The name of the agent registration key to be regenerated
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, automationAccountName: string, parameters: Models.AgentRegistrationRegenerateKeyParameter, callback: msRest.ServiceCallback<Models.AgentRegistration>): void;
+  regenerateKey(
+    resourceGroupName: string,
+    automationAccountName: string,
+    parameters: Models.AgentRegistrationRegenerateKeyParameter,
+    callback: msRest.ServiceCallback<Models.AgentRegistration>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -81,8 +110,20 @@ export class AgentRegistrationInformation {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, automationAccountName: string, parameters: Models.AgentRegistrationRegenerateKeyParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentRegistration>): void;
-  regenerateKey(resourceGroupName: string, automationAccountName: string, parameters: Models.AgentRegistrationRegenerateKeyParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentRegistration>, callback?: msRest.ServiceCallback<Models.AgentRegistration>): Promise<Models.AgentRegistrationInformationRegenerateKeyResponse> {
+  regenerateKey(
+    resourceGroupName: string,
+    automationAccountName: string,
+    parameters: Models.AgentRegistrationRegenerateKeyParameter,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AgentRegistration>
+  ): void;
+  regenerateKey(
+    resourceGroupName: string,
+    automationAccountName: string,
+    parameters: Models.AgentRegistrationRegenerateKeyParameter,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentRegistration>,
+    callback?: msRest.ServiceCallback<Models.AgentRegistration>
+  ): Promise<Models.AgentRegistrationInformationRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +132,8 @@ export class AgentRegistrationInformation {
         options
       },
       regenerateKeyOperationSpec,
-      callback) as Promise<Models.AgentRegistrationInformationRegenerateKeyResponse>;
+      callback
+    ) as Promise<Models.AgentRegistrationInformationRegenerateKeyResponse>;
   }
 }
 
@@ -99,18 +141,15 @@ export class AgentRegistrationInformation {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/agentRegistrationInformation",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/agentRegistrationInformation",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AgentRegistration
@@ -124,18 +163,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/agentRegistrationInformation/regenerateKey",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/agentRegistrationInformation/regenerateKey",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

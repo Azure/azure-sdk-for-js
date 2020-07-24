@@ -71,7 +71,12 @@ export interface StorageProfile {
 /**
  * Contains the possible cases for ServerPropertiesForCreate.
  */
-export type ServerPropertiesForCreateUnion = ServerPropertiesForCreate | ServerPropertiesForDefaultCreate | ServerPropertiesForRestore | ServerPropertiesForGeoRestore | ServerPropertiesForReplica;
+export type ServerPropertiesForCreateUnion =
+  | ServerPropertiesForCreate
+  | ServerPropertiesForDefaultCreate
+  | ServerPropertiesForRestore
+  | ServerPropertiesForGeoRestore
+  | ServerPropertiesForReplica;
 
 /**
  * The properties used to create a new server.
@@ -658,16 +663,14 @@ export interface MariaDBManagementClientOptions extends AzureServiceClientOption
  * A list of servers.
  * @extends Array<Server>
  */
-export interface ServerListResult extends Array<Server> {
-}
+export interface ServerListResult extends Array<Server> {}
 
 /**
  * @interface
  * A list of firewall rules.
  * @extends Array<FirewallRule>
  */
-export interface FirewallRuleListResult extends Array<FirewallRule> {
-}
+export interface FirewallRuleListResult extends Array<FirewallRule> {}
 
 /**
  * @interface
@@ -687,32 +690,28 @@ export interface VirtualNetworkRuleListResult extends Array<VirtualNetworkRule> 
  * A List of databases.
  * @extends Array<Database>
  */
-export interface DatabaseListResult extends Array<Database> {
-}
+export interface DatabaseListResult extends Array<Database> {}
 
 /**
  * @interface
  * A list of server configurations.
  * @extends Array<Configuration>
  */
-export interface ConfigurationListResult extends Array<Configuration> {
-}
+export interface ConfigurationListResult extends Array<Configuration> {}
 
 /**
  * @interface
  * A list of log files.
  * @extends Array<LogFile>
  */
-export interface LogFileListResult extends Array<LogFile> {
-}
+export interface LogFileListResult extends Array<LogFile> {}
 
 /**
  * @interface
  * A list of performance tiers.
  * @extends Array<PerformanceTierProperties>
  */
-export interface PerformanceTierListResult extends Array<PerformanceTierProperties> {
-}
+export interface PerformanceTierListResult extends Array<PerformanceTierProperties> {}
 
 /**
  * Defines values for ServerVersion.
@@ -720,7 +719,7 @@ export interface PerformanceTierListResult extends Array<PerformanceTierProperti
  * @readonly
  * @enum {string}
  */
-export type ServerVersion = '5.6' | '5.7';
+export type ServerVersion = "5.6" | "5.7";
 
 /**
  * Defines values for SslEnforcementEnum.
@@ -728,7 +727,7 @@ export type ServerVersion = '5.6' | '5.7';
  * @readonly
  * @enum {string}
  */
-export type SslEnforcementEnum = 'Enabled' | 'Disabled';
+export type SslEnforcementEnum = "Enabled" | "Disabled";
 
 /**
  * Defines values for ServerState.
@@ -736,7 +735,7 @@ export type SslEnforcementEnum = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type ServerState = 'Ready' | 'Dropping' | 'Disabled';
+export type ServerState = "Ready" | "Dropping" | "Disabled";
 
 /**
  * Defines values for GeoRedundantBackup.
@@ -744,7 +743,7 @@ export type ServerState = 'Ready' | 'Dropping' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type GeoRedundantBackup = 'Enabled' | 'Disabled';
+export type GeoRedundantBackup = "Enabled" | "Disabled";
 
 /**
  * Defines values for StorageAutogrow.
@@ -752,7 +751,7 @@ export type GeoRedundantBackup = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type StorageAutogrow = 'Enabled' | 'Disabled';
+export type StorageAutogrow = "Enabled" | "Disabled";
 
 /**
  * Defines values for SkuTier.
@@ -760,7 +759,7 @@ export type StorageAutogrow = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Basic' | 'GeneralPurpose' | 'MemoryOptimized';
+export type SkuTier = "Basic" | "GeneralPurpose" | "MemoryOptimized";
 
 /**
  * Defines values for VirtualNetworkRuleState.
@@ -768,7 +767,12 @@ export type SkuTier = 'Basic' | 'GeneralPurpose' | 'MemoryOptimized';
  * @readonly
  * @enum {string}
  */
-export type VirtualNetworkRuleState = 'Initializing' | 'InProgress' | 'Ready' | 'Deleting' | 'Unknown';
+export type VirtualNetworkRuleState =
+  | "Initializing"
+  | "InProgress"
+  | "Ready"
+  | "Deleting"
+  | "Unknown";
 
 /**
  * Defines values for OperationOrigin.
@@ -776,7 +780,7 @@ export type VirtualNetworkRuleState = 'Initializing' | 'InProgress' | 'Ready' | 
  * @readonly
  * @enum {string}
  */
-export type OperationOrigin = 'NotSpecified' | 'user' | 'system';
+export type OperationOrigin = "NotSpecified" | "user" | "system";
 
 /**
  * Defines values for ServerSecurityAlertPolicyState.
@@ -784,7 +788,7 @@ export type OperationOrigin = 'NotSpecified' | 'user' | 'system';
  * @readonly
  * @enum {string}
  */
-export type ServerSecurityAlertPolicyState = 'Enabled' | 'Disabled';
+export type ServerSecurityAlertPolicyState = "Enabled" | "Disabled";
 
 /**
  * Contains response data for the create operation.
@@ -794,16 +798,16 @@ export type ServersCreateResponse = Server & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Server;
+  };
 };
 
 /**
@@ -814,16 +818,16 @@ export type ServersUpdateResponse = Server & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Server;
+  };
 };
 
 /**
@@ -834,16 +838,16 @@ export type ServersGetResponse = Server & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Server;
+  };
 };
 
 /**
@@ -854,16 +858,16 @@ export type ServersListByResourceGroupResponse = ServerListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServerListResult;
+  };
 };
 
 /**
@@ -874,16 +878,16 @@ export type ServersListResponse = ServerListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServerListResult;
+  };
 };
 
 /**
@@ -894,16 +898,16 @@ export type ServersBeginCreateResponse = Server & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Server;
+  };
 };
 
 /**
@@ -914,16 +918,16 @@ export type ServersBeginUpdateResponse = Server & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Server;
+  };
 };
 
 /**
@@ -934,16 +938,16 @@ export type ReplicasListByServerResponse = ServerListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServerListResult;
+  };
 };
 
 /**
@@ -954,16 +958,16 @@ export type FirewallRulesCreateOrUpdateResponse = FirewallRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FirewallRule;
+  };
 };
 
 /**
@@ -974,16 +978,16 @@ export type FirewallRulesGetResponse = FirewallRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FirewallRule;
+  };
 };
 
 /**
@@ -994,16 +998,16 @@ export type FirewallRulesListByServerResponse = FirewallRuleListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FirewallRuleListResult;
+  };
 };
 
 /**
@@ -1014,16 +1018,16 @@ export type FirewallRulesBeginCreateOrUpdateResponse = FirewallRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FirewallRule;
+  };
 };
 
 /**
@@ -1034,16 +1038,16 @@ export type VirtualNetworkRulesGetResponse = VirtualNetworkRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualNetworkRule;
+  };
 };
 
 /**
@@ -1054,16 +1058,16 @@ export type VirtualNetworkRulesCreateOrUpdateResponse = VirtualNetworkRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualNetworkRule;
+  };
 };
 
 /**
@@ -1074,16 +1078,16 @@ export type VirtualNetworkRulesListByServerResponse = VirtualNetworkRuleListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualNetworkRuleListResult;
+  };
 };
 
 /**
@@ -1094,16 +1098,16 @@ export type VirtualNetworkRulesBeginCreateOrUpdateResponse = VirtualNetworkRule 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualNetworkRule;
+  };
 };
 
 /**
@@ -1114,16 +1118,16 @@ export type VirtualNetworkRulesListByServerNextResponse = VirtualNetworkRuleList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VirtualNetworkRuleListResult;
+  };
 };
 
 /**
@@ -1134,16 +1138,16 @@ export type DatabasesCreateOrUpdateResponse = Database & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Database;
+  };
 };
 
 /**
@@ -1154,16 +1158,16 @@ export type DatabasesGetResponse = Database & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Database;
+  };
 };
 
 /**
@@ -1174,16 +1178,16 @@ export type DatabasesListByServerResponse = DatabaseListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabaseListResult;
+  };
 };
 
 /**
@@ -1194,16 +1198,16 @@ export type DatabasesBeginCreateOrUpdateResponse = Database & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Database;
+  };
 };
 
 /**
@@ -1214,16 +1218,16 @@ export type ConfigurationsCreateOrUpdateResponse = Configuration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Configuration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Configuration;
+  };
 };
 
 /**
@@ -1234,16 +1238,16 @@ export type ConfigurationsGetResponse = Configuration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Configuration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Configuration;
+  };
 };
 
 /**
@@ -1254,16 +1258,16 @@ export type ConfigurationsListByServerResponse = ConfigurationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigurationListResult;
+  };
 };
 
 /**
@@ -1274,16 +1278,16 @@ export type ConfigurationsBeginCreateOrUpdateResponse = Configuration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Configuration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Configuration;
+  };
 };
 
 /**
@@ -1294,16 +1298,16 @@ export type LogFilesListByServerResponse = LogFileListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogFileListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LogFileListResult;
+  };
 };
 
 /**
@@ -1314,16 +1318,16 @@ export type LocationBasedPerformanceTierListResponse = PerformanceTierListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PerformanceTierListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PerformanceTierListResult;
+  };
 };
 
 /**
@@ -1334,16 +1338,16 @@ export type CheckNameAvailabilityExecuteResponse = NameAvailability & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NameAvailability;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NameAvailability;
+  };
 };
 
 /**
@@ -1354,16 +1358,16 @@ export type ServerSecurityAlertPoliciesGetResponse = ServerSecurityAlertPolicy &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServerSecurityAlertPolicy;
+  };
 };
 
 /**
@@ -1374,16 +1378,16 @@ export type ServerSecurityAlertPoliciesCreateOrUpdateResponse = ServerSecurityAl
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServerSecurityAlertPolicy;
+  };
 };
 
 /**
@@ -1394,16 +1398,16 @@ export type ServerSecurityAlertPoliciesBeginCreateOrUpdateResponse = ServerSecur
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServerSecurityAlertPolicy;
+  };
 };
 
 /**
@@ -1414,14 +1418,14 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

@@ -36,14 +36,24 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumesListResponse>
    */
-  list(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumesListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, poolName: string, callback: msRest.ServiceCallback<Models.VolumeList>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    callback: msRest.ServiceCallback<Models.VolumeList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -51,8 +61,20 @@ export class Volumes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, poolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeList>): void;
-  list(resourceGroupName: string, accountName: string, poolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeList>, callback?: msRest.ServiceCallback<Models.VolumeList>): Promise<Models.VolumesListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VolumeList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeList>,
+    callback?: msRest.ServiceCallback<Models.VolumeList>
+  ): Promise<Models.VolumesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -61,7 +83,8 @@ export class Volumes {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.VolumesListResponse>;
+      callback
+    ) as Promise<Models.VolumesListResponse>;
   }
 
   /**
@@ -74,7 +97,13 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumesGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumesGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -82,7 +111,13 @@ export class Volumes {
    * @param volumeName The name of the volume
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, callback: msRest.ServiceCallback<Models.Volume>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    callback: msRest.ServiceCallback<Models.Volume>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -91,8 +126,22 @@ export class Volumes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Volume>): void;
-  get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Volume>, callback?: msRest.ServiceCallback<Models.Volume>): Promise<Models.VolumesGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Volume>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Volume>,
+    callback?: msRest.ServiceCallback<Models.Volume>
+  ): Promise<Models.VolumesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -102,7 +151,8 @@ export class Volumes {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VolumesGetResponse>;
+      callback
+    ) as Promise<Models.VolumesGetResponse>;
   }
 
   /**
@@ -116,9 +166,24 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumesCreateOrUpdateResponse>
    */
-  createOrUpdate(body: Models.Volume, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(body,resourceGroupName,accountName,poolName,volumeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VolumesCreateOrUpdateResponse>;
+  createOrUpdate(
+    body: Models.Volume,
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      body,
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.VolumesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -132,9 +197,22 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumesUpdateResponse>
    */
-  update(body: Models.VolumePatch, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumesUpdateResponse> {
-    return this.beginUpdate(body,resourceGroupName,accountName,poolName,volumeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VolumesUpdateResponse>;
+  update(
+    body: Models.VolumePatch,
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumesUpdateResponse> {
+    return this.beginUpdate(
+      body,
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.VolumesUpdateResponse>;
   }
 
   /**
@@ -147,9 +225,20 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,accountName,poolName,volumeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -162,9 +251,20 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  revert(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: Models.VolumesRevertOptionalParams): Promise<msRest.RestResponse> {
-    return this.beginRevert(resourceGroupName,accountName,poolName,volumeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  revert(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: Models.VolumesRevertOptionalParams
+  ): Promise<msRest.RestResponse> {
+    return this.beginRevert(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -177,9 +277,20 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  breakReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginBreakReplication(resourceGroupName,accountName,poolName,volumeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  breakReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginBreakReplication(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -192,7 +303,13 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumesReplicationStatusMethodResponse>
    */
-  replicationStatusMethod(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumesReplicationStatusMethodResponse>;
+  replicationStatusMethod(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumesReplicationStatusMethodResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -200,7 +317,13 @@ export class Volumes {
    * @param volumeName The name of the volume
    * @param callback The callback
    */
-  replicationStatusMethod(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, callback: msRest.ServiceCallback<Models.ReplicationStatus>): void;
+  replicationStatusMethod(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    callback: msRest.ServiceCallback<Models.ReplicationStatus>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
@@ -209,8 +332,22 @@ export class Volumes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  replicationStatusMethod(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationStatus>): void;
-  replicationStatusMethod(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationStatus>, callback?: msRest.ServiceCallback<Models.ReplicationStatus>): Promise<Models.VolumesReplicationStatusMethodResponse> {
+  replicationStatusMethod(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReplicationStatus>
+  ): void;
+  replicationStatusMethod(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationStatus>,
+    callback?: msRest.ServiceCallback<Models.ReplicationStatus>
+  ): Promise<Models.VolumesReplicationStatusMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -220,7 +357,8 @@ export class Volumes {
         options
       },
       replicationStatusMethodOperationSpec,
-      callback) as Promise<Models.VolumesReplicationStatusMethodResponse>;
+      callback
+    ) as Promise<Models.VolumesReplicationStatusMethodResponse>;
   }
 
   /**
@@ -234,9 +372,20 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resyncReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginResyncReplication(resourceGroupName,accountName,poolName,volumeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  resyncReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginResyncReplication(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -250,9 +399,20 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteReplication(resourceGroupName,accountName,poolName,volumeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteReplication(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -265,9 +425,20 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  authorizeReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: Models.VolumesAuthorizeReplicationOptionalParams): Promise<msRest.RestResponse> {
-    return this.beginAuthorizeReplication(resourceGroupName,accountName,poolName,volumeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  authorizeReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: Models.VolumesAuthorizeReplicationOptionalParams
+  ): Promise<msRest.RestResponse> {
+    return this.beginAuthorizeReplication(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -281,7 +452,14 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(body: Models.Volume, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    body: Models.Volume,
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         body,
@@ -292,7 +470,8 @@ export class Volumes {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -306,7 +485,14 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(body: Models.VolumePatch, resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    body: Models.VolumePatch,
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         body,
@@ -317,7 +503,8 @@ export class Volumes {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -330,7 +517,13 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -340,7 +533,8 @@ export class Volumes {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -353,7 +547,13 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRevert(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: Models.VolumesBeginRevertOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginRevert(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: Models.VolumesBeginRevertOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -363,7 +563,8 @@ export class Volumes {
         options
       },
       beginRevertOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -376,7 +577,13 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginBreakReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginBreakReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -386,7 +593,8 @@ export class Volumes {
         options
       },
       beginBreakReplicationOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -400,7 +608,13 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginResyncReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginResyncReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -410,7 +624,8 @@ export class Volumes {
         options
       },
       beginResyncReplicationOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -424,7 +639,13 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -434,7 +655,8 @@ export class Volumes {
         options
       },
       beginDeleteReplicationOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -447,7 +669,13 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginAuthorizeReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: Models.VolumesBeginAuthorizeReplicationOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginAuthorizeReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: Models.VolumesBeginAuthorizeReplicationOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -457,7 +685,8 @@ export class Volumes {
         options
       },
       beginAuthorizeReplicationOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -465,19 +694,16 @@ export class Volumes {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VolumeList
@@ -491,7 +717,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -499,12 +726,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Volume
@@ -518,7 +741,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const replicationStatusMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/replicationStatus",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/replicationStatus",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -526,12 +750,8 @@ const replicationStatusMethodOperationSpec: msRest.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationStatus
@@ -545,7 +765,8 @@ const replicationStatusMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -553,12 +774,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -583,7 +800,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -591,12 +809,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -618,7 +832,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -626,12 +841,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -644,7 +855,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginRevertOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revert",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/revert",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -652,18 +864,11 @@ const beginRevertOperationSpec: msRest.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      snapshotId: [
-        "options",
-        "snapshotId"
-      ]
+      snapshotId: ["options", "snapshotId"]
     },
     mapper: {
       ...Mappers.VolumeRevert,
@@ -682,7 +887,8 @@ const beginRevertOperationSpec: msRest.OperationSpec = {
 
 const beginBreakReplicationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakReplication",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/breakReplication",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -690,12 +896,8 @@ const beginBreakReplicationOperationSpec: msRest.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -708,7 +910,8 @@ const beginBreakReplicationOperationSpec: msRest.OperationSpec = {
 
 const beginResyncReplicationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/resyncReplication",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/resyncReplication",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -716,12 +919,8 @@ const beginResyncReplicationOperationSpec: msRest.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -734,7 +933,8 @@ const beginResyncReplicationOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteReplicationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/deleteReplication",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/deleteReplication",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -742,12 +942,8 @@ const beginDeleteReplicationOperationSpec: msRest.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -760,7 +956,8 @@ const beginDeleteReplicationOperationSpec: msRest.OperationSpec = {
 
 const beginAuthorizeReplicationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeReplication",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeReplication",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -768,18 +965,11 @@ const beginAuthorizeReplicationOperationSpec: msRest.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: {
-      remoteVolumeResourceId: [
-        "options",
-        "remoteVolumeResourceId"
-      ]
+      remoteVolumeResourceId: ["options", "remoteVolumeResourceId"]
     },
     mapper: {
       ...Mappers.AuthorizeRequest,

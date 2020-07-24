@@ -34,21 +34,41 @@ export class ExpressRouteCrossConnectionPeerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionPeeringsListResponse>
    */
-  list(resourceGroupName: string, crossConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionPeeringsListResponse>;
+  list(
+    resourceGroupName: string,
+    crossConnectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCrossConnectionPeeringsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param crossConnectionName The name of the ExpressRouteCrossConnection.
    * @param callback The callback
    */
-  list(resourceGroupName: string, crossConnectionName: string, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>): void;
+  list(
+    resourceGroupName: string,
+    crossConnectionName: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param crossConnectionName The name of the ExpressRouteCrossConnection.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, crossConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>): void;
-  list(resourceGroupName: string, crossConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>): Promise<Models.ExpressRouteCrossConnectionPeeringsListResponse> {
+  list(
+    resourceGroupName: string,
+    crossConnectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    crossConnectionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>
+  ): Promise<Models.ExpressRouteCrossConnectionPeeringsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class ExpressRouteCrossConnectionPeerings {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ExpressRouteCrossConnectionPeeringsListResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCrossConnectionPeeringsListResponse>;
   }
 
   /**
@@ -67,9 +88,18 @@ export class ExpressRouteCrossConnectionPeerings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, crossConnectionName: string, peeringName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,crossConnectionName,peeringName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    crossConnectionName: string,
+    peeringName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      crossConnectionName,
+      peeringName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -80,14 +110,24 @@ export class ExpressRouteCrossConnectionPeerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionPeeringsGetResponse>
    */
-  get(resourceGroupName: string, crossConnectionName: string, peeringName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionPeeringsGetResponse>;
+  get(
+    resourceGroupName: string,
+    crossConnectionName: string,
+    peeringName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCrossConnectionPeeringsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param crossConnectionName The name of the ExpressRouteCrossConnection.
    * @param peeringName The name of the peering.
    * @param callback The callback
    */
-  get(resourceGroupName: string, crossConnectionName: string, peeringName: string, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeering>): void;
+  get(
+    resourceGroupName: string,
+    crossConnectionName: string,
+    peeringName: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeering>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param crossConnectionName The name of the ExpressRouteCrossConnection.
@@ -95,8 +135,22 @@ export class ExpressRouteCrossConnectionPeerings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, crossConnectionName: string, peeringName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeering>): void;
-  get(resourceGroupName: string, crossConnectionName: string, peeringName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeering>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeering>): Promise<Models.ExpressRouteCrossConnectionPeeringsGetResponse> {
+  get(
+    resourceGroupName: string,
+    crossConnectionName: string,
+    peeringName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeering>
+  ): void;
+  get(
+    resourceGroupName: string,
+    crossConnectionName: string,
+    peeringName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeering>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeering>
+  ): Promise<Models.ExpressRouteCrossConnectionPeeringsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +159,8 @@ export class ExpressRouteCrossConnectionPeerings {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ExpressRouteCrossConnectionPeeringsGetResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCrossConnectionPeeringsGetResponse>;
   }
 
   /**
@@ -118,9 +173,22 @@ export class ExpressRouteCrossConnectionPeerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, crossConnectionName: string, peeringName: string, peeringParameters: Models.ExpressRouteCrossConnectionPeering, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,crossConnectionName,peeringName,peeringParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    crossConnectionName: string,
+    peeringName: string,
+    peeringParameters: Models.ExpressRouteCrossConnectionPeering,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      crossConnectionName,
+      peeringName,
+      peeringParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -131,7 +199,12 @@ export class ExpressRouteCrossConnectionPeerings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, crossConnectionName: string, peeringName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    crossConnectionName: string,
+    peeringName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -140,7 +213,8 @@ export class ExpressRouteCrossConnectionPeerings {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -153,7 +227,13 @@ export class ExpressRouteCrossConnectionPeerings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, crossConnectionName: string, peeringName: string, peeringParameters: Models.ExpressRouteCrossConnectionPeering, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    crossConnectionName: string,
+    peeringName: string,
+    peeringParameters: Models.ExpressRouteCrossConnectionPeering,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -163,7 +243,8 @@ export class ExpressRouteCrossConnectionPeerings {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -172,26 +253,43 @@ export class ExpressRouteCrossConnectionPeerings {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCrossConnectionPeeringsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCrossConnectionPeeringsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCrossConnectionPeeringsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>, callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>): Promise<Models.ExpressRouteCrossConnectionPeeringsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteCrossConnectionPeeringList>
+  ): Promise<Models.ExpressRouteCrossConnectionPeeringsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ExpressRouteCrossConnectionPeeringsListNextResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCrossConnectionPeeringsListNextResponse>;
   }
 }
 
@@ -199,18 +297,15 @@ export class ExpressRouteCrossConnectionPeerings {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.crossConnectionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCrossConnectionPeeringList
@@ -224,19 +319,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.crossConnectionName,
     Parameters.peeringName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCrossConnectionPeering
@@ -250,19 +342,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.crossConnectionName,
     Parameters.peeringName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -276,19 +365,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.crossConnectionName,
     Parameters.peeringName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "peeringParameters",
     mapper: {
@@ -314,12 +400,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCrossConnectionPeeringList

@@ -40,14 +40,21 @@ export class Alterations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WordAlterationsDTO>): void;
-  get(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WordAlterationsDTO>, callback?: msRest.ServiceCallback<Models.WordAlterationsDTO>): Promise<Models.AlterationsGetResponse> {
+  get(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WordAlterationsDTO>
+  ): void;
+  get(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WordAlterationsDTO>,
+    callback?: msRest.ServiceCallback<Models.WordAlterationsDTO>
+  ): Promise<Models.AlterationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AlterationsGetResponse>;
+      callback
+    ) as Promise<Models.AlterationsGetResponse>;
   }
 
   /**
@@ -56,7 +63,10 @@ export class Alterations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  replace(wordAlterations: Models.WordAlterationsDTO, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  replace(
+    wordAlterations: Models.WordAlterationsDTO,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param wordAlterations New alterations data.
    * @param callback The callback
@@ -67,15 +77,24 @@ export class Alterations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  replace(wordAlterations: Models.WordAlterationsDTO, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  replace(wordAlterations: Models.WordAlterationsDTO, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  replace(
+    wordAlterations: Models.WordAlterationsDTO,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  replace(
+    wordAlterations: Models.WordAlterationsDTO,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         wordAlterations,
         options
       },
       replaceOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -84,9 +103,7 @@ const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "alterations",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   responses: {
     200: {
       bodyMapper: Mappers.WordAlterationsDTO
@@ -101,9 +118,7 @@ const getOperationSpec: msRest.OperationSpec = {
 const replaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "alterations",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: "wordAlterations",
     mapper: {

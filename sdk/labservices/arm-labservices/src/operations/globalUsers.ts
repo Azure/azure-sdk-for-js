@@ -35,14 +35,22 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalUsersGetEnvironmentResponse>
    */
-  getEnvironment(userName: string, environmentOperationsPayload: Models.EnvironmentOperationsPayload, options?: Models.GlobalUsersGetEnvironmentOptionalParams): Promise<Models.GlobalUsersGetEnvironmentResponse>;
+  getEnvironment(
+    userName: string,
+    environmentOperationsPayload: Models.EnvironmentOperationsPayload,
+    options?: Models.GlobalUsersGetEnvironmentOptionalParams
+  ): Promise<Models.GlobalUsersGetEnvironmentResponse>;
   /**
    * @param userName The name of the user.
    * @param environmentOperationsPayload Represents payload for any Environment operations like get,
    * start, stop, connect
    * @param callback The callback
    */
-  getEnvironment(userName: string, environmentOperationsPayload: Models.EnvironmentOperationsPayload, callback: msRest.ServiceCallback<Models.GetEnvironmentResponse>): void;
+  getEnvironment(
+    userName: string,
+    environmentOperationsPayload: Models.EnvironmentOperationsPayload,
+    callback: msRest.ServiceCallback<Models.GetEnvironmentResponse>
+  ): void;
   /**
    * @param userName The name of the user.
    * @param environmentOperationsPayload Represents payload for any Environment operations like get,
@@ -50,8 +58,20 @@ export class GlobalUsers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEnvironment(userName: string, environmentOperationsPayload: Models.EnvironmentOperationsPayload, options: Models.GlobalUsersGetEnvironmentOptionalParams, callback: msRest.ServiceCallback<Models.GetEnvironmentResponse>): void;
-  getEnvironment(userName: string, environmentOperationsPayload: Models.EnvironmentOperationsPayload, options?: Models.GlobalUsersGetEnvironmentOptionalParams | msRest.ServiceCallback<Models.GetEnvironmentResponse>, callback?: msRest.ServiceCallback<Models.GetEnvironmentResponse>): Promise<Models.GlobalUsersGetEnvironmentResponse> {
+  getEnvironment(
+    userName: string,
+    environmentOperationsPayload: Models.EnvironmentOperationsPayload,
+    options: Models.GlobalUsersGetEnvironmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.GetEnvironmentResponse>
+  ): void;
+  getEnvironment(
+    userName: string,
+    environmentOperationsPayload: Models.EnvironmentOperationsPayload,
+    options?:
+      | Models.GlobalUsersGetEnvironmentOptionalParams
+      | msRest.ServiceCallback<Models.GetEnvironmentResponse>,
+    callback?: msRest.ServiceCallback<Models.GetEnvironmentResponse>
+  ): Promise<Models.GlobalUsersGetEnvironmentResponse> {
     return this.client.sendOperationRequest(
       {
         userName,
@@ -59,7 +79,8 @@ export class GlobalUsers {
         options
       },
       getEnvironmentOperationSpec,
-      callback) as Promise<Models.GlobalUsersGetEnvironmentResponse>;
+      callback
+    ) as Promise<Models.GlobalUsersGetEnvironmentResponse>;
   }
 
   /**
@@ -69,21 +90,41 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalUsersGetOperationBatchStatusResponse>
    */
-  getOperationBatchStatus(userName: string, operationBatchStatusPayload: Models.OperationBatchStatusPayload, options?: msRest.RequestOptionsBase): Promise<Models.GlobalUsersGetOperationBatchStatusResponse>;
+  getOperationBatchStatus(
+    userName: string,
+    operationBatchStatusPayload: Models.OperationBatchStatusPayload,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GlobalUsersGetOperationBatchStatusResponse>;
   /**
    * @param userName The name of the user.
    * @param operationBatchStatusPayload Payload to get the status of an operation
    * @param callback The callback
    */
-  getOperationBatchStatus(userName: string, operationBatchStatusPayload: Models.OperationBatchStatusPayload, callback: msRest.ServiceCallback<Models.OperationBatchStatusResponse>): void;
+  getOperationBatchStatus(
+    userName: string,
+    operationBatchStatusPayload: Models.OperationBatchStatusPayload,
+    callback: msRest.ServiceCallback<Models.OperationBatchStatusResponse>
+  ): void;
   /**
    * @param userName The name of the user.
    * @param operationBatchStatusPayload Payload to get the status of an operation
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOperationBatchStatus(userName: string, operationBatchStatusPayload: Models.OperationBatchStatusPayload, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationBatchStatusResponse>): void;
-  getOperationBatchStatus(userName: string, operationBatchStatusPayload: Models.OperationBatchStatusPayload, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationBatchStatusResponse>, callback?: msRest.ServiceCallback<Models.OperationBatchStatusResponse>): Promise<Models.GlobalUsersGetOperationBatchStatusResponse> {
+  getOperationBatchStatus(
+    userName: string,
+    operationBatchStatusPayload: Models.OperationBatchStatusPayload,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationBatchStatusResponse>
+  ): void;
+  getOperationBatchStatus(
+    userName: string,
+    operationBatchStatusPayload: Models.OperationBatchStatusPayload,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.OperationBatchStatusResponse>,
+    callback?: msRest.ServiceCallback<Models.OperationBatchStatusResponse>
+  ): Promise<Models.GlobalUsersGetOperationBatchStatusResponse> {
     return this.client.sendOperationRequest(
       {
         userName,
@@ -91,7 +132,8 @@ export class GlobalUsers {
         options
       },
       getOperationBatchStatusOperationSpec,
-      callback) as Promise<Models.GlobalUsersGetOperationBatchStatusResponse>;
+      callback
+    ) as Promise<Models.GlobalUsersGetOperationBatchStatusResponse>;
   }
 
   /**
@@ -101,21 +143,39 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalUsersGetOperationStatusResponse>
    */
-  getOperationStatus(userName: string, operationStatusPayload: Models.OperationStatusPayload, options?: msRest.RequestOptionsBase): Promise<Models.GlobalUsersGetOperationStatusResponse>;
+  getOperationStatus(
+    userName: string,
+    operationStatusPayload: Models.OperationStatusPayload,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GlobalUsersGetOperationStatusResponse>;
   /**
    * @param userName The name of the user.
    * @param operationStatusPayload Payload to get the status of an operation
    * @param callback The callback
    */
-  getOperationStatus(userName: string, operationStatusPayload: Models.OperationStatusPayload, callback: msRest.ServiceCallback<Models.OperationStatusResponse>): void;
+  getOperationStatus(
+    userName: string,
+    operationStatusPayload: Models.OperationStatusPayload,
+    callback: msRest.ServiceCallback<Models.OperationStatusResponse>
+  ): void;
   /**
    * @param userName The name of the user.
    * @param operationStatusPayload Payload to get the status of an operation
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOperationStatus(userName: string, operationStatusPayload: Models.OperationStatusPayload, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatusResponse>): void;
-  getOperationStatus(userName: string, operationStatusPayload: Models.OperationStatusPayload, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatusResponse>, callback?: msRest.ServiceCallback<Models.OperationStatusResponse>): Promise<Models.GlobalUsersGetOperationStatusResponse> {
+  getOperationStatus(
+    userName: string,
+    operationStatusPayload: Models.OperationStatusPayload,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationStatusResponse>
+  ): void;
+  getOperationStatus(
+    userName: string,
+    operationStatusPayload: Models.OperationStatusPayload,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatusResponse>,
+    callback?: msRest.ServiceCallback<Models.OperationStatusResponse>
+  ): Promise<Models.GlobalUsersGetOperationStatusResponse> {
     return this.client.sendOperationRequest(
       {
         userName,
@@ -123,7 +183,8 @@ export class GlobalUsers {
         options
       },
       getOperationStatusOperationSpec,
-      callback) as Promise<Models.GlobalUsersGetOperationStatusResponse>;
+      callback
+    ) as Promise<Models.GlobalUsersGetOperationStatusResponse>;
   }
 
   /**
@@ -134,14 +195,22 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalUsersGetPersonalPreferencesResponse>
    */
-  getPersonalPreferences(userName: string, personalPreferencesOperationsPayload: Models.PersonalPreferencesOperationsPayload, options?: msRest.RequestOptionsBase): Promise<Models.GlobalUsersGetPersonalPreferencesResponse>;
+  getPersonalPreferences(
+    userName: string,
+    personalPreferencesOperationsPayload: Models.PersonalPreferencesOperationsPayload,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GlobalUsersGetPersonalPreferencesResponse>;
   /**
    * @param userName The name of the user.
    * @param personalPreferencesOperationsPayload Represents payload for any Environment operations
    * like get, start, stop, connect
    * @param callback The callback
    */
-  getPersonalPreferences(userName: string, personalPreferencesOperationsPayload: Models.PersonalPreferencesOperationsPayload, callback: msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>): void;
+  getPersonalPreferences(
+    userName: string,
+    personalPreferencesOperationsPayload: Models.PersonalPreferencesOperationsPayload,
+    callback: msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>
+  ): void;
   /**
    * @param userName The name of the user.
    * @param personalPreferencesOperationsPayload Represents payload for any Environment operations
@@ -149,8 +218,20 @@ export class GlobalUsers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPersonalPreferences(userName: string, personalPreferencesOperationsPayload: Models.PersonalPreferencesOperationsPayload, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>): void;
-  getPersonalPreferences(userName: string, personalPreferencesOperationsPayload: Models.PersonalPreferencesOperationsPayload, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>, callback?: msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>): Promise<Models.GlobalUsersGetPersonalPreferencesResponse> {
+  getPersonalPreferences(
+    userName: string,
+    personalPreferencesOperationsPayload: Models.PersonalPreferencesOperationsPayload,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>
+  ): void;
+  getPersonalPreferences(
+    userName: string,
+    personalPreferencesOperationsPayload: Models.PersonalPreferencesOperationsPayload,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>,
+    callback?: msRest.ServiceCallback<Models.GetPersonalPreferencesResponse>
+  ): Promise<Models.GlobalUsersGetPersonalPreferencesResponse> {
     return this.client.sendOperationRequest(
       {
         userName,
@@ -158,7 +239,8 @@ export class GlobalUsers {
         options
       },
       getPersonalPreferencesOperationSpec,
-      callback) as Promise<Models.GlobalUsersGetPersonalPreferencesResponse>;
+      callback
+    ) as Promise<Models.GlobalUsersGetPersonalPreferencesResponse>;
   }
 
   /**
@@ -168,21 +250,39 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalUsersListEnvironmentsResponse>
    */
-  listEnvironments(userName: string, listEnvironmentsPayload: Models.ListEnvironmentsPayload, options?: msRest.RequestOptionsBase): Promise<Models.GlobalUsersListEnvironmentsResponse>;
+  listEnvironments(
+    userName: string,
+    listEnvironmentsPayload: Models.ListEnvironmentsPayload,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GlobalUsersListEnvironmentsResponse>;
   /**
    * @param userName The name of the user.
    * @param listEnvironmentsPayload Represents the payload to list environments owned by a user
    * @param callback The callback
    */
-  listEnvironments(userName: string, listEnvironmentsPayload: Models.ListEnvironmentsPayload, callback: msRest.ServiceCallback<Models.ListEnvironmentsResponse>): void;
+  listEnvironments(
+    userName: string,
+    listEnvironmentsPayload: Models.ListEnvironmentsPayload,
+    callback: msRest.ServiceCallback<Models.ListEnvironmentsResponse>
+  ): void;
   /**
    * @param userName The name of the user.
    * @param listEnvironmentsPayload Represents the payload to list environments owned by a user
    * @param options The optional parameters
    * @param callback The callback
    */
-  listEnvironments(userName: string, listEnvironmentsPayload: Models.ListEnvironmentsPayload, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListEnvironmentsResponse>): void;
-  listEnvironments(userName: string, listEnvironmentsPayload: Models.ListEnvironmentsPayload, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListEnvironmentsResponse>, callback?: msRest.ServiceCallback<Models.ListEnvironmentsResponse>): Promise<Models.GlobalUsersListEnvironmentsResponse> {
+  listEnvironments(
+    userName: string,
+    listEnvironmentsPayload: Models.ListEnvironmentsPayload,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListEnvironmentsResponse>
+  ): void;
+  listEnvironments(
+    userName: string,
+    listEnvironmentsPayload: Models.ListEnvironmentsPayload,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListEnvironmentsResponse>,
+    callback?: msRest.ServiceCallback<Models.ListEnvironmentsResponse>
+  ): Promise<Models.GlobalUsersListEnvironmentsResponse> {
     return this.client.sendOperationRequest(
       {
         userName,
@@ -190,7 +290,8 @@ export class GlobalUsers {
         options
       },
       listEnvironmentsOperationSpec,
-      callback) as Promise<Models.GlobalUsersListEnvironmentsResponse>;
+      callback
+    ) as Promise<Models.GlobalUsersListEnvironmentsResponse>;
   }
 
   /**
@@ -199,7 +300,10 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<Models.GlobalUsersListLabsResponse>
    */
-  listLabs(userName: string, options?: msRest.RequestOptionsBase): Promise<Models.GlobalUsersListLabsResponse>;
+  listLabs(
+    userName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GlobalUsersListLabsResponse>;
   /**
    * @param userName The name of the user.
    * @param callback The callback
@@ -210,15 +314,24 @@ export class GlobalUsers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listLabs(userName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListLabsResponse>): void;
-  listLabs(userName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListLabsResponse>, callback?: msRest.ServiceCallback<Models.ListLabsResponse>): Promise<Models.GlobalUsersListLabsResponse> {
+  listLabs(
+    userName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListLabsResponse>
+  ): void;
+  listLabs(
+    userName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListLabsResponse>,
+    callback?: msRest.ServiceCallback<Models.ListLabsResponse>
+  ): Promise<Models.GlobalUsersListLabsResponse> {
     return this.client.sendOperationRequest(
       {
         userName,
         options
       },
       listLabsOperationSpec,
-      callback) as Promise<Models.GlobalUsersListLabsResponse>;
+      callback
+    ) as Promise<Models.GlobalUsersListLabsResponse>;
   }
 
   /**
@@ -228,21 +341,39 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  register(userName: string, registerPayload: Models.RegisterPayload, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  register(
+    userName: string,
+    registerPayload: Models.RegisterPayload,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param userName The name of the user.
    * @param registerPayload Represents payload for Register action.
    * @param callback The callback
    */
-  register(userName: string, registerPayload: Models.RegisterPayload, callback: msRest.ServiceCallback<void>): void;
+  register(
+    userName: string,
+    registerPayload: Models.RegisterPayload,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param userName The name of the user.
    * @param registerPayload Represents payload for Register action.
    * @param options The optional parameters
    * @param callback The callback
    */
-  register(userName: string, registerPayload: Models.RegisterPayload, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  register(userName: string, registerPayload: Models.RegisterPayload, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  register(
+    userName: string,
+    registerPayload: Models.RegisterPayload,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  register(
+    userName: string,
+    registerPayload: Models.RegisterPayload,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         userName,
@@ -250,7 +381,8 @@ export class GlobalUsers {
         options
       },
       registerOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -260,9 +392,14 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resetPassword(userName: string, resetPasswordPayload: Models.ResetPasswordPayload, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginResetPassword(userName,resetPasswordPayload,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  resetPassword(
+    userName: string,
+    resetPasswordPayload: Models.ResetPasswordPayload,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginResetPassword(userName, resetPasswordPayload, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -274,9 +411,16 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  startEnvironment(userName: string, environmentOperationsPayload: Models.EnvironmentOperationsPayload, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStartEnvironment(userName,environmentOperationsPayload,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  startEnvironment(
+    userName: string,
+    environmentOperationsPayload: Models.EnvironmentOperationsPayload,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStartEnvironment(
+      userName,
+      environmentOperationsPayload,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -288,9 +432,16 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stopEnvironment(userName: string, environmentOperationsPayload: Models.EnvironmentOperationsPayload, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStopEnvironment(userName,environmentOperationsPayload,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  stopEnvironment(
+    userName: string,
+    environmentOperationsPayload: Models.EnvironmentOperationsPayload,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStopEnvironment(
+      userName,
+      environmentOperationsPayload,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -300,7 +451,11 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginResetPassword(userName: string, resetPasswordPayload: Models.ResetPasswordPayload, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginResetPassword(
+    userName: string,
+    resetPasswordPayload: Models.ResetPasswordPayload,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         userName,
@@ -308,7 +463,8 @@ export class GlobalUsers {
         options
       },
       beginResetPasswordOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -320,7 +476,11 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStartEnvironment(userName: string, environmentOperationsPayload: Models.EnvironmentOperationsPayload, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStartEnvironment(
+    userName: string,
+    environmentOperationsPayload: Models.EnvironmentOperationsPayload,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         userName,
@@ -328,7 +488,8 @@ export class GlobalUsers {
         options
       },
       beginStartEnvironmentOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -340,7 +501,11 @@ export class GlobalUsers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStopEnvironment(userName: string, environmentOperationsPayload: Models.EnvironmentOperationsPayload, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStopEnvironment(
+    userName: string,
+    environmentOperationsPayload: Models.EnvironmentOperationsPayload,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         userName,
@@ -348,7 +513,8 @@ export class GlobalUsers {
         options
       },
       beginStopEnvironmentOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -357,16 +523,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.LabServices/users/{userName}/getEnvironment",
-  urlParameters: [
-    Parameters.userName
-  ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.userName],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "environmentOperationsPayload",
     mapper: {
@@ -388,15 +547,9 @@ const getEnvironmentOperationSpec: msRest.OperationSpec = {
 const getOperationBatchStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.LabServices/users/{userName}/getOperationBatchStatus",
-  urlParameters: [
-    Parameters.userName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.userName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "operationBatchStatusPayload",
     mapper: {
@@ -418,15 +571,9 @@ const getOperationBatchStatusOperationSpec: msRest.OperationSpec = {
 const getOperationStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.LabServices/users/{userName}/getOperationStatus",
-  urlParameters: [
-    Parameters.userName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.userName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "operationStatusPayload",
     mapper: {
@@ -448,15 +595,9 @@ const getOperationStatusOperationSpec: msRest.OperationSpec = {
 const getPersonalPreferencesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.LabServices/users/{userName}/getPersonalPreferences",
-  urlParameters: [
-    Parameters.userName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.userName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "personalPreferencesOperationsPayload",
     mapper: {
@@ -478,15 +619,9 @@ const getPersonalPreferencesOperationSpec: msRest.OperationSpec = {
 const listEnvironmentsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.LabServices/users/{userName}/listEnvironments",
-  urlParameters: [
-    Parameters.userName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.userName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "listEnvironmentsPayload",
     mapper: {
@@ -508,15 +643,9 @@ const listEnvironmentsOperationSpec: msRest.OperationSpec = {
 const listLabsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.LabServices/users/{userName}/listLabs",
-  urlParameters: [
-    Parameters.userName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.userName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListLabsResponse
@@ -531,15 +660,9 @@ const listLabsOperationSpec: msRest.OperationSpec = {
 const registerOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.LabServices/users/{userName}/register",
-  urlParameters: [
-    Parameters.userName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.userName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "registerPayload",
     mapper: {
@@ -559,15 +682,9 @@ const registerOperationSpec: msRest.OperationSpec = {
 const beginResetPasswordOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.LabServices/users/{userName}/resetPassword",
-  urlParameters: [
-    Parameters.userName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.userName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "resetPasswordPayload",
     mapper: {
@@ -588,15 +705,9 @@ const beginResetPasswordOperationSpec: msRest.OperationSpec = {
 const beginStartEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.LabServices/users/{userName}/startEnvironment",
-  urlParameters: [
-    Parameters.userName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.userName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "environmentOperationsPayload",
     mapper: {
@@ -617,15 +728,9 @@ const beginStartEnvironmentOperationSpec: msRest.OperationSpec = {
 const beginStopEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "providers/Microsoft.LabServices/users/{userName}/stopEnvironment",
-  urlParameters: [
-    Parameters.userName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.userName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "environmentOperationsPayload",
     mapper: {

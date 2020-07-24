@@ -36,9 +36,18 @@ export class VpnSitesConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  download(resourceGroupName: string, virtualWANName: string, request: Models.GetVpnSitesConfigurationRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDownload(resourceGroupName,virtualWANName,request,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  download(
+    resourceGroupName: string,
+    virtualWANName: string,
+    request: Models.GetVpnSitesConfigurationRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDownload(
+      resourceGroupName,
+      virtualWANName,
+      request,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -50,7 +59,12 @@ export class VpnSitesConfiguration {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDownload(resourceGroupName: string, virtualWANName: string, request: Models.GetVpnSitesConfigurationRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDownload(
+    resourceGroupName: string,
+    virtualWANName: string,
+    request: Models.GetVpnSitesConfigurationRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -59,7 +73,8 @@ export class VpnSitesConfiguration {
         options
       },
       beginDownloadOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -67,18 +82,15 @@ export class VpnSitesConfiguration {
 const serializer = new msRest.Serializer(Mappers);
 const beginDownloadOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnConfiguration",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnConfiguration",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualWANName0
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {

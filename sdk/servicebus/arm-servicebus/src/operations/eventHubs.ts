@@ -33,21 +33,39 @@ export class EventHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventHubsListByNamespaceResponse>
    */
-  listByNamespace(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventHubsListByNamespaceResponse>;
+  listByNamespace(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EventHubsListByNamespaceResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param callback The callback
    */
-  listByNamespace(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
+  listByNamespace(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<Models.EventHubListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByNamespace(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
-  listByNamespace(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubListResult>, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceResponse> {
+  listByNamespace(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventHubListResult>
+  ): void;
+  listByNamespace(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubListResult>,
+    callback?: msRest.ServiceCallback<Models.EventHubListResult>
+  ): Promise<Models.EventHubsListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class EventHubs {
         options
       },
       listByNamespaceOperationSpec,
-      callback) as Promise<Models.EventHubsListByNamespaceResponse>;
+      callback
+    ) as Promise<Models.EventHubsListByNamespaceResponse>;
   }
 
   /**
@@ -64,26 +83,41 @@ export class EventHubs {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventHubsListByNamespaceNextResponse>
    */
-  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EventHubsListByNamespaceNextResponse>;
+  listByNamespaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EventHubsListByNamespaceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByNamespaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
+  listByNamespaceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.EventHubListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByNamespaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubListResult>): void;
-  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubListResult>, callback?: msRest.ServiceCallback<Models.EventHubListResult>): Promise<Models.EventHubsListByNamespaceNextResponse> {
+  listByNamespaceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EventHubListResult>
+  ): void;
+  listByNamespaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubListResult>,
+    callback?: msRest.ServiceCallback<Models.EventHubListResult>
+  ): Promise<Models.EventHubsListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByNamespaceNextOperationSpec,
-      callback) as Promise<Models.EventHubsListByNamespaceNextResponse>;
+      callback
+    ) as Promise<Models.EventHubsListByNamespaceNextResponse>;
   }
 }
 
@@ -91,18 +125,15 @@ export class EventHubs {
 const serializer = new msRest.Serializer(Mappers);
 const listByNamespaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/eventhubs",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/eventhubs",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventHubListResult
@@ -118,12 +149,8 @@ const listByNamespaceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventHubListResult

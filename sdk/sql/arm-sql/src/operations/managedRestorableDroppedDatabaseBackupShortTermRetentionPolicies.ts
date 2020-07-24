@@ -37,7 +37,12 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
    * @returns
    * Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse>
    */
-  get(resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -45,7 +50,12 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
    * @param restorableDroppedDatabaseId
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, callback: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicy>): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    callback: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -54,8 +64,22 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicy>): void;
-  get(resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicy>, callback?: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicy>): Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicy>,
+    callback?: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicy>
+  ): Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -64,7 +88,10 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse>;
+      callback
+    ) as Promise<
+      Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse
+    >;
   }
 
   /**
@@ -78,9 +105,24 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
    * @returns
    * Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, parameters: Models.ManagedBackupShortTermRetentionPolicy, options?: msRest.RequestOptionsBase): Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,managedInstanceName,restorableDroppedDatabaseId,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    parameters: Models.ManagedBackupShortTermRetentionPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<
+    Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
+  > {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      managedInstanceName,
+      restorableDroppedDatabaseId,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -94,9 +136,24 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
    * @returns
    * Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse>
    */
-  update(resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, parameters: Models.ManagedBackupShortTermRetentionPolicy, options?: msRest.RequestOptionsBase): Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,managedInstanceName,restorableDroppedDatabaseId,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    parameters: Models.ManagedBackupShortTermRetentionPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<
+    Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
+  > {
+    return this.beginUpdate(
+      resourceGroupName,
+      managedInstanceName,
+      restorableDroppedDatabaseId,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse
+    >;
   }
 
   /**
@@ -109,7 +166,14 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
    * @returns
    * Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse>
    */
-  listByRestorableDroppedDatabase(resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse>;
+  listByRestorableDroppedDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<
+    Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse
+  >;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -117,7 +181,12 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
    * @param restorableDroppedDatabaseId
    * @param callback The callback
    */
-  listByRestorableDroppedDatabase(resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, callback: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>): void;
+  listByRestorableDroppedDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    callback: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -126,8 +195,24 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByRestorableDroppedDatabase(resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>): void;
-  listByRestorableDroppedDatabase(resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>, callback?: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>): Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse> {
+  listByRestorableDroppedDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>
+  ): void;
+  listByRestorableDroppedDatabase(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>
+  ): Promise<
+    Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse
+  > {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +221,10 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
         options
       },
       listByRestorableDroppedDatabaseOperationSpec,
-      callback) as Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse>;
+      callback
+    ) as Promise<
+      Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse
+    >;
   }
 
   /**
@@ -149,7 +237,13 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, parameters: Models.ManagedBackupShortTermRetentionPolicy, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    parameters: Models.ManagedBackupShortTermRetentionPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -159,7 +253,8 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -172,7 +267,13 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, managedInstanceName: string, restorableDroppedDatabaseId: string, parameters: Models.ManagedBackupShortTermRetentionPolicy, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    restorableDroppedDatabaseId: string,
+    parameters: Models.ManagedBackupShortTermRetentionPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -182,7 +283,8 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -192,26 +294,49 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
    * @returns
    * Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse>
    */
-  listByRestorableDroppedDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse>;
+  listByRestorableDroppedDatabaseNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<
+    Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse
+  >;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByRestorableDroppedDatabaseNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>): void;
+  listByRestorableDroppedDatabaseNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByRestorableDroppedDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>): void;
-  listByRestorableDroppedDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>, callback?: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>): Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse> {
+  listByRestorableDroppedDatabaseNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>
+  ): void;
+  listByRestorableDroppedDatabaseNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedBackupShortTermRetentionPolicyListResult>
+  ): Promise<
+    Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse
+  > {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByRestorableDroppedDatabaseNextOperationSpec,
-      callback) as Promise<Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse>;
+      callback
+    ) as Promise<
+      Models.ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse
+    >;
   }
 }
 
@@ -219,7 +344,8 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
@@ -227,12 +353,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.policyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicy
@@ -246,19 +368,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByRestorableDroppedDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.restorableDroppedDatabaseId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicyListResult
@@ -272,7 +391,8 @@ const listByRestorableDroppedDatabaseOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
@@ -280,12 +400,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.policyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -307,7 +423,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}/backupShortTermRetentionPolicies/{policyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
@@ -315,12 +432,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.policyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -344,12 +457,8 @@ const listByRestorableDroppedDatabaseNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedBackupShortTermRetentionPolicyListResult

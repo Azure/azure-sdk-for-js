@@ -273,7 +273,8 @@ export interface RoleAssignmentsListForResourceOptionalParams extends msRest.Req
 /**
  * Optional Parameters.
  */
-export interface RoleAssignmentsListForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface RoleAssignmentsListForResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at
    * or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above
@@ -390,16 +391,16 @@ export type PermissionsListForResourceGroupResponse = PermissionGetResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PermissionGetResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PermissionGetResult;
+  };
 };
 
 /**
@@ -410,16 +411,16 @@ export type PermissionsListForResourceResponse = PermissionGetResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PermissionGetResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PermissionGetResult;
+  };
 };
 
 /**
@@ -430,16 +431,16 @@ export type PermissionsListForResourceGroupNextResponse = PermissionGetResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PermissionGetResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PermissionGetResult;
+  };
 };
 
 /**
@@ -450,16 +451,16 @@ export type PermissionsListForResourceNextResponse = PermissionGetResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PermissionGetResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PermissionGetResult;
+  };
 };
 
 /**
@@ -470,16 +471,16 @@ export type ProviderOperationsMetadataGetResponse = ProviderOperationsMetadata &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProviderOperationsMetadata;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProviderOperationsMetadata;
+  };
 };
 
 /**
@@ -490,16 +491,16 @@ export type ProviderOperationsMetadataListResponse = ProviderOperationsMetadataL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProviderOperationsMetadataListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProviderOperationsMetadataListResult;
+  };
 };
 
 /**
@@ -510,16 +511,16 @@ export type ProviderOperationsMetadataListNextResponse = ProviderOperationsMetad
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProviderOperationsMetadataListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProviderOperationsMetadataListResult;
+  };
 };
 
 /**
@@ -530,16 +531,16 @@ export type RoleAssignmentsListForResourceResponse = RoleAssignmentListResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignmentListResult;
+  };
 };
 
 /**
@@ -550,16 +551,16 @@ export type RoleAssignmentsListForResourceGroupResponse = RoleAssignmentListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignmentListResult;
+  };
 };
 
 /**
@@ -570,16 +571,16 @@ export type RoleAssignmentsDeleteMethodResponse = RoleAssignment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignment;
+  };
 };
 
 /**
@@ -590,16 +591,16 @@ export type RoleAssignmentsCreateResponse = RoleAssignment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignment;
+  };
 };
 
 /**
@@ -610,16 +611,16 @@ export type RoleAssignmentsGetResponse = RoleAssignment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignment;
+  };
 };
 
 /**
@@ -630,16 +631,16 @@ export type RoleAssignmentsDeleteByIdResponse = RoleAssignment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignment;
+  };
 };
 
 /**
@@ -650,16 +651,16 @@ export type RoleAssignmentsCreateByIdResponse = RoleAssignment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignment;
+  };
 };
 
 /**
@@ -670,16 +671,16 @@ export type RoleAssignmentsGetByIdResponse = RoleAssignment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignment;
+  };
 };
 
 /**
@@ -690,16 +691,16 @@ export type RoleAssignmentsListResponse = RoleAssignmentListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignmentListResult;
+  };
 };
 
 /**
@@ -710,16 +711,16 @@ export type RoleAssignmentsListForScopeResponse = RoleAssignmentListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignmentListResult;
+  };
 };
 
 /**
@@ -730,16 +731,16 @@ export type RoleAssignmentsListForResourceNextResponse = RoleAssignmentListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignmentListResult;
+  };
 };
 
 /**
@@ -750,16 +751,16 @@ export type RoleAssignmentsListForResourceGroupNextResponse = RoleAssignmentList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignmentListResult;
+  };
 };
 
 /**
@@ -770,16 +771,16 @@ export type RoleAssignmentsListNextResponse = RoleAssignmentListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignmentListResult;
+  };
 };
 
 /**
@@ -790,16 +791,16 @@ export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleAssignmentListResult;
+  };
 };
 
 /**
@@ -810,16 +811,16 @@ export type RoleDefinitionsDeleteMethodResponse = RoleDefinition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleDefinition;
+  };
 };
 
 /**
@@ -830,16 +831,16 @@ export type RoleDefinitionsGetResponse = RoleDefinition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleDefinition;
+  };
 };
 
 /**
@@ -850,16 +851,16 @@ export type RoleDefinitionsCreateOrUpdateResponse = RoleDefinition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleDefinition;
+  };
 };
 
 /**
@@ -870,16 +871,16 @@ export type RoleDefinitionsListResponse = RoleDefinitionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleDefinitionListResult;
+  };
 };
 
 /**
@@ -890,16 +891,16 @@ export type RoleDefinitionsGetByIdResponse = RoleDefinition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleDefinition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleDefinition;
+  };
 };
 
 /**
@@ -910,14 +911,14 @@ export type RoleDefinitionsListNextResponse = RoleDefinitionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleDefinitionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleDefinitionListResult;
+  };
 };

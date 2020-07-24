@@ -34,21 +34,41 @@ export class StreamingLocators {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingLocatorsListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: Models.StreamingLocatorsListOptionalParams): Promise<Models.StreamingLocatorsListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: Models.StreamingLocatorsListOptionalParams
+  ): Promise<Models.StreamingLocatorsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.StreamingLocatorCollection>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.StreamingLocatorCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: Models.StreamingLocatorsListOptionalParams, callback: msRest.ServiceCallback<Models.StreamingLocatorCollection>): void;
-  list(resourceGroupName: string, accountName: string, options?: Models.StreamingLocatorsListOptionalParams | msRest.ServiceCallback<Models.StreamingLocatorCollection>, callback?: msRest.ServiceCallback<Models.StreamingLocatorCollection>): Promise<Models.StreamingLocatorsListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: Models.StreamingLocatorsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.StreamingLocatorCollection>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | Models.StreamingLocatorsListOptionalParams
+      | msRest.ServiceCallback<Models.StreamingLocatorCollection>,
+    callback?: msRest.ServiceCallback<Models.StreamingLocatorCollection>
+  ): Promise<Models.StreamingLocatorsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +76,8 @@ export class StreamingLocators {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.StreamingLocatorsListResponse>;
+      callback
+    ) as Promise<Models.StreamingLocatorsListResponse>;
   }
 
   /**
@@ -68,14 +89,24 @@ export class StreamingLocators {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingLocatorsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase): Promise<Models.StreamingLocatorsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingLocatorsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param streamingLocatorName The Streaming Locator name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, streamingLocatorName: string, callback: msRest.ServiceCallback<Models.StreamingLocator>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    callback: msRest.ServiceCallback<Models.StreamingLocator>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -83,8 +114,20 @@ export class StreamingLocators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, streamingLocatorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingLocator>): void;
-  get(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingLocator>, callback?: msRest.ServiceCallback<Models.StreamingLocator>): Promise<Models.StreamingLocatorsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StreamingLocator>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingLocator>,
+    callback?: msRest.ServiceCallback<Models.StreamingLocator>
+  ): Promise<Models.StreamingLocatorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -93,7 +136,8 @@ export class StreamingLocators {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.StreamingLocatorsGetResponse>;
+      callback
+    ) as Promise<Models.StreamingLocatorsGetResponse>;
   }
 
   /**
@@ -106,7 +150,13 @@ export class StreamingLocators {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingLocatorsCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, streamingLocatorName: string, parameters: Models.StreamingLocator, options?: msRest.RequestOptionsBase): Promise<Models.StreamingLocatorsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    parameters: Models.StreamingLocator,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingLocatorsCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -114,7 +164,13 @@ export class StreamingLocators {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, streamingLocatorName: string, parameters: Models.StreamingLocator, callback: msRest.ServiceCallback<Models.StreamingLocator>): void;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    parameters: Models.StreamingLocator,
+    callback: msRest.ServiceCallback<Models.StreamingLocator>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -123,8 +179,22 @@ export class StreamingLocators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, accountName: string, streamingLocatorName: string, parameters: Models.StreamingLocator, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingLocator>): void;
-  create(resourceGroupName: string, accountName: string, streamingLocatorName: string, parameters: Models.StreamingLocator, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingLocator>, callback?: msRest.ServiceCallback<Models.StreamingLocator>): Promise<Models.StreamingLocatorsCreateResponse> {
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    parameters: Models.StreamingLocator,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StreamingLocator>
+  ): void;
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    parameters: Models.StreamingLocator,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingLocator>,
+    callback?: msRest.ServiceCallback<Models.StreamingLocator>
+  ): Promise<Models.StreamingLocatorsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +204,8 @@ export class StreamingLocators {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.StreamingLocatorsCreateResponse>;
+      callback
+    ) as Promise<Models.StreamingLocatorsCreateResponse>;
   }
 
   /**
@@ -146,14 +217,24 @@ export class StreamingLocators {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param streamingLocatorName The Streaming Locator name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, streamingLocatorName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -161,8 +242,20 @@ export class StreamingLocators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, streamingLocatorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +264,8 @@ export class StreamingLocators {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -183,14 +277,24 @@ export class StreamingLocators {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingLocatorsListContentKeysResponse>
    */
-  listContentKeys(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase): Promise<Models.StreamingLocatorsListContentKeysResponse>;
+  listContentKeys(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingLocatorsListContentKeysResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param streamingLocatorName The Streaming Locator name.
    * @param callback The callback
    */
-  listContentKeys(resourceGroupName: string, accountName: string, streamingLocatorName: string, callback: msRest.ServiceCallback<Models.ListContentKeysResponse>): void;
+  listContentKeys(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    callback: msRest.ServiceCallback<Models.ListContentKeysResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -198,8 +302,20 @@ export class StreamingLocators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listContentKeys(resourceGroupName: string, accountName: string, streamingLocatorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListContentKeysResponse>): void;
-  listContentKeys(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListContentKeysResponse>, callback?: msRest.ServiceCallback<Models.ListContentKeysResponse>): Promise<Models.StreamingLocatorsListContentKeysResponse> {
+  listContentKeys(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListContentKeysResponse>
+  ): void;
+  listContentKeys(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListContentKeysResponse>,
+    callback?: msRest.ServiceCallback<Models.ListContentKeysResponse>
+  ): Promise<Models.StreamingLocatorsListContentKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -208,7 +324,8 @@ export class StreamingLocators {
         options
       },
       listContentKeysOperationSpec,
-      callback) as Promise<Models.StreamingLocatorsListContentKeysResponse>;
+      callback
+    ) as Promise<Models.StreamingLocatorsListContentKeysResponse>;
   }
 
   /**
@@ -220,14 +337,24 @@ export class StreamingLocators {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingLocatorsListPathsResponse>
    */
-  listPaths(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase): Promise<Models.StreamingLocatorsListPathsResponse>;
+  listPaths(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingLocatorsListPathsResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param streamingLocatorName The Streaming Locator name.
    * @param callback The callback
    */
-  listPaths(resourceGroupName: string, accountName: string, streamingLocatorName: string, callback: msRest.ServiceCallback<Models.ListPathsResponse>): void;
+  listPaths(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    callback: msRest.ServiceCallback<Models.ListPathsResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -235,8 +362,20 @@ export class StreamingLocators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPaths(resourceGroupName: string, accountName: string, streamingLocatorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListPathsResponse>): void;
-  listPaths(resourceGroupName: string, accountName: string, streamingLocatorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListPathsResponse>, callback?: msRest.ServiceCallback<Models.ListPathsResponse>): Promise<Models.StreamingLocatorsListPathsResponse> {
+  listPaths(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListPathsResponse>
+  ): void;
+  listPaths(
+    resourceGroupName: string,
+    accountName: string,
+    streamingLocatorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListPathsResponse>,
+    callback?: msRest.ServiceCallback<Models.ListPathsResponse>
+  ): Promise<Models.StreamingLocatorsListPathsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -245,7 +384,8 @@ export class StreamingLocators {
         options
       },
       listPathsOperationSpec,
-      callback) as Promise<Models.StreamingLocatorsListPathsResponse>;
+      callback
+    ) as Promise<Models.StreamingLocatorsListPathsResponse>;
   }
 
   /**
@@ -255,26 +395,41 @@ export class StreamingLocators {
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingLocatorsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StreamingLocatorsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StreamingLocatorsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StreamingLocatorCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.StreamingLocatorCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StreamingLocatorCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingLocatorCollection>, callback?: msRest.ServiceCallback<Models.StreamingLocatorCollection>): Promise<Models.StreamingLocatorsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StreamingLocatorCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StreamingLocatorCollection>,
+    callback?: msRest.ServiceCallback<Models.StreamingLocatorCollection>
+  ): Promise<Models.StreamingLocatorsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.StreamingLocatorsListNextResponse>;
+      callback
+    ) as Promise<Models.StreamingLocatorsListNextResponse>;
   }
 }
 
@@ -282,21 +437,11 @@ export class StreamingLocators {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.orderby],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingLocatorCollection
@@ -310,19 +455,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators/{streamingLocatorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators/{streamingLocatorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingLocatorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingLocator
@@ -337,19 +479,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators/{streamingLocatorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators/{streamingLocatorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingLocatorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -370,19 +509,16 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators/{streamingLocatorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators/{streamingLocatorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingLocatorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -395,19 +531,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listContentKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators/{streamingLocatorName}/listContentKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators/{streamingLocatorName}/listContentKeys",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingLocatorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListContentKeysResponse
@@ -421,19 +554,16 @@ const listContentKeysOperationSpec: msRest.OperationSpec = {
 
 const listPathsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators/{streamingLocatorName}/listPaths",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingLocators/{streamingLocatorName}/listPaths",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.streamingLocatorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListPathsResponse
@@ -449,12 +579,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StreamingLocatorCollection

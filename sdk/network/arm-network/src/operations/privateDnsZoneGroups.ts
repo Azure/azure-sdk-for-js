@@ -35,9 +35,18 @@ export class PrivateDnsZoneGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, privateEndpointName: string, privateDnsZoneGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,privateEndpointName,privateDnsZoneGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    privateDnsZoneGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      privateEndpointName,
+      privateDnsZoneGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -48,14 +57,24 @@ export class PrivateDnsZoneGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateDnsZoneGroupsGetResponse>
    */
-  get(resourceGroupName: string, privateEndpointName: string, privateDnsZoneGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateDnsZoneGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    privateDnsZoneGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateDnsZoneGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateEndpointName The name of the private endpoint.
    * @param privateDnsZoneGroupName The name of the private dns zone group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateEndpointName: string, privateDnsZoneGroupName: string, callback: msRest.ServiceCallback<Models.PrivateDnsZoneGroup>): void;
+  get(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    privateDnsZoneGroupName: string,
+    callback: msRest.ServiceCallback<Models.PrivateDnsZoneGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateEndpointName The name of the private endpoint.
@@ -63,8 +82,20 @@ export class PrivateDnsZoneGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateEndpointName: string, privateDnsZoneGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateDnsZoneGroup>): void;
-  get(resourceGroupName: string, privateEndpointName: string, privateDnsZoneGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateDnsZoneGroup>, callback?: msRest.ServiceCallback<Models.PrivateDnsZoneGroup>): Promise<Models.PrivateDnsZoneGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    privateDnsZoneGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateDnsZoneGroup>
+  ): void;
+  get(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    privateDnsZoneGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateDnsZoneGroup>,
+    callback?: msRest.ServiceCallback<Models.PrivateDnsZoneGroup>
+  ): Promise<Models.PrivateDnsZoneGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,7 +104,8 @@ export class PrivateDnsZoneGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateDnsZoneGroupsGetResponse>;
+      callback
+    ) as Promise<Models.PrivateDnsZoneGroupsGetResponse>;
   }
 
   /**
@@ -85,9 +117,22 @@ export class PrivateDnsZoneGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateDnsZoneGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, privateEndpointName: string, privateDnsZoneGroupName: string, parameters: Models.PrivateDnsZoneGroup, options?: msRest.RequestOptionsBase): Promise<Models.PrivateDnsZoneGroupsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,privateEndpointName,privateDnsZoneGroupName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateDnsZoneGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    privateDnsZoneGroupName: string,
+    parameters: Models.PrivateDnsZoneGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateDnsZoneGroupsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      privateEndpointName,
+      privateDnsZoneGroupName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PrivateDnsZoneGroupsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -97,21 +142,41 @@ export class PrivateDnsZoneGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateDnsZoneGroupsListResponse>
    */
-  list(privateEndpointName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateDnsZoneGroupsListResponse>;
+  list(
+    privateEndpointName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateDnsZoneGroupsListResponse>;
   /**
    * @param privateEndpointName The name of the private endpoint.
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(privateEndpointName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>): void;
+  list(
+    privateEndpointName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>
+  ): void;
   /**
    * @param privateEndpointName The name of the private endpoint.
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(privateEndpointName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>): void;
-  list(privateEndpointName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>, callback?: msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>): Promise<Models.PrivateDnsZoneGroupsListResponse> {
+  list(
+    privateEndpointName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>
+  ): void;
+  list(
+    privateEndpointName: string,
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>
+  ): Promise<Models.PrivateDnsZoneGroupsListResponse> {
     return this.client.sendOperationRequest(
       {
         privateEndpointName,
@@ -119,7 +184,8 @@ export class PrivateDnsZoneGroups {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateDnsZoneGroupsListResponse>;
+      callback
+    ) as Promise<Models.PrivateDnsZoneGroupsListResponse>;
   }
 
   /**
@@ -130,7 +196,12 @@ export class PrivateDnsZoneGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, privateEndpointName: string, privateDnsZoneGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    privateDnsZoneGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -139,7 +210,8 @@ export class PrivateDnsZoneGroups {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -151,7 +223,13 @@ export class PrivateDnsZoneGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, privateEndpointName: string, privateDnsZoneGroupName: string, parameters: Models.PrivateDnsZoneGroup, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    privateEndpointName: string,
+    privateDnsZoneGroupName: string,
+    parameters: Models.PrivateDnsZoneGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +239,8 @@ export class PrivateDnsZoneGroups {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,26 +249,43 @@ export class PrivateDnsZoneGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateDnsZoneGroupsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateDnsZoneGroupsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateDnsZoneGroupsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>, callback?: msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>): Promise<Models.PrivateDnsZoneGroupsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateDnsZoneGroupListResult>
+  ): Promise<Models.PrivateDnsZoneGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PrivateDnsZoneGroupsListNextResponse>;
+      callback
+    ) as Promise<Models.PrivateDnsZoneGroupsListNextResponse>;
   }
 }
 
@@ -197,19 +293,16 @@ export class PrivateDnsZoneGroups {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateEndpointName,
     Parameters.privateDnsZoneGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateDnsZoneGroup
@@ -223,18 +316,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups",
   urlParameters: [
     Parameters.privateEndpointName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateDnsZoneGroupListResult
@@ -248,19 +338,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateEndpointName,
     Parameters.privateDnsZoneGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -274,19 +361,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}/privateDnsZoneGroups/{privateDnsZoneGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateEndpointName,
     Parameters.privateDnsZoneGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -312,12 +396,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateDnsZoneGroupListResult

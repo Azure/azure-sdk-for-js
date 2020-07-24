@@ -35,7 +35,13 @@ export class DataFlows {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataFlowsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, dataFlowName: string, dataFlow: Models.DataFlowResource, options?: Models.DataFlowsCreateOrUpdateOptionalParams): Promise<Models.DataFlowsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    dataFlowName: string,
+    dataFlow: Models.DataFlowResource,
+    options?: Models.DataFlowsCreateOrUpdateOptionalParams
+  ): Promise<Models.DataFlowsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -43,7 +49,13 @@ export class DataFlows {
    * @param dataFlow Data flow resource definition.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, dataFlowName: string, dataFlow: Models.DataFlowResource, callback: msRest.ServiceCallback<Models.DataFlowResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    dataFlowName: string,
+    dataFlow: Models.DataFlowResource,
+    callback: msRest.ServiceCallback<Models.DataFlowResource>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -52,8 +64,24 @@ export class DataFlows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, dataFlowName: string, dataFlow: Models.DataFlowResource, options: Models.DataFlowsCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.DataFlowResource>): void;
-  createOrUpdate(resourceGroupName: string, factoryName: string, dataFlowName: string, dataFlow: Models.DataFlowResource, options?: Models.DataFlowsCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.DataFlowResource>, callback?: msRest.ServiceCallback<Models.DataFlowResource>): Promise<Models.DataFlowsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    dataFlowName: string,
+    dataFlow: Models.DataFlowResource,
+    options: Models.DataFlowsCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.DataFlowResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    dataFlowName: string,
+    dataFlow: Models.DataFlowResource,
+    options?:
+      | Models.DataFlowsCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.DataFlowResource>,
+    callback?: msRest.ServiceCallback<Models.DataFlowResource>
+  ): Promise<Models.DataFlowsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +91,8 @@ export class DataFlows {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DataFlowsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.DataFlowsCreateOrUpdateResponse>;
   }
 
   /**
@@ -74,14 +103,24 @@ export class DataFlows {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataFlowsGetResponse>
    */
-  get(resourceGroupName: string, factoryName: string, dataFlowName: string, options?: Models.DataFlowsGetOptionalParams): Promise<Models.DataFlowsGetResponse>;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    dataFlowName: string,
+    options?: Models.DataFlowsGetOptionalParams
+  ): Promise<Models.DataFlowsGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param dataFlowName The data flow name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, dataFlowName: string, callback: msRest.ServiceCallback<Models.DataFlowResource>): void;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    dataFlowName: string,
+    callback: msRest.ServiceCallback<Models.DataFlowResource>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -89,8 +128,20 @@ export class DataFlows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, dataFlowName: string, options: Models.DataFlowsGetOptionalParams, callback: msRest.ServiceCallback<Models.DataFlowResource>): void;
-  get(resourceGroupName: string, factoryName: string, dataFlowName: string, options?: Models.DataFlowsGetOptionalParams | msRest.ServiceCallback<Models.DataFlowResource>, callback?: msRest.ServiceCallback<Models.DataFlowResource>): Promise<Models.DataFlowsGetResponse> {
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    dataFlowName: string,
+    options: Models.DataFlowsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.DataFlowResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    dataFlowName: string,
+    options?: Models.DataFlowsGetOptionalParams | msRest.ServiceCallback<Models.DataFlowResource>,
+    callback?: msRest.ServiceCallback<Models.DataFlowResource>
+  ): Promise<Models.DataFlowsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +150,8 @@ export class DataFlows {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DataFlowsGetResponse>;
+      callback
+    ) as Promise<Models.DataFlowsGetResponse>;
   }
 
   /**
@@ -110,14 +162,24 @@ export class DataFlows {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, dataFlowName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    dataFlowName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param dataFlowName The data flow name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, dataFlowName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    dataFlowName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -125,8 +187,20 @@ export class DataFlows {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, dataFlowName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, factoryName: string, dataFlowName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    dataFlowName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    dataFlowName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +209,8 @@ export class DataFlows {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -145,21 +220,39 @@ export class DataFlows {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataFlowsListByFactoryResponse>
    */
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataFlowsListByFactoryResponse>;
+  listByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataFlowsListByFactoryResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param callback The callback
    */
-  listByFactory(resourceGroupName: string, factoryName: string, callback: msRest.ServiceCallback<Models.DataFlowListResponse>): void;
+  listByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    callback: msRest.ServiceCallback<Models.DataFlowListResponse>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFactory(resourceGroupName: string, factoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataFlowListResponse>): void;
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataFlowListResponse>, callback?: msRest.ServiceCallback<Models.DataFlowListResponse>): Promise<Models.DataFlowsListByFactoryResponse> {
+  listByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataFlowListResponse>
+  ): void;
+  listByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataFlowListResponse>,
+    callback?: msRest.ServiceCallback<Models.DataFlowListResponse>
+  ): Promise<Models.DataFlowsListByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +260,8 @@ export class DataFlows {
         options
       },
       listByFactoryOperationSpec,
-      callback) as Promise<Models.DataFlowsListByFactoryResponse>;
+      callback
+    ) as Promise<Models.DataFlowsListByFactoryResponse>;
   }
 
   /**
@@ -176,26 +270,41 @@ export class DataFlows {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataFlowsListByFactoryNextResponse>
    */
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DataFlowsListByFactoryNextResponse>;
+  listByFactoryNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataFlowsListByFactoryNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByFactoryNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DataFlowListResponse>): void;
+  listByFactoryNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DataFlowListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFactoryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataFlowListResponse>): void;
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataFlowListResponse>, callback?: msRest.ServiceCallback<Models.DataFlowListResponse>): Promise<Models.DataFlowsListByFactoryNextResponse> {
+  listByFactoryNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataFlowListResponse>
+  ): void;
+  listByFactoryNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataFlowListResponse>,
+    callback?: msRest.ServiceCallback<Models.DataFlowListResponse>
+  ): Promise<Models.DataFlowsListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByFactoryNextOperationSpec,
-      callback) as Promise<Models.DataFlowsListByFactoryNextResponse>;
+      callback
+    ) as Promise<Models.DataFlowsListByFactoryNextResponse>;
   }
 }
 
@@ -203,20 +312,16 @@ export class DataFlows {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.dataFlowName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "dataFlow",
     mapper: {
@@ -237,20 +342,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.dataFlowName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifNoneMatch, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataFlowResource
@@ -264,19 +365,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows/{dataFlowName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.dataFlowName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -289,18 +387,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByFactoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/dataflows",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.factoryName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataFlowListResponse
@@ -316,12 +407,8 @@ const listByFactoryNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataFlowListResponse

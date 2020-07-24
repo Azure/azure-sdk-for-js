@@ -15,7 +15,6 @@ const packageName = "@azure/servicefabric";
 const packageVersion = "5.0.0";
 
 export class ServiceFabricClientContext extends msRest.ServiceClient {
-
   /**
    * Initializes a new instance of the ServiceFabricClientContext class.
    * @param [options] The parameter options

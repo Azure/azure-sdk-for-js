@@ -35,7 +35,12 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesAddPhraseListResponse>
    */
-  addPhraseList(appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesAddPhraseListResponse>;
+  addPhraseList(
+    appId: string,
+    versionId: string,
+    phraselistCreateObject: Models.PhraselistCreateObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FeaturesAddPhraseListResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -43,7 +48,12 @@ export class Features {
    * the isExchangeable boolean. Default value for isExchangeable is true.
    * @param callback The callback
    */
-  addPhraseList(appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, callback: msRest.ServiceCallback<number>): void;
+  addPhraseList(
+    appId: string,
+    versionId: string,
+    phraselistCreateObject: Models.PhraselistCreateObject,
+    callback: msRest.ServiceCallback<number>
+  ): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -52,8 +62,20 @@ export class Features {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addPhraseList(appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<number>): void;
-  addPhraseList(appId: string, versionId: string, phraselistCreateObject: Models.PhraselistCreateObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.FeaturesAddPhraseListResponse> {
+  addPhraseList(
+    appId: string,
+    versionId: string,
+    phraselistCreateObject: Models.PhraselistCreateObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<number>
+  ): void;
+  addPhraseList(
+    appId: string,
+    versionId: string,
+    phraselistCreateObject: Models.PhraselistCreateObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<number>,
+    callback?: msRest.ServiceCallback<number>
+  ): Promise<Models.FeaturesAddPhraseListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -62,7 +84,8 @@ export class Features {
         options
       },
       addPhraseListOperationSpec,
-      callback) as Promise<Models.FeaturesAddPhraseListResponse>;
+      callback
+    ) as Promise<Models.FeaturesAddPhraseListResponse>;
   }
 
   /**
@@ -72,21 +95,41 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesListPhraseListsResponse>
    */
-  listPhraseLists(appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams): Promise<Models.FeaturesListPhraseListsResponse>;
+  listPhraseLists(
+    appId: string,
+    versionId: string,
+    options?: Models.FeaturesListPhraseListsOptionalParams
+  ): Promise<Models.FeaturesListPhraseListsResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  listPhraseLists(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): void;
+  listPhraseLists(
+    appId: string,
+    versionId: string,
+    callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>
+  ): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPhraseLists(appId: string, versionId: string, options: Models.FeaturesListPhraseListsOptionalParams, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): void;
-  listPhraseLists(appId: string, versionId: string, options?: Models.FeaturesListPhraseListsOptionalParams | msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>, callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>): Promise<Models.FeaturesListPhraseListsResponse> {
+  listPhraseLists(
+    appId: string,
+    versionId: string,
+    options: Models.FeaturesListPhraseListsOptionalParams,
+    callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>
+  ): void;
+  listPhraseLists(
+    appId: string,
+    versionId: string,
+    options?:
+      | Models.FeaturesListPhraseListsOptionalParams
+      | msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>,
+    callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo[]>
+  ): Promise<Models.FeaturesListPhraseListsResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -94,7 +137,8 @@ export class Features {
         options
       },
       listPhraseListsOperationSpec,
-      callback) as Promise<Models.FeaturesListPhraseListsResponse>;
+      callback
+    ) as Promise<Models.FeaturesListPhraseListsResponse>;
   }
 
   /**
@@ -104,21 +148,41 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesListResponse>
    */
-  list(appId: string, versionId: string, options?: Models.FeaturesListOptionalParams): Promise<Models.FeaturesListResponse>;
+  list(
+    appId: string,
+    versionId: string,
+    options?: Models.FeaturesListOptionalParams
+  ): Promise<Models.FeaturesListResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param callback The callback
    */
-  list(appId: string, versionId: string, callback: msRest.ServiceCallback<Models.FeaturesResponseObject>): void;
+  list(
+    appId: string,
+    versionId: string,
+    callback: msRest.ServiceCallback<Models.FeaturesResponseObject>
+  ): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(appId: string, versionId: string, options: Models.FeaturesListOptionalParams, callback: msRest.ServiceCallback<Models.FeaturesResponseObject>): void;
-  list(appId: string, versionId: string, options?: Models.FeaturesListOptionalParams | msRest.ServiceCallback<Models.FeaturesResponseObject>, callback?: msRest.ServiceCallback<Models.FeaturesResponseObject>): Promise<Models.FeaturesListResponse> {
+  list(
+    appId: string,
+    versionId: string,
+    options: Models.FeaturesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.FeaturesResponseObject>
+  ): void;
+  list(
+    appId: string,
+    versionId: string,
+    options?:
+      | Models.FeaturesListOptionalParams
+      | msRest.ServiceCallback<Models.FeaturesResponseObject>,
+    callback?: msRest.ServiceCallback<Models.FeaturesResponseObject>
+  ): Promise<Models.FeaturesListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -126,7 +190,8 @@ export class Features {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.FeaturesListResponse>;
+      callback
+    ) as Promise<Models.FeaturesListResponse>;
   }
 
   /**
@@ -137,14 +202,24 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesGetPhraseListResponse>
    */
-  getPhraseList(appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesGetPhraseListResponse>;
+  getPhraseList(
+    appId: string,
+    versionId: string,
+    phraselistId: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FeaturesGetPhraseListResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param phraselistId The ID of the feature to be retrieved.
    * @param callback The callback
    */
-  getPhraseList(appId: string, versionId: string, phraselistId: number, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): void;
+  getPhraseList(
+    appId: string,
+    versionId: string,
+    phraselistId: number,
+    callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo>
+  ): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -152,8 +227,20 @@ export class Features {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPhraseList(appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): void;
-  getPhraseList(appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PhraseListFeatureInfo>, callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo>): Promise<Models.FeaturesGetPhraseListResponse> {
+  getPhraseList(
+    appId: string,
+    versionId: string,
+    phraselistId: number,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PhraseListFeatureInfo>
+  ): void;
+  getPhraseList(
+    appId: string,
+    versionId: string,
+    phraselistId: number,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PhraseListFeatureInfo>,
+    callback?: msRest.ServiceCallback<Models.PhraseListFeatureInfo>
+  ): Promise<Models.FeaturesGetPhraseListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -162,7 +249,8 @@ export class Features {
         options
       },
       getPhraseListOperationSpec,
-      callback) as Promise<Models.FeaturesGetPhraseListResponse>;
+      callback
+    ) as Promise<Models.FeaturesGetPhraseListResponse>;
   }
 
   /**
@@ -174,14 +262,24 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesUpdatePhraseListResponse>
    */
-  updatePhraseList(appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams): Promise<Models.FeaturesUpdatePhraseListResponse>;
+  updatePhraseList(
+    appId: string,
+    versionId: string,
+    phraselistId: number,
+    options?: Models.FeaturesUpdatePhraseListOptionalParams
+  ): Promise<Models.FeaturesUpdatePhraseListResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param phraselistId The ID of the feature to be updated.
    * @param callback The callback
    */
-  updatePhraseList(appId: string, versionId: string, phraselistId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  updatePhraseList(
+    appId: string,
+    versionId: string,
+    phraselistId: number,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -189,8 +287,22 @@ export class Features {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updatePhraseList(appId: string, versionId: string, phraselistId: number, options: Models.FeaturesUpdatePhraseListOptionalParams, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  updatePhraseList(appId: string, versionId: string, phraselistId: number, options?: Models.FeaturesUpdatePhraseListOptionalParams | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesUpdatePhraseListResponse> {
+  updatePhraseList(
+    appId: string,
+    versionId: string,
+    phraselistId: number,
+    options: Models.FeaturesUpdatePhraseListOptionalParams,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  updatePhraseList(
+    appId: string,
+    versionId: string,
+    phraselistId: number,
+    options?:
+      | Models.FeaturesUpdatePhraseListOptionalParams
+      | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.FeaturesUpdatePhraseListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -199,7 +311,8 @@ export class Features {
         options
       },
       updatePhraseListOperationSpec,
-      callback) as Promise<Models.FeaturesUpdatePhraseListResponse>;
+      callback
+    ) as Promise<Models.FeaturesUpdatePhraseListResponse>;
   }
 
   /**
@@ -210,14 +323,24 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesDeletePhraseListResponse>
    */
-  deletePhraseList(appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesDeletePhraseListResponse>;
+  deletePhraseList(
+    appId: string,
+    versionId: string,
+    phraselistId: number,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FeaturesDeletePhraseListResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
    * @param phraselistId The ID of the feature to be deleted.
    * @param callback The callback
    */
-  deletePhraseList(appId: string, versionId: string, phraselistId: number, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  deletePhraseList(
+    appId: string,
+    versionId: string,
+    phraselistId: number,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -225,8 +348,20 @@ export class Features {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deletePhraseList(appId: string, versionId: string, phraselistId: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  deletePhraseList(appId: string, versionId: string, phraselistId: number, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesDeletePhraseListResponse> {
+  deletePhraseList(
+    appId: string,
+    versionId: string,
+    phraselistId: number,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  deletePhraseList(
+    appId: string,
+    versionId: string,
+    phraselistId: number,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.FeaturesDeletePhraseListResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -235,7 +370,8 @@ export class Features {
         options
       },
       deletePhraseListOperationSpec,
-      callback) as Promise<Models.FeaturesDeletePhraseListResponse>;
+      callback
+    ) as Promise<Models.FeaturesDeletePhraseListResponse>;
   }
 
   /**
@@ -247,7 +383,13 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesAddIntentFeatureResponse>
    */
-  addIntentFeature(appId: string, versionId: string, intentId: string, featureRelationCreateObject: Models.ModelFeatureInformation, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesAddIntentFeatureResponse>;
+  addIntentFeature(
+    appId: string,
+    versionId: string,
+    intentId: string,
+    featureRelationCreateObject: Models.ModelFeatureInformation,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FeaturesAddIntentFeatureResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -255,7 +397,13 @@ export class Features {
    * @param featureRelationCreateObject A Feature relation information object.
    * @param callback The callback
    */
-  addIntentFeature(appId: string, versionId: string, intentId: string, featureRelationCreateObject: Models.ModelFeatureInformation, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  addIntentFeature(
+    appId: string,
+    versionId: string,
+    intentId: string,
+    featureRelationCreateObject: Models.ModelFeatureInformation,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -264,8 +412,22 @@ export class Features {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addIntentFeature(appId: string, versionId: string, intentId: string, featureRelationCreateObject: Models.ModelFeatureInformation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  addIntentFeature(appId: string, versionId: string, intentId: string, featureRelationCreateObject: Models.ModelFeatureInformation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesAddIntentFeatureResponse> {
+  addIntentFeature(
+    appId: string,
+    versionId: string,
+    intentId: string,
+    featureRelationCreateObject: Models.ModelFeatureInformation,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  addIntentFeature(
+    appId: string,
+    versionId: string,
+    intentId: string,
+    featureRelationCreateObject: Models.ModelFeatureInformation,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.FeaturesAddIntentFeatureResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -275,7 +437,8 @@ export class Features {
         options
       },
       addIntentFeatureOperationSpec,
-      callback) as Promise<Models.FeaturesAddIntentFeatureResponse>;
+      callback
+    ) as Promise<Models.FeaturesAddIntentFeatureResponse>;
   }
 
   /**
@@ -287,7 +450,13 @@ export class Features {
    * @param [options] The optional parameters
    * @returns Promise<Models.FeaturesAddEntityFeatureResponse>
    */
-  addEntityFeature(appId: string, versionId: string, entityId: string, featureRelationCreateObject: Models.ModelFeatureInformation, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesAddEntityFeatureResponse>;
+  addEntityFeature(
+    appId: string,
+    versionId: string,
+    entityId: string,
+    featureRelationCreateObject: Models.ModelFeatureInformation,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.FeaturesAddEntityFeatureResponse>;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -295,7 +464,13 @@ export class Features {
    * @param featureRelationCreateObject A Feature relation information object.
    * @param callback The callback
    */
-  addEntityFeature(appId: string, versionId: string, entityId: string, featureRelationCreateObject: Models.ModelFeatureInformation, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  addEntityFeature(
+    appId: string,
+    versionId: string,
+    entityId: string,
+    featureRelationCreateObject: Models.ModelFeatureInformation,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
   /**
    * @param appId The application ID.
    * @param versionId The version ID.
@@ -304,8 +479,22 @@ export class Features {
    * @param options The optional parameters
    * @param callback The callback
    */
-  addEntityFeature(appId: string, versionId: string, entityId: string, featureRelationCreateObject: Models.ModelFeatureInformation, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  addEntityFeature(appId: string, versionId: string, entityId: string, featureRelationCreateObject: Models.ModelFeatureInformation, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.FeaturesAddEntityFeatureResponse> {
+  addEntityFeature(
+    appId: string,
+    versionId: string,
+    entityId: string,
+    featureRelationCreateObject: Models.ModelFeatureInformation,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  addEntityFeature(
+    appId: string,
+    versionId: string,
+    entityId: string,
+    featureRelationCreateObject: Models.ModelFeatureInformation,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.FeaturesAddEntityFeatureResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -315,7 +504,8 @@ export class Features {
         options
       },
       addEntityFeatureOperationSpec,
-      callback) as Promise<Models.FeaturesAddEntityFeatureResponse>;
+      callback
+    ) as Promise<Models.FeaturesAddEntityFeatureResponse>;
   }
 }
 
@@ -324,11 +514,7 @@ const serializer = new msRest.Serializer(Mappers);
 const addPhraseListOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/{appId}/versions/{versionId}/phraselists",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId,
-    Parameters.versionId0
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.appId, Parameters.versionId0],
   requestBody: {
     parameterPath: "phraselistCreateObject",
     mapper: {
@@ -355,15 +541,8 @@ const addPhraseListOperationSpec: msRest.OperationSpec = {
 const listPhraseListsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/phraselists",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId,
-    Parameters.versionId0
-  ],
-  queryParameters: [
-    Parameters.skip,
-    Parameters.take
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.appId, Parameters.versionId0],
+  queryParameters: [Parameters.skip, Parameters.take],
   responses: {
     200: {
       bodyMapper: {
@@ -389,15 +568,8 @@ const listPhraseListsOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "apps/{appId}/versions/{versionId}/features",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.appId,
-    Parameters.versionId0
-  ],
-  queryParameters: [
-    Parameters.skip,
-    Parameters.take
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.appId, Parameters.versionId0],
+  queryParameters: [Parameters.skip, Parameters.take],
   responses: {
     200: {
       bodyMapper: Mappers.FeaturesResponseObject
@@ -439,10 +611,7 @@ const updatePhraseListOperationSpec: msRest.OperationSpec = {
     Parameters.phraselistId
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "phraselistUpdateObject"
-    ],
+    parameterPath: ["options", "phraselistUpdateObject"],
     mapper: Mappers.PhraselistUpdateObject
   },
   responses: {

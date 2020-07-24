@@ -34,9 +34,14 @@ export class VirtualRouters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualRouterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,virtualRouterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    virtualRouterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, virtualRouterName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -46,21 +51,39 @@ export class VirtualRouters {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualRoutersGetResponse>
    */
-  get(resourceGroupName: string, virtualRouterName: string, options?: Models.VirtualRoutersGetOptionalParams): Promise<Models.VirtualRoutersGetResponse>;
+  get(
+    resourceGroupName: string,
+    virtualRouterName: string,
+    options?: Models.VirtualRoutersGetOptionalParams
+  ): Promise<Models.VirtualRoutersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualRouterName The name of the Virtual Router.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualRouterName: string, callback: msRest.ServiceCallback<Models.VirtualRouter>): void;
+  get(
+    resourceGroupName: string,
+    virtualRouterName: string,
+    callback: msRest.ServiceCallback<Models.VirtualRouter>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualRouterName The name of the Virtual Router.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualRouterName: string, options: Models.VirtualRoutersGetOptionalParams, callback: msRest.ServiceCallback<Models.VirtualRouter>): void;
-  get(resourceGroupName: string, virtualRouterName: string, options?: Models.VirtualRoutersGetOptionalParams | msRest.ServiceCallback<Models.VirtualRouter>, callback?: msRest.ServiceCallback<Models.VirtualRouter>): Promise<Models.VirtualRoutersGetResponse> {
+  get(
+    resourceGroupName: string,
+    virtualRouterName: string,
+    options: Models.VirtualRoutersGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.VirtualRouter>
+  ): void;
+  get(
+    resourceGroupName: string,
+    virtualRouterName: string,
+    options?: Models.VirtualRoutersGetOptionalParams | msRest.ServiceCallback<Models.VirtualRouter>,
+    callback?: msRest.ServiceCallback<Models.VirtualRouter>
+  ): Promise<Models.VirtualRoutersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +91,8 @@ export class VirtualRouters {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VirtualRoutersGetResponse>;
+      callback
+    ) as Promise<Models.VirtualRoutersGetResponse>;
   }
 
   /**
@@ -79,9 +103,20 @@ export class VirtualRouters {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualRoutersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualRouterName: string, parameters: Models.VirtualRouter, options?: msRest.RequestOptionsBase): Promise<Models.VirtualRoutersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,virtualRouterName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualRoutersCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    virtualRouterName: string,
+    parameters: Models.VirtualRouter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualRoutersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      virtualRouterName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.VirtualRoutersCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -90,26 +125,41 @@ export class VirtualRouters {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualRoutersListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualRoutersListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualRoutersListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.VirtualRouterListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.VirtualRouterListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualRouterListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualRouterListResult>, callback?: msRest.ServiceCallback<Models.VirtualRouterListResult>): Promise<Models.VirtualRoutersListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualRouterListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualRouterListResult>,
+    callback?: msRest.ServiceCallback<Models.VirtualRouterListResult>
+  ): Promise<Models.VirtualRoutersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.VirtualRoutersListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.VirtualRoutersListByResourceGroupResponse>;
   }
 
   /**
@@ -126,14 +176,21 @@ export class VirtualRouters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualRouterListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualRouterListResult>, callback?: msRest.ServiceCallback<Models.VirtualRouterListResult>): Promise<Models.VirtualRoutersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualRouterListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualRouterListResult>,
+    callback?: msRest.ServiceCallback<Models.VirtualRouterListResult>
+  ): Promise<Models.VirtualRoutersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.VirtualRoutersListResponse>;
+      callback
+    ) as Promise<Models.VirtualRoutersListResponse>;
   }
 
   /**
@@ -143,7 +200,11 @@ export class VirtualRouters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualRouterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    virtualRouterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -151,7 +212,8 @@ export class VirtualRouters {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -162,7 +224,12 @@ export class VirtualRouters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualRouterName: string, parameters: Models.VirtualRouter, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    virtualRouterName: string,
+    parameters: Models.VirtualRouter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -171,7 +238,8 @@ export class VirtualRouters {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -180,26 +248,41 @@ export class VirtualRouters {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualRoutersListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualRoutersListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualRoutersListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualRouterListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VirtualRouterListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualRouterListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualRouterListResult>, callback?: msRest.ServiceCallback<Models.VirtualRouterListResult>): Promise<Models.VirtualRoutersListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualRouterListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualRouterListResult>,
+    callback?: msRest.ServiceCallback<Models.VirtualRouterListResult>
+  ): Promise<Models.VirtualRoutersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.VirtualRoutersListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.VirtualRoutersListByResourceGroupNextResponse>;
   }
 
   /**
@@ -208,26 +291,41 @@ export class VirtualRouters {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualRoutersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualRoutersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualRoutersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualRouterListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VirtualRouterListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualRouterListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualRouterListResult>, callback?: msRest.ServiceCallback<Models.VirtualRouterListResult>): Promise<Models.VirtualRoutersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VirtualRouterListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualRouterListResult>,
+    callback?: msRest.ServiceCallback<Models.VirtualRouterListResult>
+  ): Promise<Models.VirtualRoutersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.VirtualRoutersListNextResponse>;
+      callback
+    ) as Promise<Models.VirtualRoutersListNextResponse>;
   }
 }
 
@@ -235,19 +333,15 @@ export class VirtualRouters {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualRouterName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualRouter
@@ -261,17 +355,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualRouterListResult
@@ -286,15 +374,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualRouters",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualRouterListResult
@@ -308,18 +390,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualRouterName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -333,18 +412,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualRouterName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -370,12 +446,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualRouterListResult
@@ -391,12 +463,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VirtualRouterListResult

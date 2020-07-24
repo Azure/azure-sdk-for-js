@@ -35,14 +35,24 @@ export class PipelineRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.PipelineRunsGetResponse>
    */
-  get(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: msRest.RequestOptionsBase): Promise<Models.PipelineRunsGetResponse>;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    pipelineRunName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PipelineRunsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, pipelineRunName: string, callback: msRest.ServiceCallback<Models.PipelineRun>): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    pipelineRunName: string,
+    callback: msRest.ServiceCallback<Models.PipelineRun>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -50,8 +60,20 @@ export class PipelineRuns {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, pipelineRunName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PipelineRun>): void;
-  get(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRun>, callback?: msRest.ServiceCallback<Models.PipelineRun>): Promise<Models.PipelineRunsGetResponse> {
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    pipelineRunName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PipelineRun>
+  ): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    pipelineRunName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRun>,
+    callback?: msRest.ServiceCallback<Models.PipelineRun>
+  ): Promise<Models.PipelineRunsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class PipelineRuns {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PipelineRunsGetResponse>;
+      callback
+    ) as Promise<Models.PipelineRunsGetResponse>;
   }
 
   /**
@@ -72,9 +95,22 @@ export class PipelineRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.PipelineRunsCreateResponse>
    */
-  create(resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: Models.PipelineRun, options?: msRest.RequestOptionsBase): Promise<Models.PipelineRunsCreateResponse> {
-    return this.beginCreate(resourceGroupName,registryName,pipelineRunName,pipelineRunCreateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PipelineRunsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    registryName: string,
+    pipelineRunName: string,
+    pipelineRunCreateParameters: Models.PipelineRun,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PipelineRunsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      registryName,
+      pipelineRunName,
+      pipelineRunCreateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PipelineRunsCreateResponse
+    >;
   }
 
   /**
@@ -85,9 +121,18 @@ export class PipelineRuns {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,registryName,pipelineRunName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    pipelineRunName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      registryName,
+      pipelineRunName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -97,21 +142,39 @@ export class PipelineRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.PipelineRunsListResponse>
    */
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase): Promise<Models.PipelineRunsListResponse>;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PipelineRunsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, callback: msRest.ServiceCallback<Models.PipelineRunListResult>): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    callback: msRest.ServiceCallback<Models.PipelineRunListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PipelineRunListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRunListResult>, callback?: msRest.ServiceCallback<Models.PipelineRunListResult>): Promise<Models.PipelineRunsListResponse> {
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PipelineRunListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRunListResult>,
+    callback?: msRest.ServiceCallback<Models.PipelineRunListResult>
+  ): Promise<Models.PipelineRunsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +182,8 @@ export class PipelineRuns {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PipelineRunsListResponse>;
+      callback
+    ) as Promise<Models.PipelineRunsListResponse>;
   }
 
   /**
@@ -131,7 +195,13 @@ export class PipelineRuns {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: Models.PipelineRun, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    registryName: string,
+    pipelineRunName: string,
+    pipelineRunCreateParameters: Models.PipelineRun,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -141,7 +211,8 @@ export class PipelineRuns {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +223,12 @@ export class PipelineRuns {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    pipelineRunName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +237,8 @@ export class PipelineRuns {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,26 +247,41 @@ export class PipelineRuns {
    * @param [options] The optional parameters
    * @returns Promise<Models.PipelineRunsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PipelineRunsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PipelineRunsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PipelineRunListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PipelineRunListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PipelineRunListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRunListResult>, callback?: msRest.ServiceCallback<Models.PipelineRunListResult>): Promise<Models.PipelineRunsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PipelineRunListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PipelineRunListResult>,
+    callback?: msRest.ServiceCallback<Models.PipelineRunListResult>
+  ): Promise<Models.PipelineRunsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PipelineRunsListNextResponse>;
+      callback
+    ) as Promise<Models.PipelineRunsListNextResponse>;
   }
 }
 
@@ -197,19 +289,16 @@ export class PipelineRuns {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.pipelineRunName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PipelineRun
@@ -223,18 +312,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.registryName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PipelineRunListResult
@@ -248,19 +330,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.pipelineRunName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "pipelineRunCreateParameters",
     mapper: {
@@ -284,19 +363,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.pipelineRunName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -312,12 +388,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PipelineRunListResult

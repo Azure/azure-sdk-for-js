@@ -33,21 +33,41 @@ export class APIKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.APIKeysListResponse>
    */
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.APIKeysListResponse>;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.APIKeysListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>): void;
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>): Promise<Models.APIKeysListResponse> {
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKeyListResult>
+  ): Promise<Models.APIKeysListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class APIKeys {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.APIKeysListResponse>;
+      callback
+    ) as Promise<Models.APIKeysListResponse>;
   }
 
   /**
@@ -67,7 +88,12 @@ export class APIKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.APIKeysCreateResponse>
    */
-  create(resourceGroupName: string, resourceName: string, aPIKeyProperties: Models.APIKeyRequest, options?: msRest.RequestOptionsBase): Promise<Models.APIKeysCreateResponse>;
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    aPIKeyProperties: Models.APIKeyRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.APIKeysCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -75,7 +101,12 @@ export class APIKeys {
    * Application Insights component.
    * @param callback The callback
    */
-  create(resourceGroupName: string, resourceName: string, aPIKeyProperties: Models.APIKeyRequest, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): void;
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    aPIKeyProperties: Models.APIKeyRequest,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -84,8 +115,22 @@ export class APIKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, resourceName: string, aPIKeyProperties: Models.APIKeyRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): void;
-  create(resourceGroupName: string, resourceName: string, aPIKeyProperties: Models.APIKeyRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): Promise<Models.APIKeysCreateResponse> {
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    aPIKeyProperties: Models.APIKeyRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>
+  ): void;
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    aPIKeyProperties: Models.APIKeyRequest,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>
+  ): Promise<Models.APIKeysCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +139,8 @@ export class APIKeys {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.APIKeysCreateResponse>;
+      callback
+    ) as Promise<Models.APIKeysCreateResponse>;
   }
 
   /**
@@ -105,14 +151,24 @@ export class APIKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.APIKeysDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, keyId: string, options?: msRest.RequestOptionsBase): Promise<Models.APIKeysDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    keyId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.APIKeysDeleteMethodResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param keyId The API Key ID. This is unique within a Application Insights component.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, keyId: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    keyId: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -120,8 +176,22 @@ export class APIKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, keyId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, keyId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): Promise<Models.APIKeysDeleteMethodResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    keyId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    keyId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>
+  ): Promise<Models.APIKeysDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,7 +200,8 @@ export class APIKeys {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.APIKeysDeleteMethodResponse>;
+      callback
+    ) as Promise<Models.APIKeysDeleteMethodResponse>;
   }
 
   /**
@@ -141,14 +212,24 @@ export class APIKeys {
    * @param [options] The optional parameters
    * @returns Promise<Models.APIKeysGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, keyId: string, options?: msRest.RequestOptionsBase): Promise<Models.APIKeysGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    keyId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.APIKeysGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param keyId The API Key ID. This is unique within a Application Insights component.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, keyId: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    keyId: string,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -156,8 +237,22 @@ export class APIKeys {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, keyId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): void;
-  get(resourceGroupName: string, resourceName: string, keyId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>, callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>): Promise<Models.APIKeysGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    keyId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    keyId: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>,
+    callback?: msRest.ServiceCallback<Models.ApplicationInsightsComponentAPIKey>
+  ): Promise<Models.APIKeysGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -166,7 +261,8 @@ export class APIKeys {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.APIKeysGetResponse>;
+      callback
+    ) as Promise<Models.APIKeysGetResponse>;
   }
 }
 
@@ -174,18 +270,11 @@ export class APIKeys {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ApiKeys",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ApiKeys",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentAPIKeyListResult
@@ -199,18 +288,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ApiKeys",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ApiKeys",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "aPIKeyProperties",
     mapper: {
@@ -231,19 +313,16 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/APIKeys/{keyId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/APIKeys/{keyId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.keyId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentAPIKey
@@ -257,19 +336,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/APIKeys/{keyId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/APIKeys/{keyId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.keyId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationInsightsComponentAPIKey

@@ -34,14 +34,24 @@ export class Costs {
    * @param [options] The optional parameters
    * @returns Promise<Models.CostsGetResponse>
    */
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.CostsGetOptionalParams): Promise<Models.CostsGetResponse>;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: Models.CostsGetOptionalParams
+  ): Promise<Models.CostsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the cost.
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, name: string, callback: msRest.ServiceCallback<Models.LabCost>): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.LabCost>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -49,8 +59,20 @@ export class Costs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, labName: string, name: string, options: Models.CostsGetOptionalParams, callback: msRest.ServiceCallback<Models.LabCost>): void;
-  get(resourceGroupName: string, labName: string, name: string, options?: Models.CostsGetOptionalParams | msRest.ServiceCallback<Models.LabCost>, callback?: msRest.ServiceCallback<Models.LabCost>): Promise<Models.CostsGetResponse> {
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options: Models.CostsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.LabCost>
+  ): void;
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: Models.CostsGetOptionalParams | msRest.ServiceCallback<Models.LabCost>,
+    callback?: msRest.ServiceCallback<Models.LabCost>
+  ): Promise<Models.CostsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class Costs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CostsGetResponse>;
+      callback
+    ) as Promise<Models.CostsGetResponse>;
   }
 
   /**
@@ -71,7 +94,13 @@ export class Costs {
    * @param [options] The optional parameters
    * @returns Promise<Models.CostsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, labCost: Models.LabCost, options?: msRest.RequestOptionsBase): Promise<Models.CostsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    labCost: Models.LabCost,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CostsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -79,7 +108,13 @@ export class Costs {
    * @param labCost A cost item.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, labCost: Models.LabCost, callback: msRest.ServiceCallback<Models.LabCost>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    labCost: Models.LabCost,
+    callback: msRest.ServiceCallback<Models.LabCost>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -88,8 +123,22 @@ export class Costs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, labCost: Models.LabCost, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabCost>): void;
-  createOrUpdate(resourceGroupName: string, labName: string, name: string, labCost: Models.LabCost, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabCost>, callback?: msRest.ServiceCallback<Models.LabCost>): Promise<Models.CostsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    labCost: Models.LabCost,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LabCost>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    labCost: Models.LabCost,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabCost>,
+    callback?: msRest.ServiceCallback<Models.LabCost>
+  ): Promise<Models.CostsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +148,8 @@ export class Costs {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.CostsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.CostsCreateOrUpdateResponse>;
   }
 }
 
@@ -107,20 +157,16 @@ export class Costs {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/costs/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/costs/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LabCost
@@ -134,19 +180,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/costs/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/costs/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "labCost",
     mapper: {

@@ -36,7 +36,11 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<Models.CapacitiesGetDetailsResponse>
    */
-  getDetails(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase): Promise<Models.CapacitiesGetDetailsResponse>;
+  getDetails(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CapacitiesGetDetailsResponse>;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
    * capacity is part. This name must be at least 1 character in length, and no more than 90.
@@ -44,7 +48,11 @@ export class Capacities {
    * characters, and a maximum of 63.
    * @param callback The callback
    */
-  getDetails(resourceGroupName: string, dedicatedCapacityName: string, callback: msRest.ServiceCallback<Models.DedicatedCapacity>): void;
+  getDetails(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    callback: msRest.ServiceCallback<Models.DedicatedCapacity>
+  ): void;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
    * capacity is part. This name must be at least 1 character in length, and no more than 90.
@@ -53,8 +61,18 @@ export class Capacities {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDetails(resourceGroupName: string, dedicatedCapacityName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCapacity>): void;
-  getDetails(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCapacity>, callback?: msRest.ServiceCallback<Models.DedicatedCapacity>): Promise<Models.CapacitiesGetDetailsResponse> {
+  getDetails(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DedicatedCapacity>
+  ): void;
+  getDetails(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCapacity>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCapacity>
+  ): Promise<Models.CapacitiesGetDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +80,8 @@ export class Capacities {
         options
       },
       getDetailsOperationSpec,
-      callback) as Promise<Models.CapacitiesGetDetailsResponse>;
+      callback
+    ) as Promise<Models.CapacitiesGetDetailsResponse>;
   }
 
   /**
@@ -75,9 +94,20 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<Models.CapacitiesCreateResponse>
    */
-  create(resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: Models.DedicatedCapacity, options?: msRest.RequestOptionsBase): Promise<Models.CapacitiesCreateResponse> {
-    return this.beginCreate(resourceGroupName,dedicatedCapacityName,capacityParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CapacitiesCreateResponse>;
+  create(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    capacityParameters: Models.DedicatedCapacity,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CapacitiesCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      dedicatedCapacityName,
+      capacityParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CapacitiesCreateResponse
+    >;
   }
 
   /**
@@ -89,9 +119,16 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,dedicatedCapacityName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      dedicatedCapacityName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -105,9 +142,20 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<Models.CapacitiesUpdateResponse>
    */
-  update(resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: Models.DedicatedCapacityUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.CapacitiesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,dedicatedCapacityName,capacityUpdateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CapacitiesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    capacityUpdateParameters: Models.DedicatedCapacityUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CapacitiesUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      dedicatedCapacityName,
+      capacityUpdateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.CapacitiesUpdateResponse
+    >;
   }
 
   /**
@@ -119,9 +167,14 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  suspend(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginSuspend(resourceGroupName,dedicatedCapacityName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  suspend(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginSuspend(resourceGroupName, dedicatedCapacityName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -133,9 +186,14 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resume(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginResume(resourceGroupName,dedicatedCapacityName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  resume(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginResume(resourceGroupName, dedicatedCapacityName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -145,28 +203,43 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<Models.CapacitiesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.CapacitiesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CapacitiesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
    * capacity is part. This name must be at least 1 character in length, and no more than 90.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DedicatedCapacities>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.DedicatedCapacities>
+  ): void;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
    * capacity is part. This name must be at least 1 character in length, and no more than 90.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCapacities>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCapacities>, callback?: msRest.ServiceCallback<Models.DedicatedCapacities>): Promise<Models.CapacitiesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DedicatedCapacities>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCapacities>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCapacities>
+  ): Promise<Models.CapacitiesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.CapacitiesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.CapacitiesListByResourceGroupResponse>;
   }
 
   /**
@@ -183,14 +256,21 @@ export class Capacities {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedCapacities>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCapacities>, callback?: msRest.ServiceCallback<Models.DedicatedCapacities>): Promise<Models.CapacitiesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DedicatedCapacities>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedCapacities>,
+    callback?: msRest.ServiceCallback<Models.DedicatedCapacities>
+  ): Promise<Models.CapacitiesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.CapacitiesListResponse>;
+      callback
+    ) as Promise<Models.CapacitiesListResponse>;
   }
 
   /**
@@ -207,14 +287,23 @@ export class Capacities {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkus(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>): void;
-  listSkus(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>, callback?: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>): Promise<Models.CapacitiesListSkusResponse> {
+  listSkus(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>
+  ): void;
+  listSkus(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>,
+    callback?: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>
+  ): Promise<Models.CapacitiesListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listSkusOperationSpec,
-      callback) as Promise<Models.CapacitiesListSkusResponse>;
+      callback
+    ) as Promise<Models.CapacitiesListSkusResponse>;
   }
 
   /**
@@ -226,7 +315,11 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<Models.CapacitiesListSkusForCapacityResponse>
    */
-  listSkusForCapacity(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase): Promise<Models.CapacitiesListSkusForCapacityResponse>;
+  listSkusForCapacity(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CapacitiesListSkusForCapacityResponse>;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
    * capacity is part. This name must be at least 1 character in length, and no more than 90.
@@ -234,7 +327,11 @@ export class Capacities {
    * characters in length, and no more than 63.
    * @param callback The callback
    */
-  listSkusForCapacity(resourceGroupName: string, dedicatedCapacityName: string, callback: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>): void;
+  listSkusForCapacity(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    callback: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
    * capacity is part. This name must be at least 1 character in length, and no more than 90.
@@ -243,8 +340,20 @@ export class Capacities {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkusForCapacity(resourceGroupName: string, dedicatedCapacityName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>): void;
-  listSkusForCapacity(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>, callback?: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>): Promise<Models.CapacitiesListSkusForCapacityResponse> {
+  listSkusForCapacity(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>
+  ): void;
+  listSkusForCapacity(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>,
+    callback?: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>
+  ): Promise<Models.CapacitiesListSkusForCapacityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -252,7 +361,8 @@ export class Capacities {
         options
       },
       listSkusForCapacityOperationSpec,
-      callback) as Promise<Models.CapacitiesListSkusForCapacityResponse>;
+      callback
+    ) as Promise<Models.CapacitiesListSkusForCapacityResponse>;
   }
 
   /**
@@ -262,21 +372,41 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<Models.CapacitiesCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(location: string, capacityParameters: Models.CheckCapacityNameAvailabilityParameters, options?: msRest.RequestOptionsBase): Promise<Models.CapacitiesCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    location: string,
+    capacityParameters: Models.CheckCapacityNameAvailabilityParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CapacitiesCheckNameAvailabilityResponse>;
   /**
    * @param location The region name which the operation will lookup into.
    * @param capacityParameters The name of the capacity.
    * @param callback The callback
    */
-  checkNameAvailability(location: string, capacityParameters: Models.CheckCapacityNameAvailabilityParameters, callback: msRest.ServiceCallback<Models.CheckCapacityNameAvailabilityResult>): void;
+  checkNameAvailability(
+    location: string,
+    capacityParameters: Models.CheckCapacityNameAvailabilityParameters,
+    callback: msRest.ServiceCallback<Models.CheckCapacityNameAvailabilityResult>
+  ): void;
   /**
    * @param location The region name which the operation will lookup into.
    * @param capacityParameters The name of the capacity.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(location: string, capacityParameters: Models.CheckCapacityNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckCapacityNameAvailabilityResult>): void;
-  checkNameAvailability(location: string, capacityParameters: Models.CheckCapacityNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckCapacityNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckCapacityNameAvailabilityResult>): Promise<Models.CapacitiesCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    location: string,
+    capacityParameters: Models.CheckCapacityNameAvailabilityParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckCapacityNameAvailabilityResult>
+  ): void;
+  checkNameAvailability(
+    location: string,
+    capacityParameters: Models.CheckCapacityNameAvailabilityParameters,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckCapacityNameAvailabilityResult>,
+    callback?: msRest.ServiceCallback<Models.CheckCapacityNameAvailabilityResult>
+  ): Promise<Models.CapacitiesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -284,7 +414,8 @@ export class Capacities {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.CapacitiesCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.CapacitiesCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -297,7 +428,12 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: Models.DedicatedCapacity, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    capacityParameters: Models.DedicatedCapacity,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -306,7 +442,8 @@ export class Capacities {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -318,7 +455,11 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -326,7 +467,8 @@ export class Capacities {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -340,7 +482,12 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: Models.DedicatedCapacityUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    capacityUpdateParameters: Models.DedicatedCapacityUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -349,7 +496,8 @@ export class Capacities {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -361,7 +509,11 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginSuspend(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginSuspend(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -369,7 +521,8 @@ export class Capacities {
         options
       },
       beginSuspendOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -381,7 +534,11 @@ export class Capacities {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginResume(resourceGroupName: string, dedicatedCapacityName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginResume(
+    resourceGroupName: string,
+    dedicatedCapacityName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -389,7 +546,8 @@ export class Capacities {
         options
       },
       beginResumeOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -397,18 +555,15 @@ export class Capacities {
 const serializer = new msRest.Serializer(Mappers);
 const getDetailsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCapacity
@@ -422,17 +577,11 @@ const getDetailsOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCapacities
@@ -447,15 +596,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/capacities",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedCapacities
@@ -470,15 +613,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const listSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/skus",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SkuEnumerationForNewResourceResult
@@ -492,18 +629,15 @@ const listSkusOperationSpec: msRest.OperationSpec = {
 
 const listSkusForCapacityOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/skus",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/skus",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SkuEnumerationForExistingResourceResult
@@ -517,17 +651,11 @@ const listSkusForCapacityOperationSpec: msRest.OperationSpec = {
 
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/locations/{location}/checkNameAvailability",
-  urlParameters: [
-    Parameters.location,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/locations/{location}/checkNameAvailability",
+  urlParameters: [Parameters.location, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "capacityParameters",
     mapper: {
@@ -548,18 +676,15 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "capacityParameters",
     mapper: {
@@ -583,18 +708,15 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -608,18 +730,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "capacityUpdateParameters",
     mapper: {
@@ -643,18 +762,15 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginSuspendOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/suspend",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/suspend",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -667,18 +783,15 @@ const beginSuspendOperationSpec: msRest.OperationSpec = {
 
 const beginResumeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/resume",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/resume",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

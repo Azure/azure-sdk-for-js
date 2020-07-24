@@ -34,14 +34,22 @@ export class Usages {
    * @param [options] The optional parameters
    * @returns Promise<Models.UsagesListByVaultsResponse>
    */
-  listByVaults(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase): Promise<Models.UsagesListByVaultsResponse>;
+  listByVaults(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.UsagesListByVaultsResponse>;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param vaultName The name of the recovery services vault.
    * @param callback The callback
    */
-  listByVaults(resourceGroupName: string, vaultName: string, callback: msRest.ServiceCallback<Models.VaultUsageList>): void;
+  listByVaults(
+    resourceGroupName: string,
+    vaultName: string,
+    callback: msRest.ServiceCallback<Models.VaultUsageList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
@@ -49,8 +57,18 @@ export class Usages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByVaults(resourceGroupName: string, vaultName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultUsageList>): void;
-  listByVaults(resourceGroupName: string, vaultName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultUsageList>, callback?: msRest.ServiceCallback<Models.VaultUsageList>): Promise<Models.UsagesListByVaultsResponse> {
+  listByVaults(
+    resourceGroupName: string,
+    vaultName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VaultUsageList>
+  ): void;
+  listByVaults(
+    resourceGroupName: string,
+    vaultName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultUsageList>,
+    callback?: msRest.ServiceCallback<Models.VaultUsageList>
+  ): Promise<Models.UsagesListByVaultsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +76,8 @@ export class Usages {
         options
       },
       listByVaultsOperationSpec,
-      callback) as Promise<Models.UsagesListByVaultsResponse>;
+      callback
+    ) as Promise<Models.UsagesListByVaultsResponse>;
   }
 }
 
@@ -66,18 +85,11 @@ export class Usages {
 const serializer = new msRest.Serializer(Mappers);
 const listByVaultsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/usages",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/usages",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.vaultName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VaultUsageList

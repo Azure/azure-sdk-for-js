@@ -38,14 +38,24 @@ export class Gateway {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayCreateResponse>
    */
-  create(resourceGroupName: string, gatewayResourceName: string, gatewayResourceDescription: Models.GatewayResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.GatewayCreateResponse>;
+  create(
+    resourceGroupName: string,
+    gatewayResourceName: string,
+    gatewayResourceDescription: Models.GatewayResourceDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GatewayCreateResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param gatewayResourceName The identity of the gateway.
    * @param gatewayResourceDescription Description for creating a Gateway resource.
    * @param callback The callback
    */
-  create(resourceGroupName: string, gatewayResourceName: string, gatewayResourceDescription: Models.GatewayResourceDescription, callback: msRest.ServiceCallback<Models.GatewayResourceDescription>): void;
+  create(
+    resourceGroupName: string,
+    gatewayResourceName: string,
+    gatewayResourceDescription: Models.GatewayResourceDescription,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescription>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param gatewayResourceName The identity of the gateway.
@@ -53,8 +63,20 @@ export class Gateway {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, gatewayResourceName: string, gatewayResourceDescription: Models.GatewayResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayResourceDescription>): void;
-  create(resourceGroupName: string, gatewayResourceName: string, gatewayResourceDescription: Models.GatewayResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayResourceDescription>, callback?: msRest.ServiceCallback<Models.GatewayResourceDescription>): Promise<Models.GatewayCreateResponse> {
+  create(
+    resourceGroupName: string,
+    gatewayResourceName: string,
+    gatewayResourceDescription: Models.GatewayResourceDescription,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescription>
+  ): void;
+  create(
+    resourceGroupName: string,
+    gatewayResourceName: string,
+    gatewayResourceDescription: Models.GatewayResourceDescription,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.GatewayResourceDescription>
+  ): Promise<Models.GatewayCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +85,8 @@ export class Gateway {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.GatewayCreateResponse>;
+      callback
+    ) as Promise<Models.GatewayCreateResponse>;
   }
 
   /**
@@ -75,21 +98,39 @@ export class Gateway {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayGetResponse>
    */
-  get(resourceGroupName: string, gatewayResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.GatewayGetResponse>;
+  get(
+    resourceGroupName: string,
+    gatewayResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GatewayGetResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param gatewayResourceName The identity of the gateway.
    * @param callback The callback
    */
-  get(resourceGroupName: string, gatewayResourceName: string, callback: msRest.ServiceCallback<Models.GatewayResourceDescription>): void;
+  get(
+    resourceGroupName: string,
+    gatewayResourceName: string,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescription>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param gatewayResourceName The identity of the gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, gatewayResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayResourceDescription>): void;
-  get(resourceGroupName: string, gatewayResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayResourceDescription>, callback?: msRest.ServiceCallback<Models.GatewayResourceDescription>): Promise<Models.GatewayGetResponse> {
+  get(
+    resourceGroupName: string,
+    gatewayResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescription>
+  ): void;
+  get(
+    resourceGroupName: string,
+    gatewayResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.GatewayResourceDescription>
+  ): Promise<Models.GatewayGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -97,7 +138,8 @@ export class Gateway {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.GatewayGetResponse>;
+      callback
+    ) as Promise<Models.GatewayGetResponse>;
   }
 
   /**
@@ -108,21 +150,39 @@ export class Gateway {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, gatewayResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    gatewayResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param gatewayResourceName The identity of the gateway.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, gatewayResourceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    gatewayResourceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param gatewayResourceName The identity of the gateway.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, gatewayResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, gatewayResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    gatewayResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    gatewayResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -130,7 +190,8 @@ export class Gateway {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -141,26 +202,43 @@ export class Gateway {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.GatewayListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GatewayListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>): Promise<Models.GatewayListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.GatewayResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>
+  ): Promise<Models.GatewayListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.GatewayListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.GatewayListByResourceGroupResponse>;
   }
 
   /**
@@ -170,7 +248,9 @@ export class Gateway {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.GatewayListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GatewayListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -179,14 +259,23 @@ export class Gateway {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>): Promise<Models.GatewayListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.GatewayResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>
+  ): Promise<Models.GatewayListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.GatewayListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.GatewayListBySubscriptionResponse>;
   }
 
   /**
@@ -197,26 +286,43 @@ export class Gateway {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GatewayListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GatewayListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>): Promise<Models.GatewayListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.GatewayResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>
+  ): Promise<Models.GatewayListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.GatewayListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.GatewayListByResourceGroupNextResponse>;
   }
 
   /**
@@ -227,26 +333,43 @@ export class Gateway {
    * @param [options] The optional parameters
    * @returns Promise<Models.GatewayListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.GatewayListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GatewayListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>): Promise<Models.GatewayListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.GatewayResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.GatewayResourceDescriptionList>
+  ): Promise<Models.GatewayListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.GatewayListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.GatewayListBySubscriptionNextResponse>;
   }
 }
 
@@ -254,18 +377,15 @@ export class Gateway {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/gateways/{gatewayResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/gateways/{gatewayResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.gatewayResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "gatewayResourceDescription",
     mapper: {
@@ -290,18 +410,15 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/gateways/{gatewayResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/gateways/{gatewayResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.gatewayResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GatewayResourceDescription
@@ -315,18 +432,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/gateways/{gatewayResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/gateways/{gatewayResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.gatewayResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -340,17 +454,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/gateways",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/gateways",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GatewayResourceDescriptionList
@@ -365,15 +473,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabricMesh/gateways",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GatewayResourceDescriptionList
@@ -389,12 +491,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GatewayResourceDescriptionList
@@ -410,12 +508,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GatewayResourceDescriptionList

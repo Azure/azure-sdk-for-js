@@ -16,4 +16,3 @@ export {
   ApplicationUpdateParameters,
   ListApplicationsResult
 } from "../models/mappers";
-

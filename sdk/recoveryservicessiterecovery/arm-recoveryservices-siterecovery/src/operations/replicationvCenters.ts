@@ -34,26 +34,41 @@ export class ReplicationvCenters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationvCentersListByReplicationFabricsResponse>
    */
-  listByReplicationFabrics(fabricName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationvCentersListByReplicationFabricsResponse>;
+  listByReplicationFabrics(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationvCentersListByReplicationFabricsResponse>;
   /**
    * @param fabricName Fabric name.
    * @param callback The callback
    */
-  listByReplicationFabrics(fabricName: string, callback: msRest.ServiceCallback<Models.VCenterCollection>): void;
+  listByReplicationFabrics(
+    fabricName: string,
+    callback: msRest.ServiceCallback<Models.VCenterCollection>
+  ): void;
   /**
    * @param fabricName Fabric name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReplicationFabrics(fabricName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VCenterCollection>): void;
-  listByReplicationFabrics(fabricName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenterCollection>, callback?: msRest.ServiceCallback<Models.VCenterCollection>): Promise<Models.ReplicationvCentersListByReplicationFabricsResponse> {
+  listByReplicationFabrics(
+    fabricName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VCenterCollection>
+  ): void;
+  listByReplicationFabrics(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenterCollection>,
+    callback?: msRest.ServiceCallback<Models.VCenterCollection>
+  ): Promise<Models.ReplicationvCentersListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
         options
       },
       listByReplicationFabricsOperationSpec,
-      callback) as Promise<Models.ReplicationvCentersListByReplicationFabricsResponse>;
+      callback
+    ) as Promise<Models.ReplicationvCentersListByReplicationFabricsResponse>;
   }
 
   /**
@@ -64,21 +79,39 @@ export class ReplicationvCenters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationvCentersGetResponse>
    */
-  get(fabricName: string, vCenterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationvCentersGetResponse>;
+  get(
+    fabricName: string,
+    vCenterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationvCentersGetResponse>;
   /**
    * @param fabricName Fabric name.
    * @param vCenterName vCenter name.
    * @param callback The callback
    */
-  get(fabricName: string, vCenterName: string, callback: msRest.ServiceCallback<Models.VCenter>): void;
+  get(
+    fabricName: string,
+    vCenterName: string,
+    callback: msRest.ServiceCallback<Models.VCenter>
+  ): void;
   /**
    * @param fabricName Fabric name.
    * @param vCenterName vCenter name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(fabricName: string, vCenterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VCenter>): void;
-  get(fabricName: string, vCenterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenter>, callback?: msRest.ServiceCallback<Models.VCenter>): Promise<Models.ReplicationvCentersGetResponse> {
+  get(
+    fabricName: string,
+    vCenterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VCenter>
+  ): void;
+  get(
+    fabricName: string,
+    vCenterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenter>,
+    callback?: msRest.ServiceCallback<Models.VCenter>
+  ): Promise<Models.ReplicationvCentersGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -86,7 +119,8 @@ export class ReplicationvCenters {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReplicationvCentersGetResponse>;
+      callback
+    ) as Promise<Models.ReplicationvCentersGetResponse>;
   }
 
   /**
@@ -98,9 +132,15 @@ export class ReplicationvCenters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationvCentersCreateResponse>
    */
-  create(fabricName: string, vCenterName: string, addVCenterRequest: Models.AddVCenterRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationvCentersCreateResponse> {
-    return this.beginCreate(fabricName,vCenterName,addVCenterRequest,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationvCentersCreateResponse>;
+  create(
+    fabricName: string,
+    vCenterName: string,
+    addVCenterRequest: Models.AddVCenterRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationvCentersCreateResponse> {
+    return this.beginCreate(fabricName, vCenterName, addVCenterRequest, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationvCentersCreateResponse>;
   }
 
   /**
@@ -111,9 +151,14 @@ export class ReplicationvCenters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(fabricName: string, vCenterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(fabricName,vCenterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    fabricName: string,
+    vCenterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(fabricName, vCenterName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -125,9 +170,20 @@ export class ReplicationvCenters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationvCentersUpdateResponse>
    */
-  update(fabricName: string, vCenterName: string, updateVCenterRequest: Models.UpdateVCenterRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationvCentersUpdateResponse> {
-    return this.beginUpdate(fabricName,vCenterName,updateVCenterRequest,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationvCentersUpdateResponse>;
+  update(
+    fabricName: string,
+    vCenterName: string,
+    updateVCenterRequest: Models.UpdateVCenterRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationvCentersUpdateResponse> {
+    return this.beginUpdate(
+      fabricName,
+      vCenterName,
+      updateVCenterRequest,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationvCentersUpdateResponse
+    >;
   }
 
   /**
@@ -145,14 +201,21 @@ export class ReplicationvCenters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VCenterCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenterCollection>, callback?: msRest.ServiceCallback<Models.VCenterCollection>): Promise<Models.ReplicationvCentersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VCenterCollection>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenterCollection>,
+    callback?: msRest.ServiceCallback<Models.VCenterCollection>
+  ): Promise<Models.ReplicationvCentersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ReplicationvCentersListResponse>;
+      callback
+    ) as Promise<Models.ReplicationvCentersListResponse>;
   }
 
   /**
@@ -164,7 +227,12 @@ export class ReplicationvCenters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(fabricName: string, vCenterName: string, addVCenterRequest: Models.AddVCenterRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    fabricName: string,
+    vCenterName: string,
+    addVCenterRequest: Models.AddVCenterRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -173,7 +241,8 @@ export class ReplicationvCenters {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -184,7 +253,11 @@ export class ReplicationvCenters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(fabricName: string, vCenterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    fabricName: string,
+    vCenterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -192,7 +265,8 @@ export class ReplicationvCenters {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -204,7 +278,12 @@ export class ReplicationvCenters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(fabricName: string, vCenterName: string, updateVCenterRequest: Models.UpdateVCenterRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    fabricName: string,
+    vCenterName: string,
+    updateVCenterRequest: Models.UpdateVCenterRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -213,7 +292,8 @@ export class ReplicationvCenters {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -223,26 +303,41 @@ export class ReplicationvCenters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationvCentersListByReplicationFabricsNextResponse>
    */
-  listByReplicationFabricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationvCentersListByReplicationFabricsNextResponse>;
+  listByReplicationFabricsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationvCentersListByReplicationFabricsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByReplicationFabricsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VCenterCollection>): void;
+  listByReplicationFabricsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VCenterCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReplicationFabricsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VCenterCollection>): void;
-  listByReplicationFabricsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenterCollection>, callback?: msRest.ServiceCallback<Models.VCenterCollection>): Promise<Models.ReplicationvCentersListByReplicationFabricsNextResponse> {
+  listByReplicationFabricsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VCenterCollection>
+  ): void;
+  listByReplicationFabricsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenterCollection>,
+    callback?: msRest.ServiceCallback<Models.VCenterCollection>
+  ): Promise<Models.ReplicationvCentersListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByReplicationFabricsNextOperationSpec,
-      callback) as Promise<Models.ReplicationvCentersListByReplicationFabricsNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationvCentersListByReplicationFabricsNextResponse>;
   }
 
   /**
@@ -252,7 +347,10 @@ export class ReplicationvCenters {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationvCentersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationvCentersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationvCentersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -263,15 +361,24 @@ export class ReplicationvCenters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VCenterCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenterCollection>, callback?: msRest.ServiceCallback<Models.VCenterCollection>): Promise<Models.ReplicationvCentersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VCenterCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VCenterCollection>,
+    callback?: msRest.ServiceCallback<Models.VCenterCollection>
+  ): Promise<Models.ReplicationvCentersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ReplicationvCentersListNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationvCentersListNextResponse>;
   }
 }
 
@@ -279,19 +386,16 @@ export class ReplicationvCenters {
 const serializer = new msRest.Serializer(Mappers);
 const listByReplicationFabricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VCenterCollection
@@ -305,7 +409,8 @@ const listByReplicationFabricsOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vCenterName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vCenterName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -313,12 +418,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.fabricName,
     Parameters.vCenterName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VCenter
@@ -332,18 +433,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationvCenters",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationvCenters",
+  urlParameters: [Parameters.resourceName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VCenterCollection
@@ -357,7 +451,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vCenterName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vCenterName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -365,12 +460,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.fabricName,
     Parameters.vCenterName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "addVCenterRequest",
     mapper: {
@@ -392,7 +483,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vCenterName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vCenterName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -400,12 +492,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.fabricName,
     Parameters.vCenterName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -418,7 +506,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vCenterName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vCenterName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -426,12 +515,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.fabricName,
     Parameters.vCenterName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "updateVCenterRequest",
     mapper: {
@@ -455,12 +540,8 @@ const listByReplicationFabricsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VCenterCollection
@@ -476,12 +557,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VCenterCollection

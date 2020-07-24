@@ -6,7 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  DeploymentValidateResult,
-  SetDisabledResult
-} from "../models/mappers";
+export { DeploymentValidateResult, SetDisabledResult } from "../models/mappers";

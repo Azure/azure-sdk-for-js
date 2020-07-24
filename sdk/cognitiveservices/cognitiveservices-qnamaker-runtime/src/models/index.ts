@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as msRest from "@azure/ms-rest-js";
 
 /**
@@ -42,8 +41,7 @@ export interface ContextDTO {
 /**
  * Context of a QnA
  */
-export interface QnADTOContext extends ContextDTO {
-}
+export interface QnADTOContext extends ContextDTO {}
 
 /**
  * Q-A object.
@@ -79,8 +77,7 @@ export interface QnADTO {
 /**
  * QnADTO - Either QnaId or QnADTO needs to be present in a PromptDTO object
  */
-export interface PromptDTOQna extends QnADTO {
-}
+export interface PromptDTOQna extends QnADTO {}
 
 /**
  * Prompt for an answer.
@@ -137,8 +134,7 @@ export interface ErrorModel {
 /**
  * The error object.
  */
-export interface ErrorResponseError extends ErrorModel {
-}
+export interface ErrorResponseError extends ErrorModel {}
 
 /**
  * Error response. As per Microsoft One API guidelines -
@@ -184,8 +180,7 @@ export interface QueryContextDTO {
 /**
  * Context object with previous QnA's information.
  */
-export interface QueryDTOContext extends QueryContextDTO {
-}
+export interface QueryDTOContext extends QueryContextDTO {}
 
 /**
  * POST body schema to query the knowledgebase.
@@ -232,8 +227,7 @@ export interface QueryDTO {
 /**
  * Context object of the QnA
  */
-export interface QnASearchResultContext extends ContextDTO {
-}
+export interface QnASearchResultContext extends ContextDTO {}
 
 /**
  * Represents Search Result.
@@ -315,7 +309,21 @@ export interface FeedbackRecordsDTO {
  * @readonly
  * @enum {string}
  */
-export type ErrorCodeType = 'BadArgument' | 'Forbidden' | 'NotFound' | 'KbNotFound' | 'Unauthorized' | 'Unspecified' | 'EndpointKeysError' | 'QuotaExceeded' | 'QnaRuntimeError' | 'SKULimitExceeded' | 'OperationNotFound' | 'ServiceError' | 'ValidationFailure' | 'ExtractionFailure';
+export type ErrorCodeType =
+  | "BadArgument"
+  | "Forbidden"
+  | "NotFound"
+  | "KbNotFound"
+  | "Unauthorized"
+  | "Unspecified"
+  | "EndpointKeysError"
+  | "QuotaExceeded"
+  | "QnaRuntimeError"
+  | "SKULimitExceeded"
+  | "OperationNotFound"
+  | "ServiceError"
+  | "ValidationFailure"
+  | "ExtractionFailure";
 
 /**
  * Contains response data for the generateAnswer operation.
@@ -325,14 +333,14 @@ export type RuntimeGenerateAnswerResponse = QnASearchResultList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QnASearchResultList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QnASearchResultList;
+  };
 };

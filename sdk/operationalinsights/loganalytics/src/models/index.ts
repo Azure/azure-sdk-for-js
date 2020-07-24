@@ -11,7 +11,6 @@
 import { ServiceClientOptions } from "@azure/ms-rest-js";
 import * as msRest from "@azure/ms-rest-js";
 
-
 /**
  * @interface
  * An interface representing QueryBody.
@@ -194,13 +193,13 @@ export type QueryExecuteResponse = QueryResults & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QueryResults;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QueryResults;
+  };
 };

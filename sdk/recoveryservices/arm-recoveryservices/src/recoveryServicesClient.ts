@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { RecoveryServicesClientContext } from "./recoveryServicesClientContext";
 
-
 class RecoveryServicesClient extends RecoveryServicesClientContext {
   // Operation groups
   vaultCertificates: operations.VaultCertificates;
@@ -33,7 +32,11 @@ class RecoveryServicesClient extends RecoveryServicesClientContext {
    * @param subscriptionId The subscription Id.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.RecoveryServicesClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.RecoveryServicesClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.vaultCertificates = new operations.VaultCertificates(this);
     this.registeredIdentities = new operations.RegisteredIdentities(this);

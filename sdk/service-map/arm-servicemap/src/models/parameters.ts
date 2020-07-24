@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -45,10 +45,7 @@ export const clientGroupName: msRest.OperationURLParameter = {
   }
 };
 export const endTime: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "endTime"
-  ],
+  parameterPath: ["options", "endTime"],
   mapper: {
     serializedName: "endTime",
     type: {
@@ -57,10 +54,7 @@ export const endTime: msRest.OperationQueryParameter = {
   }
 };
 export const live: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "live"
-  ],
+  parameterPath: ["options", "live"],
   mapper: {
     serializedName: "live",
     defaultValue: true,
@@ -152,10 +146,7 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   }
 };
 export const startTime: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "startTime"
-  ],
+  parameterPath: ["options", "startTime"],
   mapper: {
     serializedName: "startTime",
     type: {
@@ -174,10 +165,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const timestamp: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "timestamp"
-  ],
+  parameterPath: ["options", "timestamp"],
   mapper: {
     serializedName: "timestamp",
     type: {
@@ -186,10 +174,7 @@ export const timestamp: msRest.OperationQueryParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "$top",
     constraints: {

@@ -34,7 +34,10 @@ export class Web {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebSearchResponse>
    */
-  search(query: string, options?: Models.WebSearchOptionalParams): Promise<Models.WebSearchResponse>;
+  search(
+    query: string,
+    options?: Models.WebSearchOptionalParams
+  ): Promise<Models.WebSearchResponse>;
   /**
    * @param query The user's search query term. The term may not be empty. The term may contain Bing
    * Advanced Operators. For example, to limit results to a specific domain, use the site: operator.
@@ -47,15 +50,24 @@ export class Web {
    * @param options The optional parameters
    * @param callback The callback
    */
-  search(query: string, options: Models.WebSearchOptionalParams, callback: msRest.ServiceCallback<Models.SearchResponse>): void;
-  search(query: string, options?: Models.WebSearchOptionalParams | msRest.ServiceCallback<Models.SearchResponse>, callback?: msRest.ServiceCallback<Models.SearchResponse>): Promise<Models.WebSearchResponse> {
+  search(
+    query: string,
+    options: Models.WebSearchOptionalParams,
+    callback: msRest.ServiceCallback<Models.SearchResponse>
+  ): void;
+  search(
+    query: string,
+    options?: Models.WebSearchOptionalParams | msRest.ServiceCallback<Models.SearchResponse>,
+    callback?: msRest.ServiceCallback<Models.SearchResponse>
+  ): Promise<Models.WebSearchResponse> {
     return this.client.sendOperationRequest(
       {
         query,
         options
       },
       searchOperationSpec,
-      callback) as Promise<Models.WebSearchResponse>;
+      callback
+    ) as Promise<Models.WebSearchResponse>;
   }
 }
 
@@ -64,9 +76,7 @@ const serializer = new msRest.Serializer(Mappers);
 const searchOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "search",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.answerCount,
     Parameters.countryCode,

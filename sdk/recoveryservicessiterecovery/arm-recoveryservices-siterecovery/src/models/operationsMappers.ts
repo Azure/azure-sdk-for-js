@@ -15,4 +15,3 @@ export {
   Display,
   CloudError
 } from "../models/mappers";
-

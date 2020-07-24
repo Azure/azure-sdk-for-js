@@ -32,7 +32,11 @@ class FaceClient extends FaceClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    endpoint: string,
+    options?: msRest.ServiceClientOptions
+  ) {
     super(credentials, endpoint, options);
     this.face = new operations.Face(this);
     this.personGroupPerson = new operations.PersonGroupPerson(this);
@@ -47,10 +51,5 @@ class FaceClient extends FaceClientContext {
 
 // Operation Specifications
 
-export {
-  FaceClient,
-  FaceClientContext,
-  Models as FaceModels,
-  Mappers as FaceMappers
-};
+export { FaceClient, FaceClientContext, Models as FaceModels, Mappers as FaceMappers };
 export * from "./operations";

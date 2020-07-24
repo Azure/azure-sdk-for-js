@@ -32,7 +32,9 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListResponse>
    */
-  list(options?: Models.RecommendationsListOptionalParams): Promise<Models.RecommendationsListResponse>;
+  list(
+    options?: Models.RecommendationsListOptionalParams
+  ): Promise<Models.RecommendationsListResponse>;
   /**
    * @param callback The callback
    */
@@ -41,14 +43,23 @@ export class Recommendations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.RecommendationsListOptionalParams, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  list(options?: Models.RecommendationsListOptionalParams | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListResponse> {
+  list(
+    options: Models.RecommendationsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
+  list(
+    options?:
+      | Models.RecommendationsListOptionalParams
+      | msRest.ServiceCallback<Models.RecommendationCollection>,
+    callback?: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): Promise<Models.RecommendationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.RecommendationsListResponse>;
+      callback
+    ) as Promise<Models.RecommendationsListResponse>;
   }
 
   /**
@@ -67,13 +78,17 @@ export class Recommendations {
    * @param callback The callback
    */
   resetAllFilters(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  resetAllFilters(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resetAllFilters(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       resetAllFiltersOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -84,7 +99,10 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  disableRecommendationForSubscription(name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  disableRecommendationForSubscription(
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param name Rule name
    * @param callback The callback
@@ -95,15 +113,24 @@ export class Recommendations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  disableRecommendationForSubscription(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disableRecommendationForSubscription(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableRecommendationForSubscription(
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  disableRecommendationForSubscription(
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         name,
         options
       },
       disableRecommendationForSubscriptionOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -114,21 +141,41 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListHistoryForHostingEnvironmentResponse>
    */
-  listHistoryForHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, options?: Models.RecommendationsListHistoryForHostingEnvironmentOptionalParams): Promise<Models.RecommendationsListHistoryForHostingEnvironmentResponse>;
+  listHistoryForHostingEnvironment(
+    resourceGroupName: string,
+    hostingEnvironmentName: string,
+    options?: Models.RecommendationsListHistoryForHostingEnvironmentOptionalParams
+  ): Promise<Models.RecommendationsListHistoryForHostingEnvironmentResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param hostingEnvironmentName Name of the hosting environment.
    * @param callback The callback
    */
-  listHistoryForHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
+  listHistoryForHostingEnvironment(
+    resourceGroupName: string,
+    hostingEnvironmentName: string,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param hostingEnvironmentName Name of the hosting environment.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHistoryForHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, options: Models.RecommendationsListHistoryForHostingEnvironmentOptionalParams, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listHistoryForHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, options?: Models.RecommendationsListHistoryForHostingEnvironmentOptionalParams | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListHistoryForHostingEnvironmentResponse> {
+  listHistoryForHostingEnvironment(
+    resourceGroupName: string,
+    hostingEnvironmentName: string,
+    options: Models.RecommendationsListHistoryForHostingEnvironmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
+  listHistoryForHostingEnvironment(
+    resourceGroupName: string,
+    hostingEnvironmentName: string,
+    options?:
+      | Models.RecommendationsListHistoryForHostingEnvironmentOptionalParams
+      | msRest.ServiceCallback<Models.RecommendationCollection>,
+    callback?: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): Promise<Models.RecommendationsListHistoryForHostingEnvironmentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -136,7 +183,8 @@ export class Recommendations {
         options
       },
       listHistoryForHostingEnvironmentOperationSpec,
-      callback) as Promise<Models.RecommendationsListHistoryForHostingEnvironmentResponse>;
+      callback
+    ) as Promise<Models.RecommendationsListHistoryForHostingEnvironmentResponse>;
   }
 
   /**
@@ -147,21 +195,41 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentResponse>
    */
-  listRecommendedRulesForHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, options?: Models.RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams): Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentResponse>;
+  listRecommendedRulesForHostingEnvironment(
+    resourceGroupName: string,
+    hostingEnvironmentName: string,
+    options?: Models.RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams
+  ): Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param hostingEnvironmentName Name of the app.
    * @param callback The callback
    */
-  listRecommendedRulesForHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
+  listRecommendedRulesForHostingEnvironment(
+    resourceGroupName: string,
+    hostingEnvironmentName: string,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param hostingEnvironmentName Name of the app.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRecommendedRulesForHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, options: Models.RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listRecommendedRulesForHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, options?: Models.RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentResponse> {
+  listRecommendedRulesForHostingEnvironment(
+    resourceGroupName: string,
+    hostingEnvironmentName: string,
+    options: Models.RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
+  listRecommendedRulesForHostingEnvironment(
+    resourceGroupName: string,
+    hostingEnvironmentName: string,
+    options?:
+      | Models.RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams
+      | msRest.ServiceCallback<Models.RecommendationCollection>,
+    callback?: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +237,8 @@ export class Recommendations {
         options
       },
       listRecommendedRulesForHostingEnvironmentOperationSpec,
-      callback) as Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentResponse>;
+      callback
+    ) as Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentResponse>;
   }
 
   /**
@@ -181,14 +250,24 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  disableAllForHostingEnvironment(resourceGroupName: string, environmentName: string, hostingEnvironmentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  disableAllForHostingEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    hostingEnvironmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param environmentName Name of the app.
    * @param hostingEnvironmentName
    * @param callback The callback
    */
-  disableAllForHostingEnvironment(resourceGroupName: string, environmentName: string, hostingEnvironmentName: string, callback: msRest.ServiceCallback<void>): void;
+  disableAllForHostingEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    hostingEnvironmentName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param environmentName Name of the app.
@@ -196,8 +275,20 @@ export class Recommendations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  disableAllForHostingEnvironment(resourceGroupName: string, environmentName: string, hostingEnvironmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disableAllForHostingEnvironment(resourceGroupName: string, environmentName: string, hostingEnvironmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableAllForHostingEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    hostingEnvironmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  disableAllForHostingEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    hostingEnvironmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -206,7 +297,8 @@ export class Recommendations {
         options
       },
       disableAllForHostingEnvironmentOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -218,14 +310,24 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resetAllFiltersForHostingEnvironment(resourceGroupName: string, environmentName: string, hostingEnvironmentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  resetAllFiltersForHostingEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    hostingEnvironmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param environmentName Name of the app.
    * @param hostingEnvironmentName
    * @param callback The callback
    */
-  resetAllFiltersForHostingEnvironment(resourceGroupName: string, environmentName: string, hostingEnvironmentName: string, callback: msRest.ServiceCallback<void>): void;
+  resetAllFiltersForHostingEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    hostingEnvironmentName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param environmentName Name of the app.
@@ -233,8 +335,20 @@ export class Recommendations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  resetAllFiltersForHostingEnvironment(resourceGroupName: string, environmentName: string, hostingEnvironmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  resetAllFiltersForHostingEnvironment(resourceGroupName: string, environmentName: string, hostingEnvironmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resetAllFiltersForHostingEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    hostingEnvironmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  resetAllFiltersForHostingEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    hostingEnvironmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -243,7 +357,8 @@ export class Recommendations {
         options
       },
       resetAllFiltersForHostingEnvironmentOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -255,14 +370,24 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsGetRuleDetailsByHostingEnvironmentResponse>
    */
-  getRuleDetailsByHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, name: string, options?: Models.RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams): Promise<Models.RecommendationsGetRuleDetailsByHostingEnvironmentResponse>;
+  getRuleDetailsByHostingEnvironment(
+    resourceGroupName: string,
+    hostingEnvironmentName: string,
+    name: string,
+    options?: Models.RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams
+  ): Promise<Models.RecommendationsGetRuleDetailsByHostingEnvironmentResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param hostingEnvironmentName Name of the hosting environment.
    * @param name Name of the recommendation.
    * @param callback The callback
    */
-  getRuleDetailsByHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, name: string, callback: msRest.ServiceCallback<Models.RecommendationRule>): void;
+  getRuleDetailsByHostingEnvironment(
+    resourceGroupName: string,
+    hostingEnvironmentName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.RecommendationRule>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param hostingEnvironmentName Name of the hosting environment.
@@ -270,8 +395,22 @@ export class Recommendations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRuleDetailsByHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, name: string, options: Models.RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams, callback: msRest.ServiceCallback<Models.RecommendationRule>): void;
-  getRuleDetailsByHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, name: string, options?: Models.RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams | msRest.ServiceCallback<Models.RecommendationRule>, callback?: msRest.ServiceCallback<Models.RecommendationRule>): Promise<Models.RecommendationsGetRuleDetailsByHostingEnvironmentResponse> {
+  getRuleDetailsByHostingEnvironment(
+    resourceGroupName: string,
+    hostingEnvironmentName: string,
+    name: string,
+    options: Models.RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.RecommendationRule>
+  ): void;
+  getRuleDetailsByHostingEnvironment(
+    resourceGroupName: string,
+    hostingEnvironmentName: string,
+    name: string,
+    options?:
+      | Models.RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams
+      | msRest.ServiceCallback<Models.RecommendationRule>,
+    callback?: msRest.ServiceCallback<Models.RecommendationRule>
+  ): Promise<Models.RecommendationsGetRuleDetailsByHostingEnvironmentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -280,7 +419,8 @@ export class Recommendations {
         options
       },
       getRuleDetailsByHostingEnvironmentOperationSpec,
-      callback) as Promise<Models.RecommendationsGetRuleDetailsByHostingEnvironmentResponse>;
+      callback
+    ) as Promise<Models.RecommendationsGetRuleDetailsByHostingEnvironmentResponse>;
   }
 
   /**
@@ -293,7 +433,13 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  disableRecommendationForHostingEnvironment(resourceGroupName: string, environmentName: string, name: string, hostingEnvironmentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  disableRecommendationForHostingEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    name: string,
+    hostingEnvironmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param environmentName Site name
@@ -301,7 +447,13 @@ export class Recommendations {
    * @param hostingEnvironmentName
    * @param callback The callback
    */
-  disableRecommendationForHostingEnvironment(resourceGroupName: string, environmentName: string, name: string, hostingEnvironmentName: string, callback: msRest.ServiceCallback<void>): void;
+  disableRecommendationForHostingEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    name: string,
+    hostingEnvironmentName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param environmentName Site name
@@ -310,8 +462,22 @@ export class Recommendations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  disableRecommendationForHostingEnvironment(resourceGroupName: string, environmentName: string, name: string, hostingEnvironmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disableRecommendationForHostingEnvironment(resourceGroupName: string, environmentName: string, name: string, hostingEnvironmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableRecommendationForHostingEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    name: string,
+    hostingEnvironmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  disableRecommendationForHostingEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    name: string,
+    hostingEnvironmentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -321,7 +487,8 @@ export class Recommendations {
         options
       },
       disableRecommendationForHostingEnvironmentOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -332,21 +499,41 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListHistoryForWebAppResponse>
    */
-  listHistoryForWebApp(resourceGroupName: string, siteName: string, options?: Models.RecommendationsListHistoryForWebAppOptionalParams): Promise<Models.RecommendationsListHistoryForWebAppResponse>;
+  listHistoryForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    options?: Models.RecommendationsListHistoryForWebAppOptionalParams
+  ): Promise<Models.RecommendationsListHistoryForWebAppResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param callback The callback
    */
-  listHistoryForWebApp(resourceGroupName: string, siteName: string, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
+  listHistoryForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHistoryForWebApp(resourceGroupName: string, siteName: string, options: Models.RecommendationsListHistoryForWebAppOptionalParams, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listHistoryForWebApp(resourceGroupName: string, siteName: string, options?: Models.RecommendationsListHistoryForWebAppOptionalParams | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListHistoryForWebAppResponse> {
+  listHistoryForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    options: Models.RecommendationsListHistoryForWebAppOptionalParams,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
+  listHistoryForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    options?:
+      | Models.RecommendationsListHistoryForWebAppOptionalParams
+      | msRest.ServiceCallback<Models.RecommendationCollection>,
+    callback?: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): Promise<Models.RecommendationsListHistoryForWebAppResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -354,7 +541,8 @@ export class Recommendations {
         options
       },
       listHistoryForWebAppOperationSpec,
-      callback) as Promise<Models.RecommendationsListHistoryForWebAppResponse>;
+      callback
+    ) as Promise<Models.RecommendationsListHistoryForWebAppResponse>;
   }
 
   /**
@@ -365,21 +553,41 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListRecommendedRulesForWebAppResponse>
    */
-  listRecommendedRulesForWebApp(resourceGroupName: string, siteName: string, options?: Models.RecommendationsListRecommendedRulesForWebAppOptionalParams): Promise<Models.RecommendationsListRecommendedRulesForWebAppResponse>;
+  listRecommendedRulesForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    options?: Models.RecommendationsListRecommendedRulesForWebAppOptionalParams
+  ): Promise<Models.RecommendationsListRecommendedRulesForWebAppResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param callback The callback
    */
-  listRecommendedRulesForWebApp(resourceGroupName: string, siteName: string, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
+  listRecommendedRulesForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRecommendedRulesForWebApp(resourceGroupName: string, siteName: string, options: Models.RecommendationsListRecommendedRulesForWebAppOptionalParams, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listRecommendedRulesForWebApp(resourceGroupName: string, siteName: string, options?: Models.RecommendationsListRecommendedRulesForWebAppOptionalParams | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListRecommendedRulesForWebAppResponse> {
+  listRecommendedRulesForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    options: Models.RecommendationsListRecommendedRulesForWebAppOptionalParams,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
+  listRecommendedRulesForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    options?:
+      | Models.RecommendationsListRecommendedRulesForWebAppOptionalParams
+      | msRest.ServiceCallback<Models.RecommendationCollection>,
+    callback?: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): Promise<Models.RecommendationsListRecommendedRulesForWebAppResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -387,7 +595,8 @@ export class Recommendations {
         options
       },
       listRecommendedRulesForWebAppOperationSpec,
-      callback) as Promise<Models.RecommendationsListRecommendedRulesForWebAppResponse>;
+      callback
+    ) as Promise<Models.RecommendationsListRecommendedRulesForWebAppResponse>;
   }
 
   /**
@@ -398,21 +607,39 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  disableAllForWebApp(resourceGroupName: string, siteName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  disableAllForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param callback The callback
    */
-  disableAllForWebApp(resourceGroupName: string, siteName: string, callback: msRest.ServiceCallback<void>): void;
+  disableAllForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param options The optional parameters
    * @param callback The callback
    */
-  disableAllForWebApp(resourceGroupName: string, siteName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disableAllForWebApp(resourceGroupName: string, siteName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableAllForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  disableAllForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -420,7 +647,8 @@ export class Recommendations {
         options
       },
       disableAllForWebAppOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -431,21 +659,39 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resetAllFiltersForWebApp(resourceGroupName: string, siteName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  resetAllFiltersForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param callback The callback
    */
-  resetAllFiltersForWebApp(resourceGroupName: string, siteName: string, callback: msRest.ServiceCallback<void>): void;
+  resetAllFiltersForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param options The optional parameters
    * @param callback The callback
    */
-  resetAllFiltersForWebApp(resourceGroupName: string, siteName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  resetAllFiltersForWebApp(resourceGroupName: string, siteName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resetAllFiltersForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  resetAllFiltersForWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -453,7 +699,8 @@ export class Recommendations {
         options
       },
       resetAllFiltersForWebAppOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -465,14 +712,24 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsGetRuleDetailsByWebAppResponse>
    */
-  getRuleDetailsByWebApp(resourceGroupName: string, siteName: string, name: string, options?: Models.RecommendationsGetRuleDetailsByWebAppOptionalParams): Promise<Models.RecommendationsGetRuleDetailsByWebAppResponse>;
+  getRuleDetailsByWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    name: string,
+    options?: Models.RecommendationsGetRuleDetailsByWebAppOptionalParams
+  ): Promise<Models.RecommendationsGetRuleDetailsByWebAppResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param name Name of the recommendation.
    * @param callback The callback
    */
-  getRuleDetailsByWebApp(resourceGroupName: string, siteName: string, name: string, callback: msRest.ServiceCallback<Models.RecommendationRule>): void;
+  getRuleDetailsByWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.RecommendationRule>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
@@ -480,8 +737,22 @@ export class Recommendations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRuleDetailsByWebApp(resourceGroupName: string, siteName: string, name: string, options: Models.RecommendationsGetRuleDetailsByWebAppOptionalParams, callback: msRest.ServiceCallback<Models.RecommendationRule>): void;
-  getRuleDetailsByWebApp(resourceGroupName: string, siteName: string, name: string, options?: Models.RecommendationsGetRuleDetailsByWebAppOptionalParams | msRest.ServiceCallback<Models.RecommendationRule>, callback?: msRest.ServiceCallback<Models.RecommendationRule>): Promise<Models.RecommendationsGetRuleDetailsByWebAppResponse> {
+  getRuleDetailsByWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    name: string,
+    options: Models.RecommendationsGetRuleDetailsByWebAppOptionalParams,
+    callback: msRest.ServiceCallback<Models.RecommendationRule>
+  ): void;
+  getRuleDetailsByWebApp(
+    resourceGroupName: string,
+    siteName: string,
+    name: string,
+    options?:
+      | Models.RecommendationsGetRuleDetailsByWebAppOptionalParams
+      | msRest.ServiceCallback<Models.RecommendationRule>,
+    callback?: msRest.ServiceCallback<Models.RecommendationRule>
+  ): Promise<Models.RecommendationsGetRuleDetailsByWebAppResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -490,7 +761,8 @@ export class Recommendations {
         options
       },
       getRuleDetailsByWebAppOperationSpec,
-      callback) as Promise<Models.RecommendationsGetRuleDetailsByWebAppResponse>;
+      callback
+    ) as Promise<Models.RecommendationsGetRuleDetailsByWebAppResponse>;
   }
 
   /**
@@ -502,14 +774,24 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  disableRecommendationForSite(resourceGroupName: string, siteName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  disableRecommendationForSite(
+    resourceGroupName: string,
+    siteName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site name
    * @param name Rule name
    * @param callback The callback
    */
-  disableRecommendationForSite(resourceGroupName: string, siteName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  disableRecommendationForSite(
+    resourceGroupName: string,
+    siteName: string,
+    name: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site name
@@ -517,8 +799,20 @@ export class Recommendations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  disableRecommendationForSite(resourceGroupName: string, siteName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  disableRecommendationForSite(resourceGroupName: string, siteName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  disableRecommendationForSite(
+    resourceGroupName: string,
+    siteName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  disableRecommendationForSite(
+    resourceGroupName: string,
+    siteName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -527,7 +821,8 @@ export class Recommendations {
         options
       },
       disableRecommendationForSiteOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -537,26 +832,41 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RecommendationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecommendationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>,
+    callback?: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): Promise<Models.RecommendationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.RecommendationsListNextResponse>;
+      callback
+    ) as Promise<Models.RecommendationsListNextResponse>;
   }
 
   /**
@@ -566,26 +876,41 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListHistoryForHostingEnvironmentNextResponse>
    */
-  listHistoryForHostingEnvironmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RecommendationsListHistoryForHostingEnvironmentNextResponse>;
+  listHistoryForHostingEnvironmentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecommendationsListHistoryForHostingEnvironmentNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listHistoryForHostingEnvironmentNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
+  listHistoryForHostingEnvironmentNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHistoryForHostingEnvironmentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listHistoryForHostingEnvironmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListHistoryForHostingEnvironmentNextResponse> {
+  listHistoryForHostingEnvironmentNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
+  listHistoryForHostingEnvironmentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>,
+    callback?: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): Promise<Models.RecommendationsListHistoryForHostingEnvironmentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listHistoryForHostingEnvironmentNextOperationSpec,
-      callback) as Promise<Models.RecommendationsListHistoryForHostingEnvironmentNextResponse>;
+      callback
+    ) as Promise<Models.RecommendationsListHistoryForHostingEnvironmentNextResponse>;
   }
 
   /**
@@ -595,26 +920,41 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentNextResponse>
    */
-  listRecommendedRulesForHostingEnvironmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentNextResponse>;
+  listRecommendedRulesForHostingEnvironmentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listRecommendedRulesForHostingEnvironmentNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
+  listRecommendedRulesForHostingEnvironmentNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRecommendedRulesForHostingEnvironmentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listRecommendedRulesForHostingEnvironmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentNextResponse> {
+  listRecommendedRulesForHostingEnvironmentNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
+  listRecommendedRulesForHostingEnvironmentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>,
+    callback?: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listRecommendedRulesForHostingEnvironmentNextOperationSpec,
-      callback) as Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentNextResponse>;
+      callback
+    ) as Promise<Models.RecommendationsListRecommendedRulesForHostingEnvironmentNextResponse>;
   }
 
   /**
@@ -624,26 +964,41 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListHistoryForWebAppNextResponse>
    */
-  listHistoryForWebAppNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RecommendationsListHistoryForWebAppNextResponse>;
+  listHistoryForWebAppNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecommendationsListHistoryForWebAppNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listHistoryForWebAppNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
+  listHistoryForWebAppNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHistoryForWebAppNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listHistoryForWebAppNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListHistoryForWebAppNextResponse> {
+  listHistoryForWebAppNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
+  listHistoryForWebAppNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>,
+    callback?: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): Promise<Models.RecommendationsListHistoryForWebAppNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listHistoryForWebAppNextOperationSpec,
-      callback) as Promise<Models.RecommendationsListHistoryForWebAppNextResponse>;
+      callback
+    ) as Promise<Models.RecommendationsListHistoryForWebAppNextResponse>;
   }
 
   /**
@@ -653,26 +1008,41 @@ export class Recommendations {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecommendationsListRecommendedRulesForWebAppNextResponse>
    */
-  listRecommendedRulesForWebAppNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RecommendationsListRecommendedRulesForWebAppNextResponse>;
+  listRecommendedRulesForWebAppNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecommendationsListRecommendedRulesForWebAppNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listRecommendedRulesForWebAppNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
+  listRecommendedRulesForWebAppNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listRecommendedRulesForWebAppNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecommendationCollection>): void;
-  listRecommendedRulesForWebAppNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>, callback?: msRest.ServiceCallback<Models.RecommendationCollection>): Promise<Models.RecommendationsListRecommendedRulesForWebAppNextResponse> {
+  listRecommendedRulesForWebAppNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): void;
+  listRecommendedRulesForWebAppNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecommendationCollection>,
+    callback?: msRest.ServiceCallback<Models.RecommendationCollection>
+  ): Promise<Models.RecommendationsListRecommendedRulesForWebAppNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listRecommendedRulesForWebAppNextOperationSpec,
-      callback) as Promise<Models.RecommendationsListRecommendedRulesForWebAppNextResponse>;
+      callback
+    ) as Promise<Models.RecommendationsListRecommendedRulesForWebAppNextResponse>;
   }
 }
 
@@ -681,17 +1051,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/recommendations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.featured,
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.featured, Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendationCollection
@@ -706,15 +1068,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const resetAllFiltersOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/recommendations/reset",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -727,16 +1083,9 @@ const resetAllFiltersOperationSpec: msRest.OperationSpec = {
 const disableRecommendationForSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/recommendations/{name}/disable",
-  urlParameters: [
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -748,20 +1097,15 @@ const disableRecommendationForSubscriptionOperationSpec: msRest.OperationSpec = 
 
 const listHistoryForHostingEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendationHistory",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendationHistory",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hostingEnvironmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.expiredOnly,
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expiredOnly, Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendationCollection
@@ -775,20 +1119,15 @@ const listHistoryForHostingEnvironmentOperationSpec: msRest.OperationSpec = {
 
 const listRecommendedRulesForHostingEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hostingEnvironmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.featured,
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.featured, Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendationCollection
@@ -802,19 +1141,15 @@ const listRecommendedRulesForHostingEnvironmentOperationSpec: msRest.OperationSp
 
 const disableAllForHostingEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/disable",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/disable",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hostingEnvironmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.environmentName,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.environmentName, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -826,19 +1161,15 @@ const disableAllForHostingEnvironmentOperationSpec: msRest.OperationSpec = {
 
 const resetAllFiltersForHostingEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/reset",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/reset",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hostingEnvironmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.environmentName,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.environmentName, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -850,21 +1181,16 @@ const resetAllFiltersForHostingEnvironmentOperationSpec: msRest.OperationSpec = 
 
 const getRuleDetailsByHostingEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hostingEnvironmentName,
     Parameters.name,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.updateSeen,
-    Parameters.recommendationId,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.updateSeen, Parameters.recommendationId, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendationRule
@@ -878,20 +1204,16 @@ const getRuleDetailsByHostingEnvironmentOperationSpec: msRest.OperationSpec = {
 
 const disableRecommendationForHostingEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/{name}/disable",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/{name}/disable",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.hostingEnvironmentName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.environmentName,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.environmentName, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -903,20 +1225,11 @@ const disableRecommendationForHostingEnvironmentOperationSpec: msRest.OperationS
 
 const listHistoryForWebAppOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendationHistory",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.siteName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.expiredOnly,
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendationHistory",
+  urlParameters: [Parameters.resourceGroupName, Parameters.siteName, Parameters.subscriptionId],
+  queryParameters: [Parameters.expiredOnly, Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendationCollection
@@ -930,20 +1243,11 @@ const listHistoryForWebAppOperationSpec: msRest.OperationSpec = {
 
 const listRecommendedRulesForWebAppOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.siteName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.featured,
-    Parameters.filter,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations",
+  urlParameters: [Parameters.resourceGroupName, Parameters.siteName, Parameters.subscriptionId],
+  queryParameters: [Parameters.featured, Parameters.filter, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendationCollection
@@ -957,18 +1261,11 @@ const listRecommendedRulesForWebAppOperationSpec: msRest.OperationSpec = {
 
 const disableAllForWebAppOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/disable",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.siteName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/disable",
+  urlParameters: [Parameters.resourceGroupName, Parameters.siteName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -980,18 +1277,11 @@ const disableAllForWebAppOperationSpec: msRest.OperationSpec = {
 
 const resetAllFiltersForWebAppOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/reset",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.siteName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/reset",
+  urlParameters: [Parameters.resourceGroupName, Parameters.siteName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -1003,21 +1293,16 @@ const resetAllFiltersForWebAppOperationSpec: msRest.OperationSpec = {
 
 const getRuleDetailsByWebAppOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
     Parameters.name,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.updateSeen,
-    Parameters.recommendationId,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.updateSeen, Parameters.recommendationId, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendationRule
@@ -1031,19 +1316,16 @@ const getRuleDetailsByWebAppOperationSpec: msRest.OperationSpec = {
 
 const disableRecommendationForSiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}/disable",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}/disable",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.siteName,
     Parameters.name,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -1057,12 +1339,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendationCollection
@@ -1078,12 +1356,8 @@ const listHistoryForHostingEnvironmentNextOperationSpec: msRest.OperationSpec = 
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendationCollection
@@ -1099,12 +1373,8 @@ const listRecommendedRulesForHostingEnvironmentNextOperationSpec: msRest.Operati
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendationCollection
@@ -1120,12 +1390,8 @@ const listHistoryForWebAppNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendationCollection
@@ -1141,12 +1407,8 @@ const listRecommendedRulesForWebAppNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecommendationCollection

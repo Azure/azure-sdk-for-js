@@ -37,9 +37,22 @@ export class Configurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, configurationName: string, parameters: Models.Configuration, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serverName,configurationName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ConfigurationsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    configurationName: string,
+    parameters: Models.Configuration,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConfigurationsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      configurationName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ConfigurationsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -51,7 +64,12 @@ export class Configurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationsGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, configurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    configurationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConfigurationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -59,7 +77,12 @@ export class Configurations {
    * @param configurationName The name of the server configuration.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, configurationName: string, callback: msRest.ServiceCallback<Models.Configuration>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    configurationName: string,
+    callback: msRest.ServiceCallback<Models.Configuration>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -68,8 +91,20 @@ export class Configurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, configurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Configuration>): void;
-  get(resourceGroupName: string, serverName: string, configurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Configuration>, callback?: msRest.ServiceCallback<Models.Configuration>): Promise<Models.ConfigurationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    configurationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Configuration>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    configurationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Configuration>,
+    callback?: msRest.ServiceCallback<Models.Configuration>
+  ): Promise<Models.ConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -78,7 +113,8 @@ export class Configurations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ConfigurationsGetResponse>;
+      callback
+    ) as Promise<Models.ConfigurationsGetResponse>;
   }
 
   /**
@@ -89,14 +125,22 @@ export class Configurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ConfigurationsListByServerResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ConfigurationsListByServerResponse>;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ConfigurationsListByServerResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ConfigurationListResult>): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.ConfigurationListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -104,8 +148,18 @@ export class Configurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ConfigurationListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConfigurationListResult>, callback?: msRest.ServiceCallback<Models.ConfigurationListResult>): Promise<Models.ConfigurationsListByServerResponse> {
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ConfigurationListResult>
+  ): void;
+  listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ConfigurationListResult>,
+    callback?: msRest.ServiceCallback<Models.ConfigurationListResult>
+  ): Promise<Models.ConfigurationsListByServerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +167,8 @@ export class Configurations {
         options
       },
       listByServerOperationSpec,
-      callback) as Promise<Models.ConfigurationsListByServerResponse>;
+      callback
+    ) as Promise<Models.ConfigurationsListByServerResponse>;
   }
 
   /**
@@ -126,7 +181,13 @@ export class Configurations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serverName: string, configurationName: string, parameters: Models.Configuration, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    configurationName: string,
+    parameters: Models.Configuration,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -136,7 +197,8 @@ export class Configurations {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -144,19 +206,16 @@ export class Configurations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/servers/{serverName}/configurations/{configurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/servers/{serverName}/configurations/{configurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.configurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Configuration
@@ -170,18 +229,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/servers/{serverName}/configurations",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/servers/{serverName}/configurations",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.serverName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationListResult
@@ -195,19 +247,16 @@ const listByServerOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/servers/{serverName}/configurations/{configurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/servers/{serverName}/configurations/{configurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.configurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

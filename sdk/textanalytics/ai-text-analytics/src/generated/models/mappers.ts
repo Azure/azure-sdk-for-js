@@ -8,7 +8,6 @@
 
 import * as coreHttp from "@azure/core-http";
 
-
 export const TextDocumentInput: coreHttp.CompositeMapper = {
   serializedName: "TextDocumentInput",
   type: {
@@ -212,10 +211,7 @@ export const TextAnalyticsWarning: coreHttp.CompositeMapper = {
         serializedName: "code",
         type: {
           name: "Enum",
-          allowedValues: [
-            "LongWordsInDocument",
-            "DocumentTruncated"
-          ]
+          allowedValues: ["LongWordsInDocument", "DocumentTruncated"]
         }
       },
       message: {
@@ -301,11 +297,7 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
         serializedName: "sentiment",
         type: {
           name: "Enum",
-          allowedValues: [
-            "positive",
-            "neutral",
-            "negative"
-          ]
+          allowedValues: ["positive", "neutral", "negative"]
         }
       },
       confidenceScores: {
@@ -338,12 +330,7 @@ export const DocumentSentiment: coreHttp.CompositeMapper = {
         serializedName: "sentiment",
         type: {
           name: "Enum",
-          allowedValues: [
-            "positive",
-            "neutral",
-            "negative",
-            "mixed"
-          ]
+          allowedValues: ["positive", "neutral", "negative", "mixed"]
         }
       },
       statistics: {

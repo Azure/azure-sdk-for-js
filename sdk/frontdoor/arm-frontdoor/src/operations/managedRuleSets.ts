@@ -40,14 +40,23 @@ export class ManagedRuleSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>, callback?: msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>): Promise<Models.ManagedRuleSetsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>
+  ): Promise<Models.ManagedRuleSetsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ManagedRuleSetsListResponse>;
+      callback
+    ) as Promise<Models.ManagedRuleSetsListResponse>;
   }
 
   /**
@@ -56,26 +65,43 @@ export class ManagedRuleSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedRuleSetsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedRuleSetsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedRuleSetsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>, callback?: msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>): Promise<Models.ManagedRuleSetsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>,
+    callback?: msRest.ServiceCallback<Models.ManagedRuleSetDefinitionList>
+  ): Promise<Models.ManagedRuleSetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ManagedRuleSetsListNextResponse>;
+      callback
+    ) as Promise<Models.ManagedRuleSetsListNextResponse>;
   }
 }
 
@@ -83,16 +109,11 @@ export class ManagedRuleSets {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallManagedRuleSets",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallManagedRuleSets",
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedRuleSetDefinitionList
@@ -108,12 +129,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedRuleSetDefinitionList

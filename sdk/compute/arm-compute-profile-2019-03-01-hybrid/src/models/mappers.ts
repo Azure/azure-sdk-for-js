@@ -80,11 +80,7 @@ export const InstanceViewStatus: msRest.CompositeMapper = {
         serializedName: "level",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Info",
-            "Warning",
-            "Error"
-          ]
+          allowedValues: ["Info", "Warning", "Error"]
         }
       },
       displayStatus: {
@@ -695,10 +691,7 @@ export const OSDiskImage: msRest.CompositeMapper = {
         serializedName: "operatingSystem",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Windows",
-            "Linux"
-          ]
+          allowedValues: ["Windows", "Linux"]
         }
       }
     }
@@ -791,7 +784,7 @@ export const Usage: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "unit",
-        defaultValue: 'Count',
+        defaultValue: "Count",
         type: {
           name: "String"
         }
@@ -1078,10 +1071,7 @@ export const OSDisk: msRest.CompositeMapper = {
         serializedName: "osType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Windows",
-            "Linux"
-          ]
+          allowedValues: ["Windows", "Linux"]
         }
       },
       encryptionSettings: {
@@ -1115,11 +1105,7 @@ export const OSDisk: msRest.CompositeMapper = {
         serializedName: "caching",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "ReadOnly",
-            "ReadWrite"
-          ]
+          allowedValues: ["None", "ReadOnly", "ReadWrite"]
         }
       },
       writeAcceleratorEnabled: {
@@ -1189,11 +1175,7 @@ export const DataDisk: msRest.CompositeMapper = {
         serializedName: "caching",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "ReadOnly",
-            "ReadWrite"
-          ]
+          allowedValues: ["None", "ReadOnly", "ReadWrite"]
         }
       },
       writeAcceleratorEnabled: {
@@ -1272,28 +1254,21 @@ export const AdditionalUnattendContent: msRest.CompositeMapper = {
         serializedName: "passName",
         type: {
           name: "Enum",
-          allowedValues: [
-            "OobeSystem"
-          ]
+          allowedValues: ["OobeSystem"]
         }
       },
       componentName: {
         serializedName: "componentName",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Microsoft-Windows-Shell-Setup"
-          ]
+          allowedValues: ["Microsoft-Windows-Shell-Setup"]
         }
       },
       settingName: {
         serializedName: "settingName",
         type: {
           name: "Enum",
-          allowedValues: [
-            "AutoLogon",
-            "FirstLogonCommands"
-          ]
+          allowedValues: ["AutoLogon", "FirstLogonCommands"]
         }
       },
       content: {
@@ -1316,10 +1291,7 @@ export const WinRMListener: msRest.CompositeMapper = {
         serializedName: "protocol",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Http",
-            "Https"
-          ]
+          allowedValues: ["Http", "Https"]
         }
       },
       certificateUrl: {
@@ -1814,12 +1786,7 @@ export const VirtualMachineIdentity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned", "None"]
         }
       },
       identityIds: {
@@ -1877,12 +1844,7 @@ export const MaintenanceRedeployStatus: msRest.CompositeMapper = {
         serializedName: "lastOperationResultCode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "RetryLater",
-            "MaintenanceAborted",
-            "MaintenanceCompleted"
-          ]
+          allowedValues: ["None", "RetryLater", "MaintenanceAborted", "MaintenanceCompleted"]
         }
       },
       lastOperationMessage: {
@@ -2295,11 +2257,7 @@ export const UpgradePolicy: msRest.CompositeMapper = {
         serializedName: "mode",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Automatic",
-            "Manual",
-            "Rolling"
-          ]
+          allowedValues: ["Automatic", "Manual", "Rolling"]
         }
       },
       rollingUpgradePolicy: {
@@ -2337,10 +2295,7 @@ export const ImageOSDisk: msRest.CompositeMapper = {
         serializedName: "osType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Windows",
-            "Linux"
-          ]
+          allowedValues: ["Windows", "Linux"]
         }
       },
       osState: {
@@ -2348,10 +2303,7 @@ export const ImageOSDisk: msRest.CompositeMapper = {
         serializedName: "osState",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Generalized",
-            "Specialized"
-          ]
+          allowedValues: ["Generalized", "Specialized"]
         }
       },
       snapshot: {
@@ -2378,11 +2330,7 @@ export const ImageOSDisk: msRest.CompositeMapper = {
         serializedName: "caching",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "ReadOnly",
-            "ReadWrite"
-          ]
+          allowedValues: ["None", "ReadOnly", "ReadWrite"]
         }
       },
       diskSizeGB: {
@@ -2438,11 +2386,7 @@ export const ImageDataDisk: msRest.CompositeMapper = {
         serializedName: "caching",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "ReadOnly",
-            "ReadWrite"
-          ]
+          allowedValues: ["None", "ReadOnly", "ReadWrite"]
         }
       },
       diskSizeGB: {
@@ -2584,12 +2528,7 @@ export const VirtualMachineScaleSetIdentity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned", "None"]
         }
       },
       identityIds: {
@@ -2741,11 +2680,7 @@ export const VirtualMachineScaleSetOSDisk: msRest.CompositeMapper = {
         serializedName: "caching",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "ReadOnly",
-            "ReadWrite"
-          ]
+          allowedValues: ["None", "ReadOnly", "ReadWrite"]
         }
       },
       writeAcceleratorEnabled: {
@@ -2765,10 +2700,7 @@ export const VirtualMachineScaleSetOSDisk: msRest.CompositeMapper = {
         serializedName: "osType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Windows",
-            "Linux"
-          ]
+          allowedValues: ["Windows", "Linux"]
         }
       },
       image: {
@@ -2810,11 +2742,7 @@ export const VirtualMachineScaleSetUpdateOSDisk: msRest.CompositeMapper = {
         serializedName: "caching",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "ReadOnly",
-            "ReadWrite"
-          ]
+          allowedValues: ["None", "ReadOnly", "ReadWrite"]
         }
       },
       writeAcceleratorEnabled: {
@@ -2875,11 +2803,7 @@ export const VirtualMachineScaleSetDataDisk: msRest.CompositeMapper = {
         serializedName: "caching",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "ReadOnly",
-            "ReadWrite"
-          ]
+          allowedValues: ["None", "ReadOnly", "ReadWrite"]
         }
       },
       writeAcceleratorEnabled: {
@@ -3998,10 +3922,7 @@ export const VirtualMachineScaleSetSkuCapacity: msRest.CompositeMapper = {
         serializedName: "scaleType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Automatic",
-            "None"
-          ]
+          allowedValues: ["Automatic", "None"]
         }
       }
     }
@@ -4181,12 +4102,7 @@ export const UpgradeOperationHistoryStatus: msRest.CompositeMapper = {
         serializedName: "code",
         type: {
           name: "Enum",
-          allowedValues: [
-            "RollingForward",
-            "Cancelled",
-            "Completed",
-            "Faulted"
-          ]
+          allowedValues: ["RollingForward", "Cancelled", "Completed", "Faulted"]
         }
       },
       startTime: {
@@ -4280,11 +4196,7 @@ export const UpgradeOperationHistoricalStatusInfoProperties: msRest.CompositeMap
         serializedName: "startedBy",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Unknown",
-            "User",
-            "Platform"
-          ]
+          allowedValues: ["Unknown", "User", "Platform"]
         }
       },
       targetImageReference: {
@@ -4590,12 +4502,7 @@ export const RollingUpgradeRunningStatus: msRest.CompositeMapper = {
         serializedName: "code",
         type: {
           name: "Enum",
-          allowedValues: [
-            "RollingForward",
-            "Cancelled",
-            "Completed",
-            "Faulted"
-          ]
+          allowedValues: ["RollingForward", "Cancelled", "Completed", "Faulted"]
         }
       },
       startTime: {
@@ -4610,10 +4517,7 @@ export const RollingUpgradeRunningStatus: msRest.CompositeMapper = {
         serializedName: "lastAction",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Start",
-            "Cancel"
-          ]
+          allowedValues: ["Start", "Cancel"]
         }
       },
       lastActionTime: {
@@ -4817,12 +4721,7 @@ export const RequestRateByIntervalInput: msRest.CompositeMapper = {
         serializedName: "intervalLength",
         type: {
           name: "Enum",
-          allowedValues: [
-            "ThreeMins",
-            "FiveMins",
-            "ThirtyMins",
-            "SixtyMins"
-          ]
+          allowedValues: ["ThreeMins", "FiveMins", "ThirtyMins", "SixtyMins"]
         }
       }
     }
@@ -4891,7 +4790,7 @@ export const DiskSku: msRest.CompositeMapper = {
       tier: {
         readOnly: true,
         serializedName: "tier",
-        defaultValue: 'Standard',
+        defaultValue: "Standard",
         type: {
           name: "String"
         }
@@ -4962,13 +4861,7 @@ export const CreationData: msRest.CompositeMapper = {
         serializedName: "createOption",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Empty",
-            "Attach",
-            "FromImage",
-            "Import",
-            "Copy"
-          ]
+          allowedValues: ["Empty", "Attach", "FromImage", "Import", "Copy"]
         }
       },
       storageAccountId: {
@@ -5139,10 +5032,7 @@ export const Disk: msRest.CompositeMapper = {
         serializedName: "properties.osType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Windows",
-            "Linux"
-          ]
+          allowedValues: ["Windows", "Linux"]
         }
       },
       creationData: {
@@ -5188,10 +5078,7 @@ export const DiskUpdate: msRest.CompositeMapper = {
         serializedName: "properties.osType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Windows",
-            "Linux"
-          ]
+          allowedValues: ["Windows", "Linux"]
         }
       },
       diskSizeGB: {
@@ -5222,10 +5109,7 @@ export const GrantAccessData: msRest.CompositeMapper = {
         serializedName: "access",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Read"
-          ]
+          allowedValues: ["None", "Read"]
         }
       },
       durationInSeconds: {
@@ -5288,10 +5172,7 @@ export const Snapshot: msRest.CompositeMapper = {
         serializedName: "properties.osType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Windows",
-            "Linux"
-          ]
+          allowedValues: ["Windows", "Linux"]
         }
       },
       creationData: {
@@ -5337,10 +5218,7 @@ export const SnapshotUpdate: msRest.CompositeMapper = {
         serializedName: "properties.osType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Windows",
-            "Linux"
-          ]
+          allowedValues: ["Windows", "Linux"]
         }
       },
       diskSizeGB: {

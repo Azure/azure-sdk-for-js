@@ -36,7 +36,14 @@ export class DenyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DenyAssignmentsListForResourceResponse>
    */
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.DenyAssignmentsListForResourceOptionalParams): Promise<Models.DenyAssignmentsListForResourceResponse>;
+  listForResource(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options?: Models.DenyAssignmentsListForResourceOptionalParams
+  ): Promise<Models.DenyAssignmentsListForResourceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceProviderNamespace The namespace of the resource provider.
@@ -45,7 +52,14 @@ export class DenyAssignments {
    * @param resourceName The name of the resource to get deny assignments for.
    * @param callback The callback
    */
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
+  listForResource(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceProviderNamespace The namespace of the resource provider.
@@ -55,8 +69,26 @@ export class DenyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: Models.DenyAssignmentsListForResourceOptionalParams, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.DenyAssignmentsListForResourceOptionalParams | msRest.ServiceCallback<Models.DenyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>): Promise<Models.DenyAssignmentsListForResourceResponse> {
+  listForResource(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options: Models.DenyAssignmentsListForResourceOptionalParams,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
+  listForResource(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options?:
+      | Models.DenyAssignmentsListForResourceOptionalParams
+      | msRest.ServiceCallback<Models.DenyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): Promise<Models.DenyAssignmentsListForResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +99,8 @@ export class DenyAssignments {
         options
       },
       listForResourceOperationSpec,
-      callback) as Promise<Models.DenyAssignmentsListForResourceResponse>;
+      callback
+    ) as Promise<Models.DenyAssignmentsListForResourceResponse>;
   }
 
   /**
@@ -76,26 +109,43 @@ export class DenyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DenyAssignmentsListForResourceGroupResponse>
    */
-  listForResourceGroup(resourceGroupName: string, options?: Models.DenyAssignmentsListForResourceGroupOptionalParams): Promise<Models.DenyAssignmentsListForResourceGroupResponse>;
+  listForResourceGroup(
+    resourceGroupName: string,
+    options?: Models.DenyAssignmentsListForResourceGroupOptionalParams
+  ): Promise<Models.DenyAssignmentsListForResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listForResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
+  listForResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForResourceGroup(resourceGroupName: string, options: Models.DenyAssignmentsListForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
-  listForResourceGroup(resourceGroupName: string, options?: Models.DenyAssignmentsListForResourceGroupOptionalParams | msRest.ServiceCallback<Models.DenyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>): Promise<Models.DenyAssignmentsListForResourceGroupResponse> {
+  listForResourceGroup(
+    resourceGroupName: string,
+    options: Models.DenyAssignmentsListForResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
+  listForResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.DenyAssignmentsListForResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.DenyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): Promise<Models.DenyAssignmentsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listForResourceGroupOperationSpec,
-      callback) as Promise<Models.DenyAssignmentsListForResourceGroupResponse>;
+      callback
+    ) as Promise<Models.DenyAssignmentsListForResourceGroupResponse>;
   }
 
   /**
@@ -103,7 +153,9 @@ export class DenyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DenyAssignmentsListResponse>
    */
-  list(options?: Models.DenyAssignmentsListOptionalParams): Promise<Models.DenyAssignmentsListResponse>;
+  list(
+    options?: Models.DenyAssignmentsListOptionalParams
+  ): Promise<Models.DenyAssignmentsListResponse>;
   /**
    * @param callback The callback
    */
@@ -112,14 +164,23 @@ export class DenyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.DenyAssignmentsListOptionalParams, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
-  list(options?: Models.DenyAssignmentsListOptionalParams | msRest.ServiceCallback<Models.DenyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>): Promise<Models.DenyAssignmentsListResponse> {
+  list(
+    options: Models.DenyAssignmentsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
+  list(
+    options?:
+      | Models.DenyAssignmentsListOptionalParams
+      | msRest.ServiceCallback<Models.DenyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): Promise<Models.DenyAssignmentsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DenyAssignmentsListResponse>;
+      callback
+    ) as Promise<Models.DenyAssignmentsListResponse>;
   }
 
   /**
@@ -129,21 +190,39 @@ export class DenyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DenyAssignmentsGetResponse>
    */
-  get(scope: string, denyAssignmentId: string, options?: msRest.RequestOptionsBase): Promise<Models.DenyAssignmentsGetResponse>;
+  get(
+    scope: string,
+    denyAssignmentId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DenyAssignmentsGetResponse>;
   /**
    * @param scope The scope of the deny assignment.
    * @param denyAssignmentId The ID of the deny assignment to get.
    * @param callback The callback
    */
-  get(scope: string, denyAssignmentId: string, callback: msRest.ServiceCallback<Models.DenyAssignment>): void;
+  get(
+    scope: string,
+    denyAssignmentId: string,
+    callback: msRest.ServiceCallback<Models.DenyAssignment>
+  ): void;
   /**
    * @param scope The scope of the deny assignment.
    * @param denyAssignmentId The ID of the deny assignment to get.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(scope: string, denyAssignmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DenyAssignment>): void;
-  get(scope: string, denyAssignmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DenyAssignment>, callback?: msRest.ServiceCallback<Models.DenyAssignment>): Promise<Models.DenyAssignmentsGetResponse> {
+  get(
+    scope: string,
+    denyAssignmentId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DenyAssignment>
+  ): void;
+  get(
+    scope: string,
+    denyAssignmentId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DenyAssignment>,
+    callback?: msRest.ServiceCallback<Models.DenyAssignment>
+  ): Promise<Models.DenyAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
@@ -151,7 +230,8 @@ export class DenyAssignments {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DenyAssignmentsGetResponse>;
+      callback
+    ) as Promise<Models.DenyAssignmentsGetResponse>;
   }
 
   /**
@@ -164,7 +244,10 @@ export class DenyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DenyAssignmentsGetByIdResponse>
    */
-  getById(denyAssignmentId: string, options?: msRest.RequestOptionsBase): Promise<Models.DenyAssignmentsGetByIdResponse>;
+  getById(
+    denyAssignmentId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DenyAssignmentsGetByIdResponse>;
   /**
    * @param denyAssignmentId The fully qualified deny assignment ID. For example, use the format,
    * /subscriptions/{guid}/providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId} for
@@ -183,15 +266,24 @@ export class DenyAssignments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getById(denyAssignmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DenyAssignment>): void;
-  getById(denyAssignmentId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DenyAssignment>, callback?: msRest.ServiceCallback<Models.DenyAssignment>): Promise<Models.DenyAssignmentsGetByIdResponse> {
+  getById(
+    denyAssignmentId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DenyAssignment>
+  ): void;
+  getById(
+    denyAssignmentId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DenyAssignment>,
+    callback?: msRest.ServiceCallback<Models.DenyAssignment>
+  ): Promise<Models.DenyAssignmentsGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         denyAssignmentId,
         options
       },
       getByIdOperationSpec,
-      callback) as Promise<Models.DenyAssignmentsGetByIdResponse>;
+      callback
+    ) as Promise<Models.DenyAssignmentsGetByIdResponse>;
   }
 
   /**
@@ -200,26 +292,43 @@ export class DenyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DenyAssignmentsListForScopeResponse>
    */
-  listForScope(scope: string, options?: Models.DenyAssignmentsListForScopeOptionalParams): Promise<Models.DenyAssignmentsListForScopeResponse>;
+  listForScope(
+    scope: string,
+    options?: Models.DenyAssignmentsListForScopeOptionalParams
+  ): Promise<Models.DenyAssignmentsListForScopeResponse>;
   /**
    * @param scope The scope of the deny assignments.
    * @param callback The callback
    */
-  listForScope(scope: string, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
+  listForScope(
+    scope: string,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
   /**
    * @param scope The scope of the deny assignments.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForScope(scope: string, options: Models.DenyAssignmentsListForScopeOptionalParams, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
-  listForScope(scope: string, options?: Models.DenyAssignmentsListForScopeOptionalParams | msRest.ServiceCallback<Models.DenyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>): Promise<Models.DenyAssignmentsListForScopeResponse> {
+  listForScope(
+    scope: string,
+    options: Models.DenyAssignmentsListForScopeOptionalParams,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
+  listForScope(
+    scope: string,
+    options?:
+      | Models.DenyAssignmentsListForScopeOptionalParams
+      | msRest.ServiceCallback<Models.DenyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): Promise<Models.DenyAssignmentsListForScopeResponse> {
     return this.client.sendOperationRequest(
       {
         scope,
         options
       },
       listForScopeOperationSpec,
-      callback) as Promise<Models.DenyAssignmentsListForScopeResponse>;
+      callback
+    ) as Promise<Models.DenyAssignmentsListForScopeResponse>;
   }
 
   /**
@@ -228,26 +337,41 @@ export class DenyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DenyAssignmentsListForResourceNextResponse>
    */
-  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DenyAssignmentsListForResourceNextResponse>;
+  listForResourceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DenyAssignmentsListForResourceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listForResourceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
+  listForResourceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
-  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DenyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>): Promise<Models.DenyAssignmentsListForResourceNextResponse> {
+  listForResourceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
+  listForResourceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DenyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): Promise<Models.DenyAssignmentsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listForResourceNextOperationSpec,
-      callback) as Promise<Models.DenyAssignmentsListForResourceNextResponse>;
+      callback
+    ) as Promise<Models.DenyAssignmentsListForResourceNextResponse>;
   }
 
   /**
@@ -256,26 +380,41 @@ export class DenyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DenyAssignmentsListForResourceGroupNextResponse>
    */
-  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DenyAssignmentsListForResourceGroupNextResponse>;
+  listForResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DenyAssignmentsListForResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listForResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
+  listForResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
-  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DenyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>): Promise<Models.DenyAssignmentsListForResourceGroupNextResponse> {
+  listForResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
+  listForResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DenyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): Promise<Models.DenyAssignmentsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listForResourceGroupNextOperationSpec,
-      callback) as Promise<Models.DenyAssignmentsListForResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.DenyAssignmentsListForResourceGroupNextResponse>;
   }
 
   /**
@@ -284,26 +423,41 @@ export class DenyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DenyAssignmentsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DenyAssignmentsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DenyAssignmentsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DenyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>): Promise<Models.DenyAssignmentsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DenyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): Promise<Models.DenyAssignmentsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DenyAssignmentsListNextResponse>;
+      callback
+    ) as Promise<Models.DenyAssignmentsListNextResponse>;
   }
 
   /**
@@ -312,26 +466,41 @@ export class DenyAssignments {
    * @param [options] The optional parameters
    * @returns Promise<Models.DenyAssignmentsListForScopeNextResponse>
    */
-  listForScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DenyAssignmentsListForScopeNextResponse>;
+  listForScopeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DenyAssignmentsListForScopeNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listForScopeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
+  listForScopeNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>): void;
-  listForScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DenyAssignmentListResult>, callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>): Promise<Models.DenyAssignmentsListForScopeNextResponse> {
+  listForScopeNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): void;
+  listForScopeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DenyAssignmentListResult>,
+    callback?: msRest.ServiceCallback<Models.DenyAssignmentListResult>
+  ): Promise<Models.DenyAssignmentsListForScopeNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listForScopeNextOperationSpec,
-      callback) as Promise<Models.DenyAssignmentsListForScopeNextResponse>;
+      callback
+    ) as Promise<Models.DenyAssignmentsListForScopeNextResponse>;
   }
 }
 
@@ -339,7 +508,8 @@ export class DenyAssignments {
 const serializer = new msRest.Serializer(Mappers);
 const listForResourceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/denyAssignments",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/denyAssignments",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -348,13 +518,8 @@ const listForResourceOperationSpec: msRest.OperationSpec = {
     Parameters.resourceType,
     Parameters.resourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion4,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion4, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DenyAssignmentListResult
@@ -368,18 +533,11 @@ const listForResourceOperationSpec: msRest.OperationSpec = {
 
 const listForResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/denyAssignments",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion4,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/denyAssignments",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion4, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DenyAssignmentListResult
@@ -394,16 +552,9 @@ const listForResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Authorization/denyAssignments",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion4,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion4, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DenyAssignmentListResult
@@ -418,16 +569,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId}",
-  urlParameters: [
-    Parameters.scope,
-    Parameters.denyAssignmentId0
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope, Parameters.denyAssignmentId0],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DenyAssignment
@@ -442,15 +586,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const getByIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{denyAssignmentId}",
-  urlParameters: [
-    Parameters.denyAssignmentId1
-  ],
-  queryParameters: [
-    Parameters.apiVersion4
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.denyAssignmentId1],
+  queryParameters: [Parameters.apiVersion4],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DenyAssignment
@@ -465,16 +603,9 @@ const getByIdOperationSpec: msRest.OperationSpec = {
 const listForScopeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.Authorization/denyAssignments",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion4,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.scope],
+  queryParameters: [Parameters.apiVersion4, Parameters.filter],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DenyAssignmentListResult
@@ -490,12 +621,8 @@ const listForResourceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DenyAssignmentListResult
@@ -511,12 +638,8 @@ const listForResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DenyAssignmentListResult
@@ -532,12 +655,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DenyAssignmentListResult
@@ -553,12 +672,8 @@ const listForScopeNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DenyAssignmentListResult

@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing Resource.
@@ -738,7 +737,8 @@ export interface AvailableOperations {
  *
  * @extends RequestOptionsBase
  */
-export interface OperationalizationClustersDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface OperationalizationClustersDeleteMethodOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {boolean} [deleteAll] If true, deletes all resources associated
    * with this cluster.
@@ -753,7 +753,8 @@ export interface OperationalizationClustersDeleteMethodOptionalParams extends ms
  *
  * @extends RequestOptionsBase
  */
-export interface OperationalizationClustersListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface OperationalizationClustersListByResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [skiptoken] Continuation token for pagination.
    */
@@ -767,7 +768,8 @@ export interface OperationalizationClustersListByResourceGroupOptionalParams ext
  *
  * @extends RequestOptionsBase
  */
-export interface OperationalizationClustersListBySubscriptionIdOptionalParams extends msRest.RequestOptionsBase {
+export interface OperationalizationClustersListBySubscriptionIdOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [skiptoken] Continuation token for pagination.
    */
@@ -781,7 +783,8 @@ export interface OperationalizationClustersListBySubscriptionIdOptionalParams ex
  *
  * @extends RequestOptionsBase
  */
-export interface OperationalizationClustersBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+export interface OperationalizationClustersBeginDeleteMethodOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {boolean} [deleteAll] If true, deletes all resources associated
    * with this cluster.
@@ -827,7 +830,6 @@ export interface OperationalizationClustersUpdateSystemServicesHeaders {
   location: string;
 }
 
-
 /**
  * @interface
  * An interface representing the PaginatedOperationalizationClustersList.
@@ -850,7 +852,14 @@ export interface PaginatedOperationalizationClustersList extends Array<Operation
  * @readonly
  * @enum {string}
  */
-export type OperationStatus = 'Unknown' | 'Updating' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export type OperationStatus =
+  | "Unknown"
+  | "Updating"
+  | "Creating"
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled";
 
 /**
  * Defines values for ClusterType.
@@ -858,7 +867,7 @@ export type OperationStatus = 'Unknown' | 'Updating' | 'Creating' | 'Deleting' |
  * @readonly
  * @enum {string}
  */
-export type ClusterType = 'ACS' | 'Local';
+export type ClusterType = "ACS" | "Local";
 
 /**
  * Defines values for OrchestratorType.
@@ -866,7 +875,7 @@ export type ClusterType = 'ACS' | 'Local';
  * @readonly
  * @enum {string}
  */
-export type OrchestratorType = 'Kubernetes' | 'None';
+export type OrchestratorType = "Kubernetes" | "None";
 
 /**
  * Defines values for SystemServiceType.
@@ -874,7 +883,7 @@ export type OrchestratorType = 'Kubernetes' | 'None';
  * @readonly
  * @enum {string}
  */
-export type SystemServiceType = 'None' | 'ScoringFrontEnd' | 'BatchFrontEnd';
+export type SystemServiceType = "None" | "ScoringFrontEnd" | "BatchFrontEnd";
 
 /**
  * Defines values for AgentVMSizeTypes.
@@ -890,7 +899,54 @@ export type SystemServiceType = 'None' | 'ScoringFrontEnd' | 'BatchFrontEnd';
  * @readonly
  * @enum {string}
  */
-export type AgentVMSizeTypes = 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A9' | 'Standard_A10' | 'Standard_A11' | 'Standard_D1' | 'Standard_D2' | 'Standard_D3' | 'Standard_D4' | 'Standard_D11' | 'Standard_D12' | 'Standard_D13' | 'Standard_D14' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_DS1' | 'Standard_DS2' | 'Standard_DS3' | 'Standard_DS4' | 'Standard_DS11' | 'Standard_DS12' | 'Standard_DS13' | 'Standard_DS14' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5';
+export type AgentVMSizeTypes =
+  | "Standard_A0"
+  | "Standard_A1"
+  | "Standard_A2"
+  | "Standard_A3"
+  | "Standard_A4"
+  | "Standard_A5"
+  | "Standard_A6"
+  | "Standard_A7"
+  | "Standard_A8"
+  | "Standard_A9"
+  | "Standard_A10"
+  | "Standard_A11"
+  | "Standard_D1"
+  | "Standard_D2"
+  | "Standard_D3"
+  | "Standard_D4"
+  | "Standard_D11"
+  | "Standard_D12"
+  | "Standard_D13"
+  | "Standard_D14"
+  | "Standard_D1_v2"
+  | "Standard_D2_v2"
+  | "Standard_D3_v2"
+  | "Standard_D4_v2"
+  | "Standard_D5_v2"
+  | "Standard_D11_v2"
+  | "Standard_D12_v2"
+  | "Standard_D13_v2"
+  | "Standard_D14_v2"
+  | "Standard_G1"
+  | "Standard_G2"
+  | "Standard_G3"
+  | "Standard_G4"
+  | "Standard_G5"
+  | "Standard_DS1"
+  | "Standard_DS2"
+  | "Standard_DS3"
+  | "Standard_DS4"
+  | "Standard_DS11"
+  | "Standard_DS12"
+  | "Standard_DS13"
+  | "Standard_DS14"
+  | "Standard_GS1"
+  | "Standard_GS2"
+  | "Standard_GS3"
+  | "Standard_GS4"
+  | "Standard_GS5";
 
 /**
  * Defines values for Status.
@@ -898,7 +954,7 @@ export type AgentVMSizeTypes = 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | '
  * @readonly
  * @enum {string}
  */
-export type Status = 'Enabled' | 'Disabled';
+export type Status = "Enabled" | "Disabled";
 
 /**
  * Defines values for UpdatesAvailable.
@@ -906,7 +962,7 @@ export type Status = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type UpdatesAvailable = 'Yes' | 'No';
+export type UpdatesAvailable = "Yes" | "No";
 
 /**
  * Contains response data for the createOrUpdate operation.
@@ -916,15 +972,15 @@ export type OperationalizationClustersCreateOrUpdateResponse = Operationalizatio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationalizationCluster;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationalizationCluster;
+  };
 };
 
 /**
@@ -935,15 +991,15 @@ export type OperationalizationClustersGetResponse = OperationalizationCluster & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationalizationCluster;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationalizationCluster;
+  };
 };
 
 /**
@@ -954,15 +1010,15 @@ export type OperationalizationClustersUpdateResponse = OperationalizationCluster
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationalizationCluster;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationalizationCluster;
+  };
 };
 
 /**
@@ -973,11 +1029,11 @@ export type OperationalizationClustersDeleteResponse = OperationalizationCluster
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: OperationalizationClustersDeleteHeaders;
-    };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: OperationalizationClustersDeleteHeaders;
+  };
 };
 
 /**
@@ -988,15 +1044,15 @@ export type OperationalizationClustersListKeysResponse = OperationalizationClust
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationalizationClusterCredentials;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationalizationClusterCredentials;
+  };
 };
 
 /**
@@ -1007,25 +1063,26 @@ export type OperationalizationClustersCheckSystemServicesUpdatesAvailableRespons
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckSystemServicesUpdatesAvailableResponse;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckSystemServicesUpdatesAvailableResponse;
+  };
 };
 
 /**
  * Contains response data for the updateSystemServices operation.
  */
-export type OperationalizationClustersUpdateSystemServicesResponse = UpdateSystemServicesResponse & OperationalizationClustersUpdateSystemServicesHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
+export type OperationalizationClustersUpdateSystemServicesResponse = UpdateSystemServicesResponse &
+  OperationalizationClustersUpdateSystemServicesHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: msRest.HttpResponse & {
       /**
        * The parsed HTTP response headers.
        */
@@ -1039,7 +1096,7 @@ export type OperationalizationClustersUpdateSystemServicesResponse = UpdateSyste
        */
       parsedBody: UpdateSystemServicesResponse;
     };
-};
+  };
 
 /**
  * Contains response data for the listByResourceGroup operation.
@@ -1049,15 +1106,15 @@ export type OperationalizationClustersListByResourceGroupResponse = PaginatedOpe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedOperationalizationClustersList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PaginatedOperationalizationClustersList;
+  };
 };
 
 /**
@@ -1068,15 +1125,15 @@ export type OperationalizationClustersListBySubscriptionIdResponse = PaginatedOp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedOperationalizationClustersList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PaginatedOperationalizationClustersList;
+  };
 };
 
 /**
@@ -1087,15 +1144,15 @@ export type OperationalizationClustersBeginCreateOrUpdateResponse = Operationali
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationalizationCluster;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationalizationCluster;
+  };
 };
 
 /**
@@ -1106,15 +1163,15 @@ export type OperationalizationClustersListByResourceGroupNextResponse = Paginate
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedOperationalizationClustersList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PaginatedOperationalizationClustersList;
+  };
 };
 
 /**
@@ -1125,15 +1182,15 @@ export type OperationalizationClustersListBySubscriptionIdNextResponse = Paginat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedOperationalizationClustersList;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PaginatedOperationalizationClustersList;
+  };
 };
 
 /**
@@ -1144,13 +1201,13 @@ export type MachineLearningComputeListAvailableOperationsResponse = AvailableOpe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableOperations;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailableOperations;
+  };
 };

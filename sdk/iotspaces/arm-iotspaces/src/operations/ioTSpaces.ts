@@ -34,21 +34,39 @@ export class IoTSpaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.IoTSpacesGetResponse>
    */
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.IoTSpacesGetResponse>;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IoTSpacesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoTSpaces instance.
    * @param resourceName The name of the IoTSpaces instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.IoTSpacesDescription>): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.IoTSpacesDescription>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoTSpaces instance.
    * @param resourceName The name of the IoTSpaces instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSpacesDescription>): void;
-  get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesDescription>, callback?: msRest.ServiceCallback<Models.IoTSpacesDescription>): Promise<Models.IoTSpacesGetResponse> {
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IoTSpacesDescription>
+  ): void;
+  get(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesDescription>,
+    callback?: msRest.ServiceCallback<Models.IoTSpacesDescription>
+  ): Promise<Models.IoTSpacesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class IoTSpaces {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IoTSpacesGetResponse>;
+      callback
+    ) as Promise<Models.IoTSpacesGetResponse>;
   }
 
   /**
@@ -69,9 +88,20 @@ export class IoTSpaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.IoTSpacesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceName: string, iotSpaceDescription: Models.IoTSpacesDescription, options?: msRest.RequestOptionsBase): Promise<Models.IoTSpacesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,resourceName,iotSpaceDescription,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IoTSpacesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    iotSpaceDescription: Models.IoTSpacesDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IoTSpacesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      resourceName,
+      iotSpaceDescription,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.IoTSpacesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -82,9 +112,18 @@ export class IoTSpaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.IoTSpacesUpdateResponse>
    */
-  update(resourceGroupName: string, resourceName: string, iotSpacePatchDescription: Models.IoTSpacesPatchDescription, options?: msRest.RequestOptionsBase): Promise<Models.IoTSpacesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,resourceName,iotSpacePatchDescription,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IoTSpacesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    resourceName: string,
+    iotSpacePatchDescription: Models.IoTSpacesPatchDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IoTSpacesUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      resourceName,
+      iotSpacePatchDescription,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.IoTSpacesUpdateResponse>;
   }
 
   /**
@@ -94,9 +133,14 @@ export class IoTSpaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.IoTSpacesDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.IoTSpacesDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IoTSpacesDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IoTSpacesDeleteMethodResponse> {
+    return this.beginDeleteMethod(resourceGroupName, resourceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.IoTSpacesDeleteMethodResponse>;
   }
 
   /**
@@ -113,14 +157,23 @@ export class IoTSpaces {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): Promise<Models.IoTSpacesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>,
+    callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>
+  ): Promise<Models.IoTSpacesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IoTSpacesListResponse>;
+      callback
+    ) as Promise<Models.IoTSpacesListResponse>;
   }
 
   /**
@@ -129,26 +182,43 @@ export class IoTSpaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.IoTSpacesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.IoTSpacesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IoTSpacesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoTSpaces instance.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoTSpaces instance.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): Promise<Models.IoTSpacesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>,
+    callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>
+  ): Promise<Models.IoTSpacesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.IoTSpacesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.IoTSpacesListByResourceGroupResponse>;
   }
 
   /**
@@ -158,28 +228,45 @@ export class IoTSpaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.IoTSpacesCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(operationInputs: Models.OperationInputs, options?: msRest.RequestOptionsBase): Promise<Models.IoTSpacesCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    operationInputs: Models.OperationInputs,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IoTSpacesCheckNameAvailabilityResponse>;
   /**
    * @param operationInputs Set the name parameter in the OperationInputs structure to the name of
    * the IoTSpaces instance to check.
    * @param callback The callback
    */
-  checkNameAvailability(operationInputs: Models.OperationInputs, callback: msRest.ServiceCallback<Models.IoTSpacesNameAvailabilityInfo>): void;
+  checkNameAvailability(
+    operationInputs: Models.OperationInputs,
+    callback: msRest.ServiceCallback<Models.IoTSpacesNameAvailabilityInfo>
+  ): void;
   /**
    * @param operationInputs Set the name parameter in the OperationInputs structure to the name of
    * the IoTSpaces instance to check.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(operationInputs: Models.OperationInputs, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSpacesNameAvailabilityInfo>): void;
-  checkNameAvailability(operationInputs: Models.OperationInputs, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesNameAvailabilityInfo>, callback?: msRest.ServiceCallback<Models.IoTSpacesNameAvailabilityInfo>): Promise<Models.IoTSpacesCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    operationInputs: Models.OperationInputs,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IoTSpacesNameAvailabilityInfo>
+  ): void;
+  checkNameAvailability(
+    operationInputs: Models.OperationInputs,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IoTSpacesNameAvailabilityInfo>,
+    callback?: msRest.ServiceCallback<Models.IoTSpacesNameAvailabilityInfo>
+  ): Promise<Models.IoTSpacesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         operationInputs,
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.IoTSpacesCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.IoTSpacesCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -192,7 +279,12 @@ export class IoTSpaces {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, resourceName: string, iotSpaceDescription: Models.IoTSpacesDescription, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    iotSpaceDescription: Models.IoTSpacesDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -201,7 +293,8 @@ export class IoTSpaces {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -212,7 +305,12 @@ export class IoTSpaces {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, resourceName: string, iotSpacePatchDescription: Models.IoTSpacesPatchDescription, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    iotSpacePatchDescription: Models.IoTSpacesPatchDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -221,7 +319,8 @@ export class IoTSpaces {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -231,7 +330,11 @@ export class IoTSpaces {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -239,7 +342,8 @@ export class IoTSpaces {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -248,26 +352,43 @@ export class IoTSpaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.IoTSpacesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IoTSpacesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IoTSpacesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): Promise<Models.IoTSpacesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>,
+    callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>
+  ): Promise<Models.IoTSpacesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.IoTSpacesListNextResponse>;
+      callback
+    ) as Promise<Models.IoTSpacesListNextResponse>;
   }
 
   /**
@@ -276,26 +397,43 @@ export class IoTSpaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.IoTSpacesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.IoTSpacesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IoTSpacesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>, callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>): Promise<Models.IoTSpacesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>,
+    callback?: msRest.ServiceCallback<Models.IoTSpacesDescriptionListResult>
+  ): Promise<Models.IoTSpacesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.IoTSpacesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.IoTSpacesListByResourceGroupNextResponse>;
   }
 }
 
@@ -303,18 +441,11 @@ export class IoTSpaces {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTSpaces/Graph/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTSpaces/Graph/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IoTSpacesDescription
@@ -329,15 +460,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.IoTSpaces/Graph",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IoTSpacesDescriptionListResult
@@ -351,17 +476,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTSpaces/Graph",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTSpaces/Graph",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IoTSpacesDescriptionListResult
@@ -376,15 +495,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.IoTSpaces/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "operationInputs",
     mapper: {
@@ -405,18 +518,11 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTSpaces/Graph/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTSpaces/Graph/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "iotSpaceDescription",
     mapper: {
@@ -438,18 +544,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTSpaces/Graph/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTSpaces/Graph/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "iotSpacePatchDescription",
     mapper: {
@@ -471,18 +570,11 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTSpaces/Graph/{resourceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTSpaces/Graph/{resourceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IoTSpacesDescription
@@ -500,12 +592,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IoTSpacesDescriptionListResult
@@ -521,12 +609,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.IoTSpacesDescriptionListResult

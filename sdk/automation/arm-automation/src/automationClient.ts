@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AutomationClientContext } from "./automationClientContext";
 
-
 class AutomationClient extends AutomationClientContext {
   // Operation groups
   automationAccount: operations.AutomationAccountOperations;
@@ -68,7 +67,12 @@ class AutomationClient extends AutomationClientContext {
    * 'nodeconfiguration'
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, countType1: Models.CountType, options?: Models.AutomationClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    countType1: Models.CountType,
+    options?: Models.AutomationClientOptions
+  ) {
     super(credentials, subscriptionId, countType1, options);
     this.automationAccount = new operations.AutomationAccountOperations(this);
     this.operations = new operations.Operations(this);
@@ -93,7 +97,9 @@ class AutomationClient extends AutomationClientContext {
     this.watcher = new operations.WatcherOperations(this);
     this.softwareUpdateConfigurations = new operations.SoftwareUpdateConfigurations(this);
     this.softwareUpdateConfigurationRuns = new operations.SoftwareUpdateConfigurationRuns(this);
-    this.softwareUpdateConfigurationMachineRuns = new operations.SoftwareUpdateConfigurationMachineRuns(this);
+    this.softwareUpdateConfigurationMachineRuns = new operations.SoftwareUpdateConfigurationMachineRuns(
+      this
+    );
     this.sourceControl = new operations.SourceControlOperations(this);
     this.sourceControlSyncJob = new operations.SourceControlSyncJobOperations(this);
     this.sourceControlSyncJobStreams = new operations.SourceControlSyncJobStreams(this);

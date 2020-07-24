@@ -40,14 +40,21 @@ export class Alerts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.AlertsListOptionalParams, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  list(options?: Models.AlertsListOptionalParams | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListResponse> {
+  list(
+    options: Models.AlertsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
+  list(
+    options?: Models.AlertsListOptionalParams | msRest.ServiceCallback<Models.AlertList>,
+    callback?: msRest.ServiceCallback<Models.AlertList>
+  ): Promise<Models.AlertsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AlertsListResponse>;
+      callback
+    ) as Promise<Models.AlertsListResponse>;
   }
 
   /**
@@ -57,28 +64,45 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.AlertsListByResourceGroupOptionalParams): Promise<Models.AlertsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.AlertsListByResourceGroupOptionalParams
+  ): Promise<Models.AlertsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.AlertList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.AlertsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.AlertsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.AlertsListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.AlertsListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.AlertList>,
+    callback?: msRest.ServiceCallback<Models.AlertList>
+  ): Promise<Models.AlertsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.AlertsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.AlertsListByResourceGroupResponse>;
   }
 
   /**
@@ -87,7 +111,9 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsListSubscriptionLevelAlertsByRegionResponse>
    */
-  listSubscriptionLevelAlertsByRegion(options?: Models.AlertsListSubscriptionLevelAlertsByRegionOptionalParams): Promise<Models.AlertsListSubscriptionLevelAlertsByRegionResponse>;
+  listSubscriptionLevelAlertsByRegion(
+    options?: Models.AlertsListSubscriptionLevelAlertsByRegionOptionalParams
+  ): Promise<Models.AlertsListSubscriptionLevelAlertsByRegionResponse>;
   /**
    * @param callback The callback
    */
@@ -96,14 +122,23 @@ export class Alerts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSubscriptionLevelAlertsByRegion(options: Models.AlertsListSubscriptionLevelAlertsByRegionOptionalParams, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listSubscriptionLevelAlertsByRegion(options?: Models.AlertsListSubscriptionLevelAlertsByRegionOptionalParams | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListSubscriptionLevelAlertsByRegionResponse> {
+  listSubscriptionLevelAlertsByRegion(
+    options: Models.AlertsListSubscriptionLevelAlertsByRegionOptionalParams,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
+  listSubscriptionLevelAlertsByRegion(
+    options?:
+      | Models.AlertsListSubscriptionLevelAlertsByRegionOptionalParams
+      | msRest.ServiceCallback<Models.AlertList>,
+    callback?: msRest.ServiceCallback<Models.AlertList>
+  ): Promise<Models.AlertsListSubscriptionLevelAlertsByRegionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listSubscriptionLevelAlertsByRegionOperationSpec,
-      callback) as Promise<Models.AlertsListSubscriptionLevelAlertsByRegionResponse>;
+      callback
+    ) as Promise<Models.AlertsListSubscriptionLevelAlertsByRegionResponse>;
   }
 
   /**
@@ -114,28 +149,45 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsListResourceGroupLevelAlertsByRegionResponse>
    */
-  listResourceGroupLevelAlertsByRegion(resourceGroupName: string, options?: Models.AlertsListResourceGroupLevelAlertsByRegionOptionalParams): Promise<Models.AlertsListResourceGroupLevelAlertsByRegionResponse>;
+  listResourceGroupLevelAlertsByRegion(
+    resourceGroupName: string,
+    options?: Models.AlertsListResourceGroupLevelAlertsByRegionOptionalParams
+  ): Promise<Models.AlertsListResourceGroupLevelAlertsByRegionResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param callback The callback
    */
-  listResourceGroupLevelAlertsByRegion(resourceGroupName: string, callback: msRest.ServiceCallback<Models.AlertList>): void;
+  listResourceGroupLevelAlertsByRegion(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listResourceGroupLevelAlertsByRegion(resourceGroupName: string, options: Models.AlertsListResourceGroupLevelAlertsByRegionOptionalParams, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listResourceGroupLevelAlertsByRegion(resourceGroupName: string, options?: Models.AlertsListResourceGroupLevelAlertsByRegionOptionalParams | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListResourceGroupLevelAlertsByRegionResponse> {
+  listResourceGroupLevelAlertsByRegion(
+    resourceGroupName: string,
+    options: Models.AlertsListResourceGroupLevelAlertsByRegionOptionalParams,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
+  listResourceGroupLevelAlertsByRegion(
+    resourceGroupName: string,
+    options?:
+      | Models.AlertsListResourceGroupLevelAlertsByRegionOptionalParams
+      | msRest.ServiceCallback<Models.AlertList>,
+    callback?: msRest.ServiceCallback<Models.AlertList>
+  ): Promise<Models.AlertsListResourceGroupLevelAlertsByRegionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listResourceGroupLevelAlertsByRegionOperationSpec,
-      callback) as Promise<Models.AlertsListResourceGroupLevelAlertsByRegionResponse>;
+      callback
+    ) as Promise<Models.AlertsListResourceGroupLevelAlertsByRegionResponse>;
   }
 
   /**
@@ -144,26 +196,41 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsGetSubscriptionLevelAlertResponse>
    */
-  getSubscriptionLevelAlert(alertName: string, options?: msRest.RequestOptionsBase): Promise<Models.AlertsGetSubscriptionLevelAlertResponse>;
+  getSubscriptionLevelAlert(
+    alertName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertsGetSubscriptionLevelAlertResponse>;
   /**
    * @param alertName Name of the alert object
    * @param callback The callback
    */
-  getSubscriptionLevelAlert(alertName: string, callback: msRest.ServiceCallback<Models.Alert>): void;
+  getSubscriptionLevelAlert(
+    alertName: string,
+    callback: msRest.ServiceCallback<Models.Alert>
+  ): void;
   /**
    * @param alertName Name of the alert object
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSubscriptionLevelAlert(alertName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Alert>): void;
-  getSubscriptionLevelAlert(alertName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Alert>, callback?: msRest.ServiceCallback<Models.Alert>): Promise<Models.AlertsGetSubscriptionLevelAlertResponse> {
+  getSubscriptionLevelAlert(
+    alertName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Alert>
+  ): void;
+  getSubscriptionLevelAlert(
+    alertName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Alert>,
+    callback?: msRest.ServiceCallback<Models.Alert>
+  ): Promise<Models.AlertsGetSubscriptionLevelAlertResponse> {
     return this.client.sendOperationRequest(
       {
         alertName,
         options
       },
       getSubscriptionLevelAlertOperationSpec,
-      callback) as Promise<Models.AlertsGetSubscriptionLevelAlertResponse>;
+      callback
+    ) as Promise<Models.AlertsGetSubscriptionLevelAlertResponse>;
   }
 
   /**
@@ -174,14 +241,22 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsGetResourceGroupLevelAlertsResponse>
    */
-  getResourceGroupLevelAlerts(alertName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AlertsGetResourceGroupLevelAlertsResponse>;
+  getResourceGroupLevelAlerts(
+    alertName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertsGetResourceGroupLevelAlertsResponse>;
   /**
    * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param callback The callback
    */
-  getResourceGroupLevelAlerts(alertName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.Alert>): void;
+  getResourceGroupLevelAlerts(
+    alertName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.Alert>
+  ): void;
   /**
    * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
@@ -189,8 +264,18 @@ export class Alerts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getResourceGroupLevelAlerts(alertName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Alert>): void;
-  getResourceGroupLevelAlerts(alertName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Alert>, callback?: msRest.ServiceCallback<Models.Alert>): Promise<Models.AlertsGetResourceGroupLevelAlertsResponse> {
+  getResourceGroupLevelAlerts(
+    alertName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Alert>
+  ): void;
+  getResourceGroupLevelAlerts(
+    alertName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Alert>,
+    callback?: msRest.ServiceCallback<Models.Alert>
+  ): Promise<Models.AlertsGetResourceGroupLevelAlertsResponse> {
     return this.client.sendOperationRequest(
       {
         alertName,
@@ -198,7 +283,8 @@ export class Alerts {
         options
       },
       getResourceGroupLevelAlertsOperationSpec,
-      callback) as Promise<Models.AlertsGetResourceGroupLevelAlertsResponse>;
+      callback
+    ) as Promise<Models.AlertsGetResourceGroupLevelAlertsResponse>;
   }
 
   /**
@@ -207,26 +293,41 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  updateSubscriptionLevelAlertStateToDismiss(alertName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  updateSubscriptionLevelAlertStateToDismiss(
+    alertName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param alertName Name of the alert object
    * @param callback The callback
    */
-  updateSubscriptionLevelAlertStateToDismiss(alertName: string, callback: msRest.ServiceCallback<void>): void;
+  updateSubscriptionLevelAlertStateToDismiss(
+    alertName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param alertName Name of the alert object
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSubscriptionLevelAlertStateToDismiss(alertName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateSubscriptionLevelAlertStateToDismiss(alertName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateSubscriptionLevelAlertStateToDismiss(
+    alertName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  updateSubscriptionLevelAlertStateToDismiss(
+    alertName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         alertName,
         options
       },
       updateSubscriptionLevelAlertStateToDismissOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -235,26 +336,41 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  updateSubscriptionLevelAlertStateToReactivate(alertName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  updateSubscriptionLevelAlertStateToReactivate(
+    alertName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param alertName Name of the alert object
    * @param callback The callback
    */
-  updateSubscriptionLevelAlertStateToReactivate(alertName: string, callback: msRest.ServiceCallback<void>): void;
+  updateSubscriptionLevelAlertStateToReactivate(
+    alertName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param alertName Name of the alert object
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSubscriptionLevelAlertStateToReactivate(alertName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateSubscriptionLevelAlertStateToReactivate(alertName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateSubscriptionLevelAlertStateToReactivate(
+    alertName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  updateSubscriptionLevelAlertStateToReactivate(
+    alertName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         alertName,
         options
       },
       updateSubscriptionLevelAlertStateToReactivateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -265,14 +381,22 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  updateResourceGroupLevelAlertStateToDismiss(alertName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  updateResourceGroupLevelAlertStateToDismiss(
+    alertName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param callback The callback
    */
-  updateResourceGroupLevelAlertStateToDismiss(alertName: string, resourceGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  updateResourceGroupLevelAlertStateToDismiss(
+    alertName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
@@ -280,8 +404,18 @@ export class Alerts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateResourceGroupLevelAlertStateToDismiss(alertName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateResourceGroupLevelAlertStateToDismiss(alertName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateResourceGroupLevelAlertStateToDismiss(
+    alertName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  updateResourceGroupLevelAlertStateToDismiss(
+    alertName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         alertName,
@@ -289,7 +423,8 @@ export class Alerts {
         options
       },
       updateResourceGroupLevelAlertStateToDismissOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -300,14 +435,22 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  updateResourceGroupLevelAlertStateToReactivate(alertName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  updateResourceGroupLevelAlertStateToReactivate(
+    alertName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param callback The callback
    */
-  updateResourceGroupLevelAlertStateToReactivate(alertName: string, resourceGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  updateResourceGroupLevelAlertStateToReactivate(
+    alertName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
@@ -315,8 +458,18 @@ export class Alerts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateResourceGroupLevelAlertStateToReactivate(alertName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateResourceGroupLevelAlertStateToReactivate(alertName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateResourceGroupLevelAlertStateToReactivate(
+    alertName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  updateResourceGroupLevelAlertStateToReactivate(
+    alertName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         alertName,
@@ -324,7 +477,8 @@ export class Alerts {
         options
       },
       updateResourceGroupLevelAlertStateToReactivateOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -333,7 +487,10 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AlertsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -344,15 +501,24 @@ export class Alerts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>,
+    callback?: msRest.ServiceCallback<Models.AlertList>
+  ): Promise<Models.AlertsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AlertsListNextResponse>;
+      callback
+    ) as Promise<Models.AlertsListNextResponse>;
   }
 
   /**
@@ -361,26 +527,41 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AlertsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AlertList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>,
+    callback?: msRest.ServiceCallback<Models.AlertList>
+  ): Promise<Models.AlertsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.AlertsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.AlertsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -390,26 +571,41 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsListSubscriptionLevelAlertsByRegionNextResponse>
    */
-  listSubscriptionLevelAlertsByRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AlertsListSubscriptionLevelAlertsByRegionNextResponse>;
+  listSubscriptionLevelAlertsByRegionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertsListSubscriptionLevelAlertsByRegionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSubscriptionLevelAlertsByRegionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AlertList>): void;
+  listSubscriptionLevelAlertsByRegionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSubscriptionLevelAlertsByRegionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listSubscriptionLevelAlertsByRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListSubscriptionLevelAlertsByRegionNextResponse> {
+  listSubscriptionLevelAlertsByRegionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
+  listSubscriptionLevelAlertsByRegionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>,
+    callback?: msRest.ServiceCallback<Models.AlertList>
+  ): Promise<Models.AlertsListSubscriptionLevelAlertsByRegionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSubscriptionLevelAlertsByRegionNextOperationSpec,
-      callback) as Promise<Models.AlertsListSubscriptionLevelAlertsByRegionNextResponse>;
+      callback
+    ) as Promise<Models.AlertsListSubscriptionLevelAlertsByRegionNextResponse>;
   }
 
   /**
@@ -419,26 +615,41 @@ export class Alerts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsListResourceGroupLevelAlertsByRegionNextResponse>
    */
-  listResourceGroupLevelAlertsByRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AlertsListResourceGroupLevelAlertsByRegionNextResponse>;
+  listResourceGroupLevelAlertsByRegionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AlertsListResourceGroupLevelAlertsByRegionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listResourceGroupLevelAlertsByRegionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AlertList>): void;
+  listResourceGroupLevelAlertsByRegionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listResourceGroupLevelAlertsByRegionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AlertList>): void;
-  listResourceGroupLevelAlertsByRegionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>, callback?: msRest.ServiceCallback<Models.AlertList>): Promise<Models.AlertsListResourceGroupLevelAlertsByRegionNextResponse> {
+  listResourceGroupLevelAlertsByRegionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AlertList>
+  ): void;
+  listResourceGroupLevelAlertsByRegionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AlertList>,
+    callback?: msRest.ServiceCallback<Models.AlertList>
+  ): Promise<Models.AlertsListResourceGroupLevelAlertsByRegionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listResourceGroupLevelAlertsByRegionNextOperationSpec,
-      callback) as Promise<Models.AlertsListResourceGroupLevelAlertsByRegionNextResponse>;
+      callback
+    ) as Promise<Models.AlertsListResourceGroupLevelAlertsByRegionNextResponse>;
   }
 }
 
@@ -447,9 +658,7 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/alerts",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.subscriptionId],
   queryParameters: [
     Parameters.apiVersion2,
     Parameters.filter,
@@ -457,9 +666,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.expand,
     Parameters.autoDismissRuleName
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertList
@@ -473,11 +680,9 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/alerts",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/alerts",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
   queryParameters: [
     Parameters.apiVersion2,
     Parameters.filter,
@@ -485,9 +690,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.expand,
     Parameters.autoDismissRuleName
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertList
@@ -501,11 +704,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listSubscriptionLevelAlertsByRegionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ascLocation
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts",
+  urlParameters: [Parameters.subscriptionId, Parameters.ascLocation],
   queryParameters: [
     Parameters.apiVersion2,
     Parameters.filter,
@@ -513,9 +714,7 @@ const listSubscriptionLevelAlertsByRegionOperationSpec: msRest.OperationSpec = {
     Parameters.expand,
     Parameters.autoDismissRuleName
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertList
@@ -529,12 +728,9 @@ const listSubscriptionLevelAlertsByRegionOperationSpec: msRest.OperationSpec = {
 
 const listResourceGroupLevelAlertsByRegionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-    Parameters.resourceGroupName
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts",
+  urlParameters: [Parameters.subscriptionId, Parameters.ascLocation, Parameters.resourceGroupName],
   queryParameters: [
     Parameters.apiVersion2,
     Parameters.filter,
@@ -542,9 +738,7 @@ const listResourceGroupLevelAlertsByRegionOperationSpec: msRest.OperationSpec = 
     Parameters.expand,
     Parameters.autoDismissRuleName
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertList
@@ -558,18 +752,11 @@ const listResourceGroupLevelAlertsByRegionOperationSpec: msRest.OperationSpec = 
 
 const getSubscriptionLevelAlertOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-    Parameters.alertName
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.ascLocation, Parameters.alertName],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Alert
@@ -583,19 +770,16 @@ const getSubscriptionLevelAlertOperationSpec: msRest.OperationSpec = {
 
 const getResourceGroupLevelAlertsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.ascLocation,
     Parameters.alertName,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Alert
@@ -609,18 +793,11 @@ const getResourceGroupLevelAlertsOperationSpec: msRest.OperationSpec = {
 
 const updateSubscriptionLevelAlertStateToDismissOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/dismiss",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-    Parameters.alertName
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/dismiss",
+  urlParameters: [Parameters.subscriptionId, Parameters.ascLocation, Parameters.alertName],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -632,18 +809,11 @@ const updateSubscriptionLevelAlertStateToDismissOperationSpec: msRest.OperationS
 
 const updateSubscriptionLevelAlertStateToReactivateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/reactivate",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-    Parameters.alertName
-  ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/reactivate",
+  urlParameters: [Parameters.subscriptionId, Parameters.ascLocation, Parameters.alertName],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -655,19 +825,16 @@ const updateSubscriptionLevelAlertStateToReactivateOperationSpec: msRest.Operati
 
 const updateResourceGroupLevelAlertStateToDismissOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/dismiss",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/dismiss",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.ascLocation,
     Parameters.alertName,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -679,19 +846,16 @@ const updateResourceGroupLevelAlertStateToDismissOperationSpec: msRest.Operation
 
 const updateResourceGroupLevelAlertStateToReactivateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/reactivate",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/reactivate",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.ascLocation,
     Parameters.alertName,
     Parameters.resourceGroupName
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -705,12 +869,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertList
@@ -726,12 +886,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertList
@@ -747,12 +903,8 @@ const listSubscriptionLevelAlertsByRegionNextOperationSpec: msRest.OperationSpec
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertList
@@ -768,12 +920,8 @@ const listResourceGroupLevelAlertsByRegionNextOperationSpec: msRest.OperationSpe
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AlertList

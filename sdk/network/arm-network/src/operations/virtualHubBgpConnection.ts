@@ -35,14 +35,24 @@ export class VirtualHubBgpConnection {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualHubBgpConnectionGetResponse>
    */
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualHubBgpConnectionGetResponse>;
+  get(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualHubBgpConnectionGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param connectionName The name of the connection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, callback: msRest.ServiceCallback<Models.BgpConnection>): void;
+  get(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    callback: msRest.ServiceCallback<Models.BgpConnection>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
@@ -50,8 +60,20 @@ export class VirtualHubBgpConnection {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BgpConnection>): void;
-  get(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BgpConnection>, callback?: msRest.ServiceCallback<Models.BgpConnection>): Promise<Models.VirtualHubBgpConnectionGetResponse> {
+  get(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BgpConnection>
+  ): void;
+  get(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BgpConnection>,
+    callback?: msRest.ServiceCallback<Models.BgpConnection>
+  ): Promise<Models.VirtualHubBgpConnectionGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class VirtualHubBgpConnection {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VirtualHubBgpConnectionGetResponse>;
+      callback
+    ) as Promise<Models.VirtualHubBgpConnectionGetResponse>;
   }
 
   /**
@@ -73,9 +96,22 @@ export class VirtualHubBgpConnection {
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualHubBgpConnectionCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualHubName: string, connectionName: string, parameters: Models.BgpConnection, options?: msRest.RequestOptionsBase): Promise<Models.VirtualHubBgpConnectionCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,virtualHubName,connectionName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualHubBgpConnectionCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    parameters: Models.BgpConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VirtualHubBgpConnectionCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      virtualHubName,
+      connectionName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.VirtualHubBgpConnectionCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -86,9 +122,18 @@ export class VirtualHubBgpConnection {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,virtualHubName,connectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      virtualHubName,
+      connectionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -101,7 +146,13 @@ export class VirtualHubBgpConnection {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualHubName: string, connectionName: string, parameters: Models.BgpConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    parameters: Models.BgpConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -111,7 +162,8 @@ export class VirtualHubBgpConnection {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -122,7 +174,12 @@ export class VirtualHubBgpConnection {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    virtualHubName: string,
+    connectionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -131,7 +188,8 @@ export class VirtualHubBgpConnection {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -139,19 +197,16 @@ export class VirtualHubBgpConnection {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualHubName,
     Parameters.connectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BgpConnection
@@ -165,19 +220,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualHubName,
     Parameters.connectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -201,19 +253,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/bgpConnections/{connectionName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualHubName,
     Parameters.connectionName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

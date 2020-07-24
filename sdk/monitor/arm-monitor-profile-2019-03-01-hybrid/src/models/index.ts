@@ -496,8 +496,7 @@ export interface MonitorManagementClientOptions extends AzureServiceClientOption
  * Represents collection of metric definitions.
  * @extends Array<MetricDefinition>
  */
-export interface MetricDefinitionCollection extends Array<MetricDefinition> {
-}
+export interface MetricDefinitionCollection extends Array<MetricDefinition> {}
 
 /**
  * @interface
@@ -505,8 +504,7 @@ export interface MetricDefinitionCollection extends Array<MetricDefinition> {
  * ServiceHealth, Alert, Recommendation, Policy.
  * @extends Array<LocalizableString>
  */
-export interface EventCategoryCollection extends Array<LocalizableString> {
-}
+export interface EventCategoryCollection extends Array<LocalizableString> {}
 
 /**
  * Defines values for Unit.
@@ -515,7 +513,16 @@ export interface EventCategoryCollection extends Array<LocalizableString> {
  * @readonly
  * @enum {string}
  */
-export type Unit = 'Count' | 'Bytes' | 'Seconds' | 'CountPerSecond' | 'BytesPerSecond' | 'Percent' | 'MilliSeconds' | 'ByteSeconds' | 'Unspecified';
+export type Unit =
+  | "Count"
+  | "Bytes"
+  | "Seconds"
+  | "CountPerSecond"
+  | "BytesPerSecond"
+  | "Percent"
+  | "MilliSeconds"
+  | "ByteSeconds"
+  | "Unspecified";
 
 /**
  * Defines values for AggregationType.
@@ -523,7 +530,7 @@ export type Unit = 'Count' | 'Bytes' | 'Seconds' | 'CountPerSecond' | 'BytesPerS
  * @readonly
  * @enum {string}
  */
-export type AggregationType = 'None' | 'Average' | 'Count' | 'Minimum' | 'Maximum' | 'Total';
+export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 
 /**
  * Defines values for CategoryType.
@@ -531,7 +538,7 @@ export type AggregationType = 'None' | 'Average' | 'Count' | 'Minimum' | 'Maximu
  * @readonly
  * @enum {string}
  */
-export type CategoryType = 'Metrics' | 'Logs';
+export type CategoryType = "Metrics" | "Logs";
 
 /**
  * Defines values for ResultType.
@@ -539,7 +546,7 @@ export type CategoryType = 'Metrics' | 'Logs';
  * @readonly
  * @enum {string}
  */
-export type ResultType = 'Data' | 'Metadata';
+export type ResultType = "Data" | "Metadata";
 
 /**
  * Contains response data for the list operation.
@@ -549,16 +556,16 @@ export type MetricDefinitionsListResponse = MetricDefinitionCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MetricDefinitionCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MetricDefinitionCollection;
+  };
 };
 
 /**
@@ -569,16 +576,16 @@ export type MetricsListResponse = Response & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Response;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Response;
+  };
 };
 
 /**
@@ -589,16 +596,16 @@ export type DiagnosticSettingsGetResponse = DiagnosticSettingsResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiagnosticSettingsResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiagnosticSettingsResource;
+  };
 };
 
 /**
@@ -609,16 +616,16 @@ export type DiagnosticSettingsCreateOrUpdateResponse = DiagnosticSettingsResourc
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiagnosticSettingsResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiagnosticSettingsResource;
+  };
 };
 
 /**
@@ -629,16 +636,16 @@ export type DiagnosticSettingsListResponse = DiagnosticSettingsResourceCollectio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiagnosticSettingsResourceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiagnosticSettingsResourceCollection;
+  };
 };
 
 /**
@@ -649,16 +656,16 @@ export type DiagnosticSettingsCategoryGetResponse = DiagnosticSettingsCategoryRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiagnosticSettingsCategoryResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiagnosticSettingsCategoryResource;
+  };
 };
 
 /**
@@ -669,16 +676,16 @@ export type DiagnosticSettingsCategoryListResponse = DiagnosticSettingsCategoryR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiagnosticSettingsCategoryResourceCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiagnosticSettingsCategoryResourceCollection;
+  };
 };
 
 /**
@@ -689,16 +696,16 @@ export type EventCategoriesListResponse = EventCategoryCollection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventCategoryCollection;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventCategoryCollection;
+  };
 };
 
 /**
@@ -709,14 +716,14 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

@@ -35,9 +35,18 @@ export class ServiceEndpointPolicyDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceEndpointPolicyName: string, serviceEndpointPolicyDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,serviceEndpointPolicyName,serviceEndpointPolicyDefinitionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    serviceEndpointPolicyDefinitionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      serviceEndpointPolicyName,
+      serviceEndpointPolicyDefinitionName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -49,7 +58,12 @@ export class ServiceEndpointPolicyDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceEndpointPolicyDefinitionsGetResponse>
    */
-  get(resourceGroupName: string, serviceEndpointPolicyName: string, serviceEndpointPolicyDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceEndpointPolicyDefinitionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    serviceEndpointPolicyDefinitionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceEndpointPolicyDefinitionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceEndpointPolicyName The name of the service endpoint policy name.
@@ -57,7 +71,12 @@ export class ServiceEndpointPolicyDefinitions {
    * name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceEndpointPolicyName: string, serviceEndpointPolicyDefinitionName: string, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinition>): void;
+  get(
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    serviceEndpointPolicyDefinitionName: string,
+    callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinition>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceEndpointPolicyName The name of the service endpoint policy name.
@@ -66,8 +85,22 @@ export class ServiceEndpointPolicyDefinitions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceEndpointPolicyName: string, serviceEndpointPolicyDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinition>): void;
-  get(resourceGroupName: string, serviceEndpointPolicyName: string, serviceEndpointPolicyDefinitionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinition>, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinition>): Promise<Models.ServiceEndpointPolicyDefinitionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    serviceEndpointPolicyDefinitionName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinition>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    serviceEndpointPolicyDefinitionName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinition>,
+    callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinition>
+  ): Promise<Models.ServiceEndpointPolicyDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -76,7 +109,8 @@ export class ServiceEndpointPolicyDefinitions {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServiceEndpointPolicyDefinitionsGetResponse>;
+      callback
+    ) as Promise<Models.ServiceEndpointPolicyDefinitionsGetResponse>;
   }
 
   /**
@@ -91,9 +125,22 @@ export class ServiceEndpointPolicyDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceEndpointPolicyName: string, serviceEndpointPolicyDefinitionName: string, serviceEndpointPolicyDefinitions: Models.ServiceEndpointPolicyDefinition, options?: msRest.RequestOptionsBase): Promise<Models.ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serviceEndpointPolicyName,serviceEndpointPolicyDefinitionName,serviceEndpointPolicyDefinitions,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    serviceEndpointPolicyDefinitionName: string,
+    serviceEndpointPolicyDefinitions: Models.ServiceEndpointPolicyDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serviceEndpointPolicyName,
+      serviceEndpointPolicyDefinitionName,
+      serviceEndpointPolicyDefinitions,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -103,21 +150,41 @@ export class ServiceEndpointPolicyDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, serviceEndpointPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceEndpointPolicyName The name of the service endpoint policy name.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, serviceEndpointPolicyName: string, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceEndpointPolicyName The name of the service endpoint policy name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, serviceEndpointPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>): void;
-  listByResourceGroup(resourceGroupName: string, serviceEndpointPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>): Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>
+  ): Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +192,8 @@ export class ServiceEndpointPolicyDefinitions {
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupResponse>;
   }
 
   /**
@@ -136,7 +204,12 @@ export class ServiceEndpointPolicyDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, serviceEndpointPolicyName: string, serviceEndpointPolicyDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    serviceEndpointPolicyDefinitionName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -145,7 +218,8 @@ export class ServiceEndpointPolicyDefinitions {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -160,7 +234,13 @@ export class ServiceEndpointPolicyDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serviceEndpointPolicyName: string, serviceEndpointPolicyDefinitionName: string, serviceEndpointPolicyDefinitions: Models.ServiceEndpointPolicyDefinition, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serviceEndpointPolicyName: string,
+    serviceEndpointPolicyDefinitionName: string,
+    serviceEndpointPolicyDefinitions: Models.ServiceEndpointPolicyDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -170,7 +250,8 @@ export class ServiceEndpointPolicyDefinitions {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -179,26 +260,43 @@ export class ServiceEndpointPolicyDefinitions {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>): Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>,
+    callback?: msRest.ServiceCallback<Models.ServiceEndpointPolicyDefinitionListResult>
+  ): Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse>;
   }
 }
 
@@ -206,19 +304,16 @@ export class ServiceEndpointPolicyDefinitions {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceEndpointPolicyName,
     Parameters.serviceEndpointPolicyDefinitionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceEndpointPolicyDefinition
@@ -232,18 +327,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceEndpointPolicyName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceEndpointPolicyDefinitionListResult
@@ -257,19 +349,16 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceEndpointPolicyName,
     Parameters.serviceEndpointPolicyDefinitionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -283,19 +372,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions/{serviceEndpointPolicyDefinitionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceEndpointPolicyName,
     Parameters.serviceEndpointPolicyDefinitionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "serviceEndpointPolicyDefinitions",
     mapper: {
@@ -321,12 +407,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceEndpointPolicyDefinitionListResult

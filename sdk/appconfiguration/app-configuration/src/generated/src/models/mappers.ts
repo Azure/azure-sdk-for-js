@@ -8,7 +8,6 @@
 
 import * as coreHttp from "@azure/core-http";
 
-
 export const Key: coreHttp.CompositeMapper = {
   serializedName: "Key",
   type: {

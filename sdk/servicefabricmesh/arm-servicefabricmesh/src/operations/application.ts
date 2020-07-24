@@ -37,14 +37,24 @@ export class Application {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationCreateResponse>
    */
-  create(resourceGroupName: string, applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationCreateResponse>;
+  create(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    applicationResourceDescription: Models.ApplicationResourceDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationCreateResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param applicationResourceName The identity of the application.
    * @param applicationResourceDescription Description for creating a Application resource.
    * @param callback The callback
    */
-  create(resourceGroupName: string, applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
+  create(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    applicationResourceDescription: Models.ApplicationResourceDescription,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param applicationResourceName The identity of the application.
@@ -52,8 +62,22 @@ export class Application {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
-  create(resourceGroupName: string, applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescription>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>): Promise<Models.ApplicationCreateResponse> {
+  create(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    applicationResourceDescription: Models.ApplicationResourceDescription,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>
+  ): void;
+  create(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    applicationResourceDescription: Models.ApplicationResourceDescription,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>
+  ): Promise<Models.ApplicationCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +86,8 @@ export class Application {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.ApplicationCreateResponse>;
+      callback
+    ) as Promise<Models.ApplicationCreateResponse>;
   }
 
   /**
@@ -74,21 +99,41 @@ export class Application {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationGetResponse>
    */
-  get(resourceGroupName: string, applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationGetResponse>;
+  get(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationGetResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param applicationResourceName The identity of the application.
    * @param callback The callback
    */
-  get(resourceGroupName: string, applicationResourceName: string, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
+  get(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param applicationResourceName The identity of the application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
-  get(resourceGroupName: string, applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescription>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>): Promise<Models.ApplicationGetResponse> {
+  get(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>
+  ): void;
+  get(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>
+  ): Promise<Models.ApplicationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +141,8 @@ export class Application {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ApplicationGetResponse>;
+      callback
+    ) as Promise<Models.ApplicationGetResponse>;
   }
 
   /**
@@ -107,21 +153,39 @@ export class Application {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param applicationResourceName The identity of the application.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, applicationResourceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param applicationResourceName The identity of the application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    applicationResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +193,8 @@ export class Application {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -140,26 +205,43 @@ export class Application {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): Promise<Models.ApplicationListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>
+  ): Promise<Models.ApplicationListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ApplicationListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ApplicationListByResourceGroupResponse>;
   }
 
   /**
@@ -169,23 +251,36 @@ export class Application {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.ApplicationListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): void;
+  listBySubscription(
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): Promise<Models.ApplicationListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>
+  ): Promise<Models.ApplicationListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.ApplicationListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.ApplicationListBySubscriptionResponse>;
   }
 
   /**
@@ -196,26 +291,43 @@ export class Application {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): Promise<Models.ApplicationListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>
+  ): Promise<Models.ApplicationListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ApplicationListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ApplicationListByResourceGroupNextResponse>;
   }
 
   /**
@@ -226,26 +338,43 @@ export class Application {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApplicationListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ApplicationListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ApplicationListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>): Promise<Models.ApplicationListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.ApplicationResourceDescriptionList>
+  ): Promise<Models.ApplicationListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.ApplicationListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.ApplicationListBySubscriptionNextResponse>;
   }
 }
 
@@ -253,18 +382,15 @@ export class Application {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "applicationResourceDescription",
     mapper: {
@@ -289,18 +415,15 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationResourceDescription
@@ -314,18 +437,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications/{applicationResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -339,17 +459,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/applications",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationResourceDescriptionList
@@ -364,15 +478,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabricMesh/applications",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationResourceDescriptionList
@@ -388,12 +496,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationResourceDescriptionList
@@ -409,12 +513,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationResourceDescriptionList

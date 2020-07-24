@@ -35,14 +35,24 @@ export class RecoveryPoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoveryPointsListByReplicationProtectedItemsResponse>
    */
-  listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoveryPointsListByReplicationProtectedItemsResponse>;
+  listByReplicationProtectedItems(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoveryPointsListByReplicationProtectedItemsResponse>;
   /**
    * @param fabricName The fabric name.
    * @param protectionContainerName The protection container name.
    * @param replicatedProtectedItemName The replication protected item's name.
    * @param callback The callback
    */
-  listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, callback: msRest.ServiceCallback<Models.RecoveryPointCollection>): void;
+  listByReplicationProtectedItems(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    callback: msRest.ServiceCallback<Models.RecoveryPointCollection>
+  ): void;
   /**
    * @param fabricName The fabric name.
    * @param protectionContainerName The protection container name.
@@ -50,8 +60,20 @@ export class RecoveryPoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPointCollection>): void;
-  listByReplicationProtectedItems(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointCollection>, callback?: msRest.ServiceCallback<Models.RecoveryPointCollection>): Promise<Models.RecoveryPointsListByReplicationProtectedItemsResponse> {
+  listByReplicationProtectedItems(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecoveryPointCollection>
+  ): void;
+  listByReplicationProtectedItems(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointCollection>,
+    callback?: msRest.ServiceCallback<Models.RecoveryPointCollection>
+  ): Promise<Models.RecoveryPointsListByReplicationProtectedItemsResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -60,7 +82,8 @@ export class RecoveryPoints {
         options
       },
       listByReplicationProtectedItemsOperationSpec,
-      callback) as Promise<Models.RecoveryPointsListByReplicationProtectedItemsResponse>;
+      callback
+    ) as Promise<Models.RecoveryPointsListByReplicationProtectedItemsResponse>;
   }
 
   /**
@@ -73,7 +96,13 @@ export class RecoveryPoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoveryPointsGetResponse>
    */
-  get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, recoveryPointName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoveryPointsGetResponse>;
+  get(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    recoveryPointName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoveryPointsGetResponse>;
   /**
    * @param fabricName The fabric name.
    * @param protectionContainerName The protection container name.
@@ -81,7 +110,13 @@ export class RecoveryPoints {
    * @param recoveryPointName The recovery point name.
    * @param callback The callback
    */
-  get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, recoveryPointName: string, callback: msRest.ServiceCallback<Models.RecoveryPoint>): void;
+  get(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    recoveryPointName: string,
+    callback: msRest.ServiceCallback<Models.RecoveryPoint>
+  ): void;
   /**
    * @param fabricName The fabric name.
    * @param protectionContainerName The protection container name.
@@ -90,8 +125,22 @@ export class RecoveryPoints {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, recoveryPointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPoint>): void;
-  get(fabricName: string, protectionContainerName: string, replicatedProtectedItemName: string, recoveryPointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPoint>, callback?: msRest.ServiceCallback<Models.RecoveryPoint>): Promise<Models.RecoveryPointsGetResponse> {
+  get(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    recoveryPointName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecoveryPoint>
+  ): void;
+  get(
+    fabricName: string,
+    protectionContainerName: string,
+    replicatedProtectedItemName: string,
+    recoveryPointName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPoint>,
+    callback?: msRest.ServiceCallback<Models.RecoveryPoint>
+  ): Promise<Models.RecoveryPointsGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
@@ -101,7 +150,8 @@ export class RecoveryPoints {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RecoveryPointsGetResponse>;
+      callback
+    ) as Promise<Models.RecoveryPointsGetResponse>;
   }
 
   /**
@@ -111,26 +161,41 @@ export class RecoveryPoints {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoveryPointsListByReplicationProtectedItemsNextResponse>
    */
-  listByReplicationProtectedItemsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoveryPointsListByReplicationProtectedItemsNextResponse>;
+  listByReplicationProtectedItemsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RecoveryPointsListByReplicationProtectedItemsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByReplicationProtectedItemsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RecoveryPointCollection>): void;
+  listByReplicationProtectedItemsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RecoveryPointCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByReplicationProtectedItemsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPointCollection>): void;
-  listByReplicationProtectedItemsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointCollection>, callback?: msRest.ServiceCallback<Models.RecoveryPointCollection>): Promise<Models.RecoveryPointsListByReplicationProtectedItemsNextResponse> {
+  listByReplicationProtectedItemsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecoveryPointCollection>
+  ): void;
+  listByReplicationProtectedItemsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPointCollection>,
+    callback?: msRest.ServiceCallback<Models.RecoveryPointCollection>
+  ): Promise<Models.RecoveryPointsListByReplicationProtectedItemsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByReplicationProtectedItemsNextOperationSpec,
-      callback) as Promise<Models.RecoveryPointsListByReplicationProtectedItemsNextResponse>;
+      callback
+    ) as Promise<Models.RecoveryPointsListByReplicationProtectedItemsNextResponse>;
   }
 }
 
@@ -138,7 +203,8 @@ export class RecoveryPoints {
 const serializer = new msRest.Serializer(Mappers);
 const listByReplicationProtectedItemsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/recoveryPoints",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/recoveryPoints",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -147,12 +213,8 @@ const listByReplicationProtectedItemsOperationSpec: msRest.OperationSpec = {
     Parameters.protectionContainerName,
     Parameters.replicatedProtectedItemName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryPointCollection
@@ -166,7 +228,8 @@ const listByReplicationProtectedItemsOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/recoveryPoints/{recoveryPointName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/recoveryPoints/{recoveryPointName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
@@ -176,12 +239,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.replicatedProtectedItemName,
     Parameters.recoveryPointName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryPoint
@@ -197,12 +256,8 @@ const listByReplicationProtectedItemsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryPointCollection

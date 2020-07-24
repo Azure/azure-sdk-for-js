@@ -42,9 +42,20 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, searchServiceName: string, service: Models.SearchService, options?: Models.ServicesCreateOrUpdateOptionalParams): Promise<Models.ServicesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,searchServiceName,service,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServicesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    searchServiceName: string,
+    service: Models.SearchService,
+    options?: Models.ServicesCreateOrUpdateOptionalParams
+  ): Promise<Models.ServicesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      searchServiceName,
+      service,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ServicesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -56,7 +67,12 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesUpdateResponse>
    */
-  update(resourceGroupName: string, searchServiceName: string, service: Models.SearchService, options?: Models.ServicesUpdateOptionalParams): Promise<Models.ServicesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    searchServiceName: string,
+    service: Models.SearchService,
+    options?: Models.ServicesUpdateOptionalParams
+  ): Promise<Models.ServicesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -64,7 +80,12 @@ export class Services {
    * @param service The definition of the Search service to update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, searchServiceName: string, service: Models.SearchService, callback: msRest.ServiceCallback<Models.SearchService>): void;
+  update(
+    resourceGroupName: string,
+    searchServiceName: string,
+    service: Models.SearchService,
+    callback: msRest.ServiceCallback<Models.SearchService>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -73,8 +94,20 @@ export class Services {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, searchServiceName: string, service: Models.SearchService, options: Models.ServicesUpdateOptionalParams, callback: msRest.ServiceCallback<Models.SearchService>): void;
-  update(resourceGroupName: string, searchServiceName: string, service: Models.SearchService, options?: Models.ServicesUpdateOptionalParams | msRest.ServiceCallback<Models.SearchService>, callback?: msRest.ServiceCallback<Models.SearchService>): Promise<Models.ServicesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    searchServiceName: string,
+    service: Models.SearchService,
+    options: Models.ServicesUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.SearchService>
+  ): void;
+  update(
+    resourceGroupName: string,
+    searchServiceName: string,
+    service: Models.SearchService,
+    options?: Models.ServicesUpdateOptionalParams | msRest.ServiceCallback<Models.SearchService>,
+    callback?: msRest.ServiceCallback<Models.SearchService>
+  ): Promise<Models.ServicesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +116,8 @@ export class Services {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ServicesUpdateResponse>;
+      callback
+    ) as Promise<Models.ServicesUpdateResponse>;
   }
 
   /**
@@ -95,7 +129,11 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesGetResponse>
    */
-  get(resourceGroupName: string, searchServiceName: string, options?: Models.ServicesGetOptionalParams): Promise<Models.ServicesGetResponse>;
+  get(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: Models.ServicesGetOptionalParams
+  ): Promise<Models.ServicesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -103,7 +141,11 @@ export class Services {
    * resource group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, searchServiceName: string, callback: msRest.ServiceCallback<Models.SearchService>): void;
+  get(
+    resourceGroupName: string,
+    searchServiceName: string,
+    callback: msRest.ServiceCallback<Models.SearchService>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -112,8 +154,18 @@ export class Services {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, searchServiceName: string, options: Models.ServicesGetOptionalParams, callback: msRest.ServiceCallback<Models.SearchService>): void;
-  get(resourceGroupName: string, searchServiceName: string, options?: Models.ServicesGetOptionalParams | msRest.ServiceCallback<Models.SearchService>, callback?: msRest.ServiceCallback<Models.SearchService>): Promise<Models.ServicesGetResponse> {
+  get(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options: Models.ServicesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.SearchService>
+  ): void;
+  get(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: Models.ServicesGetOptionalParams | msRest.ServiceCallback<Models.SearchService>,
+    callback?: msRest.ServiceCallback<Models.SearchService>
+  ): Promise<Models.ServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -121,7 +173,8 @@ export class Services {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServicesGetResponse>;
+      callback
+    ) as Promise<Models.ServicesGetResponse>;
   }
 
   /**
@@ -133,7 +186,11 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, searchServiceName: string, options?: Models.ServicesDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: Models.ServicesDeleteMethodOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -141,7 +198,11 @@ export class Services {
    * resource group.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, searchServiceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    searchServiceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -150,8 +211,18 @@ export class Services {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, searchServiceName: string, options: Models.ServicesDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, searchServiceName: string, options?: Models.ServicesDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options: Models.ServicesDeleteMethodOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    searchServiceName: string,
+    options?: Models.ServicesDeleteMethodOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,7 +230,8 @@ export class Services {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -169,28 +241,45 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.ServicesListByResourceGroupOptionalParams): Promise<Models.ServicesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.ServicesListByResourceGroupOptionalParams
+  ): Promise<Models.ServicesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.SearchServiceListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.SearchServiceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.ServicesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.SearchServiceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.ServicesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.SearchServiceListResult>, callback?: msRest.ServiceCallback<Models.SearchServiceListResult>): Promise<Models.ServicesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.ServicesListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.SearchServiceListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.ServicesListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.SearchServiceListResult>,
+    callback?: msRest.ServiceCallback<Models.SearchServiceListResult>
+  ): Promise<Models.ServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ServicesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ServicesListByResourceGroupResponse>;
   }
 
   /**
@@ -203,14 +292,20 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(name: string, options?: Models.ServicesCheckNameAvailabilityOptionalParams): Promise<Models.ServicesCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    name: string,
+    options?: Models.ServicesCheckNameAvailabilityOptionalParams
+  ): Promise<Models.ServicesCheckNameAvailabilityResponse>;
   /**
    * @param name The Search service name to validate. Search service names must only contain
    * lowercase letters, digits or dashes, cannot use dash as the first two or last one characters,
    * cannot contain consecutive dashes, and must be between 2 and 60 characters in length.
    * @param callback The callback
    */
-  checkNameAvailability(name: string, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
+  checkNameAvailability(
+    name: string,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): void;
   /**
    * @param name The Search service name to validate. Search service names must only contain
    * lowercase letters, digits or dashes, cannot use dash as the first two or last one characters,
@@ -218,15 +313,26 @@ export class Services {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(name: string, options: Models.ServicesCheckNameAvailabilityOptionalParams, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): void;
-  checkNameAvailability(name: string, options?: Models.ServicesCheckNameAvailabilityOptionalParams | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>): Promise<Models.ServicesCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    name: string,
+    options: Models.ServicesCheckNameAvailabilityOptionalParams,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): void;
+  checkNameAvailability(
+    name: string,
+    options?:
+      | Models.ServicesCheckNameAvailabilityOptionalParams
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityOutput>
+  ): Promise<Models.ServicesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         name,
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.ServicesCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.ServicesCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -244,7 +350,12 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, service: Models.SearchService, options?: Models.ServicesBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    searchServiceName: string,
+    service: Models.SearchService,
+    options?: Models.ServicesBeginCreateOrUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -253,7 +364,8 @@ export class Services {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -261,19 +373,15 @@ export class Services {
 const serializer = new msRest.Serializer(Mappers);
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage, Parameters.clientRequestId],
   requestBody: {
     parameterPath: "service",
     mapper: {
@@ -294,19 +402,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage, Parameters.clientRequestId],
   responses: {
     200: {
       bodyMapper: Mappers.SearchService
@@ -320,19 +424,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage, Parameters.clientRequestId],
   responses: {
     200: {},
     204: {},
@@ -346,18 +446,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage, Parameters.clientRequestId],
   responses: {
     200: {
       bodyMapper: Mappers.SearchServiceListResult
@@ -372,16 +465,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Search/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage, Parameters.clientRequestId],
   requestBody: {
     parameterPath: {
       name: "name"
@@ -404,19 +490,15 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.clientRequestId
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage, Parameters.clientRequestId],
   requestBody: {
     parameterPath: "service",
     mapper: {

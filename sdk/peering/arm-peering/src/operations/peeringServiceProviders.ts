@@ -40,14 +40,23 @@ export class PeeringServiceProviders {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServiceProviderListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServiceProviderListResult>, callback?: msRest.ServiceCallback<Models.PeeringServiceProviderListResult>): Promise<Models.PeeringServiceProvidersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeeringServiceProviderListResult>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PeeringServiceProviderListResult>,
+    callback?: msRest.ServiceCallback<Models.PeeringServiceProviderListResult>
+  ): Promise<Models.PeeringServiceProvidersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PeeringServiceProvidersListResponse>;
+      callback
+    ) as Promise<Models.PeeringServiceProvidersListResponse>;
   }
 
   /**
@@ -56,26 +65,43 @@ export class PeeringServiceProviders {
    * @param [options] The optional parameters
    * @returns Promise<Models.PeeringServiceProvidersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PeeringServiceProvidersListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PeeringServiceProvidersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PeeringServiceProviderListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PeeringServiceProviderListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PeeringServiceProviderListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PeeringServiceProviderListResult>, callback?: msRest.ServiceCallback<Models.PeeringServiceProviderListResult>): Promise<Models.PeeringServiceProvidersListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PeeringServiceProviderListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PeeringServiceProviderListResult>,
+    callback?: msRest.ServiceCallback<Models.PeeringServiceProviderListResult>
+  ): Promise<Models.PeeringServiceProvidersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PeeringServiceProvidersListNextResponse>;
+      callback
+    ) as Promise<Models.PeeringServiceProvidersListNextResponse>;
   }
 }
 
@@ -84,15 +110,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceProviders",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeeringServiceProviderListResult
@@ -108,12 +128,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PeeringServiceProviderListResult

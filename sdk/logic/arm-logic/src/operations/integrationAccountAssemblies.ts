@@ -33,21 +33,39 @@ export class IntegrationAccountAssemblies {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountAssembliesListResponse>
    */
-  list(resourceGroupName: string, integrationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountAssembliesListResponse>;
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountAssembliesListResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, integrationAccountName: string, callback: msRest.ServiceCallback<Models.AssemblyCollection>): void;
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    callback: msRest.ServiceCallback<Models.AssemblyCollection>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, integrationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssemblyCollection>): void;
-  list(resourceGroupName: string, integrationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssemblyCollection>, callback?: msRest.ServiceCallback<Models.AssemblyCollection>): Promise<Models.IntegrationAccountAssembliesListResponse> {
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AssemblyCollection>
+  ): void;
+  list(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssemblyCollection>,
+    callback?: msRest.ServiceCallback<Models.AssemblyCollection>
+  ): Promise<Models.IntegrationAccountAssembliesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class IntegrationAccountAssemblies {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.IntegrationAccountAssembliesListResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountAssembliesListResponse>;
   }
 
   /**
@@ -66,14 +85,24 @@ export class IntegrationAccountAssemblies {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountAssembliesGetResponse>
    */
-  get(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountAssembliesGetResponse>;
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountAssembliesGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param assemblyArtifactName The assembly artifact name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, callback: msRest.ServiceCallback<Models.AssemblyDefinition>): void;
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    callback: msRest.ServiceCallback<Models.AssemblyDefinition>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -81,8 +110,20 @@ export class IntegrationAccountAssemblies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssemblyDefinition>): void;
-  get(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssemblyDefinition>, callback?: msRest.ServiceCallback<Models.AssemblyDefinition>): Promise<Models.IntegrationAccountAssembliesGetResponse> {
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AssemblyDefinition>
+  ): void;
+  get(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssemblyDefinition>,
+    callback?: msRest.ServiceCallback<Models.AssemblyDefinition>
+  ): Promise<Models.IntegrationAccountAssembliesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +132,8 @@ export class IntegrationAccountAssemblies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.IntegrationAccountAssembliesGetResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountAssembliesGetResponse>;
   }
 
   /**
@@ -103,7 +145,13 @@ export class IntegrationAccountAssemblies {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountAssembliesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, assemblyArtifact: Models.AssemblyDefinition, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountAssembliesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    assemblyArtifact: Models.AssemblyDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountAssembliesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -111,7 +159,13 @@ export class IntegrationAccountAssemblies {
    * @param assemblyArtifact The assembly artifact.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, assemblyArtifact: Models.AssemblyDefinition, callback: msRest.ServiceCallback<Models.AssemblyDefinition>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    assemblyArtifact: Models.AssemblyDefinition,
+    callback: msRest.ServiceCallback<Models.AssemblyDefinition>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -120,8 +174,22 @@ export class IntegrationAccountAssemblies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, assemblyArtifact: Models.AssemblyDefinition, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssemblyDefinition>): void;
-  createOrUpdate(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, assemblyArtifact: Models.AssemblyDefinition, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssemblyDefinition>, callback?: msRest.ServiceCallback<Models.AssemblyDefinition>): Promise<Models.IntegrationAccountAssembliesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    assemblyArtifact: Models.AssemblyDefinition,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AssemblyDefinition>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    assemblyArtifact: Models.AssemblyDefinition,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssemblyDefinition>,
+    callback?: msRest.ServiceCallback<Models.AssemblyDefinition>
+  ): Promise<Models.IntegrationAccountAssembliesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +199,8 @@ export class IntegrationAccountAssemblies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.IntegrationAccountAssembliesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountAssembliesCreateOrUpdateResponse>;
   }
 
   /**
@@ -142,14 +211,24 @@ export class IntegrationAccountAssemblies {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param assemblyArtifactName The assembly artifact name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -157,8 +236,20 @@ export class IntegrationAccountAssemblies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +258,8 @@ export class IntegrationAccountAssemblies {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -178,14 +270,24 @@ export class IntegrationAccountAssemblies {
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationAccountAssembliesListContentCallbackUrlResponse>
    */
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationAccountAssembliesListContentCallbackUrlResponse>;
+  listContentCallbackUrl(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.IntegrationAccountAssembliesListContentCallbackUrlResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
    * @param assemblyArtifactName The assembly artifact name.
    * @param callback The callback
    */
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
+  listContentCallbackUrl(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param integrationAccountName The integration account name.
@@ -193,8 +295,20 @@ export class IntegrationAccountAssemblies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
-  listContentCallbackUrl(resourceGroupName: string, integrationAccountName: string, assemblyArtifactName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.IntegrationAccountAssembliesListContentCallbackUrlResponse> {
+  listContentCallbackUrl(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): void;
+  listContentCallbackUrl(
+    resourceGroupName: string,
+    integrationAccountName: string,
+    assemblyArtifactName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>,
+    callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): Promise<Models.IntegrationAccountAssembliesListContentCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +317,8 @@ export class IntegrationAccountAssemblies {
         options
       },
       listContentCallbackUrlOperationSpec,
-      callback) as Promise<Models.IntegrationAccountAssembliesListContentCallbackUrlResponse>;
+      callback
+    ) as Promise<Models.IntegrationAccountAssembliesListContentCallbackUrlResponse>;
   }
 }
 
@@ -211,18 +326,15 @@ export class IntegrationAccountAssemblies {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AssemblyCollection
@@ -236,19 +348,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.assemblyArtifactName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AssemblyDefinition
@@ -262,19 +371,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.assemblyArtifactName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "assemblyArtifact",
     mapper: {
@@ -298,19 +404,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.assemblyArtifactName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -323,19 +426,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listContentCallbackUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}/listContentCallbackUrl",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/assemblies/{assemblyArtifactName}/listContentCallbackUrl",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.integrationAccountName,
     Parameters.assemblyArtifactName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkflowTriggerCallbackUrl

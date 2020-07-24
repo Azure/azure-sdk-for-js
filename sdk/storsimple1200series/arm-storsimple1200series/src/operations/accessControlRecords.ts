@@ -34,21 +34,39 @@ export class AccessControlRecords {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccessControlRecordsListByManagerResponse>
    */
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccessControlRecordsListByManagerResponse>;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccessControlRecordsListByManagerResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.AccessControlRecordList>): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.AccessControlRecordList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessControlRecordList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessControlRecordList>, callback?: msRest.ServiceCallback<Models.AccessControlRecordList>): Promise<Models.AccessControlRecordsListByManagerResponse> {
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessControlRecordList>
+  ): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessControlRecordList>,
+    callback?: msRest.ServiceCallback<Models.AccessControlRecordList>
+  ): Promise<Models.AccessControlRecordsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class AccessControlRecords {
         options
       },
       listByManagerOperationSpec,
-      callback) as Promise<Models.AccessControlRecordsListByManagerResponse>;
+      callback
+    ) as Promise<Models.AccessControlRecordsListByManagerResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class AccessControlRecords {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccessControlRecordsGetResponse>
    */
-  get(accessControlRecordName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccessControlRecordsGetResponse>;
+  get(
+    accessControlRecordName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccessControlRecordsGetResponse>;
   /**
    * @param accessControlRecordName Name of access control record to be fetched.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(accessControlRecordName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.AccessControlRecord>): void;
+  get(
+    accessControlRecordName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.AccessControlRecord>
+  ): void;
   /**
    * @param accessControlRecordName Name of access control record to be fetched.
    * @param resourceGroupName The resource group name
@@ -82,8 +111,20 @@ export class AccessControlRecords {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(accessControlRecordName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessControlRecord>): void;
-  get(accessControlRecordName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessControlRecord>, callback?: msRest.ServiceCallback<Models.AccessControlRecord>): Promise<Models.AccessControlRecordsGetResponse> {
+  get(
+    accessControlRecordName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessControlRecord>
+  ): void;
+  get(
+    accessControlRecordName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessControlRecord>,
+    callback?: msRest.ServiceCallback<Models.AccessControlRecord>
+  ): Promise<Models.AccessControlRecordsGetResponse> {
     return this.client.sendOperationRequest(
       {
         accessControlRecordName,
@@ -92,7 +133,8 @@ export class AccessControlRecords {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AccessControlRecordsGetResponse>;
+      callback
+    ) as Promise<Models.AccessControlRecordsGetResponse>;
   }
 
   /**
@@ -104,9 +146,22 @@ export class AccessControlRecords {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccessControlRecordsCreateOrUpdateResponse>
    */
-  createOrUpdate(accessControlRecordName: string, accessControlRecord: Models.AccessControlRecord, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccessControlRecordsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(accessControlRecordName,accessControlRecord,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AccessControlRecordsCreateOrUpdateResponse>;
+  createOrUpdate(
+    accessControlRecordName: string,
+    accessControlRecord: Models.AccessControlRecord,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AccessControlRecordsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      accessControlRecordName,
+      accessControlRecord,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.AccessControlRecordsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -117,9 +172,18 @@ export class AccessControlRecords {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(accessControlRecordName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(accessControlRecordName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    accessControlRecordName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      accessControlRecordName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -131,7 +195,13 @@ export class AccessControlRecords {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(accessControlRecordName: string, accessControlRecord: Models.AccessControlRecord, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    accessControlRecordName: string,
+    accessControlRecord: Models.AccessControlRecord,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         accessControlRecordName,
@@ -141,7 +211,8 @@ export class AccessControlRecords {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +223,12 @@ export class AccessControlRecords {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(accessControlRecordName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    accessControlRecordName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         accessControlRecordName,
@@ -161,7 +237,8 @@ export class AccessControlRecords {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -169,18 +246,11 @@ export class AccessControlRecords {
 const serializer = new msRest.Serializer(Mappers);
 const listByManagerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/accessControlRecords",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/accessControlRecords",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccessControlRecordList
@@ -194,19 +264,16 @@ const listByManagerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/accessControlRecords/{accessControlRecordName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/accessControlRecords/{accessControlRecordName}",
   urlParameters: [
     Parameters.accessControlRecordName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccessControlRecord
@@ -220,19 +287,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/accessControlRecords/{accessControlRecordName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/accessControlRecords/{accessControlRecordName}",
   urlParameters: [
     Parameters.accessControlRecordName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "accessControlRecord",
     mapper: {
@@ -254,19 +318,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/accessControlRecords/{accessControlRecordName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/accessControlRecords/{accessControlRecordName}",
   urlParameters: [
     Parameters.accessControlRecordName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},

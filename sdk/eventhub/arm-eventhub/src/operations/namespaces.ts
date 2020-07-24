@@ -33,26 +33,43 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameter, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    parameters: Models.CheckNameAvailabilityParameter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesCheckNameAvailabilityResponse>;
   /**
    * @param parameters Parameters to check availability of the given Namespace name
    * @param callback The callback
    */
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameter, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
+  checkNameAvailability(
+    parameters: Models.CheckNameAvailabilityParameter,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
   /**
    * @param parameters Parameters to check availability of the given Namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.NamespacesCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    parameters: Models.CheckNameAvailabilityParameter,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): void;
+  checkNameAvailability(
+    parameters: Models.CheckNameAvailabilityParameter,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>
+  ): Promise<Models.NamespacesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.NamespacesCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.NamespacesCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -69,14 +86,21 @@ export class Namespaces {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EHNamespaceListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EHNamespaceListResult>, callback?: msRest.ServiceCallback<Models.EHNamespaceListResult>): Promise<Models.NamespacesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EHNamespaceListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EHNamespaceListResult>,
+    callback?: msRest.ServiceCallback<Models.EHNamespaceListResult>
+  ): Promise<Models.NamespacesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.NamespacesListResponse>;
+      callback
+    ) as Promise<Models.NamespacesListResponse>;
   }
 
   /**
@@ -85,26 +109,41 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.EHNamespaceListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.EHNamespaceListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EHNamespaceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EHNamespaceListResult>, callback?: msRest.ServiceCallback<Models.EHNamespaceListResult>): Promise<Models.NamespacesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EHNamespaceListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EHNamespaceListResult>,
+    callback?: msRest.ServiceCallback<Models.EHNamespaceListResult>
+  ): Promise<Models.NamespacesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.NamespacesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.NamespacesListByResourceGroupResponse>;
   }
 
   /**
@@ -116,9 +155,20 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, parameters: Models.EHNamespace, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,namespaceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.NamespacesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.EHNamespace,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      namespaceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.NamespacesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -129,9 +179,14 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,namespaceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, namespaceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -141,21 +196,39 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesGetResponse>
    */
-  get(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesGetResponse>;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.EHNamespace>): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<Models.EHNamespace>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EHNamespace>): void;
-  get(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EHNamespace>, callback?: msRest.ServiceCallback<Models.EHNamespace>): Promise<Models.NamespacesGetResponse> {
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EHNamespace>
+  ): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EHNamespace>,
+    callback?: msRest.ServiceCallback<Models.EHNamespace>
+  ): Promise<Models.NamespacesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -163,7 +236,8 @@ export class Namespaces {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.NamespacesGetResponse>;
+      callback
+    ) as Promise<Models.NamespacesGetResponse>;
   }
 
   /**
@@ -175,14 +249,24 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesUpdateResponse>
    */
-  update(resourceGroupName: string, namespaceName: string, parameters: Models.EHNamespace, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.EHNamespace,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param parameters Parameters for updating a namespace resource.
    * @param callback The callback
    */
-  update(resourceGroupName: string, namespaceName: string, parameters: Models.EHNamespace, callback: msRest.ServiceCallback<Models.EHNamespace>): void;
+  update(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.EHNamespace,
+    callback: msRest.ServiceCallback<Models.EHNamespace>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -190,8 +274,20 @@ export class Namespaces {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, namespaceName: string, parameters: Models.EHNamespace, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EHNamespace>): void;
-  update(resourceGroupName: string, namespaceName: string, parameters: Models.EHNamespace, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EHNamespace>, callback?: msRest.ServiceCallback<Models.EHNamespace>): Promise<Models.NamespacesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.EHNamespace,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EHNamespace>
+  ): void;
+  update(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.EHNamespace,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EHNamespace>,
+    callback?: msRest.ServiceCallback<Models.EHNamespace>
+  ): Promise<Models.NamespacesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -200,7 +296,8 @@ export class Namespaces {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.NamespacesUpdateResponse>;
+      callback
+    ) as Promise<Models.NamespacesUpdateResponse>;
   }
 
   /**
@@ -210,21 +307,39 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesGetMessagingPlanResponse>
    */
-  getMessagingPlan(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesGetMessagingPlanResponse>;
+  getMessagingPlan(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesGetMessagingPlanResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param callback The callback
    */
-  getMessagingPlan(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.MessagingPlan>): void;
+  getMessagingPlan(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<Models.MessagingPlan>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMessagingPlan(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MessagingPlan>): void;
-  getMessagingPlan(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MessagingPlan>, callback?: msRest.ServiceCallback<Models.MessagingPlan>): Promise<Models.NamespacesGetMessagingPlanResponse> {
+  getMessagingPlan(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MessagingPlan>
+  ): void;
+  getMessagingPlan(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MessagingPlan>,
+    callback?: msRest.ServiceCallback<Models.MessagingPlan>
+  ): Promise<Models.NamespacesGetMessagingPlanResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -232,7 +347,8 @@ export class Namespaces {
         options
       },
       getMessagingPlanOperationSpec,
-      callback) as Promise<Models.NamespacesGetMessagingPlanResponse>;
+      callback
+    ) as Promise<Models.NamespacesGetMessagingPlanResponse>;
   }
 
   /**
@@ -242,21 +358,41 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesListAuthorizationRulesResponse>
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesListAuthorizationRulesResponse>;
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesListAuthorizationRulesResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param callback The callback
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.NamespacesListAuthorizationRulesResponse> {
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>
+  ): void;
+  listAuthorizationRules(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AuthorizationRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>
+  ): Promise<Models.NamespacesListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -264,7 +400,8 @@ export class Namespaces {
         options
       },
       listAuthorizationRulesOperationSpec,
-      callback) as Promise<Models.NamespacesListAuthorizationRulesResponse>;
+      callback
+    ) as Promise<Models.NamespacesListAuthorizationRulesResponse>;
   }
 
   /**
@@ -276,7 +413,13 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesCreateOrUpdateAuthorizationRuleResponse>
    */
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesCreateOrUpdateAuthorizationRuleResponse>;
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    parameters: Models.AuthorizationRule,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -284,7 +427,13 @@ export class Namespaces {
    * @param parameters The shared access AuthorizationRule.
    * @param callback The callback
    */
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    parameters: Models.AuthorizationRule,
+    callback: msRest.ServiceCallback<Models.AuthorizationRule>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -293,8 +442,22 @@ export class Namespaces {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
-  createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.AuthorizationRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.NamespacesCreateOrUpdateAuthorizationRuleResponse> {
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    parameters: Models.AuthorizationRule,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationRule>
+  ): void;
+  createOrUpdateAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    parameters: Models.AuthorizationRule,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationRule>
+  ): Promise<Models.NamespacesCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -304,7 +467,8 @@ export class Namespaces {
         options
       },
       createOrUpdateAuthorizationRuleOperationSpec,
-      callback) as Promise<Models.NamespacesCreateOrUpdateAuthorizationRuleResponse>;
+      callback
+    ) as Promise<Models.NamespacesCreateOrUpdateAuthorizationRuleResponse>;
   }
 
   /**
@@ -315,14 +479,24 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -330,8 +504,20 @@ export class Namespaces {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -340,7 +526,8 @@ export class Namespaces {
         options
       },
       deleteAuthorizationRuleOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -351,14 +538,24 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesGetAuthorizationRuleResponse>
    */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesGetAuthorizationRuleResponse>;
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesGetAuthorizationRuleResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationRule>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -366,8 +563,20 @@ export class Namespaces {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.NamespacesGetAuthorizationRuleResponse> {
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationRule>
+  ): void;
+  getAuthorizationRule(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationRule>
+  ): Promise<Models.NamespacesGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -376,7 +585,8 @@ export class Namespaces {
         options
       },
       getAuthorizationRuleOperationSpec,
-      callback) as Promise<Models.NamespacesGetAuthorizationRuleResponse>;
+      callback
+    ) as Promise<Models.NamespacesGetAuthorizationRuleResponse>;
   }
 
   /**
@@ -387,14 +597,24 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesListKeysResponse>
    */
-  listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesListKeysResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param authorizationRuleName The authorization rule name.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    callback: msRest.ServiceCallback<Models.AccessKeys>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -402,8 +622,20 @@ export class Namespaces {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.NamespacesListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessKeys>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>,
+    callback?: msRest.ServiceCallback<Models.AccessKeys>
+  ): Promise<Models.NamespacesListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -412,7 +644,8 @@ export class Namespaces {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.NamespacesListKeysResponse>;
+      callback
+    ) as Promise<Models.NamespacesListKeysResponse>;
   }
 
   /**
@@ -424,7 +657,13 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesRegenerateKeysResponse>
    */
-  regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesRegenerateKeysResponse>;
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    parameters: Models.RegenerateAccessKeyParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesRegenerateKeysResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -432,7 +671,13 @@ export class Namespaces {
    * @param parameters Parameters required to regenerate the connection string.
    * @param callback The callback
    */
-  regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    parameters: Models.RegenerateAccessKeyParameters,
+    callback: msRest.ServiceCallback<Models.AccessKeys>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -441,8 +686,22 @@ export class Namespaces {
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: Models.RegenerateAccessKeyParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.NamespacesRegenerateKeysResponse> {
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    parameters: Models.RegenerateAccessKeyParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AccessKeys>
+  ): void;
+  regenerateKeys(
+    resourceGroupName: string,
+    namespaceName: string,
+    authorizationRuleName: string,
+    parameters: Models.RegenerateAccessKeyParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>,
+    callback?: msRest.ServiceCallback<Models.AccessKeys>
+  ): Promise<Models.NamespacesRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -452,7 +711,8 @@ export class Namespaces {
         options
       },
       regenerateKeysOperationSpec,
-      callback) as Promise<Models.NamespacesRegenerateKeysResponse>;
+      callback
+    ) as Promise<Models.NamespacesRegenerateKeysResponse>;
   }
 
   /**
@@ -463,14 +723,24 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>
    */
-  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>;
+  createOrUpdateNetworkRuleSet(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.NetworkRuleSet,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param parameters The Namespace IpFilterRule.
    * @param callback The callback
    */
-  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
+  createOrUpdateNetworkRuleSet(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.NetworkRuleSet,
+    callback: msRest.ServiceCallback<Models.NetworkRuleSet>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -478,8 +748,20 @@ export class Namespaces {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
-  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkRuleSet>, callback?: msRest.ServiceCallback<Models.NetworkRuleSet>): Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse> {
+  createOrUpdateNetworkRuleSet(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.NetworkRuleSet,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkRuleSet>
+  ): void;
+  createOrUpdateNetworkRuleSet(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.NetworkRuleSet,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkRuleSet>,
+    callback?: msRest.ServiceCallback<Models.NetworkRuleSet>
+  ): Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -488,7 +770,8 @@ export class Namespaces {
         options
       },
       createOrUpdateNetworkRuleSetOperationSpec,
-      callback) as Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>;
+      callback
+    ) as Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>;
   }
 
   /**
@@ -498,21 +781,39 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesGetNetworkRuleSetResponse>
    */
-  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesGetNetworkRuleSetResponse>;
+  getNetworkRuleSet(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesGetNetworkRuleSetResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param callback The callback
    */
-  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
+  getNetworkRuleSet(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<Models.NetworkRuleSet>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
-  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkRuleSet>, callback?: msRest.ServiceCallback<Models.NetworkRuleSet>): Promise<Models.NamespacesGetNetworkRuleSetResponse> {
+  getNetworkRuleSet(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NetworkRuleSet>
+  ): void;
+  getNetworkRuleSet(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkRuleSet>,
+    callback?: msRest.ServiceCallback<Models.NetworkRuleSet>
+  ): Promise<Models.NamespacesGetNetworkRuleSetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -520,7 +821,8 @@ export class Namespaces {
         options
       },
       getNetworkRuleSetOperationSpec,
-      callback) as Promise<Models.NamespacesGetNetworkRuleSetResponse>;
+      callback
+    ) as Promise<Models.NamespacesGetNetworkRuleSetResponse>;
   }
 
   /**
@@ -532,7 +834,12 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, parameters: Models.EHNamespace, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.EHNamespace,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -541,7 +848,8 @@ export class Namespaces {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -552,7 +860,11 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -560,7 +872,8 @@ export class Namespaces {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -569,26 +882,41 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EHNamespaceListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.EHNamespaceListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EHNamespaceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EHNamespaceListResult>, callback?: msRest.ServiceCallback<Models.EHNamespaceListResult>): Promise<Models.NamespacesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EHNamespaceListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EHNamespaceListResult>,
+    callback?: msRest.ServiceCallback<Models.EHNamespaceListResult>
+  ): Promise<Models.NamespacesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.NamespacesListNextResponse>;
+      callback
+    ) as Promise<Models.NamespacesListNextResponse>;
   }
 
   /**
@@ -597,26 +925,41 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EHNamespaceListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.EHNamespaceListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EHNamespaceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EHNamespaceListResult>, callback?: msRest.ServiceCallback<Models.EHNamespaceListResult>): Promise<Models.NamespacesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EHNamespaceListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EHNamespaceListResult>,
+    callback?: msRest.ServiceCallback<Models.EHNamespaceListResult>
+  ): Promise<Models.NamespacesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.NamespacesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.NamespacesListByResourceGroupNextResponse>;
   }
 
   /**
@@ -625,26 +968,43 @@ export class Namespaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.NamespacesListAuthorizationRulesNextResponse>
    */
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesListAuthorizationRulesNextResponse>;
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NamespacesListAuthorizationRulesNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAuthorizationRulesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAuthorizationRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.NamespacesListAuthorizationRulesNextResponse> {
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>
+  ): void;
+  listAuthorizationRulesNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AuthorizationRuleListResult>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>
+  ): Promise<Models.NamespacesListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAuthorizationRulesNextOperationSpec,
-      callback) as Promise<Models.NamespacesListAuthorizationRulesNextResponse>;
+      callback
+    ) as Promise<Models.NamespacesListAuthorizationRulesNextResponse>;
   }
 }
 
@@ -653,15 +1013,9 @@ const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.EventHub/CheckNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -683,15 +1037,9 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.EventHub/namespaces",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EHNamespaceListResult
@@ -705,17 +1053,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EHNamespaceListResult
@@ -729,18 +1071,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EHNamespace
@@ -757,18 +1096,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -793,18 +1129,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getMessagingPlanOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/messagingplan",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/messagingplan",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MessagingPlan
@@ -818,18 +1151,15 @@ const getMessagingPlanOperationSpec: msRest.OperationSpec = {
 
 const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationRuleListResult
@@ -843,19 +1173,16 @@ const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -876,19 +1203,16 @@ const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
 
 const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -901,19 +1225,16 @@ const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
 
 const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationRule
@@ -927,19 +1248,16 @@ const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/listKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/listKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AccessKeys
@@ -953,19 +1271,16 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/regenerateKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/regenerateKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -986,18 +1301,15 @@ const regenerateKeysOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateNetworkRuleSetOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets/default",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -1018,18 +1330,15 @@ const createOrUpdateNetworkRuleSetOperationSpec: msRest.OperationSpec = {
 
 const getNetworkRuleSetOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets/default",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.NetworkRuleSet
@@ -1043,18 +1352,15 @@ const getNetworkRuleSetOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -1079,18 +1385,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -1106,12 +1409,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EHNamespaceListResult
@@ -1127,12 +1426,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EHNamespaceListResult
@@ -1148,12 +1443,8 @@ const listAuthorizationRulesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationRuleListResult

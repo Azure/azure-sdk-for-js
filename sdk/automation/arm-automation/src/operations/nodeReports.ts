@@ -34,14 +34,24 @@ export class NodeReports {
    * @param [options] The optional parameters
    * @returns Promise<Models.NodeReportsListByNodeResponse>
    */
-  listByNode(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: Models.NodeReportsListByNodeOptionalParams): Promise<Models.NodeReportsListByNodeResponse>;
+  listByNode(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    options?: Models.NodeReportsListByNodeOptionalParams
+  ): Promise<Models.NodeReportsListByNodeResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param nodeId The parameters supplied to the list operation.
    * @param callback The callback
    */
-  listByNode(resourceGroupName: string, automationAccountName: string, nodeId: string, callback: msRest.ServiceCallback<Models.DscNodeReportListResult>): void;
+  listByNode(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    callback: msRest.ServiceCallback<Models.DscNodeReportListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -49,8 +59,22 @@ export class NodeReports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByNode(resourceGroupName: string, automationAccountName: string, nodeId: string, options: Models.NodeReportsListByNodeOptionalParams, callback: msRest.ServiceCallback<Models.DscNodeReportListResult>): void;
-  listByNode(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: Models.NodeReportsListByNodeOptionalParams | msRest.ServiceCallback<Models.DscNodeReportListResult>, callback?: msRest.ServiceCallback<Models.DscNodeReportListResult>): Promise<Models.NodeReportsListByNodeResponse> {
+  listByNode(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    options: Models.NodeReportsListByNodeOptionalParams,
+    callback: msRest.ServiceCallback<Models.DscNodeReportListResult>
+  ): void;
+  listByNode(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    options?:
+      | Models.NodeReportsListByNodeOptionalParams
+      | msRest.ServiceCallback<Models.DscNodeReportListResult>,
+    callback?: msRest.ServiceCallback<Models.DscNodeReportListResult>
+  ): Promise<Models.NodeReportsListByNodeResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +83,8 @@ export class NodeReports {
         options
       },
       listByNodeOperationSpec,
-      callback) as Promise<Models.NodeReportsListByNodeResponse>;
+      callback
+    ) as Promise<Models.NodeReportsListByNodeResponse>;
   }
 
   /**
@@ -71,7 +96,13 @@ export class NodeReports {
    * @param [options] The optional parameters
    * @returns Promise<Models.NodeReportsGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options?: msRest.RequestOptionsBase): Promise<Models.NodeReportsGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    reportId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NodeReportsGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -79,7 +110,13 @@ export class NodeReports {
    * @param reportId The report id.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, callback: msRest.ServiceCallback<Models.DscNodeReport>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    reportId: string,
+    callback: msRest.ServiceCallback<Models.DscNodeReport>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -88,8 +125,22 @@ export class NodeReports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNodeReport>): void;
-  get(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNodeReport>, callback?: msRest.ServiceCallback<Models.DscNodeReport>): Promise<Models.NodeReportsGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    reportId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DscNodeReport>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    reportId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNodeReport>,
+    callback?: msRest.ServiceCallback<Models.DscNodeReport>
+  ): Promise<Models.NodeReportsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +150,8 @@ export class NodeReports {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.NodeReportsGetResponse>;
+      callback
+    ) as Promise<Models.NodeReportsGetResponse>;
   }
 
   /**
@@ -111,7 +163,13 @@ export class NodeReports {
    * @param [options] The optional parameters
    * @returns Promise<Models.NodeReportsGetContentResponse>
    */
-  getContent(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options?: msRest.RequestOptionsBase): Promise<Models.NodeReportsGetContentResponse>;
+  getContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    reportId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NodeReportsGetContentResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -119,7 +177,13 @@ export class NodeReports {
    * @param reportId The report id.
    * @param callback The callback
    */
-  getContent(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, callback: msRest.ServiceCallback<any>): void;
+  getContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    reportId: string,
+    callback: msRest.ServiceCallback<any>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -128,8 +192,22 @@ export class NodeReports {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getContent(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  getContent(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.NodeReportsGetContentResponse> {
+  getContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    reportId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<any>
+  ): void;
+  getContent(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    reportId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>,
+    callback?: msRest.ServiceCallback<any>
+  ): Promise<Models.NodeReportsGetContentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -139,7 +217,8 @@ export class NodeReports {
         options
       },
       getContentOperationSpec,
-      callback) as Promise<Models.NodeReportsGetContentResponse>;
+      callback
+    ) as Promise<Models.NodeReportsGetContentResponse>;
   }
 
   /**
@@ -148,26 +227,41 @@ export class NodeReports {
    * @param [options] The optional parameters
    * @returns Promise<Models.NodeReportsListByNodeNextResponse>
    */
-  listByNodeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NodeReportsListByNodeNextResponse>;
+  listByNodeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.NodeReportsListByNodeNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByNodeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DscNodeReportListResult>): void;
+  listByNodeNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DscNodeReportListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByNodeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNodeReportListResult>): void;
-  listByNodeNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNodeReportListResult>, callback?: msRest.ServiceCallback<Models.DscNodeReportListResult>): Promise<Models.NodeReportsListByNodeNextResponse> {
+  listByNodeNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DscNodeReportListResult>
+  ): void;
+  listByNodeNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNodeReportListResult>,
+    callback?: msRest.ServiceCallback<Models.DscNodeReportListResult>
+  ): Promise<Models.NodeReportsListByNodeNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByNodeNextOperationSpec,
-      callback) as Promise<Models.NodeReportsListByNodeNextResponse>;
+      callback
+    ) as Promise<Models.NodeReportsListByNodeNextResponse>;
   }
 }
 
@@ -175,20 +269,16 @@ export class NodeReports {
 const serializer = new msRest.Serializer(Mappers);
 const listByNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.nodeId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DscNodeReportListResult
@@ -202,7 +292,8 @@ const listByNodeOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports/{reportId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports/{reportId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
@@ -210,12 +301,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.reportId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DscNodeReport
@@ -229,7 +316,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const getContentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports/{reportId}/content",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports/{reportId}/content",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
@@ -237,12 +325,8 @@ const getContentOperationSpec: msRest.OperationSpec = {
     Parameters.reportId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -263,12 +347,8 @@ const listByNodeNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DscNodeReportListResult

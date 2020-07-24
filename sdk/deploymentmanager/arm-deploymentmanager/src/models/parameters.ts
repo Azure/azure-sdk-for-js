@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -56,10 +56,7 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   }
 };
 export const retryAttempt: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "retryAttempt"
-  ],
+  parameterPath: ["options", "retryAttempt"],
   mapper: {
     serializedName: "retryAttempt",
     type: {
@@ -108,10 +105,7 @@ export const serviceUnitName: msRest.OperationURLParameter = {
   }
 };
 export const skipSucceeded: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skipSucceeded"
-  ],
+  parameterPath: ["options", "skipSucceeded"],
   mapper: {
     serializedName: "skipSucceeded",
     type: {

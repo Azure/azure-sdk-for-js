@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const ResponseBase: msRest.CompositeMapper = {
   serializedName: "ResponseBase",
   type: {
@@ -469,10 +468,7 @@ export const Videos: msRest.CompositeMapper = {
         serializedName: "scenario",
         type: {
           name: "Enum",
-          allowedValues: [
-            "List",
-            "SingleDominantVideo"
-          ]
+          allowedValues: ["List", "SingleDominantVideo"]
         }
       },
       queryExpansions: {
@@ -566,7 +562,7 @@ export const ErrorModel: msRest.CompositeMapper = {
       code: {
         required: true,
         serializedName: "code",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "Enum",
           allowedValues: [
@@ -836,19 +832,18 @@ export const VideoDetails: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ResponseBase.ImageObject' : ImageObject,
-  'ResponseBase.VideoObject' : VideoObject,
-  'ResponseBase.Videos' : Videos,
-  'ResponseBase.SearchResultsAnswer' : SearchResultsAnswer,
-  'ResponseBase.Answer' : Answer,
-  'ResponseBase.MediaObject' : MediaObject,
-  'ResponseBase.Response' : Response,
-  'ResponseBase.Thing' : Thing,
-  'ResponseBase.CreativeWork' : CreativeWork,
-  'ResponseBase.Identifiable' : Identifiable,
-  'ResponseBase.ErrorResponse' : ErrorResponse,
-  'ResponseBase.TrendingVideos' : TrendingVideos,
-  'ResponseBase.VideoDetails' : VideoDetails,
-  'ResponseBase' : ResponseBase
-
+  "ResponseBase.ImageObject": ImageObject,
+  "ResponseBase.VideoObject": VideoObject,
+  "ResponseBase.Videos": Videos,
+  "ResponseBase.SearchResultsAnswer": SearchResultsAnswer,
+  "ResponseBase.Answer": Answer,
+  "ResponseBase.MediaObject": MediaObject,
+  "ResponseBase.Response": Response,
+  "ResponseBase.Thing": Thing,
+  "ResponseBase.CreativeWork": CreativeWork,
+  "ResponseBase.Identifiable": Identifiable,
+  "ResponseBase.ErrorResponse": ErrorResponse,
+  "ResponseBase.TrendingVideos": TrendingVideos,
+  "ResponseBase.VideoDetails": VideoDetails,
+  ResponseBase: ResponseBase
 };

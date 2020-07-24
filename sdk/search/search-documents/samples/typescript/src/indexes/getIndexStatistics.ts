@@ -17,7 +17,7 @@ async function main(): Promise<void> {
 
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
   console.log(`Get Index Statistics of example-index`);
-  const statistics:SearchIndexStatistics = await client.getIndexStatistics("example-index");
+  const statistics: SearchIndexStatistics = await client.getIndexStatistics("example-index");
   console.log(`Document Count: ${statistics.documentCount}`);
   console.log(`Storage Size: ${statistics.storageSize}`);
 }

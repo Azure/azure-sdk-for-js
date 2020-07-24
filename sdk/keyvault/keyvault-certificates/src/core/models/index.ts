@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -798,7 +797,8 @@ export interface KeyVaultClientGetCertificatesOptionalParams extends coreHttp.Re
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientGetCertificateIssuersOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientGetCertificateIssuersOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
    * 25 results.
@@ -809,7 +809,8 @@ export interface KeyVaultClientGetCertificateIssuersOptionalParams extends coreH
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientSetCertificateIssuerOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientSetCertificateIssuerOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * The credentials to be used for the issuer.
    */
@@ -827,7 +828,8 @@ export interface KeyVaultClientSetCertificateIssuerOptionalParams extends coreHt
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientUpdateCertificateIssuerOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientUpdateCertificateIssuerOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * The issuer provider.
    */
@@ -889,7 +891,8 @@ export interface KeyVaultClientImportCertificateOptionalParams extends coreHttp.
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientGetCertificateVersionsOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientGetCertificateVersionsOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
    * 25 results.
@@ -932,7 +935,8 @@ export interface KeyVaultClientMergeCertificateOptionalParams extends coreHttp.R
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientGetDeletedCertificatesOptionalParams extends coreHttp.RequestOptionsBase {
+export interface KeyVaultClientGetDeletedCertificatesOptionalParams
+  extends coreHttp.RequestOptionsBase {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
    * 25 results.
@@ -952,7 +956,14 @@ export interface KeyVaultClientGetDeletedCertificatesOptionalParams extends core
  * @readonly
  * @enum {string}
  */
-export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
+export type DeletionRecoveryLevel =
+  | "Purgeable"
+  | "Recoverable+Purgeable"
+  | "Recoverable"
+  | "Recoverable+ProtectedSubscription"
+  | "CustomizedRecoverable+Purgeable"
+  | "CustomizedRecoverable"
+  | "CustomizedRecoverable+ProtectedSubscription";
 
 /**
  * Defines values for JsonWebKeyType.
@@ -960,7 +971,7 @@ export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Rec
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyType = 'EC' | 'EC-HSM' | 'RSA' | 'RSA-HSM' | 'oct';
+export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 /**
  * Defines values for JsonWebKeyCurveName.
@@ -968,7 +979,7 @@ export type JsonWebKeyType = 'EC' | 'EC-HSM' | 'RSA' | 'RSA-HSM' | 'oct';
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyCurveName = 'P-256' | 'P-384' | 'P-521' | 'P-256K';
+export type JsonWebKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
  * Defines values for KeyUsageType.
@@ -977,7 +988,16 @@ export type JsonWebKeyCurveName = 'P-256' | 'P-384' | 'P-521' | 'P-256K';
  * @readonly
  * @enum {string}
  */
-export type KeyUsageType = 'digitalSignature' | 'nonRepudiation' | 'keyEncipherment' | 'dataEncipherment' | 'keyAgreement' | 'keyCertSign' | 'cRLSign' | 'encipherOnly' | 'decipherOnly';
+export type KeyUsageType =
+  | "digitalSignature"
+  | "nonRepudiation"
+  | "keyEncipherment"
+  | "dataEncipherment"
+  | "keyAgreement"
+  | "keyCertSign"
+  | "cRLSign"
+  | "encipherOnly"
+  | "decipherOnly";
 
 /**
  * Defines values for ActionType.
@@ -985,7 +1005,7 @@ export type KeyUsageType = 'digitalSignature' | 'nonRepudiation' | 'keyEncipherm
  * @readonly
  * @enum {string}
  */
-export type ActionType = 'EmailContacts' | 'AutoRenew';
+export type ActionType = "EmailContacts" | "AutoRenew";
 
 /**
  * Contains response data for the getCertificates operation.
@@ -995,16 +1015,16 @@ export type GetCertificatesResponse = CertificateListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateListResult;
+  };
 };
 
 /**
@@ -1015,16 +1035,16 @@ export type DeleteCertificateResponse = DeletedCertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedCertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedCertificateBundle;
+  };
 };
 
 /**
@@ -1035,16 +1055,16 @@ export type SetCertificateContactsResponse = Contacts & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Contacts;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Contacts;
+  };
 };
 
 /**
@@ -1055,16 +1075,16 @@ export type GetCertificateContactsResponse = Contacts & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Contacts;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Contacts;
+  };
 };
 
 /**
@@ -1075,16 +1095,16 @@ export type DeleteCertificateContactsResponse = Contacts & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Contacts;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Contacts;
+  };
 };
 
 /**
@@ -1095,16 +1115,16 @@ export type GetCertificateIssuersResponse = CertificateIssuerListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateIssuerListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateIssuerListResult;
+  };
 };
 
 /**
@@ -1115,16 +1135,16 @@ export type SetCertificateIssuerResponse = IssuerBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssuerBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssuerBundle;
+  };
 };
 
 /**
@@ -1135,16 +1155,16 @@ export type UpdateCertificateIssuerResponse = IssuerBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssuerBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssuerBundle;
+  };
 };
 
 /**
@@ -1155,16 +1175,16 @@ export type GetCertificateIssuerResponse = IssuerBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssuerBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssuerBundle;
+  };
 };
 
 /**
@@ -1175,16 +1195,16 @@ export type DeleteCertificateIssuerResponse = IssuerBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IssuerBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: IssuerBundle;
+  };
 };
 
 /**
@@ -1195,16 +1215,16 @@ export type CreateCertificateResponse = CertificateOperation & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateOperation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateOperation;
+  };
 };
 
 /**
@@ -1215,16 +1235,16 @@ export type ImportCertificateResponse = CertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateBundle;
+  };
 };
 
 /**
@@ -1235,16 +1255,16 @@ export type GetCertificateVersionsResponse = CertificateListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateListResult;
+  };
 };
 
 /**
@@ -1255,16 +1275,16 @@ export type GetCertificatePolicyResponse = CertificatePolicy & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificatePolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificatePolicy;
+  };
 };
 
 /**
@@ -1275,16 +1295,16 @@ export type UpdateCertificatePolicyResponse = CertificatePolicy & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificatePolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificatePolicy;
+  };
 };
 
 /**
@@ -1295,16 +1315,16 @@ export type UpdateCertificateResponse = CertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateBundle;
+  };
 };
 
 /**
@@ -1315,16 +1335,16 @@ export type GetCertificateResponse = CertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateBundle;
+  };
 };
 
 /**
@@ -1335,16 +1355,16 @@ export type UpdateCertificateOperationResponse = CertificateOperation & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateOperation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateOperation;
+  };
 };
 
 /**
@@ -1355,16 +1375,16 @@ export type GetCertificateOperationResponse = CertificateOperation & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateOperation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateOperation;
+  };
 };
 
 /**
@@ -1375,16 +1395,16 @@ export type DeleteCertificateOperationResponse = CertificateOperation & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateOperation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateOperation;
+  };
 };
 
 /**
@@ -1395,16 +1415,16 @@ export type MergeCertificateResponse = CertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateBundle;
+  };
 };
 
 /**
@@ -1415,16 +1435,16 @@ export type BackupCertificateResponse = BackupCertificateResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupCertificateResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupCertificateResult;
+  };
 };
 
 /**
@@ -1435,16 +1455,16 @@ export type RestoreCertificateResponse = CertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateBundle;
+  };
 };
 
 /**
@@ -1455,16 +1475,16 @@ export type GetDeletedCertificatesResponse = DeletedCertificateListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedCertificateListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedCertificateListResult;
+  };
 };
 
 /**
@@ -1475,16 +1495,16 @@ export type GetDeletedCertificateResponse = DeletedCertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedCertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedCertificateBundle;
+  };
 };
 
 /**
@@ -1495,14 +1515,14 @@ export type RecoverDeletedCertificateResponse = CertificateBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateBundle;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CertificateBundle;
+  };
 };

@@ -14,8 +14,7 @@ describe("Model Intents Tests", () => {
       const intents = await client.model.listIntents(BaseTest.GlobalAppId, "0.1");
       let checker: boolean = true;
       for (var intent of intents) {
-        if (intent.readableType != "Intent Classifier")
-          checker = false;
+        if (intent.readableType != "Intent Classifier") checker = false;
       }
       chai.expect(checker).to.be.true;
     });
@@ -23,7 +22,9 @@ describe("Model Intents Tests", () => {
 
   it("should add intent", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const newIntentId = await client.model.addIntent(BaseTest.GlobalAppId, "0.1", { name: "TestIntent" });
+      const newIntentId = await client.model.addIntent(BaseTest.GlobalAppId, "0.1", {
+        name: "TestIntent"
+      });
       const intents = await client.model.listIntents(BaseTest.GlobalAppId, "0.1");
       await client.model.deleteIntent(BaseTest.GlobalAppId, "0.1", newIntentId.body);
       chai.expect(newIntentId).not.to.eql(BaseTest.EmptyId);
@@ -34,19 +35,25 @@ describe("Model Intents Tests", () => {
 
   it("should get intent", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const newIntentId = await client.model.addIntent(BaseTest.GlobalAppId, "0.1", { name: "TestIntent" });
+      const newIntentId = await client.model.addIntent(BaseTest.GlobalAppId, "0.1", {
+        name: "TestIntent"
+      });
       const intent = await client.model.getIntent(BaseTest.GlobalAppId, "0.1", newIntentId.body);
       await client.model.deleteIntent(BaseTest.GlobalAppId, "0.1", newIntentId.body);
       chai.expect(intent.id).to.eql(newIntentId.body);
       chai.expect(intent.name).to.eql("TestIntent");
     });
-  })
+  });
 
   it("should update intent", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const intentId = await client.model.addIntent(BaseTest.GlobalAppId, "0.1", { name: "TestIntent" });
+      const intentId = await client.model.addIntent(BaseTest.GlobalAppId, "0.1", {
+        name: "TestIntent"
+      });
       const intent = await client.model.getIntent(BaseTest.GlobalAppId, "0.1", intentId.body);
-      await client.model.updateIntent(BaseTest.GlobalAppId, "0.1", intentId.body, { name: "UpdateTest" })
+      await client.model.updateIntent(BaseTest.GlobalAppId, "0.1", intentId.body, {
+        name: "UpdateTest"
+      });
       const newintent = await client.model.getIntent(BaseTest.GlobalAppId, "0.1", intentId.body);
       await client.model.deleteIntent(BaseTest.GlobalAppId, "0.1", intentId.body);
       chai.expect(intent.id).to.eql(newintent.id);
@@ -57,7 +64,9 @@ describe("Model Intents Tests", () => {
 
   it("should delete intent", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
-      const intentId = await client.model.addIntent(BaseTest.GlobalAppId, "0.1", { name: "TestIntent" });
+      const intentId = await client.model.addIntent(BaseTest.GlobalAppId, "0.1", {
+        name: "TestIntent"
+      });
       const intents = await client.model.listIntents(BaseTest.GlobalAppId, "0.1");
       await client.model.deleteIntent(BaseTest.GlobalAppId, "0.1", intentId.body);
       const intentsWithoutDeleted = await client.model.listIntents(BaseTest.GlobalAppId, "0.1");

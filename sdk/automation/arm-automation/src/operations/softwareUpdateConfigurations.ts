@@ -36,7 +36,13 @@ export class SoftwareUpdateConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SoftwareUpdateConfigurationsCreateResponse>
    */
-  create(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, parameters: Models.SoftwareUpdateConfiguration, options?: Models.SoftwareUpdateConfigurationsCreateOptionalParams): Promise<Models.SoftwareUpdateConfigurationsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    softwareUpdateConfigurationName: string,
+    parameters: Models.SoftwareUpdateConfiguration,
+    options?: Models.SoftwareUpdateConfigurationsCreateOptionalParams
+  ): Promise<Models.SoftwareUpdateConfigurationsCreateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -45,7 +51,13 @@ export class SoftwareUpdateConfigurations {
    * @param parameters Request body.
    * @param callback The callback
    */
-  create(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, parameters: Models.SoftwareUpdateConfiguration, callback: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>): void;
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    softwareUpdateConfigurationName: string,
+    parameters: Models.SoftwareUpdateConfiguration,
+    callback: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -55,8 +67,24 @@ export class SoftwareUpdateConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, parameters: Models.SoftwareUpdateConfiguration, options: Models.SoftwareUpdateConfigurationsCreateOptionalParams, callback: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>): void;
-  create(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, parameters: Models.SoftwareUpdateConfiguration, options?: Models.SoftwareUpdateConfigurationsCreateOptionalParams | msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>): Promise<Models.SoftwareUpdateConfigurationsCreateResponse> {
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    softwareUpdateConfigurationName: string,
+    parameters: Models.SoftwareUpdateConfiguration,
+    options: Models.SoftwareUpdateConfigurationsCreateOptionalParams,
+    callback: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>
+  ): void;
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    softwareUpdateConfigurationName: string,
+    parameters: Models.SoftwareUpdateConfiguration,
+    options?:
+      | Models.SoftwareUpdateConfigurationsCreateOptionalParams
+      | msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>,
+    callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>
+  ): Promise<Models.SoftwareUpdateConfigurationsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +94,8 @@ export class SoftwareUpdateConfigurations {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.SoftwareUpdateConfigurationsCreateResponse>;
+      callback
+    ) as Promise<Models.SoftwareUpdateConfigurationsCreateResponse>;
   }
 
   /**
@@ -78,7 +107,12 @@ export class SoftwareUpdateConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SoftwareUpdateConfigurationsGetByNameResponse>
    */
-  getByName(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, options?: Models.SoftwareUpdateConfigurationsGetByNameOptionalParams): Promise<Models.SoftwareUpdateConfigurationsGetByNameResponse>;
+  getByName(
+    resourceGroupName: string,
+    automationAccountName: string,
+    softwareUpdateConfigurationName: string,
+    options?: Models.SoftwareUpdateConfigurationsGetByNameOptionalParams
+  ): Promise<Models.SoftwareUpdateConfigurationsGetByNameResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -86,7 +120,12 @@ export class SoftwareUpdateConfigurations {
    * created.
    * @param callback The callback
    */
-  getByName(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, callback: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>): void;
+  getByName(
+    resourceGroupName: string,
+    automationAccountName: string,
+    softwareUpdateConfigurationName: string,
+    callback: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -95,8 +134,22 @@ export class SoftwareUpdateConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getByName(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, options: Models.SoftwareUpdateConfigurationsGetByNameOptionalParams, callback: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>): void;
-  getByName(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, options?: Models.SoftwareUpdateConfigurationsGetByNameOptionalParams | msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>): Promise<Models.SoftwareUpdateConfigurationsGetByNameResponse> {
+  getByName(
+    resourceGroupName: string,
+    automationAccountName: string,
+    softwareUpdateConfigurationName: string,
+    options: Models.SoftwareUpdateConfigurationsGetByNameOptionalParams,
+    callback: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>
+  ): void;
+  getByName(
+    resourceGroupName: string,
+    automationAccountName: string,
+    softwareUpdateConfigurationName: string,
+    options?:
+      | Models.SoftwareUpdateConfigurationsGetByNameOptionalParams
+      | msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>,
+    callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfiguration>
+  ): Promise<Models.SoftwareUpdateConfigurationsGetByNameResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +158,8 @@ export class SoftwareUpdateConfigurations {
         options
       },
       getByNameOperationSpec,
-      callback) as Promise<Models.SoftwareUpdateConfigurationsGetByNameResponse>;
+      callback
+    ) as Promise<Models.SoftwareUpdateConfigurationsGetByNameResponse>;
   }
 
   /**
@@ -117,7 +171,12 @@ export class SoftwareUpdateConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, options?: Models.SoftwareUpdateConfigurationsDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    softwareUpdateConfigurationName: string,
+    options?: Models.SoftwareUpdateConfigurationsDeleteMethodOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -125,7 +184,12 @@ export class SoftwareUpdateConfigurations {
    * created.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    softwareUpdateConfigurationName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -134,8 +198,22 @@ export class SoftwareUpdateConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, options: Models.SoftwareUpdateConfigurationsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, softwareUpdateConfigurationName: string, options?: Models.SoftwareUpdateConfigurationsDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    softwareUpdateConfigurationName: string,
+    options: Models.SoftwareUpdateConfigurationsDeleteMethodOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    softwareUpdateConfigurationName: string,
+    options?:
+      | Models.SoftwareUpdateConfigurationsDeleteMethodOptionalParams
+      | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -144,7 +222,8 @@ export class SoftwareUpdateConfigurations {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -154,21 +233,41 @@ export class SoftwareUpdateConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.SoftwareUpdateConfigurationsListResponse>
    */
-  list(resourceGroupName: string, automationAccountName: string, options?: Models.SoftwareUpdateConfigurationsListOptionalParams): Promise<Models.SoftwareUpdateConfigurationsListResponse>;
+  list(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: Models.SoftwareUpdateConfigurationsListOptionalParams
+  ): Promise<Models.SoftwareUpdateConfigurationsListResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  list(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationListResult>): void;
+  list(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, automationAccountName: string, options: Models.SoftwareUpdateConfigurationsListOptionalParams, callback: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationListResult>): void;
-  list(resourceGroupName: string, automationAccountName: string, options?: Models.SoftwareUpdateConfigurationsListOptionalParams | msRest.ServiceCallback<Models.SoftwareUpdateConfigurationListResult>, callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationListResult>): Promise<Models.SoftwareUpdateConfigurationsListResponse> {
+  list(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: Models.SoftwareUpdateConfigurationsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?:
+      | Models.SoftwareUpdateConfigurationsListOptionalParams
+      | msRest.ServiceCallback<Models.SoftwareUpdateConfigurationListResult>,
+    callback?: msRest.ServiceCallback<Models.SoftwareUpdateConfigurationListResult>
+  ): Promise<Models.SoftwareUpdateConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -176,7 +275,8 @@ export class SoftwareUpdateConfigurations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SoftwareUpdateConfigurationsListResponse>;
+      callback
+    ) as Promise<Models.SoftwareUpdateConfigurationsListResponse>;
   }
 }
 
@@ -184,20 +284,16 @@ export class SoftwareUpdateConfigurations {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations/{softwareUpdateConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations/{softwareUpdateConfigurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.softwareUpdateConfigurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.clientRequestId,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.clientRequestId, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -221,20 +317,16 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getByNameOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations/{softwareUpdateConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations/{softwareUpdateConfigurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.softwareUpdateConfigurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.clientRequestId,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.clientRequestId, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SoftwareUpdateConfiguration
@@ -248,20 +340,16 @@ const getByNameOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations/{softwareUpdateConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations/{softwareUpdateConfigurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.softwareUpdateConfigurationName
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.clientRequestId,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.clientRequestId, Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -274,20 +362,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName
   ],
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.filter
-  ],
-  headerParameters: [
-    Parameters.clientRequestId,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1, Parameters.filter],
+  headerParameters: [Parameters.clientRequestId, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SoftwareUpdateConfigurationListResult

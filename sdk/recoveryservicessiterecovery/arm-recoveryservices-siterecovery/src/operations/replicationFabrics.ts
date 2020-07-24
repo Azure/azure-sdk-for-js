@@ -42,14 +42,21 @@ export class ReplicationFabrics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FabricCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FabricCollection>, callback?: msRest.ServiceCallback<Models.FabricCollection>): Promise<Models.ReplicationFabricsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FabricCollection>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FabricCollection>,
+    callback?: msRest.ServiceCallback<Models.FabricCollection>
+  ): Promise<Models.ReplicationFabricsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ReplicationFabricsListResponse>;
+      callback
+    ) as Promise<Models.ReplicationFabricsListResponse>;
   }
 
   /**
@@ -59,7 +66,10 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationFabricsGetResponse>
    */
-  get(fabricName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationFabricsGetResponse>;
+  get(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationFabricsGetResponse>;
   /**
    * @param fabricName Fabric name.
    * @param callback The callback
@@ -70,15 +80,24 @@ export class ReplicationFabrics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(fabricName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Fabric>): void;
-  get(fabricName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Fabric>, callback?: msRest.ServiceCallback<Models.Fabric>): Promise<Models.ReplicationFabricsGetResponse> {
+  get(
+    fabricName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Fabric>
+  ): void;
+  get(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Fabric>,
+    callback?: msRest.ServiceCallback<Models.Fabric>
+  ): Promise<Models.ReplicationFabricsGetResponse> {
     return this.client.sendOperationRequest(
       {
         fabricName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReplicationFabricsGetResponse>;
+      callback
+    ) as Promise<Models.ReplicationFabricsGetResponse>;
   }
 
   /**
@@ -89,9 +108,14 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationFabricsCreateResponse>
    */
-  create(fabricName: string, input: Models.FabricCreationInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationFabricsCreateResponse> {
-    return this.beginCreate(fabricName,input,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationFabricsCreateResponse>;
+  create(
+    fabricName: string,
+    input: Models.FabricCreationInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationFabricsCreateResponse> {
+    return this.beginCreate(fabricName, input, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationFabricsCreateResponse>;
   }
 
   /**
@@ -102,8 +126,7 @@ export class ReplicationFabrics {
    * @returns Promise<msRest.RestResponse>
    */
   purge(fabricName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginPurge(fabricName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+    return this.beginPurge(fabricName, options).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -113,9 +136,13 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationFabricsCheckConsistencyResponse>
    */
-  checkConsistency(fabricName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationFabricsCheckConsistencyResponse> {
-    return this.beginCheckConsistency(fabricName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationFabricsCheckConsistencyResponse>;
+  checkConsistency(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationFabricsCheckConsistencyResponse> {
+    return this.beginCheckConsistency(fabricName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationFabricsCheckConsistencyResponse>;
   }
 
   /**
@@ -125,9 +152,13 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  migrateToAad(fabricName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginMigrateToAad(fabricName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  migrateToAad(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginMigrateToAad(fabricName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -138,9 +169,18 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationFabricsReassociateGatewayResponse>
    */
-  reassociateGateway(fabricName: string, failoverProcessServerRequest: Models.FailoverProcessServerRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationFabricsReassociateGatewayResponse> {
-    return this.beginReassociateGateway(fabricName,failoverProcessServerRequest,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationFabricsReassociateGatewayResponse>;
+  reassociateGateway(
+    fabricName: string,
+    failoverProcessServerRequest: Models.FailoverProcessServerRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationFabricsReassociateGatewayResponse> {
+    return this.beginReassociateGateway(
+      fabricName,
+      failoverProcessServerRequest,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationFabricsReassociateGatewayResponse
+    >;
   }
 
   /**
@@ -150,9 +190,13 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(fabricName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(fabricName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(fabricName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -163,9 +207,18 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationFabricsRenewCertificateResponse>
    */
-  renewCertificate(fabricName: string, renewCertificateParameter: Models.RenewCertificateInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationFabricsRenewCertificateResponse> {
-    return this.beginRenewCertificate(fabricName,renewCertificateParameter,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationFabricsRenewCertificateResponse>;
+  renewCertificate(
+    fabricName: string,
+    renewCertificateParameter: Models.RenewCertificateInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationFabricsRenewCertificateResponse> {
+    return this.beginRenewCertificate(
+      fabricName,
+      renewCertificateParameter,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationFabricsRenewCertificateResponse
+    >;
   }
 
   /**
@@ -176,7 +229,11 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(fabricName: string, input: Models.FabricCreationInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    fabricName: string,
+    input: Models.FabricCreationInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -184,7 +241,8 @@ export class ReplicationFabrics {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -194,14 +252,18 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPurge(fabricName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPurge(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
         options
       },
       beginPurgeOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -211,14 +273,18 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCheckConsistency(fabricName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCheckConsistency(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
         options
       },
       beginCheckConsistencyOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -228,14 +294,18 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginMigrateToAad(fabricName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginMigrateToAad(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
         options
       },
       beginMigrateToAadOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -246,7 +316,11 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginReassociateGateway(fabricName: string, failoverProcessServerRequest: Models.FailoverProcessServerRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginReassociateGateway(
+    fabricName: string,
+    failoverProcessServerRequest: Models.FailoverProcessServerRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -254,7 +328,8 @@ export class ReplicationFabrics {
         options
       },
       beginReassociateGatewayOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -264,14 +339,18 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(fabricName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    fabricName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -282,7 +361,11 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRenewCertificate(fabricName: string, renewCertificateParameter: Models.RenewCertificateInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRenewCertificate(
+    fabricName: string,
+    renewCertificateParameter: Models.RenewCertificateInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         fabricName,
@@ -290,7 +373,8 @@ export class ReplicationFabrics {
         options
       },
       beginRenewCertificateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -300,7 +384,10 @@ export class ReplicationFabrics {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationFabricsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationFabricsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationFabricsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -311,15 +398,24 @@ export class ReplicationFabrics {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FabricCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FabricCollection>, callback?: msRest.ServiceCallback<Models.FabricCollection>): Promise<Models.ReplicationFabricsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.FabricCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FabricCollection>,
+    callback?: msRest.ServiceCallback<Models.FabricCollection>
+  ): Promise<Models.ReplicationFabricsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ReplicationFabricsListNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationFabricsListNextResponse>;
   }
 }
 
@@ -327,18 +423,11 @@ export class ReplicationFabrics {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics",
+  urlParameters: [Parameters.resourceName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FabricCollection
@@ -352,19 +441,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Fabric
@@ -378,19 +464,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -412,19 +495,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginPurgeOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -437,19 +517,16 @@ const beginPurgeOperationSpec: msRest.OperationSpec = {
 
 const beginCheckConsistencyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/checkConsistency",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/checkConsistency",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Fabric
@@ -464,19 +541,16 @@ const beginCheckConsistencyOperationSpec: msRest.OperationSpec = {
 
 const beginMigrateToAadOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/migratetoaad",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/migratetoaad",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -489,19 +563,16 @@ const beginMigrateToAadOperationSpec: msRest.OperationSpec = {
 
 const beginReassociateGatewayOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/reassociateGateway",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/reassociateGateway",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "failoverProcessServerRequest",
     mapper: {
@@ -523,19 +594,16 @@ const beginReassociateGatewayOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/remove",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/remove",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -548,19 +616,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginRenewCertificateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/renewCertificate",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/renewCertificate",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.fabricName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "renewCertificateParameter",
     mapper: {
@@ -584,12 +649,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.FabricCollection

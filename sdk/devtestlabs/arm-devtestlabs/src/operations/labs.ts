@@ -32,7 +32,9 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<Models.LabsListBySubscriptionResponse>
    */
-  listBySubscription(options?: Models.LabsListBySubscriptionOptionalParams): Promise<Models.LabsListBySubscriptionResponse>;
+  listBySubscription(
+    options?: Models.LabsListBySubscriptionOptionalParams
+  ): Promise<Models.LabsListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -41,14 +43,21 @@ export class Labs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: Models.LabsListBySubscriptionOptionalParams, callback: msRest.ServiceCallback<Models.LabList>): void;
-  listBySubscription(options?: Models.LabsListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.LabList>, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListBySubscriptionResponse> {
+  listBySubscription(
+    options: Models.LabsListBySubscriptionOptionalParams,
+    callback: msRest.ServiceCallback<Models.LabList>
+  ): void;
+  listBySubscription(
+    options?: Models.LabsListBySubscriptionOptionalParams | msRest.ServiceCallback<Models.LabList>,
+    callback?: msRest.ServiceCallback<Models.LabList>
+  ): Promise<Models.LabsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.LabsListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.LabsListBySubscriptionResponse>;
   }
 
   /**
@@ -57,26 +66,41 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<Models.LabsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.LabsListByResourceGroupOptionalParams): Promise<Models.LabsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.LabsListByResourceGroupOptionalParams
+  ): Promise<Models.LabsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.LabList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.LabList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.LabsListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.LabList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.LabsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.LabList>, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.LabsListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.LabList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.LabsListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.LabList>,
+    callback?: msRest.ServiceCallback<Models.LabList>
+  ): Promise<Models.LabsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.LabsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.LabsListByResourceGroupResponse>;
   }
 
   /**
@@ -86,7 +110,11 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<Models.LabsGetResponse>
    */
-  get(resourceGroupName: string, name: string, options?: Models.LabsGetOptionalParams): Promise<Models.LabsGetResponse>;
+  get(
+    resourceGroupName: string,
+    name: string,
+    options?: Models.LabsGetOptionalParams
+  ): Promise<Models.LabsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the lab.
@@ -99,8 +127,18 @@ export class Labs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, name: string, options: Models.LabsGetOptionalParams, callback: msRest.ServiceCallback<Models.Lab>): void;
-  get(resourceGroupName: string, name: string, options?: Models.LabsGetOptionalParams | msRest.ServiceCallback<Models.Lab>, callback?: msRest.ServiceCallback<Models.Lab>): Promise<Models.LabsGetResponse> {
+  get(
+    resourceGroupName: string,
+    name: string,
+    options: Models.LabsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.Lab>
+  ): void;
+  get(
+    resourceGroupName: string,
+    name: string,
+    options?: Models.LabsGetOptionalParams | msRest.ServiceCallback<Models.Lab>,
+    callback?: msRest.ServiceCallback<Models.Lab>
+  ): Promise<Models.LabsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +146,8 @@ export class Labs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.LabsGetResponse>;
+      callback
+    ) as Promise<Models.LabsGetResponse>;
   }
 
   /**
@@ -119,9 +158,15 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<Models.LabsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, name: string, lab: Models.Lab, options?: msRest.RequestOptionsBase): Promise<Models.LabsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,name,lab,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LabsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    name: string,
+    lab: Models.Lab,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LabsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName, name, lab, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.LabsCreateOrUpdateResponse>;
   }
 
   /**
@@ -131,9 +176,14 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,name,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, name, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -144,14 +194,24 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<Models.LabsUpdateResponse>
    */
-  update(resourceGroupName: string, name: string, lab: Models.LabFragment, options?: msRest.RequestOptionsBase): Promise<Models.LabsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    name: string,
+    lab: Models.LabFragment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LabsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the lab.
    * @param lab A lab.
    * @param callback The callback
    */
-  update(resourceGroupName: string, name: string, lab: Models.LabFragment, callback: msRest.ServiceCallback<Models.Lab>): void;
+  update(
+    resourceGroupName: string,
+    name: string,
+    lab: Models.LabFragment,
+    callback: msRest.ServiceCallback<Models.Lab>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the lab.
@@ -159,8 +219,20 @@ export class Labs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, name: string, lab: Models.LabFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Lab>): void;
-  update(resourceGroupName: string, name: string, lab: Models.LabFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Lab>, callback?: msRest.ServiceCallback<Models.Lab>): Promise<Models.LabsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    name: string,
+    lab: Models.LabFragment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Lab>
+  ): void;
+  update(
+    resourceGroupName: string,
+    name: string,
+    lab: Models.LabFragment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Lab>,
+    callback?: msRest.ServiceCallback<Models.Lab>
+  ): Promise<Models.LabsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -169,7 +241,8 @@ export class Labs {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.LabsUpdateResponse>;
+      callback
+    ) as Promise<Models.LabsUpdateResponse>;
   }
 
   /**
@@ -180,9 +253,14 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  claimAnyVm(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginClaimAnyVm(resourceGroupName,name,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  claimAnyVm(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginClaimAnyVm(resourceGroupName, name, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -193,9 +271,18 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  createEnvironment(resourceGroupName: string, name: string, labVirtualMachineCreationParameter: Models.LabVirtualMachineCreationParameter, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginCreateEnvironment(resourceGroupName,name,labVirtualMachineCreationParameter,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  createEnvironment(
+    resourceGroupName: string,
+    name: string,
+    labVirtualMachineCreationParameter: Models.LabVirtualMachineCreationParameter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginCreateEnvironment(
+      resourceGroupName,
+      name,
+      labVirtualMachineCreationParameter,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -207,9 +294,18 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  exportResourceUsage(resourceGroupName: string, name: string, exportResourceUsageParameters: Models.ExportResourceUsageParameters, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginExportResourceUsage(resourceGroupName,name,exportResourceUsageParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  exportResourceUsage(
+    resourceGroupName: string,
+    name: string,
+    exportResourceUsageParameters: Models.ExportResourceUsageParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginExportResourceUsage(
+      resourceGroupName,
+      name,
+      exportResourceUsageParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -220,14 +316,24 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<Models.LabsGenerateUploadUriResponse>
    */
-  generateUploadUri(resourceGroupName: string, name: string, generateUploadUriParameter: Models.GenerateUploadUriParameter, options?: msRest.RequestOptionsBase): Promise<Models.LabsGenerateUploadUriResponse>;
+  generateUploadUri(
+    resourceGroupName: string,
+    name: string,
+    generateUploadUriParameter: Models.GenerateUploadUriParameter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LabsGenerateUploadUriResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the lab.
    * @param generateUploadUriParameter Properties for generating an upload URI.
    * @param callback The callback
    */
-  generateUploadUri(resourceGroupName: string, name: string, generateUploadUriParameter: Models.GenerateUploadUriParameter, callback: msRest.ServiceCallback<Models.GenerateUploadUriResponse>): void;
+  generateUploadUri(
+    resourceGroupName: string,
+    name: string,
+    generateUploadUriParameter: Models.GenerateUploadUriParameter,
+    callback: msRest.ServiceCallback<Models.GenerateUploadUriResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the lab.
@@ -235,8 +341,20 @@ export class Labs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  generateUploadUri(resourceGroupName: string, name: string, generateUploadUriParameter: Models.GenerateUploadUriParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenerateUploadUriResponse>): void;
-  generateUploadUri(resourceGroupName: string, name: string, generateUploadUriParameter: Models.GenerateUploadUriParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenerateUploadUriResponse>, callback?: msRest.ServiceCallback<Models.GenerateUploadUriResponse>): Promise<Models.LabsGenerateUploadUriResponse> {
+  generateUploadUri(
+    resourceGroupName: string,
+    name: string,
+    generateUploadUriParameter: Models.GenerateUploadUriParameter,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GenerateUploadUriResponse>
+  ): void;
+  generateUploadUri(
+    resourceGroupName: string,
+    name: string,
+    generateUploadUriParameter: Models.GenerateUploadUriParameter,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenerateUploadUriResponse>,
+    callback?: msRest.ServiceCallback<Models.GenerateUploadUriResponse>
+  ): Promise<Models.LabsGenerateUploadUriResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -245,7 +363,8 @@ export class Labs {
         options
       },
       generateUploadUriOperationSpec,
-      callback) as Promise<Models.LabsGenerateUploadUriResponse>;
+      callback
+    ) as Promise<Models.LabsGenerateUploadUriResponse>;
   }
 
   /**
@@ -257,9 +376,18 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  importVirtualMachine(resourceGroupName: string, name: string, importLabVirtualMachineRequest: Models.ImportLabVirtualMachineRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginImportVirtualMachine(resourceGroupName,name,importLabVirtualMachineRequest,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  importVirtualMachine(
+    resourceGroupName: string,
+    name: string,
+    importLabVirtualMachineRequest: Models.ImportLabVirtualMachineRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginImportVirtualMachine(
+      resourceGroupName,
+      name,
+      importLabVirtualMachineRequest,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -269,21 +397,39 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<Models.LabsListVhdsResponse>
    */
-  listVhds(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.LabsListVhdsResponse>;
+  listVhds(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LabsListVhdsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the lab.
    * @param callback The callback
    */
-  listVhds(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.LabVhdList>): void;
+  listVhds(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.LabVhdList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the lab.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listVhds(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabVhdList>): void;
-  listVhds(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabVhdList>, callback?: msRest.ServiceCallback<Models.LabVhdList>): Promise<Models.LabsListVhdsResponse> {
+  listVhds(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LabVhdList>
+  ): void;
+  listVhds(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabVhdList>,
+    callback?: msRest.ServiceCallback<Models.LabVhdList>
+  ): Promise<Models.LabsListVhdsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -291,7 +437,8 @@ export class Labs {
         options
       },
       listVhdsOperationSpec,
-      callback) as Promise<Models.LabsListVhdsResponse>;
+      callback
+    ) as Promise<Models.LabsListVhdsResponse>;
   }
 
   /**
@@ -302,7 +449,12 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, name: string, lab: Models.Lab, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    name: string,
+    lab: Models.Lab,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -311,7 +463,8 @@ export class Labs {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -321,7 +474,11 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -329,7 +486,8 @@ export class Labs {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -340,7 +498,11 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginClaimAnyVm(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginClaimAnyVm(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -348,7 +510,8 @@ export class Labs {
         options
       },
       beginClaimAnyVmOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -359,7 +522,12 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateEnvironment(resourceGroupName: string, name: string, labVirtualMachineCreationParameter: Models.LabVirtualMachineCreationParameter, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateEnvironment(
+    resourceGroupName: string,
+    name: string,
+    labVirtualMachineCreationParameter: Models.LabVirtualMachineCreationParameter,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -368,7 +536,8 @@ export class Labs {
         options
       },
       beginCreateEnvironmentOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -380,7 +549,12 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginExportResourceUsage(resourceGroupName: string, name: string, exportResourceUsageParameters: Models.ExportResourceUsageParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginExportResourceUsage(
+    resourceGroupName: string,
+    name: string,
+    exportResourceUsageParameters: Models.ExportResourceUsageParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -389,7 +563,8 @@ export class Labs {
         options
       },
       beginExportResourceUsageOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -401,7 +576,12 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginImportVirtualMachine(resourceGroupName: string, name: string, importLabVirtualMachineRequest: Models.ImportLabVirtualMachineRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginImportVirtualMachine(
+    resourceGroupName: string,
+    name: string,
+    importLabVirtualMachineRequest: Models.ImportLabVirtualMachineRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -410,7 +590,8 @@ export class Labs {
         options
       },
       beginImportVirtualMachineOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -419,26 +600,41 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<Models.LabsListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LabsListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LabsListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LabList>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.LabList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabList>, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LabList>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabList>,
+    callback?: msRest.ServiceCallback<Models.LabList>
+  ): Promise<Models.LabsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.LabsListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.LabsListBySubscriptionNextResponse>;
   }
 
   /**
@@ -447,26 +643,41 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<Models.LabsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LabsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LabsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LabList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.LabList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabList>, callback?: msRest.ServiceCallback<Models.LabList>): Promise<Models.LabsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LabList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabList>,
+    callback?: msRest.ServiceCallback<Models.LabList>
+  ): Promise<Models.LabsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.LabsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.LabsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -475,7 +686,10 @@ export class Labs {
    * @param [options] The optional parameters
    * @returns Promise<Models.LabsListVhdsNextResponse>
    */
-  listVhdsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.LabsListVhdsNextResponse>;
+  listVhdsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LabsListVhdsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -486,15 +700,24 @@ export class Labs {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listVhdsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LabVhdList>): void;
-  listVhdsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabVhdList>, callback?: msRest.ServiceCallback<Models.LabVhdList>): Promise<Models.LabsListVhdsNextResponse> {
+  listVhdsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LabVhdList>
+  ): void;
+  listVhdsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LabVhdList>,
+    callback?: msRest.ServiceCallback<Models.LabVhdList>
+  ): Promise<Models.LabsListVhdsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listVhdsNextOperationSpec,
-      callback) as Promise<Models.LabsListVhdsNextResponse>;
+      callback
+    ) as Promise<Models.LabsListVhdsNextResponse>;
   }
 }
 
@@ -503,9 +726,7 @@ const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DevTestLab/labs",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.subscriptionId],
   queryParameters: [
     Parameters.expand,
     Parameters.filter,
@@ -513,9 +734,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LabList
@@ -529,11 +748,9 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
   queryParameters: [
     Parameters.expand,
     Parameters.filter,
@@ -541,9 +758,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LabList
@@ -557,19 +772,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Lab
@@ -583,18 +790,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "lab",
     mapper: {
@@ -615,18 +815,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const generateUploadUriOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/generateUploadUri",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/generateUploadUri",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "generateUploadUriParameter",
     mapper: {
@@ -647,18 +840,11 @@ const generateUploadUriOperationSpec: msRest.OperationSpec = {
 
 const listVhdsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/listVhds",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/listVhds",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LabVhdList
@@ -672,18 +858,11 @@ const listVhdsOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "lab",
     mapper: {
@@ -707,18 +886,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -732,18 +904,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginClaimAnyVmOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/claimAnyVm",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/claimAnyVm",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -756,18 +921,11 @@ const beginClaimAnyVmOperationSpec: msRest.OperationSpec = {
 
 const beginCreateEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/createEnvironment",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/createEnvironment",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "labVirtualMachineCreationParameter",
     mapper: {
@@ -787,18 +945,11 @@ const beginCreateEnvironmentOperationSpec: msRest.OperationSpec = {
 
 const beginExportResourceUsageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/exportResourceUsage",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/exportResourceUsage",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "exportResourceUsageParameters",
     mapper: {
@@ -818,18 +969,11 @@ const beginExportResourceUsageOperationSpec: msRest.OperationSpec = {
 
 const beginImportVirtualMachineOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/importVirtualMachine",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/importVirtualMachine",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.name],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "importLabVirtualMachineRequest",
     mapper: {
@@ -851,12 +995,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LabList
@@ -872,12 +1012,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LabList
@@ -893,12 +1029,8 @@ const listVhdsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LabVhdList

@@ -35,14 +35,24 @@ export class ExportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExportPipelinesGetResponse>
    */
-  get(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExportPipelinesGetResponse>;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    exportPipelineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExportPipelinesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param exportPipelineName The name of the export pipeline.
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, exportPipelineName: string, callback: msRest.ServiceCallback<Models.ExportPipeline>): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    exportPipelineName: string,
+    callback: msRest.ServiceCallback<Models.ExportPipeline>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -50,8 +60,20 @@ export class ExportPipelines {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, exportPipelineName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExportPipeline>): void;
-  get(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExportPipeline>, callback?: msRest.ServiceCallback<Models.ExportPipeline>): Promise<Models.ExportPipelinesGetResponse> {
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    exportPipelineName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExportPipeline>
+  ): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    exportPipelineName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExportPipeline>,
+    callback?: msRest.ServiceCallback<Models.ExportPipeline>
+  ): Promise<Models.ExportPipelinesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class ExportPipelines {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ExportPipelinesGetResponse>;
+      callback
+    ) as Promise<Models.ExportPipelinesGetResponse>;
   }
 
   /**
@@ -72,9 +95,22 @@ export class ExportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExportPipelinesCreateResponse>
    */
-  create(resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: Models.ExportPipeline, options?: msRest.RequestOptionsBase): Promise<Models.ExportPipelinesCreateResponse> {
-    return this.beginCreate(resourceGroupName,registryName,exportPipelineName,exportPipelineCreateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExportPipelinesCreateResponse>;
+  create(
+    resourceGroupName: string,
+    registryName: string,
+    exportPipelineName: string,
+    exportPipelineCreateParameters: Models.ExportPipeline,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExportPipelinesCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      registryName,
+      exportPipelineName,
+      exportPipelineCreateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ExportPipelinesCreateResponse
+    >;
   }
 
   /**
@@ -85,9 +121,18 @@ export class ExportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,registryName,exportPipelineName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    exportPipelineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      registryName,
+      exportPipelineName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -97,21 +142,39 @@ export class ExportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExportPipelinesListResponse>
    */
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExportPipelinesListResponse>;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExportPipelinesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, callback: msRest.ServiceCallback<Models.ExportPipelineListResult>): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    callback: msRest.ServiceCallback<Models.ExportPipelineListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExportPipelineListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExportPipelineListResult>, callback?: msRest.ServiceCallback<Models.ExportPipelineListResult>): Promise<Models.ExportPipelinesListResponse> {
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExportPipelineListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExportPipelineListResult>,
+    callback?: msRest.ServiceCallback<Models.ExportPipelineListResult>
+  ): Promise<Models.ExportPipelinesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +182,8 @@ export class ExportPipelines {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ExportPipelinesListResponse>;
+      callback
+    ) as Promise<Models.ExportPipelinesListResponse>;
   }
 
   /**
@@ -131,7 +195,13 @@ export class ExportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: Models.ExportPipeline, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    registryName: string,
+    exportPipelineName: string,
+    exportPipelineCreateParameters: Models.ExportPipeline,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -141,7 +211,8 @@ export class ExportPipelines {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +223,12 @@ export class ExportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    exportPipelineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +237,8 @@ export class ExportPipelines {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,26 +247,41 @@ export class ExportPipelines {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExportPipelinesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExportPipelinesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExportPipelinesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExportPipelineListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ExportPipelineListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExportPipelineListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExportPipelineListResult>, callback?: msRest.ServiceCallback<Models.ExportPipelineListResult>): Promise<Models.ExportPipelinesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExportPipelineListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExportPipelineListResult>,
+    callback?: msRest.ServiceCallback<Models.ExportPipelineListResult>
+  ): Promise<Models.ExportPipelinesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ExportPipelinesListNextResponse>;
+      callback
+    ) as Promise<Models.ExportPipelinesListNextResponse>;
   }
 }
 
@@ -197,19 +289,16 @@ export class ExportPipelines {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.exportPipelineName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExportPipeline
@@ -223,18 +312,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.registryName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExportPipelineListResult
@@ -248,19 +330,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.exportPipelineName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "exportPipelineCreateParameters",
     mapper: {
@@ -284,19 +363,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/exportPipelines/{exportPipelineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.exportPipelineName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -312,12 +388,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExportPipelineListResult

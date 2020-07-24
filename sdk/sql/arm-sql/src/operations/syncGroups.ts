@@ -33,26 +33,41 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncGroupsListSyncDatabaseIdsResponse>
    */
-  listSyncDatabaseIds(locationName: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncGroupsListSyncDatabaseIdsResponse>;
+  listSyncDatabaseIds(
+    locationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncGroupsListSyncDatabaseIdsResponse>;
   /**
    * @param locationName The name of the region where the resource is located.
    * @param callback The callback
    */
-  listSyncDatabaseIds(locationName: string, callback: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>): void;
+  listSyncDatabaseIds(
+    locationName: string,
+    callback: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>
+  ): void;
   /**
    * @param locationName The name of the region where the resource is located.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSyncDatabaseIds(locationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>): void;
-  listSyncDatabaseIds(locationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncDatabaseIdListResult>, callback?: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>): Promise<Models.SyncGroupsListSyncDatabaseIdsResponse> {
+  listSyncDatabaseIds(
+    locationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>
+  ): void;
+  listSyncDatabaseIds(
+    locationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncDatabaseIdListResult>,
+    callback?: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>
+  ): Promise<Models.SyncGroupsListSyncDatabaseIdsResponse> {
     return this.client.sendOperationRequest(
       {
         locationName,
         options
       },
       listSyncDatabaseIdsOperationSpec,
-      callback) as Promise<Models.SyncGroupsListSyncDatabaseIdsResponse>;
+      callback
+    ) as Promise<Models.SyncGroupsListSyncDatabaseIdsResponse>;
   }
 
   /**
@@ -65,9 +80,20 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  refreshHubSchema(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRefreshHubSchema(resourceGroupName,serverName,databaseName,syncGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  refreshHubSchema(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRefreshHubSchema(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      syncGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -80,7 +106,13 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncGroupsListHubSchemasResponse>
    */
-  listHubSchemas(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncGroupsListHubSchemasResponse>;
+  listHubSchemas(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncGroupsListHubSchemasResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -89,7 +121,13 @@ export class SyncGroups {
    * @param syncGroupName The name of the sync group.
    * @param callback The callback
    */
-  listHubSchemas(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, callback: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): void;
+  listHubSchemas(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    callback: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -99,8 +137,24 @@ export class SyncGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHubSchemas(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): void;
-  listHubSchemas(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>, callback?: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): Promise<Models.SyncGroupsListHubSchemasResponse> {
+  listHubSchemas(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>
+  ): void;
+  listHubSchemas(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>,
+    callback?: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>
+  ): Promise<Models.SyncGroupsListHubSchemasResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -110,7 +164,8 @@ export class SyncGroups {
         options
       },
       listHubSchemasOperationSpec,
-      callback) as Promise<Models.SyncGroupsListHubSchemasResponse>;
+      callback
+    ) as Promise<Models.SyncGroupsListHubSchemasResponse>;
   }
 
   /**
@@ -127,7 +182,16 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncGroupsListLogsResponse>
    */
-  listLogs(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, startTime: string, endTime: string, type: Models.Type, options?: Models.SyncGroupsListLogsOptionalParams): Promise<Models.SyncGroupsListLogsResponse>;
+  listLogs(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    startTime: string,
+    endTime: string,
+    type: Models.Type,
+    options?: Models.SyncGroupsListLogsOptionalParams
+  ): Promise<Models.SyncGroupsListLogsResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -140,7 +204,16 @@ export class SyncGroups {
    * 'Success'
    * @param callback The callback
    */
-  listLogs(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, startTime: string, endTime: string, type: Models.Type, callback: msRest.ServiceCallback<Models.SyncGroupLogListResult>): void;
+  listLogs(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    startTime: string,
+    endTime: string,
+    type: Models.Type,
+    callback: msRest.ServiceCallback<Models.SyncGroupLogListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -154,8 +227,30 @@ export class SyncGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listLogs(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, startTime: string, endTime: string, type: Models.Type, options: Models.SyncGroupsListLogsOptionalParams, callback: msRest.ServiceCallback<Models.SyncGroupLogListResult>): void;
-  listLogs(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, startTime: string, endTime: string, type: Models.Type, options?: Models.SyncGroupsListLogsOptionalParams | msRest.ServiceCallback<Models.SyncGroupLogListResult>, callback?: msRest.ServiceCallback<Models.SyncGroupLogListResult>): Promise<Models.SyncGroupsListLogsResponse> {
+  listLogs(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    startTime: string,
+    endTime: string,
+    type: Models.Type,
+    options: Models.SyncGroupsListLogsOptionalParams,
+    callback: msRest.ServiceCallback<Models.SyncGroupLogListResult>
+  ): void;
+  listLogs(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    startTime: string,
+    endTime: string,
+    type: Models.Type,
+    options?:
+      | Models.SyncGroupsListLogsOptionalParams
+      | msRest.ServiceCallback<Models.SyncGroupLogListResult>,
+    callback?: msRest.ServiceCallback<Models.SyncGroupLogListResult>
+  ): Promise<Models.SyncGroupsListLogsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -168,7 +263,8 @@ export class SyncGroups {
         options
       },
       listLogsOperationSpec,
-      callback) as Promise<Models.SyncGroupsListLogsResponse>;
+      callback
+    ) as Promise<Models.SyncGroupsListLogsResponse>;
   }
 
   /**
@@ -181,7 +277,13 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  cancelSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  cancelSync(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -190,7 +292,13 @@ export class SyncGroups {
    * @param syncGroupName The name of the sync group.
    * @param callback The callback
    */
-  cancelSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  cancelSync(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -200,8 +308,22 @@ export class SyncGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  cancelSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  cancelSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  cancelSync(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  cancelSync(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -211,7 +333,8 @@ export class SyncGroups {
         options
       },
       cancelSyncOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -224,7 +347,13 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  triggerSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  triggerSync(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -233,7 +362,13 @@ export class SyncGroups {
    * @param syncGroupName The name of the sync group.
    * @param callback The callback
    */
-  triggerSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  triggerSync(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -243,8 +378,22 @@ export class SyncGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  triggerSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  triggerSync(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  triggerSync(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  triggerSync(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -254,7 +403,8 @@ export class SyncGroups {
         options
       },
       triggerSyncOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -267,7 +417,13 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncGroupsGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncGroupsGetResponse>;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -276,7 +432,13 @@ export class SyncGroups {
    * @param syncGroupName The name of the sync group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, callback: msRest.ServiceCallback<Models.SyncGroup>): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    callback: msRest.ServiceCallback<Models.SyncGroup>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -286,8 +448,22 @@ export class SyncGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncGroup>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroup>, callback?: msRest.ServiceCallback<Models.SyncGroup>): Promise<Models.SyncGroupsGetResponse> {
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncGroup>
+  ): void;
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroup>,
+    callback?: msRest.ServiceCallback<Models.SyncGroup>
+  ): Promise<Models.SyncGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -297,7 +473,8 @@ export class SyncGroups {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SyncGroupsGetResponse>;
+      callback
+    ) as Promise<Models.SyncGroupsGetResponse>;
   }
 
   /**
@@ -311,9 +488,24 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, parameters: Models.SyncGroup, options?: msRest.RequestOptionsBase): Promise<Models.SyncGroupsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serverName,databaseName,syncGroupName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SyncGroupsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    parameters: Models.SyncGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncGroupsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      syncGroupName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SyncGroupsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -326,9 +518,20 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,serverName,databaseName,syncGroupName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      syncGroupName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -342,9 +545,24 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncGroupsUpdateResponse>
    */
-  update(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, parameters: Models.SyncGroup, options?: msRest.RequestOptionsBase): Promise<Models.SyncGroupsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,serverName,databaseName,syncGroupName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SyncGroupsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    parameters: Models.SyncGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncGroupsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      syncGroupName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SyncGroupsUpdateResponse
+    >;
   }
 
   /**
@@ -356,7 +574,12 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncGroupsListByDatabaseResponse>
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncGroupsListByDatabaseResponse>;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncGroupsListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -364,7 +587,12 @@ export class SyncGroups {
    * @param databaseName The name of the database on which the sync group is hosted.
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.SyncGroupListResult>): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.SyncGroupListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -373,8 +601,20 @@ export class SyncGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncGroupListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroupListResult>, callback?: msRest.ServiceCallback<Models.SyncGroupListResult>): Promise<Models.SyncGroupsListByDatabaseResponse> {
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncGroupListResult>
+  ): void;
+  listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.SyncGroupListResult>
+  ): Promise<Models.SyncGroupsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -383,7 +623,8 @@ export class SyncGroups {
         options
       },
       listByDatabaseOperationSpec,
-      callback) as Promise<Models.SyncGroupsListByDatabaseResponse>;
+      callback
+    ) as Promise<Models.SyncGroupsListByDatabaseResponse>;
   }
 
   /**
@@ -396,7 +637,13 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRefreshHubSchema(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRefreshHubSchema(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -406,7 +653,8 @@ export class SyncGroups {
         options
       },
       beginRefreshHubSchemaOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -420,7 +668,14 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, parameters: Models.SyncGroup, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    parameters: Models.SyncGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -431,7 +686,8 @@ export class SyncGroups {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -444,7 +700,13 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -454,7 +716,8 @@ export class SyncGroups {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -468,7 +731,14 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, serverName: string, databaseName: string, syncGroupName: string, parameters: Models.SyncGroup, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    syncGroupName: string,
+    parameters: Models.SyncGroup,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -479,7 +749,8 @@ export class SyncGroups {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -488,26 +759,41 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncGroupsListSyncDatabaseIdsNextResponse>
    */
-  listSyncDatabaseIdsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncGroupsListSyncDatabaseIdsNextResponse>;
+  listSyncDatabaseIdsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncGroupsListSyncDatabaseIdsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listSyncDatabaseIdsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>): void;
+  listSyncDatabaseIdsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSyncDatabaseIdsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>): void;
-  listSyncDatabaseIdsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncDatabaseIdListResult>, callback?: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>): Promise<Models.SyncGroupsListSyncDatabaseIdsNextResponse> {
+  listSyncDatabaseIdsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>
+  ): void;
+  listSyncDatabaseIdsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncDatabaseIdListResult>,
+    callback?: msRest.ServiceCallback<Models.SyncDatabaseIdListResult>
+  ): Promise<Models.SyncGroupsListSyncDatabaseIdsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSyncDatabaseIdsNextOperationSpec,
-      callback) as Promise<Models.SyncGroupsListSyncDatabaseIdsNextResponse>;
+      callback
+    ) as Promise<Models.SyncGroupsListSyncDatabaseIdsNextResponse>;
   }
 
   /**
@@ -516,26 +802,43 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncGroupsListHubSchemasNextResponse>
    */
-  listHubSchemasNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncGroupsListHubSchemasNextResponse>;
+  listHubSchemasNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncGroupsListHubSchemasNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listHubSchemasNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): void;
+  listHubSchemasNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHubSchemasNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): void;
-  listHubSchemasNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>, callback?: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>): Promise<Models.SyncGroupsListHubSchemasNextResponse> {
+  listHubSchemasNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>
+  ): void;
+  listHubSchemasNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>,
+    callback?: msRest.ServiceCallback<Models.SyncFullSchemaPropertiesListResult>
+  ): Promise<Models.SyncGroupsListHubSchemasNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listHubSchemasNextOperationSpec,
-      callback) as Promise<Models.SyncGroupsListHubSchemasNextResponse>;
+      callback
+    ) as Promise<Models.SyncGroupsListHubSchemasNextResponse>;
   }
 
   /**
@@ -544,26 +847,41 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncGroupsListLogsNextResponse>
    */
-  listLogsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncGroupsListLogsNextResponse>;
+  listLogsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncGroupsListLogsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listLogsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SyncGroupLogListResult>): void;
+  listLogsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SyncGroupLogListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listLogsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncGroupLogListResult>): void;
-  listLogsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroupLogListResult>, callback?: msRest.ServiceCallback<Models.SyncGroupLogListResult>): Promise<Models.SyncGroupsListLogsNextResponse> {
+  listLogsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncGroupLogListResult>
+  ): void;
+  listLogsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroupLogListResult>,
+    callback?: msRest.ServiceCallback<Models.SyncGroupLogListResult>
+  ): Promise<Models.SyncGroupsListLogsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listLogsNextOperationSpec,
-      callback) as Promise<Models.SyncGroupsListLogsNextResponse>;
+      callback
+    ) as Promise<Models.SyncGroupsListLogsNextResponse>;
   }
 
   /**
@@ -572,26 +890,41 @@ export class SyncGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.SyncGroupsListByDatabaseNextResponse>
    */
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SyncGroupsListByDatabaseNextResponse>;
+  listByDatabaseNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SyncGroupsListByDatabaseNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByDatabaseNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SyncGroupListResult>): void;
+  listByDatabaseNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SyncGroupListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SyncGroupListResult>): void;
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroupListResult>, callback?: msRest.ServiceCallback<Models.SyncGroupListResult>): Promise<Models.SyncGroupsListByDatabaseNextResponse> {
+  listByDatabaseNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SyncGroupListResult>
+  ): void;
+  listByDatabaseNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SyncGroupListResult>,
+    callback?: msRest.ServiceCallback<Models.SyncGroupListResult>
+  ): Promise<Models.SyncGroupsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByDatabaseNextOperationSpec,
-      callback) as Promise<Models.SyncGroupsListByDatabaseNextResponse>;
+      callback
+    ) as Promise<Models.SyncGroupsListByDatabaseNextResponse>;
   }
 }
 
@@ -599,17 +932,11 @@ export class SyncGroups {
 const serializer = new msRest.Serializer(Mappers);
 const listSyncDatabaseIdsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/syncDatabaseIds",
-  urlParameters: [
-    Parameters.locationName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/syncDatabaseIds",
+  urlParameters: [Parameters.locationName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncDatabaseIdListResult
@@ -623,7 +950,8 @@ const listSyncDatabaseIdsOperationSpec: msRest.OperationSpec = {
 
 const listHubSchemasOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/hubSchemas",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/hubSchemas",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -631,12 +959,8 @@ const listHubSchemasOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncFullSchemaPropertiesListResult
@@ -650,7 +974,8 @@ const listHubSchemasOperationSpec: msRest.OperationSpec = {
 
 const listLogsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/logs",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/logs",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -665,9 +990,7 @@ const listLogsOperationSpec: msRest.OperationSpec = {
     Parameters.continuationToken,
     Parameters.apiVersion1
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncGroupLogListResult
@@ -681,7 +1004,8 @@ const listLogsOperationSpec: msRest.OperationSpec = {
 
 const cancelSyncOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/cancelSync",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/cancelSync",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -689,12 +1013,8 @@ const cancelSyncOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -706,7 +1026,8 @@ const cancelSyncOperationSpec: msRest.OperationSpec = {
 
 const triggerSyncOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/triggerSync",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/triggerSync",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -714,12 +1035,8 @@ const triggerSyncOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -731,7 +1048,8 @@ const triggerSyncOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -739,12 +1057,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncGroup
@@ -758,19 +1072,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncGroupListResult
@@ -784,7 +1095,8 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
 
 const beginRefreshHubSchemaOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/refreshHubSchema",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}/refreshHubSchema",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -792,12 +1104,8 @@ const beginRefreshHubSchemaOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -810,7 +1118,8 @@ const beginRefreshHubSchemaOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -818,12 +1127,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -848,7 +1153,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -856,12 +1162,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -875,7 +1177,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -883,12 +1186,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.syncGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -912,12 +1211,8 @@ const listSyncDatabaseIdsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncDatabaseIdListResult
@@ -933,12 +1228,8 @@ const listHubSchemasNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncFullSchemaPropertiesListResult
@@ -954,12 +1245,8 @@ const listLogsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncGroupLogListResult
@@ -975,12 +1262,8 @@ const listByDatabaseNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SyncGroupListResult

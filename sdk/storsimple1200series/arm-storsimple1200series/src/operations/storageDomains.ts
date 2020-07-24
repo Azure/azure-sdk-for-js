@@ -34,21 +34,39 @@ export class StorageDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageDomainsListByManagerResponse>
    */
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageDomainsListByManagerResponse>;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageDomainsListByManagerResponse>;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.StorageDomainList>): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.StorageDomainList>
+  ): void;
   /**
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManager(resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageDomainList>): void;
-  listByManager(resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageDomainList>, callback?: msRest.ServiceCallback<Models.StorageDomainList>): Promise<Models.StorageDomainsListByManagerResponse> {
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageDomainList>
+  ): void;
+  listByManager(
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageDomainList>,
+    callback?: msRest.ServiceCallback<Models.StorageDomainList>
+  ): Promise<Models.StorageDomainsListByManagerResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class StorageDomains {
         options
       },
       listByManagerOperationSpec,
-      callback) as Promise<Models.StorageDomainsListByManagerResponse>;
+      callback
+    ) as Promise<Models.StorageDomainsListByManagerResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class StorageDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageDomainsGetResponse>
    */
-  get(storageDomainName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageDomainsGetResponse>;
+  get(
+    storageDomainName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageDomainsGetResponse>;
   /**
    * @param storageDomainName The storage domain name.
    * @param resourceGroupName The resource group name
    * @param managerName The manager name
    * @param callback The callback
    */
-  get(storageDomainName: string, resourceGroupName: string, managerName: string, callback: msRest.ServiceCallback<Models.StorageDomain>): void;
+  get(
+    storageDomainName: string,
+    resourceGroupName: string,
+    managerName: string,
+    callback: msRest.ServiceCallback<Models.StorageDomain>
+  ): void;
   /**
    * @param storageDomainName The storage domain name.
    * @param resourceGroupName The resource group name
@@ -82,8 +111,20 @@ export class StorageDomains {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(storageDomainName: string, resourceGroupName: string, managerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageDomain>): void;
-  get(storageDomainName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageDomain>, callback?: msRest.ServiceCallback<Models.StorageDomain>): Promise<Models.StorageDomainsGetResponse> {
+  get(
+    storageDomainName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageDomain>
+  ): void;
+  get(
+    storageDomainName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageDomain>,
+    callback?: msRest.ServiceCallback<Models.StorageDomain>
+  ): Promise<Models.StorageDomainsGetResponse> {
     return this.client.sendOperationRequest(
       {
         storageDomainName,
@@ -92,7 +133,8 @@ export class StorageDomains {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.StorageDomainsGetResponse>;
+      callback
+    ) as Promise<Models.StorageDomainsGetResponse>;
   }
 
   /**
@@ -104,9 +146,22 @@ export class StorageDomains {
    * @param [options] The optional parameters
    * @returns Promise<Models.StorageDomainsCreateOrUpdateResponse>
    */
-  createOrUpdate(storageDomainName: string, storageDomain: Models.StorageDomain, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<Models.StorageDomainsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(storageDomainName,storageDomain,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StorageDomainsCreateOrUpdateResponse>;
+  createOrUpdate(
+    storageDomainName: string,
+    storageDomain: Models.StorageDomain,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.StorageDomainsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      storageDomainName,
+      storageDomain,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.StorageDomainsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -117,9 +172,18 @@ export class StorageDomains {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(storageDomainName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(storageDomainName,resourceGroupName,managerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    storageDomainName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      storageDomainName,
+      resourceGroupName,
+      managerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -131,7 +195,13 @@ export class StorageDomains {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(storageDomainName: string, storageDomain: Models.StorageDomain, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    storageDomainName: string,
+    storageDomain: Models.StorageDomain,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         storageDomainName,
@@ -141,7 +211,8 @@ export class StorageDomains {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +223,12 @@ export class StorageDomains {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(storageDomainName: string, resourceGroupName: string, managerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    storageDomainName: string,
+    resourceGroupName: string,
+    managerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         storageDomainName,
@@ -161,7 +237,8 @@ export class StorageDomains {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -169,18 +246,11 @@ export class StorageDomains {
 const serializer = new msRest.Serializer(Mappers);
 const listByManagerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageDomains",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managerName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageDomains",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.managerName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageDomainList
@@ -194,19 +264,16 @@ const listByManagerOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageDomains/{storageDomainName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageDomains/{storageDomainName}",
   urlParameters: [
     Parameters.storageDomainName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageDomain
@@ -220,19 +287,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageDomains/{storageDomainName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageDomains/{storageDomainName}",
   urlParameters: [
     Parameters.storageDomainName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "storageDomain",
     mapper: {
@@ -254,19 +318,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageDomains/{storageDomainName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorSimple/managers/{managerName}/storageDomains/{storageDomainName}",
   urlParameters: [
     Parameters.storageDomainName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},

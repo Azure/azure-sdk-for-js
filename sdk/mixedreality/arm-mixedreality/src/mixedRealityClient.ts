@@ -15,7 +15,6 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { MixedRealityClientContext } from "./mixedRealityClientContext";
 
-
 class MixedRealityClient extends MixedRealityClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -29,7 +28,11 @@ class MixedRealityClient extends MixedRealityClientContext {
    * 00000000-0000-0000-0000-000000000000)
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MixedRealityClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.MixedRealityClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.spatialAnchorsAccounts = new operations.SpatialAnchorsAccounts(this);
@@ -43,21 +46,41 @@ class MixedRealityClient extends MixedRealityClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CheckNameAvailabilityLocalResponse>
    */
-  checkNameAvailabilityLocal(location: string, checkNameAvailability: Models.CheckNameAvailabilityRequest, options?: msRest.RequestOptionsBase): Promise<Models.CheckNameAvailabilityLocalResponse>;
+  checkNameAvailabilityLocal(
+    location: string,
+    checkNameAvailability: Models.CheckNameAvailabilityRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CheckNameAvailabilityLocalResponse>;
   /**
    * @param location The location in which uniqueness will be verified.
    * @param checkNameAvailability Check Name Availability Request.
    * @param callback The callback
    */
-  checkNameAvailabilityLocal(location: string, checkNameAvailability: Models.CheckNameAvailabilityRequest, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>): void;
+  checkNameAvailabilityLocal(
+    location: string,
+    checkNameAvailability: Models.CheckNameAvailabilityRequest,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>
+  ): void;
   /**
    * @param location The location in which uniqueness will be verified.
    * @param checkNameAvailability Check Name Availability Request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailabilityLocal(location: string, checkNameAvailability: Models.CheckNameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>): void;
-  checkNameAvailabilityLocal(location: string, checkNameAvailability: Models.CheckNameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>): Promise<Models.CheckNameAvailabilityLocalResponse> {
+  checkNameAvailabilityLocal(
+    location: string,
+    checkNameAvailability: Models.CheckNameAvailabilityRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>
+  ): void;
+  checkNameAvailabilityLocal(
+    location: string,
+    checkNameAvailability: Models.CheckNameAvailabilityRequest,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>,
+    callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResponse>
+  ): Promise<Models.CheckNameAvailabilityLocalResponse> {
     return this.sendOperationRequest(
       {
         location,
@@ -65,7 +88,8 @@ class MixedRealityClient extends MixedRealityClientContext {
         options
       },
       checkNameAvailabilityLocalOperationSpec,
-      callback) as Promise<Models.CheckNameAvailabilityLocalResponse>;
+      callback
+    ) as Promise<Models.CheckNameAvailabilityLocalResponse>;
   }
 }
 
@@ -73,17 +97,11 @@ class MixedRealityClient extends MixedRealityClientContext {
 const serializer = new msRest.Serializer(Mappers);
 const checkNameAvailabilityLocalOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/locations/{location}/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/locations/{location}/checkNameAvailability",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "checkNameAvailability",
     mapper: {

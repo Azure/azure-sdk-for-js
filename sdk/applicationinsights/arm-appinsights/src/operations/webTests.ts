@@ -32,26 +32,41 @@ export class WebTests {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebTestsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.WebTestListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebTestListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>,
+    callback?: msRest.ServiceCallback<Models.WebTestListResult>
+  ): Promise<Models.WebTestsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.WebTestsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.WebTestsListByResourceGroupResponse>;
   }
 
   /**
@@ -61,21 +76,39 @@ export class WebTests {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsGetResponse>
    */
-  get(resourceGroupName: string, webTestName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsGetResponse>;
+  get(
+    resourceGroupName: string,
+    webTestName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebTestsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, webTestName: string, callback: msRest.ServiceCallback<Models.WebTest>): void;
+  get(
+    resourceGroupName: string,
+    webTestName: string,
+    callback: msRest.ServiceCallback<Models.WebTest>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, webTestName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTest>): void;
-  get(resourceGroupName: string, webTestName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTest>, callback?: msRest.ServiceCallback<Models.WebTest>): Promise<Models.WebTestsGetResponse> {
+  get(
+    resourceGroupName: string,
+    webTestName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebTest>
+  ): void;
+  get(
+    resourceGroupName: string,
+    webTestName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTest>,
+    callback?: msRest.ServiceCallback<Models.WebTest>
+  ): Promise<Models.WebTestsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -83,7 +116,8 @@ export class WebTests {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WebTestsGetResponse>;
+      callback
+    ) as Promise<Models.WebTestsGetResponse>;
   }
 
   /**
@@ -95,7 +129,12 @@ export class WebTests {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, webTestName: string, webTestDefinition: Models.WebTest, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    webTestName: string,
+    webTestDefinition: Models.WebTest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebTestsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param webTestName The name of the Application Insights webtest resource.
@@ -103,7 +142,12 @@ export class WebTests {
    * Insights web test definition.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, webTestName: string, webTestDefinition: Models.WebTest, callback: msRest.ServiceCallback<Models.WebTest>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    webTestName: string,
+    webTestDefinition: Models.WebTest,
+    callback: msRest.ServiceCallback<Models.WebTest>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param webTestName The name of the Application Insights webtest resource.
@@ -112,8 +156,20 @@ export class WebTests {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, webTestName: string, webTestDefinition: Models.WebTest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTest>): void;
-  createOrUpdate(resourceGroupName: string, webTestName: string, webTestDefinition: Models.WebTest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTest>, callback?: msRest.ServiceCallback<Models.WebTest>): Promise<Models.WebTestsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    webTestName: string,
+    webTestDefinition: Models.WebTest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebTest>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    webTestName: string,
+    webTestDefinition: Models.WebTest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTest>,
+    callback?: msRest.ServiceCallback<Models.WebTest>
+  ): Promise<Models.WebTestsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -122,7 +178,8 @@ export class WebTests {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.WebTestsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.WebTestsCreateOrUpdateResponse>;
   }
 
   /**
@@ -133,14 +190,24 @@ export class WebTests {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, webTestName: string, webTestTags: Models.TagsResource, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    webTestName: string,
+    webTestTags: Models.TagsResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebTestsUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param webTestTags Updated tag information to set into the web test instance.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, webTestName: string, webTestTags: Models.TagsResource, callback: msRest.ServiceCallback<Models.WebTest>): void;
+  updateTags(
+    resourceGroupName: string,
+    webTestName: string,
+    webTestTags: Models.TagsResource,
+    callback: msRest.ServiceCallback<Models.WebTest>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param webTestName The name of the Application Insights webtest resource.
@@ -148,8 +215,20 @@ export class WebTests {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, webTestName: string, webTestTags: Models.TagsResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTest>): void;
-  updateTags(resourceGroupName: string, webTestName: string, webTestTags: Models.TagsResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTest>, callback?: msRest.ServiceCallback<Models.WebTest>): Promise<Models.WebTestsUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    webTestName: string,
+    webTestTags: Models.TagsResource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebTest>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    webTestName: string,
+    webTestTags: Models.TagsResource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTest>,
+    callback?: msRest.ServiceCallback<Models.WebTest>
+  ): Promise<Models.WebTestsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +237,8 @@ export class WebTests {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.WebTestsUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.WebTestsUpdateTagsResponse>;
   }
 
   /**
@@ -168,21 +248,39 @@ export class WebTests {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, webTestName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    webTestName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, webTestName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    webTestName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param webTestName The name of the Application Insights webtest resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, webTestName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, webTestName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    webTestName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    webTestName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -190,7 +288,8 @@ export class WebTests {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -207,14 +306,21 @@ export class WebTests {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebTestListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>,
+    callback?: msRest.ServiceCallback<Models.WebTestListResult>
+  ): Promise<Models.WebTestsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.WebTestsListResponse>;
+      callback
+    ) as Promise<Models.WebTestsListResponse>;
   }
 
   /**
@@ -224,21 +330,39 @@ export class WebTests {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsListByComponentResponse>
    */
-  listByComponent(componentName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsListByComponentResponse>;
+  listByComponent(
+    componentName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebTestsListByComponentResponse>;
   /**
    * @param componentName The name of the Application Insights component resource.
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByComponent(componentName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
+  listByComponent(
+    componentName: string,
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.WebTestListResult>
+  ): void;
   /**
    * @param componentName The name of the Application Insights component resource.
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByComponent(componentName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
-  listByComponent(componentName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListByComponentResponse> {
+  listByComponent(
+    componentName: string,
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebTestListResult>
+  ): void;
+  listByComponent(
+    componentName: string,
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>,
+    callback?: msRest.ServiceCallback<Models.WebTestListResult>
+  ): Promise<Models.WebTestsListByComponentResponse> {
     return this.client.sendOperationRequest(
       {
         componentName,
@@ -246,7 +370,8 @@ export class WebTests {
         options
       },
       listByComponentOperationSpec,
-      callback) as Promise<Models.WebTestsListByComponentResponse>;
+      callback
+    ) as Promise<Models.WebTestsListByComponentResponse>;
   }
 
   /**
@@ -255,26 +380,41 @@ export class WebTests {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebTestsListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.WebTestListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebTestListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>,
+    callback?: msRest.ServiceCallback<Models.WebTestListResult>
+  ): Promise<Models.WebTestsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.WebTestsListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.WebTestsListByResourceGroupNextResponse>;
   }
 
   /**
@@ -283,7 +423,10 @@ export class WebTests {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebTestsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -294,15 +437,24 @@ export class WebTests {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebTestListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>,
+    callback?: msRest.ServiceCallback<Models.WebTestListResult>
+  ): Promise<Models.WebTestsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.WebTestsListNextResponse>;
+      callback
+    ) as Promise<Models.WebTestsListNextResponse>;
   }
 
   /**
@@ -311,26 +463,41 @@ export class WebTests {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebTestsListByComponentNextResponse>
    */
-  listByComponentNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebTestsListByComponentNextResponse>;
+  listByComponentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebTestsListByComponentNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByComponentNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
+  listByComponentNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.WebTestListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByComponentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebTestListResult>): void;
-  listByComponentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>, callback?: msRest.ServiceCallback<Models.WebTestListResult>): Promise<Models.WebTestsListByComponentNextResponse> {
+  listByComponentNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebTestListResult>
+  ): void;
+  listByComponentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebTestListResult>,
+    callback?: msRest.ServiceCallback<Models.WebTestListResult>
+  ): Promise<Models.WebTestsListByComponentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByComponentNextOperationSpec,
-      callback) as Promise<Models.WebTestsListByComponentNextResponse>;
+      callback
+    ) as Promise<Models.WebTestsListByComponentNextResponse>;
   }
 }
 
@@ -338,17 +505,11 @@ export class WebTests {
 const serializer = new msRest.Serializer(Mappers);
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebTestListResult
@@ -362,18 +523,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.webTestName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.webTestName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebTest
@@ -387,18 +541,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.webTestName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.webTestName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "webTestDefinition",
     mapper: {
@@ -419,18 +566,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.webTestName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.webTestName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "webTestTags",
     mapper: {
@@ -451,18 +591,11 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.webTestName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.webTestName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -476,15 +609,9 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Insights/webtests",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebTestListResult
@@ -498,18 +625,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByComponentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{componentName}/webtests",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{componentName}/webtests",
   urlParameters: [
     Parameters.componentName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebTestListResult
@@ -525,12 +649,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebTestListResult
@@ -546,12 +666,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebTestListResult
@@ -567,12 +683,8 @@ const listByComponentNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebTestListResult

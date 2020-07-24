@@ -37,9 +37,20 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebServicesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, webServiceName: string, createOrUpdatePayload: Models.WebService, options?: msRest.RequestOptionsBase): Promise<Models.WebServicesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,webServiceName,createOrUpdatePayload,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebServicesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    webServiceName: string,
+    createOrUpdatePayload: Models.WebService,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebServicesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      webServiceName,
+      createOrUpdatePayload,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.WebServicesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -51,21 +62,39 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebServicesGetResponse>
    */
-  get(resourceGroupName: string, webServiceName: string, options?: Models.WebServicesGetOptionalParams): Promise<Models.WebServicesGetResponse>;
+  get(
+    resourceGroupName: string,
+    webServiceName: string,
+    options?: Models.WebServicesGetOptionalParams
+  ): Promise<Models.WebServicesGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group in which the web service is located.
    * @param webServiceName The name of the web service.
    * @param callback The callback
    */
-  get(resourceGroupName: string, webServiceName: string, callback: msRest.ServiceCallback<Models.WebService>): void;
+  get(
+    resourceGroupName: string,
+    webServiceName: string,
+    callback: msRest.ServiceCallback<Models.WebService>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group in which the web service is located.
    * @param webServiceName The name of the web service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, webServiceName: string, options: Models.WebServicesGetOptionalParams, callback: msRest.ServiceCallback<Models.WebService>): void;
-  get(resourceGroupName: string, webServiceName: string, options?: Models.WebServicesGetOptionalParams | msRest.ServiceCallback<Models.WebService>, callback?: msRest.ServiceCallback<Models.WebService>): Promise<Models.WebServicesGetResponse> {
+  get(
+    resourceGroupName: string,
+    webServiceName: string,
+    options: Models.WebServicesGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.WebService>
+  ): void;
+  get(
+    resourceGroupName: string,
+    webServiceName: string,
+    options?: Models.WebServicesGetOptionalParams | msRest.ServiceCallback<Models.WebService>,
+    callback?: msRest.ServiceCallback<Models.WebService>
+  ): Promise<Models.WebServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,7 +102,8 @@ export class WebServices {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WebServicesGetResponse>;
+      callback
+    ) as Promise<Models.WebServicesGetResponse>;
   }
 
   /**
@@ -85,9 +115,20 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebServicesPatchResponse>
    */
-  patch(resourceGroupName: string, webServiceName: string, patchPayload: Models.WebService, options?: msRest.RequestOptionsBase): Promise<Models.WebServicesPatchResponse> {
-    return this.beginPatch(resourceGroupName,webServiceName,patchPayload,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebServicesPatchResponse>;
+  patch(
+    resourceGroupName: string,
+    webServiceName: string,
+    patchPayload: Models.WebService,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebServicesPatchResponse> {
+    return this.beginPatch(
+      resourceGroupName,
+      webServiceName,
+      patchPayload,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.WebServicesPatchResponse
+    >;
   }
 
   /**
@@ -97,9 +138,14 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  remove(resourceGroupName: string, webServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRemove(resourceGroupName,webServiceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  remove(
+    resourceGroupName: string,
+    webServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRemove(resourceGroupName, webServiceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -114,9 +160,20 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebServicesCreateRegionalPropertiesResponse>
    */
-  createRegionalProperties(resourceGroupName: string, webServiceName: string, region: string, options?: msRest.RequestOptionsBase): Promise<Models.WebServicesCreateRegionalPropertiesResponse> {
-    return this.beginCreateRegionalProperties(resourceGroupName,webServiceName,region,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebServicesCreateRegionalPropertiesResponse>;
+  createRegionalProperties(
+    resourceGroupName: string,
+    webServiceName: string,
+    region: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebServicesCreateRegionalPropertiesResponse> {
+    return this.beginCreateRegionalProperties(
+      resourceGroupName,
+      webServiceName,
+      region,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.WebServicesCreateRegionalPropertiesResponse
+    >;
   }
 
   /**
@@ -126,21 +183,39 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebServicesListKeysResponse>
    */
-  listKeys(resourceGroupName: string, webServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebServicesListKeysResponse>;
+  listKeys(
+    resourceGroupName: string,
+    webServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebServicesListKeysResponse>;
   /**
    * @param resourceGroupName Name of the resource group in which the web service is located.
    * @param webServiceName The name of the web service.
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, webServiceName: string, callback: msRest.ServiceCallback<Models.WebServiceKeys>): void;
+  listKeys(
+    resourceGroupName: string,
+    webServiceName: string,
+    callback: msRest.ServiceCallback<Models.WebServiceKeys>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group in which the web service is located.
    * @param webServiceName The name of the web service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listKeys(resourceGroupName: string, webServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WebServiceKeys>): void;
-  listKeys(resourceGroupName: string, webServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebServiceKeys>, callback?: msRest.ServiceCallback<Models.WebServiceKeys>): Promise<Models.WebServicesListKeysResponse> {
+  listKeys(
+    resourceGroupName: string,
+    webServiceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WebServiceKeys>
+  ): void;
+  listKeys(
+    resourceGroupName: string,
+    webServiceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WebServiceKeys>,
+    callback?: msRest.ServiceCallback<Models.WebServiceKeys>
+  ): Promise<Models.WebServicesListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -148,7 +223,8 @@ export class WebServices {
         options
       },
       listKeysOperationSpec,
-      callback) as Promise<Models.WebServicesListKeysResponse>;
+      callback
+    ) as Promise<Models.WebServicesListKeysResponse>;
   }
 
   /**
@@ -157,26 +233,43 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebServicesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.WebServicesListByResourceGroupOptionalParams): Promise<Models.WebServicesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.WebServicesListByResourceGroupOptionalParams
+  ): Promise<Models.WebServicesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group in which the web service is located.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group in which the web service is located.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.WebServicesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.WebServicesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.PaginatedWebServicesList>, callback?: msRest.ServiceCallback<Models.PaginatedWebServicesList>): Promise<Models.WebServicesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.WebServicesListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.WebServicesListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.PaginatedWebServicesList>,
+    callback?: msRest.ServiceCallback<Models.PaginatedWebServicesList>
+  ): Promise<Models.WebServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.WebServicesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.WebServicesListByResourceGroupResponse>;
   }
 
   /**
@@ -184,7 +277,9 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebServicesListBySubscriptionIdResponse>
    */
-  listBySubscriptionId(options?: Models.WebServicesListBySubscriptionIdOptionalParams): Promise<Models.WebServicesListBySubscriptionIdResponse>;
+  listBySubscriptionId(
+    options?: Models.WebServicesListBySubscriptionIdOptionalParams
+  ): Promise<Models.WebServicesListBySubscriptionIdResponse>;
   /**
    * @param callback The callback
    */
@@ -193,14 +288,23 @@ export class WebServices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionId(options: Models.WebServicesListBySubscriptionIdOptionalParams, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
-  listBySubscriptionId(options?: Models.WebServicesListBySubscriptionIdOptionalParams | msRest.ServiceCallback<Models.PaginatedWebServicesList>, callback?: msRest.ServiceCallback<Models.PaginatedWebServicesList>): Promise<Models.WebServicesListBySubscriptionIdResponse> {
+  listBySubscriptionId(
+    options: Models.WebServicesListBySubscriptionIdOptionalParams,
+    callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>
+  ): void;
+  listBySubscriptionId(
+    options?:
+      | Models.WebServicesListBySubscriptionIdOptionalParams
+      | msRest.ServiceCallback<Models.PaginatedWebServicesList>,
+    callback?: msRest.ServiceCallback<Models.PaginatedWebServicesList>
+  ): Promise<Models.WebServicesListBySubscriptionIdResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionIdOperationSpec,
-      callback) as Promise<Models.WebServicesListBySubscriptionIdResponse>;
+      callback
+    ) as Promise<Models.WebServicesListBySubscriptionIdResponse>;
   }
 
   /**
@@ -213,7 +317,12 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, webServiceName: string, createOrUpdatePayload: Models.WebService, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    webServiceName: string,
+    createOrUpdatePayload: Models.WebService,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -222,7 +331,8 @@ export class WebServices {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -234,7 +344,12 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPatch(resourceGroupName: string, webServiceName: string, patchPayload: Models.WebService, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPatch(
+    resourceGroupName: string,
+    webServiceName: string,
+    patchPayload: Models.WebService,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -243,7 +358,8 @@ export class WebServices {
         options
       },
       beginPatchOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -253,7 +369,11 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRemove(resourceGroupName: string, webServiceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRemove(
+    resourceGroupName: string,
+    webServiceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -261,7 +381,8 @@ export class WebServices {
         options
       },
       beginRemoveOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -276,7 +397,12 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateRegionalProperties(resourceGroupName: string, webServiceName: string, region: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateRegionalProperties(
+    resourceGroupName: string,
+    webServiceName: string,
+    region: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -285,7 +411,8 @@ export class WebServices {
         options
       },
       beginCreateRegionalPropertiesOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -294,26 +421,41 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebServicesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebServicesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebServicesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PaginatedWebServicesList>, callback?: msRest.ServiceCallback<Models.PaginatedWebServicesList>): Promise<Models.WebServicesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PaginatedWebServicesList>,
+    callback?: msRest.ServiceCallback<Models.PaginatedWebServicesList>
+  ): Promise<Models.WebServicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.WebServicesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.WebServicesListByResourceGroupNextResponse>;
   }
 
   /**
@@ -322,26 +464,41 @@ export class WebServices {
    * @param [options] The optional parameters
    * @returns Promise<Models.WebServicesListBySubscriptionIdNextResponse>
    */
-  listBySubscriptionIdNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebServicesListBySubscriptionIdNextResponse>;
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WebServicesListBySubscriptionIdNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionIdNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionIdNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>): void;
-  listBySubscriptionIdNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PaginatedWebServicesList>, callback?: msRest.ServiceCallback<Models.PaginatedWebServicesList>): Promise<Models.WebServicesListBySubscriptionIdNextResponse> {
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PaginatedWebServicesList>
+  ): void;
+  listBySubscriptionIdNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PaginatedWebServicesList>,
+    callback?: msRest.ServiceCallback<Models.PaginatedWebServicesList>
+  ): Promise<Models.WebServicesListBySubscriptionIdNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionIdNextOperationSpec,
-      callback) as Promise<Models.WebServicesListBySubscriptionIdNextResponse>;
+      callback
+    ) as Promise<Models.WebServicesListBySubscriptionIdNextResponse>;
   }
 }
 
@@ -349,19 +506,15 @@ export class WebServices {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.webServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.region0,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.region0, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebService
@@ -375,18 +528,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}/listKeys",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}/listKeys",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.webServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WebServiceKeys
@@ -400,18 +550,11 @@ const listKeysOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.skiptoken,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.skiptoken, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PaginatedWebServicesList
@@ -426,16 +569,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.MachineLearning/webServices",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.skiptoken,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.skiptoken, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PaginatedWebServicesList
@@ -449,18 +585,15 @@ const listBySubscriptionIdOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.webServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "createOrUpdatePayload",
     mapper: {
@@ -484,18 +617,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginPatchOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.webServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "patchPayload",
     mapper: {
@@ -516,18 +646,15 @@ const beginPatchOperationSpec: msRest.OperationSpec = {
 
 const beginRemoveOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.webServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -540,19 +667,15 @@ const beginRemoveOperationSpec: msRest.OperationSpec = {
 
 const beginCreateRegionalPropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}/CreateRegionalBlob",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/webServices/{webServiceName}/CreateRegionalBlob",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.webServiceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.region1,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.region1, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AsyncOperationStatus
@@ -569,12 +692,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PaginatedWebServicesList
@@ -590,12 +709,8 @@ const listBySubscriptionIdNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PaginatedWebServicesList

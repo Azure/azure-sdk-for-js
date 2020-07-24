@@ -8,8 +8,4 @@
  * regenerated.
  */
 
-export {
-  LinkedWorkspace,
-  ErrorResponse
-} from "../models/mappers";
-
+export { LinkedWorkspace, ErrorResponse } from "../models/mappers";

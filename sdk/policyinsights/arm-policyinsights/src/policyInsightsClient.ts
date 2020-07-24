@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { PolicyInsightsClientContext } from "./policyInsightsClientContext";
 
-
 class PolicyInsightsClient extends PolicyInsightsClientContext {
   // Operation groups
   policyTrackedResources: operations.PolicyTrackedResources;
@@ -29,7 +28,10 @@ class PolicyInsightsClient extends PolicyInsightsClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.PolicyInsightsClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.PolicyInsightsClientOptions
+  ) {
     super(credentials, options);
     this.policyTrackedResources = new operations.PolicyTrackedResources(this);
     this.remediations = new operations.Remediations(this);

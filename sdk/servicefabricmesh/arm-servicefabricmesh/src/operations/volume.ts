@@ -37,14 +37,24 @@ export class Volume {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumeCreateResponse>
    */
-  create(resourceGroupName: string, volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.VolumeCreateResponse>;
+  create(
+    resourceGroupName: string,
+    volumeResourceName: string,
+    volumeResourceDescription: Models.VolumeResourceDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumeCreateResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param volumeResourceName The identity of the volume.
    * @param volumeResourceDescription Description for creating a Volume resource.
    * @param callback The callback
    */
-  create(resourceGroupName: string, volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
+  create(
+    resourceGroupName: string,
+    volumeResourceName: string,
+    volumeResourceDescription: Models.VolumeResourceDescription,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescription>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param volumeResourceName The identity of the volume.
@@ -52,8 +62,20 @@ export class Volume {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
-  create(resourceGroupName: string, volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescription>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>): Promise<Models.VolumeCreateResponse> {
+  create(
+    resourceGroupName: string,
+    volumeResourceName: string,
+    volumeResourceDescription: Models.VolumeResourceDescription,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescription>
+  ): void;
+  create(
+    resourceGroupName: string,
+    volumeResourceName: string,
+    volumeResourceDescription: Models.VolumeResourceDescription,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>
+  ): Promise<Models.VolumeCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +84,8 @@ export class Volume {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.VolumeCreateResponse>;
+      callback
+    ) as Promise<Models.VolumeCreateResponse>;
   }
 
   /**
@@ -74,21 +97,39 @@ export class Volume {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumeGetResponse>
    */
-  get(resourceGroupName: string, volumeResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumeGetResponse>;
+  get(
+    resourceGroupName: string,
+    volumeResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumeGetResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param volumeResourceName The identity of the volume.
    * @param callback The callback
    */
-  get(resourceGroupName: string, volumeResourceName: string, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
+  get(
+    resourceGroupName: string,
+    volumeResourceName: string,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescription>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param volumeResourceName The identity of the volume.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, volumeResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
-  get(resourceGroupName: string, volumeResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescription>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>): Promise<Models.VolumeGetResponse> {
+  get(
+    resourceGroupName: string,
+    volumeResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescription>
+  ): void;
+  get(
+    resourceGroupName: string,
+    volumeResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>
+  ): Promise<Models.VolumeGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +137,8 @@ export class Volume {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VolumeGetResponse>;
+      callback
+    ) as Promise<Models.VolumeGetResponse>;
   }
 
   /**
@@ -107,21 +149,39 @@ export class Volume {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, volumeResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    volumeResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param volumeResourceName The identity of the volume.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, volumeResourceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    volumeResourceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param volumeResourceName The identity of the volume.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, volumeResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, volumeResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    volumeResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    volumeResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +189,8 @@ export class Volume {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -140,26 +201,43 @@ export class Volume {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumeListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumeListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumeListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): Promise<Models.VolumeListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.VolumeResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>
+  ): Promise<Models.VolumeListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.VolumeListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.VolumeListByResourceGroupResponse>;
   }
 
   /**
@@ -169,7 +247,9 @@ export class Volume {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumeListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.VolumeListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumeListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -178,14 +258,23 @@ export class Volume {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): Promise<Models.VolumeListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.VolumeResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>
+  ): Promise<Models.VolumeListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.VolumeListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.VolumeListBySubscriptionResponse>;
   }
 
   /**
@@ -196,26 +285,43 @@ export class Volume {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumeListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumeListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumeListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): Promise<Models.VolumeListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.VolumeResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>
+  ): Promise<Models.VolumeListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.VolumeListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.VolumeListByResourceGroupNextResponse>;
   }
 
   /**
@@ -226,26 +332,43 @@ export class Volume {
    * @param [options] The optional parameters
    * @returns Promise<Models.VolumeListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.VolumeListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.VolumeListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VolumeResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>): Promise<Models.VolumeListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.VolumeResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.VolumeResourceDescriptionList>
+  ): Promise<Models.VolumeListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.VolumeListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.VolumeListBySubscriptionNextResponse>;
   }
 }
 
@@ -253,18 +376,15 @@ export class Volume {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.volumeResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "volumeResourceDescription",
     mapper: {
@@ -289,18 +409,15 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.volumeResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VolumeResourceDescription
@@ -314,18 +431,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes/{volumeResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.volumeResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -339,17 +453,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/volumes",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VolumeResourceDescriptionList
@@ -364,15 +472,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabricMesh/volumes",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VolumeResourceDescriptionList
@@ -388,12 +490,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VolumeResourceDescriptionList
@@ -409,12 +507,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VolumeResourceDescriptionList

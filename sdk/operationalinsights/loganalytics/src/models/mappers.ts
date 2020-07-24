@@ -10,7 +10,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const QueryBody: msRest.CompositeMapper = {
   serializedName: "queryBody",
   type: {

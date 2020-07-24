@@ -25,4 +25,3 @@ export {
   SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
   IotDpsSkuInfo
 } from "../models/mappers";
-

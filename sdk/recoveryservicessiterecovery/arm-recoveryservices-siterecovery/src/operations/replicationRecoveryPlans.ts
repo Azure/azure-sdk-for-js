@@ -42,14 +42,21 @@ export class ReplicationRecoveryPlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPlanCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPlanCollection>, callback?: msRest.ServiceCallback<Models.RecoveryPlanCollection>): Promise<Models.ReplicationRecoveryPlansListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecoveryPlanCollection>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPlanCollection>,
+    callback?: msRest.ServiceCallback<Models.RecoveryPlanCollection>
+  ): Promise<Models.ReplicationRecoveryPlansListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ReplicationRecoveryPlansListResponse>;
+      callback
+    ) as Promise<Models.ReplicationRecoveryPlansListResponse>;
   }
 
   /**
@@ -59,7 +66,10 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationRecoveryPlansGetResponse>
    */
-  get(recoveryPlanName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationRecoveryPlansGetResponse>;
+  get(
+    recoveryPlanName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationRecoveryPlansGetResponse>;
   /**
    * @param recoveryPlanName Name of the recovery plan.
    * @param callback The callback
@@ -70,15 +80,24 @@ export class ReplicationRecoveryPlans {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(recoveryPlanName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPlan>): void;
-  get(recoveryPlanName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPlan>, callback?: msRest.ServiceCallback<Models.RecoveryPlan>): Promise<Models.ReplicationRecoveryPlansGetResponse> {
+  get(
+    recoveryPlanName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecoveryPlan>
+  ): void;
+  get(
+    recoveryPlanName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPlan>,
+    callback?: msRest.ServiceCallback<Models.RecoveryPlan>
+  ): Promise<Models.ReplicationRecoveryPlansGetResponse> {
     return this.client.sendOperationRequest(
       {
         recoveryPlanName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReplicationRecoveryPlansGetResponse>;
+      callback
+    ) as Promise<Models.ReplicationRecoveryPlansGetResponse>;
   }
 
   /**
@@ -89,9 +108,14 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationRecoveryPlansCreateResponse>
    */
-  create(recoveryPlanName: string, input: Models.CreateRecoveryPlanInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationRecoveryPlansCreateResponse> {
-    return this.beginCreate(recoveryPlanName,input,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationRecoveryPlansCreateResponse>;
+  create(
+    recoveryPlanName: string,
+    input: Models.CreateRecoveryPlanInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationRecoveryPlansCreateResponse> {
+    return this.beginCreate(recoveryPlanName, input, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationRecoveryPlansCreateResponse>;
   }
 
   /**
@@ -101,9 +125,13 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(recoveryPlanName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(recoveryPlanName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    recoveryPlanName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(recoveryPlanName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -114,9 +142,14 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationRecoveryPlansUpdateResponse>
    */
-  update(recoveryPlanName: string, input: Models.UpdateRecoveryPlanInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationRecoveryPlansUpdateResponse> {
-    return this.beginUpdate(recoveryPlanName,input,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationRecoveryPlansUpdateResponse>;
+  update(
+    recoveryPlanName: string,
+    input: Models.UpdateRecoveryPlanInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationRecoveryPlansUpdateResponse> {
+    return this.beginUpdate(recoveryPlanName, input, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationRecoveryPlansUpdateResponse>;
   }
 
   /**
@@ -126,9 +159,13 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationRecoveryPlansFailoverCommitResponse>
    */
-  failoverCommit(recoveryPlanName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationRecoveryPlansFailoverCommitResponse> {
-    return this.beginFailoverCommit(recoveryPlanName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationRecoveryPlansFailoverCommitResponse>;
+  failoverCommit(
+    recoveryPlanName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationRecoveryPlansFailoverCommitResponse> {
+    return this.beginFailoverCommit(recoveryPlanName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationRecoveryPlansFailoverCommitResponse>;
   }
 
   /**
@@ -139,9 +176,14 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationRecoveryPlansPlannedFailoverResponse>
    */
-  plannedFailover(recoveryPlanName: string, input: Models.RecoveryPlanPlannedFailoverInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationRecoveryPlansPlannedFailoverResponse> {
-    return this.beginPlannedFailover(recoveryPlanName,input,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationRecoveryPlansPlannedFailoverResponse>;
+  plannedFailover(
+    recoveryPlanName: string,
+    input: Models.RecoveryPlanPlannedFailoverInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationRecoveryPlansPlannedFailoverResponse> {
+    return this.beginPlannedFailover(recoveryPlanName, input, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationRecoveryPlansPlannedFailoverResponse>;
   }
 
   /**
@@ -151,9 +193,13 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationRecoveryPlansReprotectResponse>
    */
-  reprotect(recoveryPlanName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationRecoveryPlansReprotectResponse> {
-    return this.beginReprotect(recoveryPlanName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationRecoveryPlansReprotectResponse>;
+  reprotect(
+    recoveryPlanName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationRecoveryPlansReprotectResponse> {
+    return this.beginReprotect(recoveryPlanName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationRecoveryPlansReprotectResponse>;
   }
 
   /**
@@ -164,9 +210,14 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationRecoveryPlansTestFailoverResponse>
    */
-  testFailover(recoveryPlanName: string, input: Models.RecoveryPlanTestFailoverInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationRecoveryPlansTestFailoverResponse> {
-    return this.beginTestFailover(recoveryPlanName,input,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationRecoveryPlansTestFailoverResponse>;
+  testFailover(
+    recoveryPlanName: string,
+    input: Models.RecoveryPlanTestFailoverInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationRecoveryPlansTestFailoverResponse> {
+    return this.beginTestFailover(recoveryPlanName, input, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationRecoveryPlansTestFailoverResponse>;
   }
 
   /**
@@ -177,9 +228,14 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationRecoveryPlansTestFailoverCleanupResponse>
    */
-  testFailoverCleanup(recoveryPlanName: string, input: Models.RecoveryPlanTestFailoverCleanupInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationRecoveryPlansTestFailoverCleanupResponse> {
-    return this.beginTestFailoverCleanup(recoveryPlanName,input,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationRecoveryPlansTestFailoverCleanupResponse>;
+  testFailoverCleanup(
+    recoveryPlanName: string,
+    input: Models.RecoveryPlanTestFailoverCleanupInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationRecoveryPlansTestFailoverCleanupResponse> {
+    return this.beginTestFailoverCleanup(recoveryPlanName, input, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationRecoveryPlansTestFailoverCleanupResponse>;
   }
 
   /**
@@ -190,9 +246,14 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationRecoveryPlansUnplannedFailoverResponse>
    */
-  unplannedFailover(recoveryPlanName: string, input: Models.RecoveryPlanUnplannedFailoverInput, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationRecoveryPlansUnplannedFailoverResponse> {
-    return this.beginUnplannedFailover(recoveryPlanName,input,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationRecoveryPlansUnplannedFailoverResponse>;
+  unplannedFailover(
+    recoveryPlanName: string,
+    input: Models.RecoveryPlanUnplannedFailoverInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationRecoveryPlansUnplannedFailoverResponse> {
+    return this.beginUnplannedFailover(recoveryPlanName, input, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ReplicationRecoveryPlansUnplannedFailoverResponse>;
   }
 
   /**
@@ -203,7 +264,11 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(recoveryPlanName: string, input: Models.CreateRecoveryPlanInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    recoveryPlanName: string,
+    input: Models.CreateRecoveryPlanInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         recoveryPlanName,
@@ -211,7 +276,8 @@ export class ReplicationRecoveryPlans {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -221,14 +287,18 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(recoveryPlanName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    recoveryPlanName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         recoveryPlanName,
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -239,7 +309,11 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(recoveryPlanName: string, input: Models.UpdateRecoveryPlanInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    recoveryPlanName: string,
+    input: Models.UpdateRecoveryPlanInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         recoveryPlanName,
@@ -247,7 +321,8 @@ export class ReplicationRecoveryPlans {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -257,14 +332,18 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginFailoverCommit(recoveryPlanName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginFailoverCommit(
+    recoveryPlanName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         recoveryPlanName,
         options
       },
       beginFailoverCommitOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -275,7 +354,11 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPlannedFailover(recoveryPlanName: string, input: Models.RecoveryPlanPlannedFailoverInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPlannedFailover(
+    recoveryPlanName: string,
+    input: Models.RecoveryPlanPlannedFailoverInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         recoveryPlanName,
@@ -283,7 +366,8 @@ export class ReplicationRecoveryPlans {
         options
       },
       beginPlannedFailoverOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -293,14 +377,18 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginReprotect(recoveryPlanName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginReprotect(
+    recoveryPlanName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         recoveryPlanName,
         options
       },
       beginReprotectOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -311,7 +399,11 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginTestFailover(recoveryPlanName: string, input: Models.RecoveryPlanTestFailoverInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginTestFailover(
+    recoveryPlanName: string,
+    input: Models.RecoveryPlanTestFailoverInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         recoveryPlanName,
@@ -319,7 +411,8 @@ export class ReplicationRecoveryPlans {
         options
       },
       beginTestFailoverOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -330,7 +423,11 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginTestFailoverCleanup(recoveryPlanName: string, input: Models.RecoveryPlanTestFailoverCleanupInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginTestFailoverCleanup(
+    recoveryPlanName: string,
+    input: Models.RecoveryPlanTestFailoverCleanupInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         recoveryPlanName,
@@ -338,7 +435,8 @@ export class ReplicationRecoveryPlans {
         options
       },
       beginTestFailoverCleanupOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -349,7 +447,11 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUnplannedFailover(recoveryPlanName: string, input: Models.RecoveryPlanUnplannedFailoverInput, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUnplannedFailover(
+    recoveryPlanName: string,
+    input: Models.RecoveryPlanUnplannedFailoverInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         recoveryPlanName,
@@ -357,7 +459,8 @@ export class ReplicationRecoveryPlans {
         options
       },
       beginUnplannedFailoverOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -367,26 +470,41 @@ export class ReplicationRecoveryPlans {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationRecoveryPlansListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationRecoveryPlansListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationRecoveryPlansListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RecoveryPlanCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RecoveryPlanCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoveryPlanCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPlanCollection>, callback?: msRest.ServiceCallback<Models.RecoveryPlanCollection>): Promise<Models.ReplicationRecoveryPlansListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RecoveryPlanCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoveryPlanCollection>,
+    callback?: msRest.ServiceCallback<Models.RecoveryPlanCollection>
+  ): Promise<Models.ReplicationRecoveryPlansListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ReplicationRecoveryPlansListNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationRecoveryPlansListNextResponse>;
   }
 }
 
@@ -394,18 +512,11 @@ export class ReplicationRecoveryPlans {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans",
+  urlParameters: [Parameters.resourceName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryPlanCollection
@@ -419,19 +530,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.recoveryPlanName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryPlan
@@ -445,19 +553,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.recoveryPlanName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -479,19 +584,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.recoveryPlanName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -504,19 +606,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.recoveryPlanName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -538,19 +637,16 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginFailoverCommitOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/failoverCommit",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/failoverCommit",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.recoveryPlanName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryPlan
@@ -565,19 +661,16 @@ const beginFailoverCommitOperationSpec: msRest.OperationSpec = {
 
 const beginPlannedFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/plannedFailover",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/plannedFailover",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.recoveryPlanName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -599,19 +692,16 @@ const beginPlannedFailoverOperationSpec: msRest.OperationSpec = {
 
 const beginReprotectOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/reProtect",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/reProtect",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.recoveryPlanName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryPlan
@@ -626,19 +716,16 @@ const beginReprotectOperationSpec: msRest.OperationSpec = {
 
 const beginTestFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/testFailover",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/testFailover",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.recoveryPlanName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -660,19 +747,16 @@ const beginTestFailoverOperationSpec: msRest.OperationSpec = {
 
 const beginTestFailoverCleanupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/testFailoverCleanup",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/testFailoverCleanup",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.recoveryPlanName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -694,19 +778,16 @@ const beginTestFailoverCleanupOperationSpec: msRest.OperationSpec = {
 
 const beginUnplannedFailoverOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/unplannedFailover",
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/unplannedFailover",
   urlParameters: [
     Parameters.resourceName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.recoveryPlanName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "input",
     mapper: {
@@ -730,12 +811,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RecoveryPlanCollection

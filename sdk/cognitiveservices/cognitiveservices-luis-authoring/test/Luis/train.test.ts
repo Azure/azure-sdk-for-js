@@ -10,28 +10,23 @@ import { TrainGetStatusResponse } from "../../src/models";
 import { LUISAuthoringClient } from "../../src/lUISAuthoringClient";
 import { delay } from "@azure/ms-rest-js";
 
-
-
 function checkStatus(statusArr: TrainGetStatusResponse) {
   for (let s of statusArr) {
-    if (s.details.status != "Success" && s.details.status != "UpToDate")
-      return true;
+    if (s.details.status != "Success" && s.details.status != "UpToDate") return true;
   }
   return false;
 }
 
-
 describe("Train Module Functionality", () => {
-
-  it('should get status', async () => {
+  it("should get status", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versionId = "0.1";
       await client.train.trainVersion(BaseTest.GlobalAppId, versionId);
       let result = await client.train.getStatus(BaseTest.GlobalAppId, versionId);
 
       while (checkStatus(result)) {
-          result = await client.train.getStatus(BaseTest.GlobalAppId, versionId);
-          await delay(1000);
+        result = await client.train.getStatus(BaseTest.GlobalAppId, versionId);
+        await delay(1000);
       }
 
       for (let trainResult of result) {
@@ -50,12 +45,12 @@ describe("Train Module Functionality", () => {
     });
   });
 
-  it('should train version', async () => {
+  it("should train version", async () => {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versionId = "0.1";
       await client.train.trainVersion(BaseTest.GlobalAppId, versionId);
       let result = await client.train.getStatus(BaseTest.GlobalAppId, versionId);
-      
+
       while (checkStatus(result)) {
         result = await client.train.getStatus(BaseTest.GlobalAppId, versionId);
         await delay(1000);

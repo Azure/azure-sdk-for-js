@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { TimeSeriesInsightsClientContext } from "./timeSeriesInsightsClientContext";
 
-
 class TimeSeriesInsightsClient extends TimeSeriesInsightsClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -29,7 +28,11 @@ class TimeSeriesInsightsClient extends TimeSeriesInsightsClientContext {
    * @param subscriptionId Azure Subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.TimeSeriesInsightsClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.TimeSeriesInsightsClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.environments = new operations.Environments(this);

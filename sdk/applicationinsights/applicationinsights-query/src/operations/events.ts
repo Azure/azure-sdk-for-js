@@ -39,7 +39,11 @@ export class Events {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventsGetByTypeResponse>
    */
-  getByType(appId: string, eventType: Models.EventType, options?: Models.EventsGetByTypeOptionalParams): Promise<Models.EventsGetByTypeResponse>;
+  getByType(
+    appId: string,
+    eventType: Models.EventType,
+    options?: Models.EventsGetByTypeOptionalParams
+  ): Promise<Models.EventsGetByTypeResponse>;
   /**
    * @param appId ID of the application. This is Application ID from the API Access settings blade in
    * the Azure portal.
@@ -50,7 +54,11 @@ export class Events {
    * 'availabilityResults', 'performanceCounters', 'customMetrics'
    * @param callback The callback
    */
-  getByType(appId: string, eventType: Models.EventType, callback: msRest.ServiceCallback<Models.EventsResults>): void;
+  getByType(
+    appId: string,
+    eventType: Models.EventType,
+    callback: msRest.ServiceCallback<Models.EventsResults>
+  ): void;
   /**
    * @param appId ID of the application. This is Application ID from the API Access settings blade in
    * the Azure portal.
@@ -62,8 +70,18 @@ export class Events {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getByType(appId: string, eventType: Models.EventType, options: Models.EventsGetByTypeOptionalParams, callback: msRest.ServiceCallback<Models.EventsResults>): void;
-  getByType(appId: string, eventType: Models.EventType, options?: Models.EventsGetByTypeOptionalParams | msRest.ServiceCallback<Models.EventsResults>, callback?: msRest.ServiceCallback<Models.EventsResults>): Promise<Models.EventsGetByTypeResponse> {
+  getByType(
+    appId: string,
+    eventType: Models.EventType,
+    options: Models.EventsGetByTypeOptionalParams,
+    callback: msRest.ServiceCallback<Models.EventsResults>
+  ): void;
+  getByType(
+    appId: string,
+    eventType: Models.EventType,
+    options?: Models.EventsGetByTypeOptionalParams | msRest.ServiceCallback<Models.EventsResults>,
+    callback?: msRest.ServiceCallback<Models.EventsResults>
+  ): Promise<Models.EventsGetByTypeResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -71,7 +89,8 @@ export class Events {
         options
       },
       getByTypeOperationSpec,
-      callback) as Promise<Models.EventsGetByTypeResponse>;
+      callback
+    ) as Promise<Models.EventsGetByTypeResponse>;
   }
 
   /**
@@ -88,7 +107,12 @@ export class Events {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventsGetResponse>
    */
-  get(appId: string, eventType: Models.EventType, eventId: string, options?: Models.EventsGetOptionalParams): Promise<Models.EventsGetResponse>;
+  get(
+    appId: string,
+    eventType: Models.EventType,
+    eventId: string,
+    options?: Models.EventsGetOptionalParams
+  ): Promise<Models.EventsGetResponse>;
   /**
    * @param appId ID of the application. This is Application ID from the API Access settings blade in
    * the Azure portal.
@@ -100,7 +124,12 @@ export class Events {
    * @param eventId ID of event.
    * @param callback The callback
    */
-  get(appId: string, eventType: Models.EventType, eventId: string, callback: msRest.ServiceCallback<Models.EventsResults>): void;
+  get(
+    appId: string,
+    eventType: Models.EventType,
+    eventId: string,
+    callback: msRest.ServiceCallback<Models.EventsResults>
+  ): void;
   /**
    * @param appId ID of the application. This is Application ID from the API Access settings blade in
    * the Azure portal.
@@ -113,8 +142,20 @@ export class Events {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(appId: string, eventType: Models.EventType, eventId: string, options: Models.EventsGetOptionalParams, callback: msRest.ServiceCallback<Models.EventsResults>): void;
-  get(appId: string, eventType: Models.EventType, eventId: string, options?: Models.EventsGetOptionalParams | msRest.ServiceCallback<Models.EventsResults>, callback?: msRest.ServiceCallback<Models.EventsResults>): Promise<Models.EventsGetResponse> {
+  get(
+    appId: string,
+    eventType: Models.EventType,
+    eventId: string,
+    options: Models.EventsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.EventsResults>
+  ): void;
+  get(
+    appId: string,
+    eventType: Models.EventType,
+    eventId: string,
+    options?: Models.EventsGetOptionalParams | msRest.ServiceCallback<Models.EventsResults>,
+    callback?: msRest.ServiceCallback<Models.EventsResults>
+  ): Promise<Models.EventsGetResponse> {
     return this.client.sendOperationRequest(
       {
         appId,
@@ -123,7 +164,8 @@ export class Events {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.EventsGetResponse>;
+      callback
+    ) as Promise<Models.EventsGetResponse>;
   }
 }
 
@@ -132,10 +174,7 @@ const serializer = new msRest.Serializer(Mappers);
 const getByTypeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "v1/apps/{appId}/events/{eventType}",
-  urlParameters: [
-    Parameters.appId,
-    Parameters.eventType
-  ],
+  urlParameters: [Parameters.appId, Parameters.eventType],
   queryParameters: [
     Parameters.timespan,
     Parameters.filter1,
@@ -162,14 +201,8 @@ const getByTypeOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "v1/apps/{appId}/events/{eventType}/{eventId}",
-  urlParameters: [
-    Parameters.appId,
-    Parameters.eventType,
-    Parameters.eventId
-  ],
-  queryParameters: [
-    Parameters.timespan
-  ],
+  urlParameters: [Parameters.appId, Parameters.eventType, Parameters.eventId],
+  queryParameters: [Parameters.timespan],
   responses: {
     200: {
       bodyMapper: Mappers.EventsResults

@@ -41,13 +41,17 @@ export class Queue {
    * @param callback The callback
    */
   create(options: Models.QueueCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  create(options?: Models.QueueCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.QueueCreateResponse> {
+  create(
+    options?: Models.QueueCreateOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.QueueCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.QueueCreateResponse>;
+      callback
+    ) as Promise<Models.QueueCreateResponse>;
   }
 
   /**
@@ -55,7 +59,9 @@ export class Queue {
    * @param [options] The optional parameters
    * @returns Promise<Models.QueueDeleteResponse>
    */
-  deleteMethod(options?: Models.QueueDeleteMethodOptionalParams): Promise<Models.QueueDeleteResponse>;
+  deleteMethod(
+    options?: Models.QueueDeleteMethodOptionalParams
+  ): Promise<Models.QueueDeleteResponse>;
   /**
    * @param callback The callback
    */
@@ -64,14 +70,21 @@ export class Queue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(options: Models.QueueDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.QueueDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.QueueDeleteResponse> {
+  deleteMethod(
+    options: Models.QueueDeleteMethodOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    options?: Models.QueueDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.QueueDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.QueueDeleteResponse>;
+      callback
+    ) as Promise<Models.QueueDeleteResponse>;
   }
 
   /**
@@ -80,7 +93,9 @@ export class Queue {
    * @param [options] The optional parameters
    * @returns Promise<Models.QueueGetPropertiesResponse>
    */
-  getProperties(options?: Models.QueueGetPropertiesOptionalParams): Promise<Models.QueueGetPropertiesResponse>;
+  getProperties(
+    options?: Models.QueueGetPropertiesOptionalParams
+  ): Promise<Models.QueueGetPropertiesResponse>;
   /**
    * @param callback The callback
    */
@@ -89,14 +104,21 @@ export class Queue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.QueueGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  getProperties(options?: Models.QueueGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.QueueGetPropertiesResponse> {
+  getProperties(
+    options: Models.QueueGetPropertiesOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  getProperties(
+    options?: Models.QueueGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.QueueGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getPropertiesOperationSpec,
-      callback) as Promise<Models.QueueGetPropertiesResponse>;
+      callback
+    ) as Promise<Models.QueueGetPropertiesResponse>;
   }
 
   /**
@@ -105,7 +127,9 @@ export class Queue {
    * @param [options] The optional parameters
    * @returns Promise<Models.QueueSetMetadataResponse>
    */
-  setMetadata(options?: Models.QueueSetMetadataOptionalParams): Promise<Models.QueueSetMetadataResponse>;
+  setMetadata(
+    options?: Models.QueueSetMetadataOptionalParams
+  ): Promise<Models.QueueSetMetadataResponse>;
   /**
    * @param callback The callback
    */
@@ -114,14 +138,21 @@ export class Queue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setMetadata(options: Models.QueueSetMetadataOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setMetadata(options?: Models.QueueSetMetadataOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.QueueSetMetadataResponse> {
+  setMetadata(
+    options: Models.QueueSetMetadataOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setMetadata(
+    options?: Models.QueueSetMetadataOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.QueueSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setMetadataOperationSpec,
-      callback) as Promise<Models.QueueSetMetadataResponse>;
+      callback
+    ) as Promise<Models.QueueSetMetadataResponse>;
   }
 
   /**
@@ -130,7 +161,9 @@ export class Queue {
    * @param [options] The optional parameters
    * @returns Promise<Models.QueueGetAccessPolicyResponse>
    */
-  getAccessPolicy(options?: Models.QueueGetAccessPolicyOptionalParams): Promise<Models.QueueGetAccessPolicyResponse>;
+  getAccessPolicy(
+    options?: Models.QueueGetAccessPolicyOptionalParams
+  ): Promise<Models.QueueGetAccessPolicyResponse>;
   /**
    * @param callback The callback
    */
@@ -139,14 +172,23 @@ export class Queue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAccessPolicy(options: Models.QueueGetAccessPolicyOptionalParams, callback: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): void;
-  getAccessPolicy(options?: Models.QueueGetAccessPolicyOptionalParams | coreHttp.ServiceCallback<Models.SignedIdentifier[]>, callback?: coreHttp.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.QueueGetAccessPolicyResponse> {
+  getAccessPolicy(
+    options: Models.QueueGetAccessPolicyOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SignedIdentifier[]>
+  ): void;
+  getAccessPolicy(
+    options?:
+      | Models.QueueGetAccessPolicyOptionalParams
+      | coreHttp.ServiceCallback<Models.SignedIdentifier[]>,
+    callback?: coreHttp.ServiceCallback<Models.SignedIdentifier[]>
+  ): Promise<Models.QueueGetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getAccessPolicyOperationSpec,
-      callback) as Promise<Models.QueueGetAccessPolicyResponse>;
+      callback
+    ) as Promise<Models.QueueGetAccessPolicyResponse>;
   }
 
   /**
@@ -154,7 +196,9 @@ export class Queue {
    * @param [options] The optional parameters
    * @returns Promise<Models.QueueSetAccessPolicyResponse>
    */
-  setAccessPolicy(options?: Models.QueueSetAccessPolicyOptionalParams): Promise<Models.QueueSetAccessPolicyResponse>;
+  setAccessPolicy(
+    options?: Models.QueueSetAccessPolicyOptionalParams
+  ): Promise<Models.QueueSetAccessPolicyResponse>;
   /**
    * @param callback The callback
    */
@@ -163,14 +207,21 @@ export class Queue {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setAccessPolicy(options: Models.QueueSetAccessPolicyOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setAccessPolicy(options?: Models.QueueSetAccessPolicyOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.QueueSetAccessPolicyResponse> {
+  setAccessPolicy(
+    options: Models.QueueSetAccessPolicyOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setAccessPolicy(
+    options?: Models.QueueSetAccessPolicyOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.QueueSetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setAccessPolicyOperationSpec,
-      callback) as Promise<Models.QueueSetAccessPolicyResponse>;
+      callback
+    ) as Promise<Models.QueueSetAccessPolicyResponse>;
   }
 }
 
@@ -179,17 +230,9 @@ const serializer = new coreHttp.Serializer(Mappers, true);
 const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{queueName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds
-  ],
-  headerParameters: [
-    Parameters.metadata,
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds],
+  headerParameters: [Parameters.metadata, Parameters.version, Parameters.requestId],
   responses: {
     201: {
       headersMapper: Mappers.QueueCreateHeaders
@@ -209,16 +252,9 @@ const createOperationSpec: coreHttp.OperationSpec = {
 const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{queueName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds],
+  headerParameters: [Parameters.version, Parameters.requestId],
   responses: {
     204: {
       headersMapper: Mappers.QueueDeleteHeaders
@@ -235,17 +271,9 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
 const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{queueName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp3
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp3],
+  headerParameters: [Parameters.version, Parameters.requestId],
   responses: {
     200: {
       headersMapper: Mappers.QueueGetPropertiesHeaders
@@ -262,18 +290,9 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
 const setMetadataOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{queueName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp3
-  ],
-  headerParameters: [
-    Parameters.metadata,
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp3],
+  headerParameters: [Parameters.metadata, Parameters.version, Parameters.requestId],
   responses: {
     204: {
       headersMapper: Mappers.QueueSetMetadataHeaders
@@ -290,17 +309,9 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
 const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{queueName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp4
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp4],
+  headerParameters: [Parameters.version, Parameters.requestId],
   responses: {
     200: {
       bodyMapper: {
@@ -330,22 +341,11 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
 const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{queueName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp4
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp4],
+  headerParameters: [Parameters.version, Parameters.requestId],
   requestBody: {
-    parameterPath: [
-      "options",
-      "queueAcl"
-    ],
+    parameterPath: ["options", "queueAcl"],
     mapper: {
       xmlName: "SignedIdentifiers",
       xmlElementName: "SignedIdentifier",

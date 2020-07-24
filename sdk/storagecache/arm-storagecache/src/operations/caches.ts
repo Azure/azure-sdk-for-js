@@ -41,14 +41,21 @@ export class Caches {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CachesListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachesListResult>, callback?: msRest.ServiceCallback<Models.CachesListResult>): Promise<Models.CachesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CachesListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachesListResult>,
+    callback?: msRest.ServiceCallback<Models.CachesListResult>
+  ): Promise<Models.CachesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.CachesListResponse>;
+      callback
+    ) as Promise<Models.CachesListResponse>;
   }
 
   /**
@@ -57,26 +64,41 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.CachesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CachesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Target resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.CachesListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.CachesListResult>
+  ): void;
   /**
    * @param resourceGroupName Target resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CachesListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachesListResult>, callback?: msRest.ServiceCallback<Models.CachesListResult>): Promise<Models.CachesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CachesListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachesListResult>,
+    callback?: msRest.ServiceCallback<Models.CachesListResult>
+  ): Promise<Models.CachesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.CachesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.CachesListByResourceGroupResponse>;
   }
 
   /**
@@ -87,9 +109,14 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<Models.CachesDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,cacheName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CachesDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CachesDeleteMethodResponse> {
+    return this.beginDeleteMethod(resourceGroupName, cacheName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.CachesDeleteMethodResponse>;
   }
 
   /**
@@ -100,14 +127,22 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesGetResponse>
    */
-  get(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<Models.CachesGetResponse>;
+  get(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CachesGetResponse>;
   /**
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
    * list of [-0-9a-zA-Z_] char class.
    * @param callback The callback
    */
-  get(resourceGroupName: string, cacheName: string, callback: msRest.ServiceCallback<Models.Cache>): void;
+  get(
+    resourceGroupName: string,
+    cacheName: string,
+    callback: msRest.ServiceCallback<Models.Cache>
+  ): void;
   /**
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
@@ -115,8 +150,18 @@ export class Caches {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, cacheName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Cache>): void;
-  get(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cache>, callback?: msRest.ServiceCallback<Models.Cache>): Promise<Models.CachesGetResponse> {
+  get(
+    resourceGroupName: string,
+    cacheName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Cache>
+  ): void;
+  get(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Cache>,
+    callback?: msRest.ServiceCallback<Models.Cache>
+  ): Promise<Models.CachesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -124,7 +169,8 @@ export class Caches {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CachesGetResponse>;
+      callback
+    ) as Promise<Models.CachesGetResponse>;
   }
 
   /**
@@ -135,9 +181,14 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, cacheName: string, options?: Models.CachesCreateOrUpdateOptionalParams): Promise<Models.CachesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,cacheName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CachesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: Models.CachesCreateOrUpdateOptionalParams
+  ): Promise<Models.CachesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName, cacheName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.CachesCreateOrUpdateResponse>;
   }
 
   /**
@@ -148,14 +199,22 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesUpdateResponse>
    */
-  update(resourceGroupName: string, cacheName: string, options?: Models.CachesUpdateOptionalParams): Promise<Models.CachesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: Models.CachesUpdateOptionalParams
+  ): Promise<Models.CachesUpdateResponse>;
   /**
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
    * list of [-0-9a-zA-Z_] char class.
    * @param callback The callback
    */
-  update(resourceGroupName: string, cacheName: string, callback: msRest.ServiceCallback<Models.Cache>): void;
+  update(
+    resourceGroupName: string,
+    cacheName: string,
+    callback: msRest.ServiceCallback<Models.Cache>
+  ): void;
   /**
    * @param resourceGroupName Target resource group.
    * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
@@ -163,8 +222,18 @@ export class Caches {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, cacheName: string, options: Models.CachesUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Cache>): void;
-  update(resourceGroupName: string, cacheName: string, options?: Models.CachesUpdateOptionalParams | msRest.ServiceCallback<Models.Cache>, callback?: msRest.ServiceCallback<Models.Cache>): Promise<Models.CachesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    cacheName: string,
+    options: Models.CachesUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.Cache>
+  ): void;
+  update(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: Models.CachesUpdateOptionalParams | msRest.ServiceCallback<Models.Cache>,
+    callback?: msRest.ServiceCallback<Models.Cache>
+  ): Promise<Models.CachesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -172,7 +241,8 @@ export class Caches {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.CachesUpdateResponse>;
+      callback
+    ) as Promise<Models.CachesUpdateResponse>;
   }
 
   /**
@@ -184,9 +254,14 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesFlushResponse>
    */
-  flush(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<Models.CachesFlushResponse> {
-    return this.beginFlush(resourceGroupName,cacheName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CachesFlushResponse>;
+  flush(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CachesFlushResponse> {
+    return this.beginFlush(resourceGroupName, cacheName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.CachesFlushResponse>;
   }
 
   /**
@@ -197,9 +272,14 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesStartResponse>
    */
-  start(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<Models.CachesStartResponse> {
-    return this.beginStart(resourceGroupName,cacheName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CachesStartResponse>;
+  start(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CachesStartResponse> {
+    return this.beginStart(resourceGroupName, cacheName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.CachesStartResponse>;
   }
 
   /**
@@ -210,9 +290,14 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesStopResponse>
    */
-  stop(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<Models.CachesStopResponse> {
-    return this.beginStop(resourceGroupName,cacheName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CachesStopResponse>;
+  stop(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CachesStopResponse> {
+    return this.beginStop(resourceGroupName, cacheName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.CachesStopResponse>;
   }
 
   /**
@@ -224,9 +309,14 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesUpgradeFirmwareResponse>
    */
-  upgradeFirmware(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<Models.CachesUpgradeFirmwareResponse> {
-    return this.beginUpgradeFirmware(resourceGroupName,cacheName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CachesUpgradeFirmwareResponse>;
+  upgradeFirmware(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CachesUpgradeFirmwareResponse> {
+    return this.beginUpgradeFirmware(resourceGroupName, cacheName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.CachesUpgradeFirmwareResponse>;
   }
 
   /**
@@ -237,7 +327,11 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -245,7 +339,8 @@ export class Caches {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -256,7 +351,11 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, cacheName: string, options?: Models.CachesBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: Models.CachesBeginCreateOrUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -264,7 +363,8 @@ export class Caches {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -276,7 +376,11 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginFlush(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginFlush(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -284,7 +388,8 @@ export class Caches {
         options
       },
       beginFlushOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -295,7 +400,11 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -303,7 +412,8 @@ export class Caches {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -314,7 +424,11 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStop(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -322,7 +436,8 @@ export class Caches {
         options
       },
       beginStopOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -334,7 +449,11 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpgradeFirmware(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpgradeFirmware(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -342,7 +461,8 @@ export class Caches {
         options
       },
       beginUpgradeFirmwareOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -351,7 +471,10 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CachesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CachesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -362,15 +485,24 @@ export class Caches {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CachesListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachesListResult>, callback?: msRest.ServiceCallback<Models.CachesListResult>): Promise<Models.CachesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CachesListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachesListResult>,
+    callback?: msRest.ServiceCallback<Models.CachesListResult>
+  ): Promise<Models.CachesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.CachesListNextResponse>;
+      callback
+    ) as Promise<Models.CachesListNextResponse>;
   }
 
   /**
@@ -379,26 +511,41 @@ export class Caches {
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CachesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CachesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CachesListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CachesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CachesListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachesListResult>, callback?: msRest.ServiceCallback<Models.CachesListResult>): Promise<Models.CachesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CachesListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CachesListResult>,
+    callback?: msRest.ServiceCallback<Models.CachesListResult>
+  ): Promise<Models.CachesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.CachesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.CachesListByResourceGroupNextResponse>;
   }
 }
 
@@ -407,15 +554,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/caches",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CachesListResult
@@ -429,17 +570,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CachesListResult
@@ -453,18 +588,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.cacheName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.cacheName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Cache
@@ -478,23 +606,13 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.cacheName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.cacheName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "cache"
-    ],
+    parameterPath: ["options", "cache"],
     mapper: Mappers.Cache
   },
   responses: {
@@ -510,18 +628,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.cacheName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.cacheName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -556,23 +667,13 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.cacheName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.cacheName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "cache"
-    ],
+    parameterPath: ["options", "cache"],
     mapper: Mappers.Cache
   },
   responses: {
@@ -591,18 +692,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginFlushOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/flush",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.cacheName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/flush",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.cacheName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -637,18 +731,11 @@ const beginFlushOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/start",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.cacheName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/start",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.cacheName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -683,18 +770,11 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginStopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/stop",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.cacheName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/stop",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.cacheName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -729,18 +809,11 @@ const beginStopOperationSpec: msRest.OperationSpec = {
 
 const beginUpgradeFirmwareOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/upgrade",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.cacheName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/upgrade",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.cacheName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     201: {
       bodyMapper: {
@@ -777,12 +850,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CachesListResult
@@ -798,12 +867,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CachesListResult

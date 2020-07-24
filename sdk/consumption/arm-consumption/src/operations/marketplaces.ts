@@ -41,14 +41,23 @@ export class Marketplaces {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.MarketplacesListOptionalParams, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  list(options?: Models.MarketplacesListOptionalParams | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListResponse> {
+  list(
+    options: Models.MarketplacesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  list(
+    options?:
+      | Models.MarketplacesListOptionalParams
+      | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MarketplacesListResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListResponse>;
   }
 
   /**
@@ -58,26 +67,43 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListByBillingPeriodResponse>
    */
-  listByBillingPeriod(billingPeriodName: string, options?: Models.MarketplacesListByBillingPeriodOptionalParams): Promise<Models.MarketplacesListByBillingPeriodResponse>;
+  listByBillingPeriod(
+    billingPeriodName: string,
+    options?: Models.MarketplacesListByBillingPeriodOptionalParams
+  ): Promise<Models.MarketplacesListByBillingPeriodResponse>;
   /**
    * @param billingPeriodName Billing Period Name.
    * @param callback The callback
    */
-  listByBillingPeriod(billingPeriodName: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listByBillingPeriod(
+    billingPeriodName: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param billingPeriodName Billing Period Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBillingPeriod(billingPeriodName: string, options: Models.MarketplacesListByBillingPeriodOptionalParams, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listByBillingPeriod(billingPeriodName: string, options?: Models.MarketplacesListByBillingPeriodOptionalParams | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListByBillingPeriodResponse> {
+  listByBillingPeriod(
+    billingPeriodName: string,
+    options: Models.MarketplacesListByBillingPeriodOptionalParams,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listByBillingPeriod(
+    billingPeriodName: string,
+    options?:
+      | Models.MarketplacesListByBillingPeriodOptionalParams
+      | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListByBillingPeriodResponse> {
     return this.client.sendOperationRequest(
       {
         billingPeriodName,
         options
       },
       listByBillingPeriodOperationSpec,
-      callback) as Promise<Models.MarketplacesListByBillingPeriodResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListByBillingPeriodResponse>;
   }
 
   /**
@@ -87,26 +113,43 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListByBillingAccountResponse>
    */
-  listByBillingAccount(billingAccountId: string, options?: Models.MarketplacesListByBillingAccountOptionalParams): Promise<Models.MarketplacesListByBillingAccountResponse>;
+  listByBillingAccount(
+    billingAccountId: string,
+    options?: Models.MarketplacesListByBillingAccountOptionalParams
+  ): Promise<Models.MarketplacesListByBillingAccountResponse>;
   /**
    * @param billingAccountId BillingAccount ID
    * @param callback The callback
    */
-  listByBillingAccount(billingAccountId: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listByBillingAccount(
+    billingAccountId: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param billingAccountId BillingAccount ID
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBillingAccount(billingAccountId: string, options: Models.MarketplacesListByBillingAccountOptionalParams, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listByBillingAccount(billingAccountId: string, options?: Models.MarketplacesListByBillingAccountOptionalParams | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListByBillingAccountResponse> {
+  listByBillingAccount(
+    billingAccountId: string,
+    options: Models.MarketplacesListByBillingAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listByBillingAccount(
+    billingAccountId: string,
+    options?:
+      | Models.MarketplacesListByBillingAccountOptionalParams
+      | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
         options
       },
       listByBillingAccountOperationSpec,
-      callback) as Promise<Models.MarketplacesListByBillingAccountResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListByBillingAccountResponse>;
   }
 
   /**
@@ -117,21 +160,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListForBillingPeriodByBillingAccountResponse>
    */
-  listForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options?: Models.MarketplacesListForBillingPeriodByBillingAccountOptionalParams): Promise<Models.MarketplacesListForBillingPeriodByBillingAccountResponse>;
+  listForBillingPeriodByBillingAccount(
+    billingAccountId: string,
+    billingPeriodName: string,
+    options?: Models.MarketplacesListForBillingPeriodByBillingAccountOptionalParams
+  ): Promise<Models.MarketplacesListForBillingPeriodByBillingAccountResponse>;
   /**
    * @param billingAccountId BillingAccount ID
    * @param billingPeriodName Billing Period Name.
    * @param callback The callback
    */
-  listForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listForBillingPeriodByBillingAccount(
+    billingAccountId: string,
+    billingPeriodName: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param billingAccountId BillingAccount ID
    * @param billingPeriodName Billing Period Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options: Models.MarketplacesListForBillingPeriodByBillingAccountOptionalParams, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listForBillingPeriodByBillingAccount(billingAccountId: string, billingPeriodName: string, options?: Models.MarketplacesListForBillingPeriodByBillingAccountOptionalParams | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListForBillingPeriodByBillingAccountResponse> {
+  listForBillingPeriodByBillingAccount(
+    billingAccountId: string,
+    billingPeriodName: string,
+    options: Models.MarketplacesListForBillingPeriodByBillingAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listForBillingPeriodByBillingAccount(
+    billingAccountId: string,
+    billingPeriodName: string,
+    options?:
+      | Models.MarketplacesListForBillingPeriodByBillingAccountOptionalParams
+      | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListForBillingPeriodByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountId,
@@ -139,7 +202,8 @@ export class Marketplaces {
         options
       },
       listForBillingPeriodByBillingAccountOperationSpec,
-      callback) as Promise<Models.MarketplacesListForBillingPeriodByBillingAccountResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListForBillingPeriodByBillingAccountResponse>;
   }
 
   /**
@@ -149,26 +213,43 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListByDepartmentResponse>
    */
-  listByDepartment(departmentId: string, options?: Models.MarketplacesListByDepartmentOptionalParams): Promise<Models.MarketplacesListByDepartmentResponse>;
+  listByDepartment(
+    departmentId: string,
+    options?: Models.MarketplacesListByDepartmentOptionalParams
+  ): Promise<Models.MarketplacesListByDepartmentResponse>;
   /**
    * @param departmentId Department ID
    * @param callback The callback
    */
-  listByDepartment(departmentId: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listByDepartment(
+    departmentId: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param departmentId Department ID
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDepartment(departmentId: string, options: Models.MarketplacesListByDepartmentOptionalParams, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listByDepartment(departmentId: string, options?: Models.MarketplacesListByDepartmentOptionalParams | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListByDepartmentResponse> {
+  listByDepartment(
+    departmentId: string,
+    options: Models.MarketplacesListByDepartmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listByDepartment(
+    departmentId: string,
+    options?:
+      | Models.MarketplacesListByDepartmentOptionalParams
+      | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListByDepartmentResponse> {
     return this.client.sendOperationRequest(
       {
         departmentId,
         options
       },
       listByDepartmentOperationSpec,
-      callback) as Promise<Models.MarketplacesListByDepartmentResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListByDepartmentResponse>;
   }
 
   /**
@@ -179,21 +260,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListForBillingPeriodByDepartmentResponse>
    */
-  listForBillingPeriodByDepartment(departmentId: string, billingPeriodName: string, options?: Models.MarketplacesListForBillingPeriodByDepartmentOptionalParams): Promise<Models.MarketplacesListForBillingPeriodByDepartmentResponse>;
+  listForBillingPeriodByDepartment(
+    departmentId: string,
+    billingPeriodName: string,
+    options?: Models.MarketplacesListForBillingPeriodByDepartmentOptionalParams
+  ): Promise<Models.MarketplacesListForBillingPeriodByDepartmentResponse>;
   /**
    * @param departmentId Department ID
    * @param billingPeriodName Billing Period Name.
    * @param callback The callback
    */
-  listForBillingPeriodByDepartment(departmentId: string, billingPeriodName: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listForBillingPeriodByDepartment(
+    departmentId: string,
+    billingPeriodName: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param departmentId Department ID
    * @param billingPeriodName Billing Period Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForBillingPeriodByDepartment(departmentId: string, billingPeriodName: string, options: Models.MarketplacesListForBillingPeriodByDepartmentOptionalParams, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listForBillingPeriodByDepartment(departmentId: string, billingPeriodName: string, options?: Models.MarketplacesListForBillingPeriodByDepartmentOptionalParams | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListForBillingPeriodByDepartmentResponse> {
+  listForBillingPeriodByDepartment(
+    departmentId: string,
+    billingPeriodName: string,
+    options: Models.MarketplacesListForBillingPeriodByDepartmentOptionalParams,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listForBillingPeriodByDepartment(
+    departmentId: string,
+    billingPeriodName: string,
+    options?:
+      | Models.MarketplacesListForBillingPeriodByDepartmentOptionalParams
+      | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListForBillingPeriodByDepartmentResponse> {
     return this.client.sendOperationRequest(
       {
         departmentId,
@@ -201,7 +302,8 @@ export class Marketplaces {
         options
       },
       listForBillingPeriodByDepartmentOperationSpec,
-      callback) as Promise<Models.MarketplacesListForBillingPeriodByDepartmentResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListForBillingPeriodByDepartmentResponse>;
   }
 
   /**
@@ -211,26 +313,43 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListByEnrollmentAccountResponse>
    */
-  listByEnrollmentAccount(enrollmentAccountId: string, options?: Models.MarketplacesListByEnrollmentAccountOptionalParams): Promise<Models.MarketplacesListByEnrollmentAccountResponse>;
+  listByEnrollmentAccount(
+    enrollmentAccountId: string,
+    options?: Models.MarketplacesListByEnrollmentAccountOptionalParams
+  ): Promise<Models.MarketplacesListByEnrollmentAccountResponse>;
   /**
    * @param enrollmentAccountId EnrollmentAccount ID
    * @param callback The callback
    */
-  listByEnrollmentAccount(enrollmentAccountId: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listByEnrollmentAccount(
+    enrollmentAccountId: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param enrollmentAccountId EnrollmentAccount ID
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByEnrollmentAccount(enrollmentAccountId: string, options: Models.MarketplacesListByEnrollmentAccountOptionalParams, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listByEnrollmentAccount(enrollmentAccountId: string, options?: Models.MarketplacesListByEnrollmentAccountOptionalParams | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListByEnrollmentAccountResponse> {
+  listByEnrollmentAccount(
+    enrollmentAccountId: string,
+    options: Models.MarketplacesListByEnrollmentAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listByEnrollmentAccount(
+    enrollmentAccountId: string,
+    options?:
+      | Models.MarketplacesListByEnrollmentAccountOptionalParams
+      | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListByEnrollmentAccountResponse> {
     return this.client.sendOperationRequest(
       {
         enrollmentAccountId,
         options
       },
       listByEnrollmentAccountOperationSpec,
-      callback) as Promise<Models.MarketplacesListByEnrollmentAccountResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListByEnrollmentAccountResponse>;
   }
 
   /**
@@ -241,21 +360,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountResponse>
    */
-  listForBillingPeriodByEnrollmentAccount(enrollmentAccountId: string, billingPeriodName: string, options?: Models.MarketplacesListForBillingPeriodByEnrollmentAccountOptionalParams): Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountResponse>;
+  listForBillingPeriodByEnrollmentAccount(
+    enrollmentAccountId: string,
+    billingPeriodName: string,
+    options?: Models.MarketplacesListForBillingPeriodByEnrollmentAccountOptionalParams
+  ): Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountResponse>;
   /**
    * @param enrollmentAccountId EnrollmentAccount ID
    * @param billingPeriodName Billing Period Name.
    * @param callback The callback
    */
-  listForBillingPeriodByEnrollmentAccount(enrollmentAccountId: string, billingPeriodName: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listForBillingPeriodByEnrollmentAccount(
+    enrollmentAccountId: string,
+    billingPeriodName: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param enrollmentAccountId EnrollmentAccount ID
    * @param billingPeriodName Billing Period Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForBillingPeriodByEnrollmentAccount(enrollmentAccountId: string, billingPeriodName: string, options: Models.MarketplacesListForBillingPeriodByEnrollmentAccountOptionalParams, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listForBillingPeriodByEnrollmentAccount(enrollmentAccountId: string, billingPeriodName: string, options?: Models.MarketplacesListForBillingPeriodByEnrollmentAccountOptionalParams | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountResponse> {
+  listForBillingPeriodByEnrollmentAccount(
+    enrollmentAccountId: string,
+    billingPeriodName: string,
+    options: Models.MarketplacesListForBillingPeriodByEnrollmentAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listForBillingPeriodByEnrollmentAccount(
+    enrollmentAccountId: string,
+    billingPeriodName: string,
+    options?:
+      | Models.MarketplacesListForBillingPeriodByEnrollmentAccountOptionalParams
+      | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountResponse> {
     return this.client.sendOperationRequest(
       {
         enrollmentAccountId,
@@ -263,7 +402,8 @@ export class Marketplaces {
         options
       },
       listForBillingPeriodByEnrollmentAccountOperationSpec,
-      callback) as Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountResponse>;
   }
 
   /**
@@ -273,26 +413,43 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListByManagementGroupResponse>
    */
-  listByManagementGroup(managementGroupId: string, options?: Models.MarketplacesListByManagementGroupOptionalParams): Promise<Models.MarketplacesListByManagementGroupResponse>;
+  listByManagementGroup(
+    managementGroupId: string,
+    options?: Models.MarketplacesListByManagementGroupOptionalParams
+  ): Promise<Models.MarketplacesListByManagementGroupResponse>;
   /**
    * @param managementGroupId Azure Management Group ID.
    * @param callback The callback
    */
-  listByManagementGroup(managementGroupId: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listByManagementGroup(
+    managementGroupId: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param managementGroupId Azure Management Group ID.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManagementGroup(managementGroupId: string, options: Models.MarketplacesListByManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listByManagementGroup(managementGroupId: string, options?: Models.MarketplacesListByManagementGroupOptionalParams | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListByManagementGroupResponse> {
+  listByManagementGroup(
+    managementGroupId: string,
+    options: Models.MarketplacesListByManagementGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listByManagementGroup(
+    managementGroupId: string,
+    options?:
+      | Models.MarketplacesListByManagementGroupOptionalParams
+      | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListByManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
         options
       },
       listByManagementGroupOperationSpec,
-      callback) as Promise<Models.MarketplacesListByManagementGroupResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListByManagementGroupResponse>;
   }
 
   /**
@@ -303,21 +460,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListForBillingPeriodByManagementGroupResponse>
    */
-  listForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options?: Models.MarketplacesListForBillingPeriodByManagementGroupOptionalParams): Promise<Models.MarketplacesListForBillingPeriodByManagementGroupResponse>;
+  listForBillingPeriodByManagementGroup(
+    managementGroupId: string,
+    billingPeriodName: string,
+    options?: Models.MarketplacesListForBillingPeriodByManagementGroupOptionalParams
+  ): Promise<Models.MarketplacesListForBillingPeriodByManagementGroupResponse>;
   /**
    * @param managementGroupId Azure Management Group ID.
    * @param billingPeriodName Billing Period Name.
    * @param callback The callback
    */
-  listForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listForBillingPeriodByManagementGroup(
+    managementGroupId: string,
+    billingPeriodName: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param managementGroupId Azure Management Group ID.
    * @param billingPeriodName Billing Period Name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options: Models.MarketplacesListForBillingPeriodByManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listForBillingPeriodByManagementGroup(managementGroupId: string, billingPeriodName: string, options?: Models.MarketplacesListForBillingPeriodByManagementGroupOptionalParams | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListForBillingPeriodByManagementGroupResponse> {
+  listForBillingPeriodByManagementGroup(
+    managementGroupId: string,
+    billingPeriodName: string,
+    options: Models.MarketplacesListForBillingPeriodByManagementGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listForBillingPeriodByManagementGroup(
+    managementGroupId: string,
+    billingPeriodName: string,
+    options?:
+      | Models.MarketplacesListForBillingPeriodByManagementGroupOptionalParams
+      | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListForBillingPeriodByManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -325,7 +502,8 @@ export class Marketplaces {
         options
       },
       listForBillingPeriodByManagementGroupOperationSpec,
-      callback) as Promise<Models.MarketplacesListForBillingPeriodByManagementGroupResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListForBillingPeriodByManagementGroupResponse>;
   }
 
   /**
@@ -335,26 +513,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplacesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplacesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.MarketplacesListNextResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListNextResponse>;
   }
 
   /**
@@ -364,26 +557,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListByBillingPeriodNextResponse>
    */
-  listByBillingPeriodNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplacesListByBillingPeriodNextResponse>;
+  listByBillingPeriodNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplacesListByBillingPeriodNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByBillingPeriodNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listByBillingPeriodNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBillingPeriodNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listByBillingPeriodNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListByBillingPeriodNextResponse> {
+  listByBillingPeriodNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listByBillingPeriodNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListByBillingPeriodNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByBillingPeriodNextOperationSpec,
-      callback) as Promise<Models.MarketplacesListByBillingPeriodNextResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListByBillingPeriodNextResponse>;
   }
 
   /**
@@ -393,26 +601,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListByBillingAccountNextResponse>
    */
-  listByBillingAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplacesListByBillingAccountNextResponse>;
+  listByBillingAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplacesListByBillingAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByBillingAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listByBillingAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByBillingAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listByBillingAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListByBillingAccountNextResponse> {
+  listByBillingAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listByBillingAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByBillingAccountNextOperationSpec,
-      callback) as Promise<Models.MarketplacesListByBillingAccountNextResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListByBillingAccountNextResponse>;
   }
 
   /**
@@ -422,26 +645,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListForBillingPeriodByBillingAccountNextResponse>
    */
-  listForBillingPeriodByBillingAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplacesListForBillingPeriodByBillingAccountNextResponse>;
+  listForBillingPeriodByBillingAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplacesListForBillingPeriodByBillingAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listForBillingPeriodByBillingAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listForBillingPeriodByBillingAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForBillingPeriodByBillingAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listForBillingPeriodByBillingAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListForBillingPeriodByBillingAccountNextResponse> {
+  listForBillingPeriodByBillingAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listForBillingPeriodByBillingAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListForBillingPeriodByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listForBillingPeriodByBillingAccountNextOperationSpec,
-      callback) as Promise<Models.MarketplacesListForBillingPeriodByBillingAccountNextResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListForBillingPeriodByBillingAccountNextResponse>;
   }
 
   /**
@@ -451,26 +689,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListByDepartmentNextResponse>
    */
-  listByDepartmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplacesListByDepartmentNextResponse>;
+  listByDepartmentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplacesListByDepartmentNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByDepartmentNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listByDepartmentNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDepartmentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listByDepartmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListByDepartmentNextResponse> {
+  listByDepartmentNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listByDepartmentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListByDepartmentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByDepartmentNextOperationSpec,
-      callback) as Promise<Models.MarketplacesListByDepartmentNextResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListByDepartmentNextResponse>;
   }
 
   /**
@@ -480,26 +733,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListForBillingPeriodByDepartmentNextResponse>
    */
-  listForBillingPeriodByDepartmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplacesListForBillingPeriodByDepartmentNextResponse>;
+  listForBillingPeriodByDepartmentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplacesListForBillingPeriodByDepartmentNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listForBillingPeriodByDepartmentNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listForBillingPeriodByDepartmentNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForBillingPeriodByDepartmentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listForBillingPeriodByDepartmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListForBillingPeriodByDepartmentNextResponse> {
+  listForBillingPeriodByDepartmentNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listForBillingPeriodByDepartmentNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListForBillingPeriodByDepartmentNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listForBillingPeriodByDepartmentNextOperationSpec,
-      callback) as Promise<Models.MarketplacesListForBillingPeriodByDepartmentNextResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListForBillingPeriodByDepartmentNextResponse>;
   }
 
   /**
@@ -509,26 +777,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListByEnrollmentAccountNextResponse>
    */
-  listByEnrollmentAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplacesListByEnrollmentAccountNextResponse>;
+  listByEnrollmentAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplacesListByEnrollmentAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByEnrollmentAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listByEnrollmentAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByEnrollmentAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listByEnrollmentAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListByEnrollmentAccountNextResponse> {
+  listByEnrollmentAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listByEnrollmentAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListByEnrollmentAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByEnrollmentAccountNextOperationSpec,
-      callback) as Promise<Models.MarketplacesListByEnrollmentAccountNextResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListByEnrollmentAccountNextResponse>;
   }
 
   /**
@@ -538,26 +821,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse>
    */
-  listForBillingPeriodByEnrollmentAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse>;
+  listForBillingPeriodByEnrollmentAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listForBillingPeriodByEnrollmentAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listForBillingPeriodByEnrollmentAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForBillingPeriodByEnrollmentAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listForBillingPeriodByEnrollmentAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse> {
+  listForBillingPeriodByEnrollmentAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listForBillingPeriodByEnrollmentAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listForBillingPeriodByEnrollmentAccountNextOperationSpec,
-      callback) as Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListForBillingPeriodByEnrollmentAccountNextResponse>;
   }
 
   /**
@@ -567,26 +865,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListByManagementGroupNextResponse>
    */
-  listByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplacesListByManagementGroupNextResponse>;
+  listByManagementGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplacesListByManagementGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByManagementGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listByManagementGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListByManagementGroupNextResponse> {
+  listByManagementGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listByManagementGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListByManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByManagementGroupNextOperationSpec,
-      callback) as Promise<Models.MarketplacesListByManagementGroupNextResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListByManagementGroupNextResponse>;
   }
 
   /**
@@ -596,26 +909,41 @@ export class Marketplaces {
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplacesListForBillingPeriodByManagementGroupNextResponse>
    */
-  listForBillingPeriodByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MarketplacesListForBillingPeriodByManagementGroupNextResponse>;
+  listForBillingPeriodByManagementGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MarketplacesListForBillingPeriodByManagementGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listForBillingPeriodByManagementGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
+  listForBillingPeriodByManagementGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listForBillingPeriodByManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MarketplacesListResult>): void;
-  listForBillingPeriodByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>, callback?: msRest.ServiceCallback<Models.MarketplacesListResult>): Promise<Models.MarketplacesListForBillingPeriodByManagementGroupNextResponse> {
+  listForBillingPeriodByManagementGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): void;
+  listForBillingPeriodByManagementGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MarketplacesListResult>,
+    callback?: msRest.ServiceCallback<Models.MarketplacesListResult>
+  ): Promise<Models.MarketplacesListForBillingPeriodByManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listForBillingPeriodByManagementGroupNextOperationSpec,
-      callback) as Promise<Models.MarketplacesListForBillingPeriodByManagementGroupNextResponse>;
+      callback
+    ) as Promise<Models.MarketplacesListForBillingPeriodByManagementGroupNextResponse>;
   }
 }
 
@@ -624,18 +952,14 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Consumption/marketplaces",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.subscriptionId],
   queryParameters: [
     Parameters.filter0,
     Parameters.top,
     Parameters.skiptoken,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -649,20 +973,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByBillingPeriodOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.billingPeriodName
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces",
+  urlParameters: [Parameters.subscriptionId, Parameters.billingPeriodName],
   queryParameters: [
     Parameters.filter0,
     Parameters.top,
     Parameters.skiptoken,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -676,19 +996,16 @@ const listByBillingPeriodOperationSpec: msRest.OperationSpec = {
 
 const listByBillingAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/marketplaces",
-  urlParameters: [
-    Parameters.billingAccountId
-  ],
+  path:
+    "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Consumption/marketplaces",
+  urlParameters: [Parameters.billingAccountId],
   queryParameters: [
     Parameters.filter0,
     Parameters.top,
     Parameters.skiptoken,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -702,20 +1019,16 @@ const listByBillingAccountOperationSpec: msRest.OperationSpec = {
 
 const listForBillingPeriodByBillingAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces",
-  urlParameters: [
-    Parameters.billingAccountId,
-    Parameters.billingPeriodName
-  ],
+  path:
+    "providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces",
+  urlParameters: [Parameters.billingAccountId, Parameters.billingPeriodName],
   queryParameters: [
     Parameters.filter0,
     Parameters.top,
     Parameters.skiptoken,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -729,19 +1042,16 @@ const listForBillingPeriodByBillingAccountOperationSpec: msRest.OperationSpec = 
 
 const listByDepartmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Consumption/marketplaces",
-  urlParameters: [
-    Parameters.departmentId
-  ],
+  path:
+    "providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Consumption/marketplaces",
+  urlParameters: [Parameters.departmentId],
   queryParameters: [
     Parameters.filter0,
     Parameters.top,
     Parameters.skiptoken,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -755,20 +1065,16 @@ const listByDepartmentOperationSpec: msRest.OperationSpec = {
 
 const listForBillingPeriodByDepartmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces",
-  urlParameters: [
-    Parameters.departmentId,
-    Parameters.billingPeriodName
-  ],
+  path:
+    "providers/Microsoft.Billing/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces",
+  urlParameters: [Parameters.departmentId, Parameters.billingPeriodName],
   queryParameters: [
     Parameters.filter0,
     Parameters.top,
     Parameters.skiptoken,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -782,19 +1088,16 @@ const listForBillingPeriodByDepartmentOperationSpec: msRest.OperationSpec = {
 
 const listByEnrollmentAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Consumption/marketplaces",
-  urlParameters: [
-    Parameters.enrollmentAccountId
-  ],
+  path:
+    "providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Consumption/marketplaces",
+  urlParameters: [Parameters.enrollmentAccountId],
   queryParameters: [
     Parameters.filter0,
     Parameters.top,
     Parameters.skiptoken,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -808,20 +1111,16 @@ const listByEnrollmentAccountOperationSpec: msRest.OperationSpec = {
 
 const listForBillingPeriodByEnrollmentAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces",
-  urlParameters: [
-    Parameters.enrollmentAccountId,
-    Parameters.billingPeriodName
-  ],
+  path:
+    "providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces",
+  urlParameters: [Parameters.enrollmentAccountId, Parameters.billingPeriodName],
   queryParameters: [
     Parameters.filter0,
     Parameters.top,
     Parameters.skiptoken,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -835,19 +1134,16 @@ const listForBillingPeriodByEnrollmentAccountOperationSpec: msRest.OperationSpec
 
 const listByManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Consumption/marketplaces",
-  urlParameters: [
-    Parameters.managementGroupId
-  ],
+  path:
+    "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Consumption/marketplaces",
+  urlParameters: [Parameters.managementGroupId],
   queryParameters: [
     Parameters.filter0,
     Parameters.top,
     Parameters.skiptoken,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -861,20 +1157,16 @@ const listByManagementGroupOperationSpec: msRest.OperationSpec = {
 
 const listForBillingPeriodByManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces",
-  urlParameters: [
-    Parameters.managementGroupId,
-    Parameters.billingPeriodName
-  ],
+  path:
+    "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/marketplaces",
+  urlParameters: [Parameters.managementGroupId, Parameters.billingPeriodName],
   queryParameters: [
     Parameters.filter0,
     Parameters.top,
     Parameters.skiptoken,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -890,12 +1182,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -911,12 +1199,8 @@ const listByBillingPeriodNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -932,12 +1216,8 @@ const listByBillingAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -953,12 +1233,8 @@ const listForBillingPeriodByBillingAccountNextOperationSpec: msRest.OperationSpe
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -974,12 +1250,8 @@ const listByDepartmentNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -995,12 +1267,8 @@ const listForBillingPeriodByDepartmentNextOperationSpec: msRest.OperationSpec = 
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -1016,12 +1284,8 @@ const listByEnrollmentAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -1037,12 +1301,8 @@ const listForBillingPeriodByEnrollmentAccountNextOperationSpec: msRest.Operation
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -1058,12 +1318,8 @@ const listByManagementGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult
@@ -1079,12 +1335,8 @@ const listForBillingPeriodByManagementGroupNextOperationSpec: msRest.OperationSp
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MarketplacesListResult

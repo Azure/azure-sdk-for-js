@@ -33,7 +33,10 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsListResponse>
    */
-  list(regionId: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsListResponse>;
+  list(
+    regionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateCloudsListResponse>;
   /**
    * @param regionId The region Id (westus, eastus)
    * @param callback The callback
@@ -44,15 +47,24 @@ export class PrivateClouds {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(regionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateCloudList>): void;
-  list(regionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloudList>, callback?: msRest.ServiceCallback<Models.PrivateCloudList>): Promise<Models.PrivateCloudsListResponse> {
+  list(
+    regionId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): void;
+  list(
+    regionId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloudList>,
+    callback?: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): Promise<Models.PrivateCloudsListResponse> {
     return this.client.sendOperationRequest(
       {
         regionId,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateCloudsListResponse>;
+      callback
+    ) as Promise<Models.PrivateCloudsListResponse>;
   }
 
   /**
@@ -63,21 +75,39 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsGetResponse>
    */
-  get(pcName: string, regionId: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsGetResponse>;
+  get(
+    pcName: string,
+    regionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateCloudsGetResponse>;
   /**
    * @param pcName The private cloud name
    * @param regionId The region Id (westus, eastus)
    * @param callback The callback
    */
-  get(pcName: string, regionId: string, callback: msRest.ServiceCallback<Models.PrivateCloud>): void;
+  get(
+    pcName: string,
+    regionId: string,
+    callback: msRest.ServiceCallback<Models.PrivateCloud>
+  ): void;
   /**
    * @param pcName The private cloud name
    * @param regionId The region Id (westus, eastus)
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(pcName: string, regionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateCloud>): void;
-  get(pcName: string, regionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloud>, callback?: msRest.ServiceCallback<Models.PrivateCloud>): Promise<Models.PrivateCloudsGetResponse> {
+  get(
+    pcName: string,
+    regionId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateCloud>
+  ): void;
+  get(
+    pcName: string,
+    regionId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloud>,
+    callback?: msRest.ServiceCallback<Models.PrivateCloud>
+  ): Promise<Models.PrivateCloudsGetResponse> {
     return this.client.sendOperationRequest(
       {
         pcName,
@@ -85,7 +115,8 @@ export class PrivateClouds {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateCloudsGetResponse>;
+      callback
+    ) as Promise<Models.PrivateCloudsGetResponse>;
   }
 
   /**
@@ -95,7 +126,10 @@ export class PrivateClouds {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateCloudsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateCloudsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateCloudsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -106,15 +140,24 @@ export class PrivateClouds {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateCloudList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloudList>, callback?: msRest.ServiceCallback<Models.PrivateCloudList>): Promise<Models.PrivateCloudsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateCloudList>,
+    callback?: msRest.ServiceCallback<Models.PrivateCloudList>
+  ): Promise<Models.PrivateCloudsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PrivateCloudsListNextResponse>;
+      callback
+    ) as Promise<Models.PrivateCloudsListNextResponse>;
   }
 }
 
@@ -122,17 +165,11 @@ export class PrivateClouds {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.regionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds",
+  urlParameters: [Parameters.subscriptionId, Parameters.regionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateCloudList
@@ -146,18 +183,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.pcName,
-    Parameters.regionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.pcName, Parameters.regionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateCloud
@@ -173,12 +203,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateCloudList

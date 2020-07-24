@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { EventHubManagementClientContext } from "./eventHubManagementClientContext";
 
-
 class EventHubManagementClient extends EventHubManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -31,7 +30,11 @@ class EventHubManagementClient extends EventHubManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.EventHubManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.EventHubManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.namespaces = new operations.Namespaces(this);

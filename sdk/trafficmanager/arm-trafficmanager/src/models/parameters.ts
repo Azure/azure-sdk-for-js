@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -31,10 +31,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
   }
 };
 export const botRight: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "botRight"
-  ],
+  parameterPath: ["options", "botRight"],
   mapper: {
     serializedName: "botRight",
     constraints: {
@@ -78,7 +75,7 @@ export const heatMapType: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "heatMapType",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
@@ -115,10 +112,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const topLeft: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "topLeft"
-  ],
+  parameterPath: ["options", "topLeft"],
   mapper: {
     serializedName: "topLeft",
     constraints: {

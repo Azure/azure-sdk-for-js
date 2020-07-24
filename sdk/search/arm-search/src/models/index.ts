@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing CheckNameAvailabilityInput.
@@ -545,7 +544,6 @@ export interface SearchManagementClientOptions extends AzureServiceClientOptions
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the OperationListResult.
@@ -571,8 +569,7 @@ export interface OperationListResult extends Array<Operation> {
  *
  * @extends Array<QueryKey>
  */
-export interface ListQueryKeysResult extends Array<QueryKey> {
-}
+export interface ListQueryKeysResult extends Array<QueryKey> {}
 
 /**
  * @interface
@@ -581,8 +578,7 @@ export interface ListQueryKeysResult extends Array<QueryKey> {
  *
  * @extends Array<SearchService>
  */
-export interface SearchServiceListResult extends Array<SearchService> {
-}
+export interface SearchServiceListResult extends Array<SearchService> {}
 
 /**
  * Defines values for UnavailableNameReason.
@@ -590,7 +586,7 @@ export interface SearchServiceListResult extends Array<SearchService> {
  * @readonly
  * @enum {string}
  */
-export type UnavailableNameReason = 'Invalid' | 'AlreadyExists';
+export type UnavailableNameReason = "Invalid" | "AlreadyExists";
 
 /**
  * Defines values for SkuName.
@@ -598,7 +594,7 @@ export type UnavailableNameReason = 'Invalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'free' | 'basic' | 'standard' | 'standard2' | 'standard3';
+export type SkuName = "free" | "basic" | "standard" | "standard2" | "standard3";
 
 /**
  * Defines values for HostingMode.
@@ -606,7 +602,7 @@ export type SkuName = 'free' | 'basic' | 'standard' | 'standard2' | 'standard3';
  * @readonly
  * @enum {string}
  */
-export type HostingMode = 'default' | 'highDensity';
+export type HostingMode = "default" | "highDensity";
 
 /**
  * Defines values for SearchServiceStatus.
@@ -614,7 +610,13 @@ export type HostingMode = 'default' | 'highDensity';
  * @readonly
  * @enum {string}
  */
-export type SearchServiceStatus = 'running' | 'provisioning' | 'deleting' | 'degraded' | 'disabled' | 'error';
+export type SearchServiceStatus =
+  | "running"
+  | "provisioning"
+  | "deleting"
+  | "degraded"
+  | "disabled"
+  | "error";
 
 /**
  * Defines values for ProvisioningState.
@@ -622,7 +624,7 @@ export type SearchServiceStatus = 'running' | 'provisioning' | 'deleting' | 'deg
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'succeeded' | 'provisioning' | 'failed';
+export type ProvisioningState = "succeeded" | "provisioning" | "failed";
 
 /**
  * Defines values for AdminKeyKind.
@@ -630,7 +632,7 @@ export type ProvisioningState = 'succeeded' | 'provisioning' | 'failed';
  * @readonly
  * @enum {string}
  */
-export type AdminKeyKind = 'primary' | 'secondary';
+export type AdminKeyKind = "primary" | "secondary";
 
 /**
  * Contains response data for the list operation.
@@ -640,15 +642,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -659,15 +661,15 @@ export type AdminKeysGetResponse = AdminKeyResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AdminKeyResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AdminKeyResult;
+  };
 };
 
 /**
@@ -678,15 +680,15 @@ export type AdminKeysRegenerateResponse = AdminKeyResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AdminKeyResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AdminKeyResult;
+  };
 };
 
 /**
@@ -697,15 +699,15 @@ export type QueryKeysCreateResponse = QueryKey & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QueryKey;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QueryKey;
+  };
 };
 
 /**
@@ -716,15 +718,15 @@ export type QueryKeysListBySearchServiceResponse = ListQueryKeysResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListQueryKeysResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListQueryKeysResult;
+  };
 };
 
 /**
@@ -735,15 +737,15 @@ export type ServicesCreateOrUpdateResponse = SearchService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SearchService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchService;
+  };
 };
 
 /**
@@ -754,15 +756,15 @@ export type ServicesUpdateResponse = SearchService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SearchService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchService;
+  };
 };
 
 /**
@@ -773,15 +775,15 @@ export type ServicesGetResponse = SearchService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SearchService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchService;
+  };
 };
 
 /**
@@ -792,15 +794,15 @@ export type ServicesListByResourceGroupResponse = SearchServiceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SearchServiceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchServiceListResult;
+  };
 };
 
 /**
@@ -811,15 +813,15 @@ export type ServicesCheckNameAvailabilityResponse = CheckNameAvailabilityOutput 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityOutput;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityOutput;
+  };
 };
 
 /**
@@ -830,13 +832,13 @@ export type ServicesBeginCreateOrUpdateResponse = SearchService & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SearchService;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SearchService;
+  };
 };

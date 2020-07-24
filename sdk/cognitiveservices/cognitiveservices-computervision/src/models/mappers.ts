@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const FaceRectangle: msRest.CompositeMapper = {
   serializedName: "FaceRectangle",
   type: {
@@ -403,10 +402,7 @@ export const FaceDescription: msRest.CompositeMapper = {
         serializedName: "gender",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Male",
-            "Female"
-          ]
+          allowedValues: ["Male", "Female"]
         }
       },
       faceRectangle: {
@@ -1328,10 +1324,7 @@ export const ReadResult: msRest.CompositeMapper = {
         serializedName: "unit",
         type: {
           name: "Enum",
-          allowedValues: [
-            "pixel",
-            "inch"
-          ]
+          allowedValues: ["pixel", "inch"]
         }
       },
       lines: {
@@ -1392,12 +1385,7 @@ export const ReadOperationResult: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "notStarted",
-            "running",
-            "failed",
-            "succeeded"
-          ]
+          allowedValues: ["notStarted", "running", "failed", "succeeded"]
         }
       },
       createdDateTime: {

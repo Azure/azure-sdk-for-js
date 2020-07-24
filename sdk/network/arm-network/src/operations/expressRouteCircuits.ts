@@ -34,9 +34,14 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,circuitName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    circuitName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, circuitName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -46,21 +51,39 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitsGetResponse>
    */
-  get(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsGetResponse>;
+  get(
+    resourceGroupName: string,
+    circuitName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of express route circuit.
    * @param callback The callback
    */
-  get(resourceGroupName: string, circuitName: string, callback: msRest.ServiceCallback<Models.ExpressRouteCircuit>): void;
+  get(
+    resourceGroupName: string,
+    circuitName: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuit>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of express route circuit.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, circuitName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuit>): void;
-  get(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuit>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuit>): Promise<Models.ExpressRouteCircuitsGetResponse> {
+  get(
+    resourceGroupName: string,
+    circuitName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuit>
+  ): void;
+  get(
+    resourceGroupName: string,
+    circuitName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuit>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteCircuit>
+  ): Promise<Models.ExpressRouteCircuitsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -68,7 +91,8 @@ export class ExpressRouteCircuits {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ExpressRouteCircuitsGetResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCircuitsGetResponse>;
   }
 
   /**
@@ -79,9 +103,20 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, circuitName: string, parameters: Models.ExpressRouteCircuit, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,circuitName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCircuitsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    circuitName: string,
+    parameters: Models.ExpressRouteCircuit,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      circuitName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ExpressRouteCircuitsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -92,14 +127,24 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, circuitName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsUpdateTagsResponse>;
+  updateTags(
+    resourceGroupName: string,
+    circuitName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitsUpdateTagsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the circuit.
    * @param parameters Parameters supplied to update express route circuit tags.
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, circuitName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.ExpressRouteCircuit>): void;
+  updateTags(
+    resourceGroupName: string,
+    circuitName: string,
+    parameters: Models.TagsObject,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuit>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the circuit.
@@ -107,8 +152,20 @@ export class ExpressRouteCircuits {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateTags(resourceGroupName: string, circuitName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuit>): void;
-  updateTags(resourceGroupName: string, circuitName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuit>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuit>): Promise<Models.ExpressRouteCircuitsUpdateTagsResponse> {
+  updateTags(
+    resourceGroupName: string,
+    circuitName: string,
+    parameters: Models.TagsObject,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuit>
+  ): void;
+  updateTags(
+    resourceGroupName: string,
+    circuitName: string,
+    parameters: Models.TagsObject,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuit>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteCircuit>
+  ): Promise<Models.ExpressRouteCircuitsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -117,7 +174,8 @@ export class ExpressRouteCircuits {
         options
       },
       updateTagsOperationSpec,
-      callback) as Promise<Models.ExpressRouteCircuitsUpdateTagsResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCircuitsUpdateTagsResponse>;
   }
 
   /**
@@ -130,9 +188,22 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitsListArpTableResponse>
    */
-  listArpTable(resourceGroupName: string, circuitName: string, peeringName: string, devicePath: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsListArpTableResponse> {
-    return this.beginListArpTable(resourceGroupName,circuitName,peeringName,devicePath,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCircuitsListArpTableResponse>;
+  listArpTable(
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    devicePath: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitsListArpTableResponse> {
+    return this.beginListArpTable(
+      resourceGroupName,
+      circuitName,
+      peeringName,
+      devicePath,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ExpressRouteCircuitsListArpTableResponse
+    >;
   }
 
   /**
@@ -145,9 +216,22 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitsListRoutesTableResponse>
    */
-  listRoutesTable(resourceGroupName: string, circuitName: string, peeringName: string, devicePath: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsListRoutesTableResponse> {
-    return this.beginListRoutesTable(resourceGroupName,circuitName,peeringName,devicePath,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCircuitsListRoutesTableResponse>;
+  listRoutesTable(
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    devicePath: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitsListRoutesTableResponse> {
+    return this.beginListRoutesTable(
+      resourceGroupName,
+      circuitName,
+      peeringName,
+      devicePath,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ExpressRouteCircuitsListRoutesTableResponse
+    >;
   }
 
   /**
@@ -160,9 +244,22 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitsListRoutesTableSummaryResponse>
    */
-  listRoutesTableSummary(resourceGroupName: string, circuitName: string, peeringName: string, devicePath: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsListRoutesTableSummaryResponse> {
-    return this.beginListRoutesTableSummary(resourceGroupName,circuitName,peeringName,devicePath,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCircuitsListRoutesTableSummaryResponse>;
+  listRoutesTableSummary(
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    devicePath: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitsListRoutesTableSummaryResponse> {
+    return this.beginListRoutesTableSummary(
+      resourceGroupName,
+      circuitName,
+      peeringName,
+      devicePath,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ExpressRouteCircuitsListRoutesTableSummaryResponse
+    >;
   }
 
   /**
@@ -172,21 +269,39 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitsGetStatsResponse>
    */
-  getStats(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsGetStatsResponse>;
+  getStats(
+    resourceGroupName: string,
+    circuitName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitsGetStatsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the express route circuit.
    * @param callback The callback
    */
-  getStats(resourceGroupName: string, circuitName: string, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>): void;
+  getStats(
+    resourceGroupName: string,
+    circuitName: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the express route circuit.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStats(resourceGroupName: string, circuitName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>): void;
-  getStats(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitStats>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>): Promise<Models.ExpressRouteCircuitsGetStatsResponse> {
+  getStats(
+    resourceGroupName: string,
+    circuitName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>
+  ): void;
+  getStats(
+    resourceGroupName: string,
+    circuitName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitStats>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>
+  ): Promise<Models.ExpressRouteCircuitsGetStatsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -194,7 +309,8 @@ export class ExpressRouteCircuits {
         options
       },
       getStatsOperationSpec,
-      callback) as Promise<Models.ExpressRouteCircuitsGetStatsResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCircuitsGetStatsResponse>;
   }
 
   /**
@@ -205,14 +321,24 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitsGetPeeringStatsResponse>
    */
-  getPeeringStats(resourceGroupName: string, circuitName: string, peeringName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsGetPeeringStatsResponse>;
+  getPeeringStats(
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitsGetPeeringStatsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the express route circuit.
    * @param peeringName The name of the peering.
    * @param callback The callback
    */
-  getPeeringStats(resourceGroupName: string, circuitName: string, peeringName: string, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>): void;
+  getPeeringStats(
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the express route circuit.
@@ -220,8 +346,20 @@ export class ExpressRouteCircuits {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPeeringStats(resourceGroupName: string, circuitName: string, peeringName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>): void;
-  getPeeringStats(resourceGroupName: string, circuitName: string, peeringName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitStats>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>): Promise<Models.ExpressRouteCircuitsGetPeeringStatsResponse> {
+  getPeeringStats(
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>
+  ): void;
+  getPeeringStats(
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitStats>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitStats>
+  ): Promise<Models.ExpressRouteCircuitsGetPeeringStatsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -230,7 +368,8 @@ export class ExpressRouteCircuits {
         options
       },
       getPeeringStatsOperationSpec,
-      callback) as Promise<Models.ExpressRouteCircuitsGetPeeringStatsResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCircuitsGetPeeringStatsResponse>;
   }
 
   /**
@@ -239,26 +378,43 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitsListResponse>
    */
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsListResponse>;
+  list(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): void;
+  list(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): void;
-  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): Promise<Models.ExpressRouteCircuitsListResponse> {
+  list(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>
+  ): Promise<Models.ExpressRouteCircuitsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ExpressRouteCircuitsListResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCircuitsListResponse>;
   }
 
   /**
@@ -275,14 +431,23 @@ export class ExpressRouteCircuits {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): Promise<Models.ExpressRouteCircuitsListAllResponse> {
+  listAll(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>
+  ): void;
+  listAll(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>
+  ): Promise<Models.ExpressRouteCircuitsListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAllOperationSpec,
-      callback) as Promise<Models.ExpressRouteCircuitsListAllResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCircuitsListAllResponse>;
   }
 
   /**
@@ -292,7 +457,11 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    circuitName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -300,7 +469,8 @@ export class ExpressRouteCircuits {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -311,7 +481,12 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, circuitName: string, parameters: Models.ExpressRouteCircuit, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    circuitName: string,
+    parameters: Models.ExpressRouteCircuit,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -320,7 +495,8 @@ export class ExpressRouteCircuits {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -333,7 +509,13 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginListArpTable(resourceGroupName: string, circuitName: string, peeringName: string, devicePath: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginListArpTable(
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    devicePath: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -343,7 +525,8 @@ export class ExpressRouteCircuits {
         options
       },
       beginListArpTableOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -356,7 +539,13 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginListRoutesTable(resourceGroupName: string, circuitName: string, peeringName: string, devicePath: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginListRoutesTable(
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    devicePath: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -366,7 +555,8 @@ export class ExpressRouteCircuits {
         options
       },
       beginListRoutesTableOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -379,7 +569,13 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginListRoutesTableSummary(resourceGroupName: string, circuitName: string, peeringName: string, devicePath: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginListRoutesTableSummary(
+    resourceGroupName: string,
+    circuitName: string,
+    peeringName: string,
+    devicePath: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -389,7 +585,8 @@ export class ExpressRouteCircuits {
         options
       },
       beginListRoutesTableSummaryOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -398,26 +595,43 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): Promise<Models.ExpressRouteCircuitsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>
+  ): Promise<Models.ExpressRouteCircuitsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ExpressRouteCircuitsListNextResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCircuitsListNextResponse>;
   }
 
   /**
@@ -426,26 +640,43 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitsListAllNextResponse>
    */
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsListAllNextResponse>;
+  listAllNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitsListAllNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): void;
+  listAllNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): void;
-  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>): Promise<Models.ExpressRouteCircuitsListAllNextResponse> {
+  listAllNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>
+  ): void;
+  listAllNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitListResult>
+  ): Promise<Models.ExpressRouteCircuitsListAllNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listAllNextOperationSpec,
-      callback) as Promise<Models.ExpressRouteCircuitsListAllNextResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCircuitsListAllNextResponse>;
   }
 }
 
@@ -453,18 +684,11 @@ export class ExpressRouteCircuits {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.circuitName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.circuitName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuit
@@ -478,18 +702,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateTagsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.circuitName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.circuitName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -510,18 +727,11 @@ const updateTagsOperationSpec: msRest.OperationSpec = {
 
 const getStatsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/stats",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.circuitName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/stats",
+  urlParameters: [Parameters.resourceGroupName, Parameters.circuitName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuitStats
@@ -535,19 +745,16 @@ const getStatsOperationSpec: msRest.OperationSpec = {
 
 const getPeeringStatsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/stats",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/stats",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.circuitName,
     Parameters.peeringName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuitStats
@@ -561,17 +768,11 @@ const getPeeringStatsOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuitListResult
@@ -586,15 +787,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const listAllOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCircuits",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuitListResult
@@ -608,18 +803,11 @@ const listAllOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.circuitName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.circuitName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -633,18 +821,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.circuitName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.circuitName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -668,7 +849,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginListArpTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/arpTables/{devicePath}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.circuitName,
@@ -676,12 +858,8 @@ const beginListArpTableOperationSpec: msRest.OperationSpec = {
     Parameters.devicePath,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuitsArpTableListResult
@@ -696,7 +874,8 @@ const beginListArpTableOperationSpec: msRest.OperationSpec = {
 
 const beginListRoutesTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTables/{devicePath}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.circuitName,
@@ -704,12 +883,8 @@ const beginListRoutesTableOperationSpec: msRest.OperationSpec = {
     Parameters.devicePath,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuitsRoutesTableListResult
@@ -724,7 +899,8 @@ const beginListRoutesTableOperationSpec: msRest.OperationSpec = {
 
 const beginListRoutesTableSummaryOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/routeTablesSummary/{devicePath}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.circuitName,
@@ -732,12 +908,8 @@ const beginListRoutesTableSummaryOperationSpec: msRest.OperationSpec = {
     Parameters.devicePath,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuitsRoutesTableSummaryListResult
@@ -754,12 +926,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuitListResult
@@ -775,12 +943,8 @@ const listAllNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuitListResult

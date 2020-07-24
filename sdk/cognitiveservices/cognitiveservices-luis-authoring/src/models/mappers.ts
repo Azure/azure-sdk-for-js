@@ -9,7 +9,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const EntityLabelObject: msRest.CompositeMapper = {
   serializedName: "EntityLabelObject",
   type: {
@@ -901,11 +900,7 @@ export const VersionInfo: msRest.CompositeMapper = {
         serializedName: "trainingStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NeedsTraining",
-            "InProgress",
-            "Trained"
-          ]
+          allowedValues: ["NeedsTraining", "InProgress", "Trained"]
         }
       }
     }

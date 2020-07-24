@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const SpellingTokenSuggestion: msRest.CompositeMapper = {
   serializedName: "Spelling/TokenSuggestion",
   type: {
@@ -63,7 +62,7 @@ export const SpellingFlaggedToken: msRest.CompositeMapper = {
       type: {
         required: true,
         serializedName: "type",
-        defaultValue: 'UnknownToken',
+        defaultValue: "UnknownToken",
         type: {
           name: "String"
         }
@@ -195,7 +194,7 @@ export const ErrorModel: msRest.CompositeMapper = {
       code: {
         required: true,
         serializedName: "code",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -266,11 +265,10 @@ export const ErrorResponse: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'ResponseBase.SpellCheck' : SpellCheck,
-  'ResponseBase.Answer' : Answer,
-  'ResponseBase.Response' : Response,
-  'ResponseBase.Identifiable' : Identifiable,
-  'ResponseBase.ErrorResponse' : ErrorResponse,
-  'ResponseBase' : ResponseBase
-
+  "ResponseBase.SpellCheck": SpellCheck,
+  "ResponseBase.Answer": Answer,
+  "ResponseBase.Response": Response,
+  "ResponseBase.Identifiable": Identifiable,
+  "ResponseBase.ErrorResponse": ErrorResponse,
+  ResponseBase: ResponseBase
 };

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { DevTestLabsClientContext } from "./devTestLabsClientContext";
 
-
 class DevTestLabsClient extends DevTestLabsClientContext {
   // Operation groups
   providerOperations: operations.ProviderOperations;
@@ -49,7 +48,11 @@ class DevTestLabsClient extends DevTestLabsClientContext {
    * @param subscriptionId The subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DevTestLabsClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.DevTestLabsClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.providerOperations = new operations.ProviderOperations(this);
     this.labs = new operations.Labs(this);

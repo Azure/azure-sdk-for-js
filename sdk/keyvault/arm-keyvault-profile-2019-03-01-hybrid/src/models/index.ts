@@ -484,8 +484,7 @@ export interface Attributes {
 /**
  * The secret management attributes.
  */
-export interface SecretAttributes extends Attributes {
-}
+export interface SecretAttributes extends Attributes {}
 
 /**
  * Properties of the secret
@@ -687,7 +686,7 @@ export interface SecretListResult extends Array<Secret> {
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'standard' | 'premium';
+export type SkuName = "standard" | "premium";
 
 /**
  * Defines values for KeyPermissions.
@@ -696,7 +695,23 @@ export type SkuName = 'standard' | 'premium';
  * @readonly
  * @enum {string}
  */
-export type KeyPermissions = 'encrypt' | 'decrypt' | 'wrapKey' | 'unwrapKey' | 'sign' | 'verify' | 'get' | 'list' | 'create' | 'update' | 'import' | 'delete' | 'backup' | 'restore' | 'recover' | 'purge';
+export type KeyPermissions =
+  | "encrypt"
+  | "decrypt"
+  | "wrapKey"
+  | "unwrapKey"
+  | "sign"
+  | "verify"
+  | "get"
+  | "list"
+  | "create"
+  | "update"
+  | "import"
+  | "delete"
+  | "backup"
+  | "restore"
+  | "recover"
+  | "purge";
 
 /**
  * Defines values for SecretPermissions.
@@ -704,7 +719,15 @@ export type KeyPermissions = 'encrypt' | 'decrypt' | 'wrapKey' | 'unwrapKey' | '
  * @readonly
  * @enum {string}
  */
-export type SecretPermissions = 'get' | 'list' | 'set' | 'delete' | 'backup' | 'restore' | 'recover' | 'purge';
+export type SecretPermissions =
+  | "get"
+  | "list"
+  | "set"
+  | "delete"
+  | "backup"
+  | "restore"
+  | "recover"
+  | "purge";
 
 /**
  * Defines values for CertificatePermissions.
@@ -714,7 +737,21 @@ export type SecretPermissions = 'get' | 'list' | 'set' | 'delete' | 'backup' | '
  * @readonly
  * @enum {string}
  */
-export type CertificatePermissions = 'get' | 'list' | 'delete' | 'create' | 'import' | 'update' | 'managecontacts' | 'getissuers' | 'listissuers' | 'setissuers' | 'deleteissuers' | 'manageissuers' | 'recover' | 'purge';
+export type CertificatePermissions =
+  | "get"
+  | "list"
+  | "delete"
+  | "create"
+  | "import"
+  | "update"
+  | "managecontacts"
+  | "getissuers"
+  | "listissuers"
+  | "setissuers"
+  | "deleteissuers"
+  | "manageissuers"
+  | "recover"
+  | "purge";
 
 /**
  * Defines values for StoragePermissions.
@@ -723,7 +760,21 @@ export type CertificatePermissions = 'get' | 'list' | 'delete' | 'create' | 'imp
  * @readonly
  * @enum {string}
  */
-export type StoragePermissions = 'get' | 'list' | 'delete' | 'set' | 'update' | 'regeneratekey' | 'recover' | 'purge' | 'backup' | 'restore' | 'setsas' | 'listsas' | 'getsas' | 'deletesas';
+export type StoragePermissions =
+  | "get"
+  | "list"
+  | "delete"
+  | "set"
+  | "update"
+  | "regeneratekey"
+  | "recover"
+  | "purge"
+  | "backup"
+  | "restore"
+  | "setsas"
+  | "listsas"
+  | "getsas"
+  | "deletesas";
 
 /**
  * Defines values for CreateMode.
@@ -731,7 +782,7 @@ export type StoragePermissions = 'get' | 'list' | 'delete' | 'set' | 'update' | 
  * @readonly
  * @enum {string}
  */
-export type CreateMode = 'recover' | 'default';
+export type CreateMode = "recover" | "default";
 
 /**
  * Defines values for Reason.
@@ -739,7 +790,7 @@ export type CreateMode = 'recover' | 'default';
  * @readonly
  * @enum {string}
  */
-export type Reason = 'AccountNameInvalid' | 'AlreadyExists';
+export type Reason = "AccountNameInvalid" | "AlreadyExists";
 
 /**
  * Defines values for AccessPolicyUpdateKind.
@@ -747,7 +798,7 @@ export type Reason = 'AccountNameInvalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type AccessPolicyUpdateKind = 'add' | 'replace' | 'remove';
+export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
 
 /**
  * Contains response data for the list operation.
@@ -757,16 +808,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -777,16 +828,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -797,16 +848,16 @@ export type VaultsCreateOrUpdateResponse = Vault & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Vault;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Vault;
+  };
 };
 
 /**
@@ -817,16 +868,16 @@ export type VaultsUpdateResponse = Vault & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Vault;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Vault;
+  };
 };
 
 /**
@@ -837,16 +888,16 @@ export type VaultsGetResponse = Vault & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Vault;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Vault;
+  };
 };
 
 /**
@@ -857,16 +908,16 @@ export type VaultsUpdateAccessPolicyResponse = VaultAccessPolicyParameters & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultAccessPolicyParameters;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultAccessPolicyParameters;
+  };
 };
 
 /**
@@ -877,16 +928,16 @@ export type VaultsListByResourceGroupResponse = VaultListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultListResult;
+  };
 };
 
 /**
@@ -897,16 +948,16 @@ export type VaultsListBySubscriptionResponse = VaultListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultListResult;
+  };
 };
 
 /**
@@ -917,16 +968,16 @@ export type VaultsListDeletedResponse = DeletedVaultListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedVaultListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedVaultListResult;
+  };
 };
 
 /**
@@ -937,16 +988,16 @@ export type VaultsGetDeletedResponse = DeletedVault & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedVault;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedVault;
+  };
 };
 
 /**
@@ -957,16 +1008,16 @@ export type VaultsListResponse = ResourceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceListResult;
+  };
 };
 
 /**
@@ -977,16 +1028,16 @@ export type VaultsCheckNameAvailabilityResponse = CheckNameAvailabilityResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResult;
+  };
 };
 
 /**
@@ -997,16 +1048,16 @@ export type VaultsListByResourceGroupNextResponse = VaultListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultListResult;
+  };
 };
 
 /**
@@ -1017,16 +1068,16 @@ export type VaultsListBySubscriptionNextResponse = VaultListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VaultListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VaultListResult;
+  };
 };
 
 /**
@@ -1037,16 +1088,16 @@ export type VaultsListDeletedNextResponse = DeletedVaultListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeletedVaultListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeletedVaultListResult;
+  };
 };
 
 /**
@@ -1057,16 +1108,16 @@ export type VaultsListNextResponse = ResourceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceListResult;
+  };
 };
 
 /**
@@ -1077,16 +1128,16 @@ export type SecretsCreateOrUpdateResponse = Secret & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Secret;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Secret;
+  };
 };
 
 /**
@@ -1097,16 +1148,16 @@ export type SecretsUpdateResponse = Secret & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Secret;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Secret;
+  };
 };
 
 /**
@@ -1117,16 +1168,16 @@ export type SecretsGetResponse = Secret & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Secret;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Secret;
+  };
 };
 
 /**
@@ -1137,16 +1188,16 @@ export type SecretsListResponse = SecretListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretListResult;
+  };
 };
 
 /**
@@ -1157,14 +1208,14 @@ export type SecretsListNextResponse = SecretListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretListResult;
+  };
 };

@@ -35,9 +35,18 @@ export class Subnets {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,virtualNetworkName,subnetName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      virtualNetworkName,
+      subnetName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -48,14 +57,24 @@ export class Subnets {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubnetsGetResponse>
    */
-  get(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: Models.SubnetsGetOptionalParams): Promise<Models.SubnetsGetResponse>;
+  get(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string,
+    options?: Models.SubnetsGetOptionalParams
+  ): Promise<Models.SubnetsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param subnetName The name of the subnet.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualNetworkName: string, subnetName: string, callback: msRest.ServiceCallback<Models.Subnet>): void;
+  get(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string,
+    callback: msRest.ServiceCallback<Models.Subnet>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
@@ -63,8 +82,20 @@ export class Subnets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options: Models.SubnetsGetOptionalParams, callback: msRest.ServiceCallback<Models.Subnet>): void;
-  get(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: Models.SubnetsGetOptionalParams | msRest.ServiceCallback<Models.Subnet>, callback?: msRest.ServiceCallback<Models.Subnet>): Promise<Models.SubnetsGetResponse> {
+  get(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string,
+    options: Models.SubnetsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.Subnet>
+  ): void;
+  get(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string,
+    options?: Models.SubnetsGetOptionalParams | msRest.ServiceCallback<Models.Subnet>,
+    callback?: msRest.ServiceCallback<Models.Subnet>
+  ): Promise<Models.SubnetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,7 +104,8 @@ export class Subnets {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SubnetsGetResponse>;
+      callback
+    ) as Promise<Models.SubnetsGetResponse>;
   }
 
   /**
@@ -85,9 +117,22 @@ export class Subnets {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubnetsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualNetworkName: string, subnetName: string, subnetParameters: Models.Subnet, options?: msRest.RequestOptionsBase): Promise<Models.SubnetsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,virtualNetworkName,subnetName,subnetParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubnetsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string,
+    subnetParameters: Models.Subnet,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubnetsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      virtualNetworkName,
+      subnetName,
+      subnetParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SubnetsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -97,21 +142,39 @@ export class Subnets {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubnetsListResponse>
    */
-  list(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase): Promise<Models.SubnetsListResponse>;
+  list(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubnetsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param callback The callback
    */
-  list(resourceGroupName: string, virtualNetworkName: string, callback: msRest.ServiceCallback<Models.SubnetListResult>): void;
+  list(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    callback: msRest.ServiceCallback<Models.SubnetListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkName The name of the virtual network.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, virtualNetworkName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubnetListResult>): void;
-  list(resourceGroupName: string, virtualNetworkName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubnetListResult>, callback?: msRest.ServiceCallback<Models.SubnetListResult>): Promise<Models.SubnetsListResponse> {
+  list(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SubnetListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubnetListResult>,
+    callback?: msRest.ServiceCallback<Models.SubnetListResult>
+  ): Promise<Models.SubnetsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +182,8 @@ export class Subnets {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SubnetsListResponse>;
+      callback
+    ) as Promise<Models.SubnetsListResponse>;
   }
 
   /**
@@ -130,7 +194,12 @@ export class Subnets {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualNetworkName: string, subnetName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -139,7 +208,8 @@ export class Subnets {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -151,7 +221,13 @@ export class Subnets {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualNetworkName: string, subnetName: string, subnetParameters: Models.Subnet, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    virtualNetworkName: string,
+    subnetName: string,
+    subnetParameters: Models.Subnet,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +237,8 @@ export class Subnets {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,7 +247,10 @@ export class Subnets {
    * @param [options] The optional parameters
    * @returns Promise<Models.SubnetsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SubnetsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SubnetsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -181,15 +261,24 @@ export class Subnets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubnetListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubnetListResult>, callback?: msRest.ServiceCallback<Models.SubnetListResult>): Promise<Models.SubnetsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SubnetListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SubnetListResult>,
+    callback?: msRest.ServiceCallback<Models.SubnetListResult>
+  ): Promise<Models.SubnetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SubnetsListNextResponse>;
+      callback
+    ) as Promise<Models.SubnetsListNextResponse>;
   }
 }
 
@@ -197,20 +286,16 @@ export class Subnets {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualNetworkName,
     Parameters.subnetName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Subnet
@@ -224,18 +309,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualNetworkName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SubnetListResult
@@ -249,19 +331,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualNetworkName,
     Parameters.subnetName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -275,19 +354,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.virtualNetworkName,
     Parameters.subnetName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "subnetParameters",
     mapper: {
@@ -313,12 +389,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SubnetListResult

@@ -13,7 +13,8 @@ const logFrequency = 60000;
 export const builder: CommandBuilder = {
   d: {
     alias: "duration",
-    describe: "The value must be in seconds. Receive messages for the specified duration. Useful for benchmark testing.",
+    describe:
+      "The value must be in seconds. Receive messages for the specified duration. Useful for benchmark testing.",
     number: true
   },
   p: {
@@ -21,12 +22,13 @@ export const builder: CommandBuilder = {
     describe: "Comma seperated partition IDs.",
     default: "0",
     string: true,
-    coerce: ((arg: any) => {
+    coerce: (arg: any) => {
       if (typeof arg === "string")
-        return arg.split(",").map((x) => { return x.trim() });
-      else
-        return arg;
-    })
+        return arg.split(",").map((x) => {
+          return x.trim();
+        });
+      else return arg;
+    }
   },
   g: {
     alias: "consumer",
@@ -56,7 +58,6 @@ interface CountEntry {
   timer?: NodeJS.Timer;
 }
 
-
 export const partitionCount: { [x: string]: CountEntry } = {};
 
 export const uberStartTime = Date.now();
@@ -69,7 +70,9 @@ function validateArgs(argv: any) {
   }
 
   if (!argv.connStr && (!argv.key || !argv.keyName || !argv.address)) {
-    throw new Error(`Either provide --conn-str OR (--address "sb://{yournamespace}.servicebus.windows.net" --key-name "<shared-access-key-name>" --key "<shared-access-key-value>")`);
+    throw new Error(
+      `Either provide --conn-str OR (--address "sb://{yournamespace}.servicebus.windows.net" --key-name "<shared-access-key-name>" --key "<shared-access-key-value>")`
+    );
   }
 }
 
@@ -100,14 +103,31 @@ export async function handler(argv: any): Promise<void> {
     if (duration) {
       log(">>>>>>>>>>>> Performance benchmark mode. <<<<<<<<<<<<<<<<");
       log("Will be receiving messages only from partition: '0'.");
-      log(`Created Receiver for partition: "0" in consumer group: "${consumerGroup}" in event hub "${argv.hub}".`);
-      let datas = await client.receiveBatch("0", 500000, duration, { consumerGroup: consumerGroup, eventPosition: EventPosition.fromOffset(offset, true) });
-      log(`Received ${datas.length} messages in ${duration} seconds @ ${Math.floor(datas.length / duration)} messages/second.`);
+      log(
+        `Created Receiver for partition: "0" in consumer group: "${consumerGroup}" in event hub "${argv.hub}".`
+      );
+      let datas = await client.receiveBatch("0", 500000, duration, {
+        consumerGroup: consumerGroup,
+        eventPosition: EventPosition.fromOffset(offset, true)
+      });
+      log(
+        `Received ${datas.length} messages in ${duration} seconds @ ${Math.floor(
+          datas.length / duration
+        )} messages/second.`
+      );
     } else {
       for (let id of partitionIds) {
-        log(`Created Receiver: for partition: "${id}" in consumer group: "${consumerGroup}" in event hub "${argv.hub}".`);
+        log(
+          `Created Receiver: for partition: "${id}" in consumer group: "${consumerGroup}" in event hub "${argv.hub}".`
+        );
         const initialTS = Date.now();
-        partitionCount[id] = { prevCount: 0, currCount: 0, timer: undefined, prevTimestamp: initialTS, currTimestamp: initialTS };
+        partitionCount[id] = {
+          prevCount: 0,
+          currCount: 0,
+          timer: undefined,
+          prevTimestamp: initialTS,
+          currTimestamp: initialTS
+        };
         const messageRate = () => {
           const prevCount = partitionCount[id].prevCount;
           const currCount = partitionCount[id].currCount;
@@ -118,15 +138,22 @@ export async function handler(argv: any): Promise<void> {
             partitionCount[id].prevTimestamp = currTimestamp;
           } else {
             duration = (partitionCount[id].prevTimestamp - startTime) / 1000;
-            log("No new messages have been received since '%s'.", new Date(partitionCount[id].prevTimestamp).toISOString());
+            log(
+              "No new messages have been received since '%s'.",
+              new Date(partitionCount[id].prevTimestamp).toISOString()
+            );
           }
-          log(`Received ${currCount} messages from partition "${id}" in ${duration} seconds ` +
-            `@ ${Math.floor(currCount / duration)} messages/second.`);
+          log(
+            `Received ${currCount} messages from partition "${id}" in ${duration} seconds ` +
+              `@ ${Math.floor(currCount / duration)} messages/second.`
+          );
         };
         const onMessage = (m: EventData) => {
           const ts = Date.now();
           if (m.sequenceNumber && m.sequenceNumber !== partitionCount[id].currCount) {
-            log(`missed a message: seq: ${m.sequenceNumber}, count: ${partitionCount[id].currCount}`);
+            log(
+              `missed a message: seq: ${m.sequenceNumber}, count: ${partitionCount[id].currCount}`
+            );
           }
           partitionCount[id].currCount += 1;
           partitionCount[id].currTimestamp = ts;
@@ -145,7 +172,10 @@ export async function handler(argv: any): Promise<void> {
           }
           log("^^^^^^^^^^ An error occured with the receiver: %o", err);
         };
-        client.receive(id, onMessage, onError, { consumerGroup: consumerGroup, eventPosition: EventPosition.fromOffset(offset, true) });
+        client.receive(id, onMessage, onError, {
+          consumerGroup: consumerGroup,
+          eventPosition: EventPosition.fromOffset(offset, true)
+        });
       }
     }
     log("Started receiving messages from offset: '%s'.", offset);

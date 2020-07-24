@@ -54,9 +54,7 @@ export class Table {
    * Queries tables under the given account.
    * @param options The options parameters.
    */
-  query(
-    options?: TableQueryOptionalParams
-  ): Promise<TableQueryOperationResponse> {
+  query(options?: TableQueryOptionalParams): Promise<TableQueryOperationResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
@@ -89,10 +87,7 @@ export class Table {
    * @param table The name of the table.
    * @param options The options parameters.
    */
-  delete(
-    table: string,
-    options?: TableDeleteOptionalParams
-  ): Promise<TableDeleteResponse> {
+  delete(table: string, options?: TableDeleteOptionalParams): Promise<TableDeleteResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
@@ -290,11 +285,7 @@ const queryOperationSpec: coreHttp.OperationSpec = {
     Parameters.nextTableName
   ],
   urlParameters: [Parameters.url],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.dataServiceVersion
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId, Parameters.dataServiceVersion],
   serializer
 };
 const createOperationSpec: coreHttp.OperationSpec = {
@@ -365,11 +356,7 @@ const queryEntitiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.nextRowKey
   ],
   urlParameters: [Parameters.url, Parameters.table],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.dataServiceVersion
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId, Parameters.dataServiceVersion],
   serializer
 };
 const queryEntitiesWithPartitionAndRowKeyOperationSpec: coreHttp.OperationSpec = {
@@ -385,23 +372,9 @@ const queryEntitiesWithPartitionAndRowKeyOperationSpec: coreHttp.OperationSpec =
       headersMapper: Mappers.TableQueryEntitiesWithPartitionAndRowKeyHeaders
     }
   },
-  queryParameters: [
-    Parameters.format,
-    Parameters.select,
-    Parameters.filter,
-    Parameters.timeout
-  ],
-  urlParameters: [
-    Parameters.url,
-    Parameters.table,
-    Parameters.partitionKey,
-    Parameters.rowKey
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.dataServiceVersion
-  ],
+  queryParameters: [Parameters.format, Parameters.select, Parameters.filter, Parameters.timeout],
+  urlParameters: [Parameters.url, Parameters.table, Parameters.partitionKey, Parameters.rowKey],
+  headerParameters: [Parameters.version, Parameters.requestId, Parameters.dataServiceVersion],
   serializer
 };
 const updateEntityOperationSpec: coreHttp.OperationSpec = {
@@ -418,12 +391,7 @@ const updateEntityOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.tableEntityProperties,
   queryParameters: [Parameters.format, Parameters.timeout],
-  urlParameters: [
-    Parameters.url,
-    Parameters.table,
-    Parameters.partitionKey,
-    Parameters.rowKey
-  ],
+  urlParameters: [Parameters.url, Parameters.table, Parameters.partitionKey, Parameters.rowKey],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
@@ -448,12 +416,7 @@ const mergeEntityOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.tableEntityProperties,
   queryParameters: [Parameters.format, Parameters.timeout],
-  urlParameters: [
-    Parameters.url,
-    Parameters.table,
-    Parameters.partitionKey,
-    Parameters.rowKey
-  ],
+  urlParameters: [Parameters.url, Parameters.table, Parameters.partitionKey, Parameters.rowKey],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
@@ -477,12 +440,7 @@ const deleteEntityOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.format, Parameters.timeout],
-  urlParameters: [
-    Parameters.url,
-    Parameters.table,
-    Parameters.partitionKey,
-    Parameters.rowKey
-  ],
+  urlParameters: [Parameters.url, Parameters.table, Parameters.partitionKey, Parameters.rowKey],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
@@ -567,11 +525,7 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.tableAcl,
   queryParameters: [Parameters.timeout, Parameters.comp],
   urlParameters: [Parameters.url, Parameters.table],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.contentType2
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId, Parameters.contentType2],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",

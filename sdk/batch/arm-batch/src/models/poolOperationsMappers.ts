@@ -58,4 +58,3 @@ export {
   AutoStorageProperties,
   AutoStorageBaseProperties
 } from "../models/mappers";
-

@@ -15,7 +15,6 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { AzureReservationAPIContext } from "./azureReservationAPIContext";
 
-
 class AzureReservationAPI extends AzureReservationAPIContext {
   // Operation groups
   reservation: operations.Reservation;
@@ -27,7 +26,10 @@ class AzureReservationAPI extends AzureReservationAPIContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.AzureReservationAPIOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    options?: Models.AzureReservationAPIOptions
+  ) {
     super(credentials, options);
     this.reservation = new operations.Reservation(this);
     this.reservationOrder = new operations.ReservationOrder(this);
@@ -42,21 +44,41 @@ class AzureReservationAPI extends AzureReservationAPIContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCatalogResponse>
    */
-  getCatalog(subscriptionId: string, reservedResourceType: string, options?: Models.AzureReservationAPIGetCatalogOptionalParams): Promise<Models.GetCatalogResponse>;
+  getCatalog(
+    subscriptionId: string,
+    reservedResourceType: string,
+    options?: Models.AzureReservationAPIGetCatalogOptionalParams
+  ): Promise<Models.GetCatalogResponse>;
   /**
    * @param subscriptionId Id of the subscription
    * @param reservedResourceType The type of the resource for which the skus should be provided.
    * @param callback The callback
    */
-  getCatalog(subscriptionId: string, reservedResourceType: string, callback: msRest.ServiceCallback<Models.Catalog[]>): void;
+  getCatalog(
+    subscriptionId: string,
+    reservedResourceType: string,
+    callback: msRest.ServiceCallback<Models.Catalog[]>
+  ): void;
   /**
    * @param subscriptionId Id of the subscription
    * @param reservedResourceType The type of the resource for which the skus should be provided.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCatalog(subscriptionId: string, reservedResourceType: string, options: Models.AzureReservationAPIGetCatalogOptionalParams, callback: msRest.ServiceCallback<Models.Catalog[]>): void;
-  getCatalog(subscriptionId: string, reservedResourceType: string, options?: Models.AzureReservationAPIGetCatalogOptionalParams | msRest.ServiceCallback<Models.Catalog[]>, callback?: msRest.ServiceCallback<Models.Catalog[]>): Promise<Models.GetCatalogResponse> {
+  getCatalog(
+    subscriptionId: string,
+    reservedResourceType: string,
+    options: Models.AzureReservationAPIGetCatalogOptionalParams,
+    callback: msRest.ServiceCallback<Models.Catalog[]>
+  ): void;
+  getCatalog(
+    subscriptionId: string,
+    reservedResourceType: string,
+    options?:
+      | Models.AzureReservationAPIGetCatalogOptionalParams
+      | msRest.ServiceCallback<Models.Catalog[]>,
+    callback?: msRest.ServiceCallback<Models.Catalog[]>
+  ): Promise<Models.GetCatalogResponse> {
     return this.sendOperationRequest(
       {
         subscriptionId,
@@ -64,7 +86,8 @@ class AzureReservationAPI extends AzureReservationAPIContext {
         options
       },
       getCatalogOperationSpec,
-      callback) as Promise<Models.GetCatalogResponse>;
+      callback
+    ) as Promise<Models.GetCatalogResponse>;
   }
 
   /**
@@ -75,26 +98,41 @@ class AzureReservationAPI extends AzureReservationAPIContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetAppliedReservationListResponse>
    */
-  getAppliedReservationList(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetAppliedReservationListResponse>;
+  getAppliedReservationList(
+    subscriptionId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetAppliedReservationListResponse>;
   /**
    * @param subscriptionId Id of the subscription
    * @param callback The callback
    */
-  getAppliedReservationList(subscriptionId: string, callback: msRest.ServiceCallback<Models.AppliedReservations>): void;
+  getAppliedReservationList(
+    subscriptionId: string,
+    callback: msRest.ServiceCallback<Models.AppliedReservations>
+  ): void;
   /**
    * @param subscriptionId Id of the subscription
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAppliedReservationList(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AppliedReservations>): void;
-  getAppliedReservationList(subscriptionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppliedReservations>, callback?: msRest.ServiceCallback<Models.AppliedReservations>): Promise<Models.GetAppliedReservationListResponse> {
+  getAppliedReservationList(
+    subscriptionId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AppliedReservations>
+  ): void;
+  getAppliedReservationList(
+    subscriptionId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AppliedReservations>,
+    callback?: msRest.ServiceCallback<Models.AppliedReservations>
+  ): Promise<Models.GetAppliedReservationListResponse> {
     return this.sendOperationRequest(
       {
         subscriptionId,
         options
       },
       getAppliedReservationListOperationSpec,
-      callback) as Promise<Models.GetAppliedReservationListResponse>;
+      callback
+    ) as Promise<Models.GetAppliedReservationListResponse>;
   }
 }
 
@@ -103,17 +141,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getCatalogOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Capacity/catalogs",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.reservedResourceType,
-    Parameters.location
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion, Parameters.reservedResourceType, Parameters.location],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -139,15 +169,9 @@ const getCatalogOperationSpec: msRest.OperationSpec = {
 const getAppliedReservationListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Capacity/appliedReservations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AppliedReservations

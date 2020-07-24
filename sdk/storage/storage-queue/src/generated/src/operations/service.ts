@@ -33,26 +33,41 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceSetPropertiesResponse>
    */
-  setProperties(properties: Models.QueueServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse>;
+  setProperties(
+    properties: Models.QueueServiceProperties,
+    options?: Models.ServiceSetPropertiesOptionalParams
+  ): Promise<Models.ServiceSetPropertiesResponse>;
   /**
    * @param properties The StorageService properties.
    * @param callback The callback
    */
-  setProperties(properties: Models.QueueServiceProperties, callback: coreHttp.ServiceCallback<void>): void;
+  setProperties(
+    properties: Models.QueueServiceProperties,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param properties The StorageService properties.
    * @param options The optional parameters
    * @param callback The callback
    */
-  setProperties(properties: Models.QueueServiceProperties, options: Models.ServiceSetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setProperties(properties: Models.QueueServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.ServiceSetPropertiesResponse> {
+  setProperties(
+    properties: Models.QueueServiceProperties,
+    options: Models.ServiceSetPropertiesOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setProperties(
+    properties: Models.QueueServiceProperties,
+    options?: Models.ServiceSetPropertiesOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.ServiceSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         properties,
         options
       },
       setPropertiesOperationSpec,
-      callback) as Promise<Models.ServiceSetPropertiesResponse>;
+      callback
+    ) as Promise<Models.ServiceSetPropertiesResponse>;
   }
 
   /**
@@ -61,7 +76,9 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceGetPropertiesResponse>
    */
-  getProperties(options?: Models.ServiceGetPropertiesOptionalParams): Promise<Models.ServiceGetPropertiesResponse>;
+  getProperties(
+    options?: Models.ServiceGetPropertiesOptionalParams
+  ): Promise<Models.ServiceGetPropertiesResponse>;
   /**
    * @param callback The callback
    */
@@ -70,14 +87,23 @@ export class Service {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.ServiceGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<Models.QueueServiceProperties>): void;
-  getProperties(options?: Models.ServiceGetPropertiesOptionalParams | coreHttp.ServiceCallback<Models.QueueServiceProperties>, callback?: coreHttp.ServiceCallback<Models.QueueServiceProperties>): Promise<Models.ServiceGetPropertiesResponse> {
+  getProperties(
+    options: Models.ServiceGetPropertiesOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.QueueServiceProperties>
+  ): void;
+  getProperties(
+    options?:
+      | Models.ServiceGetPropertiesOptionalParams
+      | coreHttp.ServiceCallback<Models.QueueServiceProperties>,
+    callback?: coreHttp.ServiceCallback<Models.QueueServiceProperties>
+  ): Promise<Models.ServiceGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getPropertiesOperationSpec,
-      callback) as Promise<Models.ServiceGetPropertiesResponse>;
+      callback
+    ) as Promise<Models.ServiceGetPropertiesResponse>;
   }
 
   /**
@@ -87,7 +113,9 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceGetStatisticsResponse>
    */
-  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams): Promise<Models.ServiceGetStatisticsResponse>;
+  getStatistics(
+    options?: Models.ServiceGetStatisticsOptionalParams
+  ): Promise<Models.ServiceGetStatisticsResponse>;
   /**
    * @param callback The callback
    */
@@ -96,14 +124,23 @@ export class Service {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatistics(options: Models.ServiceGetStatisticsOptionalParams, callback: coreHttp.ServiceCallback<Models.QueueServiceStatistics>): void;
-  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams | coreHttp.ServiceCallback<Models.QueueServiceStatistics>, callback?: coreHttp.ServiceCallback<Models.QueueServiceStatistics>): Promise<Models.ServiceGetStatisticsResponse> {
+  getStatistics(
+    options: Models.ServiceGetStatisticsOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.QueueServiceStatistics>
+  ): void;
+  getStatistics(
+    options?:
+      | Models.ServiceGetStatisticsOptionalParams
+      | coreHttp.ServiceCallback<Models.QueueServiceStatistics>,
+    callback?: coreHttp.ServiceCallback<Models.QueueServiceStatistics>
+  ): Promise<Models.ServiceGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getStatisticsOperationSpec,
-      callback) as Promise<Models.ServiceGetStatisticsResponse>;
+      callback
+    ) as Promise<Models.ServiceGetStatisticsResponse>;
   }
 
   /**
@@ -111,7 +148,9 @@ export class Service {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceListQueuesSegmentResponse>
    */
-  listQueuesSegment(options?: Models.ServiceListQueuesSegmentOptionalParams): Promise<Models.ServiceListQueuesSegmentResponse>;
+  listQueuesSegment(
+    options?: Models.ServiceListQueuesSegmentOptionalParams
+  ): Promise<Models.ServiceListQueuesSegmentResponse>;
   /**
    * @param callback The callback
    */
@@ -120,14 +159,23 @@ export class Service {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueuesSegment(options: Models.ServiceListQueuesSegmentOptionalParams, callback: coreHttp.ServiceCallback<Models.ListQueuesSegmentResponse>): void;
-  listQueuesSegment(options?: Models.ServiceListQueuesSegmentOptionalParams | coreHttp.ServiceCallback<Models.ListQueuesSegmentResponse>, callback?: coreHttp.ServiceCallback<Models.ListQueuesSegmentResponse>): Promise<Models.ServiceListQueuesSegmentResponse> {
+  listQueuesSegment(
+    options: Models.ServiceListQueuesSegmentOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ListQueuesSegmentResponse>
+  ): void;
+  listQueuesSegment(
+    options?:
+      | Models.ServiceListQueuesSegmentOptionalParams
+      | coreHttp.ServiceCallback<Models.ListQueuesSegmentResponse>,
+    callback?: coreHttp.ServiceCallback<Models.ListQueuesSegmentResponse>
+  ): Promise<Models.ServiceListQueuesSegmentResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listQueuesSegmentOperationSpec,
-      callback) as Promise<Models.ServiceListQueuesSegmentResponse>;
+      callback
+    ) as Promise<Models.ServiceListQueuesSegmentResponse>;
   }
 }
 
@@ -135,18 +183,9 @@ export class Service {
 const serializer = new coreHttp.Serializer(Mappers, true);
 const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype,
-    Parameters.comp0
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype, Parameters.comp0],
+  headerParameters: [Parameters.version, Parameters.requestId],
   requestBody: {
     parameterPath: "properties",
     mapper: {
@@ -170,18 +209,9 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
 
 const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype,
-    Parameters.comp0
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype, Parameters.comp0],
+  headerParameters: [Parameters.version, Parameters.requestId],
   responses: {
     200: {
       bodyMapper: Mappers.QueueServiceProperties,
@@ -198,18 +228,9 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
 
 const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.restype,
-    Parameters.comp1
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.restype, Parameters.comp1],
+  headerParameters: [Parameters.version, Parameters.requestId],
   responses: {
     200: {
       bodyMapper: Mappers.QueueServiceStatistics,
@@ -226,9 +247,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
 
 const listQueuesSegmentOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.prefix,
     Parameters.marker,
@@ -237,10 +256,7 @@ const listQueuesSegmentOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.comp2
   ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId],
   responses: {
     200: {
       bodyMapper: Mappers.ListQueuesSegmentResponse,

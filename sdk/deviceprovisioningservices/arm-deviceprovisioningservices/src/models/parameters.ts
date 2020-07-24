@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -35,17 +35,14 @@ export const asyncinfo: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "asyncinfo",
-    defaultValue: 'true',
+    defaultValue: "true",
     type: {
       name: "String"
     }
   }
 };
 export const certificatecreated: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "certificatecreated"
-  ],
+  parameterPath: ["options", "certificatecreated"],
   mapper: {
     serializedName: "certificate.created",
     type: {
@@ -54,10 +51,7 @@ export const certificatecreated: msRest.OperationQueryParameter = {
   }
 };
 export const certificatehasPrivateKey: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "certificatehasPrivateKey"
-  ],
+  parameterPath: ["options", "certificatehasPrivateKey"],
   mapper: {
     serializedName: "certificate.hasPrivateKey",
     type: {
@@ -66,10 +60,7 @@ export const certificatehasPrivateKey: msRest.OperationQueryParameter = {
   }
 };
 export const certificateisVerified: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "certificateisVerified"
-  ],
+  parameterPath: ["options", "certificateisVerified"],
   mapper: {
     serializedName: "certificate.isVerified",
     type: {
@@ -78,10 +69,7 @@ export const certificateisVerified: msRest.OperationQueryParameter = {
   }
 };
 export const certificatelastUpdated: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "certificatelastUpdated"
-  ],
+  parameterPath: ["options", "certificatelastUpdated"],
   mapper: {
     serializedName: "certificate.lastUpdated",
     type: {
@@ -90,10 +78,7 @@ export const certificatelastUpdated: msRest.OperationQueryParameter = {
   }
 };
 export const certificatename: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "certificatename"
-  ],
+  parameterPath: ["options", "certificatename"],
   mapper: {
     serializedName: "certificate.name",
     type: {
@@ -125,10 +110,7 @@ export const certificateName1: msRest.OperationURLParameter = {
   }
 };
 export const certificatenonce: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "certificatenonce"
-  ],
+  parameterPath: ["options", "certificatenonce"],
   mapper: {
     serializedName: "certificate.nonce",
     type: {
@@ -137,10 +119,7 @@ export const certificatenonce: msRest.OperationQueryParameter = {
   }
 };
 export const certificatepurpose: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "certificatepurpose"
-  ],
+  parameterPath: ["options", "certificatepurpose"],
   mapper: {
     serializedName: "certificate.purpose",
     type: {
@@ -149,10 +128,7 @@ export const certificatepurpose: msRest.OperationQueryParameter = {
   }
 };
 export const certificaterawBytes: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "certificaterawBytes"
-  ],
+  parameterPath: ["options", "certificaterawBytes"],
   mapper: {
     serializedName: "certificate.rawBytes",
     type: {
@@ -161,10 +137,7 @@ export const certificaterawBytes: msRest.OperationQueryParameter = {
   }
 };
 export const ifMatch0: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifMatch"
-  ],
+  parameterPath: ["options", "ifMatch"],
   mapper: {
     serializedName: "If-Match",
     type: {

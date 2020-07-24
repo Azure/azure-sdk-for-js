@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing Resource.
@@ -472,7 +471,6 @@ export interface RelayManagementClientOptions extends AzureServiceClientOptions 
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the OperationListResult.
@@ -557,7 +555,7 @@ export interface WcfRelaysListResult extends Array<WcfRelay> {
  * @readonly
  * @enum {string}
  */
-export type Relaytype = 'NetTcp' | 'Http';
+export type Relaytype = "NetTcp" | "Http";
 
 /**
  * Defines values for SkuTier.
@@ -565,7 +563,7 @@ export type Relaytype = 'NetTcp' | 'Http';
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Standard';
+export type SkuTier = "Standard";
 
 /**
  * Defines values for ProvisioningStateEnum.
@@ -573,7 +571,13 @@ export type SkuTier = 'Standard';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningStateEnum = 'Created' | 'Succeeded' | 'Deleted' | 'Failed' | 'Updating' | 'Unknown';
+export type ProvisioningStateEnum =
+  | "Created"
+  | "Succeeded"
+  | "Deleted"
+  | "Failed"
+  | "Updating"
+  | "Unknown";
 
 /**
  * Defines values for AccessRights.
@@ -581,7 +585,7 @@ export type ProvisioningStateEnum = 'Created' | 'Succeeded' | 'Deleted' | 'Faile
  * @readonly
  * @enum {string}
  */
-export type AccessRights = 'Manage' | 'Send' | 'Listen';
+export type AccessRights = "Manage" | "Send" | "Listen";
 
 /**
  * Defines values for KeyType.
@@ -589,7 +593,7 @@ export type AccessRights = 'Manage' | 'Send' | 'Listen';
  * @readonly
  * @enum {string}
  */
-export type KeyType = 'PrimaryKey' | 'SecondaryKey';
+export type KeyType = "PrimaryKey" | "SecondaryKey";
 
 /**
  * Defines values for UnavailableReason.
@@ -598,7 +602,13 @@ export type KeyType = 'PrimaryKey' | 'SecondaryKey';
  * @readonly
  * @enum {string}
  */
-export type UnavailableReason = 'None' | 'InvalidName' | 'SubscriptionIsDisabled' | 'NameInUse' | 'NameInLockdown' | 'TooManyNamespaceInCurrentSubscription';
+export type UnavailableReason =
+  | "None"
+  | "InvalidName"
+  | "SubscriptionIsDisabled"
+  | "NameInUse"
+  | "NameInLockdown"
+  | "TooManyNamespaceInCurrentSubscription";
 
 /**
  * Contains response data for the list operation.
@@ -608,15 +618,15 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -627,15 +637,15 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -646,15 +656,15 @@ export type NamespacesCheckNameAvailabilityMethodResponse = CheckNameAvailabilit
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResult;
+  };
 };
 
 /**
@@ -665,15 +675,15 @@ export type NamespacesListResponse = RelayNamespaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RelayNamespaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RelayNamespaceListResult;
+  };
 };
 
 /**
@@ -684,15 +694,15 @@ export type NamespacesListByResourceGroupResponse = RelayNamespaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RelayNamespaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RelayNamespaceListResult;
+  };
 };
 
 /**
@@ -703,15 +713,15 @@ export type NamespacesCreateOrUpdateResponse = RelayNamespace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RelayNamespace;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RelayNamespace;
+  };
 };
 
 /**
@@ -722,15 +732,15 @@ export type NamespacesGetResponse = RelayNamespace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RelayNamespace;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RelayNamespace;
+  };
 };
 
 /**
@@ -741,15 +751,15 @@ export type NamespacesUpdateResponse = RelayNamespace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RelayNamespace;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RelayNamespace;
+  };
 };
 
 /**
@@ -760,15 +770,15 @@ export type NamespacesListAuthorizationRulesResponse = AuthorizationRuleListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -779,15 +789,15 @@ export type NamespacesCreateOrUpdateAuthorizationRuleResponse = AuthorizationRul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationRule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationRule;
+  };
 };
 
 /**
@@ -798,15 +808,15 @@ export type NamespacesGetAuthorizationRuleResponse = AuthorizationRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationRule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationRule;
+  };
 };
 
 /**
@@ -817,15 +827,15 @@ export type NamespacesListKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -836,15 +846,15 @@ export type NamespacesRegenerateKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -855,15 +865,15 @@ export type NamespacesBeginCreateOrUpdateResponse = RelayNamespace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RelayNamespace;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RelayNamespace;
+  };
 };
 
 /**
@@ -874,15 +884,15 @@ export type NamespacesListNextResponse = RelayNamespaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RelayNamespaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RelayNamespaceListResult;
+  };
 };
 
 /**
@@ -893,15 +903,15 @@ export type NamespacesListByResourceGroupNextResponse = RelayNamespaceListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RelayNamespaceListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RelayNamespaceListResult;
+  };
 };
 
 /**
@@ -912,15 +922,15 @@ export type NamespacesListAuthorizationRulesNextResponse = AuthorizationRuleList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -931,15 +941,15 @@ export type HybridConnectionsListByNamespaceResponse = HybridConnectionListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HybridConnectionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HybridConnectionListResult;
+  };
 };
 
 /**
@@ -950,15 +960,15 @@ export type HybridConnectionsCreateOrUpdateResponse = HybridConnection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HybridConnection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HybridConnection;
+  };
 };
 
 /**
@@ -969,15 +979,15 @@ export type HybridConnectionsGetResponse = HybridConnection & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HybridConnection;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HybridConnection;
+  };
 };
 
 /**
@@ -988,15 +998,15 @@ export type HybridConnectionsListAuthorizationRulesResponse = AuthorizationRuleL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -1007,15 +1017,15 @@ export type HybridConnectionsCreateOrUpdateAuthorizationRuleResponse = Authoriza
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationRule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationRule;
+  };
 };
 
 /**
@@ -1026,15 +1036,15 @@ export type HybridConnectionsGetAuthorizationRuleResponse = AuthorizationRule & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationRule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationRule;
+  };
 };
 
 /**
@@ -1045,15 +1055,15 @@ export type HybridConnectionsListKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -1064,15 +1074,15 @@ export type HybridConnectionsRegenerateKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -1083,15 +1093,15 @@ export type HybridConnectionsListByNamespaceNextResponse = HybridConnectionListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HybridConnectionListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HybridConnectionListResult;
+  };
 };
 
 /**
@@ -1102,15 +1112,15 @@ export type HybridConnectionsListAuthorizationRulesNextResponse = AuthorizationR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -1121,15 +1131,15 @@ export type WCFRelaysListByNamespaceResponse = WcfRelaysListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WcfRelaysListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WcfRelaysListResult;
+  };
 };
 
 /**
@@ -1140,15 +1150,15 @@ export type WCFRelaysCreateOrUpdateResponse = WcfRelay & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WcfRelay;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WcfRelay;
+  };
 };
 
 /**
@@ -1159,15 +1169,15 @@ export type WCFRelaysGetResponse = WcfRelay & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WcfRelay;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WcfRelay;
+  };
 };
 
 /**
@@ -1178,15 +1188,15 @@ export type WCFRelaysListAuthorizationRulesResponse = AuthorizationRuleListResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -1197,15 +1207,15 @@ export type WCFRelaysCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationRule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationRule;
+  };
 };
 
 /**
@@ -1216,15 +1226,15 @@ export type WCFRelaysGetAuthorizationRuleResponse = AuthorizationRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationRule;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationRule;
+  };
 };
 
 /**
@@ -1235,15 +1245,15 @@ export type WCFRelaysListKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -1254,15 +1264,15 @@ export type WCFRelaysRegenerateKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -1273,15 +1283,15 @@ export type WCFRelaysListByNamespaceNextResponse = WcfRelaysListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WcfRelaysListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WcfRelaysListResult;
+  };
 };
 
 /**
@@ -1292,13 +1302,13 @@ export type WCFRelaysListAuthorizationRulesNextResponse = AuthorizationRuleListR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AuthorizationRuleListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AuthorizationRuleListResult;
+  };
 };

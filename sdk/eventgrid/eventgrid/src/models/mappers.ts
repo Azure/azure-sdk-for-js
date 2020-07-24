@@ -2122,13 +2122,7 @@ export const MediaJobError: msRest.CompositeMapper = {
         serializedName: "category",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Service",
-            "Download",
-            "Upload",
-            "Configuration",
-            "Content"
-          ]
+          allowedValues: ["Service", "Download", "Upload", "Configuration", "Content"]
         }
       },
       retry: {
@@ -2137,10 +2131,7 @@ export const MediaJobError: msRest.CompositeMapper = {
         serializedName: "retry",
         type: {
           name: "Enum",
-          allowedValues: [
-            "DoNotRetry",
-            "MayRetry"
-          ]
+          allowedValues: ["DoNotRetry", "MayRetry"]
         }
       },
       details: {
@@ -3892,7 +3883,6 @@ export const MachineLearningServicesDatasetDriftDetectedEventData: msRest.Compos
 };
 
 export const discriminators = {
-  'MediaJobOutput' : MediaJobOutput,
-  'MediaJobOutput.#Microsoft.Media.JobOutputAsset' : MediaJobOutputAsset
-
+  MediaJobOutput: MediaJobOutput,
+  "MediaJobOutput.#Microsoft.Media.JobOutputAsset": MediaJobOutputAsset
 };

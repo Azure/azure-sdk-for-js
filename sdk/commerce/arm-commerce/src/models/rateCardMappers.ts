@@ -18,4 +18,3 @@ export {
   MonetaryCommitment,
   RecurringCharge
 } from "../models/mappers";
-

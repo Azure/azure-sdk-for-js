@@ -33,21 +33,41 @@ export class WorkItemConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkItemConfigurationsListResponse>
    */
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkItemConfigurationsListResponse>;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkItemConfigurationsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.WorkItemConfigurationsListResult>): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.WorkItemConfigurationsListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkItemConfigurationsListResult>): void;
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkItemConfigurationsListResult>, callback?: msRest.ServiceCallback<Models.WorkItemConfigurationsListResult>): Promise<Models.WorkItemConfigurationsListResponse> {
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkItemConfigurationsListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.WorkItemConfigurationsListResult>,
+    callback?: msRest.ServiceCallback<Models.WorkItemConfigurationsListResult>
+  ): Promise<Models.WorkItemConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class WorkItemConfigurations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.WorkItemConfigurationsListResponse>;
+      callback
+    ) as Promise<Models.WorkItemConfigurationsListResponse>;
   }
 
   /**
@@ -67,7 +88,12 @@ export class WorkItemConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkItemConfigurationsCreateResponse>
    */
-  create(resourceGroupName: string, resourceName: string, workItemConfigurationProperties: Models.WorkItemCreateConfiguration, options?: msRest.RequestOptionsBase): Promise<Models.WorkItemConfigurationsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    workItemConfigurationProperties: Models.WorkItemCreateConfiguration,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkItemConfigurationsCreateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -75,7 +101,12 @@ export class WorkItemConfigurations {
    * item configuration of a Application Insights component.
    * @param callback The callback
    */
-  create(resourceGroupName: string, resourceName: string, workItemConfigurationProperties: Models.WorkItemCreateConfiguration, callback: msRest.ServiceCallback<Models.WorkItemConfiguration>): void;
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    workItemConfigurationProperties: Models.WorkItemCreateConfiguration,
+    callback: msRest.ServiceCallback<Models.WorkItemConfiguration>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -84,8 +115,20 @@ export class WorkItemConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, resourceName: string, workItemConfigurationProperties: Models.WorkItemCreateConfiguration, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkItemConfiguration>): void;
-  create(resourceGroupName: string, resourceName: string, workItemConfigurationProperties: Models.WorkItemCreateConfiguration, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkItemConfiguration>, callback?: msRest.ServiceCallback<Models.WorkItemConfiguration>): Promise<Models.WorkItemConfigurationsCreateResponse> {
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    workItemConfigurationProperties: Models.WorkItemCreateConfiguration,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkItemConfiguration>
+  ): void;
+  create(
+    resourceGroupName: string,
+    resourceName: string,
+    workItemConfigurationProperties: Models.WorkItemCreateConfiguration,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkItemConfiguration>,
+    callback?: msRest.ServiceCallback<Models.WorkItemConfiguration>
+  ): Promise<Models.WorkItemConfigurationsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -94,7 +137,8 @@ export class WorkItemConfigurations {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.WorkItemConfigurationsCreateResponse>;
+      callback
+    ) as Promise<Models.WorkItemConfigurationsCreateResponse>;
   }
 
   /**
@@ -104,21 +148,39 @@ export class WorkItemConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkItemConfigurationsGetDefaultResponse>
    */
-  getDefault(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkItemConfigurationsGetDefaultResponse>;
+  getDefault(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkItemConfigurationsGetDefaultResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
-  getDefault(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.WorkItemConfiguration>): void;
+  getDefault(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.WorkItemConfiguration>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDefault(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkItemConfiguration>): void;
-  getDefault(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkItemConfiguration>, callback?: msRest.ServiceCallback<Models.WorkItemConfiguration>): Promise<Models.WorkItemConfigurationsGetDefaultResponse> {
+  getDefault(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.WorkItemConfiguration>
+  ): void;
+  getDefault(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkItemConfiguration>,
+    callback?: msRest.ServiceCallback<Models.WorkItemConfiguration>
+  ): Promise<Models.WorkItemConfigurationsGetDefaultResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -126,7 +188,8 @@ export class WorkItemConfigurations {
         options
       },
       getDefaultOperationSpec,
-      callback) as Promise<Models.WorkItemConfigurationsGetDefaultResponse>;
+      callback
+    ) as Promise<Models.WorkItemConfigurationsGetDefaultResponse>;
   }
 
   /**
@@ -138,7 +201,12 @@ export class WorkItemConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkItemConfigurationsDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, workItemConfigId: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkItemConfigurationsDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    workItemConfigId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.WorkItemConfigurationsDeleteMethodResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -146,7 +214,12 @@ export class WorkItemConfigurations {
    * of connector as defined in connector configuration
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, workItemConfigId: string, callback: msRest.ServiceCallback<any>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    workItemConfigId: string,
+    callback: msRest.ServiceCallback<any>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the Application Insights component resource.
@@ -155,8 +228,20 @@ export class WorkItemConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, resourceName: string, workItemConfigId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
-  deleteMethod(resourceGroupName: string, resourceName: string, workItemConfigId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.WorkItemConfigurationsDeleteMethodResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    workItemConfigId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<any>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    resourceName: string,
+    workItemConfigId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>,
+    callback?: msRest.ServiceCallback<any>
+  ): Promise<Models.WorkItemConfigurationsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -165,7 +250,8 @@ export class WorkItemConfigurations {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.WorkItemConfigurationsDeleteMethodResponse>;
+      callback
+    ) as Promise<Models.WorkItemConfigurationsDeleteMethodResponse>;
   }
 }
 
@@ -173,18 +259,11 @@ export class WorkItemConfigurations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkItemConfigurationsListResult
@@ -198,18 +277,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "workItemConfigurationProperties",
     mapper: {
@@ -230,18 +302,11 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getDefaultOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/DefaultWorkItemConfig",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/DefaultWorkItemConfig",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.WorkItemConfiguration
@@ -255,19 +320,16 @@ const getDefaultOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs/{workItemConfigId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/WorkItemConfigs/{workItemConfigId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.workItemConfigId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {

@@ -35,7 +35,13 @@ export class TestJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.TestJobCreateResponse>
    */
-  create(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.TestJobCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.TestJobCreateResponse>;
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    parameters: Models.TestJobCreateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TestJobCreateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -43,7 +49,13 @@ export class TestJobOperations {
    * @param parameters The parameters supplied to the create test job operation.
    * @param callback The callback
    */
-  create(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.TestJobCreateParameters, callback: msRest.ServiceCallback<Models.TestJob>): void;
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    parameters: Models.TestJobCreateParameters,
+    callback: msRest.ServiceCallback<Models.TestJob>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -52,8 +64,22 @@ export class TestJobOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.TestJobCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TestJob>): void;
-  create(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: Models.TestJobCreateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TestJob>, callback?: msRest.ServiceCallback<Models.TestJob>): Promise<Models.TestJobCreateResponse> {
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    parameters: Models.TestJobCreateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TestJob>
+  ): void;
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    parameters: Models.TestJobCreateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TestJob>,
+    callback?: msRest.ServiceCallback<Models.TestJob>
+  ): Promise<Models.TestJobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class TestJobOperations {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.TestJobCreateResponse>;
+      callback
+    ) as Promise<Models.TestJobCreateResponse>;
   }
 
   /**
@@ -74,14 +101,24 @@ export class TestJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.TestJobGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase): Promise<Models.TestJobGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TestJobGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, callback: msRest.ServiceCallback<Models.TestJob>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    callback: msRest.ServiceCallback<Models.TestJob>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -89,8 +126,20 @@ export class TestJobOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TestJob>): void;
-  get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TestJob>, callback?: msRest.ServiceCallback<Models.TestJob>): Promise<Models.TestJobGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TestJob>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TestJob>,
+    callback?: msRest.ServiceCallback<Models.TestJob>
+  ): Promise<Models.TestJobGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +148,8 @@ export class TestJobOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TestJobGetResponse>;
+      callback
+    ) as Promise<Models.TestJobGetResponse>;
   }
 
   /**
@@ -110,14 +160,24 @@ export class TestJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resume(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  resume(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
    * @param callback The callback
    */
-  resume(resourceGroupName: string, automationAccountName: string, runbookName: string, callback: msRest.ServiceCallback<void>): void;
+  resume(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -125,8 +185,20 @@ export class TestJobOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  resume(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  resume(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  resume(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  resume(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +207,8 @@ export class TestJobOperations {
         options
       },
       resumeOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -146,14 +219,24 @@ export class TestJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  stop(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
    * @param callback The callback
    */
-  stop(resourceGroupName: string, automationAccountName: string, runbookName: string, callback: msRest.ServiceCallback<void>): void;
+  stop(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -161,8 +244,20 @@ export class TestJobOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  stop(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  stop(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  stop(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  stop(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +266,8 @@ export class TestJobOperations {
         options
       },
       stopOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -182,14 +278,24 @@ export class TestJobOperations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  suspend(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  suspend(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
    * @param callback The callback
    */
-  suspend(resourceGroupName: string, automationAccountName: string, runbookName: string, callback: msRest.ServiceCallback<void>): void;
+  suspend(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -197,8 +303,20 @@ export class TestJobOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  suspend(resourceGroupName: string, automationAccountName: string, runbookName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  suspend(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  suspend(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  suspend(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runbookName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -207,7 +325,8 @@ export class TestJobOperations {
         options
       },
       suspendOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -215,19 +334,16 @@ export class TestJobOperations {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -248,19 +364,16 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TestJob
@@ -274,19 +387,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const resumeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/resume",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/resume",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -298,19 +408,16 @@ const resumeOperationSpec: msRest.OperationSpec = {
 
 const stopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/stop",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/stop",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -322,19 +429,16 @@ const stopOperationSpec: msRest.OperationSpec = {
 
 const suspendOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/suspend",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/suspend",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.runbookName
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {

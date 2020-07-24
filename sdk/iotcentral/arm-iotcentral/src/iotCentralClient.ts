@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { IotCentralClientContext } from "./iotCentralClientContext";
 
-
 class IotCentralClient extends IotCentralClientContext {
   // Operation groups
   apps: operations.Apps;
@@ -26,7 +25,11 @@ class IotCentralClient extends IotCentralClientContext {
    * @param subscriptionId The subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.IotCentralClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.IotCentralClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.apps = new operations.Apps(this);
     this.operations = new operations.Operations(this);

@@ -34,21 +34,39 @@ export class Experiments {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExperimentsListByProfileResponse>
    */
-  listByProfile(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExperimentsListByProfileResponse>;
+  listByProfile(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExperimentsListByProfileResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName The Profile identifier associated with the Tenant and Partner
    * @param callback The callback
    */
-  listByProfile(resourceGroupName: string, profileName: string, callback: msRest.ServiceCallback<Models.ExperimentList>): void;
+  listByProfile(
+    resourceGroupName: string,
+    profileName: string,
+    callback: msRest.ServiceCallback<Models.ExperimentList>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName The Profile identifier associated with the Tenant and Partner
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByProfile(resourceGroupName: string, profileName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExperimentList>): void;
-  listByProfile(resourceGroupName: string, profileName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExperimentList>, callback?: msRest.ServiceCallback<Models.ExperimentList>): Promise<Models.ExperimentsListByProfileResponse> {
+  listByProfile(
+    resourceGroupName: string,
+    profileName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExperimentList>
+  ): void;
+  listByProfile(
+    resourceGroupName: string,
+    profileName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExperimentList>,
+    callback?: msRest.ServiceCallback<Models.ExperimentList>
+  ): Promise<Models.ExperimentsListByProfileResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class Experiments {
         options
       },
       listByProfileOperationSpec,
-      callback) as Promise<Models.ExperimentsListByProfileResponse>;
+      callback
+    ) as Promise<Models.ExperimentsListByProfileResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class Experiments {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExperimentsGetResponse>
    */
-  get(resourceGroupName: string, profileName: string, experimentName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExperimentsGetResponse>;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExperimentsGetResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName The Profile identifier associated with the Tenant and Partner
    * @param experimentName The Experiment identifier associated with the Experiment
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, experimentName: string, callback: msRest.ServiceCallback<Models.Experiment>): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    callback: msRest.ServiceCallback<Models.Experiment>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName The Profile identifier associated with the Tenant and Partner
@@ -82,8 +111,20 @@ export class Experiments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, profileName: string, experimentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Experiment>): void;
-  get(resourceGroupName: string, profileName: string, experimentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Experiment>, callback?: msRest.ServiceCallback<Models.Experiment>): Promise<Models.ExperimentsGetResponse> {
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Experiment>
+  ): void;
+  get(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Experiment>,
+    callback?: msRest.ServiceCallback<Models.Experiment>
+  ): Promise<Models.ExperimentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +133,8 @@ export class Experiments {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ExperimentsGetResponse>;
+      callback
+    ) as Promise<Models.ExperimentsGetResponse>;
   }
 
   /**
@@ -104,9 +146,22 @@ export class Experiments {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExperimentsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: Models.Experiment, options?: msRest.RequestOptionsBase): Promise<Models.ExperimentsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,profileName,experimentName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExperimentsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    parameters: Models.Experiment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExperimentsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      profileName,
+      experimentName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ExperimentsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -119,9 +174,22 @@ export class Experiments {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExperimentsUpdateResponse>
    */
-  update(resourceGroupName: string, profileName: string, experimentName: string, parameters: Models.ExperimentUpdateModel, options?: msRest.RequestOptionsBase): Promise<Models.ExperimentsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,profileName,experimentName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExperimentsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    parameters: Models.ExperimentUpdateModel,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExperimentsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      profileName,
+      experimentName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ExperimentsUpdateResponse
+    >;
   }
 
   /**
@@ -132,9 +200,18 @@ export class Experiments {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, profileName: string, experimentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,profileName,experimentName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      profileName,
+      experimentName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -146,7 +223,13 @@ export class Experiments {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: Models.Experiment, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    parameters: Models.Experiment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -156,7 +239,8 @@ export class Experiments {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -169,7 +253,13 @@ export class Experiments {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, profileName: string, experimentName: string, parameters: Models.ExperimentUpdateModel, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    parameters: Models.ExperimentUpdateModel,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -179,7 +269,8 @@ export class Experiments {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -190,7 +281,12 @@ export class Experiments {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, profileName: string, experimentName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    profileName: string,
+    experimentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -199,7 +295,8 @@ export class Experiments {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -208,26 +305,41 @@ export class Experiments {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExperimentsListByProfileNextResponse>
    */
-  listByProfileNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExperimentsListByProfileNextResponse>;
+  listByProfileNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExperimentsListByProfileNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByProfileNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ExperimentList>): void;
+  listByProfileNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ExperimentList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByProfileNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExperimentList>): void;
-  listByProfileNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExperimentList>, callback?: msRest.ServiceCallback<Models.ExperimentList>): Promise<Models.ExperimentsListByProfileNextResponse> {
+  listByProfileNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExperimentList>
+  ): void;
+  listByProfileNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExperimentList>,
+    callback?: msRest.ServiceCallback<Models.ExperimentList>
+  ): Promise<Models.ExperimentsListByProfileNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByProfileNextOperationSpec,
-      callback) as Promise<Models.ExperimentsListByProfileNextResponse>;
+      callback
+    ) as Promise<Models.ExperimentsListByProfileNextResponse>;
   }
 }
 
@@ -235,18 +347,11 @@ export class Experiments {
 const serializer = new msRest.Serializer(Mappers);
 const listByProfileOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.profileName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.profileName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExperimentList
@@ -260,19 +365,16 @@ const listByProfileOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.experimentName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Experiment
@@ -286,19 +388,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.experimentName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -325,19 +424,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.experimentName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -361,19 +457,16 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.experimentName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -389,12 +482,8 @@ const listByProfileNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExperimentList

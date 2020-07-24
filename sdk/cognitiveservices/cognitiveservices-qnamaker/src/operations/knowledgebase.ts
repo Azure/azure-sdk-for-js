@@ -40,14 +40,21 @@ export class Knowledgebase {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KnowledgebasesDTO>): void;
-  listAll(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KnowledgebasesDTO>, callback?: msRest.ServiceCallback<Models.KnowledgebasesDTO>): Promise<Models.KnowledgebaseListAllResponse> {
+  listAll(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KnowledgebasesDTO>
+  ): void;
+  listAll(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KnowledgebasesDTO>,
+    callback?: msRest.ServiceCallback<Models.KnowledgebasesDTO>
+  ): Promise<Models.KnowledgebaseListAllResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listAllOperationSpec,
-      callback) as Promise<Models.KnowledgebaseListAllResponse>;
+      callback
+    ) as Promise<Models.KnowledgebaseListAllResponse>;
   }
 
   /**
@@ -56,7 +63,10 @@ export class Knowledgebase {
    * @param [options] The optional parameters
    * @returns Promise<Models.KnowledgebaseGetDetailsResponse>
    */
-  getDetails(kbId: string, options?: msRest.RequestOptionsBase): Promise<Models.KnowledgebaseGetDetailsResponse>;
+  getDetails(
+    kbId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.KnowledgebaseGetDetailsResponse>;
   /**
    * @param kbId Knowledgebase id.
    * @param callback The callback
@@ -67,15 +77,24 @@ export class Knowledgebase {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDetails(kbId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KnowledgebaseDTO>): void;
-  getDetails(kbId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KnowledgebaseDTO>, callback?: msRest.ServiceCallback<Models.KnowledgebaseDTO>): Promise<Models.KnowledgebaseGetDetailsResponse> {
+  getDetails(
+    kbId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KnowledgebaseDTO>
+  ): void;
+  getDetails(
+    kbId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KnowledgebaseDTO>,
+    callback?: msRest.ServiceCallback<Models.KnowledgebaseDTO>
+  ): Promise<Models.KnowledgebaseGetDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         kbId,
         options
       },
       getDetailsOperationSpec,
-      callback) as Promise<Models.KnowledgebaseGetDetailsResponse>;
+      callback
+    ) as Promise<Models.KnowledgebaseGetDetailsResponse>;
   }
 
   /**
@@ -95,15 +114,24 @@ export class Knowledgebase {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(kbId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(kbId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    kbId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    kbId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         kbId,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -123,15 +151,24 @@ export class Knowledgebase {
    * @param options The optional parameters
    * @param callback The callback
    */
-  publish(kbId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  publish(kbId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  publish(
+    kbId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  publish(
+    kbId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         kbId,
         options
       },
       publishOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -141,21 +178,39 @@ export class Knowledgebase {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  replace(kbId: string, replaceKb: Models.ReplaceKbDTO, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  replace(
+    kbId: string,
+    replaceKb: Models.ReplaceKbDTO,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param kbId Knowledgebase id.
    * @param replaceKb An instance of ReplaceKbDTO which contains list of qnas to be uploaded
    * @param callback The callback
    */
-  replace(kbId: string, replaceKb: Models.ReplaceKbDTO, callback: msRest.ServiceCallback<void>): void;
+  replace(
+    kbId: string,
+    replaceKb: Models.ReplaceKbDTO,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param kbId Knowledgebase id.
    * @param replaceKb An instance of ReplaceKbDTO which contains list of qnas to be uploaded
    * @param options The optional parameters
    * @param callback The callback
    */
-  replace(kbId: string, replaceKb: Models.ReplaceKbDTO, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  replace(kbId: string, replaceKb: Models.ReplaceKbDTO, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  replace(
+    kbId: string,
+    replaceKb: Models.ReplaceKbDTO,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  replace(
+    kbId: string,
+    replaceKb: Models.ReplaceKbDTO,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         kbId,
@@ -163,7 +218,8 @@ export class Knowledgebase {
         options
       },
       replaceOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -173,21 +229,39 @@ export class Knowledgebase {
    * @param [options] The optional parameters
    * @returns Promise<Models.KnowledgebaseUpdateResponse>
    */
-  update(kbId: string, updateKb: Models.UpdateKbOperationDTO, options?: msRest.RequestOptionsBase): Promise<Models.KnowledgebaseUpdateResponse>;
+  update(
+    kbId: string,
+    updateKb: Models.UpdateKbOperationDTO,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.KnowledgebaseUpdateResponse>;
   /**
    * @param kbId Knowledgebase id.
    * @param updateKb Post body of the request.
    * @param callback The callback
    */
-  update(kbId: string, updateKb: Models.UpdateKbOperationDTO, callback: msRest.ServiceCallback<Models.Operation>): void;
+  update(
+    kbId: string,
+    updateKb: Models.UpdateKbOperationDTO,
+    callback: msRest.ServiceCallback<Models.Operation>
+  ): void;
   /**
    * @param kbId Knowledgebase id.
    * @param updateKb Post body of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(kbId: string, updateKb: Models.UpdateKbOperationDTO, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Operation>): void;
-  update(kbId: string, updateKb: Models.UpdateKbOperationDTO, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Operation>, callback?: msRest.ServiceCallback<Models.Operation>): Promise<Models.KnowledgebaseUpdateResponse> {
+  update(
+    kbId: string,
+    updateKb: Models.UpdateKbOperationDTO,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Operation>
+  ): void;
+  update(
+    kbId: string,
+    updateKb: Models.UpdateKbOperationDTO,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Operation>,
+    callback?: msRest.ServiceCallback<Models.Operation>
+  ): Promise<Models.KnowledgebaseUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         kbId,
@@ -195,7 +269,8 @@ export class Knowledgebase {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.KnowledgebaseUpdateResponse>;
+      callback
+    ) as Promise<Models.KnowledgebaseUpdateResponse>;
   }
 
   /**
@@ -204,26 +279,41 @@ export class Knowledgebase {
    * @param [options] The optional parameters
    * @returns Promise<Models.KnowledgebaseCreateResponse>
    */
-  create(createKbPayload: Models.CreateKbDTO, options?: msRest.RequestOptionsBase): Promise<Models.KnowledgebaseCreateResponse>;
+  create(
+    createKbPayload: Models.CreateKbDTO,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.KnowledgebaseCreateResponse>;
   /**
    * @param createKbPayload Post body of the request.
    * @param callback The callback
    */
-  create(createKbPayload: Models.CreateKbDTO, callback: msRest.ServiceCallback<Models.Operation>): void;
+  create(
+    createKbPayload: Models.CreateKbDTO,
+    callback: msRest.ServiceCallback<Models.Operation>
+  ): void;
   /**
    * @param createKbPayload Post body of the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(createKbPayload: Models.CreateKbDTO, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Operation>): void;
-  create(createKbPayload: Models.CreateKbDTO, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Operation>, callback?: msRest.ServiceCallback<Models.Operation>): Promise<Models.KnowledgebaseCreateResponse> {
+  create(
+    createKbPayload: Models.CreateKbDTO,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Operation>
+  ): void;
+  create(
+    createKbPayload: Models.CreateKbDTO,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Operation>,
+    callback?: msRest.ServiceCallback<Models.Operation>
+  ): Promise<Models.KnowledgebaseCreateResponse> {
     return this.client.sendOperationRequest(
       {
         createKbPayload,
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.KnowledgebaseCreateResponse>;
+      callback
+    ) as Promise<Models.KnowledgebaseCreateResponse>;
   }
 
   /**
@@ -234,14 +324,22 @@ export class Knowledgebase {
    * @param [options] The optional parameters
    * @returns Promise<Models.KnowledgebaseDownloadResponse>
    */
-  download(kbId: string, environment: Models.EnvironmentType, options?: msRest.RequestOptionsBase): Promise<Models.KnowledgebaseDownloadResponse>;
+  download(
+    kbId: string,
+    environment: Models.EnvironmentType,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.KnowledgebaseDownloadResponse>;
   /**
    * @param kbId Knowledgebase id.
    * @param environment Specifies whether environment is Test or Prod. Possible values include:
    * 'Prod', 'Test'
    * @param callback The callback
    */
-  download(kbId: string, environment: Models.EnvironmentType, callback: msRest.ServiceCallback<Models.QnADocumentsDTO>): void;
+  download(
+    kbId: string,
+    environment: Models.EnvironmentType,
+    callback: msRest.ServiceCallback<Models.QnADocumentsDTO>
+  ): void;
   /**
    * @param kbId Knowledgebase id.
    * @param environment Specifies whether environment is Test or Prod. Possible values include:
@@ -249,8 +347,18 @@ export class Knowledgebase {
    * @param options The optional parameters
    * @param callback The callback
    */
-  download(kbId: string, environment: Models.EnvironmentType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QnADocumentsDTO>): void;
-  download(kbId: string, environment: Models.EnvironmentType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QnADocumentsDTO>, callback?: msRest.ServiceCallback<Models.QnADocumentsDTO>): Promise<Models.KnowledgebaseDownloadResponse> {
+  download(
+    kbId: string,
+    environment: Models.EnvironmentType,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.QnADocumentsDTO>
+  ): void;
+  download(
+    kbId: string,
+    environment: Models.EnvironmentType,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QnADocumentsDTO>,
+    callback?: msRest.ServiceCallback<Models.QnADocumentsDTO>
+  ): Promise<Models.KnowledgebaseDownloadResponse> {
     return this.client.sendOperationRequest(
       {
         kbId,
@@ -258,7 +366,8 @@ export class Knowledgebase {
         options
       },
       downloadOperationSpec,
-      callback) as Promise<Models.KnowledgebaseDownloadResponse>;
+      callback
+    ) as Promise<Models.KnowledgebaseDownloadResponse>;
   }
 }
 
@@ -267,9 +376,7 @@ const serializer = new msRest.Serializer(Mappers);
 const listAllOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "knowledgebases",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   responses: {
     200: {
       bodyMapper: Mappers.KnowledgebasesDTO
@@ -284,10 +391,7 @@ const listAllOperationSpec: msRest.OperationSpec = {
 const getDetailsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "knowledgebases/{kbId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.kbId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.kbId],
   responses: {
     200: {
       bodyMapper: Mappers.KnowledgebaseDTO
@@ -302,10 +406,7 @@ const getDetailsOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "knowledgebases/{kbId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.kbId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.kbId],
   responses: {
     204: {},
     default: {
@@ -318,10 +419,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const publishOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "knowledgebases/{kbId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.kbId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.kbId],
   responses: {
     204: {},
     default: {
@@ -334,10 +432,7 @@ const publishOperationSpec: msRest.OperationSpec = {
 const replaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "knowledgebases/{kbId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.kbId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.kbId],
   requestBody: {
     parameterPath: "replaceKb",
     mapper: {
@@ -357,10 +452,7 @@ const replaceOperationSpec: msRest.OperationSpec = {
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "knowledgebases/{kbId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.kbId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.kbId],
   requestBody: {
     parameterPath: "updateKb",
     mapper: {
@@ -384,9 +476,7 @@ const updateOperationSpec: msRest.OperationSpec = {
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "knowledgebases/create",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: "createKbPayload",
     mapper: {
@@ -408,11 +498,7 @@ const createOperationSpec: msRest.OperationSpec = {
 const downloadOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "knowledgebases/{kbId}/{environment}/qna",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.kbId,
-    Parameters.environment
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.kbId, Parameters.environment],
   responses: {
     200: {
       bodyMapper: Mappers.QnADocumentsDTO

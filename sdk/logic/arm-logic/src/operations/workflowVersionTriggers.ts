@@ -35,7 +35,13 @@ export class WorkflowVersionTriggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkflowVersionTriggersListCallbackUrlResponse>
    */
-  listCallbackUrl(resourceGroupName: string, workflowName: string, versionId: string, triggerName: string, options?: Models.WorkflowVersionTriggersListCallbackUrlOptionalParams): Promise<Models.WorkflowVersionTriggersListCallbackUrlResponse>;
+  listCallbackUrl(
+    resourceGroupName: string,
+    workflowName: string,
+    versionId: string,
+    triggerName: string,
+    options?: Models.WorkflowVersionTriggersListCallbackUrlOptionalParams
+  ): Promise<Models.WorkflowVersionTriggersListCallbackUrlResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -43,7 +49,13 @@ export class WorkflowVersionTriggers {
    * @param triggerName The workflow trigger name.
    * @param callback The callback
    */
-  listCallbackUrl(resourceGroupName: string, workflowName: string, versionId: string, triggerName: string, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
+  listCallbackUrl(
+    resourceGroupName: string,
+    workflowName: string,
+    versionId: string,
+    triggerName: string,
+    callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param workflowName The workflow name.
@@ -52,8 +64,24 @@ export class WorkflowVersionTriggers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listCallbackUrl(resourceGroupName: string, workflowName: string, versionId: string, triggerName: string, options: Models.WorkflowVersionTriggersListCallbackUrlOptionalParams, callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): void;
-  listCallbackUrl(resourceGroupName: string, workflowName: string, versionId: string, triggerName: string, options?: Models.WorkflowVersionTriggersListCallbackUrlOptionalParams | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>, callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>): Promise<Models.WorkflowVersionTriggersListCallbackUrlResponse> {
+  listCallbackUrl(
+    resourceGroupName: string,
+    workflowName: string,
+    versionId: string,
+    triggerName: string,
+    options: Models.WorkflowVersionTriggersListCallbackUrlOptionalParams,
+    callback: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): void;
+  listCallbackUrl(
+    resourceGroupName: string,
+    workflowName: string,
+    versionId: string,
+    triggerName: string,
+    options?:
+      | Models.WorkflowVersionTriggersListCallbackUrlOptionalParams
+      | msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>,
+    callback?: msRest.ServiceCallback<Models.WorkflowTriggerCallbackUrl>
+  ): Promise<Models.WorkflowVersionTriggersListCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +91,8 @@ export class WorkflowVersionTriggers {
         options
       },
       listCallbackUrlOperationSpec,
-      callback) as Promise<Models.WorkflowVersionTriggersListCallbackUrlResponse>;
+      callback
+    ) as Promise<Models.WorkflowVersionTriggersListCallbackUrlResponse>;
   }
 }
 
@@ -71,7 +100,8 @@ export class WorkflowVersionTriggers {
 const serializer = new msRest.Serializer(Mappers);
 const listCallbackUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions/{versionId}/triggers/{triggerName}/listCallbackUrl",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions/{versionId}/triggers/{triggerName}/listCallbackUrl",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -79,17 +109,10 @@ const listCallbackUrlOperationSpec: msRest.OperationSpec = {
     Parameters.versionId,
     Parameters.triggerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
+    parameterPath: ["options", "parameters"],
     mapper: Mappers.GetCallbackUrlParameters
   },
   responses: {

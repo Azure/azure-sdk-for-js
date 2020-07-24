@@ -35,14 +35,22 @@ export class ManagedInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstancesListByInstancePoolResponse>
    */
-  listByInstancePool(resourceGroupName: string, instancePoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstancesListByInstancePoolResponse>;
+  listByInstancePool(
+    resourceGroupName: string,
+    instancePoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedInstancesListByInstancePoolResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param instancePoolName The instance pool name.
    * @param callback The callback
    */
-  listByInstancePool(resourceGroupName: string, instancePoolName: string, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
+  listByInstancePool(
+    resourceGroupName: string,
+    instancePoolName: string,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -50,8 +58,18 @@ export class ManagedInstances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByInstancePool(resourceGroupName: string, instancePoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
-  listByInstancePool(resourceGroupName: string, instancePoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListByInstancePoolResponse> {
+  listByInstancePool(
+    resourceGroupName: string,
+    instancePoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): void;
+  listByInstancePool(
+    resourceGroupName: string,
+    instancePoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): Promise<Models.ManagedInstancesListByInstancePoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +77,8 @@ export class ManagedInstances {
         options
       },
       listByInstancePoolOperationSpec,
-      callback) as Promise<Models.ManagedInstancesListByInstancePoolResponse>;
+      callback
+    ) as Promise<Models.ManagedInstancesListByInstancePoolResponse>;
   }
 
   /**
@@ -69,28 +88,43 @@ export class ManagedInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstancesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstancesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedInstancesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): Promise<Models.ManagedInstancesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ManagedInstancesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ManagedInstancesListByResourceGroupResponse>;
   }
 
   /**
@@ -101,14 +135,22 @@ export class ManagedInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstancesGetResponse>
    */
-  get(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstancesGetResponse>;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedInstancesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName The name of the managed instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, callback: msRest.ServiceCallback<Models.ManagedInstance>): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    callback: msRest.ServiceCallback<Models.ManagedInstance>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -116,8 +158,18 @@ export class ManagedInstances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstance>): void;
-  get(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstance>, callback?: msRest.ServiceCallback<Models.ManagedInstance>): Promise<Models.ManagedInstancesGetResponse> {
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedInstance>
+  ): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstance>,
+    callback?: msRest.ServiceCallback<Models.ManagedInstance>
+  ): Promise<Models.ManagedInstancesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -125,7 +177,8 @@ export class ManagedInstances {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagedInstancesGetResponse>;
+      callback
+    ) as Promise<Models.ManagedInstancesGetResponse>;
   }
 
   /**
@@ -137,9 +190,20 @@ export class ManagedInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstancesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, managedInstanceName: string, parameters: Models.ManagedInstance, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstancesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,managedInstanceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedInstancesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    parameters: Models.ManagedInstance,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedInstancesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      managedInstanceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ManagedInstancesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -150,9 +214,16 @@ export class ManagedInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,managedInstanceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      managedInstanceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -164,9 +235,20 @@ export class ManagedInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstancesUpdateResponse>
    */
-  update(resourceGroupName: string, managedInstanceName: string, parameters: Models.ManagedInstanceUpdate, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstancesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,managedInstanceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ManagedInstancesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    parameters: Models.ManagedInstanceUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedInstancesUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      managedInstanceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ManagedInstancesUpdateResponse
+    >;
   }
 
   /**
@@ -183,14 +265,21 @@ export class ManagedInstances {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): Promise<Models.ManagedInstancesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ManagedInstancesListResponse>;
+      callback
+    ) as Promise<Models.ManagedInstancesListResponse>;
   }
 
   /**
@@ -202,7 +291,12 @@ export class ManagedInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, managedInstanceName: string, parameters: Models.ManagedInstance, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    parameters: Models.ManagedInstance,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -211,7 +305,8 @@ export class ManagedInstances {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -222,7 +317,11 @@ export class ManagedInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, managedInstanceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -230,7 +329,8 @@ export class ManagedInstances {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -242,7 +342,12 @@ export class ManagedInstances {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, managedInstanceName: string, parameters: Models.ManagedInstanceUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    parameters: Models.ManagedInstanceUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -251,7 +356,8 @@ export class ManagedInstances {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -260,26 +366,41 @@ export class ManagedInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstancesListByInstancePoolNextResponse>
    */
-  listByInstancePoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstancesListByInstancePoolNextResponse>;
+  listByInstancePoolNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedInstancesListByInstancePoolNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByInstancePoolNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
+  listByInstancePoolNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByInstancePoolNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
-  listByInstancePoolNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListByInstancePoolNextResponse> {
+  listByInstancePoolNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): void;
+  listByInstancePoolNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): Promise<Models.ManagedInstancesListByInstancePoolNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByInstancePoolNextOperationSpec,
-      callback) as Promise<Models.ManagedInstancesListByInstancePoolNextResponse>;
+      callback
+    ) as Promise<Models.ManagedInstancesListByInstancePoolNextResponse>;
   }
 
   /**
@@ -288,26 +409,41 @@ export class ManagedInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstancesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstancesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedInstancesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): Promise<Models.ManagedInstancesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ManagedInstancesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ManagedInstancesListByResourceGroupNextResponse>;
   }
 
   /**
@@ -316,26 +452,41 @@ export class ManagedInstances {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedInstancesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedInstancesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedInstancesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>, callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>): Promise<Models.ManagedInstancesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedInstanceListResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedInstanceListResult>
+  ): Promise<Models.ManagedInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ManagedInstancesListNextResponse>;
+      callback
+    ) as Promise<Models.ManagedInstancesListNextResponse>;
   }
 }
 
@@ -343,18 +494,15 @@ export class ManagedInstances {
 const serializer = new msRest.Serializer(Mappers);
 const listByInstancePoolOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools/{instancePoolName}/managedInstances",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools/{instancePoolName}/managedInstances",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.instancePoolName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedInstanceListResult
@@ -368,17 +516,11 @@ const listByInstancePoolOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedInstanceListResult
@@ -392,18 +534,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedInstance
@@ -418,15 +557,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Sql/managedInstances",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedInstanceListResult
@@ -440,18 +573,15 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -476,18 +606,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -501,18 +628,15 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -536,12 +660,8 @@ const listByInstancePoolNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedInstanceListResult
@@ -557,12 +677,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedInstanceListResult
@@ -578,12 +694,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedInstanceListResult

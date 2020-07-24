@@ -36,9 +36,22 @@ export class DedicatedHosts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedHostsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: Models.DedicatedHost, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedHostsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,hostGroupName,hostName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DedicatedHostsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    parameters: Models.DedicatedHost,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedHostsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      hostGroupName,
+      hostName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DedicatedHostsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -50,9 +63,22 @@ export class DedicatedHosts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedHostsUpdateResponse>
    */
-  update(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: Models.DedicatedHostUpdate, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedHostsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,hostGroupName,hostName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DedicatedHostsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    parameters: Models.DedicatedHostUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedHostsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      hostGroupName,
+      hostName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.DedicatedHostsUpdateResponse
+    >;
   }
 
   /**
@@ -63,9 +89,18 @@ export class DedicatedHosts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, hostGroupName: string, hostName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,hostGroupName,hostName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      hostGroupName,
+      hostName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -76,14 +111,24 @@ export class DedicatedHosts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedHostsGetResponse>
    */
-  get(resourceGroupName: string, hostGroupName: string, hostName: string, options?: Models.DedicatedHostsGetOptionalParams): Promise<Models.DedicatedHostsGetResponse>;
+  get(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: Models.DedicatedHostsGetOptionalParams
+  ): Promise<Models.DedicatedHostsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param callback The callback
    */
-  get(resourceGroupName: string, hostGroupName: string, hostName: string, callback: msRest.ServiceCallback<Models.DedicatedHost>): void;
+  get(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    callback: msRest.ServiceCallback<Models.DedicatedHost>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
@@ -91,8 +136,20 @@ export class DedicatedHosts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, hostGroupName: string, hostName: string, options: Models.DedicatedHostsGetOptionalParams, callback: msRest.ServiceCallback<Models.DedicatedHost>): void;
-  get(resourceGroupName: string, hostGroupName: string, hostName: string, options?: Models.DedicatedHostsGetOptionalParams | msRest.ServiceCallback<Models.DedicatedHost>, callback?: msRest.ServiceCallback<Models.DedicatedHost>): Promise<Models.DedicatedHostsGetResponse> {
+  get(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options: Models.DedicatedHostsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.DedicatedHost>
+  ): void;
+  get(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: Models.DedicatedHostsGetOptionalParams | msRest.ServiceCallback<Models.DedicatedHost>,
+    callback?: msRest.ServiceCallback<Models.DedicatedHost>
+  ): Promise<Models.DedicatedHostsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -101,7 +158,8 @@ export class DedicatedHosts {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DedicatedHostsGetResponse>;
+      callback
+    ) as Promise<Models.DedicatedHostsGetResponse>;
   }
 
   /**
@@ -112,21 +170,39 @@ export class DedicatedHosts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedHostsListByHostGroupResponse>
    */
-  listByHostGroup(resourceGroupName: string, hostGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedHostsListByHostGroupResponse>;
+  listByHostGroup(
+    resourceGroupName: string,
+    hostGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedHostsListByHostGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param callback The callback
    */
-  listByHostGroup(resourceGroupName: string, hostGroupName: string, callback: msRest.ServiceCallback<Models.DedicatedHostListResult>): void;
+  listByHostGroup(
+    resourceGroupName: string,
+    hostGroupName: string,
+    callback: msRest.ServiceCallback<Models.DedicatedHostListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHostGroup(resourceGroupName: string, hostGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedHostListResult>): void;
-  listByHostGroup(resourceGroupName: string, hostGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedHostListResult>, callback?: msRest.ServiceCallback<Models.DedicatedHostListResult>): Promise<Models.DedicatedHostsListByHostGroupResponse> {
+  listByHostGroup(
+    resourceGroupName: string,
+    hostGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DedicatedHostListResult>
+  ): void;
+  listByHostGroup(
+    resourceGroupName: string,
+    hostGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedHostListResult>,
+    callback?: msRest.ServiceCallback<Models.DedicatedHostListResult>
+  ): Promise<Models.DedicatedHostsListByHostGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +210,8 @@ export class DedicatedHosts {
         options
       },
       listByHostGroupOperationSpec,
-      callback) as Promise<Models.DedicatedHostsListByHostGroupResponse>;
+      callback
+    ) as Promise<Models.DedicatedHostsListByHostGroupResponse>;
   }
 
   /**
@@ -146,7 +223,13 @@ export class DedicatedHosts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: Models.DedicatedHost, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    parameters: Models.DedicatedHost,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -156,7 +239,8 @@ export class DedicatedHosts {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -168,7 +252,13 @@ export class DedicatedHosts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: Models.DedicatedHostUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    parameters: Models.DedicatedHostUpdate,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -178,7 +268,8 @@ export class DedicatedHosts {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -189,7 +280,12 @@ export class DedicatedHosts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, hostGroupName: string, hostName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -198,7 +294,8 @@ export class DedicatedHosts {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -208,26 +305,41 @@ export class DedicatedHosts {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedHostsListByHostGroupNextResponse>
    */
-  listByHostGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedHostsListByHostGroupNextResponse>;
+  listByHostGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DedicatedHostsListByHostGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByHostGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DedicatedHostListResult>): void;
+  listByHostGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DedicatedHostListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByHostGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedHostListResult>): void;
-  listByHostGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedHostListResult>, callback?: msRest.ServiceCallback<Models.DedicatedHostListResult>): Promise<Models.DedicatedHostsListByHostGroupNextResponse> {
+  listByHostGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DedicatedHostListResult>
+  ): void;
+  listByHostGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedHostListResult>,
+    callback?: msRest.ServiceCallback<Models.DedicatedHostListResult>
+  ): Promise<Models.DedicatedHostsListByHostGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByHostGroupNextOperationSpec,
-      callback) as Promise<Models.DedicatedHostsListByHostGroupNextResponse>;
+      callback
+    ) as Promise<Models.DedicatedHostsListByHostGroupNextResponse>;
   }
 }
 
@@ -235,20 +347,16 @@ export class DedicatedHosts {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.expand1,
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand1, Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHost
@@ -262,18 +370,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByHostGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHostListResult
@@ -287,19 +392,16 @@ const listByHostGroupOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -323,19 +425,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -356,19 +455,16 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -384,12 +480,8 @@ const listByHostGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHostListResult

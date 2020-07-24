@@ -830,7 +830,10 @@ export interface RoutingRuleListResult {
 /**
  * Contains the possible cases for RouteConfiguration.
  */
-export type RouteConfigurationUnion = RouteConfiguration | ForwardingConfiguration | RedirectConfiguration;
+export type RouteConfigurationUnion =
+  | RouteConfiguration
+  | ForwardingConfiguration
+  | RedirectConfiguration;
 
 /**
  * Base class for all types of Route.
@@ -1833,7 +1836,7 @@ export interface ManagedRuleSetDefinitionList extends Array<ManagedRuleSetDefini
  * @readonly
  * @enum {string}
  */
-export type NetworkOperationStatus = 'InProgress' | 'Succeeded' | 'Failed';
+export type NetworkOperationStatus = "InProgress" | "Succeeded" | "Failed";
 
 /**
  * Defines values for NetworkExperimentResourceState.
@@ -1841,7 +1844,13 @@ export type NetworkOperationStatus = 'InProgress' | 'Succeeded' | 'Failed';
  * @readonly
  * @enum {string}
  */
-export type NetworkExperimentResourceState = 'Creating' | 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Deleting';
+export type NetworkExperimentResourceState =
+  | "Creating"
+  | "Enabling"
+  | "Enabled"
+  | "Disabling"
+  | "Disabled"
+  | "Deleting";
 
 /**
  * Defines values for State.
@@ -1849,7 +1858,7 @@ export type NetworkExperimentResourceState = 'Creating' | 'Enabling' | 'Enabled'
  * @readonly
  * @enum {string}
  */
-export type State = 'Enabled' | 'Disabled';
+export type State = "Enabled" | "Disabled";
 
 /**
  * Defines values for AggregationInterval.
@@ -1857,7 +1866,7 @@ export type State = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type AggregationInterval = 'Hourly' | 'Daily';
+export type AggregationInterval = "Hourly" | "Daily";
 
 /**
  * Defines values for TimeseriesType.
@@ -1865,7 +1874,7 @@ export type AggregationInterval = 'Hourly' | 'Daily';
  * @readonly
  * @enum {string}
  */
-export type TimeseriesType = 'MeasurementCounts' | 'LatencyP50' | 'LatencyP75' | 'LatencyP95';
+export type TimeseriesType = "MeasurementCounts" | "LatencyP50" | "LatencyP75" | "LatencyP95";
 
 /**
  * Defines values for EndpointType.
@@ -1873,7 +1882,7 @@ export type TimeseriesType = 'MeasurementCounts' | 'LatencyP50' | 'LatencyP75' |
  * @readonly
  * @enum {string}
  */
-export type EndpointType = 'AFD' | 'AzureRegion' | 'CDN' | 'ATM';
+export type EndpointType = "AFD" | "AzureRegion" | "CDN" | "ATM";
 
 /**
  * Defines values for FrontDoorResourceState.
@@ -1881,7 +1890,13 @@ export type EndpointType = 'AFD' | 'AzureRegion' | 'CDN' | 'ATM';
  * @readonly
  * @enum {string}
  */
-export type FrontDoorResourceState = 'Creating' | 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Deleting';
+export type FrontDoorResourceState =
+  | "Creating"
+  | "Enabling"
+  | "Enabled"
+  | "Disabling"
+  | "Disabled"
+  | "Deleting";
 
 /**
  * Defines values for CustomHttpsProvisioningState.
@@ -1889,7 +1904,12 @@ export type FrontDoorResourceState = 'Creating' | 'Enabling' | 'Enabled' | 'Disa
  * @readonly
  * @enum {string}
  */
-export type CustomHttpsProvisioningState = 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Failed';
+export type CustomHttpsProvisioningState =
+  | "Enabling"
+  | "Enabled"
+  | "Disabling"
+  | "Disabled"
+  | "Failed";
 
 /**
  * Defines values for CustomHttpsProvisioningSubstate.
@@ -1901,7 +1921,17 @@ export type CustomHttpsProvisioningState = 'Enabling' | 'Enabled' | 'Disabling' 
  * @readonly
  * @enum {string}
  */
-export type CustomHttpsProvisioningSubstate = 'SubmittingDomainControlValidationRequest' | 'PendingDomainControlValidationREquestApproval' | 'DomainControlValidationRequestApproved' | 'DomainControlValidationRequestRejected' | 'DomainControlValidationRequestTimedOut' | 'IssuingCertificate' | 'DeployingCertificate' | 'CertificateDeployed' | 'DeletingCertificate' | 'CertificateDeleted';
+export type CustomHttpsProvisioningSubstate =
+  | "SubmittingDomainControlValidationRequest"
+  | "PendingDomainControlValidationREquestApproval"
+  | "DomainControlValidationRequestApproved"
+  | "DomainControlValidationRequestRejected"
+  | "DomainControlValidationRequestTimedOut"
+  | "IssuingCertificate"
+  | "DeployingCertificate"
+  | "CertificateDeployed"
+  | "DeletingCertificate"
+  | "CertificateDeleted";
 
 /**
  * Defines values for FrontDoorCertificateSource.
@@ -1909,7 +1939,7 @@ export type CustomHttpsProvisioningSubstate = 'SubmittingDomainControlValidation
  * @readonly
  * @enum {string}
  */
-export type FrontDoorCertificateSource = 'AzureKeyVault' | 'FrontDoor';
+export type FrontDoorCertificateSource = "AzureKeyVault" | "FrontDoor";
 
 /**
  * Defines values for MinimumTLSVersion.
@@ -1917,7 +1947,7 @@ export type FrontDoorCertificateSource = 'AzureKeyVault' | 'FrontDoor';
  * @readonly
  * @enum {string}
  */
-export type MinimumTLSVersion = '1.0' | '1.2';
+export type MinimumTLSVersion = "1.0" | "1.2";
 
 /**
  * Defines values for FrontDoorCertificateType.
@@ -1925,7 +1955,7 @@ export type MinimumTLSVersion = '1.0' | '1.2';
  * @readonly
  * @enum {string}
  */
-export type FrontDoorCertificateType = 'Dedicated';
+export type FrontDoorCertificateType = "Dedicated";
 
 /**
  * Defines values for EnforceCertificateNameCheckEnabledState.
@@ -1933,7 +1963,7 @@ export type FrontDoorCertificateType = 'Dedicated';
  * @readonly
  * @enum {string}
  */
-export type EnforceCertificateNameCheckEnabledState = 'Enabled' | 'Disabled';
+export type EnforceCertificateNameCheckEnabledState = "Enabled" | "Disabled";
 
 /**
  * Defines values for FrontDoorEnabledState.
@@ -1941,7 +1971,7 @@ export type EnforceCertificateNameCheckEnabledState = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type FrontDoorEnabledState = 'Enabled' | 'Disabled';
+export type FrontDoorEnabledState = "Enabled" | "Disabled";
 
 /**
  * Defines values for FrontDoorProtocol.
@@ -1949,7 +1979,7 @@ export type FrontDoorEnabledState = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type FrontDoorProtocol = 'Http' | 'Https';
+export type FrontDoorProtocol = "Http" | "Https";
 
 /**
  * Defines values for RoutingRuleEnabledState.
@@ -1957,7 +1987,7 @@ export type FrontDoorProtocol = 'Http' | 'Https';
  * @readonly
  * @enum {string}
  */
-export type RoutingRuleEnabledState = 'Enabled' | 'Disabled';
+export type RoutingRuleEnabledState = "Enabled" | "Disabled";
 
 /**
  * Defines values for FrontDoorForwardingProtocol.
@@ -1965,7 +1995,7 @@ export type RoutingRuleEnabledState = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type FrontDoorForwardingProtocol = 'HttpOnly' | 'HttpsOnly' | 'MatchRequest';
+export type FrontDoorForwardingProtocol = "HttpOnly" | "HttpsOnly" | "MatchRequest";
 
 /**
  * Defines values for FrontDoorQuery.
@@ -1973,7 +2003,7 @@ export type FrontDoorForwardingProtocol = 'HttpOnly' | 'HttpsOnly' | 'MatchReque
  * @readonly
  * @enum {string}
  */
-export type FrontDoorQuery = 'StripNone' | 'StripAll' | 'StripOnly' | 'StripAllExcept';
+export type FrontDoorQuery = "StripNone" | "StripAll" | "StripOnly" | "StripAllExcept";
 
 /**
  * Defines values for DynamicCompressionEnabled.
@@ -1981,7 +2011,7 @@ export type FrontDoorQuery = 'StripNone' | 'StripAll' | 'StripOnly' | 'StripAllE
  * @readonly
  * @enum {string}
  */
-export type DynamicCompressionEnabled = 'Enabled' | 'Disabled';
+export type DynamicCompressionEnabled = "Enabled" | "Disabled";
 
 /**
  * Defines values for FrontDoorRedirectType.
@@ -1989,7 +2019,7 @@ export type DynamicCompressionEnabled = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type FrontDoorRedirectType = 'Moved' | 'Found' | 'TemporaryRedirect' | 'PermanentRedirect';
+export type FrontDoorRedirectType = "Moved" | "Found" | "TemporaryRedirect" | "PermanentRedirect";
 
 /**
  * Defines values for FrontDoorRedirectProtocol.
@@ -1997,7 +2027,7 @@ export type FrontDoorRedirectType = 'Moved' | 'Found' | 'TemporaryRedirect' | 'P
  * @readonly
  * @enum {string}
  */
-export type FrontDoorRedirectProtocol = 'HttpOnly' | 'HttpsOnly' | 'MatchRequest';
+export type FrontDoorRedirectProtocol = "HttpOnly" | "HttpsOnly" | "MatchRequest";
 
 /**
  * Defines values for PrivateEndpointStatus.
@@ -2005,7 +2035,12 @@ export type FrontDoorRedirectProtocol = 'HttpOnly' | 'HttpsOnly' | 'MatchRequest
  * @readonly
  * @enum {string}
  */
-export type PrivateEndpointStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected' | 'Timeout';
+export type PrivateEndpointStatus =
+  | "Pending"
+  | "Approved"
+  | "Rejected"
+  | "Disconnected"
+  | "Timeout";
 
 /**
  * Defines values for BackendEnabledState.
@@ -2013,7 +2048,7 @@ export type PrivateEndpointStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disco
  * @readonly
  * @enum {string}
  */
-export type BackendEnabledState = 'Enabled' | 'Disabled';
+export type BackendEnabledState = "Enabled" | "Disabled";
 
 /**
  * Defines values for FrontDoorHealthProbeMethod.
@@ -2021,7 +2056,7 @@ export type BackendEnabledState = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type FrontDoorHealthProbeMethod = 'GET' | 'HEAD';
+export type FrontDoorHealthProbeMethod = "GET" | "HEAD";
 
 /**
  * Defines values for HealthProbeEnabled.
@@ -2029,7 +2064,7 @@ export type FrontDoorHealthProbeMethod = 'GET' | 'HEAD';
  * @readonly
  * @enum {string}
  */
-export type HealthProbeEnabled = 'Enabled' | 'Disabled';
+export type HealthProbeEnabled = "Enabled" | "Disabled";
 
 /**
  * Defines values for SessionAffinityEnabledState.
@@ -2037,7 +2072,7 @@ export type HealthProbeEnabled = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type SessionAffinityEnabledState = 'Enabled' | 'Disabled';
+export type SessionAffinityEnabledState = "Enabled" | "Disabled";
 
 /**
  * Defines values for HeaderActionType.
@@ -2045,7 +2080,7 @@ export type SessionAffinityEnabledState = 'Enabled' | 'Disabled';
  * @readonly
  * @enum {string}
  */
-export type HeaderActionType = 'Append' | 'Delete' | 'Overwrite';
+export type HeaderActionType = "Append" | "Delete" | "Overwrite";
 
 /**
  * Defines values for RulesEngineMatchVariable.
@@ -2055,7 +2090,19 @@ export type HeaderActionType = 'Append' | 'Delete' | 'Overwrite';
  * @readonly
  * @enum {string}
  */
-export type RulesEngineMatchVariable = 'IsMobile' | 'RemoteAddr' | 'RequestMethod' | 'QueryString' | 'PostArgs' | 'RequestUri' | 'RequestPath' | 'RequestFilename' | 'RequestFilenameExtension' | 'RequestHeader' | 'RequestBody' | 'RequestScheme';
+export type RulesEngineMatchVariable =
+  | "IsMobile"
+  | "RemoteAddr"
+  | "RequestMethod"
+  | "QueryString"
+  | "PostArgs"
+  | "RequestUri"
+  | "RequestPath"
+  | "RequestFilename"
+  | "RequestFilenameExtension"
+  | "RequestHeader"
+  | "RequestBody"
+  | "RequestScheme";
 
 /**
  * Defines values for RulesEngineOperator.
@@ -2064,7 +2111,18 @@ export type RulesEngineMatchVariable = 'IsMobile' | 'RemoteAddr' | 'RequestMetho
  * @readonly
  * @enum {string}
  */
-export type RulesEngineOperator = 'Any' | 'IPMatch' | 'GeoMatch' | 'Equal' | 'Contains' | 'LessThan' | 'GreaterThan' | 'LessThanOrEqual' | 'GreaterThanOrEqual' | 'BeginsWith' | 'EndsWith';
+export type RulesEngineOperator =
+  | "Any"
+  | "IPMatch"
+  | "GeoMatch"
+  | "Equal"
+  | "Contains"
+  | "LessThan"
+  | "GreaterThan"
+  | "LessThanOrEqual"
+  | "GreaterThanOrEqual"
+  | "BeginsWith"
+  | "EndsWith";
 
 /**
  * Defines values for Transform.
@@ -2073,7 +2131,13 @@ export type RulesEngineOperator = 'Any' | 'IPMatch' | 'GeoMatch' | 'Equal' | 'Co
  * @readonly
  * @enum {string}
  */
-export type Transform = 'Lowercase' | 'Uppercase' | 'Trim' | 'UrlDecode' | 'UrlEncode' | 'RemoveNulls';
+export type Transform =
+  | "Lowercase"
+  | "Uppercase"
+  | "Trim"
+  | "UrlDecode"
+  | "UrlEncode"
+  | "RemoveNulls";
 
 /**
  * Defines values for MatchProcessingBehavior.
@@ -2081,7 +2145,7 @@ export type Transform = 'Lowercase' | 'Uppercase' | 'Trim' | 'UrlDecode' | 'UrlE
  * @readonly
  * @enum {string}
  */
-export type MatchProcessingBehavior = 'Continue' | 'Stop';
+export type MatchProcessingBehavior = "Continue" | "Stop";
 
 /**
  * Defines values for ResourceType.
@@ -2090,7 +2154,9 @@ export type MatchProcessingBehavior = 'Continue' | 'Stop';
  * @readonly
  * @enum {string}
  */
-export type ResourceType = 'Microsoft.Network/frontDoors' | 'Microsoft.Network/frontDoors/frontendEndpoints';
+export type ResourceType =
+  | "Microsoft.Network/frontDoors"
+  | "Microsoft.Network/frontDoors/frontendEndpoints";
 
 /**
  * Defines values for Availability.
@@ -2098,7 +2164,7 @@ export type ResourceType = 'Microsoft.Network/frontDoors' | 'Microsoft.Network/f
  * @readonly
  * @enum {string}
  */
-export type Availability = 'Available' | 'Unavailable';
+export type Availability = "Available" | "Unavailable";
 
 /**
  * Defines values for PolicyEnabledState.
@@ -2106,7 +2172,7 @@ export type Availability = 'Available' | 'Unavailable';
  * @readonly
  * @enum {string}
  */
-export type PolicyEnabledState = 'Disabled' | 'Enabled';
+export type PolicyEnabledState = "Disabled" | "Enabled";
 
 /**
  * Defines values for PolicyMode.
@@ -2114,7 +2180,7 @@ export type PolicyEnabledState = 'Disabled' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type PolicyMode = 'Prevention' | 'Detection';
+export type PolicyMode = "Prevention" | "Detection";
 
 /**
  * Defines values for CustomRuleEnabledState.
@@ -2122,7 +2188,7 @@ export type PolicyMode = 'Prevention' | 'Detection';
  * @readonly
  * @enum {string}
  */
-export type CustomRuleEnabledState = 'Disabled' | 'Enabled';
+export type CustomRuleEnabledState = "Disabled" | "Enabled";
 
 /**
  * Defines values for RuleType.
@@ -2130,7 +2196,7 @@ export type CustomRuleEnabledState = 'Disabled' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type RuleType = 'MatchRule' | 'RateLimitRule';
+export type RuleType = "MatchRule" | "RateLimitRule";
 
 /**
  * Defines values for MatchVariable.
@@ -2139,7 +2205,16 @@ export type RuleType = 'MatchRule' | 'RateLimitRule';
  * @readonly
  * @enum {string}
  */
-export type MatchVariable = 'RemoteAddr' | 'RequestMethod' | 'QueryString' | 'PostArgs' | 'RequestUri' | 'RequestHeader' | 'RequestBody' | 'Cookies' | 'SocketAddr';
+export type MatchVariable =
+  | "RemoteAddr"
+  | "RequestMethod"
+  | "QueryString"
+  | "PostArgs"
+  | "RequestUri"
+  | "RequestHeader"
+  | "RequestBody"
+  | "Cookies"
+  | "SocketAddr";
 
 /**
  * Defines values for Operator.
@@ -2148,7 +2223,19 @@ export type MatchVariable = 'RemoteAddr' | 'RequestMethod' | 'QueryString' | 'Po
  * @readonly
  * @enum {string}
  */
-export type Operator = 'Any' | 'IPMatch' | 'GeoMatch' | 'Equal' | 'Contains' | 'LessThan' | 'GreaterThan' | 'LessThanOrEqual' | 'GreaterThanOrEqual' | 'BeginsWith' | 'EndsWith' | 'RegEx';
+export type Operator =
+  | "Any"
+  | "IPMatch"
+  | "GeoMatch"
+  | "Equal"
+  | "Contains"
+  | "LessThan"
+  | "GreaterThan"
+  | "LessThanOrEqual"
+  | "GreaterThanOrEqual"
+  | "BeginsWith"
+  | "EndsWith"
+  | "RegEx";
 
 /**
  * Defines values for TransformType.
@@ -2157,7 +2244,13 @@ export type Operator = 'Any' | 'IPMatch' | 'GeoMatch' | 'Equal' | 'Contains' | '
  * @readonly
  * @enum {string}
  */
-export type TransformType = 'Lowercase' | 'Uppercase' | 'Trim' | 'UrlDecode' | 'UrlEncode' | 'RemoveNulls';
+export type TransformType =
+  | "Lowercase"
+  | "Uppercase"
+  | "Trim"
+  | "UrlDecode"
+  | "UrlEncode"
+  | "RemoveNulls";
 
 /**
  * Defines values for ActionType.
@@ -2165,7 +2258,7 @@ export type TransformType = 'Lowercase' | 'Uppercase' | 'Trim' | 'UrlDecode' | '
  * @readonly
  * @enum {string}
  */
-export type ActionType = 'Allow' | 'Block' | 'Log' | 'Redirect';
+export type ActionType = "Allow" | "Block" | "Log" | "Redirect";
 
 /**
  * Defines values for ManagedRuleExclusionMatchVariable.
@@ -2174,7 +2267,11 @@ export type ActionType = 'Allow' | 'Block' | 'Log' | 'Redirect';
  * @readonly
  * @enum {string}
  */
-export type ManagedRuleExclusionMatchVariable = 'RequestHeaderNames' | 'RequestCookieNames' | 'QueryStringArgNames' | 'RequestBodyPostArgNames';
+export type ManagedRuleExclusionMatchVariable =
+  | "RequestHeaderNames"
+  | "RequestCookieNames"
+  | "QueryStringArgNames"
+  | "RequestBodyPostArgNames";
 
 /**
  * Defines values for ManagedRuleExclusionSelectorMatchOperator.
@@ -2182,7 +2279,12 @@ export type ManagedRuleExclusionMatchVariable = 'RequestHeaderNames' | 'RequestC
  * @readonly
  * @enum {string}
  */
-export type ManagedRuleExclusionSelectorMatchOperator = 'Equals' | 'Contains' | 'StartsWith' | 'EndsWith' | 'EqualsAny';
+export type ManagedRuleExclusionSelectorMatchOperator =
+  | "Equals"
+  | "Contains"
+  | "StartsWith"
+  | "EndsWith"
+  | "EqualsAny";
 
 /**
  * Defines values for ManagedRuleEnabledState.
@@ -2190,7 +2292,7 @@ export type ManagedRuleExclusionSelectorMatchOperator = 'Equals' | 'Contains' | 
  * @readonly
  * @enum {string}
  */
-export type ManagedRuleEnabledState = 'Disabled' | 'Enabled';
+export type ManagedRuleEnabledState = "Disabled" | "Enabled";
 
 /**
  * Defines values for PolicyResourceState.
@@ -2198,7 +2300,13 @@ export type ManagedRuleEnabledState = 'Disabled' | 'Enabled';
  * @readonly
  * @enum {string}
  */
-export type PolicyResourceState = 'Creating' | 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Deleting';
+export type PolicyResourceState =
+  | "Creating"
+  | "Enabling"
+  | "Enabled"
+  | "Disabling"
+  | "Disabled"
+  | "Deleting";
 
 /**
  * Defines values for LatencyScorecardAggregationInterval.
@@ -2206,7 +2314,7 @@ export type PolicyResourceState = 'Creating' | 'Enabling' | 'Enabled' | 'Disabli
  * @readonly
  * @enum {string}
  */
-export type LatencyScorecardAggregationInterval = 'Daily' | 'Weekly' | 'Monthly';
+export type LatencyScorecardAggregationInterval = "Daily" | "Weekly" | "Monthly";
 
 /**
  * Defines values for TimeseriesAggregationInterval.
@@ -2214,7 +2322,7 @@ export type LatencyScorecardAggregationInterval = 'Daily' | 'Weekly' | 'Monthly'
  * @readonly
  * @enum {string}
  */
-export type TimeseriesAggregationInterval = 'Hourly' | 'Daily';
+export type TimeseriesAggregationInterval = "Hourly" | "Daily";
 
 /**
  * Contains response data for the list operation.
@@ -2224,16 +2332,16 @@ export type NetworkExperimentProfilesListResponse = ProfileList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProfileList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProfileList;
+  };
 };
 
 /**
@@ -2244,16 +2352,16 @@ export type NetworkExperimentProfilesListByResourceGroupResponse = ProfileList &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProfileList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProfileList;
+  };
 };
 
 /**
@@ -2264,16 +2372,16 @@ export type NetworkExperimentProfilesGetResponse = Profile & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Profile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Profile;
+  };
 };
 
 /**
@@ -2284,16 +2392,16 @@ export type NetworkExperimentProfilesCreateOrUpdateResponse = Profile & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Profile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Profile;
+  };
 };
 
 /**
@@ -2304,16 +2412,16 @@ export type NetworkExperimentProfilesUpdateResponse = Profile & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Profile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Profile;
+  };
 };
 
 /**
@@ -2324,16 +2432,16 @@ export type NetworkExperimentProfilesBeginCreateOrUpdateResponse = Profile & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Profile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Profile;
+  };
 };
 
 /**
@@ -2344,16 +2452,16 @@ export type NetworkExperimentProfilesBeginUpdateResponse = Profile & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Profile;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Profile;
+  };
 };
 
 /**
@@ -2364,16 +2472,16 @@ export type NetworkExperimentProfilesListNextResponse = ProfileList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProfileList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProfileList;
+  };
 };
 
 /**
@@ -2384,16 +2492,16 @@ export type NetworkExperimentProfilesListByResourceGroupNextResponse = ProfileLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ProfileList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ProfileList;
+  };
 };
 
 /**
@@ -2404,16 +2512,16 @@ export type PreconfiguredEndpointsListResponse = PreconfiguredEndpointList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PreconfiguredEndpointList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PreconfiguredEndpointList;
+  };
 };
 
 /**
@@ -2424,16 +2532,16 @@ export type PreconfiguredEndpointsListNextResponse = PreconfiguredEndpointList &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PreconfiguredEndpointList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PreconfiguredEndpointList;
+  };
 };
 
 /**
@@ -2444,16 +2552,16 @@ export type ExperimentsListByProfileResponse = ExperimentList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExperimentList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExperimentList;
+  };
 };
 
 /**
@@ -2464,16 +2572,16 @@ export type ExperimentsGetResponse = Experiment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Experiment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Experiment;
+  };
 };
 
 /**
@@ -2484,16 +2592,16 @@ export type ExperimentsCreateOrUpdateResponse = Experiment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Experiment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Experiment;
+  };
 };
 
 /**
@@ -2504,16 +2612,16 @@ export type ExperimentsUpdateResponse = Experiment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Experiment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Experiment;
+  };
 };
 
 /**
@@ -2524,16 +2632,16 @@ export type ExperimentsBeginCreateOrUpdateResponse = Experiment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Experiment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Experiment;
+  };
 };
 
 /**
@@ -2544,16 +2652,16 @@ export type ExperimentsBeginUpdateResponse = Experiment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Experiment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Experiment;
+  };
 };
 
 /**
@@ -2564,16 +2672,16 @@ export type ExperimentsListByProfileNextResponse = ExperimentList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExperimentList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExperimentList;
+  };
 };
 
 /**
@@ -2584,16 +2692,16 @@ export type ReportsGetLatencyScorecardsResponse = LatencyScorecard & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LatencyScorecard;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LatencyScorecard;
+  };
 };
 
 /**
@@ -2604,16 +2712,16 @@ export type ReportsGetTimeseriesResponse = Timeseries & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Timeseries;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Timeseries;
+  };
 };
 
 /**
@@ -2624,16 +2732,16 @@ export type CheckFrontDoorNameAvailabilityResponse = CheckNameAvailabilityOutput
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityOutput;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityOutput;
+  };
 };
 
 /**
@@ -2644,16 +2752,16 @@ export type CheckFrontDoorNameAvailabilityWithSubscriptionResponse = CheckNameAv
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityOutput;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityOutput;
+  };
 };
 
 /**
@@ -2664,16 +2772,16 @@ export type FrontDoorsListResponse = FrontDoorListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FrontDoorListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FrontDoorListResult;
+  };
 };
 
 /**
@@ -2684,16 +2792,16 @@ export type FrontDoorsListByResourceGroupResponse = FrontDoorListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FrontDoorListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FrontDoorListResult;
+  };
 };
 
 /**
@@ -2704,16 +2812,16 @@ export type FrontDoorsGetResponse = FrontDoor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FrontDoor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FrontDoor;
+  };
 };
 
 /**
@@ -2724,16 +2832,16 @@ export type FrontDoorsCreateOrUpdateResponse = FrontDoor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FrontDoor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FrontDoor;
+  };
 };
 
 /**
@@ -2744,16 +2852,16 @@ export type FrontDoorsValidateCustomDomainResponse = ValidateCustomDomainOutput 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ValidateCustomDomainOutput;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ValidateCustomDomainOutput;
+  };
 };
 
 /**
@@ -2764,16 +2872,16 @@ export type FrontDoorsBeginCreateOrUpdateResponse = FrontDoor & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FrontDoor;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FrontDoor;
+  };
 };
 
 /**
@@ -2784,16 +2892,16 @@ export type FrontDoorsListNextResponse = FrontDoorListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FrontDoorListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FrontDoorListResult;
+  };
 };
 
 /**
@@ -2804,16 +2912,16 @@ export type FrontDoorsListByResourceGroupNextResponse = FrontDoorListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FrontDoorListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FrontDoorListResult;
+  };
 };
 
 /**
@@ -2824,16 +2932,16 @@ export type FrontendEndpointsListByFrontDoorResponse = FrontendEndpointsListResu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FrontendEndpointsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FrontendEndpointsListResult;
+  };
 };
 
 /**
@@ -2844,16 +2952,16 @@ export type FrontendEndpointsGetResponse = FrontendEndpoint & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FrontendEndpoint;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FrontendEndpoint;
+  };
 };
 
 /**
@@ -2864,16 +2972,16 @@ export type FrontendEndpointsListByFrontDoorNextResponse = FrontendEndpointsList
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FrontendEndpointsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FrontendEndpointsListResult;
+  };
 };
 
 /**
@@ -2884,16 +2992,16 @@ export type RulesEnginesListByFrontDoorResponse = RulesEngineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RulesEngineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RulesEngineListResult;
+  };
 };
 
 /**
@@ -2904,16 +3012,16 @@ export type RulesEnginesGetResponse = RulesEngine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RulesEngine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RulesEngine;
+  };
 };
 
 /**
@@ -2924,16 +3032,16 @@ export type RulesEnginesCreateOrUpdateResponse = RulesEngine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RulesEngine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RulesEngine;
+  };
 };
 
 /**
@@ -2944,16 +3052,16 @@ export type RulesEnginesBeginCreateOrUpdateResponse = RulesEngine & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RulesEngine;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RulesEngine;
+  };
 };
 
 /**
@@ -2964,16 +3072,16 @@ export type RulesEnginesListByFrontDoorNextResponse = RulesEngineListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RulesEngineListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RulesEngineListResult;
+  };
 };
 
 /**
@@ -2984,16 +3092,16 @@ export type PoliciesListResponse = WebApplicationFirewallPolicyList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebApplicationFirewallPolicyList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebApplicationFirewallPolicyList;
+  };
 };
 
 /**
@@ -3004,16 +3112,16 @@ export type PoliciesGetResponse = WebApplicationFirewallPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebApplicationFirewallPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebApplicationFirewallPolicy;
+  };
 };
 
 /**
@@ -3024,16 +3132,16 @@ export type PoliciesCreateOrUpdateResponse = WebApplicationFirewallPolicy & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebApplicationFirewallPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebApplicationFirewallPolicy;
+  };
 };
 
 /**
@@ -3044,16 +3152,16 @@ export type PoliciesBeginCreateOrUpdateResponse = WebApplicationFirewallPolicy &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebApplicationFirewallPolicy;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebApplicationFirewallPolicy;
+  };
 };
 
 /**
@@ -3064,16 +3172,16 @@ export type PoliciesListNextResponse = WebApplicationFirewallPolicyList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebApplicationFirewallPolicyList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: WebApplicationFirewallPolicyList;
+  };
 };
 
 /**
@@ -3084,16 +3192,16 @@ export type ManagedRuleSetsListResponse = ManagedRuleSetDefinitionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedRuleSetDefinitionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedRuleSetDefinitionList;
+  };
 };
 
 /**
@@ -3104,14 +3212,14 @@ export type ManagedRuleSetsListNextResponse = ManagedRuleSetDefinitionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ManagedRuleSetDefinitionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ManagedRuleSetDefinitionList;
+  };
 };

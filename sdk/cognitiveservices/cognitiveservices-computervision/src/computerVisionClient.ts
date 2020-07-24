@@ -21,7 +21,11 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    endpoint: string,
+    options?: msRest.ServiceClientOptions
+  ) {
     super(credentials, endpoint, options);
   }
 
@@ -36,7 +40,10 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.AnalyzeImageResponse>
    */
-  analyzeImage(url: string, options?: Models.ComputerVisionClientAnalyzeImageOptionalParams): Promise<Models.AnalyzeImageResponse>;
+  analyzeImage(
+    url: string,
+    options?: Models.ComputerVisionClientAnalyzeImageOptionalParams
+  ): Promise<Models.AnalyzeImageResponse>;
   /**
    * @param url Publicly reachable URL of an image.
    * @param callback The callback
@@ -47,15 +54,26 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  analyzeImage(url: string, options: Models.ComputerVisionClientAnalyzeImageOptionalParams, callback: msRest.ServiceCallback<Models.ImageAnalysis>): void;
-  analyzeImage(url: string, options?: Models.ComputerVisionClientAnalyzeImageOptionalParams | msRest.ServiceCallback<Models.ImageAnalysis>, callback?: msRest.ServiceCallback<Models.ImageAnalysis>): Promise<Models.AnalyzeImageResponse> {
+  analyzeImage(
+    url: string,
+    options: Models.ComputerVisionClientAnalyzeImageOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImageAnalysis>
+  ): void;
+  analyzeImage(
+    url: string,
+    options?:
+      | Models.ComputerVisionClientAnalyzeImageOptionalParams
+      | msRest.ServiceCallback<Models.ImageAnalysis>,
+    callback?: msRest.ServiceCallback<Models.ImageAnalysis>
+  ): Promise<Models.AnalyzeImageResponse> {
     return this.sendOperationRequest(
       {
         url,
         options
       },
       analyzeImageOperationSpec,
-      callback) as Promise<Models.AnalyzeImageResponse>;
+      callback
+    ) as Promise<Models.AnalyzeImageResponse>;
   }
 
   /**
@@ -71,7 +89,10 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DescribeImageResponse>
    */
-  describeImage(url: string, options?: Models.ComputerVisionClientDescribeImageOptionalParams): Promise<Models.DescribeImageResponse>;
+  describeImage(
+    url: string,
+    options?: Models.ComputerVisionClientDescribeImageOptionalParams
+  ): Promise<Models.DescribeImageResponse>;
   /**
    * @param url Publicly reachable URL of an image.
    * @param callback The callback
@@ -82,15 +103,26 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  describeImage(url: string, options: Models.ComputerVisionClientDescribeImageOptionalParams, callback: msRest.ServiceCallback<Models.ImageDescription>): void;
-  describeImage(url: string, options?: Models.ComputerVisionClientDescribeImageOptionalParams | msRest.ServiceCallback<Models.ImageDescription>, callback?: msRest.ServiceCallback<Models.ImageDescription>): Promise<Models.DescribeImageResponse> {
+  describeImage(
+    url: string,
+    options: Models.ComputerVisionClientDescribeImageOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImageDescription>
+  ): void;
+  describeImage(
+    url: string,
+    options?:
+      | Models.ComputerVisionClientDescribeImageOptionalParams
+      | msRest.ServiceCallback<Models.ImageDescription>,
+    callback?: msRest.ServiceCallback<Models.ImageDescription>
+  ): Promise<Models.DescribeImageResponse> {
     return this.sendOperationRequest(
       {
         url,
         options
       },
       describeImageOperationSpec,
-      callback) as Promise<Models.DescribeImageResponse>;
+      callback
+    ) as Promise<Models.DescribeImageResponse>;
   }
 
   /**
@@ -102,7 +134,10 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DetectObjectsResponse>
    */
-  detectObjects(url: string, options?: msRest.RequestOptionsBase): Promise<Models.DetectObjectsResponse>;
+  detectObjects(
+    url: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DetectObjectsResponse>;
   /**
    * @param url Publicly reachable URL of an image.
    * @param callback The callback
@@ -113,15 +148,24 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  detectObjects(url: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectResult>): void;
-  detectObjects(url: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectResult>, callback?: msRest.ServiceCallback<Models.DetectResult>): Promise<Models.DetectObjectsResponse> {
+  detectObjects(
+    url: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DetectResult>
+  ): void;
+  detectObjects(
+    url: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectResult>,
+    callback?: msRest.ServiceCallback<Models.DetectResult>
+  ): Promise<Models.DetectObjectsResponse> {
     return this.sendOperationRequest(
       {
         url,
         options
       },
       detectObjectsOperationSpec,
-      callback) as Promise<Models.DetectObjectsResponse>;
+      callback
+    ) as Promise<Models.DetectObjectsResponse>;
   }
 
   /**
@@ -142,14 +186,21 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listModels(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListModelsResult>): void;
-  listModels(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListModelsResult>, callback?: msRest.ServiceCallback<Models.ListModelsResult>): Promise<Models.ListModelsResponse> {
+  listModels(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListModelsResult>
+  ): void;
+  listModels(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListModelsResult>,
+    callback?: msRest.ServiceCallback<Models.ListModelsResult>
+  ): Promise<Models.ListModelsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       listModelsOperationSpec,
-      callback) as Promise<Models.ListModelsResponse>;
+      callback
+    ) as Promise<Models.ListModelsResponse>;
   }
 
   /**
@@ -166,21 +217,41 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.AnalyzeImageByDomainResponse>
    */
-  analyzeImageByDomain(model: string, url: string, options?: Models.ComputerVisionClientAnalyzeImageByDomainOptionalParams): Promise<Models.AnalyzeImageByDomainResponse>;
+  analyzeImageByDomain(
+    model: string,
+    url: string,
+    options?: Models.ComputerVisionClientAnalyzeImageByDomainOptionalParams
+  ): Promise<Models.AnalyzeImageByDomainResponse>;
   /**
    * @param model The domain-specific content to recognize.
    * @param url Publicly reachable URL of an image.
    * @param callback The callback
    */
-  analyzeImageByDomain(model: string, url: string, callback: msRest.ServiceCallback<Models.DomainModelResults>): void;
+  analyzeImageByDomain(
+    model: string,
+    url: string,
+    callback: msRest.ServiceCallback<Models.DomainModelResults>
+  ): void;
   /**
    * @param model The domain-specific content to recognize.
    * @param url Publicly reachable URL of an image.
    * @param options The optional parameters
    * @param callback The callback
    */
-  analyzeImageByDomain(model: string, url: string, options: Models.ComputerVisionClientAnalyzeImageByDomainOptionalParams, callback: msRest.ServiceCallback<Models.DomainModelResults>): void;
-  analyzeImageByDomain(model: string, url: string, options?: Models.ComputerVisionClientAnalyzeImageByDomainOptionalParams | msRest.ServiceCallback<Models.DomainModelResults>, callback?: msRest.ServiceCallback<Models.DomainModelResults>): Promise<Models.AnalyzeImageByDomainResponse> {
+  analyzeImageByDomain(
+    model: string,
+    url: string,
+    options: Models.ComputerVisionClientAnalyzeImageByDomainOptionalParams,
+    callback: msRest.ServiceCallback<Models.DomainModelResults>
+  ): void;
+  analyzeImageByDomain(
+    model: string,
+    url: string,
+    options?:
+      | Models.ComputerVisionClientAnalyzeImageByDomainOptionalParams
+      | msRest.ServiceCallback<Models.DomainModelResults>,
+    callback?: msRest.ServiceCallback<Models.DomainModelResults>
+  ): Promise<Models.AnalyzeImageByDomainResponse> {
     return this.sendOperationRequest(
       {
         model,
@@ -188,7 +259,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
         options
       },
       analyzeImageByDomainOperationSpec,
-      callback) as Promise<Models.AnalyzeImageByDomainResponse>;
+      callback
+    ) as Promise<Models.AnalyzeImageByDomainResponse>;
   }
 
   /**
@@ -205,7 +277,11 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecognizePrintedTextResponse>
    */
-  recognizePrintedText(detectOrientation: boolean, url: string, options?: Models.ComputerVisionClientRecognizePrintedTextOptionalParams): Promise<Models.RecognizePrintedTextResponse>;
+  recognizePrintedText(
+    detectOrientation: boolean,
+    url: string,
+    options?: Models.ComputerVisionClientRecognizePrintedTextOptionalParams
+  ): Promise<Models.RecognizePrintedTextResponse>;
   /**
    * @param detectOrientation Whether detect the text orientation in the image. With
    * detectOrientation=true the OCR service tries to detect the image orientation and correct it
@@ -213,7 +289,11 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param url Publicly reachable URL of an image.
    * @param callback The callback
    */
-  recognizePrintedText(detectOrientation: boolean, url: string, callback: msRest.ServiceCallback<Models.OcrResult>): void;
+  recognizePrintedText(
+    detectOrientation: boolean,
+    url: string,
+    callback: msRest.ServiceCallback<Models.OcrResult>
+  ): void;
   /**
    * @param detectOrientation Whether detect the text orientation in the image. With
    * detectOrientation=true the OCR service tries to detect the image orientation and correct it
@@ -222,8 +302,20 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  recognizePrintedText(detectOrientation: boolean, url: string, options: Models.ComputerVisionClientRecognizePrintedTextOptionalParams, callback: msRest.ServiceCallback<Models.OcrResult>): void;
-  recognizePrintedText(detectOrientation: boolean, url: string, options?: Models.ComputerVisionClientRecognizePrintedTextOptionalParams | msRest.ServiceCallback<Models.OcrResult>, callback?: msRest.ServiceCallback<Models.OcrResult>): Promise<Models.RecognizePrintedTextResponse> {
+  recognizePrintedText(
+    detectOrientation: boolean,
+    url: string,
+    options: Models.ComputerVisionClientRecognizePrintedTextOptionalParams,
+    callback: msRest.ServiceCallback<Models.OcrResult>
+  ): void;
+  recognizePrintedText(
+    detectOrientation: boolean,
+    url: string,
+    options?:
+      | Models.ComputerVisionClientRecognizePrintedTextOptionalParams
+      | msRest.ServiceCallback<Models.OcrResult>,
+    callback?: msRest.ServiceCallback<Models.OcrResult>
+  ): Promise<Models.RecognizePrintedTextResponse> {
     return this.sendOperationRequest(
       {
         detectOrientation,
@@ -231,7 +323,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
         options
       },
       recognizePrintedTextOperationSpec,
-      callback) as Promise<Models.RecognizePrintedTextResponse>;
+      callback
+    ) as Promise<Models.RecognizePrintedTextResponse>;
   }
 
   /**
@@ -248,7 +341,10 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagImageResponse>
    */
-  tagImage(url: string, options?: Models.ComputerVisionClientTagImageOptionalParams): Promise<Models.TagImageResponse>;
+  tagImage(
+    url: string,
+    options?: Models.ComputerVisionClientTagImageOptionalParams
+  ): Promise<Models.TagImageResponse>;
   /**
    * @param url Publicly reachable URL of an image.
    * @param callback The callback
@@ -259,15 +355,26 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  tagImage(url: string, options: Models.ComputerVisionClientTagImageOptionalParams, callback: msRest.ServiceCallback<Models.TagResult>): void;
-  tagImage(url: string, options?: Models.ComputerVisionClientTagImageOptionalParams | msRest.ServiceCallback<Models.TagResult>, callback?: msRest.ServiceCallback<Models.TagResult>): Promise<Models.TagImageResponse> {
+  tagImage(
+    url: string,
+    options: Models.ComputerVisionClientTagImageOptionalParams,
+    callback: msRest.ServiceCallback<Models.TagResult>
+  ): void;
+  tagImage(
+    url: string,
+    options?:
+      | Models.ComputerVisionClientTagImageOptionalParams
+      | msRest.ServiceCallback<Models.TagResult>,
+    callback?: msRest.ServiceCallback<Models.TagResult>
+  ): Promise<Models.TagImageResponse> {
     return this.sendOperationRequest(
       {
         url,
         options
       },
       tagImageOperationSpec,
-      callback) as Promise<Models.TagImageResponse>;
+      callback
+    ) as Promise<Models.TagImageResponse>;
   }
 
   /**
@@ -288,7 +395,12 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GenerateThumbnailResponse>
    */
-  generateThumbnail(width: number, height: number, url: string, options?: Models.ComputerVisionClientGenerateThumbnailOptionalParams): Promise<Models.GenerateThumbnailResponse>;
+  generateThumbnail(
+    width: number,
+    height: number,
+    url: string,
+    options?: Models.ComputerVisionClientGenerateThumbnailOptionalParams
+  ): Promise<Models.GenerateThumbnailResponse>;
   /**
    * @param width Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
    * minimum of 50.
@@ -297,7 +409,12 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param url Publicly reachable URL of an image.
    * @param callback The callback
    */
-  generateThumbnail(width: number, height: number, url: string, callback: msRest.ServiceCallback<void>): void;
+  generateThumbnail(
+    width: number,
+    height: number,
+    url: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param width Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
    * minimum of 50.
@@ -307,8 +424,22 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  generateThumbnail(width: number, height: number, url: string, options: Models.ComputerVisionClientGenerateThumbnailOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  generateThumbnail(width: number, height: number, url: string, options?: Models.ComputerVisionClientGenerateThumbnailOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.GenerateThumbnailResponse> {
+  generateThumbnail(
+    width: number,
+    height: number,
+    url: string,
+    options: Models.ComputerVisionClientGenerateThumbnailOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  generateThumbnail(
+    width: number,
+    height: number,
+    url: string,
+    options?:
+      | Models.ComputerVisionClientGenerateThumbnailOptionalParams
+      | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.GenerateThumbnailResponse> {
     return this.sendOperationRequest(
       {
         width,
@@ -317,7 +448,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
         options
       },
       generateThumbnailOperationSpec,
-      callback) as Promise<Models.GenerateThumbnailResponse>;
+      callback
+    ) as Promise<Models.GenerateThumbnailResponse>;
   }
 
   /**
@@ -331,26 +463,41 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetAreaOfInterestResponse>
    */
-  getAreaOfInterest(url: string, options?: msRest.RequestOptionsBase): Promise<Models.GetAreaOfInterestResponse>;
+  getAreaOfInterest(
+    url: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetAreaOfInterestResponse>;
   /**
    * @param url Publicly reachable URL of an image.
    * @param callback The callback
    */
-  getAreaOfInterest(url: string, callback: msRest.ServiceCallback<Models.AreaOfInterestResult>): void;
+  getAreaOfInterest(
+    url: string,
+    callback: msRest.ServiceCallback<Models.AreaOfInterestResult>
+  ): void;
   /**
    * @param url Publicly reachable URL of an image.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAreaOfInterest(url: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AreaOfInterestResult>): void;
-  getAreaOfInterest(url: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AreaOfInterestResult>, callback?: msRest.ServiceCallback<Models.AreaOfInterestResult>): Promise<Models.GetAreaOfInterestResponse> {
+  getAreaOfInterest(
+    url: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AreaOfInterestResult>
+  ): void;
+  getAreaOfInterest(
+    url: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AreaOfInterestResult>,
+    callback?: msRest.ServiceCallback<Models.AreaOfInterestResult>
+  ): Promise<Models.GetAreaOfInterestResponse> {
     return this.sendOperationRequest(
       {
         url,
         options
       },
       getAreaOfInterestOperationSpec,
-      callback) as Promise<Models.GetAreaOfInterestResponse>;
+      callback
+    ) as Promise<Models.GetAreaOfInterestResponse>;
   }
 
   /**
@@ -363,7 +510,10 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReadResponse>
    */
-  read(url: string, options?: Models.ComputerVisionClientReadOptionalParams): Promise<Models.ReadResponse>;
+  read(
+    url: string,
+    options?: Models.ComputerVisionClientReadOptionalParams
+  ): Promise<Models.ReadResponse>;
   /**
    * @param url Publicly reachable URL of an image.
    * @param callback The callback
@@ -374,15 +524,24 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  read(url: string, options: Models.ComputerVisionClientReadOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  read(url: string, options?: Models.ComputerVisionClientReadOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ReadResponse> {
+  read(
+    url: string,
+    options: Models.ComputerVisionClientReadOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  read(
+    url: string,
+    options?: Models.ComputerVisionClientReadOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.ReadResponse> {
     return this.sendOperationRequest(
       {
         url,
         options
       },
       readOperationSpec,
-      callback) as Promise<Models.ReadResponse>;
+      callback
+    ) as Promise<Models.ReadResponse>;
   }
 
   /**
@@ -392,26 +551,41 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetReadResultResponse>
    */
-  getReadResult(operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetReadResultResponse>;
+  getReadResult(
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetReadResultResponse>;
   /**
    * @param operationId Id of read operation returned in the response of the 'Read' interface.
    * @param callback The callback
    */
-  getReadResult(operationId: string, callback: msRest.ServiceCallback<Models.ReadOperationResult>): void;
+  getReadResult(
+    operationId: string,
+    callback: msRest.ServiceCallback<Models.ReadOperationResult>
+  ): void;
   /**
    * @param operationId Id of read operation returned in the response of the 'Read' interface.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getReadResult(operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReadOperationResult>): void;
-  getReadResult(operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReadOperationResult>, callback?: msRest.ServiceCallback<Models.ReadOperationResult>): Promise<Models.GetReadResultResponse> {
+  getReadResult(
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReadOperationResult>
+  ): void;
+  getReadResult(
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReadOperationResult>,
+    callback?: msRest.ServiceCallback<Models.ReadOperationResult>
+  ): Promise<Models.GetReadResultResponse> {
     return this.sendOperationRequest(
       {
         operationId,
         options
       },
       getReadResultOperationSpec,
-      callback) as Promise<Models.GetReadResultResponse>;
+      callback
+    ) as Promise<Models.GetReadResultResponse>;
   }
 
   /**
@@ -425,26 +599,43 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.AnalyzeImageInStreamResponse>
    */
-  analyzeImageInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientAnalyzeImageInStreamOptionalParams): Promise<Models.AnalyzeImageInStreamResponse>;
+  analyzeImageInStream(
+    image: msRest.HttpRequestBody,
+    options?: Models.ComputerVisionClientAnalyzeImageInStreamOptionalParams
+  ): Promise<Models.AnalyzeImageInStreamResponse>;
   /**
    * @param image An image stream.
    * @param callback The callback
    */
-  analyzeImageInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.ImageAnalysis>): void;
+  analyzeImageInStream(
+    image: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.ImageAnalysis>
+  ): void;
   /**
    * @param image An image stream.
    * @param options The optional parameters
    * @param callback The callback
    */
-  analyzeImageInStream(image: msRest.HttpRequestBody, options: Models.ComputerVisionClientAnalyzeImageInStreamOptionalParams, callback: msRest.ServiceCallback<Models.ImageAnalysis>): void;
-  analyzeImageInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientAnalyzeImageInStreamOptionalParams | msRest.ServiceCallback<Models.ImageAnalysis>, callback?: msRest.ServiceCallback<Models.ImageAnalysis>): Promise<Models.AnalyzeImageInStreamResponse> {
+  analyzeImageInStream(
+    image: msRest.HttpRequestBody,
+    options: Models.ComputerVisionClientAnalyzeImageInStreamOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImageAnalysis>
+  ): void;
+  analyzeImageInStream(
+    image: msRest.HttpRequestBody,
+    options?:
+      | Models.ComputerVisionClientAnalyzeImageInStreamOptionalParams
+      | msRest.ServiceCallback<Models.ImageAnalysis>,
+    callback?: msRest.ServiceCallback<Models.ImageAnalysis>
+  ): Promise<Models.AnalyzeImageInStreamResponse> {
     return this.sendOperationRequest(
       {
         image,
         options
       },
       analyzeImageInStreamOperationSpec,
-      callback) as Promise<Models.AnalyzeImageInStreamResponse>;
+      callback
+    ) as Promise<Models.AnalyzeImageInStreamResponse>;
   }
 
   /**
@@ -458,26 +649,41 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetAreaOfInterestInStreamResponse>
    */
-  getAreaOfInterestInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.GetAreaOfInterestInStreamResponse>;
+  getAreaOfInterestInStream(
+    image: msRest.HttpRequestBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetAreaOfInterestInStreamResponse>;
   /**
    * @param image An image stream.
    * @param callback The callback
    */
-  getAreaOfInterestInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.AreaOfInterestResult>): void;
+  getAreaOfInterestInStream(
+    image: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.AreaOfInterestResult>
+  ): void;
   /**
    * @param image An image stream.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAreaOfInterestInStream(image: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AreaOfInterestResult>): void;
-  getAreaOfInterestInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AreaOfInterestResult>, callback?: msRest.ServiceCallback<Models.AreaOfInterestResult>): Promise<Models.GetAreaOfInterestInStreamResponse> {
+  getAreaOfInterestInStream(
+    image: msRest.HttpRequestBody,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AreaOfInterestResult>
+  ): void;
+  getAreaOfInterestInStream(
+    image: msRest.HttpRequestBody,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AreaOfInterestResult>,
+    callback?: msRest.ServiceCallback<Models.AreaOfInterestResult>
+  ): Promise<Models.GetAreaOfInterestInStreamResponse> {
     return this.sendOperationRequest(
       {
         image,
         options
       },
       getAreaOfInterestInStreamOperationSpec,
-      callback) as Promise<Models.GetAreaOfInterestInStreamResponse>;
+      callback
+    ) as Promise<Models.GetAreaOfInterestInStreamResponse>;
   }
 
   /**
@@ -493,26 +699,43 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DescribeImageInStreamResponse>
    */
-  describeImageInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientDescribeImageInStreamOptionalParams): Promise<Models.DescribeImageInStreamResponse>;
+  describeImageInStream(
+    image: msRest.HttpRequestBody,
+    options?: Models.ComputerVisionClientDescribeImageInStreamOptionalParams
+  ): Promise<Models.DescribeImageInStreamResponse>;
   /**
    * @param image An image stream.
    * @param callback The callback
    */
-  describeImageInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.ImageDescription>): void;
+  describeImageInStream(
+    image: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.ImageDescription>
+  ): void;
   /**
    * @param image An image stream.
    * @param options The optional parameters
    * @param callback The callback
    */
-  describeImageInStream(image: msRest.HttpRequestBody, options: Models.ComputerVisionClientDescribeImageInStreamOptionalParams, callback: msRest.ServiceCallback<Models.ImageDescription>): void;
-  describeImageInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientDescribeImageInStreamOptionalParams | msRest.ServiceCallback<Models.ImageDescription>, callback?: msRest.ServiceCallback<Models.ImageDescription>): Promise<Models.DescribeImageInStreamResponse> {
+  describeImageInStream(
+    image: msRest.HttpRequestBody,
+    options: Models.ComputerVisionClientDescribeImageInStreamOptionalParams,
+    callback: msRest.ServiceCallback<Models.ImageDescription>
+  ): void;
+  describeImageInStream(
+    image: msRest.HttpRequestBody,
+    options?:
+      | Models.ComputerVisionClientDescribeImageInStreamOptionalParams
+      | msRest.ServiceCallback<Models.ImageDescription>,
+    callback?: msRest.ServiceCallback<Models.ImageDescription>
+  ): Promise<Models.DescribeImageInStreamResponse> {
     return this.sendOperationRequest(
       {
         image,
         options
       },
       describeImageInStreamOperationSpec,
-      callback) as Promise<Models.DescribeImageInStreamResponse>;
+      callback
+    ) as Promise<Models.DescribeImageInStreamResponse>;
   }
 
   /**
@@ -524,26 +747,41 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DetectObjectsInStreamResponse>
    */
-  detectObjectsInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.DetectObjectsInStreamResponse>;
+  detectObjectsInStream(
+    image: msRest.HttpRequestBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DetectObjectsInStreamResponse>;
   /**
    * @param image An image stream.
    * @param callback The callback
    */
-  detectObjectsInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.DetectResult>): void;
+  detectObjectsInStream(
+    image: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.DetectResult>
+  ): void;
   /**
    * @param image An image stream.
    * @param options The optional parameters
    * @param callback The callback
    */
-  detectObjectsInStream(image: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectResult>): void;
-  detectObjectsInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectResult>, callback?: msRest.ServiceCallback<Models.DetectResult>): Promise<Models.DetectObjectsInStreamResponse> {
+  detectObjectsInStream(
+    image: msRest.HttpRequestBody,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DetectResult>
+  ): void;
+  detectObjectsInStream(
+    image: msRest.HttpRequestBody,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectResult>,
+    callback?: msRest.ServiceCallback<Models.DetectResult>
+  ): Promise<Models.DetectObjectsInStreamResponse> {
     return this.sendOperationRequest(
       {
         image,
         options
       },
       detectObjectsInStreamOperationSpec,
-      callback) as Promise<Models.DetectObjectsInStreamResponse>;
+      callback
+    ) as Promise<Models.DetectObjectsInStreamResponse>;
   }
 
   /**
@@ -564,7 +802,12 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GenerateThumbnailInStreamResponse>
    */
-  generateThumbnailInStream(width: number, height: number, image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientGenerateThumbnailInStreamOptionalParams): Promise<Models.GenerateThumbnailInStreamResponse>;
+  generateThumbnailInStream(
+    width: number,
+    height: number,
+    image: msRest.HttpRequestBody,
+    options?: Models.ComputerVisionClientGenerateThumbnailInStreamOptionalParams
+  ): Promise<Models.GenerateThumbnailInStreamResponse>;
   /**
    * @param width Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
    * minimum of 50.
@@ -573,7 +816,12 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param image An image stream.
    * @param callback The callback
    */
-  generateThumbnailInStream(width: number, height: number, image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<void>): void;
+  generateThumbnailInStream(
+    width: number,
+    height: number,
+    image: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param width Width of the thumbnail, in pixels. It must be between 1 and 1024. Recommended
    * minimum of 50.
@@ -583,8 +831,22 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  generateThumbnailInStream(width: number, height: number, image: msRest.HttpRequestBody, options: Models.ComputerVisionClientGenerateThumbnailInStreamOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  generateThumbnailInStream(width: number, height: number, image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientGenerateThumbnailInStreamOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.GenerateThumbnailInStreamResponse> {
+  generateThumbnailInStream(
+    width: number,
+    height: number,
+    image: msRest.HttpRequestBody,
+    options: Models.ComputerVisionClientGenerateThumbnailInStreamOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  generateThumbnailInStream(
+    width: number,
+    height: number,
+    image: msRest.HttpRequestBody,
+    options?:
+      | Models.ComputerVisionClientGenerateThumbnailInStreamOptionalParams
+      | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.GenerateThumbnailInStreamResponse> {
     return this.sendOperationRequest(
       {
         width,
@@ -593,7 +855,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
         options
       },
       generateThumbnailInStreamOperationSpec,
-      callback) as Promise<Models.GenerateThumbnailInStreamResponse>;
+      callback
+    ) as Promise<Models.GenerateThumbnailInStreamResponse>;
   }
 
   /**
@@ -610,21 +873,41 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.AnalyzeImageByDomainInStreamResponse>
    */
-  analyzeImageByDomainInStream(model: string, image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams): Promise<Models.AnalyzeImageByDomainInStreamResponse>;
+  analyzeImageByDomainInStream(
+    model: string,
+    image: msRest.HttpRequestBody,
+    options?: Models.ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams
+  ): Promise<Models.AnalyzeImageByDomainInStreamResponse>;
   /**
    * @param model The domain-specific content to recognize.
    * @param image An image stream.
    * @param callback The callback
    */
-  analyzeImageByDomainInStream(model: string, image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.DomainModelResults>): void;
+  analyzeImageByDomainInStream(
+    model: string,
+    image: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.DomainModelResults>
+  ): void;
   /**
    * @param model The domain-specific content to recognize.
    * @param image An image stream.
    * @param options The optional parameters
    * @param callback The callback
    */
-  analyzeImageByDomainInStream(model: string, image: msRest.HttpRequestBody, options: Models.ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams, callback: msRest.ServiceCallback<Models.DomainModelResults>): void;
-  analyzeImageByDomainInStream(model: string, image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams | msRest.ServiceCallback<Models.DomainModelResults>, callback?: msRest.ServiceCallback<Models.DomainModelResults>): Promise<Models.AnalyzeImageByDomainInStreamResponse> {
+  analyzeImageByDomainInStream(
+    model: string,
+    image: msRest.HttpRequestBody,
+    options: Models.ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams,
+    callback: msRest.ServiceCallback<Models.DomainModelResults>
+  ): void;
+  analyzeImageByDomainInStream(
+    model: string,
+    image: msRest.HttpRequestBody,
+    options?:
+      | Models.ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams
+      | msRest.ServiceCallback<Models.DomainModelResults>,
+    callback?: msRest.ServiceCallback<Models.DomainModelResults>
+  ): Promise<Models.AnalyzeImageByDomainInStreamResponse> {
     return this.sendOperationRequest(
       {
         model,
@@ -632,7 +915,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
         options
       },
       analyzeImageByDomainInStreamOperationSpec,
-      callback) as Promise<Models.AnalyzeImageByDomainInStreamResponse>;
+      callback
+    ) as Promise<Models.AnalyzeImageByDomainInStreamResponse>;
   }
 
   /**
@@ -649,7 +933,11 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecognizePrintedTextInStreamResponse>
    */
-  recognizePrintedTextInStream(detectOrientation: boolean, image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientRecognizePrintedTextInStreamOptionalParams): Promise<Models.RecognizePrintedTextInStreamResponse>;
+  recognizePrintedTextInStream(
+    detectOrientation: boolean,
+    image: msRest.HttpRequestBody,
+    options?: Models.ComputerVisionClientRecognizePrintedTextInStreamOptionalParams
+  ): Promise<Models.RecognizePrintedTextInStreamResponse>;
   /**
    * @param detectOrientation Whether detect the text orientation in the image. With
    * detectOrientation=true the OCR service tries to detect the image orientation and correct it
@@ -657,7 +945,11 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param image An image stream.
    * @param callback The callback
    */
-  recognizePrintedTextInStream(detectOrientation: boolean, image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.OcrResult>): void;
+  recognizePrintedTextInStream(
+    detectOrientation: boolean,
+    image: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.OcrResult>
+  ): void;
   /**
    * @param detectOrientation Whether detect the text orientation in the image. With
    * detectOrientation=true the OCR service tries to detect the image orientation and correct it
@@ -666,8 +958,20 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  recognizePrintedTextInStream(detectOrientation: boolean, image: msRest.HttpRequestBody, options: Models.ComputerVisionClientRecognizePrintedTextInStreamOptionalParams, callback: msRest.ServiceCallback<Models.OcrResult>): void;
-  recognizePrintedTextInStream(detectOrientation: boolean, image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientRecognizePrintedTextInStreamOptionalParams | msRest.ServiceCallback<Models.OcrResult>, callback?: msRest.ServiceCallback<Models.OcrResult>): Promise<Models.RecognizePrintedTextInStreamResponse> {
+  recognizePrintedTextInStream(
+    detectOrientation: boolean,
+    image: msRest.HttpRequestBody,
+    options: Models.ComputerVisionClientRecognizePrintedTextInStreamOptionalParams,
+    callback: msRest.ServiceCallback<Models.OcrResult>
+  ): void;
+  recognizePrintedTextInStream(
+    detectOrientation: boolean,
+    image: msRest.HttpRequestBody,
+    options?:
+      | Models.ComputerVisionClientRecognizePrintedTextInStreamOptionalParams
+      | msRest.ServiceCallback<Models.OcrResult>,
+    callback?: msRest.ServiceCallback<Models.OcrResult>
+  ): Promise<Models.RecognizePrintedTextInStreamResponse> {
     return this.sendOperationRequest(
       {
         detectOrientation,
@@ -675,7 +979,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
         options
       },
       recognizePrintedTextInStreamOperationSpec,
-      callback) as Promise<Models.RecognizePrintedTextInStreamResponse>;
+      callback
+    ) as Promise<Models.RecognizePrintedTextInStreamResponse>;
   }
 
   /**
@@ -692,26 +997,43 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.TagImageInStreamResponse>
    */
-  tagImageInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientTagImageInStreamOptionalParams): Promise<Models.TagImageInStreamResponse>;
+  tagImageInStream(
+    image: msRest.HttpRequestBody,
+    options?: Models.ComputerVisionClientTagImageInStreamOptionalParams
+  ): Promise<Models.TagImageInStreamResponse>;
   /**
    * @param image An image stream.
    * @param callback The callback
    */
-  tagImageInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.TagResult>): void;
+  tagImageInStream(
+    image: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.TagResult>
+  ): void;
   /**
    * @param image An image stream.
    * @param options The optional parameters
    * @param callback The callback
    */
-  tagImageInStream(image: msRest.HttpRequestBody, options: Models.ComputerVisionClientTagImageInStreamOptionalParams, callback: msRest.ServiceCallback<Models.TagResult>): void;
-  tagImageInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientTagImageInStreamOptionalParams | msRest.ServiceCallback<Models.TagResult>, callback?: msRest.ServiceCallback<Models.TagResult>): Promise<Models.TagImageInStreamResponse> {
+  tagImageInStream(
+    image: msRest.HttpRequestBody,
+    options: Models.ComputerVisionClientTagImageInStreamOptionalParams,
+    callback: msRest.ServiceCallback<Models.TagResult>
+  ): void;
+  tagImageInStream(
+    image: msRest.HttpRequestBody,
+    options?:
+      | Models.ComputerVisionClientTagImageInStreamOptionalParams
+      | msRest.ServiceCallback<Models.TagResult>,
+    callback?: msRest.ServiceCallback<Models.TagResult>
+  ): Promise<Models.TagImageInStreamResponse> {
     return this.sendOperationRequest(
       {
         image,
         options
       },
       tagImageInStreamOperationSpec,
-      callback) as Promise<Models.TagImageInStreamResponse>;
+      callback
+    ) as Promise<Models.TagImageInStreamResponse>;
   }
 
   /**
@@ -724,7 +1046,10 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReadInStreamResponse>
    */
-  readInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientReadInStreamOptionalParams): Promise<Models.ReadInStreamResponse>;
+  readInStream(
+    image: msRest.HttpRequestBody,
+    options?: Models.ComputerVisionClientReadInStreamOptionalParams
+  ): Promise<Models.ReadInStreamResponse>;
   /**
    * @param image An image stream.
    * @param callback The callback
@@ -735,15 +1060,24 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  readInStream(image: msRest.HttpRequestBody, options: Models.ComputerVisionClientReadInStreamOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  readInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientReadInStreamOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.ReadInStreamResponse> {
+  readInStream(
+    image: msRest.HttpRequestBody,
+    options: Models.ComputerVisionClientReadInStreamOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  readInStream(
+    image: msRest.HttpRequestBody,
+    options?: Models.ComputerVisionClientReadInStreamOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.ReadInStreamResponse> {
     return this.sendOperationRequest(
       {
         image,
         options
       },
       readInStreamOperationSpec,
-      callback) as Promise<Models.ReadInStreamResponse>;
+      callback
+    ) as Promise<Models.ReadInStreamResponse>;
   }
 }
 
@@ -752,9 +1086,7 @@ const serializer = new msRest.Serializer(Mappers);
 const analyzeImageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "analyze",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.visualFeatures,
     Parameters.details,
@@ -784,14 +1116,8 @@ const analyzeImageOperationSpec: msRest.OperationSpec = {
 const describeImageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "describe",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.maxCandidates,
-    Parameters.language0,
-    Parameters.descriptionExclude
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.maxCandidates, Parameters.language0, Parameters.descriptionExclude],
   requestBody: {
     parameterPath: {
       url: "url"
@@ -815,9 +1141,7 @@ const describeImageOperationSpec: msRest.OperationSpec = {
 const detectObjectsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "detect",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: {
       url: "url"
@@ -841,9 +1165,7 @@ const detectObjectsOperationSpec: msRest.OperationSpec = {
 const listModelsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "models",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   responses: {
     200: {
       bodyMapper: Mappers.ListModelsResult
@@ -858,13 +1180,8 @@ const listModelsOperationSpec: msRest.OperationSpec = {
 const analyzeImageByDomainOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "models/{model}/analyze",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.model
-  ],
-  queryParameters: [
-    Parameters.language0
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.model],
+  queryParameters: [Parameters.language0],
   requestBody: {
     parameterPath: {
       url: "url"
@@ -888,13 +1205,8 @@ const analyzeImageByDomainOperationSpec: msRest.OperationSpec = {
 const recognizePrintedTextOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "ocr",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.detectOrientation,
-    Parameters.language1
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.detectOrientation, Parameters.language1],
   requestBody: {
     parameterPath: {
       url: "url"
@@ -918,12 +1230,8 @@ const recognizePrintedTextOperationSpec: msRest.OperationSpec = {
 const tagImageOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "tag",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.language0
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.language0],
   requestBody: {
     parameterPath: {
       url: "url"
@@ -947,14 +1255,8 @@ const tagImageOperationSpec: msRest.OperationSpec = {
 const generateThumbnailOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "generateThumbnail",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.width,
-    Parameters.height,
-    Parameters.smartCropping
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.width, Parameters.height, Parameters.smartCropping],
   requestBody: {
     parameterPath: {
       url: "url"
@@ -981,9 +1283,7 @@ const generateThumbnailOperationSpec: msRest.OperationSpec = {
 const getAreaOfInterestOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "areaOfInterest",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: {
       url: "url"
@@ -1007,12 +1307,8 @@ const getAreaOfInterestOperationSpec: msRest.OperationSpec = {
 const readOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "read/analyze",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.language0
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.language0],
   requestBody: {
     parameterPath: {
       url: "url"
@@ -1037,10 +1333,7 @@ const readOperationSpec: msRest.OperationSpec = {
 const getReadResultOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "read/analyzeResults/{operationId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.operationId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.operationId],
   responses: {
     200: {
       bodyMapper: Mappers.ReadOperationResult
@@ -1055,9 +1348,7 @@ const getReadResultOperationSpec: msRest.OperationSpec = {
 const analyzeImageInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "analyze",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   queryParameters: [
     Parameters.visualFeatures,
     Parameters.details,
@@ -1089,9 +1380,7 @@ const analyzeImageInStreamOperationSpec: msRest.OperationSpec = {
 const getAreaOfInterestInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "areaOfInterest",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: "image",
     mapper: {
@@ -1117,14 +1406,8 @@ const getAreaOfInterestInStreamOperationSpec: msRest.OperationSpec = {
 const describeImageInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "describe",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.maxCandidates,
-    Parameters.language0,
-    Parameters.descriptionExclude
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.maxCandidates, Parameters.language0, Parameters.descriptionExclude],
   requestBody: {
     parameterPath: "image",
     mapper: {
@@ -1150,9 +1433,7 @@ const describeImageInStreamOperationSpec: msRest.OperationSpec = {
 const detectObjectsInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "detect",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: "image",
     mapper: {
@@ -1178,14 +1459,8 @@ const detectObjectsInStreamOperationSpec: msRest.OperationSpec = {
 const generateThumbnailInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "generateThumbnail",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.width,
-    Parameters.height,
-    Parameters.smartCropping
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.width, Parameters.height, Parameters.smartCropping],
   requestBody: {
     parameterPath: "image",
     mapper: {
@@ -1214,13 +1489,8 @@ const generateThumbnailInStreamOperationSpec: msRest.OperationSpec = {
 const analyzeImageByDomainInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "models/{model}/analyze",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.model
-  ],
-  queryParameters: [
-    Parameters.language0
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.model],
+  queryParameters: [Parameters.language0],
   requestBody: {
     parameterPath: "image",
     mapper: {
@@ -1246,13 +1516,8 @@ const analyzeImageByDomainInStreamOperationSpec: msRest.OperationSpec = {
 const recognizePrintedTextInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "ocr",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.detectOrientation,
-    Parameters.language1
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.detectOrientation, Parameters.language1],
   requestBody: {
     parameterPath: "image",
     mapper: {
@@ -1278,12 +1543,8 @@ const recognizePrintedTextInStreamOperationSpec: msRest.OperationSpec = {
 const tagImageInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "tag",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.language0
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.language0],
   requestBody: {
     parameterPath: "image",
     mapper: {
@@ -1309,12 +1570,8 @@ const tagImageInStreamOperationSpec: msRest.OperationSpec = {
 const readInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "read/analyze",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.language0
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.language0],
   requestBody: {
     parameterPath: "image",
     mapper: {

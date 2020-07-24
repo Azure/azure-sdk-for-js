@@ -35,7 +35,13 @@ export class Rules {
    * @param [options] The optional parameters
    * @returns Promise<Models.RulesListBySubscriptionsResponse>
    */
-  listBySubscriptions(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: Models.RulesListBySubscriptionsOptionalParams): Promise<Models.RulesListBySubscriptionsResponse>;
+  listBySubscriptions(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    options?: Models.RulesListBySubscriptionsOptionalParams
+  ): Promise<Models.RulesListBySubscriptionsResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -43,7 +49,13 @@ export class Rules {
    * @param subscriptionName The subscription name.
    * @param callback The callback
    */
-  listBySubscriptions(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, callback: msRest.ServiceCallback<Models.RuleListResult>): void;
+  listBySubscriptions(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    callback: msRest.ServiceCallback<Models.RuleListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -52,8 +64,24 @@ export class Rules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptions(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options: Models.RulesListBySubscriptionsOptionalParams, callback: msRest.ServiceCallback<Models.RuleListResult>): void;
-  listBySubscriptions(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, options?: Models.RulesListBySubscriptionsOptionalParams | msRest.ServiceCallback<Models.RuleListResult>, callback?: msRest.ServiceCallback<Models.RuleListResult>): Promise<Models.RulesListBySubscriptionsResponse> {
+  listBySubscriptions(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    options: Models.RulesListBySubscriptionsOptionalParams,
+    callback: msRest.ServiceCallback<Models.RuleListResult>
+  ): void;
+  listBySubscriptions(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    options?:
+      | Models.RulesListBySubscriptionsOptionalParams
+      | msRest.ServiceCallback<Models.RuleListResult>,
+    callback?: msRest.ServiceCallback<Models.RuleListResult>
+  ): Promise<Models.RulesListBySubscriptionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +91,8 @@ export class Rules {
         options
       },
       listBySubscriptionsOperationSpec,
-      callback) as Promise<Models.RulesListBySubscriptionsResponse>;
+      callback
+    ) as Promise<Models.RulesListBySubscriptionsResponse>;
   }
 
   /**
@@ -77,7 +106,15 @@ export class Rules {
    * @param [options] The optional parameters
    * @returns Promise<Models.RulesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, parameters: Models.Rule, options?: msRest.RequestOptionsBase): Promise<Models.RulesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    parameters: Models.Rule,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RulesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -87,7 +124,15 @@ export class Rules {
    * @param parameters Parameters supplied to create a rule.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, parameters: Models.Rule, callback: msRest.ServiceCallback<Models.Rule>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    parameters: Models.Rule,
+    callback: msRest.ServiceCallback<Models.Rule>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -98,8 +143,26 @@ export class Rules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, parameters: Models.Rule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Rule>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, parameters: Models.Rule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Rule>, callback?: msRest.ServiceCallback<Models.Rule>): Promise<Models.RulesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    parameters: Models.Rule,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Rule>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    parameters: Models.Rule,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Rule>,
+    callback?: msRest.ServiceCallback<Models.Rule>
+  ): Promise<Models.RulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +174,8 @@ export class Rules {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.RulesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.RulesCreateOrUpdateResponse>;
   }
 
   /**
@@ -124,7 +188,14 @@ export class Rules {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -133,7 +204,14 @@ export class Rules {
    * @param ruleName The rule name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -143,8 +221,24 @@ export class Rules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -155,7 +249,8 @@ export class Rules {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -168,7 +263,14 @@ export class Rules {
    * @param [options] The optional parameters
    * @returns Promise<Models.RulesGetResponse>
    */
-  get(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<Models.RulesGetResponse>;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RulesGetResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -177,7 +279,14 @@ export class Rules {
    * @param ruleName The rule name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, callback: msRest.ServiceCallback<Models.Rule>): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    callback: msRest.ServiceCallback<Models.Rule>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -187,8 +296,24 @@ export class Rules {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Rule>): void;
-  get(resourceGroupName: string, namespaceName: string, topicName: string, subscriptionName: string, ruleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Rule>, callback?: msRest.ServiceCallback<Models.Rule>): Promise<Models.RulesGetResponse> {
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Rule>
+  ): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Rule>,
+    callback?: msRest.ServiceCallback<Models.Rule>
+  ): Promise<Models.RulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -199,7 +324,8 @@ export class Rules {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.RulesGetResponse>;
+      callback
+    ) as Promise<Models.RulesGetResponse>;
   }
 
   /**
@@ -208,26 +334,41 @@ export class Rules {
    * @param [options] The optional parameters
    * @returns Promise<Models.RulesListBySubscriptionsNextResponse>
    */
-  listBySubscriptionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RulesListBySubscriptionsNextResponse>;
+  listBySubscriptionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.RulesListBySubscriptionsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RuleListResult>): void;
+  listBySubscriptionsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.RuleListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RuleListResult>): void;
-  listBySubscriptionsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RuleListResult>, callback?: msRest.ServiceCallback<Models.RuleListResult>): Promise<Models.RulesListBySubscriptionsNextResponse> {
+  listBySubscriptionsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.RuleListResult>
+  ): void;
+  listBySubscriptionsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RuleListResult>,
+    callback?: msRest.ServiceCallback<Models.RuleListResult>
+  ): Promise<Models.RulesListBySubscriptionsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionsNextOperationSpec,
-      callback) as Promise<Models.RulesListBySubscriptionsNextResponse>;
+      callback
+    ) as Promise<Models.RulesListBySubscriptionsNextResponse>;
   }
 }
 
@@ -235,7 +376,8 @@ export class Rules {
 const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
@@ -243,14 +385,8 @@ const listBySubscriptionsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RuleListResult
@@ -264,7 +400,8 @@ const listBySubscriptionsOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
@@ -273,12 +410,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.ruleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -299,7 +432,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
@@ -308,12 +442,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.ruleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -326,7 +456,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
@@ -335,12 +466,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.ruleName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Rule
@@ -356,12 +483,8 @@ const listBySubscriptionsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.RuleListResult

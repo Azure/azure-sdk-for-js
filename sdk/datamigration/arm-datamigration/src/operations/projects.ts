@@ -35,21 +35,39 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsListResponse>
    */
-  list(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsListResponse>;
+  list(
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsListResponse>;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param callback The callback
    */
-  list(groupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ProjectList>): void;
+  list(
+    groupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.ProjectList>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(groupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectList>): void;
-  list(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectList>, callback?: msRest.ServiceCallback<Models.ProjectList>): Promise<Models.ProjectsListResponse> {
+  list(
+    groupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProjectList>
+  ): void;
+  list(
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectList>,
+    callback?: msRest.ServiceCallback<Models.ProjectList>
+  ): Promise<Models.ProjectsListResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -57,7 +75,8 @@ export class Projects {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ProjectsListResponse>;
+      callback
+    ) as Promise<Models.ProjectsListResponse>;
   }
 
   /**
@@ -71,7 +90,13 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsCreateOrUpdateResponse>
    */
-  createOrUpdate(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsCreateOrUpdateResponse>;
+  createOrUpdate(
+    parameters: Models.Project,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsCreateOrUpdateResponse>;
   /**
    * @param parameters Information about the project
    * @param groupName Name of the resource group
@@ -79,7 +104,13 @@ export class Projects {
    * @param projectName Name of the project
    * @param callback The callback
    */
-  createOrUpdate(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, callback: msRest.ServiceCallback<Models.Project>): void;
+  createOrUpdate(
+    parameters: Models.Project,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    callback: msRest.ServiceCallback<Models.Project>
+  ): void;
   /**
    * @param parameters Information about the project
    * @param groupName Name of the resource group
@@ -88,8 +119,22 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  createOrUpdate(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsCreateOrUpdateResponse> {
+  createOrUpdate(
+    parameters: Models.Project,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Project>
+  ): void;
+  createOrUpdate(
+    parameters: Models.Project,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>,
+    callback?: msRest.ServiceCallback<Models.Project>
+  ): Promise<Models.ProjectsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -99,7 +144,8 @@ export class Projects {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ProjectsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ProjectsCreateOrUpdateResponse>;
   }
 
   /**
@@ -112,14 +158,24 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsGetResponse>
    */
-  get(groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsGetResponse>;
+  get(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsGetResponse>;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
    * @param callback The callback
    */
-  get(groupName: string, serviceName: string, projectName: string, callback: msRest.ServiceCallback<Models.Project>): void;
+  get(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    callback: msRest.ServiceCallback<Models.Project>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -127,8 +183,20 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(groupName: string, serviceName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  get(groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsGetResponse> {
+  get(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Project>
+  ): void;
+  get(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>,
+    callback?: msRest.ServiceCallback<Models.Project>
+  ): Promise<Models.ProjectsGetResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -137,7 +205,8 @@ export class Projects {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ProjectsGetResponse>;
+      callback
+    ) as Promise<Models.ProjectsGetResponse>;
   }
 
   /**
@@ -150,14 +219,24 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(groupName: string, serviceName: string, projectName: string, options?: Models.ProjectsDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
+  deleteMethod(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options?: Models.ProjectsDeleteMethodOptionalParams
+  ): Promise<msRest.RestResponse>;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
    * @param callback The callback
    */
-  deleteMethod(groupName: string, serviceName: string, projectName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -165,8 +244,20 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(groupName: string, serviceName: string, projectName: string, options: Models.ProjectsDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(groupName: string, serviceName: string, projectName: string, options?: Models.ProjectsDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options: Models.ProjectsDeleteMethodOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options?: Models.ProjectsDeleteMethodOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -175,7 +266,8 @@ export class Projects {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -189,7 +281,13 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsUpdateResponse>
    */
-  update(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsUpdateResponse>;
+  update(
+    parameters: Models.Project,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsUpdateResponse>;
   /**
    * @param parameters Information about the project
    * @param groupName Name of the resource group
@@ -197,7 +295,13 @@ export class Projects {
    * @param projectName Name of the project
    * @param callback The callback
    */
-  update(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, callback: msRest.ServiceCallback<Models.Project>): void;
+  update(
+    parameters: Models.Project,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    callback: msRest.ServiceCallback<Models.Project>
+  ): void;
   /**
    * @param parameters Information about the project
    * @param groupName Name of the resource group
@@ -206,8 +310,22 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  update(parameters: Models.Project, groupName: string, serviceName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ProjectsUpdateResponse> {
+  update(
+    parameters: Models.Project,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Project>
+  ): void;
+  update(
+    parameters: Models.Project,
+    groupName: string,
+    serviceName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>,
+    callback?: msRest.ServiceCallback<Models.Project>
+  ): Promise<Models.ProjectsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         parameters,
@@ -217,7 +335,8 @@ export class Projects {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ProjectsUpdateResponse>;
+      callback
+    ) as Promise<Models.ProjectsUpdateResponse>;
   }
 
   /**
@@ -228,7 +347,10 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -239,15 +361,24 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectList>, callback?: msRest.ServiceCallback<Models.ProjectList>): Promise<Models.ProjectsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProjectList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectList>,
+    callback?: msRest.ServiceCallback<Models.ProjectList>
+  ): Promise<Models.ProjectsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ProjectsListNextResponse>;
+      callback
+    ) as Promise<Models.ProjectsListNextResponse>;
   }
 }
 
@@ -255,18 +386,11 @@ export class Projects {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.groupName,
-    Parameters.serviceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects",
+  urlParameters: [Parameters.subscriptionId, Parameters.groupName, Parameters.serviceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProjectList
@@ -280,19 +404,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -316,19 +437,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Project
@@ -342,20 +460,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName
   ],
-  queryParameters: [
-    Parameters.deleteRunningTasks,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.deleteRunningTasks, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -368,19 +482,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -403,12 +514,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProjectList

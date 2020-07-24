@@ -374,7 +374,11 @@ export interface ContactDetails {
 /**
  * Contains the possible cases for CopyLogDetails.
  */
-export type CopyLogDetailsUnion = CopyLogDetails | DataBoxAccountCopyLogDetails | DataBoxDiskCopyLogDetails | DataBoxHeavyAccountCopyLogDetails;
+export type CopyLogDetailsUnion =
+  | CopyLogDetails
+  | DataBoxAccountCopyLogDetails
+  | DataBoxDiskCopyLogDetails
+  | DataBoxHeavyAccountCopyLogDetails;
 
 /**
  * Details for log generated during copy.
@@ -453,7 +457,14 @@ export interface CopyProgress {
 /**
  * Contains the possible cases for ValidationInputRequest.
  */
-export type ValidationInputRequestUnion = ValidationInputRequest | CreateOrderLimitForSubscriptionValidationRequest | DataDestinationDetailsValidationRequest | PreferencesValidationRequest | SkuAvailabilityValidationRequest | SubscriptionIsAllowedToCreateJobValidationRequest | ValidateAddress;
+export type ValidationInputRequestUnion =
+  | ValidationInputRequest
+  | CreateOrderLimitForSubscriptionValidationRequest
+  | DataDestinationDetailsValidationRequest
+  | PreferencesValidationRequest
+  | SkuAvailabilityValidationRequest
+  | SubscriptionIsAllowedToCreateJobValidationRequest
+  | ValidateAddress;
 
 /**
  * Minimum fields that must be present in any type of validation request.
@@ -483,7 +494,13 @@ export interface CreateOrderLimitForSubscriptionValidationRequest {
 /**
  * Contains the possible cases for ValidationInputResponse.
  */
-export type ValidationInputResponseUnion = ValidationInputResponse | CreateOrderLimitForSubscriptionValidationResponseProperties | DataDestinationDetailsValidationResponseProperties | PreferencesValidationResponseProperties | SkuAvailabilityValidationResponseProperties | SubscriptionIsAllowedToCreateJobValidationResponseProperties;
+export type ValidationInputResponseUnion =
+  | ValidationInputResponse
+  | CreateOrderLimitForSubscriptionValidationResponseProperties
+  | DataDestinationDetailsValidationResponseProperties
+  | PreferencesValidationResponseProperties
+  | SkuAvailabilityValidationResponseProperties
+  | SubscriptionIsAllowedToCreateJobValidationResponseProperties;
 
 /**
  * Minimum properties that should be present in each individual validation response.
@@ -596,7 +613,11 @@ export interface DataBoxDiskCopyProgress {
 /**
  * Contains the possible cases for JobDetails.
  */
-export type JobDetailsUnion = JobDetails | DataBoxDiskJobDetails | DataBoxHeavyJobDetails | DataBoxJobDetails;
+export type JobDetailsUnion =
+  | JobDetails
+  | DataBoxDiskJobDetails
+  | DataBoxHeavyJobDetails
+  | DataBoxJobDetails;
 
 /**
  * Job details.
@@ -768,7 +789,11 @@ export interface DiskSecret {
 /**
  * Contains the possible cases for JobSecrets.
  */
-export type JobSecretsUnion = JobSecrets | DataBoxDiskJobSecrets | DataBoxHeavyJobSecrets | DataboxJobSecrets;
+export type JobSecretsUnion =
+  | JobSecrets
+  | DataBoxDiskJobSecrets
+  | DataBoxHeavyJobSecrets
+  | DataboxJobSecrets;
 
 /**
  * The base class for the secrets
@@ -1083,7 +1108,11 @@ export interface DataboxJobSecrets {
 /**
  * Contains the possible cases for ScheduleAvailabilityRequest.
  */
-export type ScheduleAvailabilityRequestUnion = ScheduleAvailabilityRequest | DataBoxScheduleAvailabilityRequest | DiskScheduleAvailabilityRequest | HeavyScheduleAvailabilityRequest;
+export type ScheduleAvailabilityRequestUnion =
+  | ScheduleAvailabilityRequest
+  | DataBoxScheduleAvailabilityRequest
+  | DiskScheduleAvailabilityRequest
+  | HeavyScheduleAvailabilityRequest;
 
 /**
  * Request body to get the availability for scheduling orders.
@@ -1120,7 +1149,10 @@ export interface DataBoxScheduleAvailabilityRequest {
 /**
  * Contains the possible cases for DestinationAccountDetails.
  */
-export type DestinationAccountDetailsUnion = DestinationAccountDetails | DestinationManagedDiskDetails | DestinationStorageAccountDetails;
+export type DestinationAccountDetailsUnion =
+  | DestinationAccountDetails
+  | DestinationManagedDiskDetails
+  | DestinationStorageAccountDetails;
 
 /**
  * Details of the destination storage accounts.
@@ -2039,7 +2071,7 @@ export interface AvailableSkusResult extends Array<SkuInformation> {
  * @readonly
  * @enum {string}
  */
-export type DataDestinationType = 'StorageAccount' | 'ManagedDisk';
+export type DataDestinationType = "StorageAccount" | "ManagedDisk";
 
 /**
  * Defines values for ShareDestinationFormatType.
@@ -2048,7 +2080,13 @@ export type DataDestinationType = 'StorageAccount' | 'ManagedDisk';
  * @readonly
  * @enum {string}
  */
-export type ShareDestinationFormatType = 'UnknownType' | 'HCS' | 'BlockBlob' | 'PageBlob' | 'AzureFile' | 'ManagedDisk';
+export type ShareDestinationFormatType =
+  | "UnknownType"
+  | "HCS"
+  | "BlockBlob"
+  | "PageBlob"
+  | "AzureFile"
+  | "ManagedDisk";
 
 /**
  * Defines values for AccessProtocol.
@@ -2056,7 +2094,7 @@ export type ShareDestinationFormatType = 'UnknownType' | 'HCS' | 'BlockBlob' | '
  * @readonly
  * @enum {string}
  */
-export type AccessProtocol = 'SMB' | 'NFS';
+export type AccessProtocol = "SMB" | "NFS";
 
 /**
  * Defines values for AddressValidationStatus.
@@ -2064,7 +2102,7 @@ export type AccessProtocol = 'SMB' | 'NFS';
  * @readonly
  * @enum {string}
  */
-export type AddressValidationStatus = 'Valid' | 'Invalid' | 'Ambiguous';
+export type AddressValidationStatus = "Valid" | "Invalid" | "Ambiguous";
 
 /**
  * Defines values for AddressType.
@@ -2072,7 +2110,7 @@ export type AddressValidationStatus = 'Valid' | 'Invalid' | 'Ambiguous';
  * @readonly
  * @enum {string}
  */
-export type AddressType = 'None' | 'Residential' | 'Commercial';
+export type AddressType = "None" | "Residential" | "Commercial";
 
 /**
  * Defines values for SkuName.
@@ -2080,7 +2118,7 @@ export type AddressType = 'None' | 'Residential' | 'Commercial';
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'DataBox' | 'DataBoxDisk' | 'DataBoxHeavy';
+export type SkuName = "DataBox" | "DataBoxDisk" | "DataBoxHeavy";
 
 /**
  * Defines values for SkuDisabledReason.
@@ -2089,7 +2127,13 @@ export type SkuName = 'DataBox' | 'DataBoxDisk' | 'DataBoxHeavy';
  * @readonly
  * @enum {string}
  */
-export type SkuDisabledReason = 'None' | 'Country' | 'Region' | 'Feature' | 'OfferType' | 'NoSubscriptionInfo';
+export type SkuDisabledReason =
+  | "None"
+  | "Country"
+  | "Region"
+  | "Feature"
+  | "OfferType"
+  | "NoSubscriptionInfo";
 
 /**
  * Defines values for NotificationStageName.
@@ -2098,7 +2142,13 @@ export type SkuDisabledReason = 'None' | 'Country' | 'Region' | 'Feature' | 'Off
  * @readonly
  * @enum {string}
  */
-export type NotificationStageName = 'DevicePrepared' | 'Dispatched' | 'Delivered' | 'PickedUp' | 'AtAzureDC' | 'DataCopy';
+export type NotificationStageName =
+  | "DevicePrepared"
+  | "Dispatched"
+  | "Delivered"
+  | "PickedUp"
+  | "AtAzureDC"
+  | "DataCopy";
 
 /**
  * Defines values for ValidationStatus.
@@ -2106,7 +2156,7 @@ export type NotificationStageName = 'DevicePrepared' | 'Dispatched' | 'Delivered
  * @readonly
  * @enum {string}
  */
-export type ValidationStatus = 'Valid' | 'Invalid' | 'Skipped';
+export type ValidationStatus = "Valid" | "Invalid" | "Skipped";
 
 /**
  * Defines values for CopyStatus.
@@ -2116,7 +2166,18 @@ export type ValidationStatus = 'Valid' | 'Invalid' | 'Skipped';
  * @readonly
  * @enum {string}
  */
-export type CopyStatus = 'NotStarted' | 'InProgress' | 'Completed' | 'CompletedWithErrors' | 'Failed' | 'NotReturned' | 'HardwareError' | 'DeviceFormatted' | 'DeviceMetadataModified' | 'StorageAccountNotAccessible' | 'UnsupportedData';
+export type CopyStatus =
+  | "NotStarted"
+  | "InProgress"
+  | "Completed"
+  | "CompletedWithErrors"
+  | "Failed"
+  | "NotReturned"
+  | "HardwareError"
+  | "DeviceFormatted"
+  | "DeviceMetadataModified"
+  | "StorageAccountNotAccessible"
+  | "UnsupportedData";
 
 /**
  * Defines values for StageName.
@@ -2127,7 +2188,23 @@ export type CopyStatus = 'NotStarted' | 'InProgress' | 'Completed' | 'CompletedW
  * @readonly
  * @enum {string}
  */
-export type StageName = 'DeviceOrdered' | 'DevicePrepared' | 'Dispatched' | 'Delivered' | 'PickedUp' | 'AtAzureDC' | 'DataCopy' | 'Completed' | 'CompletedWithErrors' | 'Cancelled' | 'Failed_IssueReportedAtCustomer' | 'Failed_IssueDetectedAtAzureDC' | 'Aborted' | 'CompletedWithWarnings' | 'ReadyToDispatchFromAzureDC' | 'ReadyToReceiveAtAzureDC';
+export type StageName =
+  | "DeviceOrdered"
+  | "DevicePrepared"
+  | "Dispatched"
+  | "Delivered"
+  | "PickedUp"
+  | "AtAzureDC"
+  | "DataCopy"
+  | "Completed"
+  | "CompletedWithErrors"
+  | "Cancelled"
+  | "Failed_IssueReportedAtCustomer"
+  | "Failed_IssueDetectedAtAzureDC"
+  | "Aborted"
+  | "CompletedWithWarnings"
+  | "ReadyToDispatchFromAzureDC"
+  | "ReadyToReceiveAtAzureDC";
 
 /**
  * Defines values for StageStatus.
@@ -2136,7 +2213,14 @@ export type StageName = 'DeviceOrdered' | 'DevicePrepared' | 'Dispatched' | 'Del
  * @readonly
  * @enum {string}
  */
-export type StageStatus = 'None' | 'InProgress' | 'Succeeded' | 'Failed' | 'Cancelled' | 'Cancelling' | 'SucceededWithErrors';
+export type StageStatus =
+  | "None"
+  | "InProgress"
+  | "Succeeded"
+  | "Failed"
+  | "Cancelled"
+  | "Cancelling"
+  | "SucceededWithErrors";
 
 /**
  * Defines values for TransportShipmentTypes.
@@ -2144,7 +2228,7 @@ export type StageStatus = 'None' | 'InProgress' | 'Succeeded' | 'Failed' | 'Canc
  * @readonly
  * @enum {string}
  */
-export type TransportShipmentTypes = 'CustomerManaged' | 'MicrosoftManaged';
+export type TransportShipmentTypes = "CustomerManaged" | "MicrosoftManaged";
 
 /**
  * Defines values for JobDeliveryType.
@@ -2152,7 +2236,7 @@ export type TransportShipmentTypes = 'CustomerManaged' | 'MicrosoftManaged';
  * @readonly
  * @enum {string}
  */
-export type JobDeliveryType = 'NonScheduled' | 'Scheduled';
+export type JobDeliveryType = "NonScheduled" | "Scheduled";
 
 /**
  * Defines values for OverallValidationStatus.
@@ -2161,7 +2245,10 @@ export type JobDeliveryType = 'NonScheduled' | 'Scheduled';
  * @readonly
  * @enum {string}
  */
-export type OverallValidationStatus = 'AllValidToProceed' | 'InputsRevisitRequired' | 'CertainInputValidationsSkipped';
+export type OverallValidationStatus =
+  | "AllValidToProceed"
+  | "InputsRevisitRequired"
+  | "CertainInputValidationsSkipped";
 
 /**
  * Contains response data for the list operation.
@@ -2171,16 +2258,16 @@ export type OperationsListResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -2191,16 +2278,16 @@ export type OperationsListNextResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -2211,16 +2298,16 @@ export type JobsListResponse = JobResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResourceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResourceList;
+  };
 };
 
 /**
@@ -2231,16 +2318,16 @@ export type JobsListByResourceGroupResponse = JobResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResourceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResourceList;
+  };
 };
 
 /**
@@ -2251,16 +2338,16 @@ export type JobsGetResponse = JobResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResource;
+  };
 };
 
 /**
@@ -2271,16 +2358,16 @@ export type JobsCreateResponse = JobResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResource;
+  };
 };
 
 /**
@@ -2291,16 +2378,16 @@ export type JobsUpdateResponse = JobResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResource;
+  };
 };
 
 /**
@@ -2311,16 +2398,16 @@ export type JobsBookShipmentPickUpResponse = ShipmentPickUpResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ShipmentPickUpResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ShipmentPickUpResponse;
+  };
 };
 
 /**
@@ -2331,16 +2418,16 @@ export type JobsListCredentialsResponse = UnencryptedCredentialsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UnencryptedCredentialsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UnencryptedCredentialsList;
+  };
 };
 
 /**
@@ -2351,16 +2438,16 @@ export type JobsBeginCreateResponse = JobResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResource;
+  };
 };
 
 /**
@@ -2371,16 +2458,16 @@ export type JobsBeginUpdateResponse = JobResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResource;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResource;
+  };
 };
 
 /**
@@ -2391,16 +2478,16 @@ export type JobsListNextResponse = JobResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResourceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResourceList;
+  };
 };
 
 /**
@@ -2411,16 +2498,16 @@ export type JobsListByResourceGroupNextResponse = JobResourceList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: JobResourceList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: JobResourceList;
+  };
 };
 
 /**
@@ -2431,16 +2518,16 @@ export type ServiceListAvailableSkusResponse = AvailableSkusResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailableSkusResult;
+  };
 };
 
 /**
@@ -2451,16 +2538,16 @@ export type ServiceListAvailableSkusByResourceGroupResponse = AvailableSkusResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailableSkusResult;
+  };
 };
 
 /**
@@ -2471,16 +2558,16 @@ export type ServiceValidateAddressMethodResponse = AddressValidationOutput & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AddressValidationOutput;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AddressValidationOutput;
+  };
 };
 
 /**
@@ -2491,16 +2578,16 @@ export type ServiceValidateInputsByResourceGroupResponse = ValidationResponse & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ValidationResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ValidationResponse;
+  };
 };
 
 /**
@@ -2511,16 +2598,16 @@ export type ServiceValidateInputsResponse = ValidationResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ValidationResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ValidationResponse;
+  };
 };
 
 /**
@@ -2531,16 +2618,16 @@ export type ServiceRegionConfigurationResponse = RegionConfigurationResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RegionConfigurationResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RegionConfigurationResponse;
+  };
 };
 
 /**
@@ -2551,16 +2638,16 @@ export type ServiceListAvailableSkusNextResponse = AvailableSkusResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailableSkusResult;
+  };
 };
 
 /**
@@ -2571,14 +2658,14 @@ export type ServiceListAvailableSkusByResourceGroupNextResponse = AvailableSkusR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailableSkusResult;
+  };
 };

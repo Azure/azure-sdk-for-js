@@ -15,9 +15,7 @@ class TestTokenCredential implements coreHttp.TokenCredential {
 
   constructor(token: string, expiresOn?: Date) {
     this.token = token;
-    this.expiresOn = expiresOn
-      ? expiresOn.getTime()
-      : Date.now() + 60 * 60 * 1000;
+    this.expiresOn = expiresOn ? expiresOn.getTime() : Date.now() + 60 * 60 * 1000;
   }
 
   async getToken(
@@ -42,10 +40,7 @@ const creds = new TestTokenCredential(token);
 const clientOptions: coreHttp.ServiceClientOptions = {
   requestPolicyFactories: [
     coreHttp.logPolicy(),
-    coreHttp.bearerTokenAuthenticationPolicy(
-      creds,
-      "https://management.azure.com"
-    )
+    coreHttp.bearerTokenAuthenticationPolicy(creds, "https://management.azure.com")
   ]
 };
 

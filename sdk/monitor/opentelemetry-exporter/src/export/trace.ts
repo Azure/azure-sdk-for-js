@@ -8,7 +8,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
   constructor(options: Partial<AzureExporterConfig> = {}) {
     super({
       ...DEFAULT_EXPORTER_CONFIG,
-      ...options,
+      ...options
     });
   }
 

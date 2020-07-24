@@ -35,7 +35,13 @@ export class DataSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataSourcesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceName: string, parameters: Models.DataSource, options?: msRest.RequestOptionsBase): Promise<Models.DataSourcesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceName: string,
+    parameters: Models.DataSource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataSourcesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -43,7 +49,13 @@ export class DataSources {
    * @param parameters The parameters required to create or update a datasource.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceName: string, parameters: Models.DataSource, callback: msRest.ServiceCallback<Models.DataSource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceName: string,
+    parameters: Models.DataSource,
+    callback: msRest.ServiceCallback<Models.DataSource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -52,8 +64,22 @@ export class DataSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceName: string, parameters: Models.DataSource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataSource>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceName: string, parameters: Models.DataSource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataSource>, callback?: msRest.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceName: string,
+    parameters: Models.DataSource,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataSource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceName: string,
+    parameters: Models.DataSource,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataSource>,
+    callback?: msRest.ServiceCallback<Models.DataSource>
+  ): Promise<Models.DataSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,7 +89,8 @@ export class DataSources {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.DataSourcesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.DataSourcesCreateOrUpdateResponse>;
   }
 
   /**
@@ -74,14 +101,24 @@ export class DataSources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataSourceName Name of the datasource.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -89,8 +126,20 @@ export class DataSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +148,8 @@ export class DataSources {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -110,14 +160,24 @@ export class DataSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataSourcesGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, dataSourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataSourcesGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataSourcesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataSourceName Name of the datasource
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, dataSourceName: string, callback: msRest.ServiceCallback<Models.DataSource>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceName: string,
+    callback: msRest.ServiceCallback<Models.DataSource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -125,8 +185,20 @@ export class DataSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, dataSourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataSource>): void;
-  get(resourceGroupName: string, workspaceName: string, dataSourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataSource>, callback?: msRest.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataSource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    dataSourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataSource>,
+    callback?: msRest.ServiceCallback<Models.DataSource>
+  ): Promise<Models.DataSourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +207,8 @@ export class DataSources {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DataSourcesGetResponse>;
+      callback
+    ) as Promise<Models.DataSourcesGetResponse>;
   }
 
   /**
@@ -146,14 +219,24 @@ export class DataSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataSourcesListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, filter: string, options?: Models.DataSourcesListByWorkspaceOptionalParams): Promise<Models.DataSourcesListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    filter: string,
+    options?: Models.DataSourcesListByWorkspaceOptionalParams
+  ): Promise<Models.DataSourcesListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param filter The filter to apply on the operation.
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, filter: string, callback: msRest.ServiceCallback<Models.DataSourceListResult>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    filter: string,
+    callback: msRest.ServiceCallback<Models.DataSourceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -161,8 +244,22 @@ export class DataSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, filter: string, options: Models.DataSourcesListByWorkspaceOptionalParams, callback: msRest.ServiceCallback<Models.DataSourceListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, filter: string, options?: Models.DataSourcesListByWorkspaceOptionalParams | msRest.ServiceCallback<Models.DataSourceListResult>, callback?: msRest.ServiceCallback<Models.DataSourceListResult>): Promise<Models.DataSourcesListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    filter: string,
+    options: Models.DataSourcesListByWorkspaceOptionalParams,
+    callback: msRest.ServiceCallback<Models.DataSourceListResult>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    filter: string,
+    options?:
+      | Models.DataSourcesListByWorkspaceOptionalParams
+      | msRest.ServiceCallback<Models.DataSourceListResult>,
+    callback?: msRest.ServiceCallback<Models.DataSourceListResult>
+  ): Promise<Models.DataSourcesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -171,7 +268,8 @@ export class DataSources {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.DataSourcesListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.DataSourcesListByWorkspaceResponse>;
   }
 
   /**
@@ -180,26 +278,41 @@ export class DataSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataSourcesListByWorkspaceNextResponse>
    */
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DataSourcesListByWorkspaceNextResponse>;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DataSourcesListByWorkspaceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DataSourceListResult>): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DataSourceListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataSourceListResult>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataSourceListResult>, callback?: msRest.ServiceCallback<Models.DataSourceListResult>): Promise<Models.DataSourcesListByWorkspaceNextResponse> {
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataSourceListResult>
+  ): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataSourceListResult>,
+    callback?: msRest.ServiceCallback<Models.DataSourceListResult>
+  ): Promise<Models.DataSourcesListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByWorkspaceNextOperationSpec,
-      callback) as Promise<Models.DataSourcesListByWorkspaceNextResponse>;
+      callback
+    ) as Promise<Models.DataSourcesListByWorkspaceNextResponse>;
   }
 }
 
@@ -207,19 +320,16 @@ export class DataSources {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.dataSourceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -243,19 +353,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.dataSourceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -268,19 +375,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.dataSourceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataSource
@@ -294,20 +398,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.filter,
-    Parameters.skiptoken,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.filter, Parameters.skiptoken, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataSourceListResult
@@ -323,12 +422,8 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataSourceListResult

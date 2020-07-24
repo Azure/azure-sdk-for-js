@@ -22,7 +22,11 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    endpoint: string,
+    options?: msRest.ServiceClientOptions
+  ) {
     super(credentials, endpoint, options);
   }
 
@@ -42,26 +46,41 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.TrainCustomModelResponse>
    */
-  trainCustomModel(trainRequest: Models.TrainRequest, options?: msRest.RequestOptionsBase): Promise<Models.TrainCustomModelResponse>;
+  trainCustomModel(
+    trainRequest: Models.TrainRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TrainCustomModelResponse>;
   /**
    * @param trainRequest Request object for training.
    * @param callback The callback
    */
-  trainCustomModel(trainRequest: Models.TrainRequest, callback: msRest.ServiceCallback<Models.TrainResult>): void;
+  trainCustomModel(
+    trainRequest: Models.TrainRequest,
+    callback: msRest.ServiceCallback<Models.TrainResult>
+  ): void;
   /**
    * @param trainRequest Request object for training.
    * @param options The optional parameters
    * @param callback The callback
    */
-  trainCustomModel(trainRequest: Models.TrainRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TrainResult>): void;
-  trainCustomModel(trainRequest: Models.TrainRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrainResult>, callback?: msRest.ServiceCallback<Models.TrainResult>): Promise<Models.TrainCustomModelResponse> {
+  trainCustomModel(
+    trainRequest: Models.TrainRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TrainResult>
+  ): void;
+  trainCustomModel(
+    trainRequest: Models.TrainRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrainResult>,
+    callback?: msRest.ServiceCallback<Models.TrainResult>
+  ): Promise<Models.TrainCustomModelResponse> {
     return this.sendOperationRequest(
       {
         trainRequest,
         options
       },
       trainCustomModelOperationSpec,
-      callback) as Promise<Models.TrainCustomModelResponse>;
+      callback
+    ) as Promise<Models.TrainCustomModelResponse>;
   }
 
   /**
@@ -72,7 +91,10 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetExtractedKeysResponse>
    */
-  getExtractedKeys(id: string, options?: msRest.RequestOptionsBase): Promise<Models.GetExtractedKeysResponse>;
+  getExtractedKeys(
+    id: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetExtractedKeysResponse>;
   /**
    * @param id Model identifier.
    * @param callback The callback
@@ -83,15 +105,24 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getExtractedKeys(id: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeysResult>): void;
-  getExtractedKeys(id: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeysResult>, callback?: msRest.ServiceCallback<Models.KeysResult>): Promise<Models.GetExtractedKeysResponse> {
+  getExtractedKeys(
+    id: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.KeysResult>
+  ): void;
+  getExtractedKeys(
+    id: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeysResult>,
+    callback?: msRest.ServiceCallback<Models.KeysResult>
+  ): Promise<Models.GetExtractedKeysResponse> {
     return this.sendOperationRequest(
       {
         id,
         options
       },
       getExtractedKeysOperationSpec,
-      callback) as Promise<Models.GetExtractedKeysResponse>;
+      callback
+    ) as Promise<Models.GetExtractedKeysResponse>;
   }
 
   /**
@@ -109,14 +140,21 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCustomModels(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelsResult>): void;
-  getCustomModels(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelsResult>, callback?: msRest.ServiceCallback<Models.ModelsResult>): Promise<Models.GetCustomModelsResponse> {
+  getCustomModels(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ModelsResult>
+  ): void;
+  getCustomModels(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelsResult>,
+    callback?: msRest.ServiceCallback<Models.ModelsResult>
+  ): Promise<Models.GetCustomModelsResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       getCustomModelsOperationSpec,
-      callback) as Promise<Models.GetCustomModelsResponse>;
+      callback
+    ) as Promise<Models.GetCustomModelsResponse>;
   }
 
   /**
@@ -126,7 +164,10 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCustomModelResponse>
    */
-  getCustomModel(id: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCustomModelResponse>;
+  getCustomModel(
+    id: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetCustomModelResponse>;
   /**
    * @param id Model identifier.
    * @param callback The callback
@@ -137,15 +178,24 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCustomModel(id: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelResult>): void;
-  getCustomModel(id: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelResult>, callback?: msRest.ServiceCallback<Models.ModelResult>): Promise<Models.GetCustomModelResponse> {
+  getCustomModel(
+    id: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ModelResult>
+  ): void;
+  getCustomModel(
+    id: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelResult>,
+    callback?: msRest.ServiceCallback<Models.ModelResult>
+  ): Promise<Models.GetCustomModelResponse> {
     return this.sendOperationRequest(
       {
         id,
         options
       },
       getCustomModelOperationSpec,
-      callback) as Promise<Models.GetCustomModelResponse>;
+      callback
+    ) as Promise<Models.GetCustomModelResponse>;
   }
 
   /**
@@ -166,15 +216,24 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCustomModel(id: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteCustomModel(id: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteCustomModel(
+    id: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteCustomModel(
+    id: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
         id,
         options
       },
       deleteCustomModelOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -187,21 +246,41 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.AnalyzeWithCustomModelResponse>
    */
-  analyzeWithCustomModel(id: string, formStream: msRest.HttpRequestBody, options?: Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams): Promise<Models.AnalyzeWithCustomModelResponse>;
+  analyzeWithCustomModel(
+    id: string,
+    formStream: msRest.HttpRequestBody,
+    options?: Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams
+  ): Promise<Models.AnalyzeWithCustomModelResponse>;
   /**
    * @param id Model Identifier to analyze the document with.
    * @param formStream A pdf document or image (jpg,png) file to analyze.
    * @param callback The callback
    */
-  analyzeWithCustomModel(id: string, formStream: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.AnalyzeResult>): void;
+  analyzeWithCustomModel(
+    id: string,
+    formStream: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<Models.AnalyzeResult>
+  ): void;
   /**
    * @param id Model Identifier to analyze the document with.
    * @param formStream A pdf document or image (jpg,png) file to analyze.
    * @param options The optional parameters
    * @param callback The callback
    */
-  analyzeWithCustomModel(id: string, formStream: msRest.HttpRequestBody, options: Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams, callback: msRest.ServiceCallback<Models.AnalyzeResult>): void;
-  analyzeWithCustomModel(id: string, formStream: msRest.HttpRequestBody, options?: Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams | msRest.ServiceCallback<Models.AnalyzeResult>, callback?: msRest.ServiceCallback<Models.AnalyzeResult>): Promise<Models.AnalyzeWithCustomModelResponse> {
+  analyzeWithCustomModel(
+    id: string,
+    formStream: msRest.HttpRequestBody,
+    options: Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams,
+    callback: msRest.ServiceCallback<Models.AnalyzeResult>
+  ): void;
+  analyzeWithCustomModel(
+    id: string,
+    formStream: msRest.HttpRequestBody,
+    options?:
+      | Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams
+      | msRest.ServiceCallback<Models.AnalyzeResult>,
+    callback?: msRest.ServiceCallback<Models.AnalyzeResult>
+  ): Promise<Models.AnalyzeWithCustomModelResponse> {
     return this.sendOperationRequest(
       {
         id,
@@ -209,7 +288,8 @@ class FormRecognizerClient extends FormRecognizerClientContext {
         options
       },
       analyzeWithCustomModelOperationSpec,
-      callback) as Promise<Models.AnalyzeWithCustomModelResponse>;
+      callback
+    ) as Promise<Models.AnalyzeWithCustomModelResponse>;
   }
 
   /**
@@ -219,7 +299,10 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchReadReceiptResponse>
    */
-  batchReadReceipt(url: string, options?: msRest.RequestOptionsBase): Promise<Models.BatchReadReceiptResponse>;
+  batchReadReceipt(
+    url: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BatchReadReceiptResponse>;
   /**
    * @param url Publicly reachable URL of an image.
    * @param callback The callback
@@ -230,15 +313,24 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  batchReadReceipt(url: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  batchReadReceipt(url: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BatchReadReceiptResponse> {
+  batchReadReceipt(
+    url: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  batchReadReceipt(
+    url: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.BatchReadReceiptResponse> {
     return this.sendOperationRequest(
       {
         url,
         options
       },
       batchReadReceiptOperationSpec,
-      callback) as Promise<Models.BatchReadReceiptResponse>;
+      callback
+    ) as Promise<Models.BatchReadReceiptResponse>;
   }
 
   /**
@@ -250,28 +342,43 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetReadReceiptResultResponse>
    */
-  getReadReceiptResult(operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetReadReceiptResultResponse>;
+  getReadReceiptResult(
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.GetReadReceiptResultResponse>;
   /**
    * @param operationId Id of read operation returned in the response of a 'Batch Read Receipt'
    * operation.
    * @param callback The callback
    */
-  getReadReceiptResult(operationId: string, callback: msRest.ServiceCallback<Models.ReadReceiptResult>): void;
+  getReadReceiptResult(
+    operationId: string,
+    callback: msRest.ServiceCallback<Models.ReadReceiptResult>
+  ): void;
   /**
    * @param operationId Id of read operation returned in the response of a 'Batch Read Receipt'
    * operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getReadReceiptResult(operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReadReceiptResult>): void;
-  getReadReceiptResult(operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReadReceiptResult>, callback?: msRest.ServiceCallback<Models.ReadReceiptResult>): Promise<Models.GetReadReceiptResultResponse> {
+  getReadReceiptResult(
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReadReceiptResult>
+  ): void;
+  getReadReceiptResult(
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReadReceiptResult>,
+    callback?: msRest.ServiceCallback<Models.ReadReceiptResult>
+  ): Promise<Models.GetReadReceiptResultResponse> {
     return this.sendOperationRequest(
       {
         operationId,
         options
       },
       getReadReceiptResultOperationSpec,
-      callback) as Promise<Models.GetReadReceiptResultResponse>;
+      callback
+    ) as Promise<Models.GetReadReceiptResultResponse>;
   }
 
   /**
@@ -282,26 +389,41 @@ class FormRecognizerClient extends FormRecognizerClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.BatchReadReceiptInStreamResponse>
    */
-  batchReadReceiptInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.BatchReadReceiptInStreamResponse>;
+  batchReadReceiptInStream(
+    image: msRest.HttpRequestBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.BatchReadReceiptInStreamResponse>;
   /**
    * @param image An image stream.
    * @param callback The callback
    */
-  batchReadReceiptInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<void>): void;
+  batchReadReceiptInStream(
+    image: msRest.HttpRequestBody,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param image An image stream.
    * @param options The optional parameters
    * @param callback The callback
    */
-  batchReadReceiptInStream(image: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  batchReadReceiptInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BatchReadReceiptInStreamResponse> {
+  batchReadReceiptInStream(
+    image: msRest.HttpRequestBody,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  batchReadReceiptInStream(
+    image: msRest.HttpRequestBody,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.BatchReadReceiptInStreamResponse> {
     return this.sendOperationRequest(
       {
         image,
         options
       },
       batchReadReceiptInStreamOperationSpec,
-      callback) as Promise<Models.BatchReadReceiptInStreamResponse>;
+      callback
+    ) as Promise<Models.BatchReadReceiptInStreamResponse>;
   }
 }
 
@@ -310,9 +432,7 @@ const serializer = new msRest.Serializer(Mappers);
 const trainCustomModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "custom/train",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: "trainRequest",
     mapper: {
@@ -334,10 +454,7 @@ const trainCustomModelOperationSpec: msRest.OperationSpec = {
 const getExtractedKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "custom/models/{id}/keys",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.id
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.id],
   responses: {
     200: {
       bodyMapper: Mappers.KeysResult
@@ -352,9 +469,7 @@ const getExtractedKeysOperationSpec: msRest.OperationSpec = {
 const getCustomModelsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "custom/models",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   responses: {
     200: {
       bodyMapper: Mappers.ModelsResult
@@ -369,10 +484,7 @@ const getCustomModelsOperationSpec: msRest.OperationSpec = {
 const getCustomModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "custom/models/{id}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.id
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.id],
   responses: {
     200: {
       bodyMapper: Mappers.ModelResult
@@ -387,10 +499,7 @@ const getCustomModelOperationSpec: msRest.OperationSpec = {
 const deleteCustomModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "custom/models/{id}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.id
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.id],
   responses: {
     204: {},
     default: {
@@ -403,16 +512,9 @@ const deleteCustomModelOperationSpec: msRest.OperationSpec = {
 const analyzeWithCustomModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "custom/models/{id}/analyze",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.id
-  ],
-  queryParameters: [
-    Parameters.keys
-  ],
-  formDataParameters: [
-    Parameters.formStream
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.id],
+  queryParameters: [Parameters.keys],
+  formDataParameters: [Parameters.formStream],
   contentType: "multipart/form-data",
   responses: {
     200: {
@@ -428,9 +530,7 @@ const analyzeWithCustomModelOperationSpec: msRest.OperationSpec = {
 const batchReadReceiptOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "prebuilt/receipt/asyncBatchAnalyze",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: {
       url: "url"
@@ -454,10 +554,7 @@ const batchReadReceiptOperationSpec: msRest.OperationSpec = {
 const getReadReceiptResultOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "prebuilt/receipt/operations/{operationId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.operationId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.operationId],
   responses: {
     200: {
       bodyMapper: Mappers.ReadReceiptResult
@@ -472,9 +569,7 @@ const getReadReceiptResultOperationSpec: msRest.OperationSpec = {
 const batchReadReceiptInStreamOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "prebuilt/receipt/asyncBatchAnalyze",
-  urlParameters: [
-    Parameters.endpoint
-  ],
+  urlParameters: [Parameters.endpoint],
   requestBody: {
     parameterPath: "image",
     mapper: {

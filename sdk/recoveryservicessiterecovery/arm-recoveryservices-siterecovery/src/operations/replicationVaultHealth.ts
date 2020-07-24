@@ -42,14 +42,21 @@ export class ReplicationVaultHealth {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VaultHealthDetails>): void;
-  get(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultHealthDetails>, callback?: msRest.ServiceCallback<Models.VaultHealthDetails>): Promise<Models.ReplicationVaultHealthGetResponse> {
+  get(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.VaultHealthDetails>
+  ): void;
+  get(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VaultHealthDetails>,
+    callback?: msRest.ServiceCallback<Models.VaultHealthDetails>
+  ): Promise<Models.ReplicationVaultHealthGetResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReplicationVaultHealthGetResponse>;
+      callback
+    ) as Promise<Models.ReplicationVaultHealthGetResponse>;
   }
 
   /**
@@ -57,9 +64,12 @@ export class ReplicationVaultHealth {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationVaultHealthRefreshResponse>
    */
-  refresh(options?: msRest.RequestOptionsBase): Promise<Models.ReplicationVaultHealthRefreshResponse> {
-    return this.beginRefresh(options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationVaultHealthRefreshResponse>;
+  refresh(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationVaultHealthRefreshResponse> {
+    return this.beginRefresh(options).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationVaultHealthRefreshResponse
+    >;
   }
 
   /**
@@ -73,7 +83,8 @@ export class ReplicationVaultHealth {
         options
       },
       beginRefreshOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -81,18 +92,11 @@ export class ReplicationVaultHealth {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth",
+  urlParameters: [Parameters.resourceName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VaultHealthDetails
@@ -106,18 +110,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginRefreshOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth/default/refresh",
-  urlParameters: [
-    Parameters.resourceName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth/default/refresh",
+  urlParameters: [Parameters.resourceName, Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.VaultHealthDetails

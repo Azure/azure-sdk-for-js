@@ -35,21 +35,39 @@ export class Machines {
    * @param [options] The optional parameters
    * @returns Promise<Models.MachinesListByProjectResponse>
    */
-  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase): Promise<Models.MachinesListByProjectResponse>;
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MachinesListByProjectResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param callback The callback
    */
-  listByProject(resourceGroupName: string, projectName: string, callback: msRest.ServiceCallback<Models.MachineResultList>): void;
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    callback: msRest.ServiceCallback<Models.MachineResultList>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByProject(resourceGroupName: string, projectName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MachineResultList>): void;
-  listByProject(resourceGroupName: string, projectName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineResultList>, callback?: msRest.ServiceCallback<Models.MachineResultList>): Promise<Models.MachinesListByProjectResponse> {
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MachineResultList>
+  ): void;
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MachineResultList>,
+    callback?: msRest.ServiceCallback<Models.MachineResultList>
+  ): Promise<Models.MachinesListByProjectResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -57,7 +75,8 @@ export class Machines {
         options
       },
       listByProjectOperationSpec,
-      callback) as Promise<Models.MachinesListByProjectResponse>;
+      callback
+    ) as Promise<Models.MachinesListByProjectResponse>;
   }
 
   /**
@@ -70,14 +89,24 @@ export class Machines {
    * @param [options] The optional parameters
    * @returns Promise<Models.MachinesGetResponse>
    */
-  get(resourceGroupName: string, projectName: string, machineName: string, options?: msRest.RequestOptionsBase): Promise<Models.MachinesGetResponse>;
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    machineName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MachinesGetResponse>;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param machineName Unique name of a machine in private datacenter.
    * @param callback The callback
    */
-  get(resourceGroupName: string, projectName: string, machineName: string, callback: msRest.ServiceCallback<Models.Machine>): void;
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    machineName: string,
+    callback: msRest.ServiceCallback<Models.Machine>
+  ): void;
   /**
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
@@ -85,8 +114,20 @@ export class Machines {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, projectName: string, machineName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Machine>): void;
-  get(resourceGroupName: string, projectName: string, machineName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Machine>, callback?: msRest.ServiceCallback<Models.Machine>): Promise<Models.MachinesGetResponse> {
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    machineName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Machine>
+  ): void;
+  get(
+    resourceGroupName: string,
+    projectName: string,
+    machineName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Machine>,
+    callback?: msRest.ServiceCallback<Models.Machine>
+  ): Promise<Models.MachinesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +136,8 @@ export class Machines {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MachinesGetResponse>;
+      callback
+    ) as Promise<Models.MachinesGetResponse>;
   }
 }
 
@@ -103,18 +145,11 @@ export class Machines {
 const serializer = new msRest.Serializer(Mappers);
 const listByProjectOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/machines",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/machines",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.projectName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MachineResultList,
@@ -129,19 +164,16 @@ const listByProjectOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/machines/{machineName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/machines/{machineName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
     Parameters.machineName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Machine,

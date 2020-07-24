@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { LogicManagementClientContext } from "./logicManagementClientContext";
 
-
 class LogicManagementClient extends LogicManagementClientContext {
   // Operation groups
   workflows: operations.Workflows;
@@ -46,7 +45,11 @@ class LogicManagementClient extends LogicManagementClientContext {
    * @param subscriptionId The subscription id.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.LogicManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.LogicManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.workflows = new operations.Workflows(this);
     this.workflowVersions = new operations.WorkflowVersions(this);
@@ -56,13 +59,17 @@ class LogicManagementClient extends LogicManagementClientContext {
     this.workflowRuns = new operations.WorkflowRuns(this);
     this.workflowRunActions = new operations.WorkflowRunActions(this);
     this.workflowRunActionRepetitions = new operations.WorkflowRunActionRepetitions(this);
-    this.workflowRunActionRepetitionsRequestHistories = new operations.WorkflowRunActionRepetitionsRequestHistories(this);
+    this.workflowRunActionRepetitionsRequestHistories = new operations.WorkflowRunActionRepetitionsRequestHistories(
+      this
+    );
     this.workflowRunActionRequestHistories = new operations.WorkflowRunActionRequestHistories(this);
     this.workflowRunActionScopeRepetitions = new operations.WorkflowRunActionScopeRepetitions(this);
     this.workflowRunOperations = new operations.WorkflowRunOperations(this);
     this.integrationAccounts = new operations.IntegrationAccounts(this);
     this.integrationAccountAssemblies = new operations.IntegrationAccountAssemblies(this);
-    this.integrationAccountBatchConfigurations = new operations.IntegrationAccountBatchConfigurations(this);
+    this.integrationAccountBatchConfigurations = new operations.IntegrationAccountBatchConfigurations(
+      this
+    );
     this.integrationAccountSchemas = new operations.IntegrationAccountSchemas(this);
     this.integrationAccountMaps = new operations.IntegrationAccountMaps(this);
     this.integrationAccountPartners = new operations.IntegrationAccountPartners(this);

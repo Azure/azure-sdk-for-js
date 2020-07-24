@@ -36,9 +36,22 @@ export class HubRouteTables {
    * @param [options] The optional parameters
    * @returns Promise<Models.HubRouteTablesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, virtualHubName: string, routeTableName: string, routeTableParameters: Models.HubRouteTable, options?: msRest.RequestOptionsBase): Promise<Models.HubRouteTablesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,virtualHubName,routeTableName,routeTableParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.HubRouteTablesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    virtualHubName: string,
+    routeTableName: string,
+    routeTableParameters: Models.HubRouteTable,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HubRouteTablesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      virtualHubName,
+      routeTableName,
+      routeTableParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.HubRouteTablesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -49,14 +62,24 @@ export class HubRouteTables {
    * @param [options] The optional parameters
    * @returns Promise<Models.HubRouteTablesGetResponse>
    */
-  get(resourceGroupName: string, virtualHubName: string, routeTableName: string, options?: msRest.RequestOptionsBase): Promise<Models.HubRouteTablesGetResponse>;
+  get(
+    resourceGroupName: string,
+    virtualHubName: string,
+    routeTableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HubRouteTablesGetResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param routeTableName The name of the RouteTable.
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualHubName: string, routeTableName: string, callback: msRest.ServiceCallback<Models.HubRouteTable>): void;
+  get(
+    resourceGroupName: string,
+    virtualHubName: string,
+    routeTableName: string,
+    callback: msRest.ServiceCallback<Models.HubRouteTable>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
@@ -64,8 +87,20 @@ export class HubRouteTables {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, virtualHubName: string, routeTableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HubRouteTable>): void;
-  get(resourceGroupName: string, virtualHubName: string, routeTableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HubRouteTable>, callback?: msRest.ServiceCallback<Models.HubRouteTable>): Promise<Models.HubRouteTablesGetResponse> {
+  get(
+    resourceGroupName: string,
+    virtualHubName: string,
+    routeTableName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.HubRouteTable>
+  ): void;
+  get(
+    resourceGroupName: string,
+    virtualHubName: string,
+    routeTableName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HubRouteTable>,
+    callback?: msRest.ServiceCallback<Models.HubRouteTable>
+  ): Promise<Models.HubRouteTablesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -74,7 +109,8 @@ export class HubRouteTables {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.HubRouteTablesGetResponse>;
+      callback
+    ) as Promise<Models.HubRouteTablesGetResponse>;
   }
 
   /**
@@ -85,9 +121,18 @@ export class HubRouteTables {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, virtualHubName: string, routeTableName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,virtualHubName,routeTableName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    virtualHubName: string,
+    routeTableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      virtualHubName,
+      routeTableName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -97,21 +142,39 @@ export class HubRouteTables {
    * @param [options] The optional parameters
    * @returns Promise<Models.HubRouteTablesListResponse>
    */
-  list(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.HubRouteTablesListResponse>;
+  list(
+    resourceGroupName: string,
+    virtualHubName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HubRouteTablesListResponse>;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param callback The callback
    */
-  list(resourceGroupName: string, virtualHubName: string, callback: msRest.ServiceCallback<Models.ListHubRouteTablesResult>): void;
+  list(
+    resourceGroupName: string,
+    virtualHubName: string,
+    callback: msRest.ServiceCallback<Models.ListHubRouteTablesResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, virtualHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListHubRouteTablesResult>): void;
-  list(resourceGroupName: string, virtualHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListHubRouteTablesResult>, callback?: msRest.ServiceCallback<Models.ListHubRouteTablesResult>): Promise<Models.HubRouteTablesListResponse> {
+  list(
+    resourceGroupName: string,
+    virtualHubName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListHubRouteTablesResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    virtualHubName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListHubRouteTablesResult>,
+    callback?: msRest.ServiceCallback<Models.ListHubRouteTablesResult>
+  ): Promise<Models.HubRouteTablesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -119,7 +182,8 @@ export class HubRouteTables {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.HubRouteTablesListResponse>;
+      callback
+    ) as Promise<Models.HubRouteTablesListResponse>;
   }
 
   /**
@@ -131,7 +195,13 @@ export class HubRouteTables {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, virtualHubName: string, routeTableName: string, routeTableParameters: Models.HubRouteTable, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    virtualHubName: string,
+    routeTableName: string,
+    routeTableParameters: Models.HubRouteTable,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -141,7 +211,8 @@ export class HubRouteTables {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -152,7 +223,12 @@ export class HubRouteTables {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, virtualHubName: string, routeTableName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    virtualHubName: string,
+    routeTableName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -161,7 +237,8 @@ export class HubRouteTables {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -170,26 +247,41 @@ export class HubRouteTables {
    * @param [options] The optional parameters
    * @returns Promise<Models.HubRouteTablesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.HubRouteTablesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.HubRouteTablesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListHubRouteTablesResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ListHubRouteTablesResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListHubRouteTablesResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListHubRouteTablesResult>, callback?: msRest.ServiceCallback<Models.ListHubRouteTablesResult>): Promise<Models.HubRouteTablesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListHubRouteTablesResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListHubRouteTablesResult>,
+    callback?: msRest.ServiceCallback<Models.ListHubRouteTablesResult>
+  ): Promise<Models.HubRouteTablesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.HubRouteTablesListNextResponse>;
+      callback
+    ) as Promise<Models.HubRouteTablesListNextResponse>;
   }
 }
 
@@ -197,19 +289,16 @@ export class HubRouteTables {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualHubName,
     Parameters.routeTableName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.HubRouteTable
@@ -223,18 +312,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualHubName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListHubRouteTablesResult
@@ -248,19 +334,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualHubName,
     Parameters.routeTableName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "routeTableParameters",
     mapper: {
@@ -284,19 +367,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubRouteTables/{routeTableName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualHubName,
     Parameters.routeTableName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -312,12 +392,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListHubRouteTablesResult

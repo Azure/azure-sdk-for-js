@@ -36,7 +36,11 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersGetDetailsResponse>
    */
-  getDetails(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServersGetDetailsResponse>;
+  getDetails(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServersGetDetailsResponse>;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
    * server is part. This name must be at least 1 character in length, and no more than 90.
@@ -44,7 +48,11 @@ export class Servers {
    * characters, and a maximum of 63.
    * @param callback The callback
    */
-  getDetails(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.AnalysisServicesServer>): void;
+  getDetails(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.AnalysisServicesServer>
+  ): void;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
    * server is part. This name must be at least 1 character in length, and no more than 90.
@@ -53,8 +61,18 @@ export class Servers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDetails(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnalysisServicesServer>): void;
-  getDetails(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisServicesServer>, callback?: msRest.ServiceCallback<Models.AnalysisServicesServer>): Promise<Models.ServersGetDetailsResponse> {
+  getDetails(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AnalysisServicesServer>
+  ): void;
+  getDetails(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisServicesServer>,
+    callback?: msRest.ServiceCallback<Models.AnalysisServicesServer>
+  ): Promise<Models.ServersGetDetailsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +80,8 @@ export class Servers {
         options
       },
       getDetailsOperationSpec,
-      callback) as Promise<Models.ServersGetDetailsResponse>;
+      callback
+    ) as Promise<Models.ServersGetDetailsResponse>;
   }
 
   /**
@@ -76,9 +95,18 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersCreateResponse>
    */
-  create(resourceGroupName: string, serverName: string, serverParameters: Models.AnalysisServicesServer, options?: msRest.RequestOptionsBase): Promise<Models.ServersCreateResponse> {
-    return this.beginCreate(resourceGroupName,serverName,serverParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServersCreateResponse>;
+  create(
+    resourceGroupName: string,
+    serverName: string,
+    serverParameters: Models.AnalysisServicesServer,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServersCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      serverName,
+      serverParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.ServersCreateResponse>;
   }
 
   /**
@@ -90,9 +118,14 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,serverName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, serverName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -106,9 +139,18 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersUpdateResponse>
    */
-  update(resourceGroupName: string, serverName: string, serverUpdateParameters: Models.AnalysisServicesServerUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ServersUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,serverName,serverUpdateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServersUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    serverName: string,
+    serverUpdateParameters: Models.AnalysisServicesServerUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServersUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      serverName,
+      serverUpdateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.ServersUpdateResponse>;
   }
 
   /**
@@ -120,9 +162,14 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  suspend(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginSuspend(resourceGroupName,serverName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  suspend(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginSuspend(resourceGroupName, serverName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -134,9 +181,14 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  resume(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginResume(resourceGroupName,serverName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  resume(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginResume(resourceGroupName, serverName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -146,28 +198,43 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServersListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServersListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
    * server is part. This name must be at least 1 character in length, and no more than 90.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.AnalysisServicesServers>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.AnalysisServicesServers>
+  ): void;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
    * server is part. This name must be at least 1 character in length, and no more than 90.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnalysisServicesServers>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisServicesServers>, callback?: msRest.ServiceCallback<Models.AnalysisServicesServers>): Promise<Models.ServersListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AnalysisServicesServers>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisServicesServers>,
+    callback?: msRest.ServiceCallback<Models.AnalysisServicesServers>
+  ): Promise<Models.ServersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ServersListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ServersListByResourceGroupResponse>;
   }
 
   /**
@@ -184,14 +251,21 @@ export class Servers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnalysisServicesServers>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisServicesServers>, callback?: msRest.ServiceCallback<Models.AnalysisServicesServers>): Promise<Models.ServersListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AnalysisServicesServers>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalysisServicesServers>,
+    callback?: msRest.ServiceCallback<Models.AnalysisServicesServers>
+  ): Promise<Models.ServersListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ServersListResponse>;
+      callback
+    ) as Promise<Models.ServersListResponse>;
   }
 
   /**
@@ -199,7 +273,9 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersListSkusForNewResponse>
    */
-  listSkusForNew(options?: msRest.RequestOptionsBase): Promise<Models.ServersListSkusForNewResponse>;
+  listSkusForNew(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServersListSkusForNewResponse>;
   /**
    * @param callback The callback
    */
@@ -208,14 +284,23 @@ export class Servers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkusForNew(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>): void;
-  listSkusForNew(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>, callback?: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>): Promise<Models.ServersListSkusForNewResponse> {
+  listSkusForNew(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>
+  ): void;
+  listSkusForNew(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>,
+    callback?: msRest.ServiceCallback<Models.SkuEnumerationForNewResourceResult>
+  ): Promise<Models.ServersListSkusForNewResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listSkusForNewOperationSpec,
-      callback) as Promise<Models.ServersListSkusForNewResponse>;
+      callback
+    ) as Promise<Models.ServersListSkusForNewResponse>;
   }
 
   /**
@@ -227,7 +312,11 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersListSkusForExistingResponse>
    */
-  listSkusForExisting(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServersListSkusForExistingResponse>;
+  listSkusForExisting(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServersListSkusForExistingResponse>;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
    * server is part. This name must be at least 1 character in length, and no more than 90.
@@ -235,7 +324,11 @@ export class Servers {
    * length, and no more than 63.
    * @param callback The callback
    */
-  listSkusForExisting(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>): void;
+  listSkusForExisting(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
    * server is part. This name must be at least 1 character in length, and no more than 90.
@@ -244,8 +337,20 @@ export class Servers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkusForExisting(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>): void;
-  listSkusForExisting(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>, callback?: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>): Promise<Models.ServersListSkusForExistingResponse> {
+  listSkusForExisting(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>
+  ): void;
+  listSkusForExisting(
+    resourceGroupName: string,
+    serverName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>,
+    callback?: msRest.ServiceCallback<Models.SkuEnumerationForExistingResourceResult>
+  ): Promise<Models.ServersListSkusForExistingResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -253,7 +358,8 @@ export class Servers {
         options
       },
       listSkusForExistingOperationSpec,
-      callback) as Promise<Models.ServersListSkusForExistingResponse>;
+      callback
+    ) as Promise<Models.ServersListSkusForExistingResponse>;
   }
 
   /**
@@ -264,14 +370,22 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersListGatewayStatusResponse>
    */
-  listGatewayStatus(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServersListGatewayStatusResponse>;
+  listGatewayStatus(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServersListGatewayStatusResponse>;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
    * server is part. This name must be at least 1 character in length, and no more than 90.
    * @param serverName The name of the Analysis Services server.
    * @param callback The callback
    */
-  listGatewayStatus(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.GatewayListStatusLive>): void;
+  listGatewayStatus(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<Models.GatewayListStatusLive>
+  ): void;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
    * server is part. This name must be at least 1 character in length, and no more than 90.
@@ -279,8 +393,18 @@ export class Servers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listGatewayStatus(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GatewayListStatusLive>): void;
-  listGatewayStatus(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayListStatusLive>, callback?: msRest.ServiceCallback<Models.GatewayListStatusLive>): Promise<Models.ServersListGatewayStatusResponse> {
+  listGatewayStatus(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.GatewayListStatusLive>
+  ): void;
+  listGatewayStatus(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GatewayListStatusLive>,
+    callback?: msRest.ServiceCallback<Models.GatewayListStatusLive>
+  ): Promise<Models.ServersListGatewayStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -288,7 +412,8 @@ export class Servers {
         options
       },
       listGatewayStatusOperationSpec,
-      callback) as Promise<Models.ServersListGatewayStatusResponse>;
+      callback
+    ) as Promise<Models.ServersListGatewayStatusResponse>;
   }
 
   /**
@@ -300,7 +425,11 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  dissociateGateway(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  dissociateGateway(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
    * server is part. This name must be at least 1 character in length, and no more than 90.
@@ -308,7 +437,11 @@ export class Servers {
    * length, and no more than 63.
    * @param callback The callback
    */
-  dissociateGateway(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<void>): void;
+  dissociateGateway(
+    resourceGroupName: string,
+    serverName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
    * server is part. This name must be at least 1 character in length, and no more than 90.
@@ -317,8 +450,18 @@ export class Servers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  dissociateGateway(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  dissociateGateway(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  dissociateGateway(
+    resourceGroupName: string,
+    serverName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  dissociateGateway(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -326,7 +469,8 @@ export class Servers {
         options
       },
       dissociateGatewayOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -336,21 +480,41 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(location: string, serverParameters: Models.CheckServerNameAvailabilityParameters, options?: msRest.RequestOptionsBase): Promise<Models.ServersCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    location: string,
+    serverParameters: Models.CheckServerNameAvailabilityParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServersCheckNameAvailabilityResponse>;
   /**
    * @param location The region name which the operation will lookup into.
    * @param serverParameters Contains the information used to provision the Analysis Services server.
    * @param callback The callback
    */
-  checkNameAvailability(location: string, serverParameters: Models.CheckServerNameAvailabilityParameters, callback: msRest.ServiceCallback<Models.CheckServerNameAvailabilityResult>): void;
+  checkNameAvailability(
+    location: string,
+    serverParameters: Models.CheckServerNameAvailabilityParameters,
+    callback: msRest.ServiceCallback<Models.CheckServerNameAvailabilityResult>
+  ): void;
   /**
    * @param location The region name which the operation will lookup into.
    * @param serverParameters Contains the information used to provision the Analysis Services server.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(location: string, serverParameters: Models.CheckServerNameAvailabilityParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckServerNameAvailabilityResult>): void;
-  checkNameAvailability(location: string, serverParameters: Models.CheckServerNameAvailabilityParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckServerNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckServerNameAvailabilityResult>): Promise<Models.ServersCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    location: string,
+    serverParameters: Models.CheckServerNameAvailabilityParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckServerNameAvailabilityResult>
+  ): void;
+  checkNameAvailability(
+    location: string,
+    serverParameters: Models.CheckServerNameAvailabilityParameters,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CheckServerNameAvailabilityResult>,
+    callback?: msRest.ServiceCallback<Models.CheckServerNameAvailabilityResult>
+  ): Promise<Models.ServersCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -358,7 +522,8 @@ export class Servers {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.ServersCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.ServersCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -368,21 +533,39 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  listOperationResults(location: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  listOperationResults(
+    location: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param location The region name which the operation will lookup into.
    * @param operationId The target operation Id.
    * @param callback The callback
    */
-  listOperationResults(location: string, operationId: string, callback: msRest.ServiceCallback<void>): void;
+  listOperationResults(
+    location: string,
+    operationId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param location The region name which the operation will lookup into.
    * @param operationId The target operation Id.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOperationResults(location: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  listOperationResults(location: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  listOperationResults(
+    location: string,
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  listOperationResults(
+    location: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -390,7 +573,8 @@ export class Servers {
         options
       },
       listOperationResultsOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -400,21 +584,39 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersListOperationStatusesResponse>
    */
-  listOperationStatuses(location: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.ServersListOperationStatusesResponse>;
+  listOperationStatuses(
+    location: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServersListOperationStatusesResponse>;
   /**
    * @param location The region name which the operation will lookup into.
    * @param operationId The target operation Id.
    * @param callback The callback
    */
-  listOperationStatuses(location: string, operationId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  listOperationStatuses(
+    location: string,
+    operationId: string,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
   /**
    * @param location The region name which the operation will lookup into.
    * @param operationId The target operation Id.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOperationStatuses(location: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  listOperationStatuses(location: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.ServersListOperationStatusesResponse> {
+  listOperationStatuses(
+    location: string,
+    operationId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationStatus>
+  ): void;
+  listOperationStatuses(
+    location: string,
+    operationId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>,
+    callback?: msRest.ServiceCallback<Models.OperationStatus>
+  ): Promise<Models.ServersListOperationStatusesResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -422,7 +624,8 @@ export class Servers {
         options
       },
       listOperationStatusesOperationSpec,
-      callback) as Promise<Models.ServersListOperationStatusesResponse>;
+      callback
+    ) as Promise<Models.ServersListOperationStatusesResponse>;
   }
 
   /**
@@ -436,7 +639,12 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, serverName: string, serverParameters: Models.AnalysisServicesServer, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    serverName: string,
+    serverParameters: Models.AnalysisServicesServer,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -445,7 +653,8 @@ export class Servers {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -457,7 +666,11 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -465,7 +678,8 @@ export class Servers {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -479,7 +693,12 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, serverName: string, serverUpdateParameters: Models.AnalysisServicesServerUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    serverUpdateParameters: Models.AnalysisServicesServerUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -488,7 +707,8 @@ export class Servers {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -500,7 +720,11 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginSuspend(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginSuspend(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -508,7 +732,8 @@ export class Servers {
         options
       },
       beginSuspendOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -520,7 +745,11 @@ export class Servers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginResume(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginResume(
+    resourceGroupName: string,
+    serverName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -528,7 +757,8 @@ export class Servers {
         options
       },
       beginResumeOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -536,18 +766,11 @@ export class Servers {
 const serializer = new msRest.Serializer(Mappers);
 const getDetailsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AnalysisServicesServer
@@ -561,17 +784,11 @@ const getDetailsOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AnalysisServicesServers
@@ -586,15 +803,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.AnalysisServices/servers",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AnalysisServicesServers
@@ -609,15 +820,9 @@ const listOperationSpec: msRest.OperationSpec = {
 const listSkusForNewOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.AnalysisServices/skus",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SkuEnumerationForNewResourceResult
@@ -631,18 +836,11 @@ const listSkusForNewOperationSpec: msRest.OperationSpec = {
 
 const listSkusForExistingOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}/skus",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}/skus",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SkuEnumerationForExistingResourceResult
@@ -656,18 +854,11 @@ const listSkusForExistingOperationSpec: msRest.OperationSpec = {
 
 const listGatewayStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}/listGatewayStatus",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}/listGatewayStatus",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.GatewayListStatusLive
@@ -681,18 +872,11 @@ const listGatewayStatusOperationSpec: msRest.OperationSpec = {
 
 const dissociateGatewayOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}/dissociateGateway",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}/dissociateGateway",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -704,17 +888,11 @@ const dissociateGatewayOperationSpec: msRest.OperationSpec = {
 
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.AnalysisServices/locations/{location}/checkNameAvailability",
-  urlParameters: [
-    Parameters.location,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.AnalysisServices/locations/{location}/checkNameAvailability",
+  urlParameters: [Parameters.location, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "serverParameters",
     mapper: {
@@ -735,18 +913,11 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const listOperationResultsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.AnalysisServices/locations/{location}/operationresults/{operationId}",
-  urlParameters: [
-    Parameters.location,
-    Parameters.operationId,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.AnalysisServices/locations/{location}/operationresults/{operationId}",
+  urlParameters: [Parameters.location, Parameters.operationId, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -759,18 +930,11 @@ const listOperationResultsOperationSpec: msRest.OperationSpec = {
 
 const listOperationStatusesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.AnalysisServices/locations/{location}/operationstatuses/{operationId}",
-  urlParameters: [
-    Parameters.location,
-    Parameters.operationId,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.AnalysisServices/locations/{location}/operationstatuses/{operationId}",
+  urlParameters: [Parameters.location, Parameters.operationId, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus
@@ -787,18 +951,11 @@ const listOperationStatusesOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "serverParameters",
     mapper: {
@@ -822,18 +979,11 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -847,18 +997,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "serverUpdateParameters",
     mapper: {
@@ -882,18 +1025,11 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginSuspendOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}/suspend",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}/suspend",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -906,18 +1042,11 @@ const beginSuspendOperationSpec: msRest.OperationSpec = {
 
 const beginResumeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}/resume",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AnalysisServices/servers/{serverName}/resume",
+  urlParameters: [Parameters.resourceGroupName, Parameters.serverName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

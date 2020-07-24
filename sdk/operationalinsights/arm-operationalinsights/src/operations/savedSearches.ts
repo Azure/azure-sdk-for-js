@@ -34,14 +34,24 @@ export class SavedSearches {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, savedSearchId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    savedSearchId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param savedSearchId The id of the saved search.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, savedSearchId: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    savedSearchId: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -49,8 +59,20 @@ export class SavedSearches {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, savedSearchId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, workspaceName: string, savedSearchId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    savedSearchId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    savedSearchId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class SavedSearches {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -71,7 +94,13 @@ export class SavedSearches {
    * @param [options] The optional parameters
    * @returns Promise<Models.SavedSearchesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, savedSearchId: string, parameters: Models.SavedSearch, options?: msRest.RequestOptionsBase): Promise<Models.SavedSearchesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    savedSearchId: string,
+    parameters: Models.SavedSearch,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SavedSearchesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -79,7 +108,13 @@ export class SavedSearches {
    * @param parameters The parameters required to save a search.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, savedSearchId: string, parameters: Models.SavedSearch, callback: msRest.ServiceCallback<Models.SavedSearch>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    savedSearchId: string,
+    parameters: Models.SavedSearch,
+    callback: msRest.ServiceCallback<Models.SavedSearch>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -88,8 +123,22 @@ export class SavedSearches {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, savedSearchId: string, parameters: Models.SavedSearch, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SavedSearch>): void;
-  createOrUpdate(resourceGroupName: string, workspaceName: string, savedSearchId: string, parameters: Models.SavedSearch, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SavedSearch>, callback?: msRest.ServiceCallback<Models.SavedSearch>): Promise<Models.SavedSearchesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    savedSearchId: string,
+    parameters: Models.SavedSearch,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SavedSearch>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    savedSearchId: string,
+    parameters: Models.SavedSearch,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SavedSearch>,
+    callback?: msRest.ServiceCallback<Models.SavedSearch>
+  ): Promise<Models.SavedSearchesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +148,8 @@ export class SavedSearches {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.SavedSearchesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.SavedSearchesCreateOrUpdateResponse>;
   }
 
   /**
@@ -110,14 +160,24 @@ export class SavedSearches {
    * @param [options] The optional parameters
    * @returns Promise<Models.SavedSearchesGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, savedSearchId: string, options?: msRest.RequestOptionsBase): Promise<Models.SavedSearchesGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    savedSearchId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SavedSearchesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param savedSearchId The id of the saved search.
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, savedSearchId: string, callback: msRest.ServiceCallback<Models.SavedSearch>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    savedSearchId: string,
+    callback: msRest.ServiceCallback<Models.SavedSearch>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -125,8 +185,20 @@ export class SavedSearches {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, savedSearchId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SavedSearch>): void;
-  get(resourceGroupName: string, workspaceName: string, savedSearchId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SavedSearch>, callback?: msRest.ServiceCallback<Models.SavedSearch>): Promise<Models.SavedSearchesGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    savedSearchId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SavedSearch>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    savedSearchId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SavedSearch>,
+    callback?: msRest.ServiceCallback<Models.SavedSearch>
+  ): Promise<Models.SavedSearchesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +207,8 @@ export class SavedSearches {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SavedSearchesGetResponse>;
+      callback
+    ) as Promise<Models.SavedSearchesGetResponse>;
   }
 
   /**
@@ -145,21 +218,39 @@ export class SavedSearches {
    * @param [options] The optional parameters
    * @returns Promise<Models.SavedSearchesListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SavedSearchesListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SavedSearchesListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.SavedSearchesListResult>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.SavedSearchesListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SavedSearchesListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SavedSearchesListResult>, callback?: msRest.ServiceCallback<Models.SavedSearchesListResult>): Promise<Models.SavedSearchesListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SavedSearchesListResult>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SavedSearchesListResult>,
+    callback?: msRest.ServiceCallback<Models.SavedSearchesListResult>
+  ): Promise<Models.SavedSearchesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +258,8 @@ export class SavedSearches {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.SavedSearchesListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.SavedSearchesListByWorkspaceResponse>;
   }
 }
 
@@ -175,19 +267,16 @@ export class SavedSearches {
 const serializer = new msRest.Serializer(Mappers);
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.savedSearchId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -199,19 +288,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.savedSearchId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -232,19 +318,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.savedSearchId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SavedSearch
@@ -258,18 +341,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches",
+  path:
+    "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SavedSearchesListResult

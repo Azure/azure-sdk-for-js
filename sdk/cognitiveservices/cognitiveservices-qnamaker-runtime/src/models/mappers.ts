@@ -8,7 +8,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-
 export const MetadataDTO: msRest.CompositeMapper = {
   serializedName: "MetadataDTO",
   type: {

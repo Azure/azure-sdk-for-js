@@ -34,14 +34,24 @@ export class DscNodeOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DscNodeDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: msRest.RequestOptionsBase): Promise<Models.DscNodeDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DscNodeDeleteMethodResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param nodeId The node id.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, nodeId: string, callback: msRest.ServiceCallback<Models.DscNode>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    callback: msRest.ServiceCallback<Models.DscNode>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -49,8 +59,20 @@ export class DscNodeOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, automationAccountName: string, nodeId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNode>): void;
-  deleteMethod(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNode>, callback?: msRest.ServiceCallback<Models.DscNode>): Promise<Models.DscNodeDeleteMethodResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DscNode>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNode>,
+    callback?: msRest.ServiceCallback<Models.DscNode>
+  ): Promise<Models.DscNodeDeleteMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class DscNodeOperations {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.DscNodeDeleteMethodResponse>;
+      callback
+    ) as Promise<Models.DscNodeDeleteMethodResponse>;
   }
 
   /**
@@ -70,14 +93,24 @@ export class DscNodeOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DscNodeGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: msRest.RequestOptionsBase): Promise<Models.DscNodeGetResponse>;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DscNodeGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param nodeId The node id.
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, nodeId: string, callback: msRest.ServiceCallback<Models.DscNode>): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    callback: msRest.ServiceCallback<Models.DscNode>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -85,8 +118,20 @@ export class DscNodeOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, nodeId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNode>): void;
-  get(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNode>, callback?: msRest.ServiceCallback<Models.DscNode>): Promise<Models.DscNodeGetResponse> {
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DscNode>
+  ): void;
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNode>,
+    callback?: msRest.ServiceCallback<Models.DscNode>
+  ): Promise<Models.DscNodeGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -95,7 +140,8 @@ export class DscNodeOperations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.DscNodeGetResponse>;
+      callback
+    ) as Promise<Models.DscNodeGetResponse>;
   }
 
   /**
@@ -107,7 +153,13 @@ export class DscNodeOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DscNodeUpdateResponse>
    */
-  update(resourceGroupName: string, automationAccountName: string, nodeId: string, dscNodeUpdateParameters: Models.DscNodeUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.DscNodeUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    dscNodeUpdateParameters: Models.DscNodeUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DscNodeUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -115,7 +167,13 @@ export class DscNodeOperations {
    * @param dscNodeUpdateParameters Parameters supplied to the update dsc node.
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, nodeId: string, dscNodeUpdateParameters: Models.DscNodeUpdateParameters, callback: msRest.ServiceCallback<Models.DscNode>): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    dscNodeUpdateParameters: Models.DscNodeUpdateParameters,
+    callback: msRest.ServiceCallback<Models.DscNode>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
@@ -124,8 +182,22 @@ export class DscNodeOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, automationAccountName: string, nodeId: string, dscNodeUpdateParameters: Models.DscNodeUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNode>): void;
-  update(resourceGroupName: string, automationAccountName: string, nodeId: string, dscNodeUpdateParameters: Models.DscNodeUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNode>, callback?: msRest.ServiceCallback<Models.DscNode>): Promise<Models.DscNodeUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    dscNodeUpdateParameters: Models.DscNodeUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DscNode>
+  ): void;
+  update(
+    resourceGroupName: string,
+    automationAccountName: string,
+    nodeId: string,
+    dscNodeUpdateParameters: Models.DscNodeUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNode>,
+    callback?: msRest.ServiceCallback<Models.DscNode>
+  ): Promise<Models.DscNodeUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -135,7 +207,8 @@ export class DscNodeOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.DscNodeUpdateResponse>;
+      callback
+    ) as Promise<Models.DscNodeUpdateResponse>;
   }
 
   /**
@@ -145,21 +218,41 @@ export class DscNodeOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DscNodeListByAutomationAccountResponse>
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.DscNodeListByAutomationAccountOptionalParams): Promise<Models.DscNodeListByAutomationAccountResponse>;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?: Models.DscNodeListByAutomationAccountOptionalParams
+  ): Promise<Models.DscNodeListByAutomationAccountResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.DscNodeListResult>): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    callback: msRest.ServiceCallback<Models.DscNodeListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options: Models.DscNodeListByAutomationAccountOptionalParams, callback: msRest.ServiceCallback<Models.DscNodeListResult>): void;
-  listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Models.DscNodeListByAutomationAccountOptionalParams | msRest.ServiceCallback<Models.DscNodeListResult>, callback?: msRest.ServiceCallback<Models.DscNodeListResult>): Promise<Models.DscNodeListByAutomationAccountResponse> {
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options: Models.DscNodeListByAutomationAccountOptionalParams,
+    callback: msRest.ServiceCallback<Models.DscNodeListResult>
+  ): void;
+  listByAutomationAccount(
+    resourceGroupName: string,
+    automationAccountName: string,
+    options?:
+      | Models.DscNodeListByAutomationAccountOptionalParams
+      | msRest.ServiceCallback<Models.DscNodeListResult>,
+    callback?: msRest.ServiceCallback<Models.DscNodeListResult>
+  ): Promise<Models.DscNodeListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -167,7 +260,8 @@ export class DscNodeOperations {
         options
       },
       listByAutomationAccountOperationSpec,
-      callback) as Promise<Models.DscNodeListByAutomationAccountResponse>;
+      callback
+    ) as Promise<Models.DscNodeListByAutomationAccountResponse>;
   }
 
   /**
@@ -176,26 +270,41 @@ export class DscNodeOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.DscNodeListByAutomationAccountNextResponse>
    */
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DscNodeListByAutomationAccountNextResponse>;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.DscNodeListByAutomationAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DscNodeListResult>): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DscNodeListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAutomationAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DscNodeListResult>): void;
-  listByAutomationAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNodeListResult>, callback?: msRest.ServiceCallback<Models.DscNodeListResult>): Promise<Models.DscNodeListByAutomationAccountNextResponse> {
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DscNodeListResult>
+  ): void;
+  listByAutomationAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DscNodeListResult>,
+    callback?: msRest.ServiceCallback<Models.DscNodeListResult>
+  ): Promise<Models.DscNodeListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAutomationAccountNextOperationSpec,
-      callback) as Promise<Models.DscNodeListByAutomationAccountNextResponse>;
+      callback
+    ) as Promise<Models.DscNodeListByAutomationAccountNextResponse>;
   }
 }
 
@@ -203,19 +312,16 @@ export class DscNodeOperations {
 const serializer = new msRest.Serializer(Mappers);
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.nodeId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DscNode
@@ -229,19 +335,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.nodeId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DscNode
@@ -255,19 +358,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.nodeId,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion2
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "dscNodeUpdateParameters",
     mapper: {
@@ -288,7 +388,8 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
@@ -301,9 +402,7 @@ const listByAutomationAccountOperationSpec: msRest.OperationSpec = {
     Parameters.inlinecount,
     Parameters.apiVersion2
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DscNodeListResult
@@ -319,12 +418,8 @@ const listByAutomationAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DscNodeListResult

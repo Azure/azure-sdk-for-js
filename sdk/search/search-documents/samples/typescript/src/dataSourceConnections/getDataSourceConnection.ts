@@ -17,7 +17,9 @@ async function main(): Promise<void> {
 
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   console.log(`Get Datasource Connection my-data-source-2`);
-  const ds:SearchIndexerDataSourceConnection = await client.getDataSourceConnection("my-data-source-2")
+  const ds: SearchIndexerDataSourceConnection = await client.getDataSourceConnection(
+    "my-data-source-2"
+  );
   console.log(`Name: ${ds.name}`);
   console.log(`Description: ${ds.description}`);
   console.log(`Connection String: ${ds.connectionString}`);

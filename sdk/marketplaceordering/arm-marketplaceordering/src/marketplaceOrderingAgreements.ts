@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { MarketplaceOrderingAgreementsContext } from "./marketplaceOrderingAgreementsContext";
 
-
 class MarketplaceOrderingAgreements extends MarketplaceOrderingAgreementsContext {
   // Operation groups
   marketplaceAgreements: operations.MarketplaceAgreements;
@@ -26,7 +25,11 @@ class MarketplaceOrderingAgreements extends MarketplaceOrderingAgreementsContext
    * @param subscriptionId The subscription ID that identifies an Azure subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MarketplaceOrderingAgreementsOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.MarketplaceOrderingAgreementsOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.marketplaceAgreements = new operations.MarketplaceAgreements(this);
     this.operations = new operations.Operations(this);

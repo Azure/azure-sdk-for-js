@@ -89,11 +89,7 @@ export const SubscriptionPolicies: msRest.CompositeMapper = {
         serializedName: "spendingLimit",
         type: {
           name: "Enum",
-          allowedValues: [
-            "On",
-            "Off",
-            "CurrentPeriodOff"
-          ]
+          allowedValues: ["On", "Off", "CurrentPeriodOff"]
         }
       }
     }
@@ -132,13 +128,7 @@ export const Subscription: msRest.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Enabled",
-            "Warned",
-            "PastDue",
-            "Disabled",
-            "Deleted"
-          ]
+          allowedValues: ["Enabled", "Warned", "PastDue", "Disabled", "Deleted"]
         }
       },
       subscriptionPolicies: {

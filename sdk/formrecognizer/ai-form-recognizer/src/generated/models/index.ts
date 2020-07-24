@@ -660,11 +660,7 @@ export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 /**
  * Defines values for ContentType.
  */
-export type ContentType =
-  | "application/pdf"
-  | "image/jpeg"
-  | "image/png"
-  | "image/tiff";
+export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 /**
  * Defines values for OperationStatus.
  */
@@ -704,8 +700,7 @@ export type GeneratedClientTrainCustomModelAsyncResponse = GeneratedClientTrainC
 /**
  * Optional parameters.
  */
-export interface GeneratedClientGetCustomModelOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GeneratedClientGetCustomModelOptionalParams extends coreHttp.OperationOptions {
   /**
    * Include list of extracted keys in model information.
    */
@@ -1029,8 +1024,7 @@ export type GeneratedClientListCustomModelsNextResponse = Models & {
 /**
  * Optional parameters.
  */
-export interface GeneratedClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface GeneratedClientOptionalParams extends coreHttp.ServiceClientOptions {
   /**
    * Overrides client endpoint.
    */

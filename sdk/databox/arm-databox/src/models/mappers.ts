@@ -30,14 +30,7 @@ export const ShareCredentialDetails: msRest.CompositeMapper = {
         serializedName: "shareType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "UnknownType",
-            "HCS",
-            "BlockBlob",
-            "PageBlob",
-            "AzureFile",
-            "ManagedDisk"
-          ]
+          allowedValues: ["UnknownType", "HCS", "BlockBlob", "PageBlob", "AzureFile", "ManagedDisk"]
         }
       },
       userName: {
@@ -62,10 +55,7 @@ export const ShareCredentialDetails: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "SMB",
-                "NFS"
-              ]
+              allowedValues: ["SMB", "NFS"]
             }
           }
         }
@@ -92,10 +82,7 @@ export const AccountCredentialDetails: msRest.CompositeMapper = {
         serializedName: "dataDestinationType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "StorageAccount",
-            "ManagedDisk"
-          ]
+          allowedValues: ["StorageAccount", "ManagedDisk"]
         }
       },
       accountConnectionString: {
@@ -189,11 +176,7 @@ export const ShippingAddress: msRest.CompositeMapper = {
         serializedName: "addressType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Residential",
-            "Commercial"
-          ]
+          allowedValues: ["None", "Residential", "Commercial"]
         }
       }
     }
@@ -226,11 +209,7 @@ export const AddressValidationOutput: msRest.CompositeMapper = {
         serializedName: "properties.validationStatus",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Valid",
-            "Invalid",
-            "Ambiguous"
-          ]
+          allowedValues: ["Valid", "Invalid", "Ambiguous"]
         }
       },
       alternateAddresses: {
@@ -315,7 +294,7 @@ export const AvailableSkuRequest: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "transferType",
-        defaultValue: 'ImportToAzure',
+        defaultValue: "ImportToAzure",
         type: {
           name: "String"
         }
@@ -341,11 +320,7 @@ export const AvailableSkuRequest: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: [
-                "DataBox",
-                "DataBoxDisk",
-                "DataBoxHeavy"
-              ]
+              allowedValues: ["DataBox", "DataBoxDisk", "DataBoxHeavy"]
             }
           }
         }
@@ -365,11 +340,7 @@ export const Sku: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "Enum",
-          allowedValues: [
-            "DataBox",
-            "DataBoxDisk",
-            "DataBoxHeavy"
-          ]
+          allowedValues: ["DataBox", "DataBoxDisk", "DataBoxHeavy"]
         }
       },
       displayName: {
@@ -532,14 +503,7 @@ export const SkuInformation: msRest.CompositeMapper = {
         serializedName: "properties.disabledReason",
         type: {
           name: "Enum",
-          allowedValues: [
-            "None",
-            "Country",
-            "Region",
-            "Feature",
-            "OfferType",
-            "NoSubscriptionInfo"
-          ]
+          allowedValues: ["None", "Country", "Region", "Feature", "OfferType", "NoSubscriptionInfo"]
         }
       },
       disabledReasonMessage: {
@@ -709,10 +673,7 @@ export const CopyProgress: msRest.CompositeMapper = {
         serializedName: "dataDestinationType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "StorageAccount",
-            "ManagedDisk"
-          ]
+          allowedValues: ["StorageAccount", "ManagedDisk"]
         }
       },
       accountId: {
@@ -818,11 +779,7 @@ export const CreateOrderLimitForSubscriptionValidationRequest: msRest.CompositeM
         serializedName: "deviceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "DataBox",
-            "DataBoxDisk",
-            "DataBoxHeavy"
-          ]
+          allowedValues: ["DataBox", "DataBoxDisk", "DataBoxHeavy"]
         }
       }
     }
@@ -873,11 +830,7 @@ export const CreateOrderLimitForSubscriptionValidationResponseProperties: msRest
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Valid",
-            "Invalid",
-            "Skipped"
-          ]
+          allowedValues: ["Valid", "Invalid", "Skipped"]
         }
       }
     }
@@ -1661,11 +1614,7 @@ export const DataDestinationDetailsValidationResponseProperties: msRest.Composit
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Valid",
-            "Invalid",
-            "Skipped"
-          ]
+          allowedValues: ["Valid", "Invalid", "Skipped"]
         }
       }
     }
@@ -1979,10 +1928,7 @@ export const TransportPreferences: msRest.CompositeMapper = {
         serializedName: "preferredShipmentType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "CustomerManaged",
-            "MicrosoftManaged"
-          ]
+          allowedValues: ["CustomerManaged", "MicrosoftManaged"]
         }
       }
     }
@@ -2139,10 +2085,7 @@ export const JobResource: msRest.CompositeMapper = {
         serializedName: "properties.deliveryType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "NonScheduled",
-            "Scheduled"
-          ]
+          allowedValues: ["NonScheduled", "Scheduled"]
         }
       },
       deliveryInfo: {
@@ -2342,11 +2285,7 @@ export const PreferencesValidationRequest: msRest.CompositeMapper = {
         serializedName: "deviceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "DataBox",
-            "DataBoxDisk",
-            "DataBoxHeavy"
-          ]
+          allowedValues: ["DataBox", "DataBoxDisk", "DataBoxHeavy"]
         }
       }
     }
@@ -2367,11 +2306,7 @@ export const PreferencesValidationResponseProperties: msRest.CompositeMapper = {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Valid",
-            "Invalid",
-            "Skipped"
-          ]
+          allowedValues: ["Valid", "Invalid", "Skipped"]
         }
       }
     }
@@ -2388,11 +2323,7 @@ export const TransportAvailabilityRequest: msRest.CompositeMapper = {
         serializedName: "skuName",
         type: {
           name: "Enum",
-          allowedValues: [
-            "DataBox",
-            "DataBoxDisk",
-            "DataBoxHeavy"
-          ]
+          allowedValues: ["DataBox", "DataBoxDisk", "DataBoxHeavy"]
         }
       }
     }
@@ -2456,10 +2387,7 @@ export const TransportAvailabilityDetails: msRest.CompositeMapper = {
         serializedName: "shipmentType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "CustomerManaged",
-            "MicrosoftManaged"
-          ]
+          allowedValues: ["CustomerManaged", "MicrosoftManaged"]
         }
       }
     }
@@ -2584,18 +2512,14 @@ export const SkuAvailabilityValidationRequest: msRest.CompositeMapper = {
         serializedName: "deviceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "DataBox",
-            "DataBoxDisk",
-            "DataBoxHeavy"
-          ]
+          allowedValues: ["DataBox", "DataBoxDisk", "DataBoxHeavy"]
         }
       },
       transferType: {
         required: true,
         isConstant: true,
         serializedName: "transferType",
-        defaultValue: 'ImportToAzure',
+        defaultValue: "ImportToAzure",
         type: {
           name: "String"
         }
@@ -2632,11 +2556,7 @@ export const SkuAvailabilityValidationResponseProperties: msRest.CompositeMapper
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Valid",
-            "Invalid",
-            "Skipped"
-          ]
+          allowedValues: ["Valid", "Invalid", "Skipped"]
         }
       }
     }
@@ -2670,11 +2590,7 @@ export const SubscriptionIsAllowedToCreateJobValidationResponseProperties: msRes
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Valid",
-            "Invalid",
-            "Skipped"
-          ]
+          allowedValues: ["Valid", "Invalid", "Skipped"]
         }
       }
     }
@@ -2728,11 +2644,7 @@ export const ValidateAddress: msRest.CompositeMapper = {
         serializedName: "deviceType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "DataBox",
-            "DataBoxDisk",
-            "DataBoxHeavy"
-          ]
+          allowedValues: ["DataBox", "DataBoxDisk", "DataBoxHeavy"]
         }
       },
       transportPreferences: {
@@ -2938,39 +2850,38 @@ export const AvailableSkusResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'CopyLogDetails' : CopyLogDetails,
-  'ValidationInputRequest.ValidateCreateOrderLimit' : CreateOrderLimitForSubscriptionValidationRequest,
-  'ValidationInputResponse.ValidateCreateOrderLimit' : CreateOrderLimitForSubscriptionValidationResponseProperties,
-  'CopyLogDetails.DataBox' : DataBoxAccountCopyLogDetails,
-  'CopyLogDetails.DataBoxDisk' : DataBoxDiskCopyLogDetails,
-  'JobDetails.DataBoxDisk' : DataBoxDiskJobDetails,
-  'JobSecrets.DataBoxDisk' : DataBoxDiskJobSecrets,
-  'CopyLogDetails.DataBoxHeavy' : DataBoxHeavyAccountCopyLogDetails,
-  'JobDetails.DataBoxHeavy' : DataBoxHeavyJobDetails,
-  'JobSecrets.DataBoxHeavy' : DataBoxHeavyJobSecrets,
-  'JobDetails.DataBox' : DataBoxJobDetails,
-  'JobSecrets.DataBox' : DataboxJobSecrets,
-  'ScheduleAvailabilityRequest.DataBox' : DataBoxScheduleAvailabilityRequest,
-  'DestinationAccountDetails' : DestinationAccountDetails,
-  'ValidationInputRequest.ValidateDataDestinationDetails' : DataDestinationDetailsValidationRequest,
-  'ValidationInputResponse.ValidateDataDestinationDetails' : DataDestinationDetailsValidationResponseProperties,
-  'DestinationAccountDetails.ManagedDisk' : DestinationManagedDiskDetails,
-  'DestinationAccountDetails.StorageAccount' : DestinationStorageAccountDetails,
-  'ScheduleAvailabilityRequest.DataBoxDisk' : DiskScheduleAvailabilityRequest,
-  'ScheduleAvailabilityRequest.DataBoxHeavy' : HeavyScheduleAvailabilityRequest,
-  'JobDetails' : JobDetails,
-  'JobSecrets' : JobSecrets,
-  'ValidationInputRequest.ValidatePreferences' : PreferencesValidationRequest,
-  'ValidationInputResponse.ValidatePreferences' : PreferencesValidationResponseProperties,
-  'ScheduleAvailabilityRequest' : ScheduleAvailabilityRequest,
-  'ValidationInputRequest.ValidateSkuAvailability' : SkuAvailabilityValidationRequest,
-  'ValidationInputResponse.ValidateSkuAvailability' : SkuAvailabilityValidationResponseProperties,
-  'ValidationInputRequest.ValidateSubscriptionIsAllowedToCreateJob' : SubscriptionIsAllowedToCreateJobValidationRequest,
-  'ValidationInputResponse.ValidateSubscriptionIsAllowedToCreateJob' : SubscriptionIsAllowedToCreateJobValidationResponseProperties,
-  'ValidationInputRequest.ValidateAddress' : ValidateAddress,
-  'ValidationInputRequest' : ValidationInputRequest,
-  'ValidationInputResponse' : ValidationInputResponse,
-  'ValidationRequest' : ValidationRequest,
-  'ValidationRequest.JobCreationValidation' : CreateJobValidations
-
+  CopyLogDetails: CopyLogDetails,
+  "ValidationInputRequest.ValidateCreateOrderLimit": CreateOrderLimitForSubscriptionValidationRequest,
+  "ValidationInputResponse.ValidateCreateOrderLimit": CreateOrderLimitForSubscriptionValidationResponseProperties,
+  "CopyLogDetails.DataBox": DataBoxAccountCopyLogDetails,
+  "CopyLogDetails.DataBoxDisk": DataBoxDiskCopyLogDetails,
+  "JobDetails.DataBoxDisk": DataBoxDiskJobDetails,
+  "JobSecrets.DataBoxDisk": DataBoxDiskJobSecrets,
+  "CopyLogDetails.DataBoxHeavy": DataBoxHeavyAccountCopyLogDetails,
+  "JobDetails.DataBoxHeavy": DataBoxHeavyJobDetails,
+  "JobSecrets.DataBoxHeavy": DataBoxHeavyJobSecrets,
+  "JobDetails.DataBox": DataBoxJobDetails,
+  "JobSecrets.DataBox": DataboxJobSecrets,
+  "ScheduleAvailabilityRequest.DataBox": DataBoxScheduleAvailabilityRequest,
+  DestinationAccountDetails: DestinationAccountDetails,
+  "ValidationInputRequest.ValidateDataDestinationDetails": DataDestinationDetailsValidationRequest,
+  "ValidationInputResponse.ValidateDataDestinationDetails": DataDestinationDetailsValidationResponseProperties,
+  "DestinationAccountDetails.ManagedDisk": DestinationManagedDiskDetails,
+  "DestinationAccountDetails.StorageAccount": DestinationStorageAccountDetails,
+  "ScheduleAvailabilityRequest.DataBoxDisk": DiskScheduleAvailabilityRequest,
+  "ScheduleAvailabilityRequest.DataBoxHeavy": HeavyScheduleAvailabilityRequest,
+  JobDetails: JobDetails,
+  JobSecrets: JobSecrets,
+  "ValidationInputRequest.ValidatePreferences": PreferencesValidationRequest,
+  "ValidationInputResponse.ValidatePreferences": PreferencesValidationResponseProperties,
+  ScheduleAvailabilityRequest: ScheduleAvailabilityRequest,
+  "ValidationInputRequest.ValidateSkuAvailability": SkuAvailabilityValidationRequest,
+  "ValidationInputResponse.ValidateSkuAvailability": SkuAvailabilityValidationResponseProperties,
+  "ValidationInputRequest.ValidateSubscriptionIsAllowedToCreateJob": SubscriptionIsAllowedToCreateJobValidationRequest,
+  "ValidationInputResponse.ValidateSubscriptionIsAllowedToCreateJob": SubscriptionIsAllowedToCreateJobValidationResponseProperties,
+  "ValidationInputRequest.ValidateAddress": ValidateAddress,
+  ValidationInputRequest: ValidationInputRequest,
+  ValidationInputResponse: ValidationInputResponse,
+  ValidationRequest: ValidationRequest,
+  "ValidationRequest.JobCreationValidation": CreateJobValidations
 };

@@ -35,14 +35,24 @@ export class Replications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationsGetResponse>
    */
-  get(resourceGroupName: string, registryName: string, replicationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, replicationName: string, callback: msRest.ServiceCallback<Models.Replication>): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    callback: msRest.ServiceCallback<Models.Replication>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -50,8 +60,20 @@ export class Replications {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, registryName: string, replicationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Replication>): void;
-  get(resourceGroupName: string, registryName: string, replicationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Replication>, callback?: msRest.ServiceCallback<Models.Replication>): Promise<Models.ReplicationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Replication>
+  ): void;
+  get(
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Replication>,
+    callback?: msRest.ServiceCallback<Models.Replication>
+  ): Promise<Models.ReplicationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class Replications {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReplicationsGetResponse>;
+      callback
+    ) as Promise<Models.ReplicationsGetResponse>;
   }
 
   /**
@@ -72,9 +95,22 @@ export class Replications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationsCreateResponse>
    */
-  create(resourceGroupName: string, registryName: string, replicationName: string, replication: Models.Replication, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationsCreateResponse> {
-    return this.beginCreate(resourceGroupName,registryName,replicationName,replication,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    replication: Models.Replication,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      registryName,
+      replicationName,
+      replication,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationsCreateResponse
+    >;
   }
 
   /**
@@ -85,9 +121,18 @@ export class Replications {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, registryName: string, replicationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,registryName,replicationName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      registryName,
+      replicationName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -99,9 +144,22 @@ export class Replications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationsUpdateResponse>
    */
-  update(resourceGroupName: string, registryName: string, replicationName: string, replicationUpdateParameters: Models.ReplicationUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,registryName,replicationName,replicationUpdateParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReplicationsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    replicationUpdateParameters: Models.ReplicationUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      registryName,
+      replicationName,
+      replicationUpdateParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ReplicationsUpdateResponse
+    >;
   }
 
   /**
@@ -111,21 +169,39 @@ export class Replications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationsListResponse>
    */
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationsListResponse>;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, callback: msRest.ServiceCallback<Models.ReplicationListResult>): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    callback: msRest.ServiceCallback<Models.ReplicationListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, registryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationListResult>): void;
-  list(resourceGroupName: string, registryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationListResult>, callback?: msRest.ServiceCallback<Models.ReplicationListResult>): Promise<Models.ReplicationsListResponse> {
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReplicationListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationListResult>,
+    callback?: msRest.ServiceCallback<Models.ReplicationListResult>
+  ): Promise<Models.ReplicationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +209,8 @@ export class Replications {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ReplicationsListResponse>;
+      callback
+    ) as Promise<Models.ReplicationsListResponse>;
   }
 
   /**
@@ -145,7 +222,13 @@ export class Replications {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, registryName: string, replicationName: string, replication: Models.Replication, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    replication: Models.Replication,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -155,7 +238,8 @@ export class Replications {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -166,7 +250,12 @@ export class Replications {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, registryName: string, replicationName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -175,7 +264,8 @@ export class Replications {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -187,7 +277,13 @@ export class Replications {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, registryName: string, replicationName: string, replicationUpdateParameters: Models.ReplicationUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    registryName: string,
+    replicationName: string,
+    replicationUpdateParameters: Models.ReplicationUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -197,7 +293,8 @@ export class Replications {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -206,26 +303,41 @@ export class Replications {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReplicationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ReplicationListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ReplicationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationListResult>, callback?: msRest.ServiceCallback<Models.ReplicationListResult>): Promise<Models.ReplicationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReplicationListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationListResult>,
+    callback?: msRest.ServiceCallback<Models.ReplicationListResult>
+  ): Promise<Models.ReplicationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ReplicationsListNextResponse>;
+      callback
+    ) as Promise<Models.ReplicationsListNextResponse>;
   }
 }
 
@@ -233,19 +345,16 @@ export class Replications {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.replicationName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Replication
@@ -259,18 +368,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.registryName],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationListResult
@@ -284,19 +386,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.replicationName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "replication",
     mapper: {
@@ -320,19 +419,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.replicationName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -346,19 +442,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/replications/{replicationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.replicationName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "replicationUpdateParameters",
     mapper: {
@@ -384,12 +477,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReplicationListResult

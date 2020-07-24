@@ -36,21 +36,41 @@ export class MeshApplication {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshApplicationCreateOrUpdateResponse>
    */
-  createOrUpdate(applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.MeshApplicationCreateOrUpdateResponse>;
+  createOrUpdate(
+    applicationResourceName: string,
+    applicationResourceDescription: Models.ApplicationResourceDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshApplicationCreateOrUpdateResponse>;
   /**
    * @param applicationResourceName The identity of the application.
    * @param applicationResourceDescription Description for creating a Application resource.
    * @param callback The callback
    */
-  createOrUpdate(applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
+  createOrUpdate(
+    applicationResourceName: string,
+    applicationResourceDescription: Models.ApplicationResourceDescription,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>
+  ): void;
   /**
    * @param applicationResourceName The identity of the application.
    * @param applicationResourceDescription Description for creating a Application resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
-  createOrUpdate(applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescription>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>): Promise<Models.MeshApplicationCreateOrUpdateResponse> {
+  createOrUpdate(
+    applicationResourceName: string,
+    applicationResourceDescription: Models.ApplicationResourceDescription,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>
+  ): void;
+  createOrUpdate(
+    applicationResourceName: string,
+    applicationResourceDescription: Models.ApplicationResourceDescription,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>
+  ): Promise<Models.MeshApplicationCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         applicationResourceName,
@@ -58,7 +78,8 @@ export class MeshApplication {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.MeshApplicationCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.MeshApplicationCreateOrUpdateResponse>;
   }
 
   /**
@@ -69,26 +90,43 @@ export class MeshApplication {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshApplicationGetResponse>
    */
-  get(applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshApplicationGetResponse>;
+  get(
+    applicationResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshApplicationGetResponse>;
   /**
    * @param applicationResourceName The identity of the application.
    * @param callback The callback
    */
-  get(applicationResourceName: string, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
+  get(
+    applicationResourceName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>
+  ): void;
   /**
    * @param applicationResourceName The identity of the application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
-  get(applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceDescription>, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>): Promise<Models.MeshApplicationGetResponse> {
+  get(
+    applicationResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>
+  ): void;
+  get(
+    applicationResourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>
+  ): Promise<Models.MeshApplicationGetResponse> {
     return this.client.sendOperationRequest(
       {
         applicationResourceName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MeshApplicationGetResponse>;
+      callback
+    ) as Promise<Models.MeshApplicationGetResponse>;
   }
 
   /**
@@ -98,7 +136,10 @@ export class MeshApplication {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    applicationResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param applicationResourceName The identity of the application.
    * @param callback The callback
@@ -109,15 +150,24 @@ export class MeshApplication {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    applicationResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    applicationResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         applicationResourceName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -136,14 +186,23 @@ export class MeshApplication {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PagedApplicationResourceDescriptionList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PagedApplicationResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.PagedApplicationResourceDescriptionList>): Promise<Models.MeshApplicationListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PagedApplicationResourceDescriptionList>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PagedApplicationResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.PagedApplicationResourceDescriptionList>
+  ): Promise<Models.MeshApplicationListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MeshApplicationListResponse>;
+      callback
+    ) as Promise<Models.MeshApplicationListResponse>;
   }
 
   /**
@@ -155,26 +214,43 @@ export class MeshApplication {
    * @param [options] The optional parameters
    * @returns Promise<Models.MeshApplicationGetUpgradeProgressResponse>
    */
-  getUpgradeProgress(applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshApplicationGetUpgradeProgressResponse>;
+  getUpgradeProgress(
+    applicationResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MeshApplicationGetUpgradeProgressResponse>;
   /**
    * @param applicationResourceName The identity of the application.
    * @param callback The callback
    */
-  getUpgradeProgress(applicationResourceName: string, callback: msRest.ServiceCallback<Models.ApplicationResourceUpgradeProgressInfo>): void;
+  getUpgradeProgress(
+    applicationResourceName: string,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceUpgradeProgressInfo>
+  ): void;
   /**
    * @param applicationResourceName The identity of the application.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getUpgradeProgress(applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceUpgradeProgressInfo>): void;
-  getUpgradeProgress(applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceUpgradeProgressInfo>, callback?: msRest.ServiceCallback<Models.ApplicationResourceUpgradeProgressInfo>): Promise<Models.MeshApplicationGetUpgradeProgressResponse> {
+  getUpgradeProgress(
+    applicationResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ApplicationResourceUpgradeProgressInfo>
+  ): void;
+  getUpgradeProgress(
+    applicationResourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ApplicationResourceUpgradeProgressInfo>,
+    callback?: msRest.ServiceCallback<Models.ApplicationResourceUpgradeProgressInfo>
+  ): Promise<Models.MeshApplicationGetUpgradeProgressResponse> {
     return this.client.sendOperationRequest(
       {
         applicationResourceName,
         options
       },
       getUpgradeProgressOperationSpec,
-      callback) as Promise<Models.MeshApplicationGetUpgradeProgressResponse>;
+      callback
+    ) as Promise<Models.MeshApplicationGetUpgradeProgressResponse>;
   }
 }
 
@@ -183,12 +259,8 @@ const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "Resources/Applications/{applicationResourceName}",
-  urlParameters: [
-    Parameters.applicationResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.applicationResourceName],
+  queryParameters: [Parameters.apiVersion8],
   requestBody: {
     parameterPath: "applicationResourceDescription",
     mapper: {
@@ -214,12 +286,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Applications/{applicationResourceName}",
-  urlParameters: [
-    Parameters.applicationResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.applicationResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationResourceDescription
@@ -234,12 +302,8 @@ const getOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "Resources/Applications/{applicationResourceName}",
-  urlParameters: [
-    Parameters.applicationResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  urlParameters: [Parameters.applicationResourceName],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {},
     202: {},
@@ -254,9 +318,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Applications",
-  queryParameters: [
-    Parameters.apiVersion8
-  ],
+  queryParameters: [Parameters.apiVersion8],
   responses: {
     200: {
       bodyMapper: Mappers.PagedApplicationResourceDescriptionList
@@ -271,12 +333,8 @@ const listOperationSpec: msRest.OperationSpec = {
 const getUpgradeProgressOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Applications/{applicationResourceName}/$/GetUpgradeProgress",
-  urlParameters: [
-    Parameters.applicationResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
+  urlParameters: [Parameters.applicationResourceName],
+  queryParameters: [Parameters.apiVersion3],
   responses: {
     200: {
       bodyMapper: Mappers.ApplicationResourceUpgradeProgressInfo

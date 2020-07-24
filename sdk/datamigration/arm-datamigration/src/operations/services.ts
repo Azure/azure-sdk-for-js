@@ -43,9 +43,15 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesCreateOrUpdateResponse>
    */
-  createOrUpdate(parameters: Models.DataMigrationService, groupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServicesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(parameters,groupName,serviceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServicesCreateOrUpdateResponse>;
+  createOrUpdate(
+    parameters: Models.DataMigrationService,
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(parameters, groupName, serviceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ServicesCreateOrUpdateResponse>;
   }
 
   /**
@@ -57,21 +63,39 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesGetResponse>
    */
-  get(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServicesGetResponse>;
+  get(
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesGetResponse>;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param callback The callback
    */
-  get(groupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.DataMigrationService>): void;
+  get(
+    groupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.DataMigrationService>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(groupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMigrationService>): void;
-  get(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationService>, callback?: msRest.ServiceCallback<Models.DataMigrationService>): Promise<Models.ServicesGetResponse> {
+  get(
+    groupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataMigrationService>
+  ): void;
+  get(
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationService>,
+    callback?: msRest.ServiceCallback<Models.DataMigrationService>
+  ): Promise<Models.ServicesGetResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -79,7 +103,8 @@ export class Services {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ServicesGetResponse>;
+      callback
+    ) as Promise<Models.ServicesGetResponse>;
   }
 
   /**
@@ -91,9 +116,14 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(groupName: string, serviceName: string, options?: Models.ServicesDeleteMethodOptionalParams): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(groupName,serviceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    groupName: string,
+    serviceName: string,
+    options?: Models.ServicesDeleteMethodOptionalParams
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(groupName, serviceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -108,9 +138,15 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesUpdateResponse>
    */
-  update(parameters: Models.DataMigrationService, groupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServicesUpdateResponse> {
-    return this.beginUpdate(parameters,groupName,serviceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ServicesUpdateResponse>;
+  update(
+    parameters: Models.DataMigrationService,
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesUpdateResponse> {
+    return this.beginUpdate(parameters, groupName, serviceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ServicesUpdateResponse>;
   }
 
   /**
@@ -123,21 +159,41 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesCheckStatusResponse>
    */
-  checkStatus(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServicesCheckStatusResponse>;
+  checkStatus(
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesCheckStatusResponse>;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param callback The callback
    */
-  checkStatus(groupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.DataMigrationServiceStatusResponse>): void;
+  checkStatus(
+    groupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.DataMigrationServiceStatusResponse>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkStatus(groupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMigrationServiceStatusResponse>): void;
-  checkStatus(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceStatusResponse>, callback?: msRest.ServiceCallback<Models.DataMigrationServiceStatusResponse>): Promise<Models.ServicesCheckStatusResponse> {
+  checkStatus(
+    groupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataMigrationServiceStatusResponse>
+  ): void;
+  checkStatus(
+    groupName: string,
+    serviceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.DataMigrationServiceStatusResponse>,
+    callback?: msRest.ServiceCallback<Models.DataMigrationServiceStatusResponse>
+  ): Promise<Models.ServicesCheckStatusResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -145,7 +201,8 @@ export class Services {
         options
       },
       checkStatusOperationSpec,
-      callback) as Promise<Models.ServicesCheckStatusResponse>;
+      callback
+    ) as Promise<Models.ServicesCheckStatusResponse>;
   }
 
   /**
@@ -157,9 +214,14 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStart(groupName,serviceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  start(
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStart(groupName, serviceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -172,9 +234,14 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStop(groupName,serviceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  stop(
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStop(groupName, serviceName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -186,21 +253,39 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesListSkusResponse>
    */
-  listSkus(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServicesListSkusResponse>;
+  listSkus(
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesListSkusResponse>;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param callback The callback
    */
-  listSkus(groupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ServiceSkuList>): void;
+  listSkus(
+    groupName: string,
+    serviceName: string,
+    callback: msRest.ServiceCallback<Models.ServiceSkuList>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkus(groupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceSkuList>): void;
-  listSkus(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceSkuList>, callback?: msRest.ServiceCallback<Models.ServiceSkuList>): Promise<Models.ServicesListSkusResponse> {
+  listSkus(
+    groupName: string,
+    serviceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceSkuList>
+  ): void;
+  listSkus(
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceSkuList>,
+    callback?: msRest.ServiceCallback<Models.ServiceSkuList>
+  ): Promise<Models.ServicesListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -208,7 +293,8 @@ export class Services {
         options
       },
       listSkusOperationSpec,
-      callback) as Promise<Models.ServicesListSkusResponse>;
+      callback
+    ) as Promise<Models.ServicesListSkusResponse>;
   }
 
   /**
@@ -220,14 +306,24 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesCheckChildrenNameAvailabilityResponse>
    */
-  checkChildrenNameAvailability(groupName: string, serviceName: string, parameters: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase): Promise<Models.ServicesCheckChildrenNameAvailabilityResponse>;
+  checkChildrenNameAvailability(
+    groupName: string,
+    serviceName: string,
+    parameters: Models.NameAvailabilityRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesCheckChildrenNameAvailabilityResponse>;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param parameters Requested name to validate
    * @param callback The callback
    */
-  checkChildrenNameAvailability(groupName: string, serviceName: string, parameters: Models.NameAvailabilityRequest, callback: msRest.ServiceCallback<Models.NameAvailabilityResponse>): void;
+  checkChildrenNameAvailability(
+    groupName: string,
+    serviceName: string,
+    parameters: Models.NameAvailabilityRequest,
+    callback: msRest.ServiceCallback<Models.NameAvailabilityResponse>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -235,8 +331,20 @@ export class Services {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkChildrenNameAvailability(groupName: string, serviceName: string, parameters: Models.NameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameAvailabilityResponse>): void;
-  checkChildrenNameAvailability(groupName: string, serviceName: string, parameters: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.NameAvailabilityResponse>): Promise<Models.ServicesCheckChildrenNameAvailabilityResponse> {
+  checkChildrenNameAvailability(
+    groupName: string,
+    serviceName: string,
+    parameters: Models.NameAvailabilityRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NameAvailabilityResponse>
+  ): void;
+  checkChildrenNameAvailability(
+    groupName: string,
+    serviceName: string,
+    parameters: Models.NameAvailabilityRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityResponse>,
+    callback?: msRest.ServiceCallback<Models.NameAvailabilityResponse>
+  ): Promise<Models.ServicesCheckChildrenNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
@@ -245,7 +353,8 @@ export class Services {
         options
       },
       checkChildrenNameAvailabilityOperationSpec,
-      callback) as Promise<Models.ServicesCheckChildrenNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.ServicesCheckChildrenNameAvailabilityResponse>;
   }
 
   /**
@@ -256,26 +365,41 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesListByResourceGroupResponse>
    */
-  listByResourceGroup(groupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServicesListByResourceGroupResponse>;
+  listByResourceGroup(
+    groupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesListByResourceGroupResponse>;
   /**
    * @param groupName Name of the resource group
    * @param callback The callback
    */
-  listByResourceGroup(groupName: string, callback: msRest.ServiceCallback<Models.DataMigrationServiceList>): void;
+  listByResourceGroup(
+    groupName: string,
+    callback: msRest.ServiceCallback<Models.DataMigrationServiceList>
+  ): void;
   /**
    * @param groupName Name of the resource group
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(groupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMigrationServiceList>): void;
-  listByResourceGroup(groupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceList>, callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>): Promise<Models.ServicesListByResourceGroupResponse> {
+  listByResourceGroup(
+    groupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataMigrationServiceList>
+  ): void;
+  listByResourceGroup(
+    groupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceList>,
+    callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>
+  ): Promise<Models.ServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         groupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ServicesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ServicesListByResourceGroupResponse>;
   }
 
   /**
@@ -294,14 +418,21 @@ export class Services {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMigrationServiceList>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceList>, callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>): Promise<Models.ServicesListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataMigrationServiceList>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceList>,
+    callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>
+  ): Promise<Models.ServicesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ServicesListResponse>;
+      callback
+    ) as Promise<Models.ServicesListResponse>;
   }
 
   /**
@@ -312,21 +443,39 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(location: string, parameters: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase): Promise<Models.ServicesCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    location: string,
+    parameters: Models.NameAvailabilityRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesCheckNameAvailabilityResponse>;
   /**
    * @param location The Azure region of the operation
    * @param parameters Requested name to validate
    * @param callback The callback
    */
-  checkNameAvailability(location: string, parameters: Models.NameAvailabilityRequest, callback: msRest.ServiceCallback<Models.NameAvailabilityResponse>): void;
+  checkNameAvailability(
+    location: string,
+    parameters: Models.NameAvailabilityRequest,
+    callback: msRest.ServiceCallback<Models.NameAvailabilityResponse>
+  ): void;
   /**
    * @param location The Azure region of the operation
    * @param parameters Requested name to validate
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(location: string, parameters: Models.NameAvailabilityRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NameAvailabilityResponse>): void;
-  checkNameAvailability(location: string, parameters: Models.NameAvailabilityRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.NameAvailabilityResponse>): Promise<Models.ServicesCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    location: string,
+    parameters: Models.NameAvailabilityRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.NameAvailabilityResponse>
+  ): void;
+  checkNameAvailability(
+    location: string,
+    parameters: Models.NameAvailabilityRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NameAvailabilityResponse>,
+    callback?: msRest.ServiceCallback<Models.NameAvailabilityResponse>
+  ): Promise<Models.ServicesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -334,7 +483,8 @@ export class Services {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.ServicesCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.ServicesCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -353,7 +503,12 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(parameters: Models.DataMigrationService, groupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    parameters: Models.DataMigrationService,
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         parameters,
@@ -362,7 +517,8 @@ export class Services {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -374,7 +530,11 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(groupName: string, serviceName: string, options?: Models.ServicesBeginDeleteMethodOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    groupName: string,
+    serviceName: string,
+    options?: Models.ServicesBeginDeleteMethodOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         groupName,
@@ -382,7 +542,8 @@ export class Services {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -397,7 +558,12 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(parameters: Models.DataMigrationService, groupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    parameters: Models.DataMigrationService,
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         parameters,
@@ -406,7 +572,8 @@ export class Services {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -418,7 +585,11 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         groupName,
@@ -426,7 +597,8 @@ export class Services {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -439,7 +611,11 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStop(groupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(
+    groupName: string,
+    serviceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         groupName,
@@ -447,7 +623,8 @@ export class Services {
         options
       },
       beginStopOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -458,7 +635,10 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesListSkusNextResponse>
    */
-  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServicesListSkusNextResponse>;
+  listSkusNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesListSkusNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -469,15 +649,24 @@ export class Services {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceSkuList>): void;
-  listSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceSkuList>, callback?: msRest.ServiceCallback<Models.ServiceSkuList>): Promise<Models.ServicesListSkusNextResponse> {
+  listSkusNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ServiceSkuList>
+  ): void;
+  listSkusNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceSkuList>,
+    callback?: msRest.ServiceCallback<Models.ServiceSkuList>
+  ): Promise<Models.ServicesListSkusNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listSkusNextOperationSpec,
-      callback) as Promise<Models.ServicesListSkusNextResponse>;
+      callback
+    ) as Promise<Models.ServicesListSkusNextResponse>;
   }
 
   /**
@@ -488,26 +677,41 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServicesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DataMigrationServiceList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DataMigrationServiceList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMigrationServiceList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceList>, callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>): Promise<Models.ServicesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataMigrationServiceList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceList>,
+    callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>
+  ): Promise<Models.ServicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ServicesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ServicesListByResourceGroupNextResponse>;
   }
 
   /**
@@ -518,26 +722,41 @@ export class Services {
    * @param [options] The optional parameters
    * @returns Promise<Models.ServicesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServicesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ServicesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.DataMigrationServiceList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.DataMigrationServiceList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataMigrationServiceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceList>, callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>): Promise<Models.ServicesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.DataMigrationServiceList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataMigrationServiceList>,
+    callback?: msRest.ServiceCallback<Models.DataMigrationServiceList>
+  ): Promise<Models.ServicesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ServicesListNextResponse>;
+      callback
+    ) as Promise<Models.ServicesListNextResponse>;
   }
 }
 
@@ -545,18 +764,11 @@ export class Services {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.groupName,
-    Parameters.serviceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.groupName, Parameters.serviceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataMigrationService
@@ -570,18 +782,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const checkStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/checkStatus",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.groupName,
-    Parameters.serviceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/checkStatus",
+  urlParameters: [Parameters.subscriptionId, Parameters.groupName, Parameters.serviceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataMigrationServiceStatusResponse
@@ -595,18 +800,11 @@ const checkStatusOperationSpec: msRest.OperationSpec = {
 
 const listSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/skus",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.groupName,
-    Parameters.serviceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/skus",
+  urlParameters: [Parameters.subscriptionId, Parameters.groupName, Parameters.serviceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceSkuList
@@ -620,18 +818,11 @@ const listSkusOperationSpec: msRest.OperationSpec = {
 
 const checkChildrenNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.groupName,
-    Parameters.serviceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/checkNameAvailability",
+  urlParameters: [Parameters.subscriptionId, Parameters.groupName, Parameters.serviceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -652,17 +843,11 @@ const checkChildrenNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.groupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services",
+  urlParameters: [Parameters.subscriptionId, Parameters.groupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataMigrationServiceList
@@ -677,15 +862,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/services",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataMigrationServiceList
@@ -699,17 +878,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/locations/{location}/checkNameAvailability",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/locations/{location}/checkNameAvailability",
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -730,18 +903,11 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.groupName,
-    Parameters.serviceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.groupName, Parameters.serviceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -766,19 +932,11 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.groupName,
-    Parameters.serviceName
-  ],
-  queryParameters: [
-    Parameters.deleteRunningTasks,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.groupName, Parameters.serviceName],
+  queryParameters: [Parameters.deleteRunningTasks, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -792,18 +950,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.groupName,
-    Parameters.serviceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.groupName, Parameters.serviceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -825,18 +976,11 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/start",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.groupName,
-    Parameters.serviceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/start",
+  urlParameters: [Parameters.subscriptionId, Parameters.groupName, Parameters.serviceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -849,18 +993,11 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginStopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/stop",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.groupName,
-    Parameters.serviceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/stop",
+  urlParameters: [Parameters.subscriptionId, Parameters.groupName, Parameters.serviceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -875,12 +1012,8 @@ const listSkusNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceSkuList
@@ -896,12 +1029,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataMigrationServiceList
@@ -917,12 +1046,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.DataMigrationServiceList

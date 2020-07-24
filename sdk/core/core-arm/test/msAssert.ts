@@ -10,7 +10,10 @@ import assert from "assert";
  * @param syncFunction The synchronous function that is expected to thrown an Error.
  * @param expectedError The Error that is expected to be thrown.
  */
-export function throws(syncFunction: () => void, expectedError?: ((error: Error) => void) | Error): Error {
+export function throws(
+  syncFunction: () => void,
+  expectedError?: ((error: Error) => void) | Error
+): Error {
   let thrownError: Error | undefined;
 
   try {
@@ -20,7 +23,7 @@ export function throws(syncFunction: () => void, expectedError?: ((error: Error)
   }
 
   if (!thrownError) {
-    assert.throws(() => { });
+    assert.throws(() => {});
   } else if (expectedError instanceof Error) {
     assert.deepStrictEqual(thrownError, expectedError);
   } else if (expectedError) {
@@ -37,7 +40,10 @@ export function throws(syncFunction: () => void, expectedError?: ((error: Error)
  * @param asyncFunction The asynchronous function that is expected to thrown an Error.
  * @param expectedError The Error that is expected to be thrown.
  */
-export async function throwsAsync<T>(asyncFunction: (() => Promise<T>) | Promise<T>, expectedError?: ((error: Error) => void) | Error): Promise<Error> {
+export async function throwsAsync<T>(
+  asyncFunction: (() => Promise<T>) | Promise<T>,
+  expectedError?: ((error: Error) => void) | Error
+): Promise<Error> {
   let thrownError: Error | undefined;
 
   try {
@@ -47,7 +53,7 @@ export async function throwsAsync<T>(asyncFunction: (() => Promise<T>) | Promise
   }
 
   if (!thrownError) {
-    assert.throws(() => { });
+    assert.throws(() => {});
   } else if (expectedError instanceof Error) {
     assert.deepStrictEqual(thrownError, expectedError);
   } else if (expectedError) {

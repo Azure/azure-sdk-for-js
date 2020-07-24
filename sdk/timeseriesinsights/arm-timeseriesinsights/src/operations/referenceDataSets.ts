@@ -36,7 +36,13 @@ export class ReferenceDataSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReferenceDataSetsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, environmentName: string, referenceDataSetName: string, parameters: Models.ReferenceDataSetCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ReferenceDataSetsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    parameters: Models.ReferenceDataSetCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReferenceDataSetsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -45,7 +51,13 @@ export class ReferenceDataSets {
    * @param parameters Parameters for creating a reference data set.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, environmentName: string, referenceDataSetName: string, parameters: Models.ReferenceDataSetCreateOrUpdateParameters, callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    parameters: Models.ReferenceDataSetCreateOrUpdateParameters,
+    callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -55,8 +67,22 @@ export class ReferenceDataSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, environmentName: string, referenceDataSetName: string, parameters: Models.ReferenceDataSetCreateOrUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>): void;
-  createOrUpdate(resourceGroupName: string, environmentName: string, referenceDataSetName: string, parameters: Models.ReferenceDataSetCreateOrUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReferenceDataSetResource>, callback?: msRest.ServiceCallback<Models.ReferenceDataSetResource>): Promise<Models.ReferenceDataSetsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    parameters: Models.ReferenceDataSetCreateOrUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    parameters: Models.ReferenceDataSetCreateOrUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReferenceDataSetResource>,
+    callback?: msRest.ServiceCallback<Models.ReferenceDataSetResource>
+  ): Promise<Models.ReferenceDataSetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -66,7 +92,8 @@ export class ReferenceDataSets {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ReferenceDataSetsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ReferenceDataSetsCreateOrUpdateResponse>;
   }
 
   /**
@@ -79,7 +106,12 @@ export class ReferenceDataSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReferenceDataSetsGetResponse>
    */
-  get(resourceGroupName: string, environmentName: string, referenceDataSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReferenceDataSetsGetResponse>;
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReferenceDataSetsGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -88,7 +120,12 @@ export class ReferenceDataSets {
    * with the specified environment.
    * @param callback The callback
    */
-  get(resourceGroupName: string, environmentName: string, referenceDataSetName: string, callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>): void;
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -98,8 +135,20 @@ export class ReferenceDataSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, environmentName: string, referenceDataSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>): void;
-  get(resourceGroupName: string, environmentName: string, referenceDataSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReferenceDataSetResource>, callback?: msRest.ServiceCallback<Models.ReferenceDataSetResource>): Promise<Models.ReferenceDataSetsGetResponse> {
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReferenceDataSetResource>,
+    callback?: msRest.ServiceCallback<Models.ReferenceDataSetResource>
+  ): Promise<Models.ReferenceDataSetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -108,7 +157,8 @@ export class ReferenceDataSets {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ReferenceDataSetsGetResponse>;
+      callback
+    ) as Promise<Models.ReferenceDataSetsGetResponse>;
   }
 
   /**
@@ -124,7 +174,13 @@ export class ReferenceDataSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReferenceDataSetsUpdateResponse>
    */
-  update(resourceGroupName: string, environmentName: string, referenceDataSetName: string, referenceDataSetUpdateParameters: Models.ReferenceDataSetUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.ReferenceDataSetsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    referenceDataSetUpdateParameters: Models.ReferenceDataSetUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReferenceDataSetsUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -135,7 +191,13 @@ export class ReferenceDataSets {
    * the reference data set.
    * @param callback The callback
    */
-  update(resourceGroupName: string, environmentName: string, referenceDataSetName: string, referenceDataSetUpdateParameters: Models.ReferenceDataSetUpdateParameters, callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>): void;
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    referenceDataSetUpdateParameters: Models.ReferenceDataSetUpdateParameters,
+    callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -147,8 +209,22 @@ export class ReferenceDataSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, environmentName: string, referenceDataSetName: string, referenceDataSetUpdateParameters: Models.ReferenceDataSetUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>): void;
-  update(resourceGroupName: string, environmentName: string, referenceDataSetName: string, referenceDataSetUpdateParameters: Models.ReferenceDataSetUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReferenceDataSetResource>, callback?: msRest.ServiceCallback<Models.ReferenceDataSetResource>): Promise<Models.ReferenceDataSetsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    referenceDataSetUpdateParameters: Models.ReferenceDataSetUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReferenceDataSetResource>
+  ): void;
+  update(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    referenceDataSetUpdateParameters: Models.ReferenceDataSetUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReferenceDataSetResource>,
+    callback?: msRest.ServiceCallback<Models.ReferenceDataSetResource>
+  ): Promise<Models.ReferenceDataSetsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +234,8 @@ export class ReferenceDataSets {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ReferenceDataSetsUpdateResponse>;
+      callback
+    ) as Promise<Models.ReferenceDataSetsUpdateResponse>;
   }
 
   /**
@@ -172,7 +249,12 @@ export class ReferenceDataSets {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, environmentName: string, referenceDataSetName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -181,7 +263,12 @@ export class ReferenceDataSets {
    * with the specified environment.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, environmentName: string, referenceDataSetName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -191,8 +278,20 @@ export class ReferenceDataSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, environmentName: string, referenceDataSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, environmentName: string, referenceDataSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    environmentName: string,
+    referenceDataSetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -201,7 +300,8 @@ export class ReferenceDataSets {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -213,14 +313,22 @@ export class ReferenceDataSets {
    * @param [options] The optional parameters
    * @returns Promise<Models.ReferenceDataSetsListByEnvironmentResponse>
    */
-  listByEnvironment(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReferenceDataSetsListByEnvironmentResponse>;
+  listByEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ReferenceDataSetsListByEnvironmentResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
    * specified resource group.
    * @param callback The callback
    */
-  listByEnvironment(resourceGroupName: string, environmentName: string, callback: msRest.ServiceCallback<Models.ReferenceDataSetListResponse>): void;
+  listByEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    callback: msRest.ServiceCallback<Models.ReferenceDataSetListResponse>
+  ): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -228,8 +336,20 @@ export class ReferenceDataSets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByEnvironment(resourceGroupName: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReferenceDataSetListResponse>): void;
-  listByEnvironment(resourceGroupName: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReferenceDataSetListResponse>, callback?: msRest.ServiceCallback<Models.ReferenceDataSetListResponse>): Promise<Models.ReferenceDataSetsListByEnvironmentResponse> {
+  listByEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ReferenceDataSetListResponse>
+  ): void;
+  listByEnvironment(
+    resourceGroupName: string,
+    environmentName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ReferenceDataSetListResponse>,
+    callback?: msRest.ServiceCallback<Models.ReferenceDataSetListResponse>
+  ): Promise<Models.ReferenceDataSetsListByEnvironmentResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -237,7 +357,8 @@ export class ReferenceDataSets {
         options
       },
       listByEnvironmentOperationSpec,
-      callback) as Promise<Models.ReferenceDataSetsListByEnvironmentResponse>;
+      callback
+    ) as Promise<Models.ReferenceDataSetsListByEnvironmentResponse>;
   }
 }
 
@@ -245,19 +366,16 @@ export class ReferenceDataSets {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/referenceDataSets/{referenceDataSetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/referenceDataSets/{referenceDataSetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1,
     Parameters.referenceDataSetName0
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -281,19 +399,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/referenceDataSets/{referenceDataSetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/referenceDataSets/{referenceDataSetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1,
     Parameters.referenceDataSetName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReferenceDataSetResource
@@ -307,19 +422,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/referenceDataSets/{referenceDataSetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/referenceDataSets/{referenceDataSetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1,
     Parameters.referenceDataSetName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "referenceDataSetUpdateParameters",
     mapper: {
@@ -340,19 +452,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/referenceDataSets/{referenceDataSetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/referenceDataSets/{referenceDataSetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1,
     Parameters.referenceDataSetName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -365,18 +474,15 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByEnvironmentOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/referenceDataSets",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}/referenceDataSets",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.environmentName1
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ReferenceDataSetListResponse

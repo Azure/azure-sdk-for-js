@@ -34,21 +34,39 @@ export class MigrationConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.MigrationConfigsListResponse>
    */
-  list(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MigrationConfigsListResponse>;
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MigrationConfigsListResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param callback The callback
    */
-  list(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.MigrationConfigListResult>): void;
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<Models.MigrationConfigListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MigrationConfigListResult>): void;
-  list(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MigrationConfigListResult>, callback?: msRest.ServiceCallback<Models.MigrationConfigListResult>): Promise<Models.MigrationConfigsListResponse> {
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MigrationConfigListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MigrationConfigListResult>,
+    callback?: msRest.ServiceCallback<Models.MigrationConfigListResult>
+  ): Promise<Models.MigrationConfigsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class MigrationConfigs {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.MigrationConfigsListResponse>;
+      callback
+    ) as Promise<Models.MigrationConfigsListResponse>;
   }
 
   /**
@@ -68,9 +87,20 @@ export class MigrationConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.MigrationConfigsCreateAndStartMigrationResponse>
    */
-  createAndStartMigration(resourceGroupName: string, namespaceName: string, parameters: Models.MigrationConfigProperties, options?: msRest.RequestOptionsBase): Promise<Models.MigrationConfigsCreateAndStartMigrationResponse> {
-    return this.beginCreateAndStartMigration(resourceGroupName,namespaceName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MigrationConfigsCreateAndStartMigrationResponse>;
+  createAndStartMigration(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.MigrationConfigProperties,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MigrationConfigsCreateAndStartMigrationResponse> {
+    return this.beginCreateAndStartMigration(
+      resourceGroupName,
+      namespaceName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.MigrationConfigsCreateAndStartMigrationResponse
+    >;
   }
 
   /**
@@ -80,21 +110,39 @@ export class MigrationConfigs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -102,7 +150,8 @@ export class MigrationConfigs {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -112,21 +161,39 @@ export class MigrationConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.MigrationConfigsGetResponse>
    */
-  get(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MigrationConfigsGetResponse>;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MigrationConfigsGetResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.MigrationConfigProperties>): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<Models.MigrationConfigProperties>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MigrationConfigProperties>): void;
-  get(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MigrationConfigProperties>, callback?: msRest.ServiceCallback<Models.MigrationConfigProperties>): Promise<Models.MigrationConfigsGetResponse> {
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MigrationConfigProperties>
+  ): void;
+  get(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MigrationConfigProperties>,
+    callback?: msRest.ServiceCallback<Models.MigrationConfigProperties>
+  ): Promise<Models.MigrationConfigsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -134,7 +201,8 @@ export class MigrationConfigs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.MigrationConfigsGetResponse>;
+      callback
+    ) as Promise<Models.MigrationConfigsGetResponse>;
   }
 
   /**
@@ -146,21 +214,39 @@ export class MigrationConfigs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  completeMigration(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  completeMigration(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param callback The callback
    */
-  completeMigration(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<void>): void;
+  completeMigration(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  completeMigration(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  completeMigration(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  completeMigration(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  completeMigration(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -168,7 +254,8 @@ export class MigrationConfigs {
         options
       },
       completeMigrationOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -178,21 +265,39 @@ export class MigrationConfigs {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  revert(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  revert(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param callback The callback
    */
-  revert(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<void>): void;
+  revert(
+    resourceGroupName: string,
+    namespaceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  revert(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  revert(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  revert(
+    resourceGroupName: string,
+    namespaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  revert(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -200,7 +305,8 @@ export class MigrationConfigs {
         options
       },
       revertOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -212,7 +318,12 @@ export class MigrationConfigs {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateAndStartMigration(resourceGroupName: string, namespaceName: string, parameters: Models.MigrationConfigProperties, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateAndStartMigration(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: Models.MigrationConfigProperties,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -221,7 +332,8 @@ export class MigrationConfigs {
         options
       },
       beginCreateAndStartMigrationOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -230,26 +342,41 @@ export class MigrationConfigs {
    * @param [options] The optional parameters
    * @returns Promise<Models.MigrationConfigsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MigrationConfigsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MigrationConfigsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MigrationConfigListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MigrationConfigListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MigrationConfigListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MigrationConfigListResult>, callback?: msRest.ServiceCallback<Models.MigrationConfigListResult>): Promise<Models.MigrationConfigsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MigrationConfigListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MigrationConfigListResult>,
+    callback?: msRest.ServiceCallback<Models.MigrationConfigListResult>
+  ): Promise<Models.MigrationConfigsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.MigrationConfigsListNextResponse>;
+      callback
+    ) as Promise<Models.MigrationConfigsListNextResponse>;
   }
 }
 
@@ -257,18 +384,15 @@ export class MigrationConfigs {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MigrationConfigListResult
@@ -282,19 +406,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.configName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -307,19 +428,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.configName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MigrationConfigProperties
@@ -333,19 +451,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const completeMigrationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}/upgrade",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}/upgrade",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.configName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -357,19 +472,16 @@ const completeMigrationOperationSpec: msRest.OperationSpec = {
 
 const revertOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}/revert",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}/revert",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.configName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -381,19 +493,16 @@ const revertOperationSpec: msRest.OperationSpec = {
 
 const beginCreateAndStartMigrationOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.configName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -417,12 +526,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MigrationConfigListResult

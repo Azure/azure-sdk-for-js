@@ -35,9 +35,18 @@ export class ExpressRouteCircuitAuthorizations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, circuitName: string, authorizationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,circuitName,authorizationName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    circuitName: string,
+    authorizationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      circuitName,
+      authorizationName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -48,14 +57,24 @@ export class ExpressRouteCircuitAuthorizations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitAuthorizationsGetResponse>
    */
-  get(resourceGroupName: string, circuitName: string, authorizationName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitAuthorizationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    circuitName: string,
+    authorizationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitAuthorizationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the express route circuit.
    * @param authorizationName The name of the authorization.
    * @param callback The callback
    */
-  get(resourceGroupName: string, circuitName: string, authorizationName: string, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitAuthorization>): void;
+  get(
+    resourceGroupName: string,
+    circuitName: string,
+    authorizationName: string,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitAuthorization>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the express route circuit.
@@ -63,8 +82,22 @@ export class ExpressRouteCircuitAuthorizations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, circuitName: string, authorizationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuitAuthorization>): void;
-  get(resourceGroupName: string, circuitName: string, authorizationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuitAuthorization>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitAuthorization>): Promise<Models.ExpressRouteCircuitAuthorizationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    circuitName: string,
+    authorizationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ExpressRouteCircuitAuthorization>
+  ): void;
+  get(
+    resourceGroupName: string,
+    circuitName: string,
+    authorizationName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ExpressRouteCircuitAuthorization>,
+    callback?: msRest.ServiceCallback<Models.ExpressRouteCircuitAuthorization>
+  ): Promise<Models.ExpressRouteCircuitAuthorizationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -73,7 +106,8 @@ export class ExpressRouteCircuitAuthorizations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ExpressRouteCircuitAuthorizationsGetResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCircuitAuthorizationsGetResponse>;
   }
 
   /**
@@ -86,9 +120,22 @@ export class ExpressRouteCircuitAuthorizations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitAuthorizationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, circuitName: string, authorizationName: string, authorizationParameters: Models.ExpressRouteCircuitAuthorization, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitAuthorizationsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,circuitName,authorizationName,authorizationParameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCircuitAuthorizationsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    circuitName: string,
+    authorizationName: string,
+    authorizationParameters: Models.ExpressRouteCircuitAuthorization,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitAuthorizationsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      circuitName,
+      authorizationName,
+      authorizationParameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ExpressRouteCircuitAuthorizationsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -98,21 +145,39 @@ export class ExpressRouteCircuitAuthorizations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitAuthorizationsListResponse>
    */
-  list(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitAuthorizationsListResponse>;
+  list(
+    resourceGroupName: string,
+    circuitName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitAuthorizationsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the circuit.
    * @param callback The callback
    */
-  list(resourceGroupName: string, circuitName: string, callback: msRest.ServiceCallback<Models.AuthorizationListResult>): void;
+  list(
+    resourceGroupName: string,
+    circuitName: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param circuitName The name of the circuit.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, circuitName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationListResult>): void;
-  list(resourceGroupName: string, circuitName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationListResult>): Promise<Models.ExpressRouteCircuitAuthorizationsListResponse> {
+  list(
+    resourceGroupName: string,
+    circuitName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    circuitName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationListResult>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationListResult>
+  ): Promise<Models.ExpressRouteCircuitAuthorizationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -120,7 +185,8 @@ export class ExpressRouteCircuitAuthorizations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ExpressRouteCircuitAuthorizationsListResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCircuitAuthorizationsListResponse>;
   }
 
   /**
@@ -131,7 +197,12 @@ export class ExpressRouteCircuitAuthorizations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, circuitName: string, authorizationName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    circuitName: string,
+    authorizationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -140,7 +211,8 @@ export class ExpressRouteCircuitAuthorizations {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -153,7 +225,13 @@ export class ExpressRouteCircuitAuthorizations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, circuitName: string, authorizationName: string, authorizationParameters: Models.ExpressRouteCircuitAuthorization, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    circuitName: string,
+    authorizationName: string,
+    authorizationParameters: Models.ExpressRouteCircuitAuthorization,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -163,7 +241,8 @@ export class ExpressRouteCircuitAuthorizations {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -172,26 +251,41 @@ export class ExpressRouteCircuitAuthorizations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitAuthorizationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitAuthorizationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ExpressRouteCircuitAuthorizationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AuthorizationListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.AuthorizationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationListResult>): Promise<Models.ExpressRouteCircuitAuthorizationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AuthorizationListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationListResult>,
+    callback?: msRest.ServiceCallback<Models.AuthorizationListResult>
+  ): Promise<Models.ExpressRouteCircuitAuthorizationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ExpressRouteCircuitAuthorizationsListNextResponse>;
+      callback
+    ) as Promise<Models.ExpressRouteCircuitAuthorizationsListNextResponse>;
   }
 }
 
@@ -199,19 +293,16 @@ export class ExpressRouteCircuitAuthorizations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.circuitName,
     Parameters.authorizationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuitAuthorization
@@ -225,18 +316,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.circuitName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations",
+  urlParameters: [Parameters.resourceGroupName, Parameters.circuitName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationListResult
@@ -250,19 +334,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.circuitName,
     Parameters.authorizationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -276,19 +357,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations/{authorizationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.circuitName,
     Parameters.authorizationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "authorizationParameters",
     mapper: {
@@ -314,12 +392,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationListResult

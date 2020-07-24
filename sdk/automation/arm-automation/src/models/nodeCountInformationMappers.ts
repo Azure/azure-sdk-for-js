@@ -8,10 +8,4 @@
  * regenerated.
  */
 
-export {
-  NodeCounts,
-  NodeCount,
-  NodeCountProperties,
-  ErrorResponse
-} from "../models/mappers";
-
+export { NodeCounts, NodeCount, NodeCountProperties, ErrorResponse } from "../models/mappers";

@@ -747,8 +747,7 @@ export interface Rule extends Resource {
  * Represents set of actions written in SQL language-based syntax that is performed against a
  * ServiceBus.Messaging.BrokeredMessage
  */
-export interface SqlRuleAction extends Action {
-}
+export interface SqlRuleAction extends Action {}
 
 /**
  * An interface representing PremiumMessagingRegionsProperties.
@@ -1201,7 +1200,7 @@ export interface EventHubListResult extends Array<Eventhub> {
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Basic' | 'Standard' | 'Premium';
+export type SkuName = "Basic" | "Standard" | "Premium";
 
 /**
  * Defines values for SkuTier.
@@ -1209,7 +1208,7 @@ export type SkuName = 'Basic' | 'Standard' | 'Premium';
  * @readonly
  * @enum {string}
  */
-export type SkuTier = 'Basic' | 'Standard' | 'Premium';
+export type SkuTier = "Basic" | "Standard" | "Premium";
 
 /**
  * Defines values for NameSpaceType.
@@ -1217,7 +1216,7 @@ export type SkuTier = 'Basic' | 'Standard' | 'Premium';
  * @readonly
  * @enum {string}
  */
-export type NameSpaceType = 'Messaging' | 'NotificationHub' | 'Mixed' | 'EventHub' | 'Relay';
+export type NameSpaceType = "Messaging" | "NotificationHub" | "Mixed" | "EventHub" | "Relay";
 
 /**
  * Defines values for AccessRights.
@@ -1225,7 +1224,7 @@ export type NameSpaceType = 'Messaging' | 'NotificationHub' | 'Mixed' | 'EventHu
  * @readonly
  * @enum {string}
  */
-export type AccessRights = 'Manage' | 'Send' | 'Listen';
+export type AccessRights = "Manage" | "Send" | "Listen";
 
 /**
  * Defines values for KeyType.
@@ -1233,7 +1232,7 @@ export type AccessRights = 'Manage' | 'Send' | 'Listen';
  * @readonly
  * @enum {string}
  */
-export type KeyType = 'PrimaryKey' | 'SecondaryKey';
+export type KeyType = "PrimaryKey" | "SecondaryKey";
 
 /**
  * Defines values for EntityStatus.
@@ -1242,7 +1241,16 @@ export type KeyType = 'PrimaryKey' | 'SecondaryKey';
  * @readonly
  * @enum {string}
  */
-export type EntityStatus = 'Active' | 'Disabled' | 'Restoring' | 'SendDisabled' | 'ReceiveDisabled' | 'Creating' | 'Deleting' | 'Renaming' | 'Unknown';
+export type EntityStatus =
+  | "Active"
+  | "Disabled"
+  | "Restoring"
+  | "SendDisabled"
+  | "ReceiveDisabled"
+  | "Creating"
+  | "Deleting"
+  | "Renaming"
+  | "Unknown";
 
 /**
  * Defines values for UnavailableReason.
@@ -1251,7 +1259,13 @@ export type EntityStatus = 'Active' | 'Disabled' | 'Restoring' | 'SendDisabled' 
  * @readonly
  * @enum {string}
  */
-export type UnavailableReason = 'None' | 'InvalidName' | 'SubscriptionIsDisabled' | 'NameInUse' | 'NameInLockdown' | 'TooManyNamespaceInCurrentSubscription';
+export type UnavailableReason =
+  | "None"
+  | "InvalidName"
+  | "SubscriptionIsDisabled"
+  | "NameInUse"
+  | "NameInLockdown"
+  | "TooManyNamespaceInCurrentSubscription";
 
 /**
  * Defines values for FilterType.
@@ -1259,7 +1273,7 @@ export type UnavailableReason = 'None' | 'InvalidName' | 'SubscriptionIsDisabled
  * @readonly
  * @enum {string}
  */
-export type FilterType = 'SqlFilter' | 'CorrelationFilter';
+export type FilterType = "SqlFilter" | "CorrelationFilter";
 
 /**
  * Defines values for EncodingCaptureDescription.
@@ -1267,7 +1281,7 @@ export type FilterType = 'SqlFilter' | 'CorrelationFilter';
  * @readonly
  * @enum {string}
  */
-export type EncodingCaptureDescription = 'Avro' | 'AvroDeflate';
+export type EncodingCaptureDescription = "Avro" | "AvroDeflate";
 
 /**
  * Defines values for ProvisioningStateDR.
@@ -1275,7 +1289,7 @@ export type EncodingCaptureDescription = 'Avro' | 'AvroDeflate';
  * @readonly
  * @enum {string}
  */
-export type ProvisioningStateDR = 'Accepted' | 'Succeeded' | 'Failed';
+export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
 
 /**
  * Defines values for RoleDisasterRecovery.
@@ -1283,7 +1297,7 @@ export type ProvisioningStateDR = 'Accepted' | 'Succeeded' | 'Failed';
  * @readonly
  * @enum {string}
  */
-export type RoleDisasterRecovery = 'Primary' | 'PrimaryNotReplicating' | 'Secondary';
+export type RoleDisasterRecovery = "Primary" | "PrimaryNotReplicating" | "Secondary";
 
 /**
  * Defines values for NetworkRuleIPAction.
@@ -1291,7 +1305,7 @@ export type RoleDisasterRecovery = 'Primary' | 'PrimaryNotReplicating' | 'Second
  * @readonly
  * @enum {string}
  */
-export type NetworkRuleIPAction = 'Allow';
+export type NetworkRuleIPAction = "Allow";
 
 /**
  * Defines values for DefaultAction.
@@ -1299,7 +1313,7 @@ export type NetworkRuleIPAction = 'Allow';
  * @readonly
  * @enum {string}
  */
-export type DefaultAction = 'Allow' | 'Deny';
+export type DefaultAction = "Allow" | "Deny";
 
 /**
  * Contains response data for the list operation.
@@ -1309,16 +1323,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1329,16 +1343,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -1349,16 +1363,16 @@ export type NamespacesCheckNameAvailabilityMethodResponse = CheckNameAvailabilit
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResult;
+  };
 };
 
 /**
@@ -1369,16 +1383,16 @@ export type NamespacesListResponse = SBNamespaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBNamespaceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBNamespaceListResult;
+  };
 };
 
 /**
@@ -1389,16 +1403,16 @@ export type NamespacesListByResourceGroupResponse = SBNamespaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBNamespaceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBNamespaceListResult;
+  };
 };
 
 /**
@@ -1409,16 +1423,16 @@ export type NamespacesCreateOrUpdateResponse = SBNamespace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBNamespace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBNamespace;
+  };
 };
 
 /**
@@ -1429,16 +1443,16 @@ export type NamespacesGetResponse = SBNamespace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBNamespace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBNamespace;
+  };
 };
 
 /**
@@ -1449,16 +1463,16 @@ export type NamespacesUpdateResponse = SBNamespace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBNamespace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBNamespace;
+  };
 };
 
 /**
@@ -1469,16 +1483,16 @@ export type NamespacesListAuthorizationRulesResponse = SBAuthorizationRuleListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -1489,16 +1503,16 @@ export type NamespacesCreateOrUpdateAuthorizationRuleResponse = SBAuthorizationR
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRule;
+  };
 };
 
 /**
@@ -1509,16 +1523,16 @@ export type NamespacesGetAuthorizationRuleResponse = SBAuthorizationRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRule;
+  };
 };
 
 /**
@@ -1529,16 +1543,16 @@ export type NamespacesListKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -1549,16 +1563,16 @@ export type NamespacesRegenerateKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -1569,16 +1583,16 @@ export type NamespacesCreateOrUpdateNetworkRuleSetResponse = NetworkRuleSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkRuleSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkRuleSet;
+  };
 };
 
 /**
@@ -1589,16 +1603,16 @@ export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkRuleSet;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkRuleSet;
+  };
 };
 
 /**
@@ -1609,16 +1623,16 @@ export type NamespacesBeginCreateOrUpdateResponse = SBNamespace & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBNamespace;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBNamespace;
+  };
 };
 
 /**
@@ -1629,16 +1643,16 @@ export type NamespacesListNextResponse = SBNamespaceListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBNamespaceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBNamespaceListResult;
+  };
 };
 
 /**
@@ -1649,16 +1663,16 @@ export type NamespacesListByResourceGroupNextResponse = SBNamespaceListResult & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBNamespaceListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBNamespaceListResult;
+  };
 };
 
 /**
@@ -1669,16 +1683,16 @@ export type NamespacesListAuthorizationRulesNextResponse = SBAuthorizationRuleLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -1689,16 +1703,16 @@ export type DisasterRecoveryConfigsCheckNameAvailabilityMethodResponse = CheckNa
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameAvailabilityResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameAvailabilityResult;
+  };
 };
 
 /**
@@ -1709,16 +1723,16 @@ export type DisasterRecoveryConfigsListResponse = ArmDisasterRecoveryListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ArmDisasterRecoveryListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ArmDisasterRecoveryListResult;
+  };
 };
 
 /**
@@ -1729,16 +1743,16 @@ export type DisasterRecoveryConfigsCreateOrUpdateResponse = ArmDisasterRecovery 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ArmDisasterRecovery;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ArmDisasterRecovery;
+  };
 };
 
 /**
@@ -1749,16 +1763,16 @@ export type DisasterRecoveryConfigsGetResponse = ArmDisasterRecovery & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ArmDisasterRecovery;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ArmDisasterRecovery;
+  };
 };
 
 /**
@@ -1769,16 +1783,16 @@ export type DisasterRecoveryConfigsListAuthorizationRulesResponse = SBAuthorizat
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -1789,16 +1803,16 @@ export type DisasterRecoveryConfigsGetAuthorizationRuleResponse = SBAuthorizatio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRule;
+  };
 };
 
 /**
@@ -1809,16 +1823,16 @@ export type DisasterRecoveryConfigsListKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -1829,16 +1843,16 @@ export type DisasterRecoveryConfigsListNextResponse = ArmDisasterRecoveryListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ArmDisasterRecoveryListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ArmDisasterRecoveryListResult;
+  };
 };
 
 /**
@@ -1849,16 +1863,16 @@ export type DisasterRecoveryConfigsListAuthorizationRulesNextResponse = SBAuthor
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -1869,16 +1883,16 @@ export type MigrationConfigsListResponse = MigrationConfigListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MigrationConfigListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MigrationConfigListResult;
+  };
 };
 
 /**
@@ -1889,16 +1903,16 @@ export type MigrationConfigsCreateAndStartMigrationResponse = MigrationConfigPro
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MigrationConfigProperties;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MigrationConfigProperties;
+  };
 };
 
 /**
@@ -1909,16 +1923,16 @@ export type MigrationConfigsGetResponse = MigrationConfigProperties & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MigrationConfigProperties;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MigrationConfigProperties;
+  };
 };
 
 /**
@@ -1929,16 +1943,16 @@ export type MigrationConfigsBeginCreateAndStartMigrationResponse = MigrationConf
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MigrationConfigProperties;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MigrationConfigProperties;
+  };
 };
 
 /**
@@ -1949,16 +1963,16 @@ export type MigrationConfigsListNextResponse = MigrationConfigListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MigrationConfigListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: MigrationConfigListResult;
+  };
 };
 
 /**
@@ -1969,16 +1983,16 @@ export type QueuesListByNamespaceResponse = SBQueueListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBQueueListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBQueueListResult;
+  };
 };
 
 /**
@@ -1989,16 +2003,16 @@ export type QueuesCreateOrUpdateResponse = SBQueue & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBQueue;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBQueue;
+  };
 };
 
 /**
@@ -2009,16 +2023,16 @@ export type QueuesGetResponse = SBQueue & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBQueue;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBQueue;
+  };
 };
 
 /**
@@ -2029,16 +2043,16 @@ export type QueuesListAuthorizationRulesResponse = SBAuthorizationRuleListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -2049,16 +2063,16 @@ export type QueuesCreateOrUpdateAuthorizationRuleResponse = SBAuthorizationRule 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRule;
+  };
 };
 
 /**
@@ -2069,16 +2083,16 @@ export type QueuesGetAuthorizationRuleResponse = SBAuthorizationRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRule;
+  };
 };
 
 /**
@@ -2089,16 +2103,16 @@ export type QueuesListKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -2109,16 +2123,16 @@ export type QueuesRegenerateKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -2129,16 +2143,16 @@ export type QueuesListByNamespaceNextResponse = SBQueueListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBQueueListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBQueueListResult;
+  };
 };
 
 /**
@@ -2149,16 +2163,16 @@ export type QueuesListAuthorizationRulesNextResponse = SBAuthorizationRuleListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -2169,16 +2183,16 @@ export type TopicsListByNamespaceResponse = SBTopicListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBTopicListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBTopicListResult;
+  };
 };
 
 /**
@@ -2189,16 +2203,16 @@ export type TopicsCreateOrUpdateResponse = SBTopic & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBTopic;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBTopic;
+  };
 };
 
 /**
@@ -2209,16 +2223,16 @@ export type TopicsGetResponse = SBTopic & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBTopic;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBTopic;
+  };
 };
 
 /**
@@ -2229,16 +2243,16 @@ export type TopicsListAuthorizationRulesResponse = SBAuthorizationRuleListResult
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -2249,16 +2263,16 @@ export type TopicsCreateOrUpdateAuthorizationRuleResponse = SBAuthorizationRule 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRule;
+  };
 };
 
 /**
@@ -2269,16 +2283,16 @@ export type TopicsGetAuthorizationRuleResponse = SBAuthorizationRule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRule;
+  };
 };
 
 /**
@@ -2289,16 +2303,16 @@ export type TopicsListKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -2309,16 +2323,16 @@ export type TopicsRegenerateKeysResponse = AccessKeys & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AccessKeys;
+  };
 };
 
 /**
@@ -2329,16 +2343,16 @@ export type TopicsListByNamespaceNextResponse = SBTopicListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBTopicListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBTopicListResult;
+  };
 };
 
 /**
@@ -2349,16 +2363,16 @@ export type TopicsListAuthorizationRulesNextResponse = SBAuthorizationRuleListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBAuthorizationRuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBAuthorizationRuleListResult;
+  };
 };
 
 /**
@@ -2369,16 +2383,16 @@ export type SubscriptionsListByTopicResponse = SBSubscriptionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBSubscriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBSubscriptionListResult;
+  };
 };
 
 /**
@@ -2389,16 +2403,16 @@ export type SubscriptionsCreateOrUpdateResponse = SBSubscription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBSubscription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBSubscription;
+  };
 };
 
 /**
@@ -2409,16 +2423,16 @@ export type SubscriptionsGetResponse = SBSubscription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBSubscription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBSubscription;
+  };
 };
 
 /**
@@ -2429,16 +2443,16 @@ export type SubscriptionsListByTopicNextResponse = SBSubscriptionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SBSubscriptionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SBSubscriptionListResult;
+  };
 };
 
 /**
@@ -2449,16 +2463,16 @@ export type RulesListBySubscriptionsResponse = RuleListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RuleListResult;
+  };
 };
 
 /**
@@ -2469,16 +2483,16 @@ export type RulesCreateOrUpdateResponse = Rule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Rule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Rule;
+  };
 };
 
 /**
@@ -2489,16 +2503,16 @@ export type RulesGetResponse = Rule & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Rule;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Rule;
+  };
 };
 
 /**
@@ -2509,16 +2523,16 @@ export type RulesListBySubscriptionsNextResponse = RuleListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RuleListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RuleListResult;
+  };
 };
 
 /**
@@ -2529,16 +2543,16 @@ export type RegionsListBySkuResponse = PremiumMessagingRegionsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PremiumMessagingRegionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PremiumMessagingRegionsListResult;
+  };
 };
 
 /**
@@ -2549,16 +2563,16 @@ export type RegionsListBySkuNextResponse = PremiumMessagingRegionsListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PremiumMessagingRegionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PremiumMessagingRegionsListResult;
+  };
 };
 
 /**
@@ -2569,16 +2583,16 @@ export type PremiumMessagingRegionsListResponse = PremiumMessagingRegionsListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PremiumMessagingRegionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PremiumMessagingRegionsListResult;
+  };
 };
 
 /**
@@ -2589,16 +2603,16 @@ export type PremiumMessagingRegionsListNextResponse = PremiumMessagingRegionsLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PremiumMessagingRegionsListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PremiumMessagingRegionsListResult;
+  };
 };
 
 /**
@@ -2609,16 +2623,16 @@ export type EventHubsListByNamespaceResponse = EventHubListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventHubListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventHubListResult;
+  };
 };
 
 /**
@@ -2629,14 +2643,14 @@ export type EventHubsListByNamespaceNextResponse = EventHubListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventHubListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EventHubListResult;
+  };
 };

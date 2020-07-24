@@ -35,14 +35,24 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnvironmentSettingsListResponse>
    */
-  list(resourceGroupName: string, labAccountName: string, labName: string, options?: Models.EnvironmentSettingsListOptionalParams): Promise<Models.EnvironmentSettingsListResponse>;
+  list(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    options?: Models.EnvironmentSettingsListOptionalParams
+  ): Promise<Models.EnvironmentSettingsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
    * @param labName The name of the lab.
    * @param callback The callback
    */
-  list(resourceGroupName: string, labAccountName: string, labName: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>): void;
+  list(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    callback: msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -50,8 +60,22 @@ export class EnvironmentSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, labAccountName: string, labName: string, options: Models.EnvironmentSettingsListOptionalParams, callback: msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>): void;
-  list(resourceGroupName: string, labAccountName: string, labName: string, options?: Models.EnvironmentSettingsListOptionalParams | msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>): Promise<Models.EnvironmentSettingsListResponse> {
+  list(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    options: Models.EnvironmentSettingsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>
+  ): void;
+  list(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    options?:
+      | Models.EnvironmentSettingsListOptionalParams
+      | msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>,
+    callback?: msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>
+  ): Promise<Models.EnvironmentSettingsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +84,8 @@ export class EnvironmentSettings {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.EnvironmentSettingsListResponse>;
+      callback
+    ) as Promise<Models.EnvironmentSettingsListResponse>;
   }
 
   /**
@@ -72,7 +97,13 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnvironmentSettingsGetResponse>
    */
-  get(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, options?: Models.EnvironmentSettingsGetOptionalParams): Promise<Models.EnvironmentSettingsGetResponse>;
+  get(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    options?: Models.EnvironmentSettingsGetOptionalParams
+  ): Promise<Models.EnvironmentSettingsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -80,7 +111,13 @@ export class EnvironmentSettings {
    * @param environmentSettingName The name of the environment Setting.
    * @param callback The callback
    */
-  get(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, callback: msRest.ServiceCallback<Models.EnvironmentSetting>): void;
+  get(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    callback: msRest.ServiceCallback<Models.EnvironmentSetting>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -89,8 +126,24 @@ export class EnvironmentSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, options: Models.EnvironmentSettingsGetOptionalParams, callback: msRest.ServiceCallback<Models.EnvironmentSetting>): void;
-  get(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, options?: Models.EnvironmentSettingsGetOptionalParams | msRest.ServiceCallback<Models.EnvironmentSetting>, callback?: msRest.ServiceCallback<Models.EnvironmentSetting>): Promise<Models.EnvironmentSettingsGetResponse> {
+  get(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    options: Models.EnvironmentSettingsGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.EnvironmentSetting>
+  ): void;
+  get(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    options?:
+      | Models.EnvironmentSettingsGetOptionalParams
+      | msRest.ServiceCallback<Models.EnvironmentSetting>,
+    callback?: msRest.ServiceCallback<Models.EnvironmentSetting>
+  ): Promise<Models.EnvironmentSettingsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -100,7 +153,8 @@ export class EnvironmentSettings {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.EnvironmentSettingsGetResponse>;
+      callback
+    ) as Promise<Models.EnvironmentSettingsGetResponse>;
   }
 
   /**
@@ -114,9 +168,24 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnvironmentSettingsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, environmentSetting: Models.EnvironmentSetting, options?: msRest.RequestOptionsBase): Promise<Models.EnvironmentSettingsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,labAccountName,labName,environmentSettingName,environmentSetting,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.EnvironmentSettingsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    environmentSetting: Models.EnvironmentSetting,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EnvironmentSettingsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      labAccountName,
+      labName,
+      environmentSettingName,
+      environmentSetting,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.EnvironmentSettingsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -128,9 +197,20 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,labAccountName,labName,environmentSettingName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      labAccountName,
+      labName,
+      environmentSettingName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -144,7 +224,14 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnvironmentSettingsUpdateResponse>
    */
-  update(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, environmentSetting: Models.EnvironmentSettingFragment, options?: msRest.RequestOptionsBase): Promise<Models.EnvironmentSettingsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    environmentSetting: Models.EnvironmentSettingFragment,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EnvironmentSettingsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -154,7 +241,14 @@ export class EnvironmentSettings {
    * instances would be created
    * @param callback The callback
    */
-  update(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, environmentSetting: Models.EnvironmentSettingFragment, callback: msRest.ServiceCallback<Models.EnvironmentSetting>): void;
+  update(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    environmentSetting: Models.EnvironmentSettingFragment,
+    callback: msRest.ServiceCallback<Models.EnvironmentSetting>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -165,8 +259,24 @@ export class EnvironmentSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, environmentSetting: Models.EnvironmentSettingFragment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnvironmentSetting>): void;
-  update(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, environmentSetting: Models.EnvironmentSettingFragment, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnvironmentSetting>, callback?: msRest.ServiceCallback<Models.EnvironmentSetting>): Promise<Models.EnvironmentSettingsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    environmentSetting: Models.EnvironmentSettingFragment,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.EnvironmentSetting>
+  ): void;
+  update(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    environmentSetting: Models.EnvironmentSettingFragment,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnvironmentSetting>,
+    callback?: msRest.ServiceCallback<Models.EnvironmentSetting>
+  ): Promise<Models.EnvironmentSettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -177,7 +287,8 @@ export class EnvironmentSettings {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.EnvironmentSettingsUpdateResponse>;
+      callback
+    ) as Promise<Models.EnvironmentSettingsUpdateResponse>;
   }
 
   /**
@@ -189,7 +300,13 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  claimAny(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  claimAny(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -197,7 +314,13 @@ export class EnvironmentSettings {
    * @param environmentSettingName The name of the environment Setting.
    * @param callback The callback
    */
-  claimAny(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, callback: msRest.ServiceCallback<void>): void;
+  claimAny(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -206,8 +329,22 @@ export class EnvironmentSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  claimAny(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  claimAny(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  claimAny(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  claimAny(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -217,7 +354,8 @@ export class EnvironmentSettings {
         options
       },
       claimAnyOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -231,7 +369,14 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  publish(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, publishPayload: Models.PublishPayload, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  publish(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    publishPayload: Models.PublishPayload,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -240,7 +385,14 @@ export class EnvironmentSettings {
    * @param publishPayload Payload for Publish operation on EnvironmentSetting.
    * @param callback The callback
    */
-  publish(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, publishPayload: Models.PublishPayload, callback: msRest.ServiceCallback<void>): void;
+  publish(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    publishPayload: Models.PublishPayload,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param labAccountName The name of the lab Account.
@@ -250,8 +402,24 @@ export class EnvironmentSettings {
    * @param options The optional parameters
    * @param callback The callback
    */
-  publish(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, publishPayload: Models.PublishPayload, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  publish(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, publishPayload: Models.PublishPayload, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  publish(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    publishPayload: Models.PublishPayload,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  publish(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    publishPayload: Models.PublishPayload,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -262,7 +430,8 @@ export class EnvironmentSettings {
         options
       },
       publishOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -275,9 +444,20 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStart(resourceGroupName,labAccountName,labName,environmentSettingName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  start(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStart(
+      resourceGroupName,
+      labAccountName,
+      labName,
+      environmentSettingName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -290,9 +470,20 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStop(resourceGroupName,labAccountName,labName,environmentSettingName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  stop(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStop(
+      resourceGroupName,
+      labAccountName,
+      labName,
+      environmentSettingName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -306,7 +497,14 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, environmentSetting: Models.EnvironmentSetting, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    environmentSetting: Models.EnvironmentSetting,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -317,7 +515,8 @@ export class EnvironmentSettings {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -329,7 +528,13 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -339,7 +544,8 @@ export class EnvironmentSettings {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -352,7 +558,13 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -362,7 +574,8 @@ export class EnvironmentSettings {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -375,7 +588,13 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStop(resourceGroupName: string, labAccountName: string, labName: string, environmentSettingName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(
+    resourceGroupName: string,
+    labAccountName: string,
+    labName: string,
+    environmentSettingName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -385,7 +604,8 @@ export class EnvironmentSettings {
         options
       },
       beginStopOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -394,26 +614,43 @@ export class EnvironmentSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnvironmentSettingsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EnvironmentSettingsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.EnvironmentSettingsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>, callback?: msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>): Promise<Models.EnvironmentSettingsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>,
+    callback?: msRest.ServiceCallback<Models.ResponseWithContinuationEnvironmentSetting>
+  ): Promise<Models.EnvironmentSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.EnvironmentSettingsListNextResponse>;
+      callback
+    ) as Promise<Models.EnvironmentSettingsListNextResponse>;
   }
 }
 
@@ -421,7 +658,8 @@ export class EnvironmentSettings {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -435,9 +673,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.orderby,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResponseWithContinuationEnvironmentSetting
@@ -451,7 +687,8 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -459,13 +696,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.labName,
     Parameters.environmentSettingName
   ],
-  queryParameters: [
-    Parameters.expand,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EnvironmentSetting
@@ -479,7 +711,8 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -487,12 +720,8 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.labName,
     Parameters.environmentSettingName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "environmentSetting",
     mapper: {
@@ -513,7 +742,8 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const claimAnyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/claimAny",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/claimAny",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -521,12 +751,8 @@ const claimAnyOperationSpec: msRest.OperationSpec = {
     Parameters.labName,
     Parameters.environmentSettingName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -538,7 +764,8 @@ const claimAnyOperationSpec: msRest.OperationSpec = {
 
 const publishOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/publish",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/publish",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -546,12 +773,8 @@ const publishOperationSpec: msRest.OperationSpec = {
     Parameters.labName,
     Parameters.environmentSettingName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "publishPayload",
     mapper: {
@@ -570,7 +793,8 @@ const publishOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -578,12 +802,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.labName,
     Parameters.environmentSettingName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "environmentSetting",
     mapper: {
@@ -607,7 +827,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -615,12 +836,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.labName,
     Parameters.environmentSettingName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -633,7 +850,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/start",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/start",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -641,12 +859,8 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.labName,
     Parameters.environmentSettingName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -659,7 +873,8 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginStopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/stop",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/environmentsettings/{environmentSettingName}/stop",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -667,12 +882,8 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     Parameters.labName,
     Parameters.environmentSettingName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -687,12 +898,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResponseWithContinuationEnvironmentSetting

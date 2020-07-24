@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { RelayManagementClientContext } from "./relayManagementClientContext";
 
-
 class RelayManagementClient extends RelayManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -29,7 +28,11 @@ class RelayManagementClient extends RelayManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.RelayManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.RelayManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.namespaces = new operations.Namespaces(this);

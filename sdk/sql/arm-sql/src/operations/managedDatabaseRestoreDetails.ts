@@ -35,7 +35,12 @@ export class ManagedDatabaseRestoreDetails {
    * @param [options] The optional parameters
    * @returns Promise<Models.ManagedDatabaseRestoreDetailsGetResponse>
    */
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabaseRestoreDetailsGetResponse>;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ManagedDatabaseRestoreDetailsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -43,7 +48,12 @@ export class ManagedDatabaseRestoreDetails {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ManagedDatabaseRestoreDetailsResult>): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseRestoreDetailsResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -52,8 +62,22 @@ export class ManagedDatabaseRestoreDetails {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedDatabaseRestoreDetailsResult>): void;
-  get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedDatabaseRestoreDetailsResult>, callback?: msRest.ServiceCallback<Models.ManagedDatabaseRestoreDetailsResult>): Promise<Models.ManagedDatabaseRestoreDetailsGetResponse> {
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ManagedDatabaseRestoreDetailsResult>
+  ): void;
+  get(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ManagedDatabaseRestoreDetailsResult>,
+    callback?: msRest.ServiceCallback<Models.ManagedDatabaseRestoreDetailsResult>
+  ): Promise<Models.ManagedDatabaseRestoreDetailsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +86,8 @@ export class ManagedDatabaseRestoreDetails {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagedDatabaseRestoreDetailsGetResponse>;
+      callback
+    ) as Promise<Models.ManagedDatabaseRestoreDetailsGetResponse>;
   }
 }
 
@@ -70,7 +95,8 @@ export class ManagedDatabaseRestoreDetails {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/restoreDetails/{restoreDetailsName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/restoreDetails/{restoreDetailsName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
@@ -78,12 +104,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.restoreDetailsName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ManagedDatabaseRestoreDetailsResult

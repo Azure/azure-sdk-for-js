@@ -36,9 +36,20 @@ export class PrivateZones {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateZonesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, privateZoneName: string, parameters: Models.PrivateZone, options?: Models.PrivateZonesCreateOrUpdateOptionalParams): Promise<Models.PrivateZonesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,privateZoneName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateZonesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    privateZoneName: string,
+    parameters: Models.PrivateZone,
+    options?: Models.PrivateZonesCreateOrUpdateOptionalParams
+  ): Promise<Models.PrivateZonesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      privateZoneName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PrivateZonesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -50,9 +61,20 @@ export class PrivateZones {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateZonesUpdateResponse>
    */
-  update(resourceGroupName: string, privateZoneName: string, parameters: Models.PrivateZone, options?: Models.PrivateZonesUpdateOptionalParams): Promise<Models.PrivateZonesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,privateZoneName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateZonesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    privateZoneName: string,
+    parameters: Models.PrivateZone,
+    options?: Models.PrivateZonesUpdateOptionalParams
+  ): Promise<Models.PrivateZonesUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      privateZoneName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.PrivateZonesUpdateResponse
+    >;
   }
 
   /**
@@ -64,9 +86,14 @@ export class PrivateZones {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, privateZoneName: string, options?: Models.PrivateZonesDeleteMethodOptionalParams): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,privateZoneName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    privateZoneName: string,
+    options?: Models.PrivateZonesDeleteMethodOptionalParams
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, privateZoneName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -77,21 +104,39 @@ export class PrivateZones {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateZonesGetResponse>
    */
-  get(resourceGroupName: string, privateZoneName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateZonesGetResponse>;
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateZonesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateZoneName: string, callback: msRest.ServiceCallback<Models.PrivateZone>): void;
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    callback: msRest.ServiceCallback<Models.PrivateZone>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param privateZoneName The name of the Private DNS zone (without a terminating dot).
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, privateZoneName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateZone>): void;
-  get(resourceGroupName: string, privateZoneName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateZone>, callback?: msRest.ServiceCallback<Models.PrivateZone>): Promise<Models.PrivateZonesGetResponse> {
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateZone>
+  ): void;
+  get(
+    resourceGroupName: string,
+    privateZoneName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateZone>,
+    callback?: msRest.ServiceCallback<Models.PrivateZone>
+  ): Promise<Models.PrivateZonesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +144,8 @@ export class PrivateZones {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateZonesGetResponse>;
+      callback
+    ) as Promise<Models.PrivateZonesGetResponse>;
   }
 
   /**
@@ -116,14 +162,23 @@ export class PrivateZones {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.PrivateZonesListOptionalParams, callback: msRest.ServiceCallback<Models.PrivateZoneListResult>): void;
-  list(options?: Models.PrivateZonesListOptionalParams | msRest.ServiceCallback<Models.PrivateZoneListResult>, callback?: msRest.ServiceCallback<Models.PrivateZoneListResult>): Promise<Models.PrivateZonesListResponse> {
+  list(
+    options: Models.PrivateZonesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.PrivateZoneListResult>
+  ): void;
+  list(
+    options?:
+      | Models.PrivateZonesListOptionalParams
+      | msRest.ServiceCallback<Models.PrivateZoneListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateZoneListResult>
+  ): Promise<Models.PrivateZonesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateZonesListResponse>;
+      callback
+    ) as Promise<Models.PrivateZonesListResponse>;
   }
 
   /**
@@ -132,26 +187,43 @@ export class PrivateZones {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateZonesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.PrivateZonesListByResourceGroupOptionalParams): Promise<Models.PrivateZonesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.PrivateZonesListByResourceGroupOptionalParams
+  ): Promise<Models.PrivateZonesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PrivateZoneListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.PrivateZoneListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.PrivateZonesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.PrivateZoneListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.PrivateZonesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.PrivateZoneListResult>, callback?: msRest.ServiceCallback<Models.PrivateZoneListResult>): Promise<Models.PrivateZonesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.PrivateZonesListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.PrivateZoneListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.PrivateZonesListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.PrivateZoneListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateZoneListResult>
+  ): Promise<Models.PrivateZonesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.PrivateZonesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.PrivateZonesListByResourceGroupResponse>;
   }
 
   /**
@@ -163,7 +235,12 @@ export class PrivateZones {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, privateZoneName: string, parameters: Models.PrivateZone, options?: Models.PrivateZonesBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    privateZoneName: string,
+    parameters: Models.PrivateZone,
+    options?: Models.PrivateZonesBeginCreateOrUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -172,7 +249,8 @@ export class PrivateZones {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -184,7 +262,12 @@ export class PrivateZones {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, privateZoneName: string, parameters: Models.PrivateZone, options?: Models.PrivateZonesBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    privateZoneName: string,
+    parameters: Models.PrivateZone,
+    options?: Models.PrivateZonesBeginUpdateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -193,7 +276,8 @@ export class PrivateZones {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -205,7 +289,11 @@ export class PrivateZones {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, privateZoneName: string, options?: Models.PrivateZonesBeginDeleteMethodOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    privateZoneName: string,
+    options?: Models.PrivateZonesBeginDeleteMethodOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -213,7 +301,8 @@ export class PrivateZones {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -222,26 +311,41 @@ export class PrivateZones {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateZonesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateZonesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateZonesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateZoneListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateZoneListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateZoneListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateZoneListResult>, callback?: msRest.ServiceCallback<Models.PrivateZoneListResult>): Promise<Models.PrivateZonesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateZoneListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateZoneListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateZoneListResult>
+  ): Promise<Models.PrivateZonesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PrivateZonesListNextResponse>;
+      callback
+    ) as Promise<Models.PrivateZonesListNextResponse>;
   }
 
   /**
@@ -250,26 +354,41 @@ export class PrivateZones {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateZonesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateZonesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateZonesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateZoneListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateZoneListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateZoneListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateZoneListResult>, callback?: msRest.ServiceCallback<Models.PrivateZoneListResult>): Promise<Models.PrivateZonesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateZoneListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateZoneListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateZoneListResult>
+  ): Promise<Models.PrivateZonesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.PrivateZonesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.PrivateZonesListByResourceGroupNextResponse>;
   }
 }
 
@@ -277,18 +396,15 @@ export class PrivateZones {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateZone
@@ -303,16 +419,9 @@ const getOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/privateDnsZones",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.top,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.top, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateZoneListResult
@@ -326,18 +435,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.top,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.top, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateZoneListResult
@@ -351,20 +453,15 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.ifNoneMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -389,19 +486,15 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -423,19 +516,15 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -451,12 +540,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateZoneListResult
@@ -472,12 +557,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateZoneListResult

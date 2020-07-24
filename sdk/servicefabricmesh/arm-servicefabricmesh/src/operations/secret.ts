@@ -37,14 +37,24 @@ export class Secret {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecretCreateResponse>
    */
-  create(resourceGroupName: string, secretResourceName: string, secretResourceDescription: Models.SecretResourceDescription, options?: msRest.RequestOptionsBase): Promise<Models.SecretCreateResponse>;
+  create(
+    resourceGroupName: string,
+    secretResourceName: string,
+    secretResourceDescription: Models.SecretResourceDescription,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecretCreateResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param secretResourceName The name of the secret resource.
    * @param secretResourceDescription Description for creating a secret resource.
    * @param callback The callback
    */
-  create(resourceGroupName: string, secretResourceName: string, secretResourceDescription: Models.SecretResourceDescription, callback: msRest.ServiceCallback<Models.SecretResourceDescription>): void;
+  create(
+    resourceGroupName: string,
+    secretResourceName: string,
+    secretResourceDescription: Models.SecretResourceDescription,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescription>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param secretResourceName The name of the secret resource.
@@ -52,8 +62,20 @@ export class Secret {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, secretResourceName: string, secretResourceDescription: Models.SecretResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretResourceDescription>): void;
-  create(resourceGroupName: string, secretResourceName: string, secretResourceDescription: Models.SecretResourceDescription, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretResourceDescription>, callback?: msRest.ServiceCallback<Models.SecretResourceDescription>): Promise<Models.SecretCreateResponse> {
+  create(
+    resourceGroupName: string,
+    secretResourceName: string,
+    secretResourceDescription: Models.SecretResourceDescription,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescription>
+  ): void;
+  create(
+    resourceGroupName: string,
+    secretResourceName: string,
+    secretResourceDescription: Models.SecretResourceDescription,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.SecretResourceDescription>
+  ): Promise<Models.SecretCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -62,7 +84,8 @@ export class Secret {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.SecretCreateResponse>;
+      callback
+    ) as Promise<Models.SecretCreateResponse>;
   }
 
   /**
@@ -74,21 +97,39 @@ export class Secret {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecretGetResponse>
    */
-  get(resourceGroupName: string, secretResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SecretGetResponse>;
+  get(
+    resourceGroupName: string,
+    secretResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecretGetResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param secretResourceName The name of the secret resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, secretResourceName: string, callback: msRest.ServiceCallback<Models.SecretResourceDescription>): void;
+  get(
+    resourceGroupName: string,
+    secretResourceName: string,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescription>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param secretResourceName The name of the secret resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, secretResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretResourceDescription>): void;
-  get(resourceGroupName: string, secretResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretResourceDescription>, callback?: msRest.ServiceCallback<Models.SecretResourceDescription>): Promise<Models.SecretGetResponse> {
+  get(
+    resourceGroupName: string,
+    secretResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescription>
+  ): void;
+  get(
+    resourceGroupName: string,
+    secretResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretResourceDescription>,
+    callback?: msRest.ServiceCallback<Models.SecretResourceDescription>
+  ): Promise<Models.SecretGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +137,8 @@ export class Secret {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SecretGetResponse>;
+      callback
+    ) as Promise<Models.SecretGetResponse>;
   }
 
   /**
@@ -107,21 +149,39 @@ export class Secret {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, secretResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    secretResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param secretResourceName The name of the secret resource.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, secretResourceName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    secretResourceName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param secretResourceName The name of the secret resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, secretResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, secretResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    secretResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    secretResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -129,7 +189,8 @@ export class Secret {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -140,26 +201,43 @@ export class Secret {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecretListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SecretListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecretListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Azure resource group name
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>
+  ): void;
   /**
    * @param resourceGroupName Azure resource group name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.SecretResourceDescriptionList>): Promise<Models.SecretListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecretResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.SecretResourceDescriptionList>
+  ): Promise<Models.SecretListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.SecretListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.SecretListByResourceGroupResponse>;
   }
 
   /**
@@ -169,7 +247,9 @@ export class Secret {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecretListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.SecretListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecretListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -178,14 +258,23 @@ export class Secret {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.SecretResourceDescriptionList>): Promise<Models.SecretListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>
+  ): void;
+  listBySubscription(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecretResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.SecretResourceDescriptionList>
+  ): Promise<Models.SecretListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.SecretListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.SecretListBySubscriptionResponse>;
   }
 
   /**
@@ -196,26 +285,43 @@ export class Secret {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecretListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SecretListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecretListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.SecretResourceDescriptionList>): Promise<Models.SecretListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecretResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.SecretResourceDescriptionList>
+  ): Promise<Models.SecretListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.SecretListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.SecretListByResourceGroupNextResponse>;
   }
 
   /**
@@ -226,26 +332,43 @@ export class Secret {
    * @param [options] The optional parameters
    * @returns Promise<Models.SecretListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SecretListBySubscriptionNextResponse>;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SecretListBySubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SecretResourceDescriptionList>, callback?: msRest.ServiceCallback<Models.SecretResourceDescriptionList>): Promise<Models.SecretListBySubscriptionNextResponse> {
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SecretResourceDescriptionList>
+  ): void;
+  listBySubscriptionNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SecretResourceDescriptionList>,
+    callback?: msRest.ServiceCallback<Models.SecretResourceDescriptionList>
+  ): Promise<Models.SecretListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySubscriptionNextOperationSpec,
-      callback) as Promise<Models.SecretListBySubscriptionNextResponse>;
+      callback
+    ) as Promise<Models.SecretListBySubscriptionNextResponse>;
   }
 }
 
@@ -253,18 +376,15 @@ export class Secret {
 const serializer = new msRest.Serializer(Mappers);
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.secretResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "secretResourceDescription",
     mapper: {
@@ -289,18 +409,15 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.secretResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretResourceDescription
@@ -314,18 +431,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets/{secretResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.secretResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -339,17 +453,11 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabricMesh/secrets",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretResourceDescriptionList
@@ -364,15 +472,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabricMesh/secrets",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretResourceDescriptionList
@@ -388,12 +490,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretResourceDescriptionList
@@ -409,12 +507,8 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SecretResourceDescriptionList

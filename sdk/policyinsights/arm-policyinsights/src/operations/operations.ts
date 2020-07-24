@@ -40,14 +40,21 @@ export class Operations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationsListResults>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationsListResults>, callback?: msRest.ServiceCallback<Models.OperationsListResults>): Promise<Models.OperationsListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.OperationsListResults>
+  ): void;
+  list(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationsListResults>,
+    callback?: msRest.ServiceCallback<Models.OperationsListResults>
+  ): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.OperationsListResponse>;
+      callback
+    ) as Promise<Models.OperationsListResponse>;
   }
 }
 
@@ -56,12 +63,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.PolicyInsights/operations",
-  queryParameters: [
-    Parameters.apiVersion3
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.OperationsListResults

@@ -36,7 +36,13 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileCreateResponse>
    */
-  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileCreateOptionalParams): Promise<Models.FileCreateResponse>;
+  create(
+    fileContentLength: number,
+    fileAttributes: string,
+    fileCreatedOn: string,
+    fileLastWriteOn: string,
+    options?: Models.FileCreateOptionalParams
+  ): Promise<Models.FileCreateResponse>;
   /**
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
@@ -45,7 +51,13 @@ export class File {
    * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param callback The callback
    */
-  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, callback: coreHttp.ServiceCallback<void>): void;
+  create(
+    fileContentLength: number,
+    fileAttributes: string,
+    fileCreatedOn: string,
+    fileLastWriteOn: string,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
@@ -55,8 +67,22 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options: Models.FileCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileCreateResponse> {
+  create(
+    fileContentLength: number,
+    fileAttributes: string,
+    fileCreatedOn: string,
+    fileLastWriteOn: string,
+    options: Models.FileCreateOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  create(
+    fileContentLength: number,
+    fileAttributes: string,
+    fileCreatedOn: string,
+    fileLastWriteOn: string,
+    options?: Models.FileCreateOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileCreateResponse> {
     return this.client.sendOperationRequest(
       {
         fileContentLength,
@@ -66,7 +92,8 @@ export class File {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.FileCreateResponse>;
+      callback
+    ) as Promise<Models.FileCreateResponse>;
   }
 
   /**
@@ -83,14 +110,21 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  download(options: Models.FileDownloadOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  download(options?: Models.FileDownloadOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileDownloadResponse> {
+  download(
+    options: Models.FileDownloadOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  download(
+    options?: Models.FileDownloadOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileDownloadResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       downloadOperationSpec,
-      callback) as Promise<Models.FileDownloadResponse>;
+      callback
+    ) as Promise<Models.FileDownloadResponse>;
   }
 
   /**
@@ -99,7 +133,9 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileGetPropertiesResponse>
    */
-  getProperties(options?: Models.FileGetPropertiesOptionalParams): Promise<Models.FileGetPropertiesResponse>;
+  getProperties(
+    options?: Models.FileGetPropertiesOptionalParams
+  ): Promise<Models.FileGetPropertiesResponse>;
   /**
    * @param callback The callback
    */
@@ -108,14 +144,21 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.FileGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  getProperties(options?: Models.FileGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileGetPropertiesResponse> {
+  getProperties(
+    options: Models.FileGetPropertiesOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  getProperties(
+    options?: Models.FileGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getPropertiesOperationSpec,
-      callback) as Promise<Models.FileGetPropertiesResponse>;
+      callback
+    ) as Promise<Models.FileGetPropertiesResponse>;
   }
 
   /**
@@ -132,14 +175,21 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(options: Models.FileDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.FileDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileDeleteResponse> {
+  deleteMethod(
+    options: Models.FileDeleteMethodOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    options?: Models.FileDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.FileDeleteResponse>;
+      callback
+    ) as Promise<Models.FileDeleteResponse>;
   }
 
   /**
@@ -151,7 +201,12 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSetHTTPHeadersResponse>
    */
-  setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileSetHTTPHeadersOptionalParams): Promise<Models.FileSetHTTPHeadersResponse>;
+  setHTTPHeaders(
+    fileAttributes: string,
+    fileCreatedOn: string,
+    fileLastWriteOn: string,
+    options?: Models.FileSetHTTPHeadersOptionalParams
+  ): Promise<Models.FileSetHTTPHeadersResponse>;
   /**
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
@@ -159,7 +214,12 @@ export class File {
    * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param callback The callback
    */
-  setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, callback: coreHttp.ServiceCallback<void>): void;
+  setHTTPHeaders(
+    fileAttributes: string,
+    fileCreatedOn: string,
+    fileLastWriteOn: string,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
@@ -168,8 +228,20 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options: Models.FileSetHTTPHeadersOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setHTTPHeaders(fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileSetHTTPHeadersOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileSetHTTPHeadersResponse> {
+  setHTTPHeaders(
+    fileAttributes: string,
+    fileCreatedOn: string,
+    fileLastWriteOn: string,
+    options: Models.FileSetHTTPHeadersOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setHTTPHeaders(
+    fileAttributes: string,
+    fileCreatedOn: string,
+    fileLastWriteOn: string,
+    options?: Models.FileSetHTTPHeadersOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileSetHTTPHeadersResponse> {
     return this.client.sendOperationRequest(
       {
         fileAttributes,
@@ -178,7 +250,8 @@ export class File {
         options
       },
       setHTTPHeadersOperationSpec,
-      callback) as Promise<Models.FileSetHTTPHeadersResponse>;
+      callback
+    ) as Promise<Models.FileSetHTTPHeadersResponse>;
   }
 
   /**
@@ -186,7 +259,9 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileSetMetadataResponse>
    */
-  setMetadata(options?: Models.FileSetMetadataOptionalParams): Promise<Models.FileSetMetadataResponse>;
+  setMetadata(
+    options?: Models.FileSetMetadataOptionalParams
+  ): Promise<Models.FileSetMetadataResponse>;
   /**
    * @param callback The callback
    */
@@ -195,14 +270,21 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setMetadata(options: Models.FileSetMetadataOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setMetadata(options?: Models.FileSetMetadataOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileSetMetadataResponse> {
+  setMetadata(
+    options: Models.FileSetMetadataOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setMetadata(
+    options?: Models.FileSetMetadataOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setMetadataOperationSpec,
-      callback) as Promise<Models.FileSetMetadataResponse>;
+      callback
+    ) as Promise<Models.FileSetMetadataResponse>;
   }
 
   /**
@@ -211,7 +293,9 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileAcquireLeaseResponse>
    */
-  acquireLease(options?: Models.FileAcquireLeaseOptionalParams): Promise<Models.FileAcquireLeaseResponse>;
+  acquireLease(
+    options?: Models.FileAcquireLeaseOptionalParams
+  ): Promise<Models.FileAcquireLeaseResponse>;
   /**
    * @param callback The callback
    */
@@ -220,14 +304,21 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  acquireLease(options: Models.FileAcquireLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  acquireLease(options?: Models.FileAcquireLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileAcquireLeaseResponse> {
+  acquireLease(
+    options: Models.FileAcquireLeaseOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  acquireLease(
+    options?: Models.FileAcquireLeaseOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileAcquireLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       acquireLeaseOperationSpec,
-      callback) as Promise<Models.FileAcquireLeaseResponse>;
+      callback
+    ) as Promise<Models.FileAcquireLeaseResponse>;
   }
 
   /**
@@ -237,7 +328,10 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileReleaseLeaseResponse>
    */
-  releaseLease(leaseId: string, options?: Models.FileReleaseLeaseOptionalParams): Promise<Models.FileReleaseLeaseResponse>;
+  releaseLease(
+    leaseId: string,
+    options?: Models.FileReleaseLeaseOptionalParams
+  ): Promise<Models.FileReleaseLeaseResponse>;
   /**
    * @param leaseId Specifies the current lease ID on the resource.
    * @param callback The callback
@@ -248,15 +342,24 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  releaseLease(leaseId: string, options: Models.FileReleaseLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  releaseLease(leaseId: string, options?: Models.FileReleaseLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileReleaseLeaseResponse> {
+  releaseLease(
+    leaseId: string,
+    options: Models.FileReleaseLeaseOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  releaseLease(
+    leaseId: string,
+    options?: Models.FileReleaseLeaseOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileReleaseLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         options
       },
       releaseLeaseOperationSpec,
-      callback) as Promise<Models.FileReleaseLeaseResponse>;
+      callback
+    ) as Promise<Models.FileReleaseLeaseResponse>;
   }
 
   /**
@@ -266,7 +369,10 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileChangeLeaseResponse>
    */
-  changeLease(leaseId: string, options?: Models.FileChangeLeaseOptionalParams): Promise<Models.FileChangeLeaseResponse>;
+  changeLease(
+    leaseId: string,
+    options?: Models.FileChangeLeaseOptionalParams
+  ): Promise<Models.FileChangeLeaseResponse>;
   /**
    * @param leaseId Specifies the current lease ID on the resource.
    * @param callback The callback
@@ -277,15 +383,24 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  changeLease(leaseId: string, options: Models.FileChangeLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  changeLease(leaseId: string, options?: Models.FileChangeLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileChangeLeaseResponse> {
+  changeLease(
+    leaseId: string,
+    options: Models.FileChangeLeaseOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  changeLease(
+    leaseId: string,
+    options?: Models.FileChangeLeaseOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileChangeLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         options
       },
       changeLeaseOperationSpec,
-      callback) as Promise<Models.FileChangeLeaseResponse>;
+      callback
+    ) as Promise<Models.FileChangeLeaseResponse>;
   }
 
   /**
@@ -303,14 +418,21 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  breakLease(options: Models.FileBreakLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  breakLease(options?: Models.FileBreakLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileBreakLeaseResponse> {
+  breakLease(
+    options: Models.FileBreakLeaseOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  breakLease(
+    options?: Models.FileBreakLeaseOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileBreakLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       breakLeaseOperationSpec,
-      callback) as Promise<Models.FileBreakLeaseResponse>;
+      callback
+    ) as Promise<Models.FileBreakLeaseResponse>;
   }
 
   /**
@@ -331,7 +453,12 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileUploadRangeResponse>
    */
-  uploadRange(range: string, fileRangeWrite: Models.FileRangeWriteType, contentLength: number, options?: Models.FileUploadRangeOptionalParams): Promise<Models.FileUploadRangeResponse>;
+  uploadRange(
+    range: string,
+    fileRangeWrite: Models.FileRangeWriteType,
+    contentLength: number,
+    options?: Models.FileUploadRangeOptionalParams
+  ): Promise<Models.FileUploadRangeResponse>;
   /**
    * @param range Specifies the range of bytes to be written. Both the start and end of the range
    * must be specified. For an update operation, the range can be up to 4 MB in size. For a clear
@@ -348,7 +475,12 @@ export class File {
    * the x-ms-write header is set to clear, the value of this header must be set to zero.
    * @param callback The callback
    */
-  uploadRange(range: string, fileRangeWrite: Models.FileRangeWriteType, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
+  uploadRange(
+    range: string,
+    fileRangeWrite: Models.FileRangeWriteType,
+    contentLength: number,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param range Specifies the range of bytes to be written. Both the start and end of the range
    * must be specified. For an update operation, the range can be up to 4 MB in size. For a clear
@@ -366,8 +498,20 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  uploadRange(range: string, fileRangeWrite: Models.FileRangeWriteType, contentLength: number, options: Models.FileUploadRangeOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  uploadRange(range: string, fileRangeWrite: Models.FileRangeWriteType, contentLength: number, options?: Models.FileUploadRangeOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileUploadRangeResponse> {
+  uploadRange(
+    range: string,
+    fileRangeWrite: Models.FileRangeWriteType,
+    contentLength: number,
+    options: Models.FileUploadRangeOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  uploadRange(
+    range: string,
+    fileRangeWrite: Models.FileRangeWriteType,
+    contentLength: number,
+    options?: Models.FileUploadRangeOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileUploadRangeResponse> {
     return this.client.sendOperationRequest(
       {
         range,
@@ -376,7 +520,8 @@ export class File {
         options
       },
       uploadRangeOperationSpec,
-      callback) as Promise<Models.FileUploadRangeResponse>;
+      callback
+    ) as Promise<Models.FileUploadRangeResponse>;
   }
 
   /**
@@ -394,7 +539,12 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileUploadRangeFromURLResponse>
    */
-  uploadRangeFromURL(range: string, copySource: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams): Promise<Models.FileUploadRangeFromURLResponse>;
+  uploadRangeFromURL(
+    range: string,
+    copySource: string,
+    contentLength: number,
+    options?: Models.FileUploadRangeFromURLOptionalParams
+  ): Promise<Models.FileUploadRangeFromURLResponse>;
   /**
    * @param range Writes data to the specified byte range in the file.
    * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
@@ -408,7 +558,12 @@ export class File {
    * the x-ms-write header is set to clear, the value of this header must be set to zero.
    * @param callback The callback
    */
-  uploadRangeFromURL(range: string, copySource: string, contentLength: number, callback: coreHttp.ServiceCallback<void>): void;
+  uploadRangeFromURL(
+    range: string,
+    copySource: string,
+    contentLength: number,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param range Writes data to the specified byte range in the file.
    * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
@@ -423,8 +578,20 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  uploadRangeFromURL(range: string, copySource: string, contentLength: number, options: Models.FileUploadRangeFromURLOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  uploadRangeFromURL(range: string, copySource: string, contentLength: number, options?: Models.FileUploadRangeFromURLOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileUploadRangeFromURLResponse> {
+  uploadRangeFromURL(
+    range: string,
+    copySource: string,
+    contentLength: number,
+    options: Models.FileUploadRangeFromURLOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  uploadRangeFromURL(
+    range: string,
+    copySource: string,
+    contentLength: number,
+    options?: Models.FileUploadRangeFromURLOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileUploadRangeFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         range,
@@ -433,7 +600,8 @@ export class File {
         options
       },
       uploadRangeFromURLOperationSpec,
-      callback) as Promise<Models.FileUploadRangeFromURLResponse>;
+      callback
+    ) as Promise<Models.FileUploadRangeFromURLResponse>;
   }
 
   /**
@@ -441,7 +609,9 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileGetRangeListResponse>
    */
-  getRangeList(options?: Models.FileGetRangeListOptionalParams): Promise<Models.FileGetRangeListResponse>;
+  getRangeList(
+    options?: Models.FileGetRangeListOptionalParams
+  ): Promise<Models.FileGetRangeListResponse>;
   /**
    * @param callback The callback
    */
@@ -450,14 +620,21 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRangeList(options: Models.FileGetRangeListOptionalParams, callback: coreHttp.ServiceCallback<Models.Range[]>): void;
-  getRangeList(options?: Models.FileGetRangeListOptionalParams | coreHttp.ServiceCallback<Models.Range[]>, callback?: coreHttp.ServiceCallback<Models.Range[]>): Promise<Models.FileGetRangeListResponse> {
+  getRangeList(
+    options: Models.FileGetRangeListOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.Range[]>
+  ): void;
+  getRangeList(
+    options?: Models.FileGetRangeListOptionalParams | coreHttp.ServiceCallback<Models.Range[]>,
+    callback?: coreHttp.ServiceCallback<Models.Range[]>
+  ): Promise<Models.FileGetRangeListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getRangeListOperationSpec,
-      callback) as Promise<Models.FileGetRangeListResponse>;
+      callback
+    ) as Promise<Models.FileGetRangeListResponse>;
   }
 
   /**
@@ -472,7 +649,10 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileStartCopyResponse>
    */
-  startCopy(copySource: string, options?: Models.FileStartCopyOptionalParams): Promise<Models.FileStartCopyResponse>;
+  startCopy(
+    copySource: string,
+    options?: Models.FileStartCopyOptionalParams
+  ): Promise<Models.FileStartCopyResponse>;
   /**
    * @param copySource Specifies the URL of the source file or blob, up to 2 KB in length. To copy a
    * file to another file within the same storage account, you may use Shared Key to authenticate the
@@ -495,15 +675,24 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  startCopy(copySource: string, options: Models.FileStartCopyOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  startCopy(copySource: string, options?: Models.FileStartCopyOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileStartCopyResponse> {
+  startCopy(
+    copySource: string,
+    options: Models.FileStartCopyOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  startCopy(
+    copySource: string,
+    options?: Models.FileStartCopyOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileStartCopyResponse> {
     return this.client.sendOperationRequest(
       {
         copySource,
         options
       },
       startCopyOperationSpec,
-      callback) as Promise<Models.FileStartCopyResponse>;
+      callback
+    ) as Promise<Models.FileStartCopyResponse>;
   }
 
   /**
@@ -514,7 +703,10 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileAbortCopyResponse>
    */
-  abortCopy(copyId: string, options?: Models.FileAbortCopyOptionalParams): Promise<Models.FileAbortCopyResponse>;
+  abortCopy(
+    copyId: string,
+    options?: Models.FileAbortCopyOptionalParams
+  ): Promise<Models.FileAbortCopyResponse>;
   /**
    * @param copyId The copy identifier provided in the x-ms-copy-id header of the original Copy File
    * operation.
@@ -527,15 +719,24 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  abortCopy(copyId: string, options: Models.FileAbortCopyOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  abortCopy(copyId: string, options?: Models.FileAbortCopyOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileAbortCopyResponse> {
+  abortCopy(
+    copyId: string,
+    options: Models.FileAbortCopyOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  abortCopy(
+    copyId: string,
+    options?: Models.FileAbortCopyOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileAbortCopyResponse> {
     return this.client.sendOperationRequest(
       {
         copyId,
         options
       },
       abortCopyOperationSpec,
-      callback) as Promise<Models.FileAbortCopyResponse>;
+      callback
+    ) as Promise<Models.FileAbortCopyResponse>;
   }
 
   /**
@@ -543,7 +744,9 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileListHandlesResponse>
    */
-  listHandles(options?: Models.FileListHandlesOptionalParams): Promise<Models.FileListHandlesResponse>;
+  listHandles(
+    options?: Models.FileListHandlesOptionalParams
+  ): Promise<Models.FileListHandlesResponse>;
   /**
    * @param callback The callback
    */
@@ -552,14 +755,23 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHandles(options: Models.FileListHandlesOptionalParams, callback: coreHttp.ServiceCallback<Models.ListHandlesResponse>): void;
-  listHandles(options?: Models.FileListHandlesOptionalParams | coreHttp.ServiceCallback<Models.ListHandlesResponse>, callback?: coreHttp.ServiceCallback<Models.ListHandlesResponse>): Promise<Models.FileListHandlesResponse> {
+  listHandles(
+    options: Models.FileListHandlesOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ListHandlesResponse>
+  ): void;
+  listHandles(
+    options?:
+      | Models.FileListHandlesOptionalParams
+      | coreHttp.ServiceCallback<Models.ListHandlesResponse>,
+    callback?: coreHttp.ServiceCallback<Models.ListHandlesResponse>
+  ): Promise<Models.FileListHandlesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listHandlesOperationSpec,
-      callback) as Promise<Models.FileListHandlesResponse>;
+      callback
+    ) as Promise<Models.FileListHandlesResponse>;
   }
 
   /**
@@ -569,7 +781,10 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileForceCloseHandlesResponse>
    */
-  forceCloseHandles(handleId: string, options?: Models.FileForceCloseHandlesOptionalParams): Promise<Models.FileForceCloseHandlesResponse>;
+  forceCloseHandles(
+    handleId: string,
+    options?: Models.FileForceCloseHandlesOptionalParams
+  ): Promise<Models.FileForceCloseHandlesResponse>;
   /**
    * @param handleId Specifies handle ID opened on the file or directory to be closed. Asterisk (‘*’)
    * is a wildcard that specifies all handles.
@@ -582,15 +797,24 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  forceCloseHandles(handleId: string, options: Models.FileForceCloseHandlesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  forceCloseHandles(handleId: string, options?: Models.FileForceCloseHandlesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.FileForceCloseHandlesResponse> {
+  forceCloseHandles(
+    handleId: string,
+    options: Models.FileForceCloseHandlesOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  forceCloseHandles(
+    handleId: string,
+    options?: Models.FileForceCloseHandlesOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.FileForceCloseHandlesResponse> {
     return this.client.sendOperationRequest(
       {
         handleId,
         options
       },
       forceCloseHandlesOperationSpec,
-      callback) as Promise<Models.FileForceCloseHandlesResponse>;
+      callback
+    ) as Promise<Models.FileForceCloseHandlesResponse>;
   }
 }
 
@@ -599,12 +823,8 @@ const serializer = new coreHttp.Serializer(Mappers, true);
 const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds],
   headerParameters: [
     Parameters.version,
     Parameters.fileContentLength0,
@@ -639,12 +859,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
 const downloadOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds],
   headerParameters: [
     Parameters.version,
     Parameters.range0,
@@ -682,17 +898,9 @@ const downloadOperationSpec: coreHttp.OperationSpec = {
 const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.shareSnapshot,
-    Parameters.timeoutInSeconds
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.leaseId0
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.shareSnapshot, Parameters.timeoutInSeconds],
+  headerParameters: [Parameters.version, Parameters.leaseId0],
   responses: {
     200: {
       headersMapper: Mappers.FileGetPropertiesHeaders
@@ -709,16 +917,9 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
 const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.leaseId0
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds],
+  headerParameters: [Parameters.version, Parameters.leaseId0],
   responses: {
     202: {
       headersMapper: Mappers.FileDeleteHeaders
@@ -735,13 +936,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
 const setHTTPHeadersOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp0
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp0],
   headerParameters: [
     Parameters.version,
     Parameters.fileContentLength1,
@@ -774,18 +970,9 @@ const setHTTPHeadersOperationSpec: coreHttp.OperationSpec = {
 const setMetadataOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp4
-  ],
-  headerParameters: [
-    Parameters.metadata,
-    Parameters.version,
-    Parameters.leaseId0
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp4],
+  headerParameters: [Parameters.metadata, Parameters.version, Parameters.leaseId0],
   responses: {
     200: {
       headersMapper: Mappers.FileSetMetadataHeaders
@@ -802,13 +989,8 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
 const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp10
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp10],
   headerParameters: [
     Parameters.duration,
     Parameters.proposedLeaseId,
@@ -832,13 +1014,8 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
 const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp10
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp10],
   headerParameters: [
     Parameters.leaseId1,
     Parameters.version,
@@ -861,13 +1038,8 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
 const changeLeaseOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp10
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp10],
   headerParameters: [
     Parameters.leaseId1,
     Parameters.proposedLeaseId,
@@ -891,13 +1063,8 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
 const breakLeaseOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp10
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp10],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
@@ -920,13 +1087,8 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
 const uploadRangeOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp11
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp11],
   headerParameters: [
     Parameters.range1,
     Parameters.fileRangeWrite,
@@ -936,10 +1098,7 @@ const uploadRangeOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId0
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "body"
-    ],
+    parameterPath: ["options", "body"],
     mapper: {
       serializedName: "body",
       type: {
@@ -964,13 +1123,8 @@ const uploadRangeOperationSpec: coreHttp.OperationSpec = {
 const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.comp11
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp11],
   headerParameters: [
     Parameters.range1,
     Parameters.copySource,
@@ -999,19 +1153,9 @@ const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
 const getRangeListOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.shareSnapshot,
-    Parameters.timeoutInSeconds,
-    Parameters.comp12
-  ],
-  headerParameters: [
-    Parameters.version,
-    Parameters.range0,
-    Parameters.leaseId0
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.shareSnapshot, Parameters.timeoutInSeconds, Parameters.comp12],
+  headerParameters: [Parameters.version, Parameters.range0, Parameters.leaseId0],
   responses: {
     200: {
       bodyMapper: {
@@ -1041,12 +1185,8 @@ const getRangeListOperationSpec: coreHttp.OperationSpec = {
 const startCopyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeoutInSeconds
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeoutInSeconds],
   headerParameters: [
     Parameters.version,
     Parameters.metadata,
@@ -1077,19 +1217,9 @@ const startCopyOperationSpec: coreHttp.OperationSpec = {
 const abortCopyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.copyId,
-    Parameters.timeoutInSeconds,
-    Parameters.comp13
-  ],
-  headerParameters: [
-    Parameters.copyActionAbortConstant,
-    Parameters.version,
-    Parameters.leaseId0
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.copyId, Parameters.timeoutInSeconds, Parameters.comp13],
+  headerParameters: [Parameters.copyActionAbortConstant, Parameters.version, Parameters.leaseId0],
   responses: {
     204: {
       headersMapper: Mappers.FileAbortCopyHeaders
@@ -1106,9 +1236,7 @@ const abortCopyOperationSpec: coreHttp.OperationSpec = {
 const listHandlesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.marker,
     Parameters.maxResults,
@@ -1116,9 +1244,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.shareSnapshot,
     Parameters.comp8
   ],
-  headerParameters: [
-    Parameters.version
-  ],
+  headerParameters: [Parameters.version],
   responses: {
     200: {
       bodyMapper: Mappers.ListHandlesResponse,
@@ -1136,19 +1262,14 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
 const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{shareName}/{directory}/{fileName}",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.marker,
     Parameters.shareSnapshot,
     Parameters.comp9
   ],
-  headerParameters: [
-    Parameters.handleId,
-    Parameters.version
-  ],
+  headerParameters: [Parameters.handleId, Parameters.version],
   responses: {
     200: {
       headersMapper: Mappers.FileForceCloseHandlesHeaders

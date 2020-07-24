@@ -35,14 +35,24 @@ export class Zones {
    * @param [options] The optional parameters
    * @returns Promise<Models.ZonesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, zoneName: string, parameters: Models.Zone, options?: Models.ZonesCreateOrUpdateOptionalParams): Promise<Models.ZonesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    zoneName: string,
+    parameters: Models.Zone,
+    options?: Models.ZonesCreateOrUpdateOptionalParams
+  ): Promise<Models.ZonesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param parameters Parameters supplied to the CreateOrUpdate operation.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, zoneName: string, parameters: Models.Zone, callback: msRest.ServiceCallback<Models.Zone>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    zoneName: string,
+    parameters: Models.Zone,
+    callback: msRest.ServiceCallback<Models.Zone>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
@@ -50,8 +60,20 @@ export class Zones {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, zoneName: string, parameters: Models.Zone, options: Models.ZonesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Zone>): void;
-  createOrUpdate(resourceGroupName: string, zoneName: string, parameters: Models.Zone, options?: Models.ZonesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.Zone>, callback?: msRest.ServiceCallback<Models.Zone>): Promise<Models.ZonesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    zoneName: string,
+    parameters: Models.Zone,
+    options: Models.ZonesCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.Zone>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    zoneName: string,
+    parameters: Models.Zone,
+    options?: Models.ZonesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.Zone>,
+    callback?: msRest.ServiceCallback<Models.Zone>
+  ): Promise<Models.ZonesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -60,7 +82,8 @@ export class Zones {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ZonesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ZonesCreateOrUpdateResponse>;
   }
 
   /**
@@ -71,9 +94,14 @@ export class Zones {
    * @param [options] The optional parameters
    * @returns Promise<Models.ZonesDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, zoneName: string, options?: Models.ZonesDeleteMethodOptionalParams): Promise<Models.ZonesDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,zoneName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ZonesDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: Models.ZonesDeleteMethodOptionalParams
+  ): Promise<Models.ZonesDeleteMethodResponse> {
+    return this.beginDeleteMethod(resourceGroupName, zoneName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.ZonesDeleteMethodResponse>;
   }
 
   /**
@@ -83,21 +111,39 @@ export class Zones {
    * @param [options] The optional parameters
    * @returns Promise<Models.ZonesGetResponse>
    */
-  get(resourceGroupName: string, zoneName: string, options?: msRest.RequestOptionsBase): Promise<Models.ZonesGetResponse>;
+  get(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ZonesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param callback The callback
    */
-  get(resourceGroupName: string, zoneName: string, callback: msRest.ServiceCallback<Models.Zone>): void;
+  get(
+    resourceGroupName: string,
+    zoneName: string,
+    callback: msRest.ServiceCallback<Models.Zone>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param zoneName The name of the DNS zone (without a terminating dot).
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, zoneName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Zone>): void;
-  get(resourceGroupName: string, zoneName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Zone>, callback?: msRest.ServiceCallback<Models.Zone>): Promise<Models.ZonesGetResponse> {
+  get(
+    resourceGroupName: string,
+    zoneName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Zone>
+  ): void;
+  get(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Zone>,
+    callback?: msRest.ServiceCallback<Models.Zone>
+  ): Promise<Models.ZonesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -105,7 +151,8 @@ export class Zones {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ZonesGetResponse>;
+      callback
+    ) as Promise<Models.ZonesGetResponse>;
   }
 
   /**
@@ -114,26 +161,43 @@ export class Zones {
    * @param [options] The optional parameters
    * @returns Promise<Models.ZonesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: Models.ZonesListByResourceGroupOptionalParams): Promise<Models.ZonesListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: Models.ZonesListByResourceGroupOptionalParams
+  ): Promise<Models.ZonesListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ZoneListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ZoneListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: Models.ZonesListByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.ZoneListResult>): void;
-  listByResourceGroup(resourceGroupName: string, options?: Models.ZonesListByResourceGroupOptionalParams | msRest.ServiceCallback<Models.ZoneListResult>, callback?: msRest.ServiceCallback<Models.ZoneListResult>): Promise<Models.ZonesListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: Models.ZonesListByResourceGroupOptionalParams,
+    callback: msRest.ServiceCallback<Models.ZoneListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | Models.ZonesListByResourceGroupOptionalParams
+      | msRest.ServiceCallback<Models.ZoneListResult>,
+    callback?: msRest.ServiceCallback<Models.ZoneListResult>
+  ): Promise<Models.ZonesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ZonesListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ZonesListByResourceGroupResponse>;
   }
 
   /**
@@ -150,14 +214,21 @@ export class Zones {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ZonesListOptionalParams, callback: msRest.ServiceCallback<Models.ZoneListResult>): void;
-  list(options?: Models.ZonesListOptionalParams | msRest.ServiceCallback<Models.ZoneListResult>, callback?: msRest.ServiceCallback<Models.ZoneListResult>): Promise<Models.ZonesListResponse> {
+  list(
+    options: Models.ZonesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ZoneListResult>
+  ): void;
+  list(
+    options?: Models.ZonesListOptionalParams | msRest.ServiceCallback<Models.ZoneListResult>,
+    callback?: msRest.ServiceCallback<Models.ZoneListResult>
+  ): Promise<Models.ZonesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ZonesListResponse>;
+      callback
+    ) as Promise<Models.ZonesListResponse>;
   }
 
   /**
@@ -168,7 +239,11 @@ export class Zones {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, zoneName: string, options?: Models.ZonesBeginDeleteMethodOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    zoneName: string,
+    options?: Models.ZonesBeginDeleteMethodOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -176,7 +251,8 @@ export class Zones {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -185,26 +261,41 @@ export class Zones {
    * @param [options] The optional parameters
    * @returns Promise<Models.ZonesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ZonesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ZonesListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ZoneListResult>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ZoneListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ZoneListResult>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ZoneListResult>, callback?: msRest.ServiceCallback<Models.ZoneListResult>): Promise<Models.ZonesListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ZoneListResult>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ZoneListResult>,
+    callback?: msRest.ServiceCallback<Models.ZoneListResult>
+  ): Promise<Models.ZonesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ZonesListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ZonesListByResourceGroupNextResponse>;
   }
 
   /**
@@ -213,7 +304,10 @@ export class Zones {
    * @param [options] The optional parameters
    * @returns Promise<Models.ZonesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ZonesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ZonesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -224,15 +318,24 @@ export class Zones {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ZoneListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ZoneListResult>, callback?: msRest.ServiceCallback<Models.ZoneListResult>): Promise<Models.ZonesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ZoneListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ZoneListResult>,
+    callback?: msRest.ServiceCallback<Models.ZoneListResult>
+  ): Promise<Models.ZonesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ZonesListNextResponse>;
+      callback
+    ) as Promise<Models.ZonesListNextResponse>;
   }
 }
 
@@ -240,20 +343,11 @@ export class Zones {
 const serializer = new msRest.Serializer(Mappers);
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.zoneName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.zoneName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.ifNoneMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -277,18 +371,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.zoneName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.zoneName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Zone
@@ -302,18 +389,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.top,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.top, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ZoneListResult
@@ -328,16 +408,9 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Network/dnszones",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.top,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.top, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ZoneListResult
@@ -351,19 +424,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.zoneName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsZones/{zoneName}",
+  urlParameters: [Parameters.resourceGroupName, Parameters.zoneName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ZoneDeleteResult
@@ -381,12 +446,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ZoneListResult
@@ -402,12 +463,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ZoneListResult

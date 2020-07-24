@@ -36,21 +36,39 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, rootResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    rootResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription.
    * @param rootResourceName Name of the Team Services account.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, rootResourceName: string, callback: msRest.ServiceCallback<Models.ProjectResourceListResult>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    rootResourceName: string,
+    callback: msRest.ServiceCallback<Models.ProjectResourceListResult>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription.
    * @param rootResourceName Name of the Team Services account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, rootResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectResourceListResult>): void;
-  listByResourceGroup(resourceGroupName: string, rootResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectResourceListResult>, callback?: msRest.ServiceCallback<Models.ProjectResourceListResult>): Promise<Models.ProjectsListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    rootResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProjectResourceListResult>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    rootResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectResourceListResult>,
+    callback?: msRest.ServiceCallback<Models.ProjectResourceListResult>
+  ): Promise<Models.ProjectsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +76,8 @@ export class Projects {
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ProjectsListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ProjectsListByResourceGroupResponse>;
   }
 
   /**
@@ -76,9 +95,20 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsCreateResponse>
    */
-  create(body: Models.ProjectResource, resourceGroupName: string, rootResourceName: string, resourceName: string, options?: Models.ProjectsCreateOptionalParams): Promise<Models.ProjectsCreateResponse> {
-    return this.beginCreate(body,resourceGroupName,rootResourceName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ProjectsCreateResponse>;
+  create(
+    body: Models.ProjectResource,
+    resourceGroupName: string,
+    rootResourceName: string,
+    resourceName: string,
+    options?: Models.ProjectsCreateOptionalParams
+  ): Promise<Models.ProjectsCreateResponse> {
+    return this.beginCreate(
+      body,
+      resourceGroupName,
+      rootResourceName,
+      resourceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.ProjectsCreateResponse>;
   }
 
   /**
@@ -90,14 +120,24 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsGetResponse>
    */
-  get(resourceGroupName: string, rootResourceName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsGetResponse>;
+  get(
+    resourceGroupName: string,
+    rootResourceName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsGetResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription.
    * @param rootResourceName Name of the Team Services account.
    * @param resourceName Name of the Team Services project.
    * @param callback The callback
    */
-  get(resourceGroupName: string, rootResourceName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ProjectResource>): void;
+  get(
+    resourceGroupName: string,
+    rootResourceName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ProjectResource>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription.
    * @param rootResourceName Name of the Team Services account.
@@ -105,8 +145,20 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, rootResourceName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectResource>): void;
-  get(resourceGroupName: string, rootResourceName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectResource>, callback?: msRest.ServiceCallback<Models.ProjectResource>): Promise<Models.ProjectsGetResponse> {
+  get(
+    resourceGroupName: string,
+    rootResourceName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProjectResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    rootResourceName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectResource>,
+    callback?: msRest.ServiceCallback<Models.ProjectResource>
+  ): Promise<Models.ProjectsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -115,7 +167,8 @@ export class Projects {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ProjectsGetResponse>;
+      callback
+    ) as Promise<Models.ProjectsGetResponse>;
   }
 
   /**
@@ -128,7 +181,13 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsUpdateResponse>
    */
-  update(resourceGroupName: string, body: Models.ProjectResource, rootResourceName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProjectsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    body: Models.ProjectResource,
+    rootResourceName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ProjectsUpdateResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription.
    * @param body The request data.
@@ -136,7 +195,13 @@ export class Projects {
    * @param resourceName Name of the Team Services project.
    * @param callback The callback
    */
-  update(resourceGroupName: string, body: Models.ProjectResource, rootResourceName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ProjectResource>): void;
+  update(
+    resourceGroupName: string,
+    body: Models.ProjectResource,
+    rootResourceName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.ProjectResource>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription.
    * @param body The request data.
@@ -145,8 +210,22 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, body: Models.ProjectResource, rootResourceName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProjectResource>): void;
-  update(resourceGroupName: string, body: Models.ProjectResource, rootResourceName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectResource>, callback?: msRest.ServiceCallback<Models.ProjectResource>): Promise<Models.ProjectsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    body: Models.ProjectResource,
+    rootResourceName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ProjectResource>
+  ): void;
+  update(
+    resourceGroupName: string,
+    body: Models.ProjectResource,
+    rootResourceName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProjectResource>,
+    callback?: msRest.ServiceCallback<Models.ProjectResource>
+  ): Promise<Models.ProjectsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -156,7 +235,8 @@ export class Projects {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ProjectsUpdateResponse>;
+      callback
+    ) as Promise<Models.ProjectsUpdateResponse>;
   }
 
   /**
@@ -170,7 +250,14 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProjectsGetJobStatusResponse>
    */
-  getJobStatus(resourceGroupName: string, rootResourceName: string, resourceName: string, subContainerName: string, operation: string, options?: Models.ProjectsGetJobStatusOptionalParams): Promise<Models.ProjectsGetJobStatusResponse>;
+  getJobStatus(
+    resourceGroupName: string,
+    rootResourceName: string,
+    resourceName: string,
+    subContainerName: string,
+    operation: string,
+    options?: Models.ProjectsGetJobStatusOptionalParams
+  ): Promise<Models.ProjectsGetJobStatusResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription.
    * @param rootResourceName Name of the Team Services account.
@@ -179,7 +266,14 @@ export class Projects {
    * @param operation The operation type. The only supported value is 'put'.
    * @param callback The callback
    */
-  getJobStatus(resourceGroupName: string, rootResourceName: string, resourceName: string, subContainerName: string, operation: string, callback: msRest.ServiceCallback<Models.ProjectResource>): void;
+  getJobStatus(
+    resourceGroupName: string,
+    rootResourceName: string,
+    resourceName: string,
+    subContainerName: string,
+    operation: string,
+    callback: msRest.ServiceCallback<Models.ProjectResource>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group within the Azure subscription.
    * @param rootResourceName Name of the Team Services account.
@@ -189,8 +283,26 @@ export class Projects {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getJobStatus(resourceGroupName: string, rootResourceName: string, resourceName: string, subContainerName: string, operation: string, options: Models.ProjectsGetJobStatusOptionalParams, callback: msRest.ServiceCallback<Models.ProjectResource>): void;
-  getJobStatus(resourceGroupName: string, rootResourceName: string, resourceName: string, subContainerName: string, operation: string, options?: Models.ProjectsGetJobStatusOptionalParams | msRest.ServiceCallback<Models.ProjectResource>, callback?: msRest.ServiceCallback<Models.ProjectResource>): Promise<Models.ProjectsGetJobStatusResponse> {
+  getJobStatus(
+    resourceGroupName: string,
+    rootResourceName: string,
+    resourceName: string,
+    subContainerName: string,
+    operation: string,
+    options: Models.ProjectsGetJobStatusOptionalParams,
+    callback: msRest.ServiceCallback<Models.ProjectResource>
+  ): void;
+  getJobStatus(
+    resourceGroupName: string,
+    rootResourceName: string,
+    resourceName: string,
+    subContainerName: string,
+    operation: string,
+    options?:
+      | Models.ProjectsGetJobStatusOptionalParams
+      | msRest.ServiceCallback<Models.ProjectResource>,
+    callback?: msRest.ServiceCallback<Models.ProjectResource>
+  ): Promise<Models.ProjectsGetJobStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -201,7 +313,8 @@ export class Projects {
         options
       },
       getJobStatusOperationSpec,
-      callback) as Promise<Models.ProjectsGetJobStatusResponse>;
+      callback
+    ) as Promise<Models.ProjectsGetJobStatusResponse>;
   }
 
   /**
@@ -219,7 +332,13 @@ export class Projects {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(body: Models.ProjectResource, resourceGroupName: string, rootResourceName: string, resourceName: string, options?: Models.ProjectsBeginCreateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    body: Models.ProjectResource,
+    resourceGroupName: string,
+    rootResourceName: string,
+    resourceName: string,
+    options?: Models.ProjectsBeginCreateOptionalParams
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         body,
@@ -229,7 +348,8 @@ export class Projects {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -237,18 +357,15 @@ export class Projects {
 const serializer = new msRest.Serializer(Mappers);
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{rootResourceName}/project",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{rootResourceName}/project",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.rootResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProjectResourceListResult
@@ -262,19 +379,16 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{rootResourceName}/project/{resourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{rootResourceName}/project/{resourceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.rootResourceName,
     Parameters.resourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProjectResource
@@ -289,19 +403,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{rootResourceName}/project/{resourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{rootResourceName}/project/{resourceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.rootResourceName,
     Parameters.resourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -322,7 +433,8 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getJobStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{rootResourceName}/project/{resourceName}/subContainers/{subContainerName}/status",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{rootResourceName}/project/{resourceName}/subContainers/{subContainerName}/status",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
@@ -330,14 +442,8 @@ const getJobStatusOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName,
     Parameters.subContainerName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.operation,
-    Parameters.jobId
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.operation, Parameters.jobId],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ProjectResource
@@ -352,20 +458,16 @@ const getJobStatusOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{rootResourceName}/project/{resourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.visualstudio/account/{rootResourceName}/project/{resourceName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.rootResourceName,
     Parameters.resourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.validating
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.validating],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {

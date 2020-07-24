@@ -14,7 +14,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -46,10 +46,7 @@ export const clusterName: msRest.OperationURLParameter = {
   }
 };
 export const deleteAll: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "deleteAll"
-  ],
+  parameterPath: ["options", "deleteAll"],
   mapper: {
     serializedName: "deleteAll",
     type: {
@@ -84,10 +81,7 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   }
 };
 export const skiptoken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skiptoken"
-  ],
+  parameterPath: ["options", "skiptoken"],
   mapper: {
     serializedName: "$skiptoken",
     type: {

@@ -410,7 +410,7 @@ export interface SpellCheckClientSpellCheckerOptionalParams extends msRest.Reque
  * @readonly
  * @enum {string}
  */
-export type ErrorType = 'UnknownToken' | 'RepeatedToken';
+export type ErrorType = "UnknownToken" | "RepeatedToken";
 
 /**
  * Defines values for ErrorCode.
@@ -419,7 +419,13 @@ export type ErrorType = 'UnknownToken' | 'RepeatedToken';
  * @readonly
  * @enum {string}
  */
-export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitExceeded' | 'InvalidAuthorization' | 'InsufficientAuthorization';
+export type ErrorCode =
+  | "None"
+  | "ServerError"
+  | "InvalidRequest"
+  | "RateLimitExceeded"
+  | "InvalidAuthorization"
+  | "InsufficientAuthorization";
 
 /**
  * Defines values for ErrorSubCode.
@@ -430,7 +436,18 @@ export type ErrorCode = 'None' | 'ServerError' | 'InvalidRequest' | 'RateLimitEx
  * @readonly
  * @enum {string}
  */
-export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented' | 'ParameterMissing' | 'ParameterInvalidValue' | 'HttpNotAllowed' | 'Blocked' | 'AuthorizationMissing' | 'AuthorizationRedundancy' | 'AuthorizationDisabled' | 'AuthorizationExpired';
+export type ErrorSubCode =
+  | "UnexpectedError"
+  | "ResourceError"
+  | "NotImplemented"
+  | "ParameterMissing"
+  | "ParameterInvalidValue"
+  | "HttpNotAllowed"
+  | "Blocked"
+  | "AuthorizationMissing"
+  | "AuthorizationRedundancy"
+  | "AuthorizationDisabled"
+  | "AuthorizationExpired";
 
 /**
  * Defines values for ActionType.
@@ -438,7 +455,7 @@ export type ErrorSubCode = 'UnexpectedError' | 'ResourceError' | 'NotImplemented
  * @readonly
  * @enum {string}
  */
-export type ActionType = 'Edit' | 'Load';
+export type ActionType = "Edit" | "Load";
 
 /**
  * Defines values for Mode.
@@ -446,7 +463,7 @@ export type ActionType = 'Edit' | 'Load';
  * @readonly
  * @enum {string}
  */
-export type Mode = 'proof' | 'spell';
+export type Mode = "proof" | "spell";
 
 /**
  * Contains response data for the spellChecker operation.
@@ -456,14 +473,14 @@ export type SpellCheckerResponse = SpellCheck & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SpellCheck;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SpellCheck;
+  };
 };

@@ -41,14 +41,23 @@ export class ResourceHealthMetadataOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>, callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): Promise<Models.ResourceHealthMetadataListResponse> {
+  list(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
+  list(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>,
+    callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): Promise<Models.ResourceHealthMetadataListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ResourceHealthMetadataListResponse>;
+      callback
+    ) as Promise<Models.ResourceHealthMetadataListResponse>;
   }
 
   /**
@@ -60,26 +69,43 @@ export class ResourceHealthMetadataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceHealthMetadataListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceHealthMetadataListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceHealthMetadataListByResourceGroupResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>, callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): Promise<Models.ResourceHealthMetadataListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>,
+    callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): Promise<Models.ResourceHealthMetadataListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.ResourceHealthMetadataListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.ResourceHealthMetadataListByResourceGroupResponse>;
   }
 
   /**
@@ -91,21 +117,41 @@ export class ResourceHealthMetadataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceHealthMetadataListBySiteResponse>
    */
-  listBySite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceHealthMetadataListBySiteResponse>;
+  listBySite(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceHealthMetadataListBySiteResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param callback The callback
    */
-  listBySite(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
+  listBySite(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySite(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
-  listBySite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>, callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): Promise<Models.ResourceHealthMetadataListBySiteResponse> {
+  listBySite(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
+  listBySite(
+    resourceGroupName: string,
+    name: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>,
+    callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): Promise<Models.ResourceHealthMetadataListBySiteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -113,7 +159,8 @@ export class ResourceHealthMetadataOperations {
         options
       },
       listBySiteOperationSpec,
-      callback) as Promise<Models.ResourceHealthMetadataListBySiteResponse>;
+      callback
+    ) as Promise<Models.ResourceHealthMetadataListBySiteResponse>;
   }
 
   /**
@@ -124,21 +171,39 @@ export class ResourceHealthMetadataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceHealthMetadataGetBySiteResponse>
    */
-  getBySite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceHealthMetadataGetBySiteResponse>;
+  getBySite(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceHealthMetadataGetBySiteResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app
    * @param callback The callback
    */
-  getBySite(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.ResourceHealthMetadata>): void;
+  getBySite(
+    resourceGroupName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadata>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app
    * @param options The optional parameters
    * @param callback The callback
    */
-  getBySite(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceHealthMetadata>): void;
-  getBySite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceHealthMetadata>, callback?: msRest.ServiceCallback<Models.ResourceHealthMetadata>): Promise<Models.ResourceHealthMetadataGetBySiteResponse> {
+  getBySite(
+    resourceGroupName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadata>
+  ): void;
+  getBySite(
+    resourceGroupName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceHealthMetadata>,
+    callback?: msRest.ServiceCallback<Models.ResourceHealthMetadata>
+  ): Promise<Models.ResourceHealthMetadataGetBySiteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -146,7 +211,8 @@ export class ResourceHealthMetadataOperations {
         options
       },
       getBySiteOperationSpec,
-      callback) as Promise<Models.ResourceHealthMetadataGetBySiteResponse>;
+      callback
+    ) as Promise<Models.ResourceHealthMetadataGetBySiteResponse>;
   }
 
   /**
@@ -159,14 +225,24 @@ export class ResourceHealthMetadataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceHealthMetadataListBySiteSlotResponse>
    */
-  listBySiteSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceHealthMetadataListBySiteSlotResponse>;
+  listBySiteSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceHealthMetadataListBySiteSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
    * @param callback The callback
    */
-  listBySiteSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
+  listBySiteSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
@@ -174,8 +250,22 @@ export class ResourceHealthMetadataOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySiteSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
-  listBySiteSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>, callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): Promise<Models.ResourceHealthMetadataListBySiteSlotResponse> {
+  listBySiteSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
+  listBySiteSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>,
+    callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): Promise<Models.ResourceHealthMetadataListBySiteSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -184,7 +274,8 @@ export class ResourceHealthMetadataOperations {
         options
       },
       listBySiteSlotOperationSpec,
-      callback) as Promise<Models.ResourceHealthMetadataListBySiteSlotResponse>;
+      callback
+    ) as Promise<Models.ResourceHealthMetadataListBySiteSlotResponse>;
   }
 
   /**
@@ -196,14 +287,24 @@ export class ResourceHealthMetadataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceHealthMetadataGetBySiteSlotResponse>
    */
-  getBySiteSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceHealthMetadataGetBySiteSlotResponse>;
+  getBySiteSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceHealthMetadataGetBySiteSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app
    * @param slot Name of web app slot. If not specified then will default to production slot.
    * @param callback The callback
    */
-  getBySiteSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.ResourceHealthMetadata>): void;
+  getBySiteSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadata>
+  ): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app
@@ -211,8 +312,20 @@ export class ResourceHealthMetadataOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getBySiteSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceHealthMetadata>): void;
-  getBySiteSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceHealthMetadata>, callback?: msRest.ServiceCallback<Models.ResourceHealthMetadata>): Promise<Models.ResourceHealthMetadataGetBySiteSlotResponse> {
+  getBySiteSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadata>
+  ): void;
+  getBySiteSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceHealthMetadata>,
+    callback?: msRest.ServiceCallback<Models.ResourceHealthMetadata>
+  ): Promise<Models.ResourceHealthMetadataGetBySiteSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -221,7 +334,8 @@ export class ResourceHealthMetadataOperations {
         options
       },
       getBySiteSlotOperationSpec,
-      callback) as Promise<Models.ResourceHealthMetadataGetBySiteSlotResponse>;
+      callback
+    ) as Promise<Models.ResourceHealthMetadataGetBySiteSlotResponse>;
   }
 
   /**
@@ -231,26 +345,43 @@ export class ResourceHealthMetadataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceHealthMetadataListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceHealthMetadataListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceHealthMetadataListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>, callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): Promise<Models.ResourceHealthMetadataListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>,
+    callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): Promise<Models.ResourceHealthMetadataListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ResourceHealthMetadataListNextResponse>;
+      callback
+    ) as Promise<Models.ResourceHealthMetadataListNextResponse>;
   }
 
   /**
@@ -262,26 +393,43 @@ export class ResourceHealthMetadataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceHealthMetadataListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceHealthMetadataListByResourceGroupNextResponse>;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceHealthMetadataListByResourceGroupNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>, callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): Promise<Models.ResourceHealthMetadataListByResourceGroupNextResponse> {
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
+  listByResourceGroupNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>,
+    callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): Promise<Models.ResourceHealthMetadataListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceGroupNextOperationSpec,
-      callback) as Promise<Models.ResourceHealthMetadataListByResourceGroupNextResponse>;
+      callback
+    ) as Promise<Models.ResourceHealthMetadataListByResourceGroupNextResponse>;
   }
 
   /**
@@ -292,26 +440,43 @@ export class ResourceHealthMetadataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceHealthMetadataListBySiteNextResponse>
    */
-  listBySiteNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceHealthMetadataListBySiteNextResponse>;
+  listBySiteNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceHealthMetadataListBySiteNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySiteNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
+  listBySiteNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySiteNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
-  listBySiteNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>, callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): Promise<Models.ResourceHealthMetadataListBySiteNextResponse> {
+  listBySiteNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
+  listBySiteNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>,
+    callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): Promise<Models.ResourceHealthMetadataListBySiteNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySiteNextOperationSpec,
-      callback) as Promise<Models.ResourceHealthMetadataListBySiteNextResponse>;
+      callback
+    ) as Promise<Models.ResourceHealthMetadataListBySiteNextResponse>;
   }
 
   /**
@@ -322,26 +487,43 @@ export class ResourceHealthMetadataOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceHealthMetadataListBySiteSlotNextResponse>
    */
-  listBySiteSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceHealthMetadataListBySiteSlotNextResponse>;
+  listBySiteSlotNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceHealthMetadataListBySiteSlotNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySiteSlotNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
+  listBySiteSlotNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySiteSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): void;
-  listBySiteSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>, callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>): Promise<Models.ResourceHealthMetadataListBySiteSlotNextResponse> {
+  listBySiteSlotNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): void;
+  listBySiteSlotNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>,
+    callback?: msRest.ServiceCallback<Models.ResourceHealthMetadataCollection>
+  ): Promise<Models.ResourceHealthMetadataListBySiteSlotNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listBySiteSlotNextOperationSpec,
-      callback) as Promise<Models.ResourceHealthMetadataListBySiteSlotNextResponse>;
+      callback
+    ) as Promise<Models.ResourceHealthMetadataListBySiteSlotNextResponse>;
   }
 }
 
@@ -350,15 +532,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Web/resourceHealthMetadata",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceHealthMetadataCollection
@@ -372,17 +548,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/resourceHealthMetadata",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/resourceHealthMetadata",
+  urlParameters: [Parameters.resourceGroupName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceHealthMetadataCollection
@@ -396,18 +566,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listBySiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/resourceHealthMetadata",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/resourceHealthMetadata",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceHealthMetadataCollection
@@ -421,18 +584,11 @@ const listBySiteOperationSpec: msRest.OperationSpec = {
 
 const getBySiteOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/resourceHealthMetadata/default",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/resourceHealthMetadata/default",
+  urlParameters: [Parameters.resourceGroupName, Parameters.name, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceHealthMetadata
@@ -446,19 +602,16 @@ const getBySiteOperationSpec: msRest.OperationSpec = {
 
 const listBySiteSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/resourceHealthMetadata",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/resourceHealthMetadata",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.slot,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceHealthMetadataCollection
@@ -472,19 +625,16 @@ const listBySiteSlotOperationSpec: msRest.OperationSpec = {
 
 const getBySiteSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/resourceHealthMetadata/default",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/resourceHealthMetadata/default",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.slot,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceHealthMetadata
@@ -500,12 +650,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceHealthMetadataCollection
@@ -521,12 +667,8 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceHealthMetadataCollection
@@ -542,12 +684,8 @@ const listBySiteNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceHealthMetadataCollection
@@ -563,12 +701,8 @@ const listBySiteSlotNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ResourceHealthMetadataCollection

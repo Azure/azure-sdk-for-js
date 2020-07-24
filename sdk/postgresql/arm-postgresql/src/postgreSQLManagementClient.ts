@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { PostgreSQLManagementClientContext } from "./postgreSQLManagementClientContext";
 
-
 class PostgreSQLManagementClient extends PostgreSQLManagementClientContext {
   // Operation groups
   servers: operations.Servers;
@@ -35,7 +34,11 @@ class PostgreSQLManagementClient extends PostgreSQLManagementClientContext {
    * @param subscriptionId The subscription ID that identifies an Azure subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PostgreSQLManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.PostgreSQLManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.servers = new operations.Servers(this);
     this.replicas = new operations.Replicas(this);

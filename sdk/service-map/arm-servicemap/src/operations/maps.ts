@@ -34,14 +34,24 @@ export class Maps {
    * @param [options] The optional parameters
    * @returns Promise<Models.MapsGenerateResponse>
    */
-  generate(resourceGroupName: string, workspaceName: string, request: Models.MapRequestUnion, options?: msRest.RequestOptionsBase): Promise<Models.MapsGenerateResponse>;
+  generate(
+    resourceGroupName: string,
+    workspaceName: string,
+    request: Models.MapRequestUnion,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MapsGenerateResponse>;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
    * @param request Request options.
    * @param callback The callback
    */
-  generate(resourceGroupName: string, workspaceName: string, request: Models.MapRequestUnion, callback: msRest.ServiceCallback<Models.MapResponse>): void;
+  generate(
+    resourceGroupName: string,
+    workspaceName: string,
+    request: Models.MapRequestUnion,
+    callback: msRest.ServiceCallback<Models.MapResponse>
+  ): void;
   /**
    * @param resourceGroupName Resource group name within the specified subscriptionId.
    * @param workspaceName OMS workspace containing the resources of interest.
@@ -49,8 +59,20 @@ export class Maps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  generate(resourceGroupName: string, workspaceName: string, request: Models.MapRequestUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapResponse>): void;
-  generate(resourceGroupName: string, workspaceName: string, request: Models.MapRequestUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapResponse>, callback?: msRest.ServiceCallback<Models.MapResponse>): Promise<Models.MapsGenerateResponse> {
+  generate(
+    resourceGroupName: string,
+    workspaceName: string,
+    request: Models.MapRequestUnion,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MapResponse>
+  ): void;
+  generate(
+    resourceGroupName: string,
+    workspaceName: string,
+    request: Models.MapRequestUnion,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapResponse>,
+    callback?: msRest.ServiceCallback<Models.MapResponse>
+  ): Promise<Models.MapsGenerateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class Maps {
         options
       },
       generateOperationSpec,
-      callback) as Promise<Models.MapsGenerateResponse>;
+      callback
+    ) as Promise<Models.MapsGenerateResponse>;
   }
 }
 
@@ -67,18 +90,15 @@ export class Maps {
 const serializer = new msRest.Serializer(Mappers);
 const generateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/generateMap",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/features/serviceMap/generateMap",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "request",
     mapper: {

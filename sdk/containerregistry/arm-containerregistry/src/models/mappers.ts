@@ -56,12 +56,7 @@ export const IdentityProperties: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned", "None"]
         }
       },
       userAssignedIdentities: {
@@ -281,7 +276,7 @@ export const ImportImageParameters: msRest.CompositeMapper = {
       },
       mode: {
         serializedName: "mode",
-        defaultValue: 'NoForce',
+        defaultValue: "NoForce",
         type: {
           name: "String"
         }
@@ -298,7 +293,7 @@ export const ImportPipelineSourceProperties: msRest.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
-        defaultValue: 'AzureStorageBlobContainer',
+        defaultValue: "AzureStorageBlobContainer",
         type: {
           name: "String"
         }
@@ -329,7 +324,7 @@ export const PipelineSourceTriggerProperties: msRest.CompositeMapper = {
       status: {
         required: true,
         serializedName: "status",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -428,7 +423,7 @@ export const RegistryNameCheckRequest: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.ContainerRegistry/registries',
+        defaultValue: "Microsoft.ContainerRegistry/registries",
         type: {
           name: "String"
         }
@@ -611,7 +606,7 @@ export const PipelineRunSourceProperties: msRest.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
-        defaultValue: 'AzureStorageBlob',
+        defaultValue: "AzureStorageBlob",
         type: {
           name: "String"
         }
@@ -634,7 +629,7 @@ export const PipelineRunTargetProperties: msRest.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
-        defaultValue: 'AzureStorageBlob',
+        defaultValue: "AzureStorageBlob",
         type: {
           name: "String"
         }
@@ -1019,7 +1014,7 @@ export const VirtualNetworkRule: msRest.CompositeMapper = {
     modelProperties: {
       action: {
         serializedName: "action",
-        defaultValue: 'Allow',
+        defaultValue: "Allow",
         type: {
           name: "String"
         }
@@ -1043,7 +1038,7 @@ export const IPRule: msRest.CompositeMapper = {
     modelProperties: {
       action: {
         serializedName: "action",
-        defaultValue: 'Allow',
+        defaultValue: "Allow",
         type: {
           name: "String"
         }
@@ -1068,7 +1063,7 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
       defaultAction: {
         required: true,
         serializedName: "defaultAction",
-        defaultValue: 'Allow',
+        defaultValue: "Allow",
         type: {
           name: "String"
         }
@@ -1109,7 +1104,7 @@ export const QuarantinePolicy: msRest.CompositeMapper = {
     modelProperties: {
       status: {
         serializedName: "status",
-        defaultValue: 'disabled',
+        defaultValue: "disabled",
         type: {
           name: "String"
         }
@@ -1126,14 +1121,14 @@ export const TrustPolicy: msRest.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
-        defaultValue: 'Notary',
+        defaultValue: "Notary",
         type: {
           name: "String"
         }
       },
       status: {
         serializedName: "status",
-        defaultValue: 'disabled',
+        defaultValue: "disabled",
         type: {
           name: "String"
         }
@@ -1164,7 +1159,7 @@ export const RetentionPolicy: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "status",
-        defaultValue: 'disabled',
+        defaultValue: "disabled",
         type: {
           name: "String"
         }
@@ -1424,7 +1419,7 @@ export const Registry: msRest.CompositeMapper = {
       },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -1517,10 +1512,7 @@ export const RegistryPassword: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "Enum",
-          allowedValues: [
-            "password",
-            "password2"
-          ]
+          allowedValues: ["password", "password2"]
         }
       },
       value: {
@@ -1572,10 +1564,7 @@ export const RegenerateCredentialParameters: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "Enum",
-          allowedValues: [
-            "password",
-            "password2"
-          ]
+          allowedValues: ["password", "password2"]
         }
       }
     }
@@ -3055,7 +3044,7 @@ export const TimerTrigger: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "status",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -3178,7 +3167,7 @@ export const SourceTrigger: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "status",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -3221,7 +3210,7 @@ export const BaseImageTrigger: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "status",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -3543,7 +3532,7 @@ export const TimerTriggerUpdateParameters: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "status",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -3660,7 +3649,7 @@ export const SourceTriggerUpdateParameters: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "status",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -3702,7 +3691,7 @@ export const BaseImageTriggerUpdateParameters: msRest.CompositeMapper = {
       },
       status: {
         serializedName: "status",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -5387,18 +5376,17 @@ export const TokenListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'RunRequest' : RunRequest,
-  'TaskStepProperties' : TaskStepProperties,
-  'TaskStepUpdateParameters' : TaskStepUpdateParameters,
-  'RunRequest.DockerBuildRequest' : DockerBuildRequest,
-  'RunRequest.FileTaskRunRequest' : FileTaskRunRequest,
-  'RunRequest.TaskRunRequest' : TaskRunRequest,
-  'RunRequest.EncodedTaskRunRequest' : EncodedTaskRunRequest,
-  'TaskStepProperties.Docker' : DockerBuildStep,
-  'TaskStepProperties.FileTask' : FileTaskStep,
-  'TaskStepProperties.EncodedTask' : EncodedTaskStep,
-  'TaskStepUpdateParameters.Docker' : DockerBuildStepUpdateParameters,
-  'TaskStepUpdateParameters.FileTask' : FileTaskStepUpdateParameters,
-  'TaskStepUpdateParameters.EncodedTask' : EncodedTaskStepUpdateParameters
-
+  RunRequest: RunRequest,
+  TaskStepProperties: TaskStepProperties,
+  TaskStepUpdateParameters: TaskStepUpdateParameters,
+  "RunRequest.DockerBuildRequest": DockerBuildRequest,
+  "RunRequest.FileTaskRunRequest": FileTaskRunRequest,
+  "RunRequest.TaskRunRequest": TaskRunRequest,
+  "RunRequest.EncodedTaskRunRequest": EncodedTaskRunRequest,
+  "TaskStepProperties.Docker": DockerBuildStep,
+  "TaskStepProperties.FileTask": FileTaskStep,
+  "TaskStepProperties.EncodedTask": EncodedTaskStep,
+  "TaskStepUpdateParameters.Docker": DockerBuildStepUpdateParameters,
+  "TaskStepUpdateParameters.FileTask": FileTaskStepUpdateParameters,
+  "TaskStepUpdateParameters.EncodedTask": EncodedTaskStepUpdateParameters
 };

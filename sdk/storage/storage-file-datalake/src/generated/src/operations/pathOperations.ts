@@ -47,13 +47,17 @@ export class PathOperations {
    * @param callback The callback
    */
   create(options: Models.PathCreateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  create(options?: Models.PathCreateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PathCreateResponse> {
+  create(
+    options?: Models.PathCreateOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.PathCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.PathCreateResponse>;
+      callback
+    ) as Promise<Models.PathCreateResponse>;
   }
 
   /**
@@ -80,7 +84,12 @@ export class PathOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PathUpdateResponse>
    */
-  update(action: Models.PathUpdateAction, mode: Models.PathSetAccessControlRecursiveMode, body: coreHttp.HttpRequestBody, options?: Models.PathUpdateOptionalParams): Promise<Models.PathUpdateResponse>;
+  update(
+    action: Models.PathUpdateAction,
+    mode: Models.PathSetAccessControlRecursiveMode,
+    body: coreHttp.HttpRequestBody,
+    options?: Models.PathUpdateOptionalParams
+  ): Promise<Models.PathUpdateResponse>;
   /**
    * @param action The action must be "append" to upload data to be appended to a file, "flush" to
    * flush previously uploaded data to a file, "setProperties" to set the properties of a file or
@@ -98,7 +107,12 @@ export class PathOperations {
    * @param body Initial data
    * @param callback The callback
    */
-  update(action: Models.PathUpdateAction, mode: Models.PathSetAccessControlRecursiveMode, body: coreHttp.HttpRequestBody, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
+  update(
+    action: Models.PathUpdateAction,
+    mode: Models.PathSetAccessControlRecursiveMode,
+    body: coreHttp.HttpRequestBody,
+    callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>
+  ): void;
   /**
    * @param action The action must be "append" to upload data to be appended to a file, "flush" to
    * flush previously uploaded data to a file, "setProperties" to set the properties of a file or
@@ -117,8 +131,22 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(action: Models.PathUpdateAction, mode: Models.PathSetAccessControlRecursiveMode, body: coreHttp.HttpRequestBody, options: Models.PathUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
-  update(action: Models.PathUpdateAction, mode: Models.PathSetAccessControlRecursiveMode, body: coreHttp.HttpRequestBody, options?: Models.PathUpdateOptionalParams | coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>, callback?: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): Promise<Models.PathUpdateResponse> {
+  update(
+    action: Models.PathUpdateAction,
+    mode: Models.PathSetAccessControlRecursiveMode,
+    body: coreHttp.HttpRequestBody,
+    options: Models.PathUpdateOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>
+  ): void;
+  update(
+    action: Models.PathUpdateAction,
+    mode: Models.PathSetAccessControlRecursiveMode,
+    body: coreHttp.HttpRequestBody,
+    options?:
+      | Models.PathUpdateOptionalParams
+      | coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>,
+    callback?: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>
+  ): Promise<Models.PathUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         action,
@@ -127,7 +155,8 @@ export class PathOperations {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.PathUpdateResponse>;
+      callback
+    ) as Promise<Models.PathUpdateResponse>;
   }
 
   /**
@@ -149,7 +178,10 @@ export class PathOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PathLeaseResponse>
    */
-  lease(xMsLeaseAction: Models.PathLeaseAction, options?: Models.PathLeaseOptionalParams): Promise<Models.PathLeaseResponse>;
+  lease(
+    xMsLeaseAction: Models.PathLeaseAction,
+    options?: Models.PathLeaseOptionalParams
+  ): Promise<Models.PathLeaseResponse>;
   /**
    * @param xMsLeaseAction There are five lease actions: "acquire", "break", "change", "renew", and
    * "release". Use "acquire" and specify the "x-ms-proposed-lease-id" and "x-ms-lease-duration" to
@@ -178,15 +210,24 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  lease(xMsLeaseAction: Models.PathLeaseAction, options: Models.PathLeaseOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  lease(xMsLeaseAction: Models.PathLeaseAction, options?: Models.PathLeaseOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PathLeaseResponse> {
+  lease(
+    xMsLeaseAction: Models.PathLeaseAction,
+    options: Models.PathLeaseOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  lease(
+    xMsLeaseAction: Models.PathLeaseAction,
+    options?: Models.PathLeaseOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.PathLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         xMsLeaseAction,
         options
       },
       leaseOperationSpec,
-      callback) as Promise<Models.PathLeaseResponse>;
+      callback
+    ) as Promise<Models.PathLeaseResponse>;
   }
 
   /**
@@ -208,13 +249,17 @@ export class PathOperations {
    * @param callback The callback
    */
   read(options: Models.PathReadOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  read(options?: Models.PathReadOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PathReadResponse> {
+  read(
+    options?: Models.PathReadOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.PathReadResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       readOperationSpec,
-      callback) as Promise<Models.PathReadResponse>;
+      callback
+    ) as Promise<Models.PathReadResponse>;
   }
 
   /**
@@ -227,7 +272,9 @@ export class PathOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PathGetPropertiesResponse>
    */
-  getProperties(options?: Models.PathGetPropertiesOptionalParams): Promise<Models.PathGetPropertiesResponse>;
+  getProperties(
+    options?: Models.PathGetPropertiesOptionalParams
+  ): Promise<Models.PathGetPropertiesResponse>;
   /**
    * @param callback The callback
    */
@@ -236,14 +283,21 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(options: Models.PathGetPropertiesOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  getProperties(options?: Models.PathGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PathGetPropertiesResponse> {
+  getProperties(
+    options: Models.PathGetPropertiesOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  getProperties(
+    options?: Models.PathGetPropertiesOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.PathGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getPropertiesOperationSpec,
-      callback) as Promise<Models.PathGetPropertiesResponse>;
+      callback
+    ) as Promise<Models.PathGetPropertiesResponse>;
   }
 
   /**
@@ -263,14 +317,21 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(options: Models.PathDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  deleteMethod(options?: Models.PathDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PathDeleteResponse> {
+  deleteMethod(
+    options: Models.PathDeleteMethodOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    options?: Models.PathDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.PathDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.PathDeleteResponse>;
+      callback
+    ) as Promise<Models.PathDeleteResponse>;
   }
 
   /**
@@ -278,7 +339,9 @@ export class PathOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PathSetAccessControlResponse>
    */
-  setAccessControl(options?: Models.PathSetAccessControlOptionalParams): Promise<Models.PathSetAccessControlResponse>;
+  setAccessControl(
+    options?: Models.PathSetAccessControlOptionalParams
+  ): Promise<Models.PathSetAccessControlResponse>;
   /**
    * @param callback The callback
    */
@@ -287,14 +350,21 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setAccessControl(options: Models.PathSetAccessControlOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setAccessControl(options?: Models.PathSetAccessControlOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PathSetAccessControlResponse> {
+  setAccessControl(
+    options: Models.PathSetAccessControlOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setAccessControl(
+    options?: Models.PathSetAccessControlOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.PathSetAccessControlResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       setAccessControlOperationSpec,
-      callback) as Promise<Models.PathSetAccessControlResponse>;
+      callback
+    ) as Promise<Models.PathSetAccessControlResponse>;
   }
 
   /**
@@ -306,7 +376,10 @@ export class PathOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PathSetAccessControlRecursiveResponse>
    */
-  setAccessControlRecursive(mode: Models.PathSetAccessControlRecursiveMode, options?: Models.PathSetAccessControlRecursiveOptionalParams): Promise<Models.PathSetAccessControlRecursiveResponse>;
+  setAccessControlRecursive(
+    mode: Models.PathSetAccessControlRecursiveMode,
+    options?: Models.PathSetAccessControlRecursiveOptionalParams
+  ): Promise<Models.PathSetAccessControlRecursiveResponse>;
   /**
    * @param mode Mode "set" sets POSIX access control rights on files and directories, "modify"
    * modifies one or more POSIX access control rights  that pre-exist on files and directories,
@@ -314,7 +387,10 @@ export class PathOperations {
    * directories. Possible values include: 'set', 'modify', 'remove'
    * @param callback The callback
    */
-  setAccessControlRecursive(mode: Models.PathSetAccessControlRecursiveMode, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
+  setAccessControlRecursive(
+    mode: Models.PathSetAccessControlRecursiveMode,
+    callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>
+  ): void;
   /**
    * @param mode Mode "set" sets POSIX access control rights on files and directories, "modify"
    * modifies one or more POSIX access control rights  that pre-exist on files and directories,
@@ -323,15 +399,26 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setAccessControlRecursive(mode: Models.PathSetAccessControlRecursiveMode, options: Models.PathSetAccessControlRecursiveOptionalParams, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
-  setAccessControlRecursive(mode: Models.PathSetAccessControlRecursiveMode, options?: Models.PathSetAccessControlRecursiveOptionalParams | coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>, callback?: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): Promise<Models.PathSetAccessControlRecursiveResponse> {
+  setAccessControlRecursive(
+    mode: Models.PathSetAccessControlRecursiveMode,
+    options: Models.PathSetAccessControlRecursiveOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>
+  ): void;
+  setAccessControlRecursive(
+    mode: Models.PathSetAccessControlRecursiveMode,
+    options?:
+      | Models.PathSetAccessControlRecursiveOptionalParams
+      | coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>,
+    callback?: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>
+  ): Promise<Models.PathSetAccessControlRecursiveResponse> {
     return this.client.sendOperationRequest(
       {
         mode,
         options
       },
       setAccessControlRecursiveOperationSpec,
-      callback) as Promise<Models.PathSetAccessControlRecursiveResponse>;
+      callback
+    ) as Promise<Models.PathSetAccessControlRecursiveResponse>;
   }
 
   /**
@@ -348,14 +435,21 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  flushData(options: Models.PathFlushDataOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  flushData(options?: Models.PathFlushDataOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PathFlushDataResponse> {
+  flushData(
+    options: Models.PathFlushDataOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  flushData(
+    options?: Models.PathFlushDataOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.PathFlushDataResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       flushDataOperationSpec,
-      callback) as Promise<Models.PathFlushDataResponse>;
+      callback
+    ) as Promise<Models.PathFlushDataResponse>;
   }
 
   /**
@@ -364,7 +458,10 @@ export class PathOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PathAppendDataResponse>
    */
-  appendData(body: coreHttp.HttpRequestBody, options?: Models.PathAppendDataOptionalParams): Promise<Models.PathAppendDataResponse>;
+  appendData(
+    body: coreHttp.HttpRequestBody,
+    options?: Models.PathAppendDataOptionalParams
+  ): Promise<Models.PathAppendDataResponse>;
   /**
    * @param body Initial data
    * @param callback The callback
@@ -375,15 +472,24 @@ export class PathOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  appendData(body: coreHttp.HttpRequestBody, options: Models.PathAppendDataOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  appendData(body: coreHttp.HttpRequestBody, options?: Models.PathAppendDataOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PathAppendDataResponse> {
+  appendData(
+    body: coreHttp.HttpRequestBody,
+    options: Models.PathAppendDataOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  appendData(
+    body: coreHttp.HttpRequestBody,
+    options?: Models.PathAppendDataOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.PathAppendDataResponse> {
     return this.client.sendOperationRequest(
       {
         body,
         options
       },
       appendDataOperationSpec,
-      callback) as Promise<Models.PathAppendDataResponse>;
+      callback
+    ) as Promise<Models.PathAppendDataResponse>;
   }
 
   /**
@@ -393,28 +499,43 @@ export class PathOperations {
    * @param [options] The optional parameters
    * @returns Promise<Models.PathSetExpiryResponse>
    */
-  setExpiry(expiryOptions: Models.PathExpiryOptions, options?: Models.PathSetExpiryOptionalParams): Promise<Models.PathSetExpiryResponse>;
+  setExpiry(
+    expiryOptions: Models.PathExpiryOptions,
+    options?: Models.PathSetExpiryOptionalParams
+  ): Promise<Models.PathSetExpiryResponse>;
   /**
    * @param expiryOptions Required. Indicates mode of the expiry time. Possible values include:
    * 'NeverExpire', 'RelativeToCreation', 'RelativeToNow', 'Absolute'
    * @param callback The callback
    */
-  setExpiry(expiryOptions: Models.PathExpiryOptions, callback: coreHttp.ServiceCallback<void>): void;
+  setExpiry(
+    expiryOptions: Models.PathExpiryOptions,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
   /**
    * @param expiryOptions Required. Indicates mode of the expiry time. Possible values include:
    * 'NeverExpire', 'RelativeToCreation', 'RelativeToNow', 'Absolute'
    * @param options The optional parameters
    * @param callback The callback
    */
-  setExpiry(expiryOptions: Models.PathExpiryOptions, options: Models.PathSetExpiryOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  setExpiry(expiryOptions: Models.PathExpiryOptions, options?: Models.PathSetExpiryOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PathSetExpiryResponse> {
+  setExpiry(
+    expiryOptions: Models.PathExpiryOptions,
+    options: Models.PathSetExpiryOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  setExpiry(
+    expiryOptions: Models.PathExpiryOptions,
+    options?: Models.PathSetExpiryOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<Models.PathSetExpiryResponse> {
     return this.client.sendOperationRequest(
       {
         expiryOptions,
         options
       },
       setExpiryOperationSpec,
-      callback) as Promise<Models.PathSetExpiryResponse>;
+      callback
+    ) as Promise<Models.PathSetExpiryResponse>;
   }
 }
 
@@ -423,9 +544,7 @@ const serializer = new coreHttp.Serializer(Mappers);
 const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.resource2,
     Parameters.continuation,
@@ -470,9 +589,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
 const updateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.action0,
     Parameters.maxRecords,
@@ -534,12 +651,8 @@ const updateOperationSpec: coreHttp.OperationSpec = {
 const leaseOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeout
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeout],
   headerParameters: [
     Parameters.xMsLeaseAction,
     Parameters.xMsLeaseDuration,
@@ -574,12 +687,8 @@ const leaseOperationSpec: coreHttp.OperationSpec = {
 const readOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeout
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeout],
   headerParameters: [
     Parameters.range,
     Parameters.xMsRangeGetContentMd5,
@@ -621,14 +730,8 @@ const readOperationSpec: coreHttp.OperationSpec = {
 const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.action1,
-    Parameters.upn,
-    Parameters.timeout
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.action1, Parameters.upn, Parameters.timeout],
   headerParameters: [
     Parameters.requestId,
     Parameters.version,
@@ -653,14 +756,8 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
 const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.recursive1,
-    Parameters.continuation,
-    Parameters.timeout
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.recursive1, Parameters.continuation, Parameters.timeout],
   headerParameters: [
     Parameters.requestId,
     Parameters.version,
@@ -685,13 +782,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
 const setAccessControlOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeout,
-    Parameters.action2
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeout, Parameters.action2],
   headerParameters: [
     Parameters.owner,
     Parameters.group,
@@ -720,9 +812,7 @@ const setAccessControlOperationSpec: coreHttp.OperationSpec = {
 const setAccessControlRecursiveOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.timeout,
     Parameters.continuation,
@@ -730,11 +820,7 @@ const setAccessControlRecursiveOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxRecords,
     Parameters.action3
   ],
-  headerParameters: [
-    Parameters.acl,
-    Parameters.requestId,
-    Parameters.version
-  ],
+  headerParameters: [Parameters.acl, Parameters.requestId, Parameters.version],
   responses: {
     200: {
       bodyMapper: Mappers.SetAccessControlRecursiveResponse,
@@ -751,9 +837,7 @@ const setAccessControlRecursiveOperationSpec: coreHttp.OperationSpec = {
 const flushDataOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
+  urlParameters: [Parameters.url],
   queryParameters: [
     Parameters.timeout,
     Parameters.position,
@@ -792,14 +876,8 @@ const flushDataOperationSpec: coreHttp.OperationSpec = {
 const appendDataOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.position,
-    Parameters.timeout,
-    Parameters.action5
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.position, Parameters.timeout, Parameters.action5],
   headerParameters: [
     Parameters.contentLength,
     Parameters.requestId,
@@ -832,13 +910,8 @@ const appendDataOperationSpec: coreHttp.OperationSpec = {
 const setExpiryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "{filesystem}/{path}",
-  urlParameters: [
-    Parameters.url
-  ],
-  queryParameters: [
-    Parameters.timeout,
-    Parameters.comp
-  ],
+  urlParameters: [Parameters.url],
+  queryParameters: [Parameters.timeout, Parameters.comp],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,

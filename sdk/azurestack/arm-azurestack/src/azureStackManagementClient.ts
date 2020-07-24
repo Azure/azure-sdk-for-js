@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AzureStackManagementClientContext } from "./azureStackManagementClientContext";
 
-
 class AzureStackManagementClient extends AzureStackManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -29,7 +28,11 @@ class AzureStackManagementClient extends AzureStackManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureStackManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AzureStackManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.products = new operations.Products(this);

@@ -246,7 +246,15 @@ export interface AnalysisEventMetadata {
 /**
  * Contains the possible cases for FabricEvent.
  */
-export type FabricEventUnion = FabricEvent | ApplicationEventUnion | ClusterEventUnion | ContainerInstanceEvent | NodeEventUnion | PartitionEventUnion | ReplicaEventUnion | ServiceEventUnion;
+export type FabricEventUnion =
+  | FabricEvent
+  | ApplicationEventUnion
+  | ClusterEventUnion
+  | ContainerInstanceEvent
+  | NodeEventUnion
+  | PartitionEventUnion
+  | ReplicaEventUnion
+  | ServiceEventUnion;
 
 /**
  * Represents the base for all Fabric Events.
@@ -277,7 +285,24 @@ export interface FabricEvent {
 /**
  * Contains the possible cases for ApplicationEvent.
  */
-export type ApplicationEventUnion = ApplicationEvent | ApplicationCreatedEvent | ApplicationDeletedEvent | ApplicationNewHealthReportEvent | ApplicationHealthReportExpiredEvent | ApplicationUpgradeCompletedEvent | ApplicationUpgradeDomainCompletedEvent | ApplicationUpgradeRollbackCompletedEvent | ApplicationUpgradeRollbackStartedEvent | ApplicationUpgradeStartedEvent | DeployedApplicationNewHealthReportEvent | DeployedApplicationHealthReportExpiredEvent | ApplicationProcessExitedEvent | ApplicationContainerInstanceExitedEvent | DeployedServicePackageNewHealthReportEvent | DeployedServicePackageHealthReportExpiredEvent | ChaosCodePackageRestartScheduledEvent;
+export type ApplicationEventUnion =
+  | ApplicationEvent
+  | ApplicationCreatedEvent
+  | ApplicationDeletedEvent
+  | ApplicationNewHealthReportEvent
+  | ApplicationHealthReportExpiredEvent
+  | ApplicationUpgradeCompletedEvent
+  | ApplicationUpgradeDomainCompletedEvent
+  | ApplicationUpgradeRollbackCompletedEvent
+  | ApplicationUpgradeRollbackStartedEvent
+  | ApplicationUpgradeStartedEvent
+  | DeployedApplicationNewHealthReportEvent
+  | DeployedApplicationHealthReportExpiredEvent
+  | ApplicationProcessExitedEvent
+  | ApplicationContainerInstanceExitedEvent
+  | DeployedServicePackageNewHealthReportEvent
+  | DeployedServicePackageHealthReportExpiredEvent
+  | ChaosCodePackageRestartScheduledEvent;
 
 /**
  * Represents the base for all Application Events.
@@ -403,7 +428,28 @@ export interface ApplicationHealth extends EntityHealth {
 /**
  * Contains the possible cases for HealthEvaluation.
  */
-export type HealthEvaluationUnion = HealthEvaluation | ApplicationHealthEvaluation | ApplicationsHealthEvaluation | ApplicationTypeApplicationsHealthEvaluation | DeltaNodesCheckHealthEvaluation | DeployedApplicationHealthEvaluation | DeployedApplicationsHealthEvaluation | DeployedServicePackageHealthEvaluation | DeployedServicePackagesHealthEvaluation | EventHealthEvaluation | NodeHealthEvaluation | NodesHealthEvaluation | PartitionHealthEvaluation | PartitionsHealthEvaluation | ReplicaHealthEvaluation | ReplicasHealthEvaluation | ServiceHealthEvaluation | ServicesHealthEvaluation | SystemApplicationHealthEvaluation | UpgradeDomainDeltaNodesCheckHealthEvaluation | UpgradeDomainNodesHealthEvaluation;
+export type HealthEvaluationUnion =
+  | HealthEvaluation
+  | ApplicationHealthEvaluation
+  | ApplicationsHealthEvaluation
+  | ApplicationTypeApplicationsHealthEvaluation
+  | DeltaNodesCheckHealthEvaluation
+  | DeployedApplicationHealthEvaluation
+  | DeployedApplicationsHealthEvaluation
+  | DeployedServicePackageHealthEvaluation
+  | DeployedServicePackagesHealthEvaluation
+  | EventHealthEvaluation
+  | NodeHealthEvaluation
+  | NodesHealthEvaluation
+  | PartitionHealthEvaluation
+  | PartitionsHealthEvaluation
+  | ReplicaHealthEvaluation
+  | ReplicasHealthEvaluation
+  | ServiceHealthEvaluation
+  | ServicesHealthEvaluation
+  | SystemApplicationHealthEvaluation
+  | UpgradeDomainDeltaNodesCheckHealthEvaluation
+  | UpgradeDomainNodesHealthEvaluation;
 
 /**
  * Represents a health evaluation which describes the data and the algorithm used by health manager
@@ -1784,7 +1830,17 @@ export interface ClusterConfiguration {
 /**
  * Contains the possible cases for ClusterEvent.
  */
-export type ClusterEventUnion = ClusterEvent | ClusterNewHealthReportEvent | ClusterHealthReportExpiredEvent | ClusterUpgradeCompletedEvent | ClusterUpgradeDomainCompletedEvent | ClusterUpgradeRollbackCompletedEvent | ClusterUpgradeRollbackStartedEvent | ClusterUpgradeStartedEvent | ChaosStoppedEvent | ChaosStartedEvent;
+export type ClusterEventUnion =
+  | ClusterEvent
+  | ClusterNewHealthReportEvent
+  | ClusterHealthReportExpiredEvent
+  | ClusterUpgradeCompletedEvent
+  | ClusterUpgradeDomainCompletedEvent
+  | ClusterUpgradeRollbackCompletedEvent
+  | ClusterUpgradeRollbackStartedEvent
+  | ClusterUpgradeStartedEvent
+  | ChaosStoppedEvent
+  | ChaosStartedEvent;
 
 /**
  * Represents the base for all Cluster Events.
@@ -2647,7 +2703,10 @@ export interface DeployedServicePackagesHealthEvaluation {
 /**
  * Contains the possible cases for DeployedServiceReplicaInfo.
  */
-export type DeployedServiceReplicaInfoUnion = DeployedServiceReplicaInfo | DeployedStatefulServiceReplicaInfo | DeployedStatelessServiceInstanceInfo;
+export type DeployedServiceReplicaInfoUnion =
+  | DeployedServiceReplicaInfo
+  | DeployedStatefulServiceReplicaInfo
+  | DeployedStatelessServiceInstanceInfo;
 
 /**
  * Information about a Service Fabric service replica deployed on a node.
@@ -3155,7 +3214,11 @@ export interface ClusterConfigurationUpgradeStatusInfo {
 /**
  * Contains the possible cases for PartitionInformation.
  */
-export type PartitionInformationUnion = PartitionInformation | Int64RangePartitionInformation | NamedPartitionInformation | SingletonPartitionInformation;
+export type PartitionInformationUnion =
+  | PartitionInformation
+  | Int64RangePartitionInformation
+  | NamedPartitionInformation
+  | SingletonPartitionInformation;
 
 /**
  * Information about the partition identity, partitioning scheme and keys supported by it.
@@ -3278,7 +3341,21 @@ export interface NodeDeactivationInfo {
 /**
  * Contains the possible cases for NodeEvent.
  */
-export type NodeEventUnion = NodeEvent | NodeAbortedEvent | NodeAddedToClusterEvent | NodeClosedEvent | NodeDeactivateCompletedEvent | NodeDeactivateStartedEvent | NodeDownEvent | NodeNewHealthReportEvent | NodeHealthReportExpiredEvent | NodeOpenSucceededEvent | NodeOpenFailedEvent | NodeRemovedFromClusterEvent | NodeUpEvent | ChaosNodeRestartScheduledEvent;
+export type NodeEventUnion =
+  | NodeEvent
+  | NodeAbortedEvent
+  | NodeAddedToClusterEvent
+  | NodeClosedEvent
+  | NodeDeactivateCompletedEvent
+  | NodeDeactivateStartedEvent
+  | NodeDownEvent
+  | NodeNewHealthReportEvent
+  | NodeHealthReportExpiredEvent
+  | NodeOpenSucceededEvent
+  | NodeOpenFailedEvent
+  | NodeRemovedFromClusterEvent
+  | NodeUpEvent
+  | ChaosNodeRestartScheduledEvent;
 
 /**
  * Represents the base for all Node Events.
@@ -3610,7 +3687,10 @@ export interface PagedNodeInfoList {
 /**
  * Contains the possible cases for ServicePartitionInfo.
  */
-export type ServicePartitionInfoUnion = ServicePartitionInfo | StatefulServicePartitionInfo | StatelessServicePartitionInfo;
+export type ServicePartitionInfoUnion =
+  | ServicePartitionInfo
+  | StatefulServicePartitionInfo
+  | StatelessServicePartitionInfo;
 
 /**
  * Information about a partition of a Service Fabric service.
@@ -3659,7 +3739,10 @@ export interface PagedServicePartitionInfoList {
 /**
  * Contains the possible cases for ReplicaInfo.
  */
-export type ReplicaInfoUnion = ReplicaInfo | StatefulServiceReplicaInfo | StatelessServiceInstanceInfo;
+export type ReplicaInfoUnion =
+  | ReplicaInfo
+  | StatefulServiceReplicaInfo
+  | StatelessServiceInstanceInfo;
 
 /**
  * Information about the identity, status, health, node name, uptime, and other details about the
@@ -3787,7 +3870,14 @@ export interface PagedServiceInfoList {
 /**
  * Contains the possible cases for PartitionEvent.
  */
-export type PartitionEventUnion = PartitionEvent | PartitionAnalysisEventUnion | PartitionNewHealthReportEvent | PartitionHealthReportExpiredEvent | PartitionReconfiguredEvent | ChaosPartitionSecondaryMoveScheduledEvent | ChaosPartitionPrimaryMoveScheduledEvent;
+export type PartitionEventUnion =
+  | PartitionEvent
+  | PartitionAnalysisEventUnion
+  | PartitionNewHealthReportEvent
+  | PartitionHealthReportExpiredEvent
+  | PartitionReconfiguredEvent
+  | ChaosPartitionSecondaryMoveScheduledEvent
+  | ChaosPartitionPrimaryMoveScheduledEvent;
 
 /**
  * Represents the base for all Partition Events.
@@ -3825,7 +3915,9 @@ export interface PartitionEvent {
 /**
  * Contains the possible cases for PartitionAnalysisEvent.
  */
-export type PartitionAnalysisEventUnion = PartitionAnalysisEvent | PartitionPrimaryMoveAnalysisEvent;
+export type PartitionAnalysisEventUnion =
+  | PartitionAnalysisEvent
+  | PartitionPrimaryMoveAnalysisEvent;
 
 /**
  * Represents the base for all Partition Analysis Events.
@@ -3867,7 +3959,10 @@ export interface PartitionAnalysisEvent {
 /**
  * Contains the possible cases for ReplicaHealthState.
  */
-export type ReplicaHealthStateUnion = ReplicaHealthState | StatefulServiceReplicaHealthState | StatelessServiceInstanceHealthState;
+export type ReplicaHealthStateUnion =
+  | ReplicaHealthState
+  | StatefulServiceReplicaHealthState
+  | StatelessServiceInstanceHealthState;
 
 /**
  * Represents a base class for stateful service replica or stateless service instance health state.
@@ -3963,7 +4058,10 @@ export interface ProvisionFabricDescription {
 /**
  * Contains the possible cases for ProvisionApplicationTypeDescriptionBase.
  */
-export type ProvisionApplicationTypeDescriptionBaseUnion = ProvisionApplicationTypeDescriptionBase | ProvisionApplicationTypeDescription | ExternalStoreProvisionApplicationTypeDescription;
+export type ProvisionApplicationTypeDescriptionBaseUnion =
+  | ProvisionApplicationTypeDescriptionBase
+  | ProvisionApplicationTypeDescription
+  | ExternalStoreProvisionApplicationTypeDescription;
 
 /**
  * Represents the type of registration or provision requested, and if the operation needs to be
@@ -4286,7 +4384,14 @@ export interface UpdateClusterUpgradeDescription {
 /**
  * Contains the possible cases for PartitionSafetyCheck.
  */
-export type PartitionSafetyCheckUnion = PartitionSafetyCheck | EnsureAvailabilitySafetyCheck | EnsurePartitionQuorumSafetyCheck | WaitForInbuildReplicaSafetyCheck | WaitForPrimaryPlacementSafetyCheck | WaitForPrimarySwapSafetyCheck | WaitForReconfigurationSafetyCheck;
+export type PartitionSafetyCheckUnion =
+  | PartitionSafetyCheck
+  | EnsureAvailabilitySafetyCheck
+  | EnsurePartitionQuorumSafetyCheck
+  | WaitForInbuildReplicaSafetyCheck
+  | WaitForPrimaryPlacementSafetyCheck
+  | WaitForPrimarySwapSafetyCheck
+  | WaitForReconfigurationSafetyCheck;
 
 /**
  * Represents a safety check for the service partition being performed by service fabric before
@@ -4383,7 +4488,14 @@ export interface PartitionsHealthEvaluation {
 /**
  * Contains the possible cases for ReplicaEvent.
  */
-export type ReplicaEventUnion = ReplicaEvent | StatefulReplicaNewHealthReportEvent | StatefulReplicaHealthReportExpiredEvent | StatelessReplicaNewHealthReportEvent | StatelessReplicaHealthReportExpiredEvent | ChaosReplicaRemovalScheduledEvent | ChaosReplicaRestartScheduledEvent;
+export type ReplicaEventUnion =
+  | ReplicaEvent
+  | StatefulReplicaNewHealthReportEvent
+  | StatefulReplicaHealthReportExpiredEvent
+  | StatelessReplicaNewHealthReportEvent
+  | StatelessReplicaHealthReportExpiredEvent
+  | ChaosReplicaRemovalScheduledEvent
+  | ChaosReplicaRestartScheduledEvent;
 
 /**
  * Represents the base for all Replica Events.
@@ -4429,7 +4541,10 @@ export interface ReplicaEvent {
 /**
  * Contains the possible cases for ReplicaHealth.
  */
-export type ReplicaHealthUnion = ReplicaHealth | StatefulServiceReplicaHealth | StatelessServiceInstanceHealth;
+export type ReplicaHealthUnion =
+  | ReplicaHealth
+  | StatefulServiceReplicaHealth
+  | StatelessServiceInstanceHealth;
 
 /**
  * Represents a base class for stateful service replica or stateless service instance health.
@@ -4566,7 +4681,12 @@ export interface RestartNodeDescription {
 /**
  * Contains the possible cases for ServiceEvent.
  */
-export type ServiceEventUnion = ServiceEvent | ServiceCreatedEvent | ServiceDeletedEvent | ServiceNewHealthReportEvent | ServiceHealthReportExpiredEvent;
+export type ServiceEventUnion =
+  | ServiceEvent
+  | ServiceCreatedEvent
+  | ServiceDeletedEvent
+  | ServiceNewHealthReportEvent
+  | ServiceHealthReportExpiredEvent;
 
 /**
  * Represents the base for all Service Events.
@@ -4704,7 +4824,13 @@ export interface ServiceNameInfo {
 /**
  * Contains the possible cases for ServicePlacementPolicyDescription.
  */
-export type ServicePlacementPolicyDescriptionUnion = ServicePlacementPolicyDescription | ServicePlacementInvalidDomainPolicyDescription | ServicePlacementNonPartiallyPlaceServicePolicyDescription | ServicePlacementPreferPrimaryDomainPolicyDescription | ServicePlacementRequiredDomainPolicyDescription | ServicePlacementRequireDomainDistributionPolicyDescription;
+export type ServicePlacementPolicyDescriptionUnion =
+  | ServicePlacementPolicyDescription
+  | ServicePlacementInvalidDomainPolicyDescription
+  | ServicePlacementNonPartiallyPlaceServicePolicyDescription
+  | ServicePlacementPreferPrimaryDomainPolicyDescription
+  | ServicePlacementRequiredDomainPolicyDescription
+  | ServicePlacementRequireDomainDistributionPolicyDescription;
 
 /**
  * Describes the policy to be used for placement of a Service Fabric service.
@@ -4891,7 +5017,10 @@ export interface ServiceTypeExtensionDescription {
 /**
  * Contains the possible cases for ServiceTypeDescription.
  */
-export type ServiceTypeDescriptionUnion = ServiceTypeDescription | StatefulServiceTypeDescription | StatelessServiceTypeDescription;
+export type ServiceTypeDescriptionUnion =
+  | ServiceTypeDescription
+  | StatefulServiceTypeDescription
+  | StatelessServiceTypeDescription;
 
 /**
  * Describes a service type defined in the service manifest of a provisioned application type. The
@@ -6316,7 +6445,14 @@ export interface ChaosParametersDictionaryItem {
 /**
  * Contains the possible cases for ChaosEvent.
  */
-export type ChaosEventUnion = ChaosEvent | ExecutingFaultsChaosEvent | StartedChaosEvent | StoppedChaosEvent | TestErrorChaosEvent | ValidationFailedChaosEvent | WaitingChaosEvent;
+export type ChaosEventUnion =
+  | ChaosEvent
+  | ExecutingFaultsChaosEvent
+  | StartedChaosEvent
+  | StoppedChaosEvent
+  | TestErrorChaosEvent
+  | ValidationFailedChaosEvent
+  | WaitingChaosEvent;
 
 /**
  * Represents an event generated during a Chaos run.
@@ -6970,7 +7106,11 @@ export interface ServiceCorrelationDescription {
 /**
  * Contains the possible cases for PartitionSchemeDescription.
  */
-export type PartitionSchemeDescriptionUnion = PartitionSchemeDescription | NamedPartitionSchemeDescription | SingletonPartitionSchemeDescription | UniformInt64RangePartitionSchemeDescription;
+export type PartitionSchemeDescriptionUnion =
+  | PartitionSchemeDescription
+  | NamedPartitionSchemeDescription
+  | SingletonPartitionSchemeDescription
+  | UniformInt64RangePartitionSchemeDescription;
 
 /**
  * Describes how the service is partitioned.
@@ -7038,7 +7178,10 @@ export interface UniformInt64RangePartitionSchemeDescription {
 /**
  * Contains the possible cases for ScalingTriggerDescription.
  */
-export type ScalingTriggerDescriptionUnion = ScalingTriggerDescription | AveragePartitionLoadScalingTrigger | AverageServiceLoadScalingTrigger;
+export type ScalingTriggerDescriptionUnion =
+  | ScalingTriggerDescription
+  | AveragePartitionLoadScalingTrigger
+  | AverageServiceLoadScalingTrigger;
 
 /**
  * Describes the trigger for performing a scaling operation.
@@ -7053,7 +7196,10 @@ export interface ScalingTriggerDescription {
 /**
  * Contains the possible cases for ScalingMechanismDescription.
  */
-export type ScalingMechanismDescriptionUnion = ScalingMechanismDescription | PartitionInstanceCountScaleMechanism | AddRemoveIncrementalNamedPartitionScalingMechanism;
+export type ScalingMechanismDescriptionUnion =
+  | ScalingMechanismDescription
+  | PartitionInstanceCountScaleMechanism
+  | AddRemoveIncrementalNamedPartitionScalingMechanism;
 
 /**
  * Describes the mechanism for performing a scaling operation.
@@ -7082,7 +7228,10 @@ export interface ScalingPolicyDescription {
 /**
  * Contains the possible cases for ServiceDescription.
  */
-export type ServiceDescriptionUnion = ServiceDescription | StatefulServiceDescription | StatelessServiceDescription;
+export type ServiceDescriptionUnion =
+  | ServiceDescription
+  | StatefulServiceDescription
+  | StatelessServiceDescription;
 
 /**
  * A ServiceDescription contains all of the information necessary to create a service.
@@ -7451,7 +7600,10 @@ export interface ReplicatorQueueStatus {
 /**
  * Contains the possible cases for ReplicatorStatus.
  */
-export type ReplicatorStatusUnion = ReplicatorStatus | PrimaryReplicatorStatus | SecondaryReplicatorStatusUnion;
+export type ReplicatorStatusUnion =
+  | ReplicatorStatus
+  | PrimaryReplicatorStatus
+  | SecondaryReplicatorStatusUnion;
 
 /**
  * Represents a base class for primary or secondary replicator status.
@@ -7571,7 +7723,10 @@ export interface PrimaryReplicatorStatus {
 /**
  * Contains the possible cases for SecondaryReplicatorStatus.
  */
-export type SecondaryReplicatorStatusUnion = SecondaryReplicatorStatus | SecondaryActiveReplicatorStatus | SecondaryIdleReplicatorStatus;
+export type SecondaryReplicatorStatusUnion =
+  | SecondaryReplicatorStatus
+  | SecondaryActiveReplicatorStatus
+  | SecondaryIdleReplicatorStatus;
 
 /**
  * Provides statistics about the Service Fabric Replicator, when it is functioning in a
@@ -7717,7 +7872,10 @@ export interface LoadMetricReportInfo {
 /**
  * Contains the possible cases for DeployedServiceReplicaDetailInfo.
  */
-export type DeployedServiceReplicaDetailInfoUnion = DeployedServiceReplicaDetailInfo | DeployedStatefulServiceReplicaDetailInfo | DeployedStatelessServiceInstanceDetailInfo;
+export type DeployedServiceReplicaDetailInfoUnion =
+  | DeployedServiceReplicaDetailInfo
+  | DeployedStatefulServiceReplicaDetailInfo
+  | DeployedStatelessServiceInstanceDetailInfo;
 
 /**
  * Information about a Service Fabric service replica deployed on a node.
@@ -7927,7 +8085,10 @@ export interface DeployedStatelessServiceInstanceDetailInfo {
 /**
  * Contains the possible cases for ServiceUpdateDescription.
  */
-export type ServiceUpdateDescriptionUnion = ServiceUpdateDescription | StatefulServiceUpdateDescription | StatelessServiceUpdateDescription;
+export type ServiceUpdateDescriptionUnion =
+  | ServiceUpdateDescription
+  | StatefulServiceUpdateDescription
+  | StatelessServiceUpdateDescription;
 
 /**
  * A ServiceUpdateDescription contains all of the information necessary to update a service.
@@ -8779,7 +8940,13 @@ export interface PagedSubNameInfoList {
 /**
  * Contains the possible cases for PropertyValue.
  */
-export type PropertyValueUnion = PropertyValue | BinaryPropertyValue | Int64PropertyValue | DoublePropertyValue | StringPropertyValue | GuidPropertyValue;
+export type PropertyValueUnion =
+  | PropertyValue
+  | BinaryPropertyValue
+  | Int64PropertyValue
+  | DoublePropertyValue
+  | StringPropertyValue
+  | GuidPropertyValue;
 
 /**
  * Describes a Service Fabric property value.
@@ -8960,7 +9127,14 @@ export interface PropertyDescription {
 /**
  * Contains the possible cases for PropertyBatchOperation.
  */
-export type PropertyBatchOperationUnion = PropertyBatchOperation | CheckExistsPropertyBatchOperation | CheckSequencePropertyBatchOperation | CheckValuePropertyBatchOperation | DeletePropertyBatchOperation | GetPropertyBatchOperation | PutPropertyBatchOperation;
+export type PropertyBatchOperationUnion =
+  | PropertyBatchOperation
+  | CheckExistsPropertyBatchOperation
+  | CheckSequencePropertyBatchOperation
+  | CheckValuePropertyBatchOperation
+  | DeletePropertyBatchOperation
+  | GetPropertyBatchOperation
+  | PutPropertyBatchOperation;
 
 /**
  * Represents the base type for property operations that can be put into a batch and submitted.
@@ -9127,7 +9301,10 @@ export interface PutPropertyBatchOperation {
 /**
  * Contains the possible cases for PropertyBatchInfo.
  */
-export type PropertyBatchInfoUnion = PropertyBatchInfo | SuccessfulPropertyBatchInfo | FailedPropertyBatchInfo;
+export type PropertyBatchInfoUnion =
+  | PropertyBatchInfo
+  | SuccessfulPropertyBatchInfo
+  | FailedPropertyBatchInfo;
 
 /**
  * Information about the results of a property batch.
@@ -9179,7 +9356,10 @@ export interface FailedPropertyBatchInfo {
 /**
  * Contains the possible cases for BackupScheduleDescription.
  */
-export type BackupScheduleDescriptionUnion = BackupScheduleDescription | FrequencyBasedBackupScheduleDescription | TimeBasedBackupScheduleDescription;
+export type BackupScheduleDescriptionUnion =
+  | BackupScheduleDescription
+  | FrequencyBasedBackupScheduleDescription
+  | TimeBasedBackupScheduleDescription;
 
 /**
  * Describes the backup schedule parameters.
@@ -9194,7 +9374,10 @@ export interface BackupScheduleDescription {
 /**
  * Contains the possible cases for BackupStorageDescription.
  */
-export type BackupStorageDescriptionUnion = BackupStorageDescription | AzureBlobBackupStorageDescription | FileShareBackupStorageDescription;
+export type BackupStorageDescriptionUnion =
+  | BackupStorageDescription
+  | AzureBlobBackupStorageDescription
+  | FileShareBackupStorageDescription;
 
 /**
  * Describes the parameters for the backup storage.
@@ -9213,7 +9396,9 @@ export interface BackupStorageDescription {
 /**
  * Contains the possible cases for RetentionPolicyDescription.
  */
-export type RetentionPolicyDescriptionUnion = RetentionPolicyDescription | BasicRetentionPolicyDescription;
+export type RetentionPolicyDescriptionUnion =
+  | RetentionPolicyDescription
+  | BasicRetentionPolicyDescription;
 
 /**
  * Describes the retention policy configured.
@@ -9316,7 +9501,11 @@ export interface DisableBackupDescription {
 /**
  * Contains the possible cases for BackupConfigurationInfo.
  */
-export type BackupConfigurationInfoUnion = BackupConfigurationInfo | ApplicationBackupConfigurationInfo | ServiceBackupConfigurationInfo | PartitionBackupConfigurationInfo;
+export type BackupConfigurationInfoUnion =
+  | BackupConfigurationInfo
+  | ApplicationBackupConfigurationInfo
+  | ServiceBackupConfigurationInfo
+  | PartitionBackupConfigurationInfo;
 
 /**
  * Describes the backup configuration information.
@@ -9732,7 +9921,11 @@ export interface PartitionBackupConfigurationInfo {
 /**
  * Contains the possible cases for BackupEntity.
  */
-export type BackupEntityUnion = BackupEntity | ApplicationBackupEntity | ServiceBackupEntity | PartitionBackupEntity;
+export type BackupEntityUnion =
+  | BackupEntity
+  | ApplicationBackupEntity
+  | ServiceBackupEntity
+  | PartitionBackupEntity;
 
 /**
  * Describes the Service Fabric entity that is configured for backup.
@@ -9873,7 +10066,9 @@ export interface NodeImpact {
 /**
  * Contains the possible cases for RepairImpactDescriptionBase.
  */
-export type RepairImpactDescriptionBaseUnion = RepairImpactDescriptionBase | NodeRepairImpactDescription;
+export type RepairImpactDescriptionBaseUnion =
+  | RepairImpactDescriptionBase
+  | NodeRepairImpactDescription;
 
 /**
  * Describes the expected impact of executing a repair task.
@@ -9908,7 +10103,9 @@ export interface NodeRepairImpactDescription {
 /**
  * Contains the possible cases for RepairTargetDescriptionBase.
  */
-export type RepairTargetDescriptionBaseUnion = RepairTargetDescriptionBase | NodeRepairTargetDescription;
+export type RepairTargetDescriptionBaseUnion =
+  | RepairTargetDescriptionBase
+  | NodeRepairTargetDescription;
 
 /**
  * Describes the entities targeted by a repair action.
@@ -13577,7 +13774,9 @@ export interface ChaosNodeRestartScheduledEvent {
 /**
  * Contains the possible cases for SecretResourcePropertiesBase.
  */
-export type SecretResourcePropertiesBaseUnion = SecretResourcePropertiesBase | SecretResourcePropertiesUnion;
+export type SecretResourcePropertiesBaseUnion =
+  | SecretResourcePropertiesBase
+  | SecretResourcePropertiesUnion;
 
 /**
  * This type describes the properties of a secret resource, including its kind.
@@ -13592,7 +13791,9 @@ export interface SecretResourcePropertiesBase {
 /**
  * Contains the possible cases for SecretResourceProperties.
  */
-export type SecretResourcePropertiesUnion = SecretResourceProperties | InlinedValueSecretResourceProperties;
+export type SecretResourcePropertiesUnion =
+  | SecretResourceProperties
+  | InlinedValueSecretResourceProperties;
 
 /**
  * Describes the properties of a secret resource.
@@ -13784,7 +13985,9 @@ export interface VolumeReference {
 /**
  * Contains the possible cases for ApplicationScopedVolumeCreationParameters.
  */
-export type ApplicationScopedVolumeCreationParametersUnion = ApplicationScopedVolumeCreationParameters | ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk;
+export type ApplicationScopedVolumeCreationParametersUnion =
+  | ApplicationScopedVolumeCreationParameters
+  | ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk;
 
 /**
  * Describes parameters for creating application-scoped volumes.
@@ -13904,7 +14107,9 @@ export interface NetworkRef {
 /**
  * Contains the possible cases for NetworkResourcePropertiesBase.
  */
-export type NetworkResourcePropertiesBaseUnion = NetworkResourcePropertiesBase | NetworkResourcePropertiesUnion;
+export type NetworkResourcePropertiesBaseUnion =
+  | NetworkResourcePropertiesBase
+  | NetworkResourcePropertiesUnion;
 
 /**
  * This type describes the properties of a network resource, including its kind.
@@ -13919,7 +14124,9 @@ export interface NetworkResourcePropertiesBase {
 /**
  * Contains the possible cases for NetworkResourceProperties.
  */
-export type NetworkResourcePropertiesUnion = NetworkResourceProperties | LocalNetworkResourceProperties;
+export type NetworkResourcePropertiesUnion =
+  | NetworkResourceProperties
+  | LocalNetworkResourceProperties;
 
 /**
  * Describes properties of a network resource.
@@ -14789,7 +14996,9 @@ export interface ServiceResourceDescription {
 /**
  * Contains the possible cases for DiagnosticsSinkProperties.
  */
-export type DiagnosticsSinkPropertiesUnion = DiagnosticsSinkProperties | AzureInternalMonitoringPipelineSinkDescription;
+export type DiagnosticsSinkPropertiesUnion =
+  | DiagnosticsSinkProperties
+  | AzureInternalMonitoringPipelineSinkDescription;
 
 /**
  * Properties of a DiagnosticsSink.
@@ -15296,7 +15505,8 @@ export interface ServiceFabricClientOptions extends ServiceClientOptions {
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetClusterManifestOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetClusterManifestOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15308,7 +15518,8 @@ export interface ServiceFabricClientGetClusterManifestOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetClusterHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetClusterHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering of the node health state objects returned in the result of cluster health
    * query
@@ -15406,7 +15617,8 @@ export interface ServiceFabricClientGetClusterHealthOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetClusterHealthUsingPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetClusterHealthUsingPolicyOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering of the node health state objects returned in the result of cluster health
    * query
@@ -15516,7 +15728,8 @@ export interface ServiceFabricClientGetClusterHealthUsingPolicyOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetClusterHealthChunkOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetClusterHealthChunkOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15528,7 +15741,8 @@ export interface ServiceFabricClientGetClusterHealthChunkOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetClusterHealthChunkUsingPolicyAndAdvancedFiltersOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetClusterHealthChunkUsingPolicyAndAdvancedFiltersOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Describes the cluster and application health policies used to evaluate the cluster health and
    * the filters to select which cluster entities to be returned.
@@ -15561,7 +15775,8 @@ export interface ServiceFabricClientGetClusterHealthChunkUsingPolicyAndAdvancedF
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientReportClusterHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientReportClusterHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A flag that indicates whether the report should be sent immediately.
    * A health report is sent to a Service Fabric gateway Application, which forwards to the health
@@ -15590,7 +15805,8 @@ export interface ServiceFabricClientReportClusterHealthOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetProvisionedFabricCodeVersionInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetProvisionedFabricCodeVersionInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The product version of Service Fabric.
    */
@@ -15606,7 +15822,8 @@ export interface ServiceFabricClientGetProvisionedFabricCodeVersionInfoListOptio
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetProvisionedFabricConfigVersionInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetProvisionedFabricConfigVersionInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The config version of Service Fabric.
    */
@@ -15622,7 +15839,8 @@ export interface ServiceFabricClientGetProvisionedFabricConfigVersionInfoListOpt
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetClusterUpgradeProgressOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetClusterUpgradeProgressOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15634,7 +15852,8 @@ export interface ServiceFabricClientGetClusterUpgradeProgressOptionalParams exte
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetClusterConfigurationOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetClusterConfigurationOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15646,7 +15865,8 @@ export interface ServiceFabricClientGetClusterConfigurationOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetClusterConfigurationUpgradeStatusOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetClusterConfigurationUpgradeStatusOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15658,7 +15878,8 @@ export interface ServiceFabricClientGetClusterConfigurationUpgradeStatusOptional
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetUpgradeOrchestrationServiceStateOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetUpgradeOrchestrationServiceStateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15670,7 +15891,8 @@ export interface ServiceFabricClientGetUpgradeOrchestrationServiceStateOptionalP
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientSetUpgradeOrchestrationServiceStateOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientSetUpgradeOrchestrationServiceStateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15682,7 +15904,8 @@ export interface ServiceFabricClientSetUpgradeOrchestrationServiceStateOptionalP
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientProvisionClusterOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientProvisionClusterOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15694,7 +15917,8 @@ export interface ServiceFabricClientProvisionClusterOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientUnprovisionClusterOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientUnprovisionClusterOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15706,7 +15930,8 @@ export interface ServiceFabricClientUnprovisionClusterOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientRollbackClusterUpgradeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientRollbackClusterUpgradeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15718,7 +15943,8 @@ export interface ServiceFabricClientRollbackClusterUpgradeOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientResumeClusterUpgradeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientResumeClusterUpgradeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15730,7 +15956,8 @@ export interface ServiceFabricClientResumeClusterUpgradeOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientStartClusterUpgradeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientStartClusterUpgradeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15742,7 +15969,8 @@ export interface ServiceFabricClientStartClusterUpgradeOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientStartClusterConfigurationUpgradeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientStartClusterConfigurationUpgradeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15754,7 +15982,8 @@ export interface ServiceFabricClientStartClusterConfigurationUpgradeOptionalPara
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientUpdateClusterUpgradeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientUpdateClusterUpgradeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15778,7 +16007,8 @@ export interface ServiceFabricClientGetAadMetadataOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetClusterVersionOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetClusterVersionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15802,7 +16032,8 @@ export interface ServiceFabricClientGetClusterLoadOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientToggleVerboseServicePlacementHealthReportingOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientToggleVerboseServicePlacementHealthReportingOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15814,7 +16045,8 @@ export interface ServiceFabricClientToggleVerboseServicePlacementHealthReporting
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetNodeInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetNodeInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The continuation token parameter is used to obtain next set of results. A continuation token
    * with a non-empty value is included in the response of the API when the results from the system
@@ -15895,7 +16127,8 @@ export interface ServiceFabricClientGetNodeHealthOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetNodeHealthUsingPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetNodeHealthUsingPolicyOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -15934,7 +16167,8 @@ export interface ServiceFabricClientGetNodeHealthUsingPolicyOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientReportNodeHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientReportNodeHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A flag that indicates whether the report should be sent immediately.
    * A health report is sent to a Service Fabric gateway Application, which forwards to the health
@@ -15963,7 +16197,8 @@ export interface ServiceFabricClientReportNodeHealthOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetNodeLoadInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetNodeLoadInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -15999,7 +16234,8 @@ export interface ServiceFabricClientEnableNodeOptionalParams extends msRest.Requ
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientRemoveNodeStateOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientRemoveNodeStateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16023,7 +16259,8 @@ export interface ServiceFabricClientRestartNodeOptionalParams extends msRest.Req
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientRemoveConfigurationOverridesOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientRemoveConfigurationOverridesOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16035,7 +16272,8 @@ export interface ServiceFabricClientRemoveConfigurationOverridesOptionalParams e
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetConfigurationOverridesOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetConfigurationOverridesOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16047,7 +16285,8 @@ export interface ServiceFabricClientGetConfigurationOverridesOptionalParams exte
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientAddConfigurationParameterOverridesOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientAddConfigurationParameterOverridesOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Force adding configuration overrides on specified nodes.
    */
@@ -16063,7 +16302,8 @@ export interface ServiceFabricClientAddConfigurationParameterOverridesOptionalPa
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationTypeInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationTypeInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Used to filter on ApplicationTypeDefinitionKind which is the mechanism used to define a
    * Service Fabric application type.
@@ -16110,7 +16350,8 @@ export interface ServiceFabricClientGetApplicationTypeInfoListOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationTypeInfoListByNameOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationTypeInfoListByNameOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The version of the application type.
    */
@@ -16148,7 +16389,8 @@ export interface ServiceFabricClientGetApplicationTypeInfoListByNameOptionalPara
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientProvisionApplicationTypeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientProvisionApplicationTypeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16160,7 +16402,8 @@ export interface ServiceFabricClientProvisionApplicationTypeOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientUnprovisionApplicationTypeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientUnprovisionApplicationTypeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16172,7 +16415,8 @@ export interface ServiceFabricClientUnprovisionApplicationTypeOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetServiceTypeInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetServiceTypeInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16184,7 +16428,8 @@ export interface ServiceFabricClientGetServiceTypeInfoListOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetServiceTypeInfoByNameOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetServiceTypeInfoByNameOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16196,7 +16441,8 @@ export interface ServiceFabricClientGetServiceTypeInfoByNameOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetServiceManifestOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetServiceManifestOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16208,7 +16454,8 @@ export interface ServiceFabricClientGetServiceManifestOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedServiceTypeInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedServiceTypeInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The name of the service manifest to filter the list of deployed service type information. If
    * specified, the response will only contain the information about service types that are defined
@@ -16226,7 +16473,8 @@ export interface ServiceFabricClientGetDeployedServiceTypeInfoListOptionalParams
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedServiceTypeInfoByNameOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedServiceTypeInfoByNameOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The name of the service manifest to filter the list of deployed service type information. If
    * specified, the response will only contain the information about service types that are defined
@@ -16244,7 +16492,8 @@ export interface ServiceFabricClientGetDeployedServiceTypeInfoByNameOptionalPara
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientCreateApplicationOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientCreateApplicationOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16256,7 +16505,8 @@ export interface ServiceFabricClientCreateApplicationOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientDeleteApplicationOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientDeleteApplicationOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Remove a Service Fabric application or service forcefully without going through the graceful
    * shutdown sequence. This parameter can be used to forcefully delete an application or service
@@ -16275,7 +16525,8 @@ export interface ServiceFabricClientDeleteApplicationOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationLoadInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationLoadInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16287,7 +16538,8 @@ export interface ServiceFabricClientGetApplicationLoadInfoOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Used to filter on ApplicationDefinitionKind, which is the mechanism used to define a Service
    * Fabric application.
@@ -16339,7 +16591,8 @@ export interface ServiceFabricClientGetApplicationInfoListOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The flag that specifies whether application parameters will be excluded from the result.
    * Default value: false.
@@ -16356,7 +16609,8 @@ export interface ServiceFabricClientGetApplicationInfoOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -16440,7 +16694,8 @@ export interface ServiceFabricClientGetApplicationHealthOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationHealthUsingPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationHealthUsingPolicyOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -16531,7 +16786,8 @@ export interface ServiceFabricClientGetApplicationHealthUsingPolicyOptionalParam
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientReportApplicationHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientReportApplicationHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A flag that indicates whether the report should be sent immediately.
    * A health report is sent to a Service Fabric gateway Application, which forwards to the health
@@ -16560,7 +16816,8 @@ export interface ServiceFabricClientReportApplicationHealthOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientStartApplicationUpgradeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientStartApplicationUpgradeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16572,7 +16829,8 @@ export interface ServiceFabricClientStartApplicationUpgradeOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationUpgradeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationUpgradeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16584,7 +16842,8 @@ export interface ServiceFabricClientGetApplicationUpgradeOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientUpdateApplicationUpgradeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientUpdateApplicationUpgradeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16596,7 +16855,8 @@ export interface ServiceFabricClientUpdateApplicationUpgradeOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientResumeApplicationUpgradeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientResumeApplicationUpgradeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16608,7 +16868,8 @@ export interface ServiceFabricClientResumeApplicationUpgradeOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientRollbackApplicationUpgradeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientRollbackApplicationUpgradeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16620,7 +16881,8 @@ export interface ServiceFabricClientRollbackApplicationUpgradeOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedApplicationInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedApplicationInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16657,7 +16919,8 @@ export interface ServiceFabricClientGetDeployedApplicationInfoListOptionalParams
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedApplicationInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedApplicationInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16677,7 +16940,8 @@ export interface ServiceFabricClientGetDeployedApplicationInfoOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedApplicationHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedApplicationHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -16740,7 +17004,8 @@ export interface ServiceFabricClientGetDeployedApplicationHealthOptionalParams e
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedApplicationHealthUsingPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedApplicationHealthUsingPolicyOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -16810,7 +17075,8 @@ export interface ServiceFabricClientGetDeployedApplicationHealthUsingPolicyOptio
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientReportDeployedApplicationHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientReportDeployedApplicationHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A flag that indicates whether the report should be sent immediately.
    * A health report is sent to a Service Fabric gateway Application, which forwards to the health
@@ -16839,7 +17105,8 @@ export interface ServiceFabricClientReportDeployedApplicationHealthOptionalParam
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationManifestOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationManifestOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16851,7 +17118,8 @@ export interface ServiceFabricClientGetApplicationManifestOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetServiceInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetServiceInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The service type name used to filter the services to query for.
    */
@@ -16887,7 +17155,8 @@ export interface ServiceFabricClientGetServiceInfoOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationNameInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationNameInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16911,7 +17180,8 @@ export interface ServiceFabricClientCreateServiceOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientCreateServiceFromTemplateOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientCreateServiceFromTemplateOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16954,7 +17224,8 @@ export interface ServiceFabricClientUpdateServiceOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetServiceDescriptionOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetServiceDescriptionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -16966,7 +17237,8 @@ export interface ServiceFabricClientGetServiceDescriptionOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetServiceHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetServiceHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -17028,7 +17300,8 @@ export interface ServiceFabricClientGetServiceHealthOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetServiceHealthUsingPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetServiceHealthUsingPolicyOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -17097,7 +17370,8 @@ export interface ServiceFabricClientGetServiceHealthUsingPolicyOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientReportServiceHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientReportServiceHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A flag that indicates whether the report should be sent immediately.
    * A health report is sent to a Service Fabric gateway Application, which forwards to the health
@@ -17165,7 +17439,8 @@ export interface ServiceFabricClientResolveServiceOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetUnplacedReplicaInformationOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetUnplacedReplicaInformationOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The identity of the partition.
    */
@@ -17186,7 +17461,8 @@ export interface ServiceFabricClientGetUnplacedReplicaInformationOptionalParams 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The continuation token parameter is used to obtain next set of results. A continuation token
    * with a non-empty value is included in the response of the API when the results from the system
@@ -17206,7 +17482,8 @@ export interface ServiceFabricClientGetPartitionInfoListOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17218,7 +17495,8 @@ export interface ServiceFabricClientGetPartitionInfoOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetServiceNameInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetServiceNameInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17230,7 +17508,8 @@ export interface ServiceFabricClientGetServiceNameInfoOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -17290,7 +17569,8 @@ export interface ServiceFabricClientGetPartitionHealthOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionHealthUsingPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionHealthUsingPolicyOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -17357,7 +17637,8 @@ export interface ServiceFabricClientGetPartitionHealthUsingPolicyOptionalParams 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientReportPartitionHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientReportPartitionHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A flag that indicates whether the report should be sent immediately.
    * A health report is sent to a Service Fabric gateway Application, which forwards to the health
@@ -17386,7 +17667,8 @@ export interface ServiceFabricClientReportPartitionHealthOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionLoadInformationOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionLoadInformationOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17398,7 +17680,8 @@ export interface ServiceFabricClientGetPartitionLoadInformationOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientResetPartitionLoadOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientResetPartitionLoadOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17410,7 +17693,8 @@ export interface ServiceFabricClientResetPartitionLoadOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientRecoverPartitionOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientRecoverPartitionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17422,7 +17706,8 @@ export interface ServiceFabricClientRecoverPartitionOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientRecoverServicePartitionsOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientRecoverServicePartitionsOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17434,7 +17719,8 @@ export interface ServiceFabricClientRecoverServicePartitionsOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientRecoverSystemPartitionsOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientRecoverSystemPartitionsOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17446,7 +17732,8 @@ export interface ServiceFabricClientRecoverSystemPartitionsOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientRecoverAllPartitionsOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientRecoverAllPartitionsOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17458,7 +17745,8 @@ export interface ServiceFabricClientRecoverAllPartitionsOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientMovePrimaryReplicaOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientMovePrimaryReplicaOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The name of the node.
    */
@@ -17479,7 +17767,8 @@ export interface ServiceFabricClientMovePrimaryReplicaOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientMoveSecondaryReplicaOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientMoveSecondaryReplicaOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The name of the target node for secondary replica move. If not specified, replica is moved to
    * a random node.
@@ -17501,7 +17790,8 @@ export interface ServiceFabricClientMoveSecondaryReplicaOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetRepairTaskListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetRepairTaskListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The repair task ID prefix to be matched.
    */
@@ -17528,7 +17818,8 @@ export interface ServiceFabricClientGetRepairTaskListOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetReplicaInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetReplicaInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The continuation token parameter is used to obtain next set of results. A continuation token
    * with a non-empty value is included in the response of the API when the results from the system
@@ -17560,7 +17851,8 @@ export interface ServiceFabricClientGetReplicaInfoOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetReplicaHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetReplicaHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -17593,7 +17885,8 @@ export interface ServiceFabricClientGetReplicaHealthOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetReplicaHealthUsingPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetReplicaHealthUsingPolicyOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -17633,7 +17926,8 @@ export interface ServiceFabricClientGetReplicaHealthUsingPolicyOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientReportReplicaHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientReportReplicaHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A flag that indicates whether the report should be sent immediately.
    * A health report is sent to a Service Fabric gateway Application, which forwards to the health
@@ -17662,7 +17956,8 @@ export interface ServiceFabricClientReportReplicaHealthOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedServiceReplicaInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedServiceReplicaInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The identity of the partition.
    */
@@ -17683,7 +17978,8 @@ export interface ServiceFabricClientGetDeployedServiceReplicaInfoListOptionalPar
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedServiceReplicaDetailInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedServiceReplicaDetailInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17695,7 +17991,8 @@ export interface ServiceFabricClientGetDeployedServiceReplicaDetailInfoOptionalP
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedServiceReplicaDetailInfoByPartitionIdOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedServiceReplicaDetailInfoByPartitionIdOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17738,7 +18035,8 @@ export interface ServiceFabricClientRemoveReplicaOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedServicePackageInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedServicePackageInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17750,7 +18048,8 @@ export interface ServiceFabricClientGetDeployedServicePackageInfoListOptionalPar
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedServicePackageInfoListByNameOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedServicePackageInfoListByNameOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17762,7 +18061,8 @@ export interface ServiceFabricClientGetDeployedServicePackageInfoListByNameOptio
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedServicePackageHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedServicePackageHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -17795,7 +18095,8 @@ export interface ServiceFabricClientGetDeployedServicePackageHealthOptionalParam
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedServicePackageHealthUsingPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedServicePackageHealthUsingPolicyOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows filtering the collection of HealthEvent objects returned based on health state.
    * The possible values for this parameter include integer value of one of the following health
@@ -17835,7 +18136,8 @@ export interface ServiceFabricClientGetDeployedServicePackageHealthUsingPolicyOp
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientReportDeployedServicePackageHealthOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientReportDeployedServicePackageHealthOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * A flag that indicates whether the report should be sent immediately.
    * A health report is sent to a Service Fabric gateway Application, which forwards to the health
@@ -17864,7 +18166,8 @@ export interface ServiceFabricClientReportDeployedServicePackageHealthOptionalPa
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientDeployServicePackageToNodeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientDeployServicePackageToNodeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17876,7 +18179,8 @@ export interface ServiceFabricClientDeployServicePackageToNodeOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDeployedCodePackageInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDeployedCodePackageInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The name of a service manifest registered as part of an application type in a Service Fabric
    * cluster.
@@ -17898,7 +18202,8 @@ export interface ServiceFabricClientGetDeployedCodePackageInfoListOptionalParams
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientRestartDeployedCodePackageOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientRestartDeployedCodePackageOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17910,7 +18215,8 @@ export interface ServiceFabricClientRestartDeployedCodePackageOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetContainerLogsDeployedOnNodeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetContainerLogsDeployedOnNodeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Number of lines to show from the end of the logs. Default is 100. 'all' to show the complete
    * logs.
@@ -17932,7 +18238,8 @@ export interface ServiceFabricClientGetContainerLogsDeployedOnNodeOptionalParams
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientInvokeContainerApiOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientInvokeContainerApiOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17944,7 +18251,8 @@ export interface ServiceFabricClientInvokeContainerApiOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientCreateComposeDeploymentOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientCreateComposeDeploymentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17956,7 +18264,8 @@ export interface ServiceFabricClientCreateComposeDeploymentOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetComposeDeploymentStatusOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetComposeDeploymentStatusOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17968,7 +18277,8 @@ export interface ServiceFabricClientGetComposeDeploymentStatusOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetComposeDeploymentStatusListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetComposeDeploymentStatusListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The continuation token parameter is used to obtain next set of results. A continuation token
    * with a non-empty value is included in the response of the API when the results from the system
@@ -17997,7 +18307,8 @@ export interface ServiceFabricClientGetComposeDeploymentStatusListOptionalParams
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetComposeDeploymentUpgradeProgressOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetComposeDeploymentUpgradeProgressOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18009,7 +18320,8 @@ export interface ServiceFabricClientGetComposeDeploymentUpgradeProgressOptionalP
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientRemoveComposeDeploymentOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientRemoveComposeDeploymentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18021,7 +18333,8 @@ export interface ServiceFabricClientRemoveComposeDeploymentOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientStartComposeDeploymentUpgradeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientStartComposeDeploymentUpgradeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18033,7 +18346,8 @@ export interface ServiceFabricClientStartComposeDeploymentUpgradeOptionalParams 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientStartRollbackComposeDeploymentUpgradeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientStartRollbackComposeDeploymentUpgradeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18124,7 +18438,8 @@ export interface ServiceFabricClientGetChaosEventsOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetChaosScheduleOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetChaosScheduleOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18136,7 +18451,8 @@ export interface ServiceFabricClientGetChaosScheduleOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientPostChaosScheduleOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientPostChaosScheduleOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18160,7 +18476,8 @@ export interface ServiceFabricClientUploadFileOptionalParams extends msRest.Requ
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetImageStoreContentOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetImageStoreContentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18172,7 +18489,8 @@ export interface ServiceFabricClientGetImageStoreContentOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientDeleteImageStoreContentOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientDeleteImageStoreContentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18184,7 +18502,8 @@ export interface ServiceFabricClientDeleteImageStoreContentOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetImageStoreRootContentOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetImageStoreRootContentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18196,7 +18515,8 @@ export interface ServiceFabricClientGetImageStoreRootContentOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientCopyImageStoreContentOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientCopyImageStoreContentOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18208,7 +18528,8 @@ export interface ServiceFabricClientCopyImageStoreContentOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientDeleteImageStoreUploadSessionOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientDeleteImageStoreUploadSessionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18220,7 +18541,8 @@ export interface ServiceFabricClientDeleteImageStoreUploadSessionOptionalParams 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientCommitImageStoreUploadSessionOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientCommitImageStoreUploadSessionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18232,7 +18554,8 @@ export interface ServiceFabricClientCommitImageStoreUploadSessionOptionalParams 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetImageStoreUploadSessionByIdOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetImageStoreUploadSessionByIdOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18244,7 +18567,8 @@ export interface ServiceFabricClientGetImageStoreUploadSessionByIdOptionalParams
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetImageStoreUploadSessionByPathOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetImageStoreUploadSessionByPathOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18256,7 +18580,8 @@ export interface ServiceFabricClientGetImageStoreUploadSessionByPathOptionalPara
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientUploadFileChunkOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientUploadFileChunkOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18268,7 +18593,8 @@ export interface ServiceFabricClientUploadFileChunkOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetImageStoreRootFolderSizeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetImageStoreRootFolderSizeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18280,7 +18606,8 @@ export interface ServiceFabricClientGetImageStoreRootFolderSizeOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetImageStoreFolderSizeOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetImageStoreFolderSizeOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18292,7 +18619,8 @@ export interface ServiceFabricClientGetImageStoreFolderSizeOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetImageStoreInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetImageStoreInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18304,7 +18632,8 @@ export interface ServiceFabricClientGetImageStoreInfoOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientInvokeInfrastructureCommandOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientInvokeInfrastructureCommandOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The identity of the infrastructure service. This is the full name of the infrastructure
    * service without the 'fabric:' URI scheme. This parameter required only for the cluster that
@@ -18322,7 +18651,8 @@ export interface ServiceFabricClientInvokeInfrastructureCommandOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientInvokeInfrastructureQueryOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientInvokeInfrastructureQueryOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The identity of the infrastructure service. This is the full name of the infrastructure
    * service without the 'fabric:' URI scheme. This parameter required only for the cluster that
@@ -18352,7 +18682,8 @@ export interface ServiceFabricClientStartDataLossOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetDataLossProgressOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetDataLossProgressOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18364,7 +18695,8 @@ export interface ServiceFabricClientGetDataLossProgressOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientStartQuorumLossOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientStartQuorumLossOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18376,7 +18708,8 @@ export interface ServiceFabricClientStartQuorumLossOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetQuorumLossProgressOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetQuorumLossProgressOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18388,7 +18721,8 @@ export interface ServiceFabricClientGetQuorumLossProgressOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientStartPartitionRestartOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientStartPartitionRestartOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18400,7 +18734,8 @@ export interface ServiceFabricClientStartPartitionRestartOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionRestartProgressOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionRestartProgressOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18412,7 +18747,8 @@ export interface ServiceFabricClientGetPartitionRestartProgressOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientStartNodeTransitionOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientStartNodeTransitionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18424,7 +18760,8 @@ export interface ServiceFabricClientStartNodeTransitionOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetNodeTransitionProgressOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetNodeTransitionProgressOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18436,7 +18773,8 @@ export interface ServiceFabricClientGetNodeTransitionProgressOptionalParams exte
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetFaultOperationListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetFaultOperationListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18448,7 +18786,8 @@ export interface ServiceFabricClientGetFaultOperationListOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientCancelOperationOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientCancelOperationOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18460,7 +18799,8 @@ export interface ServiceFabricClientCancelOperationOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientCreateBackupPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientCreateBackupPolicyOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18472,7 +18812,8 @@ export interface ServiceFabricClientCreateBackupPolicyOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientDeleteBackupPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientDeleteBackupPolicyOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18484,7 +18825,8 @@ export interface ServiceFabricClientDeleteBackupPolicyOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetBackupPolicyListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetBackupPolicyListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The continuation token parameter is used to obtain next set of results. A continuation token
    * with a non-empty value is included in the response of the API when the results from the system
@@ -18513,7 +18855,8 @@ export interface ServiceFabricClientGetBackupPolicyListOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetBackupPolicyByNameOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetBackupPolicyByNameOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18525,7 +18868,8 @@ export interface ServiceFabricClientGetBackupPolicyByNameOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetAllEntitiesBackedUpByPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetAllEntitiesBackedUpByPolicyOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The continuation token parameter is used to obtain next set of results. A continuation token
    * with a non-empty value is included in the response of the API when the results from the system
@@ -18554,7 +18898,8 @@ export interface ServiceFabricClientGetAllEntitiesBackedUpByPolicyOptionalParams
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientUpdateBackupPolicyOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientUpdateBackupPolicyOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18566,7 +18911,8 @@ export interface ServiceFabricClientUpdateBackupPolicyOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientEnableApplicationBackupOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientEnableApplicationBackupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18578,7 +18924,8 @@ export interface ServiceFabricClientEnableApplicationBackupOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientDisableApplicationBackupOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientDisableApplicationBackupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18594,7 +18941,8 @@ export interface ServiceFabricClientDisableApplicationBackupOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationBackupConfigurationInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationBackupConfigurationInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The continuation token parameter is used to obtain next set of results. A continuation token
    * with a non-empty value is included in the response of the API when the results from the system
@@ -18623,7 +18971,8 @@ export interface ServiceFabricClientGetApplicationBackupConfigurationInfoOptiona
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationBackupListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationBackupListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18669,7 +19018,8 @@ export interface ServiceFabricClientGetApplicationBackupListOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientSuspendApplicationBackupOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientSuspendApplicationBackupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18681,7 +19031,8 @@ export interface ServiceFabricClientSuspendApplicationBackupOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientResumeApplicationBackupOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientResumeApplicationBackupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18693,7 +19044,8 @@ export interface ServiceFabricClientResumeApplicationBackupOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientEnableServiceBackupOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientEnableServiceBackupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18705,7 +19057,8 @@ export interface ServiceFabricClientEnableServiceBackupOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientDisableServiceBackupOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientDisableServiceBackupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Specifies the parameters to disable backup for any backup entity.
    */
@@ -18721,7 +19074,8 @@ export interface ServiceFabricClientDisableServiceBackupOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetServiceBackupConfigurationInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetServiceBackupConfigurationInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The continuation token parameter is used to obtain next set of results. A continuation token
    * with a non-empty value is included in the response of the API when the results from the system
@@ -18750,7 +19104,8 @@ export interface ServiceFabricClientGetServiceBackupConfigurationInfoOptionalPar
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetServiceBackupListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetServiceBackupListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18796,7 +19151,8 @@ export interface ServiceFabricClientGetServiceBackupListOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientSuspendServiceBackupOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientSuspendServiceBackupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18808,7 +19164,8 @@ export interface ServiceFabricClientSuspendServiceBackupOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientResumeServiceBackupOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientResumeServiceBackupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18820,7 +19177,8 @@ export interface ServiceFabricClientResumeServiceBackupOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientEnablePartitionBackupOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientEnablePartitionBackupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18832,7 +19190,8 @@ export interface ServiceFabricClientEnablePartitionBackupOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientDisablePartitionBackupOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientDisablePartitionBackupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Specifies the parameters to disable backup for any backup entity.
    */
@@ -18848,7 +19207,8 @@ export interface ServiceFabricClientDisablePartitionBackupOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionBackupConfigurationInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionBackupConfigurationInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18860,7 +19220,8 @@ export interface ServiceFabricClientGetPartitionBackupConfigurationInfoOptionalP
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionBackupListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionBackupListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18889,7 +19250,8 @@ export interface ServiceFabricClientGetPartitionBackupListOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientSuspendPartitionBackupOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientSuspendPartitionBackupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18901,7 +19263,8 @@ export interface ServiceFabricClientSuspendPartitionBackupOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientResumePartitionBackupOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientResumePartitionBackupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18913,7 +19276,8 @@ export interface ServiceFabricClientResumePartitionBackupOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientBackupPartitionOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientBackupPartitionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Describes the parameters to backup the partition now. If not present, backup operation uses
    * default parameters from the backup policy current associated with this partition.
@@ -18938,7 +19302,8 @@ export interface ServiceFabricClientBackupPartitionOptionalParams extends msRest
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionBackupProgressOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionBackupProgressOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18950,7 +19315,8 @@ export interface ServiceFabricClientGetPartitionBackupProgressOptionalParams ext
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientRestorePartitionOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientRestorePartitionOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Specifies the maximum amount of time to wait, in minutes, for the restore operation to
    * complete. Post that, the operation returns back with timeout error. However, in certain corner
@@ -18970,7 +19336,8 @@ export interface ServiceFabricClientRestorePartitionOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionRestoreProgressOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionRestoreProgressOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -18982,7 +19349,8 @@ export interface ServiceFabricClientGetPartitionRestoreProgressOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetBackupsFromBackupLocationOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetBackupsFromBackupLocationOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19023,7 +19391,8 @@ export interface ServiceFabricClientCreateNameOptionalParams extends msRest.Requ
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetNameExistsInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetNameExistsInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19047,7 +19416,8 @@ export interface ServiceFabricClientDeleteNameOptionalParams extends msRest.Requ
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetSubNameInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetSubNameInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows specifying that the search performed should be recursive. Default value: false.
    */
@@ -19071,7 +19441,8 @@ export interface ServiceFabricClientGetSubNameInfoListOptionalParams extends msR
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPropertyInfoListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPropertyInfoListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * Allows specifying whether to include the values of the properties returned. True if values
    * should be returned with the metadata; False to return only property metadata. Default value:
@@ -19109,7 +19480,8 @@ export interface ServiceFabricClientPutPropertyOptionalParams extends msRest.Req
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPropertyInfoOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPropertyInfoOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19133,7 +19505,8 @@ export interface ServiceFabricClientDeletePropertyOptionalParams extends msRest.
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientSubmitPropertyBatchOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientSubmitPropertyBatchOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19145,34 +19518,8 @@ export interface ServiceFabricClientSubmitPropertyBatchOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetClusterEventListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The server timeout for performing the operation in seconds. This timeout specifies the time
-   * duration that the client is willing to wait for the requested operation to complete. The
-   * default value for this parameter is 60 seconds. Default value: 60.
-   */
-  timeoutParameter?: number;
-  /**
-   * This is a comma separated string specifying the types of FabricEvents that should only be
-   * included in the response.
-   */
-  eventsTypesFilter?: string;
-  /**
-   * This param disables the retrieval of AnalysisEvents if true is passed.
-   */
-  excludeAnalysisEvents?: boolean;
-  /**
-   * This param disables the search of CorrelatedEvents information if true is passed. otherwise
-   * the CorrelationEvents get processed and HasCorrelatedEvents field in every FabricEvent gets
-   * populated.
-   */
-  skipCorrelationLookup?: boolean;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ServiceFabricClientGetContainersEventListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetClusterEventListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19199,7 +19546,8 @@ export interface ServiceFabricClientGetContainersEventListOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetNodeEventListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetContainersEventListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19226,7 +19574,8 @@ export interface ServiceFabricClientGetNodeEventListOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetNodesEventListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetNodeEventListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19253,7 +19602,8 @@ export interface ServiceFabricClientGetNodesEventListOptionalParams extends msRe
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationEventListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetNodesEventListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19280,7 +19630,8 @@ export interface ServiceFabricClientGetApplicationEventListOptionalParams extend
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetApplicationsEventListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationEventListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19307,7 +19658,8 @@ export interface ServiceFabricClientGetApplicationsEventListOptionalParams exten
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetServiceEventListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetApplicationsEventListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19334,7 +19686,8 @@ export interface ServiceFabricClientGetServiceEventListOptionalParams extends ms
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetServicesEventListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetServiceEventListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19361,7 +19714,8 @@ export interface ServiceFabricClientGetServicesEventListOptionalParams extends m
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionEventListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetServicesEventListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19388,7 +19742,8 @@ export interface ServiceFabricClientGetPartitionEventListOptionalParams extends 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionsEventListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionEventListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19415,7 +19770,8 @@ export interface ServiceFabricClientGetPartitionsEventListOptionalParams extends
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionReplicaEventListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionsEventListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19442,7 +19798,8 @@ export interface ServiceFabricClientGetPartitionReplicaEventListOptionalParams e
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetPartitionReplicasEventListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionReplicaEventListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19469,7 +19826,36 @@ export interface ServiceFabricClientGetPartitionReplicasEventListOptionalParams 
 /**
  * Optional Parameters.
  */
-export interface ServiceFabricClientGetCorrelatedEventListOptionalParams extends msRest.RequestOptionsBase {
+export interface ServiceFabricClientGetPartitionReplicasEventListOptionalParams
+  extends msRest.RequestOptionsBase {
+  /**
+   * The server timeout for performing the operation in seconds. This timeout specifies the time
+   * duration that the client is willing to wait for the requested operation to complete. The
+   * default value for this parameter is 60 seconds. Default value: 60.
+   */
+  timeoutParameter?: number;
+  /**
+   * This is a comma separated string specifying the types of FabricEvents that should only be
+   * included in the response.
+   */
+  eventsTypesFilter?: string;
+  /**
+   * This param disables the retrieval of AnalysisEvents if true is passed.
+   */
+  excludeAnalysisEvents?: boolean;
+  /**
+   * This param disables the search of CorrelatedEvents information if true is passed. otherwise
+   * the CorrelationEvents get processed and HasCorrelatedEvents field in every FabricEvent gets
+   * populated.
+   */
+  skipCorrelationLookup?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ServiceFabricClientGetCorrelatedEventListOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -19495,7 +19881,7 @@ export interface MeshCodePackageGetContainerLogsOptionalParams extends msRest.Re
  * @readonly
  * @enum {string}
  */
-export type HealthState = 'Invalid' | 'Ok' | 'Warning' | 'Error' | 'Unknown';
+export type HealthState = "Invalid" | "Ok" | "Warning" | "Error" | "Unknown";
 
 /**
  * Defines values for FabricErrorCodes.
@@ -19542,7 +19928,91 @@ export type HealthState = 'Invalid' | 'Ok' | 'Warning' | 'Error' | 'Unknown';
  * @readonly
  * @enum {string}
  */
-export type FabricErrorCodes = 'FABRIC_E_INVALID_PARTITION_KEY' | 'FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR' | 'FABRIC_E_INVALID_ADDRESS' | 'FABRIC_E_APPLICATION_NOT_UPGRADING' | 'FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR' | 'FABRIC_E_FABRIC_NOT_UPGRADING' | 'FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR' | 'FABRIC_E_INVALID_CONFIGURATION' | 'FABRIC_E_INVALID_NAME_URI' | 'FABRIC_E_PATH_TOO_LONG' | 'FABRIC_E_KEY_TOO_LARGE' | 'FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED' | 'FABRIC_E_INVALID_ATOMIC_GROUP' | 'FABRIC_E_VALUE_EMPTY' | 'FABRIC_E_NODE_NOT_FOUND' | 'FABRIC_E_APPLICATION_TYPE_NOT_FOUND' | 'FABRIC_E_APPLICATION_NOT_FOUND' | 'FABRIC_E_SERVICE_TYPE_NOT_FOUND' | 'FABRIC_E_SERVICE_DOES_NOT_EXIST' | 'FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND' | 'FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND' | 'FABRIC_E_PARTITION_NOT_FOUND' | 'FABRIC_E_REPLICA_DOES_NOT_EXIST' | 'FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST' | 'FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND' | 'FABRIC_E_DIRECTORY_NOT_FOUND' | 'FABRIC_E_FABRIC_VERSION_NOT_FOUND' | 'FABRIC_E_FILE_NOT_FOUND' | 'FABRIC_E_NAME_DOES_NOT_EXIST' | 'FABRIC_E_PROPERTY_DOES_NOT_EXIST' | 'FABRIC_E_ENUMERATION_COMPLETED' | 'FABRIC_E_SERVICE_MANIFEST_NOT_FOUND' | 'FABRIC_E_KEY_NOT_FOUND' | 'FABRIC_E_HEALTH_ENTITY_NOT_FOUND' | 'FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS' | 'FABRIC_E_APPLICATION_ALREADY_EXISTS' | 'FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION' | 'FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS' | 'FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS' | 'FABRIC_E_SERVICE_ALREADY_EXISTS' | 'FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS' | 'FABRIC_E_APPLICATION_TYPE_IN_USE' | 'FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION' | 'FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS' | 'FABRIC_E_FABRIC_VERSION_IN_USE' | 'FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS' | 'FABRIC_E_NAME_ALREADY_EXISTS' | 'FABRIC_E_NAME_NOT_EMPTY' | 'FABRIC_E_PROPERTY_CHECK_FAILED' | 'FABRIC_E_SERVICE_METADATA_MISMATCH' | 'FABRIC_E_SERVICE_TYPE_MISMATCH' | 'FABRIC_E_HEALTH_STALE_REPORT' | 'FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED' | 'FABRIC_E_NODE_HAS_NOT_STOPPED_YET' | 'FABRIC_E_INSTANCE_ID_MISMATCH' | 'FABRIC_E_VALUE_TOO_LARGE' | 'FABRIC_E_NO_WRITE_QUORUM' | 'FABRIC_E_NOT_PRIMARY' | 'FABRIC_E_NOT_READY' | 'FABRIC_E_RECONFIGURATION_PENDING' | 'FABRIC_E_SERVICE_OFFLINE' | 'E_ABORT' | 'FABRIC_E_COMMUNICATION_ERROR' | 'FABRIC_E_OPERATION_NOT_COMPLETE' | 'FABRIC_E_TIMEOUT' | 'FABRIC_E_NODE_IS_UP' | 'E_FAIL' | 'FABRIC_E_BACKUP_IS_ENABLED' | 'FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH' | 'FABRIC_E_INVALID_FOR_STATELESS_SERVICES' | 'FABRIC_E_BACKUP_NOT_ENABLED' | 'FABRIC_E_BACKUP_POLICY_NOT_EXISTING' | 'FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING' | 'FABRIC_E_BACKUP_IN_PROGRESS' | 'FABRIC_E_RESTORE_IN_PROGRESS' | 'FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING' | 'FABRIC_E_INVALID_SERVICE_SCALING_POLICY' | 'E_INVALIDARG' | 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS' | 'FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND' | 'FABRIC_E_VOLUME_ALREADY_EXISTS' | 'FABRIC_E_VOLUME_NOT_FOUND' | 'SerializationError' | 'FABRIC_E_IMAGEBUILDER_RESERVED_DIRECTORY_ERROR';
+export type FabricErrorCodes =
+  | "FABRIC_E_INVALID_PARTITION_KEY"
+  | "FABRIC_E_IMAGEBUILDER_VALIDATION_ERROR"
+  | "FABRIC_E_INVALID_ADDRESS"
+  | "FABRIC_E_APPLICATION_NOT_UPGRADING"
+  | "FABRIC_E_APPLICATION_UPGRADE_VALIDATION_ERROR"
+  | "FABRIC_E_FABRIC_NOT_UPGRADING"
+  | "FABRIC_E_FABRIC_UPGRADE_VALIDATION_ERROR"
+  | "FABRIC_E_INVALID_CONFIGURATION"
+  | "FABRIC_E_INVALID_NAME_URI"
+  | "FABRIC_E_PATH_TOO_LONG"
+  | "FABRIC_E_KEY_TOO_LARGE"
+  | "FABRIC_E_SERVICE_AFFINITY_CHAIN_NOT_SUPPORTED"
+  | "FABRIC_E_INVALID_ATOMIC_GROUP"
+  | "FABRIC_E_VALUE_EMPTY"
+  | "FABRIC_E_NODE_NOT_FOUND"
+  | "FABRIC_E_APPLICATION_TYPE_NOT_FOUND"
+  | "FABRIC_E_APPLICATION_NOT_FOUND"
+  | "FABRIC_E_SERVICE_TYPE_NOT_FOUND"
+  | "FABRIC_E_SERVICE_DOES_NOT_EXIST"
+  | "FABRIC_E_SERVICE_TYPE_TEMPLATE_NOT_FOUND"
+  | "FABRIC_E_CONFIGURATION_SECTION_NOT_FOUND"
+  | "FABRIC_E_PARTITION_NOT_FOUND"
+  | "FABRIC_E_REPLICA_DOES_NOT_EXIST"
+  | "FABRIC_E_SERVICE_GROUP_DOES_NOT_EXIST"
+  | "FABRIC_E_CONFIGURATION_PARAMETER_NOT_FOUND"
+  | "FABRIC_E_DIRECTORY_NOT_FOUND"
+  | "FABRIC_E_FABRIC_VERSION_NOT_FOUND"
+  | "FABRIC_E_FILE_NOT_FOUND"
+  | "FABRIC_E_NAME_DOES_NOT_EXIST"
+  | "FABRIC_E_PROPERTY_DOES_NOT_EXIST"
+  | "FABRIC_E_ENUMERATION_COMPLETED"
+  | "FABRIC_E_SERVICE_MANIFEST_NOT_FOUND"
+  | "FABRIC_E_KEY_NOT_FOUND"
+  | "FABRIC_E_HEALTH_ENTITY_NOT_FOUND"
+  | "FABRIC_E_APPLICATION_TYPE_ALREADY_EXISTS"
+  | "FABRIC_E_APPLICATION_ALREADY_EXISTS"
+  | "FABRIC_E_APPLICATION_ALREADY_IN_TARGET_VERSION"
+  | "FABRIC_E_APPLICATION_TYPE_PROVISION_IN_PROGRESS"
+  | "FABRIC_E_APPLICATION_UPGRADE_IN_PROGRESS"
+  | "FABRIC_E_SERVICE_ALREADY_EXISTS"
+  | "FABRIC_E_SERVICE_GROUP_ALREADY_EXISTS"
+  | "FABRIC_E_APPLICATION_TYPE_IN_USE"
+  | "FABRIC_E_FABRIC_ALREADY_IN_TARGET_VERSION"
+  | "FABRIC_E_FABRIC_VERSION_ALREADY_EXISTS"
+  | "FABRIC_E_FABRIC_VERSION_IN_USE"
+  | "FABRIC_E_FABRIC_UPGRADE_IN_PROGRESS"
+  | "FABRIC_E_NAME_ALREADY_EXISTS"
+  | "FABRIC_E_NAME_NOT_EMPTY"
+  | "FABRIC_E_PROPERTY_CHECK_FAILED"
+  | "FABRIC_E_SERVICE_METADATA_MISMATCH"
+  | "FABRIC_E_SERVICE_TYPE_MISMATCH"
+  | "FABRIC_E_HEALTH_STALE_REPORT"
+  | "FABRIC_E_SEQUENCE_NUMBER_CHECK_FAILED"
+  | "FABRIC_E_NODE_HAS_NOT_STOPPED_YET"
+  | "FABRIC_E_INSTANCE_ID_MISMATCH"
+  | "FABRIC_E_VALUE_TOO_LARGE"
+  | "FABRIC_E_NO_WRITE_QUORUM"
+  | "FABRIC_E_NOT_PRIMARY"
+  | "FABRIC_E_NOT_READY"
+  | "FABRIC_E_RECONFIGURATION_PENDING"
+  | "FABRIC_E_SERVICE_OFFLINE"
+  | "E_ABORT"
+  | "FABRIC_E_COMMUNICATION_ERROR"
+  | "FABRIC_E_OPERATION_NOT_COMPLETE"
+  | "FABRIC_E_TIMEOUT"
+  | "FABRIC_E_NODE_IS_UP"
+  | "E_FAIL"
+  | "FABRIC_E_BACKUP_IS_ENABLED"
+  | "FABRIC_E_RESTORE_SOURCE_TARGET_PARTITION_MISMATCH"
+  | "FABRIC_E_INVALID_FOR_STATELESS_SERVICES"
+  | "FABRIC_E_BACKUP_NOT_ENABLED"
+  | "FABRIC_E_BACKUP_POLICY_NOT_EXISTING"
+  | "FABRIC_E_FAULT_ANALYSIS_SERVICE_NOT_EXISTING"
+  | "FABRIC_E_BACKUP_IN_PROGRESS"
+  | "FABRIC_E_RESTORE_IN_PROGRESS"
+  | "FABRIC_E_BACKUP_POLICY_ALREADY_EXISTING"
+  | "FABRIC_E_INVALID_SERVICE_SCALING_POLICY"
+  | "E_INVALIDARG"
+  | "FABRIC_E_SINGLE_INSTANCE_APPLICATION_ALREADY_EXISTS"
+  | "FABRIC_E_SINGLE_INSTANCE_APPLICATION_NOT_FOUND"
+  | "FABRIC_E_VOLUME_ALREADY_EXISTS"
+  | "FABRIC_E_VOLUME_NOT_FOUND"
+  | "SerializationError"
+  | "FABRIC_E_IMAGEBUILDER_RESERVED_DIRECTORY_ERROR";
 
 /**
  * Defines values for ApplicationDefinitionKind.
@@ -19550,7 +20020,10 @@ export type FabricErrorCodes = 'FABRIC_E_INVALID_PARTITION_KEY' | 'FABRIC_E_IMAG
  * @readonly
  * @enum {string}
  */
-export type ApplicationDefinitionKind = 'Invalid' | 'ServiceFabricApplicationDescription' | 'Compose';
+export type ApplicationDefinitionKind =
+  | "Invalid"
+  | "ServiceFabricApplicationDescription"
+  | "Compose";
 
 /**
  * Defines values for ApplicationStatus.
@@ -19558,7 +20031,13 @@ export type ApplicationDefinitionKind = 'Invalid' | 'ServiceFabricApplicationDes
  * @readonly
  * @enum {string}
  */
-export type ApplicationStatus = 'Invalid' | 'Ready' | 'Upgrading' | 'Creating' | 'Deleting' | 'Failed';
+export type ApplicationStatus =
+  | "Invalid"
+  | "Ready"
+  | "Upgrading"
+  | "Creating"
+  | "Deleting"
+  | "Failed";
 
 /**
  * Defines values for ApplicationPackageCleanupPolicy.
@@ -19566,7 +20045,7 @@ export type ApplicationStatus = 'Invalid' | 'Ready' | 'Upgrading' | 'Creating' |
  * @readonly
  * @enum {string}
  */
-export type ApplicationPackageCleanupPolicy = 'Invalid' | 'Default' | 'Automatic' | 'Manual';
+export type ApplicationPackageCleanupPolicy = "Invalid" | "Default" | "Automatic" | "Manual";
 
 /**
  * Defines values for ApplicationTypeDefinitionKind.
@@ -19574,7 +20053,10 @@ export type ApplicationPackageCleanupPolicy = 'Invalid' | 'Default' | 'Automatic
  * @readonly
  * @enum {string}
  */
-export type ApplicationTypeDefinitionKind = 'Invalid' | 'ServiceFabricApplicationPackage' | 'Compose';
+export type ApplicationTypeDefinitionKind =
+  | "Invalid"
+  | "ServiceFabricApplicationPackage"
+  | "Compose";
 
 /**
  * Defines values for ApplicationTypeStatus.
@@ -19582,7 +20064,12 @@ export type ApplicationTypeDefinitionKind = 'Invalid' | 'ServiceFabricApplicatio
  * @readonly
  * @enum {string}
  */
-export type ApplicationTypeStatus = 'Invalid' | 'Provisioning' | 'Available' | 'Unprovisioning' | 'Failed';
+export type ApplicationTypeStatus =
+  | "Invalid"
+  | "Provisioning"
+  | "Available"
+  | "Unprovisioning"
+  | "Failed";
 
 /**
  * Defines values for UpgradeKind.
@@ -19590,7 +20077,7 @@ export type ApplicationTypeStatus = 'Invalid' | 'Provisioning' | 'Available' | '
  * @readonly
  * @enum {string}
  */
-export type UpgradeKind = 'Invalid' | 'Rolling';
+export type UpgradeKind = "Invalid" | "Rolling";
 
 /**
  * Defines values for UpgradeMode.
@@ -19598,7 +20085,7 @@ export type UpgradeKind = 'Invalid' | 'Rolling';
  * @readonly
  * @enum {string}
  */
-export type UpgradeMode = 'Invalid' | 'UnmonitoredAuto' | 'UnmonitoredManual' | 'Monitored';
+export type UpgradeMode = "Invalid" | "UnmonitoredAuto" | "UnmonitoredManual" | "Monitored";
 
 /**
  * Defines values for UpgradeSortOrder.
@@ -19607,7 +20094,13 @@ export type UpgradeMode = 'Invalid' | 'UnmonitoredAuto' | 'UnmonitoredManual' | 
  * @readonly
  * @enum {string}
  */
-export type UpgradeSortOrder = 'Invalid' | 'Default' | 'Numeric' | 'Lexicographical' | 'ReverseNumeric' | 'ReverseLexicographical';
+export type UpgradeSortOrder =
+  | "Invalid"
+  | "Default"
+  | "Numeric"
+  | "Lexicographical"
+  | "ReverseNumeric"
+  | "ReverseLexicographical";
 
 /**
  * Defines values for FailureAction.
@@ -19615,7 +20108,7 @@ export type UpgradeSortOrder = 'Invalid' | 'Default' | 'Numeric' | 'Lexicographi
  * @readonly
  * @enum {string}
  */
-export type FailureAction = 'Invalid' | 'Rollback' | 'Manual';
+export type FailureAction = "Invalid" | "Rollback" | "Manual";
 
 /**
  * Defines values for UpgradeDomainState.
@@ -19623,7 +20116,7 @@ export type FailureAction = 'Invalid' | 'Rollback' | 'Manual';
  * @readonly
  * @enum {string}
  */
-export type UpgradeDomainState = 'Invalid' | 'Pending' | 'InProgress' | 'Completed';
+export type UpgradeDomainState = "Invalid" | "Pending" | "InProgress" | "Completed";
 
 /**
  * Defines values for UpgradeState.
@@ -19632,7 +20125,14 @@ export type UpgradeDomainState = 'Invalid' | 'Pending' | 'InProgress' | 'Complet
  * @readonly
  * @enum {string}
  */
-export type UpgradeState = 'Invalid' | 'RollingBackInProgress' | 'RollingBackCompleted' | 'RollingForwardPending' | 'RollingForwardInProgress' | 'RollingForwardCompleted' | 'Failed';
+export type UpgradeState =
+  | "Invalid"
+  | "RollingBackInProgress"
+  | "RollingBackCompleted"
+  | "RollingForwardPending"
+  | "RollingForwardInProgress"
+  | "RollingForwardCompleted"
+  | "Failed";
 
 /**
  * Defines values for NodeUpgradePhase.
@@ -19641,7 +20141,11 @@ export type UpgradeState = 'Invalid' | 'RollingBackInProgress' | 'RollingBackCom
  * @readonly
  * @enum {string}
  */
-export type NodeUpgradePhase = 'Invalid' | 'PreUpgradeSafetyCheck' | 'Upgrading' | 'PostUpgradeSafetyCheck';
+export type NodeUpgradePhase =
+  | "Invalid"
+  | "PreUpgradeSafetyCheck"
+  | "Upgrading"
+  | "PostUpgradeSafetyCheck";
 
 /**
  * Defines values for FailureReason.
@@ -19650,7 +20154,12 @@ export type NodeUpgradePhase = 'Invalid' | 'PreUpgradeSafetyCheck' | 'Upgrading'
  * @readonly
  * @enum {string}
  */
-export type FailureReason = 'None' | 'Interrupted' | 'HealthCheck' | 'UpgradeDomainTimeout' | 'OverallUpgradeTimeout';
+export type FailureReason =
+  | "None"
+  | "Interrupted"
+  | "HealthCheck"
+  | "UpgradeDomainTimeout"
+  | "OverallUpgradeTimeout";
 
 /**
  * Defines values for DeactivationIntent.
@@ -19658,7 +20167,7 @@ export type FailureReason = 'None' | 'Interrupted' | 'HealthCheck' | 'UpgradeDom
  * @readonly
  * @enum {string}
  */
-export type DeactivationIntent = 'Pause' | 'Restart' | 'RemoveData';
+export type DeactivationIntent = "Pause" | "Restart" | "RemoveData";
 
 /**
  * Defines values for DeployedApplicationStatus.
@@ -19667,7 +20176,13 @@ export type DeactivationIntent = 'Pause' | 'Restart' | 'RemoveData';
  * @readonly
  * @enum {string}
  */
-export type DeployedApplicationStatus = 'Invalid' | 'Downloading' | 'Activating' | 'Active' | 'Upgrading' | 'Deactivating';
+export type DeployedApplicationStatus =
+  | "Invalid"
+  | "Downloading"
+  | "Activating"
+  | "Active"
+  | "Upgrading"
+  | "Deactivating";
 
 /**
  * Defines values for ReplicaStatus.
@@ -19675,7 +20190,7 @@ export type DeployedApplicationStatus = 'Invalid' | 'Downloading' | 'Activating'
  * @readonly
  * @enum {string}
  */
-export type ReplicaStatus = 'Invalid' | 'InBuild' | 'Standby' | 'Ready' | 'Down' | 'Dropped';
+export type ReplicaStatus = "Invalid" | "InBuild" | "Standby" | "Ready" | "Down" | "Dropped";
 
 /**
  * Defines values for ReplicaRole.
@@ -19683,7 +20198,7 @@ export type ReplicaStatus = 'Invalid' | 'InBuild' | 'Standby' | 'Ready' | 'Down'
  * @readonly
  * @enum {string}
  */
-export type ReplicaRole = 'Unknown' | 'None' | 'Primary' | 'IdleSecondary' | 'ActiveSecondary';
+export type ReplicaRole = "Unknown" | "None" | "Primary" | "IdleSecondary" | "ActiveSecondary";
 
 /**
  * Defines values for ReconfigurationPhase.
@@ -19692,7 +20207,15 @@ export type ReplicaRole = 'Unknown' | 'None' | 'Primary' | 'IdleSecondary' | 'Ac
  * @readonly
  * @enum {string}
  */
-export type ReconfigurationPhase = 'Unknown' | 'None' | 'Phase0' | 'Phase1' | 'Phase2' | 'Phase3' | 'Phase4' | 'AbortPhaseZero';
+export type ReconfigurationPhase =
+  | "Unknown"
+  | "None"
+  | "Phase0"
+  | "Phase1"
+  | "Phase2"
+  | "Phase3"
+  | "Phase4"
+  | "AbortPhaseZero";
 
 /**
  * Defines values for ReconfigurationType.
@@ -19700,7 +20223,7 @@ export type ReconfigurationPhase = 'Unknown' | 'None' | 'Phase0' | 'Phase1' | 'P
  * @readonly
  * @enum {string}
  */
-export type ReconfigurationType = 'Unknown' | 'SwapPrimary' | 'Failover' | 'Other';
+export type ReconfigurationType = "Unknown" | "SwapPrimary" | "Failover" | "Other";
 
 /**
  * Defines values for EntityKind.
@@ -19709,7 +20232,16 @@ export type ReconfigurationType = 'Unknown' | 'SwapPrimary' | 'Failover' | 'Othe
  * @readonly
  * @enum {string}
  */
-export type EntityKind = 'Invalid' | 'Node' | 'Partition' | 'Service' | 'Application' | 'Replica' | 'DeployedApplication' | 'DeployedServicePackage' | 'Cluster';
+export type EntityKind =
+  | "Invalid"
+  | "Node"
+  | "Partition"
+  | "Service"
+  | "Application"
+  | "Replica"
+  | "DeployedApplication"
+  | "DeployedServicePackage"
+  | "Cluster";
 
 /**
  * Defines values for FabricEventKind.
@@ -19738,7 +20270,69 @@ export type EntityKind = 'Invalid' | 'Node' | 'Partition' | 'Service' | 'Applica
  * @readonly
  * @enum {string}
  */
-export type FabricEventKind = 'ClusterEvent' | 'ContainerInstanceEvent' | 'NodeEvent' | 'ApplicationEvent' | 'ServiceEvent' | 'PartitionEvent' | 'ReplicaEvent' | 'PartitionAnalysisEvent' | 'ApplicationCreated' | 'ApplicationDeleted' | 'ApplicationNewHealthReport' | 'ApplicationHealthReportExpired' | 'ApplicationUpgradeCompleted' | 'ApplicationUpgradeDomainCompleted' | 'ApplicationUpgradeRollbackCompleted' | 'ApplicationUpgradeRollbackStarted' | 'ApplicationUpgradeStarted' | 'DeployedApplicationNewHealthReport' | 'DeployedApplicationHealthReportExpired' | 'ApplicationProcessExited' | 'ApplicationContainerInstanceExited' | 'NodeAborted' | 'NodeAddedToCluster' | 'NodeClosed' | 'NodeDeactivateCompleted' | 'NodeDeactivateStarted' | 'NodeDown' | 'NodeNewHealthReport' | 'NodeHealthReportExpired' | 'NodeOpenSucceeded' | 'NodeOpenFailed' | 'NodeRemovedFromCluster' | 'NodeUp' | 'PartitionNewHealthReport' | 'PartitionHealthReportExpired' | 'PartitionReconfigured' | 'PartitionPrimaryMoveAnalysis' | 'ServiceCreated' | 'ServiceDeleted' | 'ServiceNewHealthReport' | 'ServiceHealthReportExpired' | 'DeployedServicePackageNewHealthReport' | 'DeployedServicePackageHealthReportExpired' | 'StatefulReplicaNewHealthReport' | 'StatefulReplicaHealthReportExpired' | 'StatelessReplicaNewHealthReport' | 'StatelessReplicaHealthReportExpired' | 'ClusterNewHealthReport' | 'ClusterHealthReportExpired' | 'ClusterUpgradeCompleted' | 'ClusterUpgradeDomainCompleted' | 'ClusterUpgradeRollbackCompleted' | 'ClusterUpgradeRollbackStarted' | 'ClusterUpgradeStarted' | 'ChaosStopped' | 'ChaosStarted' | 'ChaosCodePackageRestartScheduled' | 'ChaosReplicaRemovalScheduled' | 'ChaosPartitionSecondaryMoveScheduled' | 'ChaosPartitionPrimaryMoveScheduled' | 'ChaosReplicaRestartScheduled' | 'ChaosNodeRestartScheduled';
+export type FabricEventKind =
+  | "ClusterEvent"
+  | "ContainerInstanceEvent"
+  | "NodeEvent"
+  | "ApplicationEvent"
+  | "ServiceEvent"
+  | "PartitionEvent"
+  | "ReplicaEvent"
+  | "PartitionAnalysisEvent"
+  | "ApplicationCreated"
+  | "ApplicationDeleted"
+  | "ApplicationNewHealthReport"
+  | "ApplicationHealthReportExpired"
+  | "ApplicationUpgradeCompleted"
+  | "ApplicationUpgradeDomainCompleted"
+  | "ApplicationUpgradeRollbackCompleted"
+  | "ApplicationUpgradeRollbackStarted"
+  | "ApplicationUpgradeStarted"
+  | "DeployedApplicationNewHealthReport"
+  | "DeployedApplicationHealthReportExpired"
+  | "ApplicationProcessExited"
+  | "ApplicationContainerInstanceExited"
+  | "NodeAborted"
+  | "NodeAddedToCluster"
+  | "NodeClosed"
+  | "NodeDeactivateCompleted"
+  | "NodeDeactivateStarted"
+  | "NodeDown"
+  | "NodeNewHealthReport"
+  | "NodeHealthReportExpired"
+  | "NodeOpenSucceeded"
+  | "NodeOpenFailed"
+  | "NodeRemovedFromCluster"
+  | "NodeUp"
+  | "PartitionNewHealthReport"
+  | "PartitionHealthReportExpired"
+  | "PartitionReconfigured"
+  | "PartitionPrimaryMoveAnalysis"
+  | "ServiceCreated"
+  | "ServiceDeleted"
+  | "ServiceNewHealthReport"
+  | "ServiceHealthReportExpired"
+  | "DeployedServicePackageNewHealthReport"
+  | "DeployedServicePackageHealthReportExpired"
+  | "StatefulReplicaNewHealthReport"
+  | "StatefulReplicaHealthReportExpired"
+  | "StatelessReplicaNewHealthReport"
+  | "StatelessReplicaHealthReportExpired"
+  | "ClusterNewHealthReport"
+  | "ClusterHealthReportExpired"
+  | "ClusterUpgradeCompleted"
+  | "ClusterUpgradeDomainCompleted"
+  | "ClusterUpgradeRollbackCompleted"
+  | "ClusterUpgradeRollbackStarted"
+  | "ClusterUpgradeStarted"
+  | "ChaosStopped"
+  | "ChaosStarted"
+  | "ChaosCodePackageRestartScheduled"
+  | "ChaosReplicaRemovalScheduled"
+  | "ChaosPartitionSecondaryMoveScheduled"
+  | "ChaosPartitionPrimaryMoveScheduled"
+  | "ChaosReplicaRestartScheduled"
+  | "ChaosNodeRestartScheduled";
 
 /**
  * Defines values for HealthEvaluationKind.
@@ -19750,7 +20344,29 @@ export type FabricEventKind = 'ClusterEvent' | 'ContainerInstanceEvent' | 'NodeE
  * @readonly
  * @enum {string}
  */
-export type HealthEvaluationKind = 'Invalid' | 'Event' | 'Replicas' | 'Partitions' | 'DeployedServicePackages' | 'DeployedApplications' | 'Services' | 'Nodes' | 'Applications' | 'SystemApplication' | 'UpgradeDomainDeployedApplications' | 'UpgradeDomainNodes' | 'Replica' | 'Partition' | 'DeployedServicePackage' | 'DeployedApplication' | 'Service' | 'Node' | 'Application' | 'DeltaNodesCheck' | 'UpgradeDomainDeltaNodesCheck' | 'ApplicationTypeApplications';
+export type HealthEvaluationKind =
+  | "Invalid"
+  | "Event"
+  | "Replicas"
+  | "Partitions"
+  | "DeployedServicePackages"
+  | "DeployedApplications"
+  | "Services"
+  | "Nodes"
+  | "Applications"
+  | "SystemApplication"
+  | "UpgradeDomainDeployedApplications"
+  | "UpgradeDomainNodes"
+  | "Replica"
+  | "Partition"
+  | "DeployedServicePackage"
+  | "DeployedApplication"
+  | "Service"
+  | "Node"
+  | "Application"
+  | "DeltaNodesCheck"
+  | "UpgradeDomainDeltaNodesCheck"
+  | "ApplicationTypeApplications";
 
 /**
  * Defines values for NodeDeactivationIntent.
@@ -19758,7 +20374,7 @@ export type HealthEvaluationKind = 'Invalid' | 'Event' | 'Replicas' | 'Partition
  * @readonly
  * @enum {string}
  */
-export type NodeDeactivationIntent = 'Invalid' | 'Pause' | 'Restart' | 'RemoveData' | 'RemoveNode';
+export type NodeDeactivationIntent = "Invalid" | "Pause" | "Restart" | "RemoveData" | "RemoveNode";
 
 /**
  * Defines values for NodeDeactivationStatus.
@@ -19766,7 +20382,11 @@ export type NodeDeactivationIntent = 'Invalid' | 'Pause' | 'Restart' | 'RemoveDa
  * @readonly
  * @enum {string}
  */
-export type NodeDeactivationStatus = 'None' | 'SafetyCheckInProgress' | 'SafetyCheckComplete' | 'Completed';
+export type NodeDeactivationStatus =
+  | "None"
+  | "SafetyCheckInProgress"
+  | "SafetyCheckComplete"
+  | "Completed";
 
 /**
  * Defines values for NodeDeactivationTaskType.
@@ -19774,7 +20394,7 @@ export type NodeDeactivationStatus = 'None' | 'SafetyCheckInProgress' | 'SafetyC
  * @readonly
  * @enum {string}
  */
-export type NodeDeactivationTaskType = 'Invalid' | 'Infrastructure' | 'Repair' | 'Client';
+export type NodeDeactivationTaskType = "Invalid" | "Infrastructure" | "Repair" | "Client";
 
 /**
  * Defines values for NodeStatus.
@@ -19783,7 +20403,15 @@ export type NodeDeactivationTaskType = 'Invalid' | 'Infrastructure' | 'Repair' |
  * @readonly
  * @enum {string}
  */
-export type NodeStatus = 'Invalid' | 'Up' | 'Down' | 'Enabling' | 'Disabling' | 'Disabled' | 'Unknown' | 'Removed';
+export type NodeStatus =
+  | "Invalid"
+  | "Up"
+  | "Down"
+  | "Enabling"
+  | "Disabling"
+  | "Disabled"
+  | "Unknown"
+  | "Removed";
 
 /**
  * Defines values for ServicePartitionStatus.
@@ -19792,7 +20420,13 @@ export type NodeStatus = 'Invalid' | 'Up' | 'Down' | 'Enabling' | 'Disabling' | 
  * @readonly
  * @enum {string}
  */
-export type ServicePartitionStatus = 'Invalid' | 'Ready' | 'NotReady' | 'InQuorumLoss' | 'Reconfiguring' | 'Deleting';
+export type ServicePartitionStatus =
+  | "Invalid"
+  | "Ready"
+  | "NotReady"
+  | "InQuorumLoss"
+  | "Reconfiguring"
+  | "Deleting";
 
 /**
  * Defines values for ServiceStatus.
@@ -19800,7 +20434,7 @@ export type ServicePartitionStatus = 'Invalid' | 'Ready' | 'NotReady' | 'InQuoru
  * @readonly
  * @enum {string}
  */
-export type ServiceStatus = 'Unknown' | 'Active' | 'Upgrading' | 'Deleting' | 'Creating' | 'Failed';
+export type ServiceStatus = "Unknown" | "Active" | "Upgrading" | "Deleting" | "Creating" | "Failed";
 
 /**
  * Defines values for ProvisionApplicationTypeKind.
@@ -19808,7 +20442,7 @@ export type ServiceStatus = 'Unknown' | 'Active' | 'Upgrading' | 'Deleting' | 'C
  * @readonly
  * @enum {string}
  */
-export type ProvisionApplicationTypeKind = 'Invalid' | 'ImageStorePath' | 'ExternalStore';
+export type ProvisionApplicationTypeKind = "Invalid" | "ImageStorePath" | "ExternalStore";
 
 /**
  * Defines values for UpgradeType.
@@ -19816,7 +20450,7 @@ export type ProvisionApplicationTypeKind = 'Invalid' | 'ImageStorePath' | 'Exter
  * @readonly
  * @enum {string}
  */
-export type UpgradeType = 'Invalid' | 'Rolling' | 'Rolling_ForceRestart';
+export type UpgradeType = "Invalid" | "Rolling" | "Rolling_ForceRestart";
 
 /**
  * Defines values for SafetyCheckKind.
@@ -19826,7 +20460,15 @@ export type UpgradeType = 'Invalid' | 'Rolling' | 'Rolling_ForceRestart';
  * @readonly
  * @enum {string}
  */
-export type SafetyCheckKind = 'Invalid' | 'EnsureSeedNodeQuorum' | 'EnsurePartitionQuorum' | 'WaitForPrimaryPlacement' | 'WaitForPrimarySwap' | 'WaitForReconfiguration' | 'WaitForInbuildReplica' | 'EnsureAvailability';
+export type SafetyCheckKind =
+  | "Invalid"
+  | "EnsureSeedNodeQuorum"
+  | "EnsurePartitionQuorum"
+  | "WaitForPrimaryPlacement"
+  | "WaitForPrimarySwap"
+  | "WaitForReconfiguration"
+  | "WaitForInbuildReplica"
+  | "EnsureAvailability";
 
 /**
  * Defines values for CreateFabricDump.
@@ -19834,7 +20476,7 @@ export type SafetyCheckKind = 'Invalid' | 'EnsureSeedNodeQuorum' | 'EnsurePartit
  * @readonly
  * @enum {string}
  */
-export type CreateFabricDump = 'False' | 'True';
+export type CreateFabricDump = "False" | "True";
 
 /**
  * Defines values for ServicePackageActivationMode.
@@ -19842,7 +20484,7 @@ export type CreateFabricDump = 'False' | 'True';
  * @readonly
  * @enum {string}
  */
-export type ServicePackageActivationMode = 'SharedProcess' | 'ExclusiveProcess';
+export type ServicePackageActivationMode = "SharedProcess" | "ExclusiveProcess";
 
 /**
  * Defines values for ServiceKind.
@@ -19850,7 +20492,7 @@ export type ServicePackageActivationMode = 'SharedProcess' | 'ExclusiveProcess';
  * @readonly
  * @enum {string}
  */
-export type ServiceKind = 'Invalid' | 'Stateless' | 'Stateful';
+export type ServiceKind = "Invalid" | "Stateless" | "Stateful";
 
 /**
  * Defines values for ServicePartitionKind.
@@ -19858,7 +20500,7 @@ export type ServiceKind = 'Invalid' | 'Stateless' | 'Stateful';
  * @readonly
  * @enum {string}
  */
-export type ServicePartitionKind = 'Invalid' | 'Singleton' | 'Int64Range' | 'Named';
+export type ServicePartitionKind = "Invalid" | "Singleton" | "Int64Range" | "Named";
 
 /**
  * Defines values for ServicePlacementPolicyType.
@@ -19867,7 +20509,13 @@ export type ServicePartitionKind = 'Invalid' | 'Singleton' | 'Int64Range' | 'Nam
  * @readonly
  * @enum {string}
  */
-export type ServicePlacementPolicyType = 'Invalid' | 'InvalidDomain' | 'RequireDomain' | 'PreferPrimaryDomain' | 'RequireDomainDistribution' | 'NonPartiallyPlaceService';
+export type ServicePlacementPolicyType =
+  | "Invalid"
+  | "InvalidDomain"
+  | "RequireDomain"
+  | "PreferPrimaryDomain"
+  | "RequireDomainDistribution"
+  | "NonPartiallyPlaceService";
 
 /**
  * Defines values for ServiceLoadMetricWeight.
@@ -19875,7 +20523,7 @@ export type ServicePlacementPolicyType = 'Invalid' | 'InvalidDomain' | 'RequireD
  * @readonly
  * @enum {string}
  */
-export type ServiceLoadMetricWeight = 'Zero' | 'Low' | 'Medium' | 'High';
+export type ServiceLoadMetricWeight = "Zero" | "Low" | "Medium" | "High";
 
 /**
  * Defines values for HostType.
@@ -19883,7 +20531,7 @@ export type ServiceLoadMetricWeight = 'Zero' | 'Low' | 'Medium' | 'High';
  * @readonly
  * @enum {string}
  */
-export type HostType = 'Invalid' | 'ExeHost' | 'ContainerHost';
+export type HostType = "Invalid" | "ExeHost" | "ContainerHost";
 
 /**
  * Defines values for HostIsolationMode.
@@ -19891,7 +20539,7 @@ export type HostType = 'Invalid' | 'ExeHost' | 'ContainerHost';
  * @readonly
  * @enum {string}
  */
-export type HostIsolationMode = 'None' | 'Process' | 'HyperV';
+export type HostIsolationMode = "None" | "Process" | "HyperV";
 
 /**
  * Defines values for DeploymentStatus.
@@ -19900,7 +20548,15 @@ export type HostIsolationMode = 'None' | 'Process' | 'HyperV';
  * @readonly
  * @enum {string}
  */
-export type DeploymentStatus = 'Invalid' | 'Downloading' | 'Activating' | 'Active' | 'Upgrading' | 'Deactivating' | 'RanToCompletion' | 'Failed';
+export type DeploymentStatus =
+  | "Invalid"
+  | "Downloading"
+  | "Activating"
+  | "Active"
+  | "Upgrading"
+  | "Deactivating"
+  | "RanToCompletion"
+  | "Failed";
 
 /**
  * Defines values for EntryPointStatus.
@@ -19908,7 +20564,13 @@ export type DeploymentStatus = 'Invalid' | 'Downloading' | 'Activating' | 'Activ
  * @readonly
  * @enum {string}
  */
-export type EntryPointStatus = 'Invalid' | 'Pending' | 'Starting' | 'Started' | 'Stopping' | 'Stopped';
+export type EntryPointStatus =
+  | "Invalid"
+  | "Pending"
+  | "Starting"
+  | "Started"
+  | "Stopping"
+  | "Stopped";
 
 /**
  * Defines values for ChaosStatus.
@@ -19916,7 +20578,7 @@ export type EntryPointStatus = 'Invalid' | 'Pending' | 'Starting' | 'Started' | 
  * @readonly
  * @enum {string}
  */
-export type ChaosStatus = 'Invalid' | 'Running' | 'Stopped';
+export type ChaosStatus = "Invalid" | "Running" | "Stopped";
 
 /**
  * Defines values for ChaosScheduleStatus.
@@ -19924,7 +20586,7 @@ export type ChaosStatus = 'Invalid' | 'Running' | 'Stopped';
  * @readonly
  * @enum {string}
  */
-export type ChaosScheduleStatus = 'Invalid' | 'Stopped' | 'Active' | 'Expired' | 'Pending';
+export type ChaosScheduleStatus = "Invalid" | "Stopped" | "Active" | "Expired" | "Pending";
 
 /**
  * Defines values for ChaosEventKind.
@@ -19933,7 +20595,14 @@ export type ChaosScheduleStatus = 'Invalid' | 'Stopped' | 'Active' | 'Expired' |
  * @readonly
  * @enum {string}
  */
-export type ChaosEventKind = 'Invalid' | 'Started' | 'ExecutingFaults' | 'Waiting' | 'ValidationFailed' | 'TestError' | 'Stopped';
+export type ChaosEventKind =
+  | "Invalid"
+  | "Started"
+  | "ExecutingFaults"
+  | "Waiting"
+  | "ValidationFailed"
+  | "TestError"
+  | "Stopped";
 
 /**
  * Defines values for ComposeDeploymentStatus.
@@ -19942,7 +20611,15 @@ export type ChaosEventKind = 'Invalid' | 'Started' | 'ExecutingFaults' | 'Waitin
  * @readonly
  * @enum {string}
  */
-export type ComposeDeploymentStatus = 'Invalid' | 'Provisioning' | 'Creating' | 'Ready' | 'Unprovisioning' | 'Deleting' | 'Failed' | 'Upgrading';
+export type ComposeDeploymentStatus =
+  | "Invalid"
+  | "Provisioning"
+  | "Creating"
+  | "Ready"
+  | "Unprovisioning"
+  | "Deleting"
+  | "Failed"
+  | "Upgrading";
 
 /**
  * Defines values for ComposeDeploymentUpgradeState.
@@ -19952,7 +20629,17 @@ export type ComposeDeploymentStatus = 'Invalid' | 'Provisioning' | 'Creating' | 
  * @readonly
  * @enum {string}
  */
-export type ComposeDeploymentUpgradeState = 'Invalid' | 'ProvisioningTarget' | 'RollingForwardInProgress' | 'RollingForwardPending' | 'UnprovisioningCurrent' | 'RollingForwardCompleted' | 'RollingBackInProgress' | 'UnprovisioningTarget' | 'RollingBackCompleted' | 'Failed';
+export type ComposeDeploymentUpgradeState =
+  | "Invalid"
+  | "ProvisioningTarget"
+  | "RollingForwardInProgress"
+  | "RollingForwardPending"
+  | "UnprovisioningCurrent"
+  | "RollingForwardCompleted"
+  | "RollingBackInProgress"
+  | "UnprovisioningTarget"
+  | "RollingBackCompleted"
+  | "Failed";
 
 /**
  * Defines values for ServiceCorrelationScheme.
@@ -19960,7 +20647,11 @@ export type ComposeDeploymentUpgradeState = 'Invalid' | 'ProvisioningTarget' | '
  * @readonly
  * @enum {string}
  */
-export type ServiceCorrelationScheme = 'Invalid' | 'Affinity' | 'AlignedAffinity' | 'NonAlignedAffinity';
+export type ServiceCorrelationScheme =
+  | "Invalid"
+  | "Affinity"
+  | "AlignedAffinity"
+  | "NonAlignedAffinity";
 
 /**
  * Defines values for MoveCost.
@@ -19968,7 +20659,7 @@ export type ServiceCorrelationScheme = 'Invalid' | 'Affinity' | 'AlignedAffinity
  * @readonly
  * @enum {string}
  */
-export type MoveCost = 'Zero' | 'Low' | 'Medium' | 'High' | 'VeryHigh';
+export type MoveCost = "Zero" | "Low" | "Medium" | "High" | "VeryHigh";
 
 /**
  * Defines values for PartitionScheme.
@@ -19976,7 +20667,7 @@ export type MoveCost = 'Zero' | 'Low' | 'Medium' | 'High' | 'VeryHigh';
  * @readonly
  * @enum {string}
  */
-export type PartitionScheme = 'Invalid' | 'Singleton' | 'UniformInt64Range' | 'Named';
+export type PartitionScheme = "Invalid" | "Singleton" | "UniformInt64Range" | "Named";
 
 /**
  * Defines values for ServiceOperationName.
@@ -19984,7 +20675,7 @@ export type PartitionScheme = 'Invalid' | 'Singleton' | 'UniformInt64Range' | 'N
  * @readonly
  * @enum {string}
  */
-export type ServiceOperationName = 'Unknown' | 'None' | 'Open' | 'ChangeRole' | 'Close' | 'Abort';
+export type ServiceOperationName = "Unknown" | "None" | "Open" | "ChangeRole" | "Close" | "Abort";
 
 /**
  * Defines values for ReplicatorOperationName.
@@ -19993,7 +20684,17 @@ export type ServiceOperationName = 'Unknown' | 'None' | 'Open' | 'ChangeRole' | 
  * @readonly
  * @enum {string}
  */
-export type ReplicatorOperationName = 'Invalid' | 'None' | 'Open' | 'ChangeRole' | 'UpdateEpoch' | 'Close' | 'Abort' | 'OnDataLoss' | 'WaitForCatchup' | 'Build';
+export type ReplicatorOperationName =
+  | "Invalid"
+  | "None"
+  | "Open"
+  | "ChangeRole"
+  | "UpdateEpoch"
+  | "Close"
+  | "Abort"
+  | "OnDataLoss"
+  | "WaitForCatchup"
+  | "Build";
 
 /**
  * Defines values for PartitionAccessStatus.
@@ -20002,7 +20703,12 @@ export type ReplicatorOperationName = 'Invalid' | 'None' | 'Open' | 'ChangeRole'
  * @readonly
  * @enum {string}
  */
-export type PartitionAccessStatus = 'Invalid' | 'Granted' | 'ReconfigurationPending' | 'NotPrimary' | 'NoWriteQuorum';
+export type PartitionAccessStatus =
+  | "Invalid"
+  | "Granted"
+  | "ReconfigurationPending"
+  | "NotPrimary"
+  | "NoWriteQuorum";
 
 /**
  * Defines values for FabricReplicaStatus.
@@ -20010,7 +20716,7 @@ export type PartitionAccessStatus = 'Invalid' | 'Granted' | 'ReconfigurationPend
  * @readonly
  * @enum {string}
  */
-export type FabricReplicaStatus = 'Invalid' | 'Down' | 'Up';
+export type FabricReplicaStatus = "Invalid" | "Down" | "Up";
 
 /**
  * Defines values for ReplicaKind.
@@ -20018,7 +20724,7 @@ export type FabricReplicaStatus = 'Invalid' | 'Down' | 'Up';
  * @readonly
  * @enum {string}
  */
-export type ReplicaKind = 'Invalid' | 'KeyValueStore';
+export type ReplicaKind = "Invalid" | "KeyValueStore";
 
 /**
  * Defines values for ServiceTypeRegistrationStatus.
@@ -20026,7 +20732,7 @@ export type ReplicaKind = 'Invalid' | 'KeyValueStore';
  * @readonly
  * @enum {string}
  */
-export type ServiceTypeRegistrationStatus = 'Invalid' | 'Disabled' | 'Enabled' | 'Registered';
+export type ServiceTypeRegistrationStatus = "Invalid" | "Disabled" | "Enabled" | "Registered";
 
 /**
  * Defines values for ServiceEndpointRole.
@@ -20034,7 +20740,7 @@ export type ServiceTypeRegistrationStatus = 'Invalid' | 'Disabled' | 'Enabled' |
  * @readonly
  * @enum {string}
  */
-export type ServiceEndpointRole = 'Invalid' | 'Stateless' | 'StatefulPrimary' | 'StatefulSecondary';
+export type ServiceEndpointRole = "Invalid" | "Stateless" | "StatefulPrimary" | "StatefulSecondary";
 
 /**
  * Defines values for OperationState.
@@ -20043,7 +20749,14 @@ export type ServiceEndpointRole = 'Invalid' | 'Stateless' | 'StatefulPrimary' | 
  * @readonly
  * @enum {string}
  */
-export type OperationState = 'Invalid' | 'Running' | 'RollingBack' | 'Completed' | 'Faulted' | 'Cancelled' | 'ForceCancelled';
+export type OperationState =
+  | "Invalid"
+  | "Running"
+  | "RollingBack"
+  | "Completed"
+  | "Faulted"
+  | "Cancelled"
+  | "ForceCancelled";
 
 /**
  * Defines values for OperationType.
@@ -20052,7 +20765,12 @@ export type OperationState = 'Invalid' | 'Running' | 'RollingBack' | 'Completed'
  * @readonly
  * @enum {string}
  */
-export type OperationType = 'Invalid' | 'PartitionDataLoss' | 'PartitionQuorumLoss' | 'PartitionRestart' | 'NodeTransition';
+export type OperationType =
+  | "Invalid"
+  | "PartitionDataLoss"
+  | "PartitionQuorumLoss"
+  | "PartitionRestart"
+  | "NodeTransition";
 
 /**
  * Defines values for PackageSharingPolicyScope.
@@ -20060,7 +20778,7 @@ export type OperationType = 'Invalid' | 'PartitionDataLoss' | 'PartitionQuorumLo
  * @readonly
  * @enum {string}
  */
-export type PackageSharingPolicyScope = 'None' | 'All' | 'Code' | 'Config' | 'Data';
+export type PackageSharingPolicyScope = "None" | "All" | "Code" | "Config" | "Data";
 
 /**
  * Defines values for PropertyValueKind.
@@ -20068,7 +20786,7 @@ export type PackageSharingPolicyScope = 'None' | 'All' | 'Code' | 'Config' | 'Da
  * @readonly
  * @enum {string}
  */
-export type PropertyValueKind = 'Invalid' | 'Binary' | 'Int64' | 'Double' | 'String' | 'Guid';
+export type PropertyValueKind = "Invalid" | "Binary" | "Int64" | "Double" | "String" | "Guid";
 
 /**
  * Defines values for PropertyBatchOperationKind.
@@ -20077,7 +20795,14 @@ export type PropertyValueKind = 'Invalid' | 'Binary' | 'Int64' | 'Double' | 'Str
  * @readonly
  * @enum {string}
  */
-export type PropertyBatchOperationKind = 'Invalid' | 'Put' | 'Get' | 'CheckExists' | 'CheckSequence' | 'Delete' | 'CheckValue';
+export type PropertyBatchOperationKind =
+  | "Invalid"
+  | "Put"
+  | "Get"
+  | "CheckExists"
+  | "CheckSequence"
+  | "Delete"
+  | "CheckValue";
 
 /**
  * Defines values for PropertyBatchInfoKind.
@@ -20085,7 +20810,7 @@ export type PropertyBatchOperationKind = 'Invalid' | 'Put' | 'Get' | 'CheckExist
  * @readonly
  * @enum {string}
  */
-export type PropertyBatchInfoKind = 'Invalid' | 'Successful' | 'Failed';
+export type PropertyBatchInfoKind = "Invalid" | "Successful" | "Failed";
 
 /**
  * Defines values for RetentionPolicyType.
@@ -20093,7 +20818,7 @@ export type PropertyBatchInfoKind = 'Invalid' | 'Successful' | 'Failed';
  * @readonly
  * @enum {string}
  */
-export type RetentionPolicyType = 'Basic' | 'Invalid';
+export type RetentionPolicyType = "Basic" | "Invalid";
 
 /**
  * Defines values for BackupStorageKind.
@@ -20101,7 +20826,7 @@ export type RetentionPolicyType = 'Basic' | 'Invalid';
  * @readonly
  * @enum {string}
  */
-export type BackupStorageKind = 'Invalid' | 'FileShare' | 'AzureBlobStore';
+export type BackupStorageKind = "Invalid" | "FileShare" | "AzureBlobStore";
 
 /**
  * Defines values for BackupScheduleKind.
@@ -20109,7 +20834,7 @@ export type BackupStorageKind = 'Invalid' | 'FileShare' | 'AzureBlobStore';
  * @readonly
  * @enum {string}
  */
-export type BackupScheduleKind = 'Invalid' | 'TimeBased' | 'FrequencyBased';
+export type BackupScheduleKind = "Invalid" | "TimeBased" | "FrequencyBased";
 
 /**
  * Defines values for BackupPolicyScope.
@@ -20117,7 +20842,7 @@ export type BackupScheduleKind = 'Invalid' | 'TimeBased' | 'FrequencyBased';
  * @readonly
  * @enum {string}
  */
-export type BackupPolicyScope = 'Invalid' | 'Partition' | 'Service' | 'Application';
+export type BackupPolicyScope = "Invalid" | "Partition" | "Service" | "Application";
 
 /**
  * Defines values for BackupSuspensionScope.
@@ -20125,7 +20850,7 @@ export type BackupPolicyScope = 'Invalid' | 'Partition' | 'Service' | 'Applicati
  * @readonly
  * @enum {string}
  */
-export type BackupSuspensionScope = 'Invalid' | 'Partition' | 'Service' | 'Application';
+export type BackupSuspensionScope = "Invalid" | "Partition" | "Service" | "Application";
 
 /**
  * Defines values for RestoreState.
@@ -20134,7 +20859,13 @@ export type BackupSuspensionScope = 'Invalid' | 'Partition' | 'Service' | 'Appli
  * @readonly
  * @enum {string}
  */
-export type RestoreState = 'Invalid' | 'Accepted' | 'RestoreInProgress' | 'Success' | 'Failure' | 'Timeout';
+export type RestoreState =
+  | "Invalid"
+  | "Accepted"
+  | "RestoreInProgress"
+  | "Success"
+  | "Failure"
+  | "Timeout";
 
 /**
  * Defines values for BackupType.
@@ -20142,7 +20873,7 @@ export type RestoreState = 'Invalid' | 'Accepted' | 'RestoreInProgress' | 'Succe
  * @readonly
  * @enum {string}
  */
-export type BackupType = 'Invalid' | 'Full' | 'Incremental';
+export type BackupType = "Invalid" | "Full" | "Incremental";
 
 /**
  * Defines values for BackupScheduleFrequencyType.
@@ -20150,7 +20881,7 @@ export type BackupType = 'Invalid' | 'Full' | 'Incremental';
  * @readonly
  * @enum {string}
  */
-export type BackupScheduleFrequencyType = 'Invalid' | 'Daily' | 'Weekly';
+export type BackupScheduleFrequencyType = "Invalid" | "Daily" | "Weekly";
 
 /**
  * Defines values for DayOfWeek.
@@ -20159,7 +20890,14 @@ export type BackupScheduleFrequencyType = 'Invalid' | 'Daily' | 'Weekly';
  * @readonly
  * @enum {string}
  */
-export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+export type DayOfWeek =
+  | "Sunday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday";
 
 /**
  * Defines values for BackupState.
@@ -20168,7 +20906,13 @@ export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursda
  * @readonly
  * @enum {string}
  */
-export type BackupState = 'Invalid' | 'Accepted' | 'BackupInProgress' | 'Success' | 'Failure' | 'Timeout';
+export type BackupState =
+  | "Invalid"
+  | "Accepted"
+  | "BackupInProgress"
+  | "Success"
+  | "Failure"
+  | "Timeout";
 
 /**
  * Defines values for BackupEntityKind.
@@ -20176,7 +20920,7 @@ export type BackupState = 'Invalid' | 'Accepted' | 'BackupInProgress' | 'Success
  * @readonly
  * @enum {string}
  */
-export type BackupEntityKind = 'Invalid' | 'Partition' | 'Service' | 'Application';
+export type BackupEntityKind = "Invalid" | "Partition" | "Service" | "Application";
 
 /**
  * Defines values for ImpactLevel.
@@ -20184,7 +20928,7 @@ export type BackupEntityKind = 'Invalid' | 'Partition' | 'Service' | 'Applicatio
  * @readonly
  * @enum {string}
  */
-export type ImpactLevel = 'Invalid' | 'None' | 'Restart' | 'RemoveData' | 'RemoveNode';
+export type ImpactLevel = "Invalid" | "None" | "Restart" | "RemoveData" | "RemoveNode";
 
 /**
  * Defines values for RepairImpactKind.
@@ -20192,7 +20936,7 @@ export type ImpactLevel = 'Invalid' | 'None' | 'Restart' | 'RemoveData' | 'Remov
  * @readonly
  * @enum {string}
  */
-export type RepairImpactKind = 'Invalid' | 'Node';
+export type RepairImpactKind = "Invalid" | "Node";
 
 /**
  * Defines values for RepairTargetKind.
@@ -20200,7 +20944,7 @@ export type RepairImpactKind = 'Invalid' | 'Node';
  * @readonly
  * @enum {string}
  */
-export type RepairTargetKind = 'Invalid' | 'Node';
+export type RepairTargetKind = "Invalid" | "Node";
 
 /**
  * Defines values for State.
@@ -20209,7 +20953,15 @@ export type RepairTargetKind = 'Invalid' | 'Node';
  * @readonly
  * @enum {string}
  */
-export type State = 'Invalid' | 'Created' | 'Claimed' | 'Preparing' | 'Approved' | 'Executing' | 'Restoring' | 'Completed';
+export type State =
+  | "Invalid"
+  | "Created"
+  | "Claimed"
+  | "Preparing"
+  | "Approved"
+  | "Executing"
+  | "Restoring"
+  | "Completed";
 
 /**
  * Defines values for ResultStatus.
@@ -20217,7 +20969,13 @@ export type State = 'Invalid' | 'Created' | 'Claimed' | 'Preparing' | 'Approved'
  * @readonly
  * @enum {string}
  */
-export type ResultStatus = 'Invalid' | 'Succeeded' | 'Cancelled' | 'Interrupted' | 'Failed' | 'Pending';
+export type ResultStatus =
+  | "Invalid"
+  | "Succeeded"
+  | "Cancelled"
+  | "Interrupted"
+  | "Failed"
+  | "Pending";
 
 /**
  * Defines values for RepairTaskHealthCheckState.
@@ -20225,7 +20983,12 @@ export type ResultStatus = 'Invalid' | 'Succeeded' | 'Cancelled' | 'Interrupted'
  * @readonly
  * @enum {string}
  */
-export type RepairTaskHealthCheckState = 'NotStarted' | 'InProgress' | 'Succeeded' | 'Skipped' | 'TimedOut';
+export type RepairTaskHealthCheckState =
+  | "NotStarted"
+  | "InProgress"
+  | "Succeeded"
+  | "Skipped"
+  | "TimedOut";
 
 /**
  * Defines values for ScalingTriggerKind.
@@ -20233,7 +20996,7 @@ export type RepairTaskHealthCheckState = 'NotStarted' | 'InProgress' | 'Succeede
  * @readonly
  * @enum {string}
  */
-export type ScalingTriggerKind = 'Invalid' | 'AveragePartitionLoad' | 'AverageServiceLoad';
+export type ScalingTriggerKind = "Invalid" | "AveragePartitionLoad" | "AverageServiceLoad";
 
 /**
  * Defines values for ScalingMechanismKind.
@@ -20242,7 +21005,10 @@ export type ScalingTriggerKind = 'Invalid' | 'AveragePartitionLoad' | 'AverageSe
  * @readonly
  * @enum {string}
  */
-export type ScalingMechanismKind = 'Invalid' | 'PartitionInstanceCount' | 'AddRemoveIncrementalNamedPartition';
+export type ScalingMechanismKind =
+  | "Invalid"
+  | "PartitionInstanceCount"
+  | "AddRemoveIncrementalNamedPartition";
 
 /**
  * Defines values for ResourceStatus.
@@ -20250,7 +21016,7 @@ export type ScalingMechanismKind = 'Invalid' | 'PartitionInstanceCount' | 'AddRe
  * @readonly
  * @enum {string}
  */
-export type ResourceStatus = 'Unknown' | 'Ready' | 'Upgrading' | 'Creating' | 'Deleting' | 'Failed';
+export type ResourceStatus = "Unknown" | "Ready" | "Upgrading" | "Creating" | "Deleting" | "Failed";
 
 /**
  * Defines values for SecretKind.
@@ -20258,7 +21024,7 @@ export type ResourceStatus = 'Unknown' | 'Ready' | 'Upgrading' | 'Creating' | 'D
  * @readonly
  * @enum {string}
  */
-export type SecretKind = 'inlinedValue' | 'keyVaultVersionedReference';
+export type SecretKind = "inlinedValue" | "keyVaultVersionedReference";
 
 /**
  * Defines values for VolumeProvider.
@@ -20266,7 +21032,7 @@ export type SecretKind = 'inlinedValue' | 'keyVaultVersionedReference';
  * @readonly
  * @enum {string}
  */
-export type VolumeProvider = 'SFAzureFile';
+export type VolumeProvider = "SFAzureFile";
 
 /**
  * Defines values for SizeTypes.
@@ -20274,7 +21040,7 @@ export type VolumeProvider = 'SFAzureFile';
  * @readonly
  * @enum {string}
  */
-export type SizeTypes = 'Small' | 'Medium' | 'Large';
+export type SizeTypes = "Small" | "Medium" | "Large";
 
 /**
  * Defines values for ApplicationScopedVolumeKind.
@@ -20282,7 +21048,7 @@ export type SizeTypes = 'Small' | 'Medium' | 'Large';
  * @readonly
  * @enum {string}
  */
-export type ApplicationScopedVolumeKind = 'ServiceFabricVolumeDisk';
+export type ApplicationScopedVolumeKind = "ServiceFabricVolumeDisk";
 
 /**
  * Defines values for NetworkKind.
@@ -20290,7 +21056,7 @@ export type ApplicationScopedVolumeKind = 'ServiceFabricVolumeDisk';
  * @readonly
  * @enum {string}
  */
-export type NetworkKind = 'Local';
+export type NetworkKind = "Local";
 
 /**
  * Defines values for HeaderMatchType.
@@ -20298,7 +21064,7 @@ export type NetworkKind = 'Local';
  * @readonly
  * @enum {string}
  */
-export type HeaderMatchType = 'exact';
+export type HeaderMatchType = "exact";
 
 /**
  * Defines values for OperatingSystemType.
@@ -20306,7 +21072,7 @@ export type HeaderMatchType = 'exact';
  * @readonly
  * @enum {string}
  */
-export type OperatingSystemType = 'Linux' | 'Windows';
+export type OperatingSystemType = "Linux" | "Windows";
 
 /**
  * Defines values for ImageRegistryPasswordType.
@@ -20314,7 +21080,7 @@ export type OperatingSystemType = 'Linux' | 'Windows';
  * @readonly
  * @enum {string}
  */
-export type ImageRegistryPasswordType = 'ClearText' | 'KeyVaultReference' | 'SecretValueReference';
+export type ImageRegistryPasswordType = "ClearText" | "KeyVaultReference" | "SecretValueReference";
 
 /**
  * Defines values for EnvironmentVariableType.
@@ -20322,7 +21088,7 @@ export type ImageRegistryPasswordType = 'ClearText' | 'KeyVaultReference' | 'Sec
  * @readonly
  * @enum {string}
  */
-export type EnvironmentVariableType = 'ClearText' | 'KeyVaultReference' | 'SecretValueReference';
+export type EnvironmentVariableType = "ClearText" | "KeyVaultReference" | "SecretValueReference";
 
 /**
  * Defines values for SettingType.
@@ -20330,7 +21096,7 @@ export type EnvironmentVariableType = 'ClearText' | 'KeyVaultReference' | 'Secre
  * @readonly
  * @enum {string}
  */
-export type SettingType = 'ClearText' | 'KeyVaultReference' | 'SecretValueReference';
+export type SettingType = "ClearText" | "KeyVaultReference" | "SecretValueReference";
 
 /**
  * Defines values for Scheme.
@@ -20338,7 +21104,7 @@ export type SettingType = 'ClearText' | 'KeyVaultReference' | 'SecretValueRefere
  * @readonly
  * @enum {string}
  */
-export type Scheme = 'http' | 'https';
+export type Scheme = "http" | "https";
 
 /**
  * Defines values for ApplicationResourceUpgradeState.
@@ -20348,7 +21114,16 @@ export type Scheme = 'http' | 'https';
  * @readonly
  * @enum {string}
  */
-export type ApplicationResourceUpgradeState = 'Invalid' | 'ProvisioningTarget' | 'RollingForward' | 'UnprovisioningCurrent' | 'CompletedRollforward' | 'RollingBack' | 'UnprovisioningTarget' | 'CompletedRollback' | 'Failed';
+export type ApplicationResourceUpgradeState =
+  | "Invalid"
+  | "ProvisioningTarget"
+  | "RollingForward"
+  | "UnprovisioningCurrent"
+  | "CompletedRollforward"
+  | "RollingBack"
+  | "UnprovisioningTarget"
+  | "CompletedRollback"
+  | "Failed";
 
 /**
  * Defines values for RollingUpgradeMode.
@@ -20356,7 +21131,7 @@ export type ApplicationResourceUpgradeState = 'Invalid' | 'ProvisioningTarget' |
  * @readonly
  * @enum {string}
  */
-export type RollingUpgradeMode = 'Invalid' | 'UnmonitoredAuto' | 'UnmonitoredManual' | 'Monitored';
+export type RollingUpgradeMode = "Invalid" | "UnmonitoredAuto" | "UnmonitoredManual" | "Monitored";
 
 /**
  * Defines values for DiagnosticsSinkKind.
@@ -20364,7 +21139,7 @@ export type RollingUpgradeMode = 'Invalid' | 'UnmonitoredAuto' | 'UnmonitoredMan
  * @readonly
  * @enum {string}
  */
-export type DiagnosticsSinkKind = 'Invalid' | 'AzureInternalMonitoringPipeline';
+export type DiagnosticsSinkKind = "Invalid" | "AzureInternalMonitoringPipeline";
 
 /**
  * Defines values for AutoScalingMechanismKind.
@@ -20372,7 +21147,7 @@ export type DiagnosticsSinkKind = 'Invalid' | 'AzureInternalMonitoringPipeline';
  * @readonly
  * @enum {string}
  */
-export type AutoScalingMechanismKind = 'AddRemoveReplica';
+export type AutoScalingMechanismKind = "AddRemoveReplica";
 
 /**
  * Defines values for AutoScalingMetricKind.
@@ -20380,7 +21155,7 @@ export type AutoScalingMechanismKind = 'AddRemoveReplica';
  * @readonly
  * @enum {string}
  */
-export type AutoScalingMetricKind = 'Resource';
+export type AutoScalingMetricKind = "Resource";
 
 /**
  * Defines values for AutoScalingResourceMetricName.
@@ -20388,7 +21163,7 @@ export type AutoScalingMetricKind = 'Resource';
  * @readonly
  * @enum {string}
  */
-export type AutoScalingResourceMetricName = 'cpu' | 'memoryInGB';
+export type AutoScalingResourceMetricName = "cpu" | "memoryInGB";
 
 /**
  * Defines values for AutoScalingTriggerKind.
@@ -20396,7 +21171,7 @@ export type AutoScalingResourceMetricName = 'cpu' | 'memoryInGB';
  * @readonly
  * @enum {string}
  */
-export type AutoScalingTriggerKind = 'AverageLoad';
+export type AutoScalingTriggerKind = "AverageLoad";
 
 /**
  * Defines values for ExecutionPolicyType.
@@ -20404,7 +21179,7 @@ export type AutoScalingTriggerKind = 'AverageLoad';
  * @readonly
  * @enum {string}
  */
-export type ExecutionPolicyType = 'runToCompletion';
+export type ExecutionPolicyType = "runToCompletion";
 
 /**
  * Defines values for RestartPolicy.
@@ -20412,7 +21187,7 @@ export type ExecutionPolicyType = 'runToCompletion';
  * @readonly
  * @enum {string}
  */
-export type RestartPolicy = 'onFailure' | 'never';
+export type RestartPolicy = "onFailure" | "never";
 
 /**
  * Defines values for NodeStatusFilter.
@@ -20421,7 +21196,16 @@ export type RestartPolicy = 'onFailure' | 'never';
  * @readonly
  * @enum {string}
  */
-export type NodeStatusFilter = 'default' | 'all' | 'up' | 'down' | 'enabling' | 'disabling' | 'disabled' | 'unknown' | 'removed';
+export type NodeStatusFilter =
+  | "default"
+  | "all"
+  | "up"
+  | "down"
+  | "enabling"
+  | "disabling"
+  | "disabled"
+  | "unknown"
+  | "removed";
 
 /**
  * Defines values for ReplicaHealthReportServiceKind.
@@ -20429,7 +21213,7 @@ export type NodeStatusFilter = 'default' | 'all' | 'up' | 'down' | 'enabling' | 
  * @readonly
  * @enum {string}
  */
-export type ReplicaHealthReportServiceKind = 'Stateless' | 'Stateful';
+export type ReplicaHealthReportServiceKind = "Stateless" | "Stateful";
 
 /**
  * Defines values for DataLossMode.
@@ -20437,7 +21221,7 @@ export type ReplicaHealthReportServiceKind = 'Stateless' | 'Stateful';
  * @readonly
  * @enum {string}
  */
-export type DataLossMode = 'Invalid' | 'PartialDataLoss' | 'FullDataLoss';
+export type DataLossMode = "Invalid" | "PartialDataLoss" | "FullDataLoss";
 
 /**
  * Defines values for NodeTransitionType.
@@ -20445,7 +21229,7 @@ export type DataLossMode = 'Invalid' | 'PartialDataLoss' | 'FullDataLoss';
  * @readonly
  * @enum {string}
  */
-export type NodeTransitionType = 'Invalid' | 'Start' | 'Stop';
+export type NodeTransitionType = "Invalid" | "Start" | "Stop";
 
 /**
  * Defines values for QuorumLossMode.
@@ -20453,7 +21237,7 @@ export type NodeTransitionType = 'Invalid' | 'Start' | 'Stop';
  * @readonly
  * @enum {string}
  */
-export type QuorumLossMode = 'Invalid' | 'QuorumReplicas' | 'AllReplicas';
+export type QuorumLossMode = "Invalid" | "QuorumReplicas" | "AllReplicas";
 
 /**
  * Defines values for RestartPartitionMode.
@@ -20461,7 +21245,7 @@ export type QuorumLossMode = 'Invalid' | 'QuorumReplicas' | 'AllReplicas';
  * @readonly
  * @enum {string}
  */
-export type RestartPartitionMode = 'Invalid' | 'AllReplicasOrInstances' | 'OnlyActiveSecondaries';
+export type RestartPartitionMode = "Invalid" | "AllReplicasOrInstances" | "OnlyActiveSecondaries";
 
 /**
  * Contains response data for the getClusterManifest operation.
@@ -20471,16 +21255,16 @@ export type GetClusterManifestResponse = ClusterManifest & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterManifest;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterManifest;
+  };
 };
 
 /**
@@ -20491,16 +21275,16 @@ export type GetClusterHealthResponse = ClusterHealth & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterHealth;
+  };
 };
 
 /**
@@ -20511,16 +21295,16 @@ export type GetClusterHealthUsingPolicyResponse = ClusterHealth & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterHealth;
+  };
 };
 
 /**
@@ -20531,16 +21315,16 @@ export type GetClusterHealthChunkResponse = ClusterHealthChunk & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterHealthChunk;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterHealthChunk;
+  };
 };
 
 /**
@@ -20551,16 +21335,16 @@ export type GetClusterHealthChunkUsingPolicyAndAdvancedFiltersResponse = Cluster
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterHealthChunk;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterHealthChunk;
+  };
 };
 
 /**
@@ -20571,16 +21355,16 @@ export type GetProvisionedFabricCodeVersionInfoListResponse = Array<FabricCodeVe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FabricCodeVersionInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FabricCodeVersionInfo[];
+  };
 };
 
 /**
@@ -20591,16 +21375,16 @@ export type GetProvisionedFabricConfigVersionInfoListResponse = Array<FabricConf
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FabricConfigVersionInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FabricConfigVersionInfo[];
+  };
 };
 
 /**
@@ -20611,16 +21395,16 @@ export type GetClusterUpgradeProgressResponse = ClusterUpgradeProgressObject & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterUpgradeProgressObject;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterUpgradeProgressObject;
+  };
 };
 
 /**
@@ -20631,16 +21415,16 @@ export type GetClusterConfigurationResponse = ClusterConfiguration & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterConfiguration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterConfiguration;
+  };
 };
 
 /**
@@ -20651,16 +21435,16 @@ export type GetClusterConfigurationUpgradeStatusResponse = ClusterConfigurationU
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterConfigurationUpgradeStatusInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterConfigurationUpgradeStatusInfo;
+  };
 };
 
 /**
@@ -20671,16 +21455,16 @@ export type GetUpgradeOrchestrationServiceStateResponse = UpgradeOrchestrationSe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UpgradeOrchestrationServiceState;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UpgradeOrchestrationServiceState;
+  };
 };
 
 /**
@@ -20691,16 +21475,16 @@ export type SetUpgradeOrchestrationServiceStateResponse = UpgradeOrchestrationSe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UpgradeOrchestrationServiceStateSummary;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UpgradeOrchestrationServiceStateSummary;
+  };
 };
 
 /**
@@ -20711,16 +21495,16 @@ export type GetAadMetadataResponse = AadMetadataObject & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AadMetadataObject;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AadMetadataObject;
+  };
 };
 
 /**
@@ -20731,16 +21515,16 @@ export type GetClusterVersionResponse = ClusterVersion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterVersion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterVersion;
+  };
 };
 
 /**
@@ -20751,16 +21535,16 @@ export type GetClusterLoadResponse = ClusterLoadInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterLoadInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterLoadInfo;
+  };
 };
 
 /**
@@ -20771,16 +21555,16 @@ export type GetNodeInfoListResponse = PagedNodeInfoList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedNodeInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedNodeInfoList;
+  };
 };
 
 /**
@@ -20791,16 +21575,16 @@ export type GetNodeInfoResponse = NodeInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NodeInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NodeInfo;
+  };
 };
 
 /**
@@ -20811,16 +21595,16 @@ export type GetNodeHealthResponse = NodeHealth & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NodeHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NodeHealth;
+  };
 };
 
 /**
@@ -20831,16 +21615,16 @@ export type GetNodeHealthUsingPolicyResponse = NodeHealth & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NodeHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NodeHealth;
+  };
 };
 
 /**
@@ -20851,16 +21635,16 @@ export type GetNodeLoadInfoResponse = NodeLoadInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NodeLoadInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NodeLoadInfo;
+  };
 };
 
 /**
@@ -20871,16 +21655,16 @@ export type GetConfigurationOverridesResponse = Array<ConfigParameterOverride> &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigParameterOverride[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ConfigParameterOverride[];
+  };
 };
 
 /**
@@ -20891,16 +21675,16 @@ export type GetApplicationTypeInfoListResponse = PagedApplicationTypeInfoList & 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedApplicationTypeInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedApplicationTypeInfoList;
+  };
 };
 
 /**
@@ -20911,16 +21695,16 @@ export type GetApplicationTypeInfoListByNameResponse = PagedApplicationTypeInfoL
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedApplicationTypeInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedApplicationTypeInfoList;
+  };
 };
 
 /**
@@ -20931,16 +21715,16 @@ export type GetServiceTypeInfoListResponse = Array<ServiceTypeInfo> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceTypeInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceTypeInfo[];
+  };
 };
 
 /**
@@ -20951,16 +21735,16 @@ export type GetServiceTypeInfoByNameResponse = ServiceTypeInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceTypeInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceTypeInfo;
+  };
 };
 
 /**
@@ -20971,16 +21755,16 @@ export type GetServiceManifestResponse = ServiceTypeManifest & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceTypeManifest;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceTypeManifest;
+  };
 };
 
 /**
@@ -20991,16 +21775,16 @@ export type GetDeployedServiceTypeInfoListResponse = Array<DeployedServiceTypeIn
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedServiceTypeInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedServiceTypeInfo[];
+  };
 };
 
 /**
@@ -21011,16 +21795,16 @@ export type GetDeployedServiceTypeInfoByNameResponse = Array<DeployedServiceType
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedServiceTypeInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedServiceTypeInfo[];
+  };
 };
 
 /**
@@ -21031,16 +21815,16 @@ export type GetApplicationLoadInfoResponse = ApplicationLoadInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationLoadInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationLoadInfo;
+  };
 };
 
 /**
@@ -21051,16 +21835,16 @@ export type GetApplicationInfoListResponse = PagedApplicationInfoList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedApplicationInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedApplicationInfoList;
+  };
 };
 
 /**
@@ -21071,16 +21855,16 @@ export type GetApplicationInfoResponse = ApplicationInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationInfo;
+  };
 };
 
 /**
@@ -21091,16 +21875,16 @@ export type GetApplicationHealthResponse = ApplicationHealth & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationHealth;
+  };
 };
 
 /**
@@ -21111,16 +21895,16 @@ export type GetApplicationHealthUsingPolicyResponse = ApplicationHealth & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationHealth;
+  };
 };
 
 /**
@@ -21131,16 +21915,16 @@ export type GetApplicationUpgradeResponse = ApplicationUpgradeProgressInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationUpgradeProgressInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationUpgradeProgressInfo;
+  };
 };
 
 /**
@@ -21151,16 +21935,16 @@ export type GetDeployedApplicationInfoListResponse = PagedDeployedApplicationInf
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedDeployedApplicationInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedDeployedApplicationInfoList;
+  };
 };
 
 /**
@@ -21171,16 +21955,16 @@ export type GetDeployedApplicationInfoResponse = DeployedApplicationInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedApplicationInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedApplicationInfo;
+  };
 };
 
 /**
@@ -21191,16 +21975,16 @@ export type GetDeployedApplicationHealthResponse = DeployedApplicationHealth & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedApplicationHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedApplicationHealth;
+  };
 };
 
 /**
@@ -21211,16 +21995,16 @@ export type GetDeployedApplicationHealthUsingPolicyResponse = DeployedApplicatio
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedApplicationHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedApplicationHealth;
+  };
 };
 
 /**
@@ -21231,16 +22015,16 @@ export type GetApplicationManifestResponse = ApplicationTypeManifest & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationTypeManifest;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationTypeManifest;
+  };
 };
 
 /**
@@ -21251,16 +22035,16 @@ export type GetServiceInfoListResponse = PagedServiceInfoList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedServiceInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedServiceInfoList;
+  };
 };
 
 /**
@@ -21271,16 +22055,16 @@ export type GetServiceInfoResponse = ServiceInfoUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceInfoUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceInfoUnion;
+  };
 };
 
 /**
@@ -21291,16 +22075,16 @@ export type GetApplicationNameInfoResponse = ApplicationNameInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationNameInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationNameInfo;
+  };
 };
 
 /**
@@ -21311,16 +22095,16 @@ export type GetServiceDescriptionResponse = ServiceDescriptionUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceDescriptionUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceDescriptionUnion;
+  };
 };
 
 /**
@@ -21331,16 +22115,16 @@ export type GetServiceHealthResponse = ServiceHealth & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceHealth;
+  };
 };
 
 /**
@@ -21351,16 +22135,16 @@ export type GetServiceHealthUsingPolicyResponse = ServiceHealth & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceHealth;
+  };
 };
 
 /**
@@ -21371,16 +22155,16 @@ export type ResolveServiceResponse = ResolvedServicePartition & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResolvedServicePartition;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResolvedServicePartition;
+  };
 };
 
 /**
@@ -21391,16 +22175,16 @@ export type GetUnplacedReplicaInformationResponse = UnplacedReplicaInformation &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UnplacedReplicaInformation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UnplacedReplicaInformation;
+  };
 };
 
 /**
@@ -21411,16 +22195,16 @@ export type GetPartitionInfoListResponse = PagedServicePartitionInfoList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedServicePartitionInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedServicePartitionInfoList;
+  };
 };
 
 /**
@@ -21431,16 +22215,16 @@ export type GetPartitionInfoResponse = ServicePartitionInfoUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServicePartitionInfoUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServicePartitionInfoUnion;
+  };
 };
 
 /**
@@ -21451,16 +22235,16 @@ export type GetServiceNameInfoResponse = ServiceNameInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceNameInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceNameInfo;
+  };
 };
 
 /**
@@ -21471,16 +22255,16 @@ export type GetPartitionHealthResponse = PartitionHealth & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartitionHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PartitionHealth;
+  };
 };
 
 /**
@@ -21491,16 +22275,16 @@ export type GetPartitionHealthUsingPolicyResponse = PartitionHealth & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartitionHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PartitionHealth;
+  };
 };
 
 /**
@@ -21511,16 +22295,16 @@ export type GetPartitionLoadInformationResponse = PartitionLoadInformation & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartitionLoadInformation;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PartitionLoadInformation;
+  };
 };
 
 /**
@@ -21531,16 +22315,16 @@ export type CreateRepairTaskResponse = RepairTaskUpdateInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RepairTaskUpdateInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RepairTaskUpdateInfo;
+  };
 };
 
 /**
@@ -21551,16 +22335,16 @@ export type CancelRepairTaskResponse = RepairTaskUpdateInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RepairTaskUpdateInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RepairTaskUpdateInfo;
+  };
 };
 
 /**
@@ -21571,16 +22355,16 @@ export type GetRepairTaskListResponse = Array<RepairTask> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RepairTask[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RepairTask[];
+  };
 };
 
 /**
@@ -21591,16 +22375,16 @@ export type ForceApproveRepairTaskResponse = RepairTaskUpdateInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RepairTaskUpdateInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RepairTaskUpdateInfo;
+  };
 };
 
 /**
@@ -21611,16 +22395,16 @@ export type UpdateRepairTaskHealthPolicyResponse = RepairTaskUpdateInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RepairTaskUpdateInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RepairTaskUpdateInfo;
+  };
 };
 
 /**
@@ -21631,16 +22415,16 @@ export type UpdateRepairExecutionStateResponse = RepairTaskUpdateInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RepairTaskUpdateInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RepairTaskUpdateInfo;
+  };
 };
 
 /**
@@ -21651,16 +22435,16 @@ export type GetReplicaInfoListResponse = PagedReplicaInfoList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedReplicaInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedReplicaInfoList;
+  };
 };
 
 /**
@@ -21671,16 +22455,16 @@ export type GetReplicaInfoResponse = ReplicaInfoUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicaInfoUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicaInfoUnion;
+  };
 };
 
 /**
@@ -21691,16 +22475,16 @@ export type GetReplicaHealthResponse = ReplicaHealthUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicaHealthUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicaHealthUnion;
+  };
 };
 
 /**
@@ -21711,16 +22495,16 @@ export type GetReplicaHealthUsingPolicyResponse = ReplicaHealthUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicaHealthUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicaHealthUnion;
+  };
 };
 
 /**
@@ -21731,16 +22515,16 @@ export type GetDeployedServiceReplicaInfoListResponse = Array<DeployedServiceRep
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedServiceReplicaInfoUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedServiceReplicaInfoUnion[];
+  };
 };
 
 /**
@@ -21751,16 +22535,16 @@ export type GetDeployedServiceReplicaDetailInfoResponse = DeployedServiceReplica
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedServiceReplicaDetailInfoUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedServiceReplicaDetailInfoUnion;
+  };
 };
 
 /**
@@ -21771,16 +22555,16 @@ export type GetDeployedServiceReplicaDetailInfoByPartitionIdResponse = DeployedS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedServiceReplicaDetailInfoUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedServiceReplicaDetailInfoUnion;
+  };
 };
 
 /**
@@ -21791,16 +22575,16 @@ export type GetDeployedServicePackageInfoListResponse = Array<DeployedServicePac
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedServicePackageInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedServicePackageInfo[];
+  };
 };
 
 /**
@@ -21811,16 +22595,16 @@ export type GetDeployedServicePackageInfoListByNameResponse = Array<DeployedServ
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedServicePackageInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedServicePackageInfo[];
+  };
 };
 
 /**
@@ -21831,16 +22615,16 @@ export type GetDeployedServicePackageHealthResponse = DeployedServicePackageHeal
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedServicePackageHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedServicePackageHealth;
+  };
 };
 
 /**
@@ -21851,16 +22635,16 @@ export type GetDeployedServicePackageHealthUsingPolicyResponse = DeployedService
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedServicePackageHealth;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedServicePackageHealth;
+  };
 };
 
 /**
@@ -21871,16 +22655,16 @@ export type GetDeployedCodePackageInfoListResponse = Array<DeployedCodePackageIn
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeployedCodePackageInfo[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DeployedCodePackageInfo[];
+  };
 };
 
 /**
@@ -21891,16 +22675,16 @@ export type GetContainerLogsDeployedOnNodeResponse = ContainerLogs & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerLogs;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerLogs;
+  };
 };
 
 /**
@@ -21911,16 +22695,16 @@ export type InvokeContainerApiResponse = ContainerApiResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerApiResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerApiResponse;
+  };
 };
 
 /**
@@ -21931,16 +22715,16 @@ export type GetComposeDeploymentStatusResponse = ComposeDeploymentStatusInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComposeDeploymentStatusInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComposeDeploymentStatusInfo;
+  };
 };
 
 /**
@@ -21951,16 +22735,16 @@ export type GetComposeDeploymentStatusListResponse = PagedComposeDeploymentStatu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedComposeDeploymentStatusInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedComposeDeploymentStatusInfoList;
+  };
 };
 
 /**
@@ -21971,16 +22755,16 @@ export type GetComposeDeploymentUpgradeProgressResponse = ComposeDeploymentUpgra
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComposeDeploymentUpgradeProgressInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ComposeDeploymentUpgradeProgressInfo;
+  };
 };
 
 /**
@@ -21991,16 +22775,16 @@ export type GetChaosResponse = Chaos & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Chaos;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Chaos;
+  };
 };
 
 /**
@@ -22011,16 +22795,16 @@ export type GetChaosEventsResponse = ChaosEventsSegment & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChaosEventsSegment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ChaosEventsSegment;
+  };
 };
 
 /**
@@ -22031,16 +22815,16 @@ export type GetChaosScheduleResponse = ChaosScheduleDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChaosScheduleDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ChaosScheduleDescription;
+  };
 };
 
 /**
@@ -22051,16 +22835,16 @@ export type GetImageStoreContentResponse = ImageStoreContent & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageStoreContent;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageStoreContent;
+  };
 };
 
 /**
@@ -22071,16 +22855,16 @@ export type GetImageStoreRootContentResponse = ImageStoreContent & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageStoreContent;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageStoreContent;
+  };
 };
 
 /**
@@ -22091,16 +22875,16 @@ export type GetImageStoreUploadSessionByIdResponse = UploadSession & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UploadSession;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UploadSession;
+  };
 };
 
 /**
@@ -22111,16 +22895,16 @@ export type GetImageStoreUploadSessionByPathResponse = UploadSession & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UploadSession;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: UploadSession;
+  };
 };
 
 /**
@@ -22131,16 +22915,16 @@ export type GetImageStoreRootFolderSizeResponse = FolderSizeInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FolderSizeInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FolderSizeInfo;
+  };
 };
 
 /**
@@ -22151,16 +22935,16 @@ export type GetImageStoreFolderSizeResponse = FolderSizeInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FolderSizeInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FolderSizeInfo;
+  };
 };
 
 /**
@@ -22171,16 +22955,16 @@ export type GetImageStoreInfoResponse = ImageStoreInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageStoreInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ImageStoreInfo;
+  };
 };
 
 /**
@@ -22196,16 +22980,16 @@ export type InvokeInfrastructureCommandResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -22221,16 +23005,16 @@ export type InvokeInfrastructureQueryResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: string;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: string;
+  };
 };
 
 /**
@@ -22241,16 +23025,16 @@ export type GetDataLossProgressResponse = PartitionDataLossProgress & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartitionDataLossProgress;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PartitionDataLossProgress;
+  };
 };
 
 /**
@@ -22261,16 +23045,16 @@ export type GetQuorumLossProgressResponse = PartitionQuorumLossProgress & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartitionQuorumLossProgress;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PartitionQuorumLossProgress;
+  };
 };
 
 /**
@@ -22281,16 +23065,16 @@ export type GetPartitionRestartProgressResponse = PartitionRestartProgress & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartitionRestartProgress;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PartitionRestartProgress;
+  };
 };
 
 /**
@@ -22301,16 +23085,16 @@ export type GetNodeTransitionProgressResponse = NodeTransitionProgress & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NodeTransitionProgress;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NodeTransitionProgress;
+  };
 };
 
 /**
@@ -22321,16 +23105,16 @@ export type GetFaultOperationListResponse = Array<OperationStatus> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationStatus[];
+  };
 };
 
 /**
@@ -22341,16 +23125,16 @@ export type GetBackupPolicyListResponse = PagedBackupPolicyDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedBackupPolicyDescriptionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedBackupPolicyDescriptionList;
+  };
 };
 
 /**
@@ -22361,16 +23145,16 @@ export type GetBackupPolicyByNameResponse = BackupPolicyDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupPolicyDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupPolicyDescription;
+  };
 };
 
 /**
@@ -22381,16 +23165,16 @@ export type GetAllEntitiesBackedUpByPolicyResponse = PagedBackupEntityList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedBackupEntityList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedBackupEntityList;
+  };
 };
 
 /**
@@ -22401,16 +23185,16 @@ export type GetApplicationBackupConfigurationInfoResponse = PagedBackupConfigura
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedBackupConfigurationInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedBackupConfigurationInfoList;
+  };
 };
 
 /**
@@ -22421,16 +23205,16 @@ export type GetApplicationBackupListResponse = PagedBackupInfoList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedBackupInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedBackupInfoList;
+  };
 };
 
 /**
@@ -22441,16 +23225,16 @@ export type GetServiceBackupConfigurationInfoResponse = PagedBackupConfiguration
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedBackupConfigurationInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedBackupConfigurationInfoList;
+  };
 };
 
 /**
@@ -22461,16 +23245,16 @@ export type GetServiceBackupListResponse = PagedBackupInfoList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedBackupInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedBackupInfoList;
+  };
 };
 
 /**
@@ -22481,16 +23265,16 @@ export type GetPartitionBackupConfigurationInfoResponse = PartitionBackupConfigu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartitionBackupConfigurationInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PartitionBackupConfigurationInfo;
+  };
 };
 
 /**
@@ -22501,16 +23285,16 @@ export type GetPartitionBackupListResponse = PagedBackupInfoList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedBackupInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedBackupInfoList;
+  };
 };
 
 /**
@@ -22521,16 +23305,16 @@ export type GetPartitionBackupProgressResponse = BackupProgressInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BackupProgressInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: BackupProgressInfo;
+  };
 };
 
 /**
@@ -22541,16 +23325,16 @@ export type GetPartitionRestoreProgressResponse = RestoreProgressInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RestoreProgressInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RestoreProgressInfo;
+  };
 };
 
 /**
@@ -22561,16 +23345,16 @@ export type GetBackupsFromBackupLocationResponse = PagedBackupInfoList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedBackupInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedBackupInfoList;
+  };
 };
 
 /**
@@ -22581,16 +23365,16 @@ export type GetSubNameInfoListResponse = PagedSubNameInfoList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedSubNameInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedSubNameInfoList;
+  };
 };
 
 /**
@@ -22601,16 +23385,16 @@ export type GetPropertyInfoListResponse = PagedPropertyInfoList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedPropertyInfoList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedPropertyInfoList;
+  };
 };
 
 /**
@@ -22621,16 +23405,16 @@ export type GetPropertyInfoResponse = PropertyInfo & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PropertyInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PropertyInfo;
+  };
 };
 
 /**
@@ -22641,16 +23425,16 @@ export type SubmitPropertyBatchResponse = PropertyBatchInfoUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PropertyBatchInfoUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PropertyBatchInfoUnion;
+  };
 };
 
 /**
@@ -22661,16 +23445,16 @@ export type GetClusterEventListResponse = Array<ClusterEventUnion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterEventUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterEventUnion[];
+  };
 };
 
 /**
@@ -22681,16 +23465,16 @@ export type GetContainersEventListResponse = Array<ContainerInstanceEvent> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerInstanceEvent[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerInstanceEvent[];
+  };
 };
 
 /**
@@ -22701,16 +23485,16 @@ export type GetNodeEventListResponse = Array<NodeEventUnion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NodeEventUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NodeEventUnion[];
+  };
 };
 
 /**
@@ -22721,16 +23505,16 @@ export type GetNodesEventListResponse = Array<NodeEventUnion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NodeEventUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NodeEventUnion[];
+  };
 };
 
 /**
@@ -22741,16 +23525,16 @@ export type GetApplicationEventListResponse = Array<ApplicationEventUnion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationEventUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationEventUnion[];
+  };
 };
 
 /**
@@ -22761,16 +23545,16 @@ export type GetApplicationsEventListResponse = Array<ApplicationEventUnion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationEventUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationEventUnion[];
+  };
 };
 
 /**
@@ -22781,16 +23565,16 @@ export type GetServiceEventListResponse = Array<ServiceEventUnion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceEventUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceEventUnion[];
+  };
 };
 
 /**
@@ -22801,16 +23585,16 @@ export type GetServicesEventListResponse = Array<ServiceEventUnion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceEventUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceEventUnion[];
+  };
 };
 
 /**
@@ -22821,16 +23605,16 @@ export type GetPartitionEventListResponse = Array<PartitionEventUnion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartitionEventUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PartitionEventUnion[];
+  };
 };
 
 /**
@@ -22841,16 +23625,16 @@ export type GetPartitionsEventListResponse = Array<PartitionEventUnion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartitionEventUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PartitionEventUnion[];
+  };
 };
 
 /**
@@ -22861,16 +23645,16 @@ export type GetPartitionReplicaEventListResponse = Array<ReplicaEventUnion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicaEventUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicaEventUnion[];
+  };
 };
 
 /**
@@ -22881,16 +23665,16 @@ export type GetPartitionReplicasEventListResponse = Array<ReplicaEventUnion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReplicaEventUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReplicaEventUnion[];
+  };
 };
 
 /**
@@ -22901,16 +23685,16 @@ export type GetCorrelatedEventListResponse = Array<FabricEventUnion> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FabricEventUnion[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FabricEventUnion[];
+  };
 };
 
 /**
@@ -22921,16 +23705,16 @@ export type MeshSecretCreateOrUpdateResponse = SecretResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretResourceDescription;
+  };
 };
 
 /**
@@ -22941,16 +23725,16 @@ export type MeshSecretGetResponse = SecretResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretResourceDescription;
+  };
 };
 
 /**
@@ -22961,16 +23745,16 @@ export type MeshSecretListResponse = PagedSecretResourceDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedSecretResourceDescriptionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedSecretResourceDescriptionList;
+  };
 };
 
 /**
@@ -22981,16 +23765,16 @@ export type MeshSecretValueAddValueResponse = SecretValueResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretValueResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretValueResourceDescription;
+  };
 };
 
 /**
@@ -23001,16 +23785,16 @@ export type MeshSecretValueGetResponse = SecretValueResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretValueResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretValueResourceDescription;
+  };
 };
 
 /**
@@ -23021,16 +23805,16 @@ export type MeshSecretValueListResponse = PagedSecretValueResourceDescriptionLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedSecretValueResourceDescriptionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedSecretValueResourceDescriptionList;
+  };
 };
 
 /**
@@ -23041,16 +23825,16 @@ export type MeshSecretValueShowResponse = SecretValue & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SecretValue;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SecretValue;
+  };
 };
 
 /**
@@ -23061,16 +23845,16 @@ export type MeshVolumeCreateOrUpdateResponse = VolumeResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeResourceDescription;
+  };
 };
 
 /**
@@ -23081,16 +23865,16 @@ export type MeshVolumeGetResponse = VolumeResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VolumeResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: VolumeResourceDescription;
+  };
 };
 
 /**
@@ -23101,16 +23885,16 @@ export type MeshVolumeListResponse = PagedVolumeResourceDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedVolumeResourceDescriptionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedVolumeResourceDescriptionList;
+  };
 };
 
 /**
@@ -23121,16 +23905,16 @@ export type MeshNetworkCreateOrUpdateResponse = NetworkResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkResourceDescription;
+  };
 };
 
 /**
@@ -23141,16 +23925,16 @@ export type MeshNetworkGetResponse = NetworkResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NetworkResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: NetworkResourceDescription;
+  };
 };
 
 /**
@@ -23161,16 +23945,16 @@ export type MeshNetworkListResponse = PagedNetworkResourceDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedNetworkResourceDescriptionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedNetworkResourceDescriptionList;
+  };
 };
 
 /**
@@ -23181,16 +23965,16 @@ export type MeshApplicationCreateOrUpdateResponse = ApplicationResourceDescripti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationResourceDescription;
+  };
 };
 
 /**
@@ -23201,16 +23985,16 @@ export type MeshApplicationGetResponse = ApplicationResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationResourceDescription;
+  };
 };
 
 /**
@@ -23221,16 +24005,16 @@ export type MeshApplicationListResponse = PagedApplicationResourceDescriptionLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedApplicationResourceDescriptionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedApplicationResourceDescriptionList;
+  };
 };
 
 /**
@@ -23241,16 +24025,16 @@ export type MeshApplicationGetUpgradeProgressResponse = ApplicationResourceUpgra
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceUpgradeProgressInfo;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ApplicationResourceUpgradeProgressInfo;
+  };
 };
 
 /**
@@ -23261,16 +24045,16 @@ export type MeshServiceGetResponse = ServiceResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceResourceDescription;
+  };
 };
 
 /**
@@ -23281,16 +24065,16 @@ export type MeshServiceListResponse = PagedServiceResourceDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedServiceResourceDescriptionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedServiceResourceDescriptionList;
+  };
 };
 
 /**
@@ -23301,16 +24085,16 @@ export type MeshCodePackageGetContainerLogsResponse = ContainerLogs & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerLogs;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ContainerLogs;
+  };
 };
 
 /**
@@ -23321,16 +24105,16 @@ export type MeshServiceReplicaGetResponse = ServiceReplicaDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceReplicaDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ServiceReplicaDescription;
+  };
 };
 
 /**
@@ -23341,16 +24125,16 @@ export type MeshServiceReplicaListResponse = PagedServiceReplicaDescriptionList 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedServiceReplicaDescriptionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedServiceReplicaDescriptionList;
+  };
 };
 
 /**
@@ -23361,16 +24145,16 @@ export type MeshGatewayCreateOrUpdateResponse = GatewayResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayResourceDescription;
+  };
 };
 
 /**
@@ -23381,16 +24165,16 @@ export type MeshGatewayGetResponse = GatewayResourceDescription & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: GatewayResourceDescription;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: GatewayResourceDescription;
+  };
 };
 
 /**
@@ -23401,14 +24185,14 @@ export type MeshGatewayListResponse = PagedGatewayResourceDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PagedGatewayResourceDescriptionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PagedGatewayResourceDescriptionList;
+  };
 };

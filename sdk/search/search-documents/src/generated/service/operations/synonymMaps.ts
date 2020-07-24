@@ -33,21 +33,41 @@ export class SynonymMaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.SynonymMapsCreateOrUpdateResponse>
    */
-  createOrUpdate(synonymMapName: string, synonymMap: Models.SynonymMap, options?: Models.SynonymMapsCreateOrUpdateOptionalParams): Promise<Models.SynonymMapsCreateOrUpdateResponse>;
+  createOrUpdate(
+    synonymMapName: string,
+    synonymMap: Models.SynonymMap,
+    options?: Models.SynonymMapsCreateOrUpdateOptionalParams
+  ): Promise<Models.SynonymMapsCreateOrUpdateResponse>;
   /**
    * @param synonymMapName The name of the synonym map to create or update.
    * @param synonymMap The definition of the synonym map to create or update.
    * @param callback The callback
    */
-  createOrUpdate(synonymMapName: string, synonymMap: Models.SynonymMap, callback: coreHttp.ServiceCallback<Models.SynonymMap>): void;
+  createOrUpdate(
+    synonymMapName: string,
+    synonymMap: Models.SynonymMap,
+    callback: coreHttp.ServiceCallback<Models.SynonymMap>
+  ): void;
   /**
    * @param synonymMapName The name of the synonym map to create or update.
    * @param synonymMap The definition of the synonym map to create or update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(synonymMapName: string, synonymMap: Models.SynonymMap, options: Models.SynonymMapsCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.SynonymMap>): void;
-  createOrUpdate(synonymMapName: string, synonymMap: Models.SynonymMap, options?: Models.SynonymMapsCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.SynonymMap>, callback?: coreHttp.ServiceCallback<Models.SynonymMap>): Promise<Models.SynonymMapsCreateOrUpdateResponse> {
+  createOrUpdate(
+    synonymMapName: string,
+    synonymMap: Models.SynonymMap,
+    options: Models.SynonymMapsCreateOrUpdateOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.SynonymMap>
+  ): void;
+  createOrUpdate(
+    synonymMapName: string,
+    synonymMap: Models.SynonymMap,
+    options?:
+      | Models.SynonymMapsCreateOrUpdateOptionalParams
+      | coreHttp.ServiceCallback<Models.SynonymMap>,
+    callback?: coreHttp.ServiceCallback<Models.SynonymMap>
+  ): Promise<Models.SynonymMapsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         synonymMapName,
@@ -55,7 +75,8 @@ export class SynonymMaps {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.SynonymMapsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.SynonymMapsCreateOrUpdateResponse>;
   }
 
   /**
@@ -64,7 +85,10 @@ export class SynonymMaps {
    * @param [options] The optional parameters
    * @returns Promise<coreHttp.RestResponse>
    */
-  deleteMethod(synonymMapName: string, options?: Models.SynonymMapsDeleteMethodOptionalParams): Promise<coreHttp.RestResponse>;
+  deleteMethod(
+    synonymMapName: string,
+    options?: Models.SynonymMapsDeleteMethodOptionalParams
+  ): Promise<coreHttp.RestResponse>;
   /**
    * @param synonymMapName The name of the synonym map to delete.
    * @param callback The callback
@@ -75,15 +99,24 @@ export class SynonymMaps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(synonymMapName: string, options: Models.SynonymMapsDeleteMethodOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  deleteMethod(synonymMapName: string, options?: Models.SynonymMapsDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
+  deleteMethod(
+    synonymMapName: string,
+    options: Models.SynonymMapsDeleteMethodOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    synonymMapName: string,
+    options?: Models.SynonymMapsDeleteMethodOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         synonymMapName,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -92,7 +125,10 @@ export class SynonymMaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.SynonymMapsGetResponse>
    */
-  get(synonymMapName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.SynonymMapsGetResponse>;
+  get(
+    synonymMapName: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.SynonymMapsGetResponse>;
   /**
    * @param synonymMapName The name of the synonym map to retrieve.
    * @param callback The callback
@@ -103,15 +139,24 @@ export class SynonymMaps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(synonymMapName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SynonymMap>): void;
-  get(synonymMapName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SynonymMap>, callback?: coreHttp.ServiceCallback<Models.SynonymMap>): Promise<Models.SynonymMapsGetResponse> {
+  get(
+    synonymMapName: string,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.SynonymMap>
+  ): void;
+  get(
+    synonymMapName: string,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SynonymMap>,
+    callback?: coreHttp.ServiceCallback<Models.SynonymMap>
+  ): Promise<Models.SynonymMapsGetResponse> {
     return this.client.sendOperationRequest(
       {
         synonymMapName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SynonymMapsGetResponse>;
+      callback
+    ) as Promise<Models.SynonymMapsGetResponse>;
   }
 
   /**
@@ -128,14 +173,23 @@ export class SynonymMaps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.SynonymMapsListOptionalParams, callback: coreHttp.ServiceCallback<Models.ListSynonymMapsResult>): void;
-  list(options?: Models.SynonymMapsListOptionalParams | coreHttp.ServiceCallback<Models.ListSynonymMapsResult>, callback?: coreHttp.ServiceCallback<Models.ListSynonymMapsResult>): Promise<Models.SynonymMapsListResponse> {
+  list(
+    options: Models.SynonymMapsListOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.ListSynonymMapsResult>
+  ): void;
+  list(
+    options?:
+      | Models.SynonymMapsListOptionalParams
+      | coreHttp.ServiceCallback<Models.ListSynonymMapsResult>,
+    callback?: coreHttp.ServiceCallback<Models.ListSynonymMapsResult>
+  ): Promise<Models.SynonymMapsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SynonymMapsListResponse>;
+      callback
+    ) as Promise<Models.SynonymMapsListResponse>;
   }
 
   /**
@@ -144,26 +198,41 @@ export class SynonymMaps {
    * @param [options] The optional parameters
    * @returns Promise<Models.SynonymMapsCreateResponse>
    */
-  create(synonymMap: Models.SynonymMap, options?: coreHttp.RequestOptionsBase): Promise<Models.SynonymMapsCreateResponse>;
+  create(
+    synonymMap: Models.SynonymMap,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.SynonymMapsCreateResponse>;
   /**
    * @param synonymMap The definition of the synonym map to create.
    * @param callback The callback
    */
-  create(synonymMap: Models.SynonymMap, callback: coreHttp.ServiceCallback<Models.SynonymMap>): void;
+  create(
+    synonymMap: Models.SynonymMap,
+    callback: coreHttp.ServiceCallback<Models.SynonymMap>
+  ): void;
   /**
    * @param synonymMap The definition of the synonym map to create.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(synonymMap: Models.SynonymMap, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SynonymMap>): void;
-  create(synonymMap: Models.SynonymMap, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SynonymMap>, callback?: coreHttp.ServiceCallback<Models.SynonymMap>): Promise<Models.SynonymMapsCreateResponse> {
+  create(
+    synonymMap: Models.SynonymMap,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.SynonymMap>
+  ): void;
+  create(
+    synonymMap: Models.SynonymMap,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SynonymMap>,
+    callback?: coreHttp.ServiceCallback<Models.SynonymMap>
+  ): Promise<Models.SynonymMapsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         synonymMap,
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.SynonymMapsCreateResponse>;
+      callback
+    ) as Promise<Models.SynonymMapsCreateResponse>;
   }
 }
 
@@ -172,18 +241,9 @@ const serializer = new coreHttp.Serializer(Mappers);
 const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "synonymmaps('{synonymMapName}')",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.synonymMapName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.prefer
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.synonymMapName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.ifNoneMatch, Parameters.prefer],
   requestBody: {
     parameterPath: "synonymMap",
     mapper: {
@@ -208,17 +268,9 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
 const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "synonymmaps('{synonymMapName}')",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.synonymMapName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.synonymMapName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.ifNoneMatch],
   responses: {
     204: {},
     404: {},
@@ -232,13 +284,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
 const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "synonymmaps('{synonymMapName}')",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.synonymMapName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.synonymMapName],
+  queryParameters: [Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.SynonymMap
@@ -253,13 +300,8 @@ const getOperationSpec: coreHttp.OperationSpec = {
 const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "synonymmaps",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.select,
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.select, Parameters.apiVersion],
   responses: {
     200: {
       bodyMapper: Mappers.ListSynonymMapsResult
@@ -274,12 +316,8 @@ const listOperationSpec: coreHttp.OperationSpec = {
 const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "synonymmaps",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.apiVersion],
   requestBody: {
     parameterPath: "synonymMap",
     mapper: {

@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { MicrosoftSerialConsoleClientContext } from "./microsoftSerialConsoleClientContext";
 
-
 class MicrosoftSerialConsoleClient extends MicrosoftSerialConsoleClientContext {
   // Operation groups
   list: operations.List;
@@ -27,7 +26,11 @@ class MicrosoftSerialConsoleClient extends MicrosoftSerialConsoleClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MicrosoftSerialConsoleClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.MicrosoftSerialConsoleClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.list = new operations.List(this);
     this.listConsole = new operations.ListConsole(this);

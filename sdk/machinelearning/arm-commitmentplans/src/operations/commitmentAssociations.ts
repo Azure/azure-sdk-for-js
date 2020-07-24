@@ -34,14 +34,24 @@ export class CommitmentAssociations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CommitmentAssociationsGetResponse>
    */
-  get(resourceGroupName: string, commitmentPlanName: string, commitmentAssociationName: string, options?: msRest.RequestOptionsBase): Promise<Models.CommitmentAssociationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentAssociationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CommitmentAssociationsGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param commitmentPlanName The Azure ML commitment plan name.
    * @param commitmentAssociationName The commitment association name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, commitmentPlanName: string, commitmentAssociationName: string, callback: msRest.ServiceCallback<Models.CommitmentAssociation>): void;
+  get(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentAssociationName: string,
+    callback: msRest.ServiceCallback<Models.CommitmentAssociation>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param commitmentPlanName The Azure ML commitment plan name.
@@ -49,8 +59,20 @@ export class CommitmentAssociations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, commitmentPlanName: string, commitmentAssociationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CommitmentAssociation>): void;
-  get(resourceGroupName: string, commitmentPlanName: string, commitmentAssociationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommitmentAssociation>, callback?: msRest.ServiceCallback<Models.CommitmentAssociation>): Promise<Models.CommitmentAssociationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentAssociationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CommitmentAssociation>
+  ): void;
+  get(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentAssociationName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommitmentAssociation>,
+    callback?: msRest.ServiceCallback<Models.CommitmentAssociation>
+  ): Promise<Models.CommitmentAssociationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class CommitmentAssociations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CommitmentAssociationsGetResponse>;
+      callback
+    ) as Promise<Models.CommitmentAssociationsGetResponse>;
   }
 
   /**
@@ -69,21 +92,41 @@ export class CommitmentAssociations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CommitmentAssociationsListResponse>
    */
-  list(resourceGroupName: string, commitmentPlanName: string, options?: Models.CommitmentAssociationsListOptionalParams): Promise<Models.CommitmentAssociationsListResponse>;
+  list(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?: Models.CommitmentAssociationsListOptionalParams
+  ): Promise<Models.CommitmentAssociationsListResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param commitmentPlanName The Azure ML commitment plan name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, commitmentPlanName: string, callback: msRest.ServiceCallback<Models.CommitmentAssociationListResult>): void;
+  list(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    callback: msRest.ServiceCallback<Models.CommitmentAssociationListResult>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param commitmentPlanName The Azure ML commitment plan name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, commitmentPlanName: string, options: Models.CommitmentAssociationsListOptionalParams, callback: msRest.ServiceCallback<Models.CommitmentAssociationListResult>): void;
-  list(resourceGroupName: string, commitmentPlanName: string, options?: Models.CommitmentAssociationsListOptionalParams | msRest.ServiceCallback<Models.CommitmentAssociationListResult>, callback?: msRest.ServiceCallback<Models.CommitmentAssociationListResult>): Promise<Models.CommitmentAssociationsListResponse> {
+  list(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options: Models.CommitmentAssociationsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.CommitmentAssociationListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    options?:
+      | Models.CommitmentAssociationsListOptionalParams
+      | msRest.ServiceCallback<Models.CommitmentAssociationListResult>,
+    callback?: msRest.ServiceCallback<Models.CommitmentAssociationListResult>
+  ): Promise<Models.CommitmentAssociationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +134,8 @@ export class CommitmentAssociations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.CommitmentAssociationsListResponse>;
+      callback
+    ) as Promise<Models.CommitmentAssociationsListResponse>;
   }
 
   /**
@@ -103,7 +147,13 @@ export class CommitmentAssociations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CommitmentAssociationsMoveResponse>
    */
-  move(resourceGroupName: string, commitmentPlanName: string, commitmentAssociationName: string, movePayload: Models.MoveCommitmentAssociationRequest, options?: msRest.RequestOptionsBase): Promise<Models.CommitmentAssociationsMoveResponse>;
+  move(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentAssociationName: string,
+    movePayload: Models.MoveCommitmentAssociationRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CommitmentAssociationsMoveResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param commitmentPlanName The Azure ML commitment plan name.
@@ -111,7 +161,13 @@ export class CommitmentAssociations {
    * @param movePayload The move request payload.
    * @param callback The callback
    */
-  move(resourceGroupName: string, commitmentPlanName: string, commitmentAssociationName: string, movePayload: Models.MoveCommitmentAssociationRequest, callback: msRest.ServiceCallback<Models.CommitmentAssociation>): void;
+  move(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentAssociationName: string,
+    movePayload: Models.MoveCommitmentAssociationRequest,
+    callback: msRest.ServiceCallback<Models.CommitmentAssociation>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param commitmentPlanName The Azure ML commitment plan name.
@@ -120,8 +176,22 @@ export class CommitmentAssociations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  move(resourceGroupName: string, commitmentPlanName: string, commitmentAssociationName: string, movePayload: Models.MoveCommitmentAssociationRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CommitmentAssociation>): void;
-  move(resourceGroupName: string, commitmentPlanName: string, commitmentAssociationName: string, movePayload: Models.MoveCommitmentAssociationRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommitmentAssociation>, callback?: msRest.ServiceCallback<Models.CommitmentAssociation>): Promise<Models.CommitmentAssociationsMoveResponse> {
+  move(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentAssociationName: string,
+    movePayload: Models.MoveCommitmentAssociationRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CommitmentAssociation>
+  ): void;
+  move(
+    resourceGroupName: string,
+    commitmentPlanName: string,
+    commitmentAssociationName: string,
+    movePayload: Models.MoveCommitmentAssociationRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommitmentAssociation>,
+    callback?: msRest.ServiceCallback<Models.CommitmentAssociation>
+  ): Promise<Models.CommitmentAssociationsMoveResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -131,7 +201,8 @@ export class CommitmentAssociations {
         options
       },
       moveOperationSpec,
-      callback) as Promise<Models.CommitmentAssociationsMoveResponse>;
+      callback
+    ) as Promise<Models.CommitmentAssociationsMoveResponse>;
   }
 
   /**
@@ -140,26 +211,43 @@ export class CommitmentAssociations {
    * @param [options] The optional parameters
    * @returns Promise<Models.CommitmentAssociationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CommitmentAssociationsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CommitmentAssociationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CommitmentAssociationListResult>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CommitmentAssociationListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CommitmentAssociationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommitmentAssociationListResult>, callback?: msRest.ServiceCallback<Models.CommitmentAssociationListResult>): Promise<Models.CommitmentAssociationsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CommitmentAssociationListResult>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.CommitmentAssociationListResult>,
+    callback?: msRest.ServiceCallback<Models.CommitmentAssociationListResult>
+  ): Promise<Models.CommitmentAssociationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.CommitmentAssociationsListNextResponse>;
+      callback
+    ) as Promise<Models.CommitmentAssociationsListNextResponse>;
   }
 }
 
@@ -167,19 +255,16 @@ export class CommitmentAssociations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}/commitmentAssociations/{commitmentAssociationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}/commitmentAssociations/{commitmentAssociationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.commitmentPlanName,
     Parameters.commitmentAssociationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CommitmentAssociation
@@ -193,19 +278,15 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}/commitmentAssociations",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}/commitmentAssociations",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.commitmentPlanName
   ],
-  queryParameters: [
-    Parameters.skipToken,
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.skipToken, Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CommitmentAssociationListResult
@@ -219,19 +300,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const moveOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}/commitmentAssociations/{commitmentAssociationName}/move",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearning/commitmentPlans/{commitmentPlanName}/commitmentAssociations/{commitmentAssociationName}/move",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.commitmentPlanName,
     Parameters.commitmentAssociationName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "movePayload",
     mapper: {
@@ -254,12 +332,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CommitmentAssociationListResult

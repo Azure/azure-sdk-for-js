@@ -36,14 +36,24 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolsGetResponse>;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SqlPool>): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    callback: msRest.ServiceCallback<Models.SqlPool>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -51,8 +61,20 @@ export class SqlPools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPool>): void;
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPool>, callback?: msRest.ServiceCallback<Models.SqlPool>): Promise<Models.SqlPoolsGetResponse> {
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlPool>
+  ): void;
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPool>,
+    callback?: msRest.ServiceCallback<Models.SqlPool>
+  ): Promise<Models.SqlPoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -61,7 +83,8 @@ export class SqlPools {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SqlPoolsGetResponse>;
+      callback
+    ) as Promise<Models.SqlPoolsGetResponse>;
   }
 
   /**
@@ -74,7 +97,13 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsUpdateResponse>
    */
-  update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: Models.SqlPoolPatchInfo, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    sqlPoolInfo: Models.SqlPoolPatchInfo,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -82,7 +111,13 @@ export class SqlPools {
    * @param sqlPoolInfo The updated SQL pool properties
    * @param callback The callback
    */
-  update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: Models.SqlPoolPatchInfo, callback: msRest.ServiceCallback<Models.SqlPool>): void;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    sqlPoolInfo: Models.SqlPoolPatchInfo,
+    callback: msRest.ServiceCallback<Models.SqlPool>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -91,8 +126,22 @@ export class SqlPools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: Models.SqlPoolPatchInfo, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPool>): void;
-  update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: Models.SqlPoolPatchInfo, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPool>, callback?: msRest.ServiceCallback<Models.SqlPool>): Promise<Models.SqlPoolsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    sqlPoolInfo: Models.SqlPoolPatchInfo,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlPool>
+  ): void;
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    sqlPoolInfo: Models.SqlPoolPatchInfo,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPool>,
+    callback?: msRest.ServiceCallback<Models.SqlPool>
+  ): Promise<Models.SqlPoolsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -102,7 +151,8 @@ export class SqlPools {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.SqlPoolsUpdateResponse>;
+      callback
+    ) as Promise<Models.SqlPoolsUpdateResponse>;
   }
 
   /**
@@ -115,9 +165,20 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsCreateResponse>
    */
-  create(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: Models.SqlPool, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolsCreateResponse> {
-    return this.beginCreate(resourceGroupName,workspaceName,sqlPoolName,sqlPoolInfo,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlPoolsCreateResponse>;
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    sqlPoolInfo: Models.SqlPool,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolsCreateResponse> {
+    return this.beginCreate(
+      resourceGroupName,
+      workspaceName,
+      sqlPoolName,
+      sqlPoolInfo,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.SqlPoolsCreateResponse>;
   }
 
   /**
@@ -129,9 +190,20 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsDeleteMethodResponse>
    */
-  deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolsDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,workspaceName,sqlPoolName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlPoolsDeleteMethodResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolsDeleteMethodResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      workspaceName,
+      sqlPoolName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SqlPoolsDeleteMethodResponse
+    >;
   }
 
   /**
@@ -142,21 +214,39 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsListByWorkspaceResponse>
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolsListByWorkspaceResponse>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolsListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.SqlPoolInfoListResult>): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    callback: msRest.ServiceCallback<Models.SqlPoolInfoListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolInfoListResult>): void;
-  listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolInfoListResult>, callback?: msRest.ServiceCallback<Models.SqlPoolInfoListResult>): Promise<Models.SqlPoolsListByWorkspaceResponse> {
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlPoolInfoListResult>
+  ): void;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolInfoListResult>,
+    callback?: msRest.ServiceCallback<Models.SqlPoolInfoListResult>
+  ): Promise<Models.SqlPoolsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -164,7 +254,8 @@ export class SqlPools {
         options
       },
       listByWorkspaceOperationSpec,
-      callback) as Promise<Models.SqlPoolsListByWorkspaceResponse>;
+      callback
+    ) as Promise<Models.SqlPoolsListByWorkspaceResponse>;
   }
 
   /**
@@ -176,9 +267,18 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsPauseResponse>
    */
-  pause(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolsPauseResponse> {
-    return this.beginPause(resourceGroupName,workspaceName,sqlPoolName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlPoolsPauseResponse>;
+  pause(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolsPauseResponse> {
+    return this.beginPause(
+      resourceGroupName,
+      workspaceName,
+      sqlPoolName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.SqlPoolsPauseResponse>;
   }
 
   /**
@@ -190,9 +290,18 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsResumeResponse>
    */
-  resume(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolsResumeResponse> {
-    return this.beginResume(resourceGroupName,workspaceName,sqlPoolName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlPoolsResumeResponse>;
+  resume(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolsResumeResponse> {
+    return this.beginResume(
+      resourceGroupName,
+      workspaceName,
+      sqlPoolName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.SqlPoolsResumeResponse>;
   }
 
   /**
@@ -205,7 +314,13 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  rename(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.ResourceMoveDefinition, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  rename(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.ResourceMoveDefinition,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -213,7 +328,13 @@ export class SqlPools {
    * @param parameters The resource move definition for renaming this Sql pool.
    * @param callback The callback
    */
-  rename(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.ResourceMoveDefinition, callback: msRest.ServiceCallback<void>): void;
+  rename(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.ResourceMoveDefinition,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -222,8 +343,22 @@ export class SqlPools {
    * @param options The optional parameters
    * @param callback The callback
    */
-  rename(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.ResourceMoveDefinition, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  rename(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.ResourceMoveDefinition, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  rename(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.ResourceMoveDefinition,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  rename(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    parameters: Models.ResourceMoveDefinition,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -233,7 +368,8 @@ export class SqlPools {
         options
       },
       renameOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -246,7 +382,13 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: Models.SqlPool, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    sqlPoolInfo: Models.SqlPool,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -256,7 +398,8 @@ export class SqlPools {
         options
       },
       beginCreateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -268,7 +411,12 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -277,7 +425,8 @@ export class SqlPools {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -289,7 +438,12 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginPause(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginPause(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -298,7 +452,8 @@ export class SqlPools {
         options
       },
       beginPauseOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -310,7 +465,12 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginResume(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginResume(
+    resourceGroupName: string,
+    workspaceName: string,
+    sqlPoolName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -319,7 +479,8 @@ export class SqlPools {
         options
       },
       beginResumeOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -329,26 +490,41 @@ export class SqlPools {
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsListByWorkspaceNextResponse>
    */
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolsListByWorkspaceNextResponse>;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SqlPoolsListByWorkspaceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SqlPoolInfoListResult>): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SqlPoolInfoListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByWorkspaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolInfoListResult>): void;
-  listByWorkspaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolInfoListResult>, callback?: msRest.ServiceCallback<Models.SqlPoolInfoListResult>): Promise<Models.SqlPoolsListByWorkspaceNextResponse> {
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SqlPoolInfoListResult>
+  ): void;
+  listByWorkspaceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolInfoListResult>,
+    callback?: msRest.ServiceCallback<Models.SqlPoolInfoListResult>
+  ): Promise<Models.SqlPoolsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByWorkspaceNextOperationSpec,
-      callback) as Promise<Models.SqlPoolsListByWorkspaceNextResponse>;
+      callback
+    ) as Promise<Models.SqlPoolsListByWorkspaceNextResponse>;
   }
 }
 
@@ -356,19 +532,16 @@ export class SqlPools {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlPool
@@ -382,19 +555,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "sqlPoolInfo",
     mapper: {
@@ -416,18 +586,15 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlPoolInfoListResult
@@ -441,19 +608,16 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
 
 const renameOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/move",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/move",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -472,19 +636,16 @@ const renameOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "sqlPoolInfo",
     mapper: {
@@ -507,19 +668,16 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -547,19 +705,16 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginPauseOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/pause",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/pause",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -579,19 +734,16 @@ const beginPauseOperationSpec: msRest.OperationSpec = {
 
 const beginResumeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/resume",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/resume",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: {
@@ -613,12 +765,8 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SqlPoolInfoListResult

@@ -37,7 +37,13 @@ export class PrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesGetResponse>
    */
-  get(resourceGroupName: string, parentType: string, parentName: string, privateLinkResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesGetResponse>;
+  get(
+    resourceGroupName: string,
+    parentType: string,
+    parentName: string,
+    privateLinkResourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
@@ -46,7 +52,13 @@ export class PrivateLinkResources {
    * @param privateLinkResourceName The name of private link resource.
    * @param callback The callback
    */
-  get(resourceGroupName: string, parentType: string, parentName: string, privateLinkResourceName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
+  get(
+    resourceGroupName: string,
+    parentType: string,
+    parentName: string,
+    privateLinkResourceName: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
@@ -56,8 +68,22 @@ export class PrivateLinkResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, parentType: string, parentName: string, privateLinkResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
-  get(resourceGroupName: string, parentType: string, parentName: string, privateLinkResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResource>, callback?: msRest.ServiceCallback<Models.PrivateLinkResource>): Promise<Models.PrivateLinkResourcesGetResponse> {
+  get(
+    resourceGroupName: string,
+    parentType: string,
+    parentName: string,
+    privateLinkResourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    parentType: string,
+    parentName: string,
+    privateLinkResourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResource>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): Promise<Models.PrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -67,7 +93,8 @@ export class PrivateLinkResources {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesGetResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesGetResponse>;
   }
 
   /**
@@ -80,7 +107,12 @@ export class PrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesListByResourceResponse>
    */
-  listByResource(resourceGroupName: string, parentType: string, parentName: string, options?: Models.PrivateLinkResourcesListByResourceOptionalParams): Promise<Models.PrivateLinkResourcesListByResourceResponse>;
+  listByResource(
+    resourceGroupName: string,
+    parentType: string,
+    parentName: string,
+    options?: Models.PrivateLinkResourcesListByResourceOptionalParams
+  ): Promise<Models.PrivateLinkResourcesListByResourceResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
@@ -88,7 +120,12 @@ export class PrivateLinkResources {
    * name).
    * @param callback The callback
    */
-  listByResource(resourceGroupName: string, parentType: string, parentName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>): void;
+  listByResource(
+    resourceGroupName: string,
+    parentType: string,
+    parentName: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
@@ -97,8 +134,22 @@ export class PrivateLinkResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResource(resourceGroupName: string, parentType: string, parentName: string, options: Models.PrivateLinkResourcesListByResourceOptionalParams, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>): void;
-  listByResource(resourceGroupName: string, parentType: string, parentName: string, options?: Models.PrivateLinkResourcesListByResourceOptionalParams | msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>): Promise<Models.PrivateLinkResourcesListByResourceResponse> {
+  listByResource(
+    resourceGroupName: string,
+    parentType: string,
+    parentName: string,
+    options: Models.PrivateLinkResourcesListByResourceOptionalParams,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>
+  ): void;
+  listByResource(
+    resourceGroupName: string,
+    parentType: string,
+    parentName: string,
+    options?:
+      | Models.PrivateLinkResourcesListByResourceOptionalParams
+      | msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>
+  ): Promise<Models.PrivateLinkResourcesListByResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +158,8 @@ export class PrivateLinkResources {
         options
       },
       listByResourceOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesListByResourceResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesListByResourceResponse>;
   }
 
   /**
@@ -117,26 +169,43 @@ export class PrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesListByResourceNextResponse>
    */
-  listByResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesListByResourceNextResponse>;
+  listByResourceNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesListByResourceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>): void;
+  listByResourceNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>): void;
-  listByResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>): Promise<Models.PrivateLinkResourcesListByResourceNextResponse> {
+  listByResourceNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>
+  ): void;
+  listByResourceNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>
+  ): Promise<Models.PrivateLinkResourcesListByResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByResourceNextOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesListByResourceNextResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesListByResourceNextResponse>;
   }
 }
 
@@ -144,7 +213,8 @@ export class PrivateLinkResources {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateLinkResources/{privateLinkResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateLinkResources/{privateLinkResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -152,12 +222,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.parentName,
     Parameters.privateLinkResourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResource
@@ -171,21 +237,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateLinkResources",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateLinkResources",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.parentType,
     Parameters.parentName
   ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResourcesListResult
@@ -201,12 +262,8 @@ const listByResourceNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResourcesListResult

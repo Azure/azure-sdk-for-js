@@ -8,9 +8,4 @@
  * regenerated.
  */
 
-export {
-  JobStream,
-  ErrorResponse,
-  JobStreamListResult
-} from "../models/mappers";
-
+export { JobStream, ErrorResponse, JobStreamListResult } from "../models/mappers";

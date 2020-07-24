@@ -13,7 +13,6 @@ import * as msRest from "@azure/ms-rest-js";
 
 export { BaseResource, CloudError };
 
-
 /**
  * @interface
  * An interface representing AvailabilityStatusPropertiesRecentlyResolvedState.
@@ -353,7 +352,8 @@ export interface ErrorResponse {
  *
  * @extends RequestOptionsBase
  */
-export interface AvailabilityStatusesListBySubscriptionIdOptionalParams extends msRest.RequestOptionsBase {
+export interface AvailabilityStatusesListBySubscriptionIdOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the operation. For more
    * information please see
@@ -374,7 +374,8 @@ export interface AvailabilityStatusesListBySubscriptionIdOptionalParams extends 
  *
  * @extends RequestOptionsBase
  */
-export interface AvailabilityStatusesListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface AvailabilityStatusesListByResourceGroupOptionalParams
+  extends msRest.RequestOptionsBase {
   /**
    * @member {string} [filter] The filter to apply on the operation. For more
    * information please see
@@ -442,7 +443,6 @@ export interface MicrosoftResourceHealthOptions extends AzureServiceClientOption
   baseUri?: string;
 }
 
-
 /**
  * @interface
  * An interface representing the AvailabilityStatusListResult.
@@ -465,7 +465,7 @@ export interface AvailabilityStatusListResult extends Array<AvailabilityStatus> 
  * @readonly
  * @enum {string}
  */
-export type AvailabilityStateValues = 'Available' | 'Unavailable' | 'Unknown';
+export type AvailabilityStateValues = "Available" | "Unavailable" | "Unknown";
 
 /**
  * Defines values for ReasonChronicityTypes.
@@ -473,7 +473,7 @@ export type AvailabilityStateValues = 'Available' | 'Unavailable' | 'Unknown';
  * @readonly
  * @enum {string}
  */
-export type ReasonChronicityTypes = 'Transient' | 'Persistent';
+export type ReasonChronicityTypes = "Transient" | "Persistent";
 
 /**
  * Contains response data for the listBySubscriptionId operation.
@@ -483,15 +483,15 @@ export type AvailabilityStatusesListBySubscriptionIdResponse = AvailabilityStatu
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilityStatusListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilityStatusListResult;
+  };
 };
 
 /**
@@ -502,15 +502,15 @@ export type AvailabilityStatusesListByResourceGroupResponse = AvailabilityStatus
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilityStatusListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilityStatusListResult;
+  };
 };
 
 /**
@@ -521,15 +521,15 @@ export type AvailabilityStatusesGetByResourceResponse = AvailabilityStatus & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilityStatus;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilityStatus;
+  };
 };
 
 /**
@@ -540,15 +540,15 @@ export type AvailabilityStatusesListResponse = AvailabilityStatusListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilityStatusListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilityStatusListResult;
+  };
 };
 
 /**
@@ -559,15 +559,15 @@ export type AvailabilityStatusesListBySubscriptionIdNextResponse = AvailabilityS
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilityStatusListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilityStatusListResult;
+  };
 };
 
 /**
@@ -578,15 +578,15 @@ export type AvailabilityStatusesListByResourceGroupNextResponse = AvailabilitySt
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilityStatusListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilityStatusListResult;
+  };
 };
 
 /**
@@ -597,15 +597,15 @@ export type AvailabilityStatusesListNextResponse = AvailabilityStatusListResult 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailabilityStatusListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailabilityStatusListResult;
+  };
 };
 
 /**
@@ -616,13 +616,13 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

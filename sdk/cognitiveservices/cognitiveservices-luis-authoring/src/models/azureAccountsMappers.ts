@@ -7,8 +7,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  AzureAccountInfoObject,
-  ErrorResponse,
-  OperationStatus
-} from "../models/mappers";
+export { AzureAccountInfoObject, ErrorResponse, OperationStatus } from "../models/mappers";

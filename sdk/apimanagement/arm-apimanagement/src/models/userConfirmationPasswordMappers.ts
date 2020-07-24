@@ -6,7 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  ErrorFieldContract,
-  ErrorResponse
-} from "../models/mappers";
+export { ErrorFieldContract, ErrorResponse } from "../models/mappers";

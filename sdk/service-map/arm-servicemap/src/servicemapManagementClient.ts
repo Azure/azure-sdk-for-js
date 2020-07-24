@@ -14,7 +14,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ServicemapManagementClientContext } from "./servicemapManagementClientContext";
 
-
 class ServicemapManagementClient extends ServicemapManagementClientContext {
   // Operation groups
   machines: operations.Machines;
@@ -31,7 +30,11 @@ class ServicemapManagementClient extends ServicemapManagementClientContext {
    * @param subscriptionId Azure subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ServicemapManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.ServicemapManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.machines = new operations.Machines(this);
     this.processes = new operations.Processes(this);

@@ -34,21 +34,39 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersListByFactoryResponse>
    */
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase): Promise<Models.TriggersListByFactoryResponse>;
+  listByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TriggersListByFactoryResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param callback The callback
    */
-  listByFactory(resourceGroupName: string, factoryName: string, callback: msRest.ServiceCallback<Models.TriggerListResponse>): void;
+  listByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    callback: msRest.ServiceCallback<Models.TriggerListResponse>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFactory(resourceGroupName: string, factoryName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerListResponse>): void;
-  listByFactory(resourceGroupName: string, factoryName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerListResponse>, callback?: msRest.ServiceCallback<Models.TriggerListResponse>): Promise<Models.TriggersListByFactoryResponse> {
+  listByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TriggerListResponse>
+  ): void;
+  listByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerListResponse>,
+    callback?: msRest.ServiceCallback<Models.TriggerListResponse>
+  ): Promise<Models.TriggersListByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -56,7 +74,8 @@ export class Triggers {
         options
       },
       listByFactoryOperationSpec,
-      callback) as Promise<Models.TriggersListByFactoryResponse>;
+      callback
+    ) as Promise<Models.TriggersListByFactoryResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersQueryByFactoryResponse>
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.TriggerFilterParameters, options?: msRest.RequestOptionsBase): Promise<Models.TriggersQueryByFactoryResponse>;
+  queryByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    filterParameters: Models.TriggerFilterParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TriggersQueryByFactoryResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param filterParameters Parameters to filter the triggers.
    * @param callback The callback
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.TriggerFilterParameters, callback: msRest.ServiceCallback<Models.TriggerQueryResponse>): void;
+  queryByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    filterParameters: Models.TriggerFilterParameters,
+    callback: msRest.ServiceCallback<Models.TriggerQueryResponse>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -82,8 +111,20 @@ export class Triggers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.TriggerFilterParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerQueryResponse>): void;
-  queryByFactory(resourceGroupName: string, factoryName: string, filterParameters: Models.TriggerFilterParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerQueryResponse>, callback?: msRest.ServiceCallback<Models.TriggerQueryResponse>): Promise<Models.TriggersQueryByFactoryResponse> {
+  queryByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    filterParameters: Models.TriggerFilterParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TriggerQueryResponse>
+  ): void;
+  queryByFactory(
+    resourceGroupName: string,
+    factoryName: string,
+    filterParameters: Models.TriggerFilterParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerQueryResponse>,
+    callback?: msRest.ServiceCallback<Models.TriggerQueryResponse>
+  ): Promise<Models.TriggersQueryByFactoryResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +133,8 @@ export class Triggers {
         options
       },
       queryByFactoryOperationSpec,
-      callback) as Promise<Models.TriggersQueryByFactoryResponse>;
+      callback
+    ) as Promise<Models.TriggersQueryByFactoryResponse>;
   }
 
   /**
@@ -104,7 +146,13 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, triggerName: string, trigger: Models.TriggerResource, options?: Models.TriggersCreateOrUpdateOptionalParams): Promise<Models.TriggersCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    trigger: Models.TriggerResource,
+    options?: Models.TriggersCreateOrUpdateOptionalParams
+  ): Promise<Models.TriggersCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -112,7 +160,13 @@ export class Triggers {
    * @param trigger Trigger resource definition.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, triggerName: string, trigger: Models.TriggerResource, callback: msRest.ServiceCallback<Models.TriggerResource>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    trigger: Models.TriggerResource,
+    callback: msRest.ServiceCallback<Models.TriggerResource>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -121,8 +175,24 @@ export class Triggers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, factoryName: string, triggerName: string, trigger: Models.TriggerResource, options: Models.TriggersCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.TriggerResource>): void;
-  createOrUpdate(resourceGroupName: string, factoryName: string, triggerName: string, trigger: Models.TriggerResource, options?: Models.TriggersCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.TriggerResource>, callback?: msRest.ServiceCallback<Models.TriggerResource>): Promise<Models.TriggersCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    trigger: Models.TriggerResource,
+    options: Models.TriggersCreateOrUpdateOptionalParams,
+    callback: msRest.ServiceCallback<Models.TriggerResource>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    trigger: Models.TriggerResource,
+    options?:
+      | Models.TriggersCreateOrUpdateOptionalParams
+      | msRest.ServiceCallback<Models.TriggerResource>,
+    callback?: msRest.ServiceCallback<Models.TriggerResource>
+  ): Promise<Models.TriggersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -132,7 +202,8 @@ export class Triggers {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.TriggersCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.TriggersCreateOrUpdateResponse>;
   }
 
   /**
@@ -143,14 +214,24 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersGetResponse>
    */
-  get(resourceGroupName: string, factoryName: string, triggerName: string, options?: Models.TriggersGetOptionalParams): Promise<Models.TriggersGetResponse>;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: Models.TriggersGetOptionalParams
+  ): Promise<Models.TriggersGetResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param triggerName The trigger name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, triggerName: string, callback: msRest.ServiceCallback<Models.TriggerResource>): void;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    callback: msRest.ServiceCallback<Models.TriggerResource>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -158,8 +239,20 @@ export class Triggers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, factoryName: string, triggerName: string, options: Models.TriggersGetOptionalParams, callback: msRest.ServiceCallback<Models.TriggerResource>): void;
-  get(resourceGroupName: string, factoryName: string, triggerName: string, options?: Models.TriggersGetOptionalParams | msRest.ServiceCallback<Models.TriggerResource>, callback?: msRest.ServiceCallback<Models.TriggerResource>): Promise<Models.TriggersGetResponse> {
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options: Models.TriggersGetOptionalParams,
+    callback: msRest.ServiceCallback<Models.TriggerResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: Models.TriggersGetOptionalParams | msRest.ServiceCallback<Models.TriggerResource>,
+    callback?: msRest.ServiceCallback<Models.TriggerResource>
+  ): Promise<Models.TriggersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -168,7 +261,8 @@ export class Triggers {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TriggersGetResponse>;
+      callback
+    ) as Promise<Models.TriggersGetResponse>;
   }
 
   /**
@@ -179,14 +273,24 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param triggerName The trigger name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, triggerName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -194,8 +298,20 @@ export class Triggers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, factoryName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -204,7 +320,8 @@ export class Triggers {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -215,9 +332,20 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersSubscribeToEventsResponse>
    */
-  subscribeToEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<Models.TriggersSubscribeToEventsResponse> {
-    return this.beginSubscribeToEvents(resourceGroupName,factoryName,triggerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TriggersSubscribeToEventsResponse>;
+  subscribeToEvents(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TriggersSubscribeToEventsResponse> {
+    return this.beginSubscribeToEvents(
+      resourceGroupName,
+      factoryName,
+      triggerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.TriggersSubscribeToEventsResponse
+    >;
   }
 
   /**
@@ -228,14 +356,24 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersGetEventSubscriptionStatusResponse>
    */
-  getEventSubscriptionStatus(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<Models.TriggersGetEventSubscriptionStatusResponse>;
+  getEventSubscriptionStatus(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TriggersGetEventSubscriptionStatusResponse>;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
    * @param triggerName The trigger name.
    * @param callback The callback
    */
-  getEventSubscriptionStatus(resourceGroupName: string, factoryName: string, triggerName: string, callback: msRest.ServiceCallback<Models.TriggerSubscriptionOperationStatus>): void;
+  getEventSubscriptionStatus(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    callback: msRest.ServiceCallback<Models.TriggerSubscriptionOperationStatus>
+  ): void;
   /**
    * @param resourceGroupName The resource group name.
    * @param factoryName The factory name.
@@ -243,8 +381,22 @@ export class Triggers {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEventSubscriptionStatus(resourceGroupName: string, factoryName: string, triggerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerSubscriptionOperationStatus>): void;
-  getEventSubscriptionStatus(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerSubscriptionOperationStatus>, callback?: msRest.ServiceCallback<Models.TriggerSubscriptionOperationStatus>): Promise<Models.TriggersGetEventSubscriptionStatusResponse> {
+  getEventSubscriptionStatus(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TriggerSubscriptionOperationStatus>
+  ): void;
+  getEventSubscriptionStatus(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.TriggerSubscriptionOperationStatus>,
+    callback?: msRest.ServiceCallback<Models.TriggerSubscriptionOperationStatus>
+  ): Promise<Models.TriggersGetEventSubscriptionStatusResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -253,7 +405,8 @@ export class Triggers {
         options
       },
       getEventSubscriptionStatusOperationSpec,
-      callback) as Promise<Models.TriggersGetEventSubscriptionStatusResponse>;
+      callback
+    ) as Promise<Models.TriggersGetEventSubscriptionStatusResponse>;
   }
 
   /**
@@ -264,9 +417,20 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersUnsubscribeFromEventsResponse>
    */
-  unsubscribeFromEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<Models.TriggersUnsubscribeFromEventsResponse> {
-    return this.beginUnsubscribeFromEvents(resourceGroupName,factoryName,triggerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.TriggersUnsubscribeFromEventsResponse>;
+  unsubscribeFromEvents(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TriggersUnsubscribeFromEventsResponse> {
+    return this.beginUnsubscribeFromEvents(
+      resourceGroupName,
+      factoryName,
+      triggerName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.TriggersUnsubscribeFromEventsResponse
+    >;
   }
 
   /**
@@ -277,9 +441,15 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  start(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStart(resourceGroupName,factoryName,triggerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  start(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStart(resourceGroupName, factoryName, triggerName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -290,9 +460,15 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  stop(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginStop(resourceGroupName,factoryName,triggerName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  stop(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginStop(resourceGroupName, factoryName, triggerName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -303,7 +479,12 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginSubscribeToEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginSubscribeToEvents(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -312,7 +493,8 @@ export class Triggers {
         options
       },
       beginSubscribeToEventsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -323,7 +505,12 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUnsubscribeFromEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUnsubscribeFromEvents(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -332,7 +519,8 @@ export class Triggers {
         options
       },
       beginUnsubscribeFromEventsOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -343,7 +531,12 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStart(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStart(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -352,7 +545,8 @@ export class Triggers {
         options
       },
       beginStartOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -363,7 +557,12 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginStop(resourceGroupName: string, factoryName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginStop(
+    resourceGroupName: string,
+    factoryName: string,
+    triggerName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -372,7 +571,8 @@ export class Triggers {
         options
       },
       beginStopOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -381,26 +581,41 @@ export class Triggers {
    * @param [options] The optional parameters
    * @returns Promise<Models.TriggersListByFactoryNextResponse>
    */
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TriggersListByFactoryNextResponse>;
+  listByFactoryNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TriggersListByFactoryNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByFactoryNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TriggerListResponse>): void;
+  listByFactoryNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.TriggerListResponse>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByFactoryNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TriggerListResponse>): void;
-  listByFactoryNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerListResponse>, callback?: msRest.ServiceCallback<Models.TriggerListResponse>): Promise<Models.TriggersListByFactoryNextResponse> {
+  listByFactoryNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.TriggerListResponse>
+  ): void;
+  listByFactoryNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TriggerListResponse>,
+    callback?: msRest.ServiceCallback<Models.TriggerListResponse>
+  ): Promise<Models.TriggersListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByFactoryNextOperationSpec,
-      callback) as Promise<Models.TriggersListByFactoryNextResponse>;
+      callback
+    ) as Promise<Models.TriggersListByFactoryNextResponse>;
   }
 }
 
@@ -408,18 +623,11 @@ export class Triggers {
 const serializer = new msRest.Serializer(Mappers);
 const listByFactoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.factoryName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TriggerListResponse
@@ -433,18 +641,11 @@ const listByFactoryOperationSpec: msRest.OperationSpec = {
 
 const queryByFactoryOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/querytriggers",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/querytriggers",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.factoryName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "filterParameters",
     mapper: {
@@ -465,20 +666,16 @@ const queryByFactoryOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.triggerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifMatch, Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "trigger",
     mapper: {
@@ -499,20 +696,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.triggerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifNoneMatch,
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.ifNoneMatch, Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TriggerResource
@@ -527,19 +720,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.triggerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -552,19 +742,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getEventSubscriptionStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/getEventSubscriptionStatus",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/getEventSubscriptionStatus",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.triggerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TriggerSubscriptionOperationStatus
@@ -578,19 +765,16 @@ const getEventSubscriptionStatusOperationSpec: msRest.OperationSpec = {
 
 const beginSubscribeToEventsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/subscribeToEvents",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/subscribeToEvents",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.triggerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TriggerSubscriptionOperationStatus
@@ -605,19 +789,16 @@ const beginSubscribeToEventsOperationSpec: msRest.OperationSpec = {
 
 const beginUnsubscribeFromEventsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/unsubscribeFromEvents",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/unsubscribeFromEvents",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.triggerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TriggerSubscriptionOperationStatus
@@ -632,19 +813,16 @@ const beginUnsubscribeFromEventsOperationSpec: msRest.OperationSpec = {
 
 const beginStartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/start",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/start",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.triggerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -656,19 +834,16 @@ const beginStartOperationSpec: msRest.OperationSpec = {
 
 const beginStopOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/stop",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/stop",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
     Parameters.triggerName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {
@@ -682,12 +857,8 @@ const listByFactoryNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TriggerListResponse
